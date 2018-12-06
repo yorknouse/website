@@ -32,8 +32,10 @@ class bID
                             $this->data['viewSiteAs'] = $DBLIB->getOne("users");
                         } else $this->data['viewSiteAs'] = false;
 
-                        $DBLIB->where("userPositions_end <= '" . date('Y-m-d H:i:s') . "'");
-                        $DBLIB->where("userPositions_start >= '" . date('Y-m-d H:i:s') . "'");
+                        $DBLIB->where("userPositions_end >= '" . date('Y-m-d H:i:s') . "'");
+                        $DBLIB->where("userPositions_start <= '" . date('Y-m-d H:i:s') . "'");
+                        $DBLIB->orderBy("positions_rank", "ASC");
+                        $DBLIB->orderBy("positions_displayName", "ASC");
                         $DBLIB->join("positions", "userPositions.positions_id=positions.positions_id", "LEFT");
                         $DBLIB->where("users_userid", $this->data['users_userid']);
                         $positions = $DBLIB->get("userPositions");
@@ -41,8 +43,13 @@ class bID
                         $permissionCodes = [];
                         foreach ($positions as $position) {
                             $this->data['positions'][] = $position;
-                            $permissionCodes = array_merge ( $permissionCodes, explode(",", $position['positions_permissions'],$position['userPositions_extraPermissions']));
-                        }
+                            $position['groups'] = explode(",", $position['positions_positionsGroups']);
+                            foreach ($position['groups'] as $positiongroup) {
+                                $DBLIB->where("positionsGroups_id", $positiongroup);
+                                $positiongroup = $DBLIB->getone("positionsGroups", ["positionsGroups_actions"]);
+                                $permissionCodes = array_merge ( $permissionCodes, explode(",", $positiongroup['positionsGroups_actions']), explode(",",$position['userPositions_extraPermissions']));
+                            }
+                                                    }
                         $this->permissions = array_unique($permissionCodes);
                         $this->login = true;
                     }
@@ -126,31 +133,28 @@ class bID
         else return false;
     }
 
-    /*
-    function verifyEmail($userid = false)
+    function verifyEmail($userid = null)
     { //Verify a user's E-Mail address
         global $DBLIB, $CONFIG, $LOGIN, $USERDATA;
-        if (!$LOGIN && !$userid) return false;
-        if (!$userid) $userid = $USERDATA['userid'];
+
+        if ($userid == null) $userid = $this->data['users_userid'];
         else $userid = $GLOBALS['bCMS']->sanitizeString($userid);
 
-        $DBLIB->where("userid", $userid);
-        $DBLIB->where("emailverified", 0);
-        $DBLIB->where("email IS NOT NULL");
-        $DBLIB->where("noEmailNeeded", 0);
+        $DBLIB->where("users_userid", $userid);
+        $DBLIB->where("users_emailVerified", 0);
+        $DBLIB->where("users_email IS NOT NULL");
         if ($DBLIB->getValue("users", "count(*)") != 1) return false;
 
-        $DBLIB->where('userid', $userid);
-        $DBLIB->update('emailverificationcodes', ["valid" => "0"]); //Set all the previous codes to invalid
-        $code = md5(randomstring(100) . $userid . time()) . time();
-        $data = Array("userid" => $userid,
-            "timestamp" => date('Y-m-d G:i:s'),
-            "code" => $code
+        $DBLIB->where('users_userid', $userid);
+        $DBLIB->update('emailVerificationCodes', ["emailVerificationCodes_valid" => "0"]); //Set all the previous codes to invalid
+        $code = md5($GLOBALS['bCMS']->randomString(100) . $userid . time()) . time();
+        $data = Array("users_userid" => $userid,
+            "emailVerificationCodes_timestamp" => date('Y-m-d G:i:s'),
+            "emailVerificationCodes_code" => $code
         );
-        if (!$DBLIB->insert('emailverificationcodes', $data)) die('Fatal Error verifiying E-Mail');
-        if (sendemail($userid, "Verify your E-Mail", '<center><h1>Verify your E-Mail address!</h1><br/><p>Please <a href="' . $CONFIG['ROOTURL'] . '/login/verify_email.php?code=' . $code . '">verify your E-Mail address for ' . $CONFIG['PROJECT_NAME'] . '</a></p><br/><i><b>N.B.</b>The link in this E-Mail will only last for 48 hours!</i></center>')) return true;
+        if (!$DBLIB->insert('emailVerificationCodes', $data)) throw new Exception('Fatal Error verifiying E-Mail');
+        if (sendemail($userid, "Verify your E-Mail", '<center><h1>Verify your E-Mail address!</h1><br/><p>Please <a href="' . $CONFIG['ROOTURL'] . '/api/account/verifyEmail.php?code=' . $code . '">verify your E-Mail address for ' . $CONFIG['PROJECT_NAME'] . '</a></p><br/><i><b>N.B.</b>The link in this E-Mail will only last for 48 hours!</i></center>')) return true;
         else return false;
     }
-    */
 }
 ?>

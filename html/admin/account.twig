@@ -1,0 +1,247 @@
+{% extends "assets/template.twig" %}
+{% block htmlIncludes %}
+	<!--Password Strength-->
+	<link rel="stylesheet" href="{{ CONFIG.ROOTURL }}/assets/css/strength.css"/>
+	<script src="{{ CONFIG.ROOTURL }}/assets/js/libs/strength.min.js"></script>
+{% endblock %}
+{% block content %}
+	<div class="row" style="margin-top: 15px;">
+		<div class="col-lg-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Account Basics
+				</div>
+				<div class="panel-body">
+					<div class="alert alert-success" id="updatesettingsusccess" style="display: none;">
+						<strong>Success!</strong> Account settings saved!
+					</div>
+					<div class="form-group" id="usernamecontainer">
+						<label for="username">Username:</label>
+						<input type="username" class="form-control" id="username" name="username" value="{{USERDATA['users_username']}}" />
+					</div>
+					<div class="form-group">
+						<label for="email">First Name:</label>
+						<input type="text" class="form-control" id="forename" name="forename" value="{{USERDATA['users_name1']}}" />
+					</div>
+					<div class="form-group">
+						<label for="email">Last Name:</label>
+						<input type="text" class="form-control" id="lastname" name="lastname" value="{{USERDATA['users_name2']}}" />
+					</div>
+					<div class="form-group" id="emailcontainer">
+						<label for="email">Email address:</label>
+						<input type="email" class="form-control" id="email" name="email" value="{{USERDATA['users_email']}}" />
+					</div>
+				</div>
+				<div class="panel-footer">
+					<button id="save-account-settings" class="btn btn-default">Update</button>
+				</div>
+					<script>
+					$(document).ready(function() {
+						function isemail(email) {
+							var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+							return regex.test(email);
+						}
+						function emailtaken(email) {
+							$.ajax({
+								url:"{{CONFIG.ROOTURL}}/api/account/emailInUse.php?email=" + email,
+								async: false,
+								success:function(data) {
+									result = data;
+								}
+							 });
+							 if (result == '1') return false;
+							 else return true;
+						}
+						function validemail(email) {
+							email = $("#email").val();
+							if (email.length > 0) {
+								if (emailtaken(email) || !isemail(email)) {
+									$("#emailcontainer").removeClass("has-success");
+									$("#emailcontainer").addClass("has-error");
+									return false;
+								} else {
+									$("#emailcontainer").removeClass("has-error");
+									$("#emailcontainer").addClass("has-success");
+									return true;
+								}
+							} else {
+								return true;
+							}
+
+						}
+						$("#email").keydown(function(){
+							validemail();
+						});
+						function usernametaken(username) {
+							$.ajax({
+								url:"{{CONFIG.ROOTURL}}/api/account/usernameInUse.php?username=" + username,
+								async: false,
+								success:function(data) {
+									result = data;
+								}
+							 });
+							 if (result == '1') return false;
+							 else return true;
+						}
+						function validusername(username) {
+							username = $("#username").val();
+							if (usernametaken(username)) {
+								$("#usernamecontainer").removeClass("has-success");
+								$("#usernamecontainer").addClass("has-error");
+								return false;
+							} else {
+								$("#usernamecontainer").removeClass("has-error");
+								$("#usernamecontainer").addClass("has-success");
+								return true;
+							}
+						}
+						$("#username").keydown(function(){
+							validusername();
+						});
+						$('#save-account-settings').click(function() {
+							if (!validemail()) {
+								bootbox.alert("Please check your E-Mail address is valid and not already taken");
+							} else {
+								$('#updatesettingsusccess').hide();
+								$.ajax({
+									url: '{{CONFIG.ROOTURL}}/api/account/basicDetails.php?username=' + $('#username').val() + '&forename=' + $('#forename').val() + '&lastname=' + $('#lastname').val() + '&email=' + $('#email').val(),
+									success: function (result) {
+										if (result == '1') {
+											if ('{{USERDATA.users_email}}' != $('#email').val()) {
+												//They have changed E-Mail address so we need to refresh so that they see the verify your E-Mail message-box
+												location.reload();
+											}
+											$('#updatesettingsusccess').show();
+										} else {
+											bootbox.alert(result + 'Error - Could not update your account settings - Please refresh the page and try again!');
+										}
+									}
+								});
+							}
+						});
+					});
+					</script>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Change Password
+				</div>
+				<div class="panel-body">
+					<div class="alert alert-success" id="update_pass_success" style="display: none;">
+						<strong>Success!</strong> Password Changed!
+					</div>
+					<div class="form-group">
+						<label for="username">Current Password</label>
+						<input type="password" placeholder="Current Password" class="form-control" id="current_pass" />
+					</div>
+					<div class="form-group">
+						<style>
+						.button_strength {
+							display: none;
+						}
+						</style>
+						<label for="username">New Password</label>
+						<input type="password" placeholder="New Password" class="form-control" id="passnew" /><br/>
+						<input type="password" placeholder="Confirm New Password" class="form-control" id="passconf" />
+					</div>
+				</div>
+				<div class="panel-footer">
+					<button id="save-password-settings" class="btn btn-default">Change</button>
+				</div>
+					<script>
+					$(document).ready(function() {
+						$("#passnew").strength();
+						$('#save-password-settings').click(function() {
+							if ($('#passnew').val() != $('#passconf').val()) {
+								bootbox.alert("Sorry - Your new password's don't match!");
+							} else if ($("#passnew").val().length < 6) bootbox.alert("Sorry - Your password is too short!");
+							else {
+								$.ajax({
+									url: '{{CONFIG.ROOTURL}}/api/account/changePass.php?newpass=' + $("#passnew").val() + '&oldpass=' + $("#current_pass").val(),
+									success: function (result) {
+										if (result == '1') {
+											location.reload();
+										} else if (result == '2') {
+											bootbox.alert("Current password incorrect!");
+										} else {
+											bootbox.alert('Error - Could not change password - Please refresh the page and try again!');
+										}
+									}
+								});
+							}
+						});
+					});
+					</script>
+			</div>
+		</div>
+		<div class="col-lg-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Social Media profiles
+				</div>
+				<div class="panel-body">
+					<div class="alert alert-success" id="update_social_success" style="display: none;">
+						<strong>Success!</strong> Social media updated!
+					</div>
+					<form id="update_social_form">
+						<p>Share links to your social media profiles to be displayed on your user profile page</p>
+
+						<label>Facebook</label>
+						<div class="input-group">
+							<span class="input-group-addon">https://facebook.com/</span>
+							<input type="text" class="form-control" name="facebook" value="{{ USERDATA.users_social_facebook }}">
+						</div>
+						<br/>
+						<label>Twitter</label>
+						<div class="input-group">
+							<span class="input-group-addon">https://twitter.com/</span>
+							<input type="text" class="form-control" name="twitter" value="{{ USERDATA.users_social_twitter }}">
+						</div><br/>
+						<label>Instagram</label>
+						<div class="input-group">
+							<span class="input-group-addon">https://instagram.com/</span>
+							<input type="text" class="form-control" name="instagram" value="{{ USERDATA.users_social_instagram }}">
+						</div><br/>
+						<label>Linkedin</label>
+						<div class="input-group">
+							<span class="input-group-addon">https://linkedin.com/ln/</span>
+							<input type="text" class="form-control" name="linkedin" value="{{ USERDATA.users_social_linkedin }}">
+						</div><br/>
+						<label>Snapchat</label>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="fa fa-snapchat-ghost"></i></span>
+							<input type="text" class="form-control" name="snapchat" value="{{ USERDATA.users_social_snapchat }}">
+						</div>
+					</form>
+				</div>
+				<div class="panel-footer">
+					<button id="save-social-settings" class="btn btn-default">Save</button>
+				</div>
+				<script>
+					$(document).ready(function() {
+						$('#save-social-settings').click(function() {
+							$("#update_social_success").hide();
+							$.ajax({
+								url: '{{CONFIG.ROOTURL}}/api/account/social.php',
+								data: {"data":$("#update_social_form").serialize()},
+								type: "POST",
+								success: function (result) {
+									if (result == '1') {
+										$("#update_social_success").show();
+									} else {
+										console.log(result);
+										bootbox.alert('Error - Could not change social settings - Please try again!', function() {
+											location.reload();
+											});
+									}
+								}
+							});
+						});
+					});
+				</script>
+			</div>
+		</div>
+</div>
+{% endblock %}

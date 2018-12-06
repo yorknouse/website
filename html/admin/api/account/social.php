@@ -1,0 +1,19 @@
+<?php
+	require_once __DIR__ . '/../apiHeadSecure.php';
+	header('Content-Type:text/plain');
+
+		parse_str($_POST['data'],$data); //Convert the data back into an array
+
+	$userTabledata = [
+		"users_social_facebook" => trim(strtolower($bCMS->sanitizeString($data['facebook']))),
+        "users_social_twitter" => trim(strtolower($bCMS->sanitizeString($data['twitter']))),
+        "users_social_linkedin" => trim(strtolower($bCMS->sanitizeString($data['linkedin']))),
+        "users_social_snapchat" => trim(strtolower($bCMS->sanitizeString($data['snapchat']))),
+        "users_social_instagram" => trim(strtolower($bCMS->sanitizeString($data['instagram'])))
+    ];
+
+	$DBLIB->where("users_userid", $USERDATA['users_userid']);
+	if ($DBLIB->update ('users', $userTabledata)) die("1");
+	else die("2");
+
+?>

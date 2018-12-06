@@ -32,7 +32,7 @@ $TWIG->addFilter(new Twig_SimpleFilter('formatsize', function ($var) {
     global $bCMS;
     return $bCMS->formatSize($var);
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('uncleanstring', function ($var) {
+$TWIG->addFilter(new Twig_SimpleFilter('unclean', function ($var) {
     global $bCMS;
     return $bCMS->unCleanString($var);
 }));

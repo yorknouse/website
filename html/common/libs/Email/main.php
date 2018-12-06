@@ -4,16 +4,7 @@
 	2. sendemail("TO EMAIL ADDRESS", "NAME OF PERSON E-MAIL BEING SENT TO (OPTIONAL)", "E-MAIL SUBJECT", "MESSAGE CONTENTS");
 	3. That's it!
 */
-function randString($length) {
-	$charset='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-	$str = '';
-	$count = strlen($charset);
-	while ($length--) {
-		$str .= $charset[mt_rand(0, $count-1)];
-	}
-	return $str;
-}
-require_once 'config.php';
+require_once __DIR__ . '/../../config.php';
 
 function outputemail($html) {
 	global $CONFIG;
@@ -989,7 +980,7 @@ function outputemail($html) {
 						<table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%">
 						<tbody><tr>
 							<td class="padded" style="padding: 0;vertical-align: top;padding-left: 0;padding-right: 10px;word-break: break-word;word-wrap: break-word;text-align: left;font-size: 12px;line-height: 20px;color: #999;font-family: Georgia,serif">
-							<div>This is an official message from ' . $CONFIG['PROJECT_NAME'] . '. Messages from ' . $CONFIG['PROJECT_NAME'] . ' will always carry the "Official Message from ' . $CONFIG['PROJECT_NAME'] . '" banner - If you receive messages purporting to come from ' . $CONFIG['PROJECT_NAME'] . ' not bearing the banner please contact ' . $CONFIG['PROJECT_SUPPORT_EMAIL'] . ' immediately, forwarding the message you have received.</div>
+							<div>This is an official message from ' . $CONFIG['PROJECT_NAME'] . '. Messages from ' . $CONFIG['PROJECT_NAME'] . ' will always carry the "Official Message from ' . $CONFIG['PROJECT_NAME'] . '" banner - If you receive messages purporting to come from ' . $CONFIG['PROJECT_NAME'] . ' not bearing the banner please contact ' . $CONFIG['PROJECT_FROM_EMAIL'] . ' immediately, forwarding the message you have received.</div>
 							</td>
 						</tr>
 						</tbody></table>
@@ -998,7 +989,7 @@ function outputemail($html) {
 						<table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%">
 						<tbody><tr>
 							<td class="padded" style="padding: 0;vertical-align: top;padding-left: 10px;padding-right: 0;word-break: break-word;word-wrap: break-word;font-size: 12px;line-height: 20px;color: #999;font-family: Georgia,serif;text-align: right">
-								<span class="block"><unsubscribe style="text-decoration:none;">Any questions or want to unsubscribe&#63; Forward this E-Mail to <a href="mailto:' . $CONFIG['PROJECT_SUPPORT_EMAIL'] . '">' . $CONFIG['PROJECT_SUPPORT_EMAIL'] . '</a></unsubscribe></span>
+								<span class="block"><unsubscribe style="text-decoration:none;">Any questions or want to unsubscribe&#63; Forward this E-Mail to <a href="mailto:' . $CONFIG['PROJECT_FROM_EMAIL'] . '">' . $CONFIG['PROJECT_FROM_EMAIL'] . '</a></unsubscribe></span>
 
 							</td>
 						</tr>
@@ -1015,32 +1006,32 @@ function outputemail($html) {
 }
 function sendemail($userid, $subject, $html) {
 	global $DBLIB, $CONFIG;
-	$DBLIB->where('userid', $userid);
+	$DBLIB->where('users_userid', $userid);
 	$user = $DBLIB->getone('users');
 
 	$outputhtml = outputemail($html);
 
-	if ($user["email"] == '') return false; //If the user hasn't entered an E-Mail address yet
+	if ($user["users_email"] == '') return false; //If the user hasn't entered an E-Mail address yet
 
 
     $email = new \SendGrid\Mail\Mail();
-    $email->setFrom($CONFIG['PROJECT_SUPPORT_EMAIL'], $CONFIG['PROJECT_NAME']);
+    $email->setFrom($CONFIG['PROJECT_FROM_EMAIL'], $CONFIG['PROJECT_NAME']);
     $email->setSubject($subject);
-    $email->addTo($user["email"], $user["forename"] .  ' ' . $user["surname"]);
+    $email->addTo($user["users_email"], $user["users_name1"] .  ' ' . $user["users_name2"]);
     //$email->addContent("text/plain", "and easy to do anywhere, even with PHP");
     $email->addContent("text/html", $outputhtml);
     $sendgrid = new \SendGrid($CONFIG['SENDGRID']['APIKEY']);
 
-	$sqldata = Array ("userid" => $userid,
-				"html" => $html,
-				"subject" => $subject,
-				"sent" => date('Y-m-d G:i:s'),
-				"fromemail" => $CONFIG['PROJECT_SUPPORT_EMAIL'],
-				"fromname" => $CONFIG['PROJECT_NAME'],
-				'toemail' => $user["email"],
-				'toname' => $user["forename"] .  ' ' . $user["surname"]
+	$sqldata = Array ("users_userid" => $userid,
+				"emailSent_html" => $html,
+				"emailSent_subject" => $subject,
+				"emailSent_sent" => date('Y-m-d G:i:s'),
+				"emailSent_fromEmail" => $CONFIG['PROJECT_FROM_EMAIL'],
+				"emailSent_fromName" => $CONFIG['PROJECT_NAME'],
+				'emailSent_toEmail' => $user["users_email"],
+				'emailSent_toName' => $user["users_name1"] .  ' ' . $user["users_name2"]
 	);
-	$emailid = $DBLIB->insert('mailings', $sqldata);
+	$emailid = $DBLIB->insert('emailSent', $sqldata);
 	if(!$emailid) die('Sorry - Could not send E-Mail');
 
     $response = $sendgrid->send($email);
