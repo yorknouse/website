@@ -24,5 +24,6 @@ $CONFIG = array(
     "nextHash" => "sha256", //Hashing algorithm to put new passwords in
     "PROJECT_FROM_EMAIL" => "tech@nouse.co.uk",
     "ROOTURL" => "http://139.59.170.70/admin",
+    "PROJECT_SUPPORT_EMAIL" => "support@nouse.co.uk",
 );
 date_default_timezone_set("UTC");

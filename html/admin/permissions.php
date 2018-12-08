@@ -3,22 +3,22 @@ require_once __DIR__ . '/common/headSecure.php';
 
 $PAGEDATA['pageConfig'] = ["TITLE" => "Permissions", "BREADCRUMB" => false];
 
-if (!in_array("83", $USERDATA['permissions'])) die(render404());
+if (!$AUTH->permissionCheck(11)) die("Sorry - you can't access this page");
 
-$DBLIB->orderBy("features_categories_order", "ASC");
-$PAGEDATA['featuresCategories'] = $DBLIB->get("features_categories");
 
-$PAGEDATA['features'] = [];
-foreach ($PAGEDATA['featuresCategories'] as $category) {
-    $DBLIB->orderBy("features_order", "ASC");
-    $DBLIB->orderBy("id", "ASC");
-    $DBLIB->orderBy("name", "ASC");
-    $DBLIB->where("features_categories_id", $category["features_categories_id"]);
-    $PAGEDATA['features'][] = ["category" => $category, "features" => $DBLIB->get("features")];
+
+$DBLIB->orderBy("actionsCategories_order", "ASC");
+$PAGEDATA['actionsCategories'] = $DBLIB->get("actionsCategories");
+
+$PAGEDATA['actions'] = [];
+foreach ($PAGEDATA['actionsCategories'] as $category) {
+    $DBLIB->orderBy("actions_id", "ASC");
+    $DBLIB->orderBy("actions_name", "ASC");
+    $DBLIB->where("actionsCategories_id", $category["actionsCategories_id"]);
+    $PAGEDATA['actions'][] = ["category" => $category, "actions" => $DBLIB->get("actions")];
 }
 
-$DBLIB->where("eventid", $USERDATA['eventid']);
-$PAGEDATA['positions'] = $DBLIB->get("positions");
+$PAGEDATA['positions'] = $DBLIB->get("positionsGroups");
 
 echo $TWIG->render('permissions.twig', $PAGEDATA);
 ?>

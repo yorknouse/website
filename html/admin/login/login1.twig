@@ -1,7 +1,7 @@
 {% extends "login/template.twig" %}
 {% block content %}
     <form id="form1">
-		<input class="form-control form-control-lg" id="form1Input" autofocus placeholder="Login Token, Username or Email" type="text" style="margin-top: 10px; margin-bottom: 10px;">
+		<input class="form-control form-control-lg" id="form1Input" autofocus placeholder="Username or Email" type="text" style="margin-top: 10px; margin-bottom: 10px;">
 		<div style="width: 100%; text-align:right;">
 			<button class="btn btn-primary" type="submit" value="Submit" >Next</button>
 		</div>
@@ -14,15 +14,7 @@
 			<button class="btn btn-primary" type="submit" value="Submit">Login</button>
 		</div>
 	</form>
-		<!--Token login-->
-	<form id="form3a">
-		<input class="form-control form-control-lg" id="form3aInput" placeholder="Choose a password" type="password" style="margin-top: 10px; margin-bottom: 10px;">
-		<input class="form-control form-control-lg" id="form3aInputConfirm" placeholder="Confirm your choice of password" type="password" style="margin-top: 0px; margin-bottom: 10px;">
-		<div style="width: 100%; text-align:right;">
-			<button class="btn btn-primary" type="submit" value="Submit">Next</button>
-		</div>
-	</form>
-    <form id="form3b">
+	<form id="form3b">
         <input class="form-control form-control-lg" id="form3bInput" placeholder="Choose an email address" type="email" style="margin-top: 10px; margin-bottom: 10px;">
         <div style="width: 100%; text-align:right;">
             <button class="btn btn-primary" type="submit" value="Submit">Next</button>
@@ -35,7 +27,7 @@
         </div>
     </form>
     <form id="form3d">
-        <p>Please confirm you have read and accept our <a href="{{ CONFIG.LEGAL.TERMS_OF_SERVICE }}" target="_blank">terms and conditions</a></p>
+        <p>Please confirm you have read and accept our <a href="#" target="_blank">terms and conditions</a></p>
         <div style="width: 100%; text-align:right;">
             <button class="btn btn-success" type="submit" value="Submit">I accept</button>
         </div>
@@ -77,7 +69,7 @@
                 });
             });
         });
-
+        var userid = "";
 		function loginStep1() {
 			if ($("#form1Input").val().length <= 0) {
                 toastr.warning("Please enter something into the login box");
@@ -91,21 +83,15 @@
                         initialData = result;
 					    if (result.result) {
                             if (result.response.user) {
+                                userid = result.response.data.users_userid;
                                 //This is a normal user login
                                 $("#form1").fadeOut(function () {
                                     $("#form2").fadeIn(function () {
                                         $("#form2Input").focus();
 									});
 								});
-							} else if (result.response.token) {
-                                //This is a token signup
-                                $("#form1").fadeOut(function () {
-                                    $("#form3a").fadeIn(function () {
-                                        $("#form3aInput").focus();
-                                    });
-                                });
-                            } else {
-                                toastr.error("Problem connecting to bCMS - please contact support");
+							} else {
+                                toastr.error("Problem connecting to server - please contact support");
 							}
 						} else {
                             if (result.error.code == "VERIFYEMAIL") {
@@ -130,7 +116,22 @@
             return false;
         });
         $('#passwordResetButton').click(function(){
-            toastr.success("To reset your password contact your ambassador, a member of staff at your conference or bCMS support");
+            $.ajax({
+                url: "../api/login/forgotPassword.php",
+                type: "POST",
+                dataType: 'json',
+                data: {"userid" : userid},
+                success: function(result) {
+                    if (result.result) {
+                        toastr.success("Password reset link sent to your registered email address");
+                    } else {
+                        oastr.warning("Please contact the support team for a new password");
+                    }
+                }, error: function(){
+                    toastr.error("Please refresh the page and check your internet connection");
+                }
+            });
+
         });
         function loginStep2() {
             if ($("#form2Input").val().length <= 0) {

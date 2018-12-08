@@ -12,7 +12,8 @@
         "users_social_instagram" => trim(strtolower($bCMS->sanitizeString($data['instagram'])))
     ];
 
-	$DBLIB->where("users_userid", $USERDATA['users_userid']);
+	if ($_POST['users_userid'] != $USERDATA['users_userid'] && $AUTH->permissionCheck(5))	$DBLIB->where("users_userid", $bCMS->sanitizeString($_POST['users_userid']));
+	else $DBLIB->where("users_userid", $USERDATA['users_userid']);
 	if ($DBLIB->update ('users', $userTabledata)) die("1");
 	else die("2");
 

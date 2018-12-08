@@ -3,29 +3,65 @@ require_once __DIR__ . '/../apiHeadSecure.php';
 
 header('Content-Type:text/plain');
 
+if (isset($_GET['username'])) {
+    if ($_GET['userid'] == "NEW" and $AUTH->permissionCheck(4)) $newUser = true; //Are we making a new user here?
+    else $newUser = false;
+
+    if ($AUTH->permissionCheck(5) && $USERDATA['users_userid'] != $_GET['userid'] && !$newUser) {
+        $DBLIB->where("users_userid", $bCMS->sanitizeString($_GET['userid']));
+        $thisUser = $DBLIB->getone("users", ["users_userid", "users_email", "users_username"]);
+        if (!$thisUser) die("5");
+        $userid = $thisUser["users_userid"];
+    } else {
+        $userid = $USERDATA['users_userid'];
+        $thisUser = false;
+    }
+
+
+    if (
+        (
+            (!$newUser && !$thisUser && strtolower($_GET['email']) != $USERDATA['users_email']) //This users' user account
+          or ($thisUser && strtolower($_GET['email']) != $thisUser['users_email']) //Existing user account being edited
+            or $newUser
+        ) && $AUTH->emailTaken($bCMS->sanitizeString(strtolower($_GET['email'])))) die("Email taken");
+    elseif (
+        (
+            (!$newUser && !$thisUser && strtolower($_GET['username']) != $USERDATA['users_username']) //This users' user account
+            or ($thisUser && strtolower($_GET['username']) != $thisUser['users_username']) //Existing user account being edited
+            or $newUser
+        ) && $AUTH->usernameTaken($bCMS->sanitizeString(strtolower($_GET['username'])))) die("Username taken");
+    else {
+        $data = Array (
+            'users_email' => strtolower($bCMS->sanitizeString($_GET['email'])),
+            'users_username' => strtolower($bCMS->sanitizeString($_GET['username'])),
+            'users_name1' => $bCMS->sanitizeString($_GET['forename']),
+            'users_name2' => $bCMS->sanitizeString($_GET['lastname'])
+        );
 
 
 
-	if (isset($_GET['username'])) {
-        if ((strtolower($_GET['email']) != $USERDATA['users_email']) && $AUTH->emailTaken($bCMS->sanitizeString(strtolower($_GET['email'])))) die("Email taken");
-    	elseif ((strtolower($_GET['username']) != $USERDATA['users_username']) && $AUTH->usernameTaken($bCMS->sanitizeString(strtolower($_GET['username'])))) die("Username taken");
-        else {
-            $data = Array (
-                'users_email' => strtolower($bCMS->sanitizeString($_GET['email'])),
-                'users_username' => strtolower($bCMS->sanitizeString($_GET['username']))
-            );
-            $data['users_name1'] = $bCMS->sanitizeString($_GET['forename']);
-            $data['users_name2'] = $bCMS->sanitizeString($_GET['lastname']);
-            $DBLIB->where('users_userid', $USERDATA['users_userid']);
+        if (!$newUser) {
+            $DBLIB->where('users_userid', $userid);
             if ($DBLIB->update('users', $data)) {
-                if (strtolower($_GET['email']) != $USERDATA['users_email']) {
-                    $DBLIB->where ('users_userid', $USERDATA['users_userid']);
+                if (($thisUser && $thisUser['users_email'] != strtolower($_GET['email'])) or (!$thisUser && strtolower($_GET['email']) != $USERDATA['users_email'])) {
+                    //The email address has been changed
+                    $DBLIB->where ('users_userid', $userid);
                     $DBLIB->update ('users', ["users_emailVerified" => "0"]); //Set E-Mail to unverified
-                    $AUTH->verifyEmail();
+                    $AUTH->verifyEmail($userid);
                 }
                 die('1');
-            }
-            else die('2');
-		}
-	} else die('3');
+            } else die("2");
+        } else {
+            $data["users_salty1"] = $bCMS->randomString(8);
+            $data["users_salty2"] = $bCMS->randomString(8);
+            $data["users_hash"] = $CONFIG['nextHash'];
+            $data["users_password"] = "RESET";
+            $newUser = $DBLIB->insert("users", $data);
+            echo $DBLIB->getLastError();
+            if (!$newUser) die("6");
+            else die("" . json_encode(["result" => true, "newUserId" => $newUser]));
+        }
+
+    }
+} else die('3');
 ?>

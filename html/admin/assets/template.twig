@@ -182,11 +182,11 @@
                                         <a href="account.php" class="btn btn-default btn-flat">Settings</a>
                                     </div>
                                     <div class="pull-right">
-                                        {% if USERDATA.adminviewsiteastoken %}
-                                            <a href="ajax/admin/viewsiteas_finish.php"
+                                        {% if USERDATA.viewSiteAs != false %}
+                                            <a href="{{ CONFIG.ROOTURL }}/api/account/viewSiteAs_terminate.php"
                                                class="btn btn-default btn-flat">Back to Admin</a>
                                         {% else %}
-                                            <a href="login/?logout"
+                                            <a href="{{ CONFIG.ROOTURL }}/login/?logout"
                                                class="btn btn-default btn-flat">Sign out</a>
                                         {% endif %}
                                     </div>
@@ -209,7 +209,26 @@
         <!-- sidebar: style can be found in sidebar.less -->
         <!--<div style="height: 0px; width: 10px; padding: 0px; margin: 0px;" class="paddingapp"></div>-->
         <section class="sidebar">
+            <ul class="sidebar-menu"  data-widget="tree">
+                {% if 2|permissions or 11|permissions %}
+                <li class="header">Security</li>
+                {% endif %}
+            {% if 2|permissions %}
+            <li>
+                <a href="{{ CONFIG.ROOTURL }}/users.php">
+                    <i class="fa fa-users"></i> <span>Users</span>
+                </a>
+            </li>
+            {% endif %}
 
+            {% if 11|permissions %}
+                <li>
+                    <a href="{{ CONFIG.ROOTURL }}/permissions.php">
+                        <i class="fa fa-unlock-alt"></i> <span>Permissions</span>
+                    </a>
+                </li>
+            {% endif %}
+            </ul>
         </section>
         <!-- /.sidebar -->
     </aside>
@@ -241,13 +260,12 @@
                 <div class="panel panel-default">
                     <div class="panel-body" style="text-align: center;">
                        <h2>Change your Password</h2>
-                            <p>We need you to change your password - Please enter a new password:</p>
+                            <p>Please enter a new password:</p>
                             <input type="password" id="forcechangepass1" class="form-control input-lg"
-                                   placeholder="New Password"/>
+                                   placeholder="New Password" style="margin-bottom: 5px;" />
                             <input type="password" id="forcechangepass2" class="form-control input-lg"
-                                   placeholder="Confirm New Password"/>
-                            <p>Please choose a strong password longer than 6 characters</p>
-                            <br/><br/>
+                                   placeholder="Confirm New Password"  style="margin-bottom: 5px;" />
+                            <p>Choose a strong password longer than 8 characters that is a random alphanumeric string</p>
                             <button id="forcechangepassbutton" class="btn btn-default">Save</button>
 
                     </div>

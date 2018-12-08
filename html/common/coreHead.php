@@ -88,6 +88,9 @@ class bCMS {
         }
         return $bytes;
     }
+    function auditLog($actionType, $table, $revelantData, $userid, $useridTo = false) { //Keep an audit trail of actions - $userid is this user, and $useridTo is who this action was done to if it was at all
+        return true;
+    }
 }
 
 $GLOBALS['bCMS'] = new bCMS;
