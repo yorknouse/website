@@ -7,6 +7,9 @@ if (!$AUTH->permissionCheck(2)) die("Sorry - you can't access this page");
 
 $PAGEDATA["mailings"] = [];
 
+if (isset($_GET['q'])) $PAGEDATA['search'] = $bCMS->sanitizeString($_GET['q']);
+else $PAGEDATA['search'] = null;
+
 if (isset($_GET['page'])) $page = $bCMS->sanitizeString($_GET['page']);
 else $page = 1;
 $DBLIB->pageLimit = 20; //Users per page
@@ -14,6 +17,16 @@ $DBLIB->orderBy("users.users_name1", "ASC");
 $DBLIB->orderBy("users.users_name2", "ASC");
 $DBLIB->orderBy("users.users_created", "ASC");
 $DBLIB->where("users_deleted", 0);
+if (strlen($PAGEDATA['search']) > 0) {
+	//Search
+	$DBLIB->where("
+		users_username LIKE '%" . $PAGEDATA['search'] . "%'
+		OR users_name1 LIKE '%" . $PAGEDATA['search'] . "%'
+		OR users_name2 LIKE '%" . $PAGEDATA['search'] . "%'
+		OR users_displayName LIKE '%" . $PAGEDATA['search'] . "%'
+		OR users_email LIKE '%" . $PAGEDATA['search'] . "%'
+    ");
+}
 //if (!isset($_GET['suspended'])) $DBLIB->where ("users.users_suspended", "0");
 $users = $DBLIB->arraybuilder()->paginate('users', $page, ["users.*"]);
 $PAGEDATA['pagination'] = ["page" => $page, "total" => $DBLIB->totalPages];
