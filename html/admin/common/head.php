@@ -48,5 +48,13 @@ $TWIG->addFilter(new Twig_SimpleFilter('modifyGet', function ($array) {
     global $bCMS;
     return http_build_query(($bCMS->modifyGet($array)));
 }));
+$TWIG->addFilter(new Twig_SimpleFilter('randomString', function ($characters) {
+    global $bCMS;
+    return $bCMS->randomString($characters);
+}));
+$TWIG->addFilter(new Twig_SimpleFilter('s3URL', function ($fileid, $size = false) {
+    global $bCMS;
+    return $bCMS->s3URL($fileid, $size);
+}));
 
 $GLOBALS['AUTH'] = new bID;

@@ -437,6 +437,47 @@
 				</div>
 			</div>
 		</div>
+		<div class="col-lg-6">
+			<div class="box panel-default">
+				<div class="box-header with-border">
+					<h3 class="box-title">Profile picture</h3>
+				</div>
+				<div class="panel-body">
+					{% if USER.users_thumbnail != null %}
+						<img src="{{ USER.users_thumbnail|s3URL("") }}" style="width: 100%;">
+						{% else %}
+						<i>None currently set</i>
+					{% endif %}
+				</div>
+				{% if 14|permissions or USER.users_userid == USERDATA.users_userid %}
+				<div class="box-footer">
+					{% embed 'common/plugins/fineuploader.twig' with {'publicBool': true, 'type': 'USER-THUMBNAIL', 'paste': false, 'typeId': 1, 'subTypeId': 1, 'fileLimit': 1, 'imagesOnly': true } %}
+						{% block success %}
+							console.log(responseJson);
+							$.ajax({
+							url: '{{CONFIG.ROOTURL}}/api/account/thumbnail.php',
+							type : "POST",
+							data : {
+								"users_userid": "{{ USER.users_userid }}",
+								'thumbnail' : responseJson.id,
+							},
+							cache : false,
+							success: function (result) {
+								if (result != '1') {
+									bootbox.alert(result + 'Error - Could not change thumbnail - Please refresh the page and try again!');
+								} else {
+									location.reload();
+								}
+							}
+							});
+						{% endblock %}
+					{% endembed %}
+				</div>
+				{% endif %}
+				<script>
+				</script>
+			</div>
+		</div>
 		{% if USER.users_userid != "NEW" %}
 		<div class="col-lg-6">
 			<div class="box panel-default">

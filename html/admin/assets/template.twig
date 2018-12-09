@@ -158,7 +158,9 @@
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header">
-                                    <img src="{{ USERDATA.ICON }}" class="img-square">
+                                    {% if USERDATA.users_thumbnail != null %}
+                                        <img src="{{ USERDATA.users_thumbnail|s3URL("tiny") }}" class="img-square">
+                                    {% endif %}
                                     <p>
                                         {{ USERDATA.users_name1 }} {{ USERDATA.users_name2 }}
                                         <small>User since {{ USERDATA.users_created|date("F Y") }}</small>
@@ -193,12 +195,12 @@
                                 </li>
                             </ul>
                         </li>
-                       <li>
+                       <!--<li>
                             <a data-toggle="control-sidebar">
                                 <i class="fa fa-bell-o"></i>
                                 <span class="label label-danger">5</span>
                             </a>
-                        </li>
+                        </li>-->
                 </ul>
 
             </div>

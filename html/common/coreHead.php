@@ -1,5 +1,9 @@
 <?php
 require_once __DIR__ . '/config.php';
+
+use Aws\S3\S3Client;
+use Aws\S3\Exception\S3Exception;
+
 //GLOBALS STUFF - DON'T CHANGE
 /*
 function errorHandler() {
@@ -108,6 +112,78 @@ class bCMS {
 
         if ($DBLIB->insert("auditLog", $data)) return true;
         else return false;
+    }
+    function s3URL($fileid, $size = false, $forceDownload = false, $expire = '+1 minute') {
+        global $DBLIB, $CONFIG;
+        /*
+         * File interface for Amazon AWS S3.
+         *  Parameters
+         *      f (required) - the file id as specified in the database
+         *      s (filesize) - false to get the original - available is "tiny" (100px) "small" (500px) "medium" (800px) "large" (1500px)
+         *      d (optional, default false) - should a download be forced or should it be displayed in the browser? (if set it will download)
+         *      e (optional, default 1 minute) - when should the link expire? Must be a string describing how long in words basically. If this file type has security features then it will default to 1 minute.
+         */
+        $fileid = $this->sanitizeString($fileid);
+        if (strlen($fileid) < 1) return false;
+        $DBLIB->where("s3files_id", $fileid);
+        $DBLIB->where("s3files_meta_deleteOn IS NULL"); //If the file is to be deleted soon or has been deleted don't let them download it
+        $DBLIB->where("s3files_meta_physicallyStored",1); //If we've lost the file or deleted it we can't actually let them download it
+        $file = $DBLIB->getone("s3files");
+        if (!$file) return false;
+        if ($file['s3files_meta_public'] == 1) {
+            $returnFilePath = $file['s3files_cdn_endpoint'] . "/" . $file['s3files_path'] . "/" . $file['s3files_filename'];
+            switch ($size) {
+                case "tiny":
+                    $returnFilePath .= ' (tiny)';
+                    break; //The want the original
+                case "small":
+                    $returnFilePath .= ' (small)';
+                    break; //The want the original
+                case "medium":
+                    $returnFilePath .= ' (medium)';
+                    break; //The want the original
+                case "large":
+                    $returnFilePath .= ' (large)';
+                    break; //The want the original
+                default:
+                    //They want the original
+            }
+            return $returnFilePath . "." . $file['s3files_extension'];
+        } else {
+            $s3Client = new Aws\S3\S3Client([
+                'region'  => $file["s3files_region"],
+                'endpoint' => "https://" . $file["s3files_endpoint"],
+                'version' => 'latest',
+                'credentials' => array(
+                    'key'    => $CONFIG['AWS']['KEY'],
+                    'secret' => $CONFIG['AWS']['SECRET'],
+                )
+            ]);
+
+            $file['expiry'] = $expire;
+
+
+            switch ($file['s3files_meta_type']) {
+                case 1:
+                    //This is a user thumbnail
+                    break;
+                default:
+                    //There are no specific requirements for this file so not to worry.
+            }
+
+            $parameters = [
+                'Bucket' => $file['s3files_bucket'],
+                'Key'    => $file['s3files_path'] . "/" . $file['s3files_filename'] . '.' . $file['s3files_extension'],
+            ];
+            if ($forceDownload) $parameters['ResponseContentDisposition'] = 'attachment; filename="' . $CONFIG['PROJECT_NAME'] . ' ' . $file['s3files_filename'] . '.' . $file['s3files_extension'] . '"';
+            $cmd = $s3Client->getCommand('GetObject', $parameters);
+            $request = $s3Client->createPresignedRequest($cmd, $file['expiry']);
+            $presignedUrl = (string) $request->getUri();
+
+            $presignedUrl = $file['s3files_cdn_endpoint'] . explode($file["s3files_endpoint"],$presignedUrl)[1]; //Remove the endpoint itself from the url in order to set a new one
+
+            return $presignedUrl;
+        }
     }
 }
 

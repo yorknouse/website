@@ -10,7 +10,5 @@ if (!$GLOBALS['AUTH']->login) {
 
 $PAGEDATA['USERDATA'] = $GLOBALS['AUTH']->data;
 
-$PAGEDATA['USERDATA']["ICON"] = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($PAGEDATA['USERDATA']["users_email"]))) . "?s=90&r=g&d=" . urlencode("");
-
 $USERDATA = $PAGEDATA['USERDATA'];
 ?>
