@@ -1,7 +1,10 @@
 <?php
 require_once __DIR__ . '/../../common/coreHead.php';
-$PAGEDATA = array('CONFIG' => $CONFIG, 'BODY' => true);
 
+$CONFIG['ROOTURL'] = "http://139.59.170.70/admin";
+
+
+$PAGEDATA = array('CONFIG' => $CONFIG, 'BODY' => true);
 //TWIG
 //Twig_Autoloader::register();
 $TWIGLOADER = new Twig_Loader_Filesystem(__DIR__ . '/../');
@@ -40,6 +43,10 @@ $TWIG->addFilter(new Twig_SimpleFilter('permissions', function ($permissionid) {
     global $AUTH;
     if (!$AUTH->login) return false;
     else return $AUTH->permissionCheck($permissionid);
+}));
+$TWIG->addFilter(new Twig_SimpleFilter('modifyGet', function ($array) {
+    global $bCMS;
+    return http_build_query(($bCMS->modifyGet($array)));
 }));
 
 $GLOBALS['AUTH'] = new bID;

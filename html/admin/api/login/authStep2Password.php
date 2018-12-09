@@ -34,7 +34,7 @@ if (isset($_POST['formInput']) and isset($_POST['password'])) {
         elseif (!$successful) finish(false, ["code" => null, "message" => "Password incorrect"]);
         elseif ($user['users_suspended'] != '0') finish(false, ["code" => 5, "message" => "User suspended"]);
 		else {
-            $GLOBALS['AUTH']->generateToken($user['users_userid'], false);
+		    $GLOBALS['AUTH']->generateToken($user['users_userid'], false);
             finish(true);
         }
 	}

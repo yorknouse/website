@@ -19,6 +19,9 @@ if (isset($_GET['removepermission'])) {
 }
 
 $DBLIB->where ('positionsGroups_id', $bCMS->sanitizeString($_GET['position']));
-if ($DBLIB->update ('positionsGroups', ['positionsGroups_actions' => implode(",",$position['permissions'])])) die('1');
+if ($DBLIB->update ('positionsGroups', ['positionsGroups_actions' => implode(",",$position['permissions'])])) {
+	$bCMS->auditLog("UPDATE", "positionsGroups", $bCMS->sanitizeString($_GET['position']) . " - " . implode(",",$position['permissions']), $AUTH->data['users_userid']);
+	die('1');
+}
 else die('2');
 ?>

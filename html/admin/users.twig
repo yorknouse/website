@@ -15,14 +15,19 @@
             <div class="box box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title">Users</h3>
-
                     <div class="box-tools pull-right">
-                        {% if 4|permissions %}
-                            <a href="{{ CONFIG.ROOTURL }}/account.php?new" title="Add new User" class="btn btn-default"><i
-                                        class="fa fa-plus"></i></a>
-                        {% endif %}
-                    </div>
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                            <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                {% if 4|permissions %}
+                                    <button type="butotn" title="Add new User" class="btn btn-default"><i class="fa fa-plus"></i></button>
+                                    <!--href="{{ CONFIG.ROOTURL }}/account.php?new" -->
+                                {% endif %}
+                            </div>
 
+                        </div>
+                    </div>
                 </div>
                 <div class="box-body table-responsive no-padding">
                     {% if users|length > 0 %}
@@ -41,7 +46,12 @@
                             </thead>
                             <tbody>
                             {% for user in users %}
-                                <tr {{ user.users_suspended == '1' ? 'class="danger"' : '' }}>
+                                <tr
+                                        {% if user.currentPositions|length < 1 %}
+                                        class="warning"
+                                        {% elseif user.users_suspended == '1' %}
+                                        class="danger"
+                                        {% endif %}>
                                     <td>{{ user.users_username }}</td>
                                     <td>{{ user["users_name1"] }}</td>
                                     <td>{{ user["users_name2"] }}</td>
@@ -49,18 +59,23 @@
                                     {% if 3|permissions %}
                                         <td>{{ user["users_email"] }} {{ user["users_emailVerified"] == 1 ? '<i class="fa fa-check-square-o">' : null }}</td>{% endif %}
                                     <td>
-                                        {% for position in user.currentPositions %}
-                                            {% if position.userPositions_displayName != null %}
-                                                {{ position.userPositions_displayName }}
-                                            {% else %}
-                                                {{ position.positions_displayName }}
-                                            {% endif %}
-                                            <br/>
-                                        {% endfor %}
+                                        {% if user.currentPositions|length > 0 %}
+                                            {% for position in user.currentPositions %}
+                                                {% if position.userPositions_displayName != null %}
+                                                    {{ position.userPositions_displayName }}
+                                                {% else %}
+                                                    {{ position.positions_displayName }}
+                                                {% endif %}
+                                                <br/>
+                                            {% endfor %}
+                                        {% endif %}
                                     </td>
                                     <td>
                                         {% if user.users_suspended == '1' %}
-                                            <span class="label label-danger pull-right">Suspended</span><br/>
+                                            <span class="label label-danger">Suspended</span><br/>
+                                        {% endif %}
+                                        {% if user.currentPositions|length < 1 %}
+                                            <span class="label label-warning">Cannot login</span><br/>
                                         {% endif %}
 
                                     </td>
@@ -68,7 +83,8 @@
                                         {% if 6|permissions %}
                                             <button type="button" title="View Mailings for user" class="btn btn-info"
                                                     data-toggle="modal"
-                                                    data-target="#useremailmodal{{ user["users_userid"] }}"><i
+                                                    data-target="#useremailmodal{{ user["users_userid"] }}"
+                                            {% if mailings[user.users_userid]|length < 1 %}disabled{% endif %}><i
                                                         class="fa fa-envelope"></i></button>
                                         {% endif %}
                                         {% if user.users_userid != USERDATA.users_userid %}
@@ -110,12 +126,35 @@
                             </tbody>
                         </table>
                     {% else %}
-                        <center><p><i>Sorry - No users found</i></p><br/><a href="?">Remove any filters</a></center>
+                        <center><p style="margin: 10px;"><i>No results</i><br/><a href="?">Remove any filters</a></p></center>
                     {% endif %}
                 </div>
                 <div class="overlay" id="loadingoverlay">
                     <i class="fa fa-refresh fa-spin"></i>
                 </div>
+                {% if pagination.total > 1 %}
+                <div class="box-footer clearfix">
+                    <ul class="pagination pagination-sm no-margin pull-right">
+                        {% if pagination.page > 1 %}
+                        <li><a href="?{{ {page: (pagination.page -1)}|modifyGet }}">&laquo;</a></li>
+                        {% endif %}
+
+                        {% for i in range((pagination.page > 3 ? pagination.page-2 : 1), (pagination.total > 5 and pagination.page+2 < pagination.total ? pagination.page+2 : pagination.total)) %}
+                            <li><a href="?{{ {page: i}|modifyGet }}">
+                                    {% if pagination.page == i %}
+                                        <b>{{ i }}</b>
+                                    {% else %}
+                                        {{ i }}
+                                    {% endif %}
+                                </a></li>
+                        {% endfor %}
+
+                        {% if pagination.page < pagination.total %}
+                            <li><a href="?{{ {page: (pagination.page +1)}|modifyGet }}">&raquo;</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                {% endif %}
             </div>
         </div>
         {% for user in users %}

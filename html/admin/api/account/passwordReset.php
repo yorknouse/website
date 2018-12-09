@@ -25,6 +25,7 @@
 			<center>
 				<h1>Your password has been changed using a forgot password link</h1></center>
 			');
+		$bCMS->auditLog("UPDATE", "users", "PASSWORD RESET", $AUTH->data['users_userid'],$AUTH->data['users_userid']);
 		$AUTH->generateToken($code['users_userid'], true);
 		exit;
 	} else {

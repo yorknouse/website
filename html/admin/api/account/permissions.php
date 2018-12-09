@@ -25,7 +25,7 @@ if ($_POST['action'] == "DELETE") {
     ];
     if ($_POST['userPositions_id'] == 'new') {
         if ($DBLIB->insert("userPositions",$data)) {
-            $bCMS->auditLog("CREATE", "userPositions", "", $AUTH->data['users_userid'],$bCMS->sanitizeString($_POST["users_userid"]));
+            $bCMS->auditLog("CREATE", "userPositions", json_encode($data), $AUTH->data['users_userid'],$bCMS->sanitizeString($_POST["users_userid"]));
             finish(true);
         } else finish(false, ["code" => null, "message"=> "Insert error"]);
     } else {

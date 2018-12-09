@@ -26,6 +26,7 @@
 				<h1>Thanks for verifying your email address</h1>
 				<h3>Welcome to ' . $CONFIG['PROJECT_NAME'] . ' - We are delighted to have you onboard!</h3></center>
 			');
+		$bCMS->auditLog("UPDATE", "users", "VERIFY EMAIL", $AUTH->data['users_userid'],$AUTH->data['users_userid']);
 		header('Location: ' . $CONFIG['ROOTURL']); exit;
 	} else {
 		header('Location: ' . $CONFIG['ROOTURL']); //If it fails we may as well just assume they have tried to click it a second time.

@@ -39,19 +39,23 @@ class bID
                         $DBLIB->join("positions", "userPositions.positions_id=positions.positions_id", "LEFT");
                         $DBLIB->where("users_userid", $this->data['users_userid']);
                         $positions = $DBLIB->get("userPositions");
-                        $this->data['positions'] = [];
-                        $permissionCodes = [];
-                        foreach ($positions as $position) {
-                            $this->data['positions'][] = $position;
-                            $position['groups'] = explode(",", $position['positions_positionsGroups']);
-                            foreach ($position['groups'] as $positiongroup) {
-                                $DBLIB->where("positionsGroups_id", $positiongroup);
-                                $positiongroup = $DBLIB->getone("positionsGroups", ["positionsGroups_actions"]);
-                                $permissionCodes = array_merge ( $permissionCodes, explode(",", $positiongroup['positionsGroups_actions']), explode(",",$position['userPositions_extraPermissions']));
-                            }
-                                                    }
-                        $this->permissions = array_unique($permissionCodes);
-                        $this->login = true;
+                        if (count($positions) > 0) { //You must have at least one current position to be allowed to login
+                            $this->data['positions'] = [];
+                            $permissionCodes = [];
+                            foreach ($positions as $position) {
+                                $this->data['positions'][] = $position;
+                                $position['groups'] = explode(",", $position['positions_positionsGroups']);
+                                foreach ($position['groups'] as $positiongroup) {
+                                    $DBLIB->where("positionsGroups_id", $positiongroup);
+                                    $positiongroup = $DBLIB->getone("positionsGroups", ["positionsGroups_actions"]);
+                                    $permissionCodes = array_merge ( $permissionCodes, explode(",", $positiongroup['positionsGroups_actions']), explode(",",$position['userPositions_extraPermissions']));
+                                }
+                                                        }
+                            $this->permissions = array_unique($permissionCodes);
+                            $this->login = true;
+                        } else {
+                            $this->login = false;
+                        }
                     }
                 }
             } else $this->login = false;

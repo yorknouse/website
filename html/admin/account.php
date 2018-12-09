@@ -19,6 +19,11 @@ if (isset($_GET['new']) and $AUTH->permissionCheck(4)) {
     $DBLIB->join("positions", "positions.positions_id=userPositions.positions_id", "LEFT");
     $PAGEDATA['USER']['POSITIONS'] = $DBLIB->get("userPositions");
 
+    $DBLIB->where("users_userid", $userid);
+    $DBLIB->where("userPositions_end >= '" . date('Y-m-d H:i:s') . "'");
+    $DBLIB->where("userPositions_start <= '" . date('Y-m-d H:i:s') . "'");
+    $PAGEDATA['USER']['currentPositions'] = $DBLIB->getvalue("userPositions","COUNT(*)"); //To see if they can login
+
     $DBLIB->orderBy("positions_rank", "ASC");
     $DBLIB->orderBy("positions_displayName", "ASC");
     $PAGEDATA['POSSIBLEPOSITIONS'] = $DBLIB->get("positions");

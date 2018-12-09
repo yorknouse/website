@@ -49,6 +49,7 @@ if (isset($_GET['username'])) {
                     $DBLIB->update ('users', ["users_emailVerified" => "0"]); //Set E-Mail to unverified
                     $AUTH->verifyEmail($userid);
                 }
+                $bCMS->auditLog("UPDATE", "users", json_encode($data), $AUTH->data['users_userid'],$userid);
                 die('1');
             } else die("2");
         } else {
@@ -57,9 +58,11 @@ if (isset($_GET['username'])) {
             $data["users_hash"] = $CONFIG['nextHash'];
             $data["users_password"] = "RESET";
             $newUser = $DBLIB->insert("users", $data);
-            echo $DBLIB->getLastError();
             if (!$newUser) die("6");
-            else die("" . json_encode(["result" => true, "newUserId" => $newUser]));
+            else {
+                $bCMS->auditLog("INSERT", "users", json_encode($data), $AUTH->data['users_userid'],$newUser);
+                die("" . json_encode(["result" => true, "newUserId" => $newUser]));
+            }
         }
 
     }

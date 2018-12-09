@@ -88,8 +88,26 @@ class bCMS {
         }
         return $bytes;
     }
-    function auditLog($actionType, $table, $revelantData, $userid, $useridTo = false) { //Keep an audit trail of actions - $userid is this user, and $useridTo is who this action was done to if it was at all
-        return true;
+    function modifyGet($array) {
+        //Used to setup links that don't affect search terms etc.
+        foreach ($array as $key=>$value) {
+            $_GET[$key] = $value;
+        }
+        return $_GET;
+    }
+    function auditLog($actionType = null, $table = null, $revelantData = null, $userid = null, $useridTo = null) { //Keep an audit trail of actions - $userid is this user, and $useridTo is who this action was done to if it was at all
+        global $DBLIB;
+        $data = [
+            "auditLog_actionType" => $this->sanitizeString($actionType),
+            "auditLog_actionTable" => $this->sanitizeString($table),
+            "auditLog_actionData" =>  $this->sanitizeString($revelantData),
+            "auditLog_timestamp" =>  date("Y-m-d H:i:s")
+            ];
+        if ($userid > 0) $data["users_userid"] = $this->sanitizeString($userid);
+        if ($useridTo > 0) $data["auditLog_actionUserid"] = $this->sanitizeString($useridTo);
+
+        if ($DBLIB->insert("auditLog", $data)) return true;
+        else return false;
     }
 }
 
