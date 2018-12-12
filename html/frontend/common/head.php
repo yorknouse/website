@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../common/coreHead.php';
 
-$CONFIG['ROOTURL'] = "http://139.59.170.70/frontend";
+$CONFIG['ROOTURL'] = "http://dev.nouse.co.uk";
 $CONFIG['ASSETSURL'] = $CONFIG['ROOTURL'] . "/common/assets/theme/osru/assets/";
 
 $PAGEDATA = array('CONFIG' => $CONFIG, 'BODY' => true);
@@ -41,3 +41,31 @@ $TWIG->addFilter(new Twig_SimpleFilter('unclean', function ($var) {
     global $bCMS;
     return $bCMS->unCleanString($var);
 }));
+
+
+
+
+
+//Begin Nouse Head
+//          MENU
+//              CATEGORIES
+$DBLIB->where("categories1_showPublic",1);
+$DBLIB->orderBy("categories1_order", "ASC");
+$DBLIB->orderBy("categories1_displayName", "ASC");
+$PAGEDATA['CATEGORIES'] = [];
+foreach ($DBLIB->get("categories1") as $category) {
+    $DBLIB->orderBy("categories2_order", "ASC");
+    $DBLIB->orderBy("categories2_displayName", "ASC");
+    $DBLIB->where("categories2_showPublic",1);
+    $DBLIB->where("categories2_nestUnder", $category["categories1_id"]);
+    $category['SUB'] = [];
+    foreach ($DBLIB->get("categories2") as $subcategory) {
+        $DBLIB->where("categories3_showPublic",1);
+        $DBLIB->orderBy("categories3_order", "ASC");
+        $DBLIB->orderBy("categories3_displayName", "ASC");
+        $DBLIB->where("categories3_nestUnder", $subcategory["categories2_id"]);
+        $subcategory['SUB'] = $DBLIB->get("categories3");
+        $category['SUB'][] = $subcategory;
+    }
+    $PAGEDATA['CATEGORIES'][] = $category;
+}

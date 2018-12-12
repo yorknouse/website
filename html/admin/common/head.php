@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../common/coreHead.php';
 
-$CONFIG['ROOTURL'] = "http://139.59.170.70/admin";
+$CONFIG['ROOTURL'] = "http://admin.dev.nouse.co.uk";
 
 
 $PAGEDATA = array('CONFIG' => $CONFIG, 'BODY' => true);

@@ -654,11 +654,6 @@
     $(document).ready(function () {
         osru.initialize();
         shuffleme.init(); //Filter Portfolio
-        //Reading Time
-        $('.post_details').readingTime({
-            readingTimeTarget: $(this).find('.eta'),
-            wordCountTarget: $(this).find('.words')
-        });
     });
     // Reset on resize
     $(window).on("resize", function () {

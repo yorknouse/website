@@ -1,5 +1,27 @@
 {% extends "template.twig" %}
-
+{% block htmlIncludes %}
+<script src="{{ CONFIG.ASSETSURL }}js/macy.js"></script>
+<script>
+    $( document ).ready(function() {
+        var masonry = new Macy({
+            container: '#macy-container',
+            trueOrder: false,
+            waitForImages: false,
+            useOwnImageLoader: false,
+            debug: true,
+            mobileFirst: true,
+            columns: 1,
+            margin: 2,
+            breakAt: {
+                1200: 2,
+                992: 3,
+                768: 2,
+                480: 1
+            }
+        });
+    });
+</script>
+{% endblock %}
 {% block content %}
     <div class="container">
 

@@ -1,0 +1,119 @@
+{% extends "template.twig" %}
+{% block htmlIncludes %}
+    <script src="{{ CONFIG.ASSETSURL }}js/macy.js"></script>
+    <script>
+        $( document ).ready(function() {
+            var masonry = new Macy({
+                container: '#macy-container',
+                trueOrder: false,
+                waitForImages: false,
+                useOwnImageLoader: false,
+                debug: true,
+                mobileFirst: true,
+                columns: 1,
+                margin: 2,
+                breakAt: {
+                    1200: 2,
+                    992: 3,
+                    768: 2,
+                    480: 1
+                }
+            });
+        });
+    </script>
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            {{ dump(pageConfig)|raw }}
+
+            <aside class="col-sm-4 col-md-3 rightSidebar">
+                <div class="about-card">
+                    <div class="ui divider">{{ pageConfig.CATEGORY.categories1_displayName }}</div>
+                    <a href="{{ pageConfig.CATEGORY.categories1_facebook }}" class="btn btn-info"><i class="fa fa-facebook"></i></a>
+                    <a href="{{ pageConfig.CATEGORY.categories1_instagram }}" class="btn btn-default"><i class="fa fa-instagram"></i></a>
+                </div>
+                <!-- /.End of donation widget -->
+                <div class="latest_post_widget">
+                    <div class="title-holder">
+                        <h3 class="title">Latest in {{ pageConfig.CATEGORY.categories1_displayName }}</h3>
+                        <span class="title-shape title-shape-dark"></span>
+                    </div>
+                    <!--  /.End of title -->
+                    <div class="media latest_post">
+                        <a class="media-left" href="">
+                            <img src="{{ CONFIG.ASSETSURL }}/img/100x70-1.jpg" class="media-object" alt="">
+                        </a>
+                        <div class="media-body">
+                            <h6 class="media-heading"><a href="#">The <em>Best Street-Style</em> Pics Copenhagen</a></h6>
+                            <div class="entry-meta">
+                                <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i><time datetime="2018-01-21T19:00">Jan 21, 2018</time></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.latest post -->
+                    <div class="media latest_post">
+                        <a class="media-left" href="">
+                            <img src="{{ CONFIG.ASSETSURL }}/img/100x70-2.jpg" class="media-object" alt="">
+                        </a>
+                        <div class="media-body">
+                            <h6 class="media-heading"><a href="#">The <em>Best Street-Style</em> Pics Copenhagen</a></h6>
+                            <div class="entry-meta">
+                                <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i><time datetime="2018-01-21T19:00">Jan 21, 2018</time></span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.latest post -->
+                    <div class="media latest_post">
+                        <a class="media-left" href="">
+                            <img src="{{ CONFIG.ASSETSURL }}/img/100x70-3.jpg" class="media-object" alt="">
+                        </a>
+                        <div class="media-body">
+                            <h6 class="media-heading"><a href="#">The <em>Best Street-Style</em> Pics Copenhagen</a></h6>
+                            <div class="entry-meta">
+                                <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i><time datetime="2018-01-21T19:00">Jan 21, 2018</time></span>
+                            </div>
+                        </div>
+                    </div>
+            </aside>
+            <main class="col-sm-8 col-md-9 content p_l_40">
+                  {% for article in articles %}
+                      <div class="media meida-md">
+                          {% if article.articles_thumbnail != null %}
+                              <div class="media-left">
+                                  <a href="#"><img src="{{ article.articles_thumbnail }}" class="media-object" alt="{{ article.articlesDrafts_headline }}"></a>
+                              </div>
+                          {% endif %}
+
+                          <div class="media-body">
+                              <div class="post-header">
+                                  <h3 class="media-heading"><a href="#">{{ article.articlesDrafts_headline }}</a></h3>
+                                  <div class="entry-meta">
+                                      <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ article.articles_published|date("j M Y") }}</span>
+                                      {% for author in article.articles_authors %}
+                                          <span class="comment-link"><a href="{{ CONFIG.ROOTURL }}/author/?a={{ author.users_userid }}">{{ author.users_name1 }} {{ author.users_name2 }}</a></span>
+                                      {% endfor %}
+                                  </div>
+                                  <!-- /.Post meta -->
+                              </div>
+                              {% if article.articlesDrafts_byline != null %}
+                                  <p>{{ article.articlesDrafts_byline }}</p>
+                              {% endif %}
+                          </div>
+                      </div>
+                    {% endfor %}
+                </div>
+                <ul class="pagination">
+                    <li class="disabled"><a href="#">&#8701;</a></li>
+                    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li class="page-numbers"><span>...</span></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">&#8702;</a></li>
+                </ul>
+                <!-- /.End of pagination -->
+            </main>
+        </div>
+    </div>
+{% endblock %}
