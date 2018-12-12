@@ -41,31 +41,55 @@ $TWIG->addFilter(new Twig_SimpleFilter('unclean', function ($var) {
     global $bCMS;
     return $bCMS->unCleanString($var);
 }));
+$TWIG->addFilter(new Twig_SimpleFilter('getCategoryURL', function ($categoryid) {
+    //Get the link to the category page
+    global $DBLIB, $bCMS;
+    $DBLIB->where("categories_id", $bCMS->sanitizeString($categoryid));
+    $category = $DBLIB->getone("categories",["categories_name","categories_nestUnder"]);
+    if ($category["categories_nestUnder"] == null) return $category["categories_name"];
+    $url = $category["categories_name"];
 
+    $DBLIB->where("categories_id", $category['categories_nestUnder']);
+    $category = $DBLIB->getone("categories",["categories_name","categories_nestUnder"]);
+    if ($category["categories_nestUnder"] == null) return $category["categories_name"] . "/" . $url;
+    $url = $category["categories_name"] . "/" . $url;
 
-
-
+    $DBLIB->where("categories_id", $category['categories_nestUnder']);
+    $category = $DBLIB->getone("categories",["categories_name","categories_nestUnder"]);
+    return $category["categories_name"] . "/" . $url;
+}));
 
 //Begin Nouse Head
 //          MENU
 //              CATEGORIES
-$DBLIB->where("categories1_showPublic",1);
-$DBLIB->orderBy("categories1_order", "ASC");
-$DBLIB->orderBy("categories1_displayName", "ASC");
+$DBLIB->where("categories_showPublic",1);
+$DBLIB->orderBy("categories_order", "ASC");
+$DBLIB->orderBy("categories_displayName", "ASC");
+$DBLIB->where("categories_nestUnder IS NULL");
 $PAGEDATA['CATEGORIES'] = [];
-foreach ($DBLIB->get("categories1") as $category) {
-    $DBLIB->orderBy("categories2_order", "ASC");
-    $DBLIB->orderBy("categories2_displayName", "ASC");
-    $DBLIB->where("categories2_showPublic",1);
-    $DBLIB->where("categories2_nestUnder", $category["categories1_id"]);
+foreach ($DBLIB->get("categories") as $category) {
+    $DBLIB->where("categories_showPublic",1);
+    $DBLIB->orderBy("categories_order", "ASC");
+    $DBLIB->orderBy("categories_displayName", "ASC");
+    $DBLIB->where("categories_nestUnder", $category["categories_id"]);
     $category['SUB'] = [];
-    foreach ($DBLIB->get("categories2") as $subcategory) {
-        $DBLIB->where("categories3_showPublic",1);
-        $DBLIB->orderBy("categories3_order", "ASC");
-        $DBLIB->orderBy("categories3_displayName", "ASC");
-        $DBLIB->where("categories3_nestUnder", $subcategory["categories2_id"]);
-        $subcategory['SUB'] = $DBLIB->get("categories3");
+    foreach ($DBLIB->get("categories") as $subcategory) {
+        $DBLIB->where("categories_showPublic",1);
+        $DBLIB->orderBy("categories_order", "ASC");
+        $DBLIB->orderBy("categories_displayName", "ASC");
+        $DBLIB->where("categories_nestUnder", $subcategory["categories_id"]);
+        $subcategory['SUB'] = $DBLIB->get("categories");
         $category['SUB'][] = $subcategory;
     }
     $PAGEDATA['CATEGORIES'][] = $category;
+}
+
+function latestInCategory($categoryid, $count = 5) {
+    global $DBLIB;
+    $DBLIB->where("FIND_IN_SET('" . $categoryid . "',articles_categories)");
+    $DBLIB->orderBy("articles_published", "DESC");
+    $DBLIB->where("articles_showInLists", 1);
+    $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
+    $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
+    return $DBLIB->get("articles", $count, ["articles.*","articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_byline"]);
 }

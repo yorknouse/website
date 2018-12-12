@@ -7,7 +7,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>
         {% if pageConfig.TITLE != null %}
-        {{ pageConfig.TITLE }} | Nouse
+        {{ pageConfig.TITLE }}
         {% else %}
             Nouse | Est 1964 | York University's oldest society and student newspaper
         {% endif %}
@@ -141,21 +141,21 @@
                 <div class="collapse navbar-collapse" id="navbar-menu">
                     <ul class="nav navbar-nav" data-in="navFadeInDown" data-out="navFadeOutUp">
                         {% for category in CATEGORIES %}
-                            {% if category.SUB|length < 1 or category.categories1_showSub != 1 %}
-                            <li><a href="{{ CONFIG.ROOTURL }}/{{ category.categories1_name }}">{{ category.categories1_displayName }}</a></li>
+                            {% if category.SUB|length < 1 or category.categories_showSub != 1 %}
+                            <li><a href="{{ CONFIG.ROOTURL }}/{{ category.categories_name }}">{{ category.categories_displayName }}</a></li>
                             {% else %}
                             <li class="dropdown active">
-                                <a href="{{ CONFIG.ROOTURL }}/{{ category.categories1_name }}"  style="color: inherit;" class="dropdown-toggle">{{ category.categories1_displayName }}</a>
+                                <a href="{{ CONFIG.ROOTURL }}/{{ category.categories_name }}"  style="color: inherit;" class="dropdown-toggle">{{ category.categories_displayName }}</a>
                                 <ul class="dropdown-menu">
                                     {% for subCategory in category.SUB %}
                                         {% if subCategory.SUB|length < 1 %}
-                                        <li><a href="{{ CONFIG.ROOTURL }}/{{ category.categories1_name }}/{{ subCategory.categories2_name }}">{{ subCategory.categories2_displayName }}</a></li>
+                                        <li><a href="{{ CONFIG.ROOTURL }}/{{ category.categories_name }}/{{ subCategory.categories_name }}">{{ subCategory.categories_displayName }}</a></li>
                                         {% else %}
                                         <li class="dropdown">
-                                            <a href="{{ CONFIG.ROOTURL }}/{{ category.categories1_name }}/{{ subCategory.categories2_name }}" class="dropdown-toggle">{{ subCategory.categories2_displayName }}</a>
+                                            <a href="{{ CONFIG.ROOTURL }}/{{ category.categories_name }}/{{ subCategory.categories_name }}" class="dropdown-toggle">{{ subCategory.categories_displayName }}</a>
                                             <ul class="dropdown-menu">
                                                 {% for subSubCategory in subCategory.SUB %}
-                                                <li><a href="{{ CONFIG.ROOTURL }}/{{ category.categories1_name }}/{{ subCategory.categories2_name }}/{{ subSubCategory.categories3_name }}">{{ subSubCategory.categories3_displayName }}</a></li>
+                                                <li><a href="{{ CONFIG.ROOTURL }}/{{ category.categories_name }}/{{ subCategory.categories_name }}/{{ subSubCategory.categories_name }}">{{ subSubCategory.categories_displayName }}</a></li>
                                                 {% endfor %}
                                             </ul>
                                         </li>

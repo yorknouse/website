@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . '/common/head.php';
-die("");
+exit;
 for ($x = 0; $x <= 14; $x++) {
-    $data = json_decode(file_get_contents("data/nouseFULL" . ($x < 10 ? "0" : "") . $x . ".json"), true);
+    $data = json_decode(file_get_contents("data/nouseCOMMENTMETA" . ($x < 10 ? "0" : "") . $x . ".json"), true);
 
     foreach ($data["posts"] as $post) {
         if ($post["post_type"] != "post") continue;
@@ -23,8 +23,19 @@ for ($x = 0; $x <= 14; $x++) {
             "articles_extraMetadata" => json_encode($post["postmeta"]),
             "articles_lifetimeViews" => (isset($post["postmeta"]["views"]) ? $post["postmeta"]["views"] : null)
         ];
+
+
+        //$DBLIB->where("users_username LIKE '%" . $post['creator'] . "%'");
+        $DBLIB->where("users_username",$post['creator']);
+        $author = $DBLIB->getone("users", ["users_userid","users_username"]);
+        if ($author) {
+            $postData["articles_authors"] = $author['users_userid'];
+        } else {
+            echo $post["post_id"] . ": " . $post['creator'] . "\n";
+        }
+
         if (isset($post['_thumbnail_id'])) $postData["articles_thumbnail"] = $post["postmeta"]["_thumbnail_id"];
-        elseif (isset($post['postmeta']["_articlephoto_url"])) {
+        elseif (isset($post['postmeta']["_articlephoto_url"]) and strlen($post['postmeta']["_articlephoto_url"]) > 0) {
             $postData["articles_thumbnail"] = $post["postmeta"]["_articlephoto_url"];
         }
         $postCategories = [];
@@ -68,7 +79,11 @@ for ($x = 0; $x <= 14; $x++) {
                 "comments_show" => ($comment["approved"] == 1 ? 1 : 0),
                 "users_userid" => $comment["user_id"],
                 "articles_id" => $postID,
+                "comments_metadata" => json_encode($comment['metadata']),
+                "comments_nestUnder" => ($comment['parent'] > 0 ? $comment['parent'] : null),
             ];
+            if (isset($comment['metadata']["nouse_votes_up"])) $commentData['comments_upvotes'] = $comment['metadata']["nouse_votes_up"];
+            if (isset($comment['metadata']["nouse_votes_down"])) $commentData['comments_upvotes'] = $comment['metadata']["nouse_votes_down"];
             if (!$DBLIB->insert("comments", $commentData)) {
                 echo $DBLIB->getLastError() . "\n";
                 var_dump($comment);
@@ -76,6 +91,7 @@ for ($x = 0; $x <= 14; $x++) {
         }
     }
 }
+
 ?>
 
 

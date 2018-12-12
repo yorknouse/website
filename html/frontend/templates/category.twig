@@ -22,72 +22,77 @@
         });
     </script>
 {% endblock %}
+
+{% block prePageContent %}
+    <div class="parallax page_header"  data-parallax-bg-image="{{CONFIG.FILESTOREURL}}/site-assets/headerImages/hesHall-min.jpg" data-parallax-direction="left">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    {% if pageConfig.SUBSUBCATEGORY is defined %}
+                    <h3>{{ pageConfig.SUBSUBCATEGORY.categories_displayName }}</h3>
+                    <ol class="breadcrumb">
+                        <li><a href="{{ CONFIG.ROOTURL ~ "/" ~ pageConfig.CATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.CATEGORY.categories_displayName }}</a></li>
+                        <li><a href="{{ CONFIG.ROOTURL ~ "/" ~ pageConfig.SUBCATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.SUBCATEGORY.categories_displayName }}</a></li>
+                        <li class="active"><a href="{{ CONFIG.ROOTURL ~ "/" ~ pageConfig.SUBSUBCATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.SUBSUBCATEGORY.categories_displayName }}</a></li>
+                    </ol>
+                    {% elseif pageConfig.SUBCATEGORY is defined %}
+                        <h3>{{ pageConfig.SUBCATEGORY.categories_displayName }}</h3>
+                        <ol class="breadcrumb">
+                            <li><a href="{{ CONFIG.ROOTURL ~ "/" ~ pageConfig.CATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.CATEGORY.categories_displayName }}</a></li>
+                            <li class="active"><a href="{{ CONFIG.ROOTURL ~ "/" ~ pageConfig.SUBCATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.SUBCATEGORY.categories_displayName }}</a></li>
+                        </ol>
+                    {% else %}
+                        <h3>{{ pageConfig.CATEGORY.categories_displayName }}</h3>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
 {% block content %}
     <div class="container">
         <div class="row">
-            {{ dump(pageConfig)|raw }}
-
             <aside class="col-sm-4 col-md-3 rightSidebar">
                 <div class="about-card">
-                    <div class="ui divider">{{ pageConfig.CATEGORY.categories1_displayName }}</div>
-                    <a href="{{ pageConfig.CATEGORY.categories1_facebook }}" class="btn btn-info"><i class="fa fa-facebook"></i></a>
-                    <a href="{{ pageConfig.CATEGORY.categories1_instagram }}" class="btn btn-default"><i class="fa fa-instagram"></i></a>
+                    <div class="ui divider">{{ pageConfig.CATEGORY.categories_displayName }}</div>
+                    <a href="{{ pageConfig.CATEGORY.categories_facebook }}" class="btn btn-info"><i class="fa fa-facebook"></i></a>
+                    <a href="{{ pageConfig.CATEGORY.categories_instagram }}" class="btn btn-default"><i class="fa fa-instagram"></i></a>
                 </div>
                 <!-- /.End of donation widget -->
                 <div class="latest_post_widget">
                     <div class="title-holder">
-                        <h3 class="title">Latest in {{ pageConfig.CATEGORY.categories1_displayName }}</h3>
+                        <h3 class="title">Latest in {{ pageConfig.CATEGORY.categories_displayName }}</h3>
                         <span class="title-shape title-shape-dark"></span>
                     </div>
                     <!--  /.End of title -->
+                    {% for article in pageConfig.leftBar.LATEST %}
                     <div class="media latest_post">
-                        <a class="media-left" href="">
-                            <img src="{{ CONFIG.ASSETSURL }}/img/100x70-1.jpg" class="media-object" alt="">
-                        </a>
+                        {% if article.articles_thumbnail != null %}
+                           <a class="media-left" href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
+                                <img src="{{ article.articles_thumbnail }}" class="media-object" alt="">
+                            </a>
+                        {% endif %}
                         <div class="media-body">
-                            <h6 class="media-heading"><a href="#">The <em>Best Street-Style</em> Pics Copenhagen</a></h6>
+                            <h6 class="media-heading"><a href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h6>
                             <div class="entry-meta">
-                                <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i><time datetime="2018-01-21T19:00">Jan 21, 2018</time></span>
+                                <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ article.articles_published|date("d/M/y") }}</span>
                             </div>
                         </div>
                     </div>
-                    <!-- /.latest post -->
-                    <div class="media latest_post">
-                        <a class="media-left" href="">
-                            <img src="{{ CONFIG.ASSETSURL }}/img/100x70-2.jpg" class="media-object" alt="">
-                        </a>
-                        <div class="media-body">
-                            <h6 class="media-heading"><a href="#">The <em>Best Street-Style</em> Pics Copenhagen</a></h6>
-                            <div class="entry-meta">
-                                <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i><time datetime="2018-01-21T19:00">Jan 21, 2018</time></span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.latest post -->
-                    <div class="media latest_post">
-                        <a class="media-left" href="">
-                            <img src="{{ CONFIG.ASSETSURL }}/img/100x70-3.jpg" class="media-object" alt="">
-                        </a>
-                        <div class="media-body">
-                            <h6 class="media-heading"><a href="#">The <em>Best Street-Style</em> Pics Copenhagen</a></h6>
-                            <div class="entry-meta">
-                                <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i><time datetime="2018-01-21T19:00">Jan 21, 2018</time></span>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
             </aside>
             <main class="col-sm-8 col-md-9 content p_l_40">
                   {% for article in articles %}
                       <div class="media meida-md">
                           {% if article.articles_thumbnail != null %}
                               <div class="media-left">
-                                  <a href="#"><img src="{{ article.articles_thumbnail }}" class="media-object" alt="{{ article.articlesDrafts_headline }}"></a>
+                                  <a href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}"><img src="{{ article.articles_thumbnail }}" class="media-object" alt="{{ article.articlesDrafts_headline }}"></a>
                               </div>
                           {% endif %}
 
                           <div class="media-body">
                               <div class="post-header">
-                                  <h3 class="media-heading"><a href="#">{{ article.articlesDrafts_headline }}</a></h3>
+                                  <h3 class="media-heading"><a href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h3>
                                   <div class="entry-meta">
                                       <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ article.articles_published|date("j M Y") }}</span>
                                       {% for author in article.articles_authors %}
