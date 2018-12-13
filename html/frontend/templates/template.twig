@@ -12,10 +12,9 @@
             Nouse | Est 1964 | York University's oldest society and student newspaper
         {% endif %}
     </title>
-    <link href="{{ CONFIG.ASSETSURL }}img/favicon.png" rel="icon">
-    <link href="{{ CONFIG.ASSETSURL }}css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ CONFIG.ASSETSURL }}css/animsition.min.css" rel="stylesheet">
-    <link href="{{ CONFIG.ASSETSURL }}css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/css/animsition.min.css" integrity="sha256-FAIOZJGGkyuIp/gVrVL/k52z4rpCKMrRlYMdGCWstUo=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
     <link href="{{ CONFIG.ASSETSURL }}themify-icons/themify-icons.css" rel="stylesheet">
     <link href="{{ CONFIG.ASSETSURL }}css/bootsnav.css" rel="stylesheet">
     <link href="{{ CONFIG.ASSETSURL }}owl-carousel/owl.carousel.css" rel="stylesheet">
@@ -27,9 +26,10 @@
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="{{ CONFIG.ASSETSURL }}js/jquery.min.js"></script>
-    <script src="{{ CONFIG.ASSETSURL }}js/bootstrap.min.js"></script>
-    <script src="{{ CONFIG.ASSETSURL }}js/animsition.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/js/animsition.min.js" integrity="sha256-8y2mv4ETTGZLMlggdrgmCzthTVCNXGUdCQe1gd8qkyM=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-smooth-scroll/2.2.0/jquery.smooth-scroll.min.js" integrity="sha256-fdhzLBb+vMfwRwZKZPtza9iFcdVtEhrWRHhxSzEy4Ek=" crossorigin="anonymous"></script>
     <script src="{{ CONFIG.ASSETSURL }}js/bootsnav.js"></script>
     <script src="{{ CONFIG.ASSETSURL }}js/imagesloaded.pkgd.min.js"></script>
     <script src="{{ CONFIG.ASSETSURL }}js/ResizeSensor.min.js"></script>
@@ -68,6 +68,7 @@
         <meta property="og:description" content="Founded in 1964, making us the oldest society on campus, Nouse has consistently provided the student voice for generations of York students and an important critical voice of the University and the Students’ Union.">
         <meta property="og:url" content="https://nouse.co.uk">
     {% endblock %}
+
 </head>
 <body class="news-layout2">
 <div class="main-content animsition">
@@ -419,6 +420,40 @@
     <!-- /.End of footer -->
 </div>
 <!-- /.End of main content -->
+<script>
+    function ajaxCall(scriptURL, data, callbackSuccess, callbackError) {
+        if (data !== null) var senddata = data;
+        else var senddata = {};
+
+        $.ajax({
+            url: '{{ CONFIG.ROOTURL }}/api/' + scriptURL,
+            type: "POST",
+            data: senddata,
+            cache: false,
+            success: function (result) {
+                if (result.error || result.result != true) {
+                    if (typeof callbackError === "function") {
+                        callbackError(result);
+                    }
+                } else {
+                    if (typeof callbackSuccess === "function") {
+                        callbackSuccess(result);
+                    }
+                }
+                return false;
+            }, error: function (jqXHR, textStatus, errorThrown) {
+                console.log("Connection error");
+                if (typeof callbackError === "function") {
+                    callbackError(errorThrown);
+                }
+            }
+        });
+    }
+    $(document).ready(function () {
+        $('a').smoothScroll({offset: -100});
+    });
+</script>
+
 
 <script async src="https://www.googletagmanager.com/gtag/js?id={{ CONFIG.ANALYTICS.TRACKINGID }}"></script>
 <script>

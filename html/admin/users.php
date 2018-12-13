@@ -22,8 +22,7 @@ if (strlen($PAGEDATA['search']) > 0) {
 	$DBLIB->where("
 		users_username LIKE '%" . $PAGEDATA['search'] . "%'
 		OR users_name1 LIKE '%" . $PAGEDATA['search'] . "%'
-		OR users_name2 LIKE '%" . $PAGEDATA['search'] . "%'
-		OR users_displayName LIKE '%" . $PAGEDATA['search'] . "%'
+		OR users_name2 LIKE '%" . $PAGEDATA['search'] . "%'	
 		OR users_email LIKE '%" . $PAGEDATA['search'] . "%'
     ");
 }

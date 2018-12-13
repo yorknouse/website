@@ -185,6 +185,10 @@ class bCMS {
             return $presignedUrl;
         }
     }
+    public function cacheClear($URL) {
+        $this->auditLog("CACHECLEAR", null, $URL);
+        return true;
+    }
 }
 
 $GLOBALS['bCMS'] = new bCMS;

@@ -26,6 +26,7 @@ $CONFIG = array(
     "ROOTURL" => "", //Set on a frontend/backend basis
     "PROJECT_SUPPORT_EMAIL" => getenv('bCMS__SUPPORTEMAIL'),
     "FILESTOREURL" => getenv('bCMS__FILESTOREURL'),
+    "RECAPTCHA" => ['KEY' => getenv('bCMS__RECAPTCHA_KEY'), 'SECRET' => getenv('bCMS__RECAPTCHA_SECRET')],
     'AWS' => ['UPLOAD' => true, 'KEY' => getenv('bCMS__S3_KEY'), 'SECRET' => getenv('bCMS__S3_SECRET'), 'DEFAULTUPLOADS' => ['BUCKET' => getenv('bCMS__S3_BUCKET'), 'ENDPOINT' =>  getenv('bCMS__S3_ENDPOINT'), 'REGION' => getenv('bCMS__S3_REGION'), 'CDNEndpoint' => getenv('bCMS__S3_CDN')], "FINEUPLOADER" => ["KEY" => getenv('bCMS__S3_KEY'), "SECRET" =>  getenv('bCMS__S3_SECRET')]],
 );
 date_default_timezone_set("UTC");

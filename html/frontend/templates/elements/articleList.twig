@@ -1,0 +1,51 @@
+{% for article in articles %}
+    <div class="media meida-md">
+        {% if article.articles_thumbnail != null %}
+            <div class="media-left">
+                <a href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}"><img src="{{ CONFIG.FILESTOREURL ~ "/archive/public/articleImages/" ~ article.articles_thumbnail }}" class="media-object" alt="{{ article.articlesDrafts_headline }}"></a>
+            </div>
+        {% endif %}
+
+        <div class="media-body">
+            <div class="post-header">
+                <h3 class="media-heading"><a href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h3>
+                <div class="entry-meta">
+                    {% if article.articlesDrafts_byline != null %}
+                        <style>
+                            .articlebyline img {
+                                display:none; /* some old stuff */
+                            }
+                        </style>
+                        <p class="articlebyline">{{ article.articlesDrafts_byline|raw }}</p>
+                    {% endif %}
+                    <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ article.articles_published|date("j M Y") }}</span>
+                    {% for author in article.articles_authors %}
+                        <span class="comment-link"><a href="{{ CONFIG.ROOTURL }}/author/?a={{ author.users_userid }}">{{ author.users_name1 }} {{ author.users_name2 }}</a></span>
+                    {% endfor %}
+                </div>
+                <!-- /.Post meta -->
+            </div>
+        </div>
+    </div>
+{% endfor %}
+{% if pagination %}
+    {% if pagination.count > 30 %}
+            <p>Showing around {{ pagination.count|number_format }} articles</p>
+    {% endif %}
+<ul class="pagination">
+    {% if pagination.page > 1 %}
+        <li><a href="?{{ {page: (pagination.page -1)}|modifyGet }}">&#8701;</a></li>
+    {% endif %}
+
+    {% for i in range((pagination.page > 5 ? pagination.page-5 : 1), (pagination.total > 10 and pagination.page+5 < pagination.total ? pagination.page+5 : pagination.total)) %}
+        <li
+                {% if pagination.page == i %}
+            class="active"
+                {% endif %}><a href="?{{ {page: i}|modifyGet }}">{{ i }}</a></li>
+    {% endfor %}
+
+    {% if pagination.page < pagination.total %}
+        <li><a href="?{{ {page: (pagination.page +1)}|modifyGet }}">&#8702;</a></li>
+    {% endif %}
+</ul>
+{% endif %}

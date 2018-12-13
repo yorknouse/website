@@ -1,26 +1,6 @@
 {% extends "template.twig" %}
 {% block htmlIncludes %}
-    <script src="{{ CONFIG.ASSETSURL }}js/macy.js"></script>
-    <script>
-        $( document ).ready(function() {
-            var masonry = new Macy({
-                container: '#macy-container',
-                trueOrder: false,
-                waitForImages: false,
-                useOwnImageLoader: false,
-                debug: true,
-                mobileFirst: true,
-                columns: 1,
-                margin: 2,
-                breakAt: {
-                    1200: 2,
-                    992: 3,
-                    768: 2,
-                    480: 1
-                }
-            });
-        });
-    </script>
+
 {% endblock %}
 
 {% block prePageContent %}
@@ -53,11 +33,20 @@
     <div class="container">
         <div class="row">
             <aside class="col-sm-4 col-md-3 rightSidebar">
+                {% if pageConfig.CATEGORY.categories_facebook != null or pageConfig.CATEGORY.categories_instagram != null or pageConfig.CATEGORY.categories_twitter != null %}
                 <div class="about-card">
                     <div class="ui divider">{{ pageConfig.CATEGORY.categories_displayName }}</div>
-                    <a href="{{ pageConfig.CATEGORY.categories_facebook }}" class="btn btn-info"><i class="fa fa-facebook"></i></a>
-                    <a href="{{ pageConfig.CATEGORY.categories_instagram }}" class="btn btn-default"><i class="fa fa-instagram"></i></a>
+                    {% if pageConfig.CATEGORY.categories_facebook != null %}
+                    <a href="{{ pageConfig.CATEGORY.categories_facebook }}" class="btn link-btn btn-rounded" style="margin: 5px;"><i class="fa fa-facebook"></i> Facebook</a>
+                    {% endif %}
+                    {% if pageConfig.CATEGORY.categories_instagram != null %}
+                        <a href="{{ pageConfig.CATEGORY.categories_instagram }}" class="btn link-btn btn-rounded" style="margin: 5px;"><i class="fa fa-instagram"></i> Instagram</a>
+                    {% endif %}
+                    {% if pageConfig.CATEGORY.categories_twitter != null %}
+                        <a href="{{ pageConfig.CATEGORY.categories_twitter }}" class="btn link-btn btn-rounded" style="margin: 5px;"><i class="fa fa-twitter"></i> Twitter</a>
+                    {% endif %}
                 </div>
+                {% endif %}
                 <!-- /.End of donation widget -->
                 <div class="latest_post_widget">
                     <div class="title-holder">
@@ -68,12 +57,12 @@
                     {% for article in pageConfig.leftBar.LATEST %}
                     <div class="media latest_post">
                         {% if article.articles_thumbnail != null %}
-                           <a class="media-left" href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
-                                <img src="{{ article.articles_thumbnail }}" class="media-object" alt="">
+                           <a class="media-left" href="{{ CONFIG.ROOTURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
+                                <img src="{{ CONFIG.FILESTOREURL ~ "/archive/public/articleImages/" ~ article.articles_thumbnail }}" class="media-object" alt="">
                             </a>
                         {% endif %}
                         <div class="media-body">
-                            <h6 class="media-heading"><a href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h6>
+                            <h6 class="media-heading"><a href="{{ CONFIG.ROOTURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h6>
                             <div class="entry-meta">
                                 <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ article.articles_published|date("d/M/y") }}</span>
                             </div>
@@ -82,42 +71,8 @@
                     {% endfor %}
             </aside>
             <main class="col-sm-8 col-md-9 content p_l_40">
-                  {% for article in articles %}
-                      <div class="media meida-md">
-                          {% if article.articles_thumbnail != null %}
-                              <div class="media-left">
-                                  <a href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}"><img src="{{ article.articles_thumbnail }}" class="media-object" alt="{{ article.articlesDrafts_headline }}"></a>
-                              </div>
-                          {% endif %}
-
-                          <div class="media-body">
-                              <div class="post-header">
-                                  <h3 class="media-heading"><a href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h3>
-                                  <div class="entry-meta">
-                                      <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ article.articles_published|date("j M Y") }}</span>
-                                      {% for author in article.articles_authors %}
-                                          <span class="comment-link"><a href="{{ CONFIG.ROOTURL }}/author/?a={{ author.users_userid }}">{{ author.users_name1 }} {{ author.users_name2 }}</a></span>
-                                      {% endfor %}
-                                  </div>
-                                  <!-- /.Post meta -->
-                              </div>
-                              {% if article.articlesDrafts_byline != null %}
-                                  <p>{{ article.articlesDrafts_byline }}</p>
-                              {% endif %}
-                          </div>
-                      </div>
-                    {% endfor %}
-                </div>
-                <ul class="pagination">
-                    <li class="disabled"><a href="#">&#8701;</a></li>
-                    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li class="page-numbers"><span>...</span></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">&#8702;</a></li>
-                </ul>
-                <!-- /.End of pagination -->
+                {% embed 'elements/articleList.twig' with {'pagination': pagination, ' articles':  articles } %}
+                {% endembed %}
             </main>
         </div>
     </div>

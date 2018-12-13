@@ -1,124 +1,59 @@
 {% extends "template.twig" %}
 {% block htmlIncludes %}
-    <script src="{{ CONFIG.ASSETSURL }}js/macy.js"></script>
-    <script>
-        $( document ).ready(function() {
-            var masonry = new Macy({
-                container: '#macy-container',
-                trueOrder: false,
-                waitForImages: false,
-                useOwnImageLoader: false,
-                debug: true,
-                mobileFirst: true,
-                columns: 1,
-                margin: 2,
-                breakAt: {
-                    1200: 2,
-                    992: 3,
-                    768: 2,
-                    480: 1
-                }
-            });
-        });
-    </script>
 {% endblock %}
 {% block content %}
     <div class="container">
         <div class="row">
-            {{ dump(pageConfig)|raw }}
-
             <aside class="col-sm-4 col-md-3 rightSidebar">
                 <div class="about-card">
-                    <div class="ui divider">{{ pageConfig.CATEGORY.categories1_displayName }}</div>
-                    <a href="{{ pageConfig.CATEGORY.categories1_facebook }}" class="btn btn-info"><i class="fa fa-facebook"></i></a>
-                    <a href="{{ pageConfig.CATEGORY.categories1_instagram }}" class="btn btn-default"><i class="fa fa-instagram"></i></a>
+                    <div class="ui divider">{{ pageConfig.USER.users_name1 }} {{ pageConfig.USER.users_name2 }}</div>
+                    {% if pageConfig.USER.IMAGE %}
+                    <figure>
+                        <img src="{{ pageConfig.USER.IMAGE }}" class="img-responsive center-block" alt="{{ pageConfig.USER.users_name1 }} {{ pageConfig.USER.users_name2 }}">
+                    </figure>
+                    {% endif %}
+                    <p>{{ pageConfig.USER.users_bio|replace({"\n":"<br/>"})|raw }}</p>
+                    <p><em>{{ pageConfig.USER.users_name1 }}</em> has written {{ pageConfig.USER.ARTICLECOUNT }} article{{ (pageConfig.USER.ARTICLECOUNT != 1 ? "s" : "") }} for Nouse</p>
+                    {% if pageConfig.USER.users_social_facebook != null %}
+                        <a href="https://twitter.com/{{ pageConfig.USER.users_social_facebook }}" class="btn link-btn btn-rounded" style="margin: 5px;"><i class="fa fa-facebook"></i> Facebook</a>
+                    {% endif %}
+                    {% if pageConfig.USER.users_social_instagram != null %}
+                        <a href="https://instagram.com/{{ pageConfig.USER.users_social_instagram }}" class="btn link-btn btn-rounded" style="margin: 5px;"><i class="fa fa-instagram"></i> Instagram</a>
+                    {% endif %}
+                    {% if pageConfig.USER.users_social_twitter != null %}
+                        <a href="https://twitter.com/{{ pageConfig.USER.users_social_twitter }}" class="btn link-btn btn-rounded" style="margin: 5px;"><i class="fa fa-twitter"></i> Twitter</a>
+                    {% endif %}
+                    {% if pageConfig.USER.users_social_snapchat != null %}
+                        <a href="https://snapchat.com/add/{{ pageConfig.USER.users_social_snpachat }}" class="btn link-btn btn-rounded" style="margin: 5px;"><i class="fa fa-snapchat"></i> Snapchat</a>
+                    {% endif %}
                 </div>
-                <!-- /.End of donation widget -->
+                {% if pageConfig.USER.POSITIONS %}
                 <div class="latest_post_widget">
                     <div class="title-holder">
-                        <h3 class="title">Latest in {{ pageConfig.CATEGORY.categories1_displayName }}</h3>
+                        <h3 class="title">Positions</h3>
                         <span class="title-shape title-shape-dark"></span>
                     </div>
-                    <!--  /.End of title -->
+                    {% for position in pageConfig.USER.POSITIONS %}
                     <div class="media latest_post">
-                        <a class="media-left" href="">
-                            <img src="{{ CONFIG.ASSETSURL }}/img/100x70-1.jpg" class="media-object" alt="">
-                        </a>
                         <div class="media-body">
-                            <h6 class="media-heading"><a href="#">The <em>Best Street-Style</em> Pics Copenhagen</a></h6>
+                            <h6 class="media-heading">{{ (position.userPositions_displayName == null ? position.positions_displayName : position.userPositions_displayName) }}</h6>
                             <div class="entry-meta">
-                                <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i><time datetime="2018-01-21T19:00">Jan 21, 2018</time></span>
+                                <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>
+                                    {% if date(position.userPositions_end) > date() %}
+                                    Since {{ position.userPositions_start|date("M Y") }}
+                                    {% else %}
+                                    {{ position.userPositions_start|date("M Y") }}   to {{ position.userPositions_end|date("M Y") }}
+                                    {% endif %}</span>
                             </div>
                         </div>
                     </div>
-                    <!-- /.latest post -->
-                    <div class="media latest_post">
-                        <a class="media-left" href="">
-                            <img src="{{ CONFIG.ASSETSURL }}/img/100x70-2.jpg" class="media-object" alt="">
-                        </a>
-                        <div class="media-body">
-                            <h6 class="media-heading"><a href="#">The <em>Best Street-Style</em> Pics Copenhagen</a></h6>
-                            <div class="entry-meta">
-                                <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i><time datetime="2018-01-21T19:00">Jan 21, 2018</time></span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- /.latest post -->
-                    <div class="media latest_post">
-                        <a class="media-left" href="">
-                            <img src="{{ CONFIG.ASSETSURL }}/img/100x70-3.jpg" class="media-object" alt="">
-                        </a>
-                        <div class="media-body">
-                            <h6 class="media-heading"><a href="#">The <em>Best Street-Style</em> Pics Copenhagen</a></h6>
-                            <div class="entry-meta">
-                                <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i><time datetime="2018-01-21T19:00">Jan 21, 2018</time></span>
-                            </div>
-                        </div>
-                    </div>
-            </aside>
-            <main class="col-sm-8 col-md-9 content p_l_40">
-                <div id="macy-container">
-                    {% for article in articles %}
-                        {{ dump(article)|raw }}
-                    <article class="grid_post">
-                        <figure>
-                            <a href="#" class="grid_image">
-                                <img src="{{ CONFIG.ASSETSURL }}/img/grid-1.jpg" class="img-responsive" alt="">
-                            </a>
-                            <figcaption>
-                                <div class="post-cat"><a href="#">Fashion</a></div>
-                                <div class="entry-meta">
-                                    <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i><time datetime="2018-01-21T19:00">Jan 21, 2018</time></span>
-                                    {% for author in article.articles_authors %}
-                                    <span class="comment-link"><a href="{{ CONFIG.ROOTURL }}/author/?a={{ author.users_userid }}">{{ author.users_name1 }} {{ author.users_name2 }}</a></span>
-                                    {% endfor %}
-                                </div>
-                                <h4 class="grid_post_title"><a href="#">{{ article.articlesDrafts_headline }}</a></h4>
-                                <div class="element-block">
-                                    <a href="#" class="btn link-btn btn-outline btn-rounded">Reading &#8702;</a>
-                                    <!-- /.Post button -->
-                                    <div class="post_share">
-                                        <a class="smedia facebook fa fa-facebook" href="#"></a>
-                                        <a class="smedia twitter fa fa-twitter" href="#"></a>
-                                        <a class="smedia googleplus fa fa-google-plus" href="#"></a>
-                                    </div>
-                                    <!-- /.Post social share -->
-                                </div>
-                            </figcaption>
-                        </figure>
-                    </article>
                     {% endfor %}
                 </div>
-                <ul class="pagination">
-                    <li class="disabled"><a href="#">&#8701;</a></li>
-                    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li class="page-numbers"><span>...</span></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">&#8702;</a></li>
-                </ul>
-                <!-- /.End of pagination -->
+                {% endif %}
+            </aside>
+            <main class="col-sm-8 col-md-9 content p_l_40">
+                {% embed 'elements/articleList.twig' with {'pagination': pagination, ' articles':  articles } %}
+                {% endembed %}
             </main>
         </div>
     </div>

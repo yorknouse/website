@@ -1,7 +1,17 @@
 {% extends "template.twig" %}
 {% block htmlIncludes %}
+    <script src='https://www.google.com/recaptcha/api.js?render={{ CONFIG.RECAPTCHA.KEY }}'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js" integrity="sha256-yNbKY1y6h2rbVcQtf0b8lq4a+xpktyFc3pSYoGAY1qQ=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" integrity="sha256-R91pD48xW+oHbpJYGn5xR0Q7tMhH4xOrWn1QqMRINtA=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js" integrity="sha256-4F7e4JsAJyLUdpP7Q8Sah866jCOhv72zU5E8lIRER4w=" crossorigin="anonymous"></script>
 {% endblock %}
-
+{% block htmlMeta %}
+    {% if POST.articles_thumbnail != null %}
+        <meta property="og:image" content="{{ CONFIG.FILESTOREURL ~ "/archive/public/articleImages/" ~ POST.articles_thumbnail }}">
+    {% endif %}
+    <meta property="og:title" content="{{ POST.articlesDrafts_headline|raw }}">
+    <meta property="og:description" content="{{ POST.articlesDrafts_byline|raw }}">
+{% endblock %}
 {% block content %}
 <div class="container">
     <div class="row">
@@ -21,11 +31,22 @@
                         <div class="element-block">
                             <div class="entry-meta">
                                 <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ POST.articles_published|date("l j M Y") }}</span>
-                                <span class="comment-link"><a href="#"><i class="fa fa-comment-o" aria-hidden="true"></i>{{ POST.COMMENTS|length }} Comment{{ POST.COMMENTS|length != 1 ? "s" : "" }}</a></span>
+                                {% if POST.COMMENTCOUNT > 0 %}
+                                <span class="comment-link"><a href="#comments"><i class="fa fa-comment-o" aria-hidden="true"></i>{{ POST.COMMENTCOUNT }} Comment{{ POST.COMMENTCOUNT != 1 ? "s" : "" }}</a></span>
+                                {% endif %}
+                                {% for author in POST.articles_authors %}
+                                    <span class="comment-link"><a href="{{ CONFIG.ROOTURL }}/author/?a={{ author.users_userid }}">{{ author.users_name1 }} {{ author.users_name2 }}</a></span>
+                                {% endfor %}
                             </div>
-                            <div class="reading-time"><span class="eta"></span> ({{ POST.articlesDrafts_text|split(' ')|length }} words)</div>
+                            <!--<div class="reading-time"><span class="eta"></span> ({{ POST.articlesDrafts_text|split(' ')|length }} words)</div>-->
                         </div>
                     </header>
+                    {% if POST.articles_archiveFallback %}
+                    <div class="alert alert-warning">
+                        <strong>Archive</strong> This article is from our archive and might not display correctly. <a href="{{ CONFIG.FILESTOREURL }}/archive/public/articles/{{ POST.articles_archiveFallback }}">Download PDF</a>
+                    </div>
+                    {% endif %}
+
                     <style>
                         .legacyWordpressFigure {
                             padding: 8px;
@@ -34,123 +55,182 @@
                         .legacyWordpressFigureImage {
                             padding: 0;
                             float:left;
+                            width: 100%;
                         }
                         .legacyWordpressImage {
                             float:left;
                             padding: 10px;
                         }
                     </style>
-                    <div>
-                    {{ POST.articlesDrafts_text|replace({"\n": "<br/>", "[ARCHIVECDNURL]":CONFIG.FILESTOREURL ~ "/archive/public"})|raw }}
+                    <div style="font-size: 17px;line-height: 25px;">
+                    {{ POST.articlesDrafts_text|replace({"PS": "&pound;", "\n": "<br/>", "[ARCHIVECDNURL]":CONFIG.FILESTOREURL ~ "/archive/public"})|raw }}
                     </div>
                 </div>
                 <!-- /.End of post details -->
                 <div class="stickyshare hidden-xs">
                     <aside class="share_article">
-                        <a href="#" class="boxed_icon facebook" data-share-url="{{ POST.url }}" data-share-network="facebook" data-share-text="{{ POST.title }}" data-share-title="Facebook Share"><i class="fa fa-facebook"></i></a>
-                        <a href="#" class="boxed_icon twitter" data-share-url="{{ POST.url }}" data-share-network="twitter" data-share-text="{{ POST.title }}" data-share-title="Twitter Share" data-share-via="yorknouse"><i class="fa fa-twitter"></i></a>
-                        <a href="#comment" class="boxed_icon comment"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" width="14" height="14" viewBox="0 0 14 14" enable-background="new 0 0 14 14" xml:space="preserve"><path d="M3.6 14c0 0-0.1 0-0.1 0 -0.1-0.1-0.2-0.2-0.2-0.3v-2.7h-2.9C0.2 11 0 10.8 0 10.6V0.4C0 0.2 0.2 0 0.4 0h13.3C13.8 0 14 0.2 14 0.4v10.2c0 0.2-0.2 0.4-0.4 0.4H6.9L3.9 13.9C3.8 14 3.7 14 3.6 14zM0.7 10.2h2.9c0.2 0 0.4 0.2 0.4 0.4v2.2l2.5-2.4c0.1-0.1 0.2-0.1 0.2-0.1h6.6v-9.5H0.7V10.2z"></path></svg><span>COMMENT COUNT</span></a>
+                        <a href="#" class="boxed_icon facebook" data-share-url="{{ CONFIG.ROOTURL }}/{{ POST.articles_published|date("Y/m/d") }}/{{ POST.articles_slug }}" data-share-network="facebook" data-share-text="{{ POST.articlesDrafts_headline }}" data-share-title="Facebook Share"><i class="fa fa-facebook"></i></a>
+                        <a href="#" class="boxed_icon twitter" data-share-url="{{ CONFIG.ROOTURL }}/{{ POST.articles_published|date("Y/m/d") }}/{{ POST.articles_slug }}" data-share-network="twitter" data-share-text="{{ POST.articlesDrafts_headline }}" data-share-title="Twitter Share" data-share-via="yorknouse"><i class="fa fa-twitter"></i></a>
+                        {% if POST.COMMENTCOUNT > 0 %}
+                        <a href="#comments" class="boxed_icon comment"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" width="14" height="14" viewBox="0 0 14 14" enable-background="new 0 0 14 14" xml:space="preserve"><path d="M3.6 14c0 0-0.1 0-0.1 0 -0.1-0.1-0.2-0.2-0.2-0.3v-2.7h-2.9C0.2 11 0 10.8 0 10.6V0.4C0 0.2 0.2 0 0.4 0h13.3C13.8 0 14 0.2 14 0.4v10.2c0 0.2-0.2 0.4-0.4 0.4H6.9L3.9 13.9C3.8 14 3.7 14 3.6 14zM0.7 10.2h2.9c0.2 0 0.4 0.2 0.4 0.4v2.2l2.5-2.4c0.1-0.1 0.2-0.1 0.2-0.1h6.6v-9.5H0.7V10.2z"></path></svg><span>{{ POST.COMMENTCOUNT }}</span></a>
+                        {% endif %}
                     </aside>
                 </div>
                 <!-- /End of share icon -->
             </div>
             <!-- /.End of details body -->
             <aside class="about-author">
-                <h3>About The Author</h3>
+                <h3>About The Author{{ POST.articles_authors|length != 1 ? "s" : "" }}</h3>
+
+                    {% for author in POST.articles_authors %}
                 <div class="author-bio">
-                    <div class="author-img">
-                        <a href="#"><img alt="Johnny Doe" src="{{ CONFIG.ASSETSURL }}img/about-avatar.jpg" class="avatar img-responsive"></a>
-                    </div>
-                    <!-- /. Author-img -->
-                    <div class="author-info">
-                        <h4 class="author-name">Johnny Doe</h4>
-                        <p>Johnny Doe was born in Ulm, in the Kingdom of Württemberg in the German Empire on 14 March 1879. His father was Hermann Einstein, a salesman and engineer. He was a really good man for sure.</p>
+                        {% if author.IMAGE %}
+                            <div class="author-img">
+                                <a href="{{ CONFIG.ROOTURL }}/author/?a={{ author.users_userid }}"><img alt="{{ author.users_name1 }} {{ author.users_name2 }}" src="{{ author.IMAGE }}" class="avatar img-responsive"></a>
+                            </div>
+                        {% endif %}
+
+                        <div class="author-info">
+                        <h4 class="author-name">{{ author.users_name1 }} {{ author.users_name2 }}</h4>
+                        {% for position in author.POSITIONS %}
+                            <b>{{ (position.userPositions_displayName == null ? position.positions_displayName : position.userPositions_displayName) }}</b> (
+                            <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                            {% if date(position.userPositions_end) > date() %}
+                                Since {{ position.userPositions_start|date("M Y") }}
+                            {% else %}
+                                {{ position.userPositions_start|date("M Y") }}   to {{ position.userPositions_end|date("M Y") }}
+                            {% endif %}
+                            )<br/>
+                        {% endfor %}
+                        <p>{{ author.users_bio|replace({"\n":"<br/>"})|raw }}</p>
+
                         <p>
-                            <a class="social-link facebook" href="#"><i class="fa fa-facebook"></i></a>
-                            <a class="social-link twitter" href="#"><i class="fa fa-twitter"></i></a>
-                            <a class="social-link vine" href="#"><i class="fa fa-vine"></i></a>
-                            <a class="social-link dribbble" href="#"><i class="fa fa-dribbble"></i></a>
-                            <a class="social-link instagram" href="#"><i class="fa fa-instagram"></i></a>
+                        {% if author.users_social_facebook != null %}
+                            <a href="https://twitter.com/{{ author.users_social_facebook }}" class="social-link facebook" style="margin: 5px;"><i class="fa fa-facebook"></i></a>
+                        {% endif %}
+                        {% if author.users_social_instagram != null %}
+                            <a href="https://instagram.com/{{ author.users_social_instagram }}" class="social-link instagram" style="margin: 5px;"><i class="fa fa-instagram"></i></a>
+                        {% endif %}
+                        {% if author.users_social_twitter != null %}
+                            <a href="https://twitter.com/{{ author.users_social_twitter }}" class="social-link twitter" style="margin: 5px;"><i class="fa fa-twitter"></i></a>
+                        {% endif %}
+                        {% if author.users_social_snapchat != null %}
+                            <a href="https://snapchat.com/add/{{ author.users_social_snpachat }}" class="social-link" style="margin: 5px;"><i class="fa fa-snapchat"></i></a>
+                        {% endif %}
+
                         </p>
                     </div>
-                    <!-- /. Author-info -->
                 </div>
+                    {% endfor %}
+
                 <!-- /.End of author bio -->
             </aside>
             <!-- /.End of about author -->
             <div class="post_related">
                 <h3 class="related_post_title">You Might Also Like...</h3>
                 <div class="row">
-                    <div class="col-sm-4">
-                        <article class="post_article item_related">
-                            <a class="post_img" href="#">
-                                <figure>
-                                    <img class="img-responsive" src="{{ CONFIG.ASSETSURL }}img/400x280-7.jpg" alt="">
-                                </figure>
-                            </a>
-                            <h4><a href="#">Ut et nunc a <em><strong>dolor sodales</strong></em> lacinia quis ac justo.</a></h4>
-                        </article>
-                        <!-- /.End of related post -->
-                    </div>
-                    <div class="col-sm-4">
-                        <article class="post_article item_related">
-                            <a class="post_img" href="#">
-                                <figure>
-                                    <img class="img-responsive" src="{{ CONFIG.ASSETSURL }}img/400x280-8.jpg" alt="">
-                                </figure>
-                            </a>
-                            <h4><a href="#">Aliquam <em><strong>gravida urna</strong></em> ut ipsum hendrerit cursus.</a></h4>
-                        </article>
-                        <!-- /.End of related post -->
-                    </div>
-                    <div class="col-sm-4">
-                        <article class="post_article item_related">
-                            <a class="post_img" href="#">
-                                <figure>
-                                    <img class="img-responsive" src="{{ CONFIG.ASSETSURL }}img/400x280-9.jpg" alt="">
-                                </figure>
-                            </a>
-                            <h4><a href="#">Aliquam eu nunc at nulla efficitur <em><strong>pellentesque a quis.</strong></em></a></h4>
-                        </article>
-                        <!-- /.End of related post -->
-                    </div>
+                    {% for article in pageConfig.SIMILAR %}
+                        <div class="col-sm-4">
+                            <article class="post_article item_related">
+                                {% if article.articles_thumbnail != null %}
+                                    <a class="post_img" href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
+                                    <figure>
+                                        <img class="img-responsive" src="{{ CONFIG.FILESTOREURL ~ "/archive/public/articleImages/" ~ article.articles_thumbnail }}" alt="">
+                                    </figure>
+                                </a>
+                                {% endif %}
+                                <h4><a href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h4>
+                            </article>
+                            <!-- /.End of related post -->
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
             <!-- /.End of  related post -->
-            <div class="comments">
-                <h3 class="comment_title">{{ POST.COMMENTS|length }} Comment{{ POST.COMMENTS|length != 1 ? "s" : "" }}</h3>
+            <style>
+                .reportComment, .replyComment {
+                    margin-left: 10px;
+                }
+            </style>
+            {% if POST.COMMENTS|length > 0 %}
+            <div class="comments" id="comments">
+                <h3 class="comment_title">{{ POST.COMMENTCOUNT }} Comment{{ POST.COMMENTCOUNT|length != 1 ? "s" : "" }}</h3>
                 {% for comment in POST.COMMENTS %}
                 <div class="media">
-                    <div class="media-body">
+                   <div class="media-body">
                         <h4 class="media-heading">{{ (comment.comments_authorName|length > 0 ? comment.comments_authorName : '<em>Anonymous</em>')|raw }} <small>Posted on {{ comments.comments_created|date("l j M Y") }}</small></h4>
-                        <p>{{ comment.comments_text }}</p>
-                        {{ dump(comment.SUB)|raw }}
-                        <a href="#" class="btn link-btn btn-rounded">Report</a>
+                        <p>{{ comment.comments_text|replace({"\n": "<br/>"})|raw }}</p>
+                       <button data-commentid="{{ comment.comments_id }}" class="upvoteComment btn link-btn btn-rounded"><i class="fa fa-thumbs-up"></i> <span>{{ comment.comments_upvotes }}</span></button>
+                       <button data-commentid="{{ comment.comments_id }}" class="downvoteComment btn link-btn btn-rounded"><i class="fa fa-thumbs-down"></i> <span>{{ comment.comments_downvotes }}</span></button>
+                       <a href="#makeComment" data-commentid="{{ comment.comments_id }}" data-commentname="{{ (comment.comments_authorName|length > 0 ? comment.comments_authorName : 'Anonymous')|raw }}"  class="replyComment btn link-btn btn-rounded"><i class="fa fa-reply"></i> Reply</a>
+                       <button data-commentid="{{ comment.comments_id }}" class="reportComment btn link-btn btn-rounded btn-outline "><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Report</button>
+                        {% for comment in comment.SUB %}
+                            <div class="media" style="margin-left: 40px;">
+                                <div class="media-body">
+                                    <h4 class="media-heading">{{ (comment.comments_authorName|length > 0 ? comment.comments_authorName : '<em>Anonymous</em>')|raw }} <small>Posted on {{ comments.comments_created|date("l j M Y") }}</small></h4>
+                                    <p>{{ comment.comments_text|replace({"\n": "<br/>"})|raw }}</p>
+                                    <button data-commentid="{{ comment.comments_id }}" class="upvoteComment btn link-btn btn-rounded"><i class="fa fa-thumbs-up"></i> <span>{{ comment.comments_upvotes }}</span></button>
+                                    <button data-commentid="{{ comment.comments_id }}" class="downvoteComment btn link-btn btn-rounded"><i class="fa fa-thumbs-down"></i> <span>{{ comment.comments_downvotes }}</span></button>
+                                    <a href="#makeComment" data-commentid="{{ comment.comments_id }}" data-commentname="{{ (comment.comments_authorName|length > 0 ? comment.comments_authorName : 'Anonymous')|raw }}"  class="replyComment btn link-btn btn-rounded"><i class="fa fa-reply"></i> Reply</a>
+                                    <button data-commentid="{{ comment.comments_id }}" class="reportComment btn link-btn btn-rounded"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Report</button>
+                                    {% for comment in comment.SUB %}
+                                        <div class="media" style="margin-left: 40px;">
+                                            <div class="media-body">
+                                                <h4 class="media-heading">{{ (comment.comments_authorName|length > 0 ? comment.comments_authorName : '<em>Anonymous</em>')|raw }} <small>Posted on {{ comments.comments_created|date("l j M Y") }}</small></h4>
+                                                <p>{{ comment.comments_text|replace({"\n": "<br/>"})|raw }}</p>
+                                                <button data-commentid="{{ comment.comments_id }}" class="upvoteComment btn link-btn btn-rounded"><i class="fa fa-thumbs-up"></i> <span>{{ comment.comments_upvotes }}</span></button>
+                                                <button data-commentid="{{ comment.comments_id }}" class="downvoteComment btn link-btn btn-rounded"><i class="fa fa-thumbs-down"></i> <span>{{ comment.comments_downvotes }}</span></button>
+                                                <button data-commentid="{{ comment.comments_id }}" class="reportComment btn link-btn btn-rounded"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Report</button>
+                                                {% for comment in comment.SUB %}
+                                                    <div class="media" style="margin-left: 40px;">
+                                                        <div class="media-body">
+                                                            <h4 class="media-heading">{{ (comment.comments_authorName|length > 0 ? comment.comments_authorName : '<em>Anonymous</em>')|raw }} <small>Posted on {{ comments.comments_created|date("l j M Y") }}</small></h4>
+                                                            <p>{{ comment.comments_text|replace({"\n": "<br/>"})|raw }}</p>
+                                                            <button data-commentid="{{ comment.comments_id }}" class="upvoteComment btn link-btn btn-rounded"><i class="fa fa-thumbs-up"></i> <span>{{ comment.comments_upvotes }}</span></button>
+                                                            <button data-commentid="{{ comment.comments_id }}" class="downvoteComment btn link-btn btn-rounded"><i class="fa fa-thumbs-down"></i> <span>{{ comment.comments_downvotes }}</span></button>
+                                                            <button data-commentid="{{ comment.comments_id }}" class="reportComment btn link-btn btn-rounded"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Report</button>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
                 {% endfor %}
             </div>
-            <!-- /.End of comment -->
+            {% endif %}
             <div class="comment_form">
-                <h3 class="replay_title">Comment on this article</h3>
+                <h3 class="replay_title" id="makeComment">Comment on this article</h3>
                 <div class="form-group">
-                    <textarea class="form-control" id="textarea" rows="3" placeholder=""></textarea>
+                    <textarea class="form-control" id="commentText" rows="3" placeholder=""></textarea>
                 </div>
                 <div class="form-group row">
-                    <label for="name" class="col-sm-2 col-form-label">Name *</label>
+                    <label for="name" class="col-sm-2 col-form-label">Name</label>
                     <div class="col-sm-5">
-                        <input class="form-control" id="name2" type="text">
+                        <input class="form-control" id="commentName" type="text" placeholder="Anonymous">
                     </div>
                 </div>
+                <!--
                 <div class="form-group row">
                     <label for="email" class="col-sm-2 col-form-label">Email</label>
                     <div class="col-sm-5">
-                        <input class="form-control" id="email3" type="text">
+                        <input class="form-control" id="commentEmail" type="text" placeholder="Anonymous">
                     </div>
                 </div>
-                <a href="#" class="btn link-btn">Post Comment ⇾</a>
+                 -->
+                <button id="submitComment" class="btn link-btn">Post Comment ⇾</button>
             </div>
-            <!-- /.End of comment content -->
+            <!--Hide the badge on the basis we show more info to the user here-->
+            <p><b>Disclaimer: </b>this page is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
+            <style>
+                .grecaptcha-badge {
+                    display:none;
+                }
+            </style>
         </main>
         <aside class="col-sm-4 col-md-3 rightSidebar">
             <!--<div class="about-card">
@@ -167,87 +247,110 @@
                     <span class="title-shape title-shape-dark"></span>
                 </div>
                 <!--  /.End of title -->
-                <div class="media latest_post">
-                    <a class="media-left" href="">
-                        <img src="{{ CONFIG.ASSETSURL }}img/100x70-1.jpg" class="media-object" alt="">
-                    </a>
-                    <div class="media-body">
-                        <h6 class="media-heading"><a href="#">The <em>Best Street-Style</em> Pics Copenhagen</a></h6>
-                        <div class="entry-meta">
-                            <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i><time datetime="2018-01-21T19:00">Jan 21, 2018</time></span>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.latest post -->
-                <div class="media latest_post">
-                    <a class="media-left" href="">
-                        <img src="{{ CONFIG.ASSETSURL }}img/100x70-2.jpg" class="media-object" alt="">
-                    </a>
-                    <div class="media-body">
-                        <h6 class="media-heading"><a href="#">The <em>Best Street-Style</em> Pics Copenhagen</a></h6>
-                        <div class="entry-meta">
-                            <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i><time datetime="2018-01-21T19:00">Jan 21, 2018</time></span>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.latest post -->
-                <div class="media latest_post">
-                    <a class="media-left" href="">
-                        <img src="{{ CONFIG.ASSETSURL }}img/100x70-3.jpg" class="media-object" alt="">
-                    </a>
-                    <div class="media-body">
-                        <h6 class="media-heading"><a href="#">The <em>Best Street-Style</em> Pics Copenhagen</a></h6>
-                        <div class="entry-meta">
-                            <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i><time datetime="2018-01-21T19:00">Jan 21, 2018</time></span>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.latest post -->
+
             </div>
             <div class="latest_post_widget">
                 <div class="title-holder">
-                    <h3 class="title">Latest</h3>
+                    <h3 class="title">Latest in {{ POST['CATEGORIES'][0].categories_displayName }}</h3>
                     <span class="title-shape title-shape-dark"></span>
                 </div>
-                <!--  /.End of title -->
-                <div class="media latest_post">
-                    <a class="media-left" href="">
-                        <img src="{{ CONFIG.ASSETSURL }}img/100x70-1.jpg" class="media-object" alt="">
-                    </a>
-                    <div class="media-body">
-                        <h6 class="media-heading"><a href="#">The <em>Best Street-Style</em> Pics Copenhagen</a></h6>
-                        <div class="entry-meta">
-                            <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i><time datetime="2018-01-21T19:00">Jan 21, 2018</time></span>
+                {% for article in pageConfig.leftBar.LATEST %}
+                    <div class="media latest_post">
+                        {% if article.articles_thumbnail != null %}
+                            <a class="media-left" href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
+                                <img src="{{ CONFIG.FILESTOREURL ~ "/archive/public/articleImages/" ~ article.articles_thumbnail }}" class="media-object" alt="">
+                            </a>
+                        {% endif %}
+                        <div class="media-body">
+                            <h6 class="media-heading"><a href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h6>
+                            <div class="entry-meta">
+                                <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ article.articles_published|date("d/M/y") }}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- /.latest post -->
-                <div class="media latest_post">
-                    <a class="media-left" href="">
-                        <img src="{{ CONFIG.ASSETSURL }}img/100x70-2.jpg" class="media-object" alt="">
-                    </a>
-                    <div class="media-body">
-                        <h6 class="media-heading"><a href="#">The <em>Best Street-Style</em> Pics Copenhagen</a></h6>
-                        <div class="entry-meta">
-                            <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i><time datetime="2018-01-21T19:00">Jan 21, 2018</time></span>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.latest post -->
-                <div class="media latest_post">
-                    <a class="media-left" href="">
-                        <img src="{{ CONFIG.ASSETSURL }}img/100x70-3.jpg" class="media-object" alt="">
-                    </a>
-                    <div class="media-body">
-                        <h6 class="media-heading"><a href="#">The <em>Best Street-Style</em> Pics Copenhagen</a></h6>
-                        <div class="entry-meta">
-                            <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i><time datetime="2018-01-21T19:00">Jan 21, 2018</time></span>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
                 <!-- /.latest post -->
             </div>
         </aside>
     </div>
 </div>
+    <script>
+        var replyToComment = null; //Comment user is replying to
+        $( document ).ready(function () {
+            ajaxCall("readCounter.php", {"articleid": "{{ POST.articles_id }}"});
+            $(".reportComment").click(function(){
+                var dialog = bootbox.dialog({
+                    title: 'Report Comment',
+                    message: '<p>To report this comment as inappropriate please email <a href="mailto:web@nouse.co.uk">web@nouse.co.uk</a> quoting comment reference number ' + $(this).data("commentid") + "</p>",
+                    buttons: {
+                        ok: {
+                            label: "Close",
+                            className: 'btn-default'
+                        }
+                    },
+                    backdrop: true
+                });
+
+            });
+            grecaptcha.ready(function() {
+                $(".upvoteComment").click(function(){
+                    var commentid = $(this).data("commentid");
+                    var updateCountID = $(this).find( "span" );
+                    if ($(updateCountID).data("voted")) {
+                        toastr["warning"]("Sorry you can't vote twice", "Can't vote again");
+                    } else {
+                        grecaptcha.execute('{{ CONFIG.RECAPTCHA.KEY }}', {action: 'voteCommentUP'}).then(function(token) {
+                            ajaxCall("voteComment.php", {"recaptcha": token, "commentid": commentid, "type":"UP"}, function () {
+                                toastr["success"]("", "Vote recorded");
+                                $(updateCountID).html(parseInt($(updateCountID).html())+1);
+                                $(updateCountID).data("voted",true);
+                            }, function () {
+                                toastr["error"]("Sorry we can't connect to Nouse to log your vote", "Can't connect");
+                            });
+                        });
+                    }
+
+                });
+                $(".downvoteComment").click(function(){
+                    var commentid = $(this).data("commentid");
+                    var updateCountID = $(this).find( "span" );
+                    if ($(updateCountID).data("voted")) {
+                        toastr["warning"]("Sorry you can't vote twice", "Can't vote again");
+                    } else {
+                        grecaptcha.execute('{{ CONFIG.RECAPTCHA.KEY }}', {action: 'voteCommentDOWN'}).then(function (token) {
+                            ajaxCall("voteComment.php", {
+                                "recaptcha": token,
+                                "commentid": commentid,
+                                "type": "DOWN"
+                            }, function () {
+                                toastr["success"]("", "Vote recorded");
+                                $(updateCountID).html(parseInt($(updateCountID).html()) + 1);
+                                $(updateCountID).data("voted", true);
+                            }, function () {
+                                toastr["error"]("Sorry we can't connect to Nouse to log your vote", "Can't connect");
+                            });
+                        });
+                    }
+                });
+                $(".replyComment").click(function(){
+                    replyToComment = $(this).data("commentid");
+                    $("#makeComment").html("Reply to a comment by " + $(this).data("commentname"));
+                });
+                $("#submitComment").click(function(){
+                    if ($("#commentText").val().length > 0) {
+                        grecaptcha.execute('{{ CONFIG.RECAPTCHA.KEY }}', {action: 'addComment'}).then(function(token) {
+                            ajaxCall("addComment.php", {"articleid": "{{ POST.articles_id }}", "commentid": replyToComment,"recaptcha": token, "text":$("#commentText").val(), "name":$("#commentName").val()}, function () {
+                                toastr["success"]("", "Comment added");
+                                location.reload();
+                            }, function () {
+                                toastr["error"]("Sorry we can't connect to Nouse to add your comment", "Can't connect");
+                            });
+                        });
+                    } else {
+                        toastr["warning"]("Please add a longer comment", "Comment too short");
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

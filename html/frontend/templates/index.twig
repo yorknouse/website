@@ -1,8 +1,51 @@
 {% extends "template.twig" %}
 {% block htmlIncludes %}
 <script src="{{ CONFIG.ASSETSURL }}js/macy.js"></script>
+<script src="{{ CONFIG.ASSETSURL }}owl-carousel/owl.carousel.min.js"></script>
 <script>
+
     $( document ).ready(function() {
+        $(".masonry-slide1").owlCarousel({
+            autoPlay: 4000, //Set AutoPlay
+            navigation: false, // Show next and prev buttons
+            slideSpeed: 300,
+            paginationSpeed: 400,
+            singleItem: true
+        });
+        $(".masonry-slide2").owlCarousel({
+            autoPlay: 4500, //Set AutoPlay
+            navigation: false, // Show next and prev buttons
+            slideSpeed: 300,
+            paginationSpeed: 400,
+            singleItem: true
+        });
+        $(".masonry-slide3").owlCarousel({
+            autoPlay: 5000, //Set AutoPlay
+            navigation: false, // Show next and prev buttons
+            slideSpeed: 300,
+            paginationSpeed: 400,
+            singleItem: true
+        });
+        $(".masonry-slide4").owlCarousel({
+            autoPlay: 5500, //Set AutoPlay
+            navigation: false, // Show next and prev buttons
+            slideSpeed: 300,
+            paginationSpeed: 400,
+            singleItem: true
+        });
+        var owl = $("#newsTicker");
+        owl.owlCarousel({
+            autoPlay: 5000, //Set AutoPlay to 5 seconds
+            singleItem: true,
+            transitionStyle: "goDown",
+            pagination: false,
+            navigation: true,
+            navigationText: [
+                "<i class='fa fa-angle-left'></i>",
+                "<i class='fa fa-angle-right'></i>"
+            ]
+        });
+
         var masonry = new Macy({
             container: '#macy-container',
             trueOrder: false,

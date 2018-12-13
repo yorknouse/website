@@ -497,7 +497,9 @@
 // Page Loader Animsition
 // -------------------------------------------------------------------------- //
         pageLoader: function () {
-            $('.animsition').animsition();
+            $('.animsition').animsition({
+                loadingInner: '<img src="https://nouse.ams3.cdn.digitaloceanspaces.com/site-assets/logo/kingfisher.svg" style="width: 80px;" />',
+            });
         },
 // -------------------------------------------------------------------------- //
 // Image Fluid Box
