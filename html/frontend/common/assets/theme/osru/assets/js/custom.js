@@ -20,7 +20,6 @@
             this.postSlider();
             this.postCarousel();
             this.videoSlider();
-            this.pageLoader();
             this.imgfluidbox();
             this.socialShare();
             this.youtubeVideo();
@@ -133,6 +132,7 @@
 // Masonry Slide
 // -------------------------------------------------------------------------- //  
         masonrySlide: function () {
+            /*
             $(".masonry-slide1").owlCarousel({
                 autoPlay: 4000, //Set AutoPlay
                 navigation: false, // Show next and prev buttons
@@ -161,12 +161,13 @@
                 paginationSpeed: 400,
                 singleItem: true
             });
+            */
         },
 // -------------------------------------------------------------------------- //
 // Back to top
 // -------------------------------------------------------------------------- //  
         toTop: function () {
-            $('body').append('<div id="toTop" class="btn btn-top"><span class="ti-arrow-up"></span></div>');
+            $('body').append('<div id="toTop" class="btn btn-top"><i class="fa fa-arrow-up"></i></div>');
             $(window).scroll(function () {
                 if ($(this).scrollTop() !== 0) {
                     $('#toTop').fadeIn();
@@ -183,6 +184,7 @@
 // Instagram
 // -------------------------------------------------------------------------- //
         instagram: function () {
+            /*
             $('#ri-grid').gridrotator({
                 rows: 1,
                 columns: 8,
@@ -210,11 +212,13 @@
                     columns: 3
                 }
             });
+            */
         },
 // -------------------------------------------------------------------------- //
 // NewsTicker
 // -------------------------------------------------------------------------- //
         newsTicker: function () {
+            /*
             var owl = $("#newsTicker");
             owl.owlCarousel({
                 autoPlay: 5000, //Set AutoPlay to 5 seconds
@@ -227,11 +231,13 @@
                     "<i class='fa fa-angle-right'></i>"
                 ]
             });
+            */
         },
 // -------------------------------------------------------------------------- //
 // Blog Slide
 // -------------------------------------------------------------------------- //
         blogSlide: function () {
+            /*
             var time = 7; // time in seconds
             var $progressBar,
                     $bar,
@@ -306,6 +312,7 @@
                 //start again
                 start();
             }
+            */
         },
 // -------------------------------------------------------------------------- //
 // Accordion
@@ -333,6 +340,7 @@
 // Gallery
 // -------------------------------------------------------------------------- //
         gallery: function () {
+            /*
             var sync1 = $("#sync1");
             var sync2 = $("#sync2");
             sync1.owlCarousel({
@@ -396,11 +404,13 @@
                     sync2.trigger("owl.goTo", num - 1);
                 }
             }
+            */
         },
 // -------------------------------------------------------------------------- //
 // Zoom Gallery
 // -------------------------------------------------------------------------- //    
         popupGallery: function () {
+            /*
             $('.popup-gallery').magnificPopup({
                 delegate: 'a',
                 type: 'image',
@@ -412,6 +422,7 @@
                     preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
                 }
             });
+            */
         },
 // -------------------------------------------------------------------------- //
 // Fixed Footer
@@ -440,6 +451,7 @@
 // Post Slider
 // -------------------------------------------------------------------------- //
         postSlider: function () {
+            /*
             $("#post-slide").owlCarousel({
                 // autoPlay: 5000, //Set AutoPlay to 5 seconds
                 items: 3,
@@ -455,11 +467,13 @@
                     "<i class='fa fa-angle-right'></i>"
                 ]
             });
+            */
         },
 // -------------------------------------------------------------------------- //
 // Post Carousel
 // -------------------------------------------------------------------------- //
         postCarousel: function () {
+            /*
             $(".post-carousel").owlCarousel({
                 autoPlay: 5000, //Set AutoPlay to 5 seconds
                 items: 5,
@@ -475,11 +489,13 @@
                     "<i class='fa fa-angle-right'></i>"
                 ]
             });
+            */
         },
 // -------------------------------------------------------------------------- //
 // Video Slider
 // -------------------------------------------------------------------------- //
         videoSlider: function () {
+            /*
             $("#video_slide").owlCarousel({
                 autoPlay: 5000, //Set AutoPlay to 5 seconds
                 items: 1,
@@ -492,14 +508,7 @@
                 singleItem: true,
                 transitionStyle: "fade"
             });
-        },
-// -------------------------------------------------------------------------- //
-// Page Loader Animsition
-// -------------------------------------------------------------------------- //
-        pageLoader: function () {
-            $('.animsition').animsition({
-                loadingInner: '<img src="https://nouse.ams3.cdn.digitaloceanspaces.com/site-assets/logo/kingfisher.svg" style="width: 80px;" />',
-            });
+            */
         },
 // -------------------------------------------------------------------------- //
 // Image Fluid Box
@@ -531,6 +540,7 @@
 // Youtube video
 // -------------------------------------------------------------------------- //    
         youtubeVideo: function () {
+            /*
             // poster frame click event
             $(document).on("click", ".js-videoPoster", function (ev) {
                 ev.preventDefault();
@@ -563,7 +573,7 @@
                 // remove youtube link, stopping the video from playing in the background
                 $iframe.attr("src", "");
             }
-
+            */
         }
     };
 // -------------------------------------------------------------------------- //
@@ -655,10 +665,12 @@
     // Initialize
     $(document).ready(function () {
         osru.initialize();
-        shuffleme.init(); //Filter Portfolio
+        //shuffleme.init(); //Filter Portfolio
     });
     // Reset on resize
     $(window).on("resize", function () {
-        osru.fixedFooter();
+        osru.fixedFooter(
+
+        );
     });
 }(jQuery));
