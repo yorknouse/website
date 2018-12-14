@@ -74,8 +74,8 @@
                         <div class="header-nav">
                             <ul>
                                 <li><span class="headre-weather"><i class="fa fa-calendar-check-o"></i>&nbsp; {{ "now"|date("l, F j") }}</span></li>
-                                <li><a href="{{ CONFIG.ROOTURL }}/pages/contact/">Contact</a></li>
                                 <li><a href="{{ CONFIG.ROOTURL }}/pages/about/advertising.php">Advertise</a></li>
+                                <li><a href="{{ CONFIG.ROOTURL }}/pages/about/team.php">Team</a></li>
                                 <li><a href="{{ CONFIG.ROOTURL }}/pages/about/">About</a></li>
                             </ul>
                         </div>
@@ -129,27 +129,27 @@
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
                         <i class="fa fa-bars"></i>
                     </button>
-                    <a class="navbar-brand"  style="margin-top: 15px;" href="{{ CONFIG.ROOTURL }}"><img src="{{CONFIG.FILESTOREURL}}/site-assets/logo/nouse-logo-full3.svg" class="logo" alt=""></a>
+                    <a class="navbar-brand"  style="margin-top: 15px;" href="{{ CONFIG.ROOTURL }}"><img style="margin-top: 8px;" src="{{CONFIG.FILESTOREURL}}/site-assets/logo/nouse-logo-full3.svg" class="logo" alt=""></a>
                 </div>
                 <!-- End Header Navigation -->
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="navbar-menu">
                     <ul class="nav navbar-nav" data-in="navFadeInDown" data-out="navFadeOutUp">
-                        {% for category in CATEGORIES %}
+                        {% for category in CATEGORIES if category.categories_showMenu == 1 %}
                             {% if category.SUB|length < 1 or category.categories_showSub != 1 %}
                             <li><a href="{{ CONFIG.ROOTURL }}/{{ category.categories_name }}">{{ category.categories_displayName }}</a></li>
                             {% else %}
                             <li class="dropdown active">
                                 <a href="{{ CONFIG.ROOTURL }}/{{ category.categories_name }}"  style="color: inherit;" class="dropdown-toggle">{{ category.categories_displayName }}</a>
                                 <ul class="dropdown-menu">
-                                    {% for subCategory in category.SUB %}
+                                    {% for subCategory in category.SUB if subCategory.categories_showMenu == 1 %}
                                         {% if subCategory.SUB|length < 1 %}
                                         <li><a href="{{ CONFIG.ROOTURL }}/{{ category.categories_name }}/{{ subCategory.categories_name }}">{{ subCategory.categories_displayName }}</a></li>
                                         {% else %}
                                         <li class="dropdown">
                                             <a href="{{ CONFIG.ROOTURL }}/{{ category.categories_name }}/{{ subCategory.categories_name }}" class="dropdown-toggle">{{ subCategory.categories_displayName }}</a>
                                             <ul class="dropdown-menu">
-                                                {% for subSubCategory in subCategory.SUB %}
+                                                {% for subSubCategory in subCategory.SUB if subSubCategory.categories_showMenu == 1 %}
                                                 <li><a href="{{ CONFIG.ROOTURL }}/{{ category.categories_name }}/{{ subCategory.categories_name }}/{{ subSubCategory.categories_name }}">{{ subSubCategory.categories_displayName }}</a></li>
                                                 {% endfor %}
                                             </ul>
@@ -170,24 +170,16 @@
         <div class="search">
             <button id="btn-search-close" class="btn btn--search-close" aria-label="Close search form"> <i class="ti-close"></i></button>
             <form class="search__form" action="javascript:void(0)" method="post">
-                <input class="search__input" name="search" type="search" placeholder="Search and hit enter..."/>
+                <input class="search__input" autocomplete="off" id="searchBox" name="search" type="search" placeholder="Search {{ totalArticlesCountForSearch|number_format }} articles..."/>
                 <span class="search__info">Hit enter to search or ESC to close</span>
             </form>
-            <div class="search__related">
-                <!--<div class="search__suggestion">
-                    <h3>May We Suggest?</h3>
-                    <p>#drone #funny #catgif #broken #lost #hilarious #good #red #blue #nono #why #yes #yesyes #aliens #green</p>
-                </div>
-                <div class="search__suggestion">
-                    <h3>Is It This?</h3>
-                    <p>#good #red #hilarious #blue #nono #why #yes #yesyes #aliens #green #drone #funny #catgif #broken #lost</p>
-                </div>
-                <div class="search__suggestion">
-                    <h3>Needle, Where Art Thou?</h3>
-                    <p>#broken #lost #good #red #funny #hilarious #catgif #blue #nono #why #yes #yesyes #aliens #green #drone</p>
-                </div>-->
+            <div class="search__related" id="searchSuggestions">
+
             </div>
         </div>
+        {% block prePageContent %}
+        {% endblock %}
+
         {% if pageConfig.FEATURED %}
         <!-- /.End of search full page  -->
         <div class="news-masonry">
@@ -296,9 +288,7 @@
         </div>
         <!-- /.End of news masonry -->
         {% endif %}
-        {% block prePageContent %}
-        {% endblock %}
-        <div class="page-content">
+        <div class="page-content" >
             {% block content %}
             {% endblock %}
 
@@ -394,7 +384,7 @@
 
                         </div>
                     </div>
-                    <div class="col-sm-3 col-xs-12">
+                    <div class="col-sm-3 col-xs-12 hidden-xs">
                         <div class="footer-box">
                             <h3 class="widget-title title-white" style="margin-bottom: 15px;">Our Community</h3>
                             <ul class="footer-cat">
@@ -444,7 +434,40 @@
         });
     }
     $(document).ready(function () {
+        $('.animsition').animsition({
+            {% if pageConfig.showLoader != true %}
+            //Hurry the loader along by basically forcing it to show and then hide again - if you let it persist it'll wait for all the images to load
+            timeout: true,
+            timeoutCountdown: 1000,
+            {% endif %}
+            loadingInner: '<img src="https://nouse.ams3.cdn.digitaloceanspaces.com/site-assets/logo/kingfisher.svg" style="width: 80px;" />',
+            inDuration: 0,
+            //outDuration: 800,
+        });
         $('a').smoothScroll({offset: -100});
+
+
+        var canMakeASuggestion = true; //Only allow a new suggestion to be made after the last one has actually arrived
+        $('#searchBox').on('input',function(e){
+            if (canMakeASuggestion) {
+                canMakeASuggestion = false;
+                ajaxCall("searchSuggestions.php", {"searchterm": $(this).val()}, function (result) {
+                    canMakeASuggestion = true;
+                    if (result.response && result.response.length > 0) {
+                        var output = "";
+                        $.each(result.response, function (key, value) {
+                            output += '<div class="search__suggestion"><h3><a href="' + value['url'] + '">' + value['articlesDrafts_headline'] + '</a></h3><p>' + (value['articlesDrafts_byline'] != null ? value['articlesDrafts_byline'] : "") + '</p></div>';
+                        });
+                        $("#searchSuggestions").html(output);
+                    }
+                });
+            }
+        });
+        $('#searchBox').keypress(function (e) {
+            if(e.which ==13) {
+                window.location.href = "{{ CONFIG.ROOTURL }}/search?q=" + $("#searchBox").val();
+            }
+        });
     });
 </script>
 

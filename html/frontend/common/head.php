@@ -73,8 +73,10 @@ $TWIG->addFilter(new Twig_SimpleFilter('s3URL', function ($fileid, $size = false
 
 //Begin Nouse Head
 function render404Error() {
+    global $PAGEDATA, $TWIG;
+    if (!$PAGEDATA) $PAGEDATA = [];
     http_response_code(404);
-    die("404");
+    die($TWIG->render('404.twig', $PAGEDATA));
 }
 //          MENU
 //              CATEGORIES
@@ -99,6 +101,8 @@ foreach ($DBLIB->get("categories") as $category) {
     }
     $PAGEDATA['CATEGORIES'][] = $category;
 }
+//                SEARCH
+$PAGEDATA['totalArticlesCountForSearch'] = $DBLIB->getValue("articles", "COUNT(*)");
 
 function latestInCategory($categoryid, $count = 5) {
     global $DBLIB;
