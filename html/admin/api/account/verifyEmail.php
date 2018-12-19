@@ -3,7 +3,7 @@
 
 	header('Content-Type:text/plain');
 	if (!isset($_GET['code'])) {
-        header('Location: ' . $CONFIG['ROOTURL']); //If it fails we may as well just assume they have tried to click it a second time.
+        header('Location: ' . $CONFIG['ROOTBACKENDURL']); //If it fails we may as well just assume they have tried to click it a second time.
         exit;
 	}
 
@@ -27,9 +27,9 @@
 				<h3>Welcome to ' . $CONFIG['PROJECT_NAME'] . ' - We are delighted to have you onboard!</h3></center>
 			');
 		$bCMS->auditLog("UPDATE", "users", "VERIFY EMAIL", $AUTH->data['users_userid'],$AUTH->data['users_userid']);
-		header('Location: ' . $CONFIG['ROOTURL']); exit;
+		header('Location: ' . $CONFIG['ROOTBACKENDURL']); exit;
 	} else {
-		header('Location: ' . $CONFIG['ROOTURL']); //If it fails we may as well just assume they have tried to click it a second time.
+		header('Location: ' . $CONFIG['ROOTBACKENDURL']); //If it fails we may as well just assume they have tried to click it a second time.
         exit;
     }
 ?>

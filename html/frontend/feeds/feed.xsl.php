@@ -11,7 +11,7 @@ require_once __DIR__ . '/../common/head.php';
         <head>
             <title>
                 <xsl:value-of select="$title"/> XML Feed</title>
-            <link rel="stylesheet" href="<?=$CONFIG['ROOTURL']?>/feeds/feed.css" type="text/css"/>
+            <link rel="stylesheet" href="<?=$CONFIG['ROOTFRONTENDURL']?>/feeds/feed.css" type="text/css"/>
         </head>
         <xsl:apply-templates select="rss/channel"/>
         </html>
@@ -60,7 +60,7 @@ require_once __DIR__ . '/../common/head.php';
         </div>
 
         <div class="footerbox">
-             <a href="<?=$CONFIG['ROOTURL']?>">Nouse Website</a>
+             <a href="<?=$CONFIG['ROOTFRONTENDURL']?>">Nouse Website</a>
         </div>
 
         </body>

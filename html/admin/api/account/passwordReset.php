@@ -3,7 +3,7 @@
 
 	header('Content-Type:text/plain');
 	if (!isset($_GET['code'])) {
-        header('Location: ' . $CONFIG['ROOTURL']); //If it fails we may as well just assume they have tried to click it a second time.
+        header('Location: ' . $CONFIG['ROOTBACKENDURL']); //If it fails we may as well just assume they have tried to click it a second time.
         exit;
 	}
 
@@ -29,7 +29,7 @@
 		$AUTH->generateToken($code['users_userid'], true);
 		exit;
 	} else {
-		header('Location: ' . $CONFIG['ROOTURL']); //If it fails we may as well just assume they have tried to click it a second time.
+		header('Location: ' . $CONFIG['ROOTBACKENDURL']); //If it fails we may as well just assume they have tried to click it a second time.
         exit;
     }
 ?>

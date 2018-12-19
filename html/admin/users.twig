@@ -30,7 +30,7 @@
                                     <button type="button" title="Add new User" id="addNewUserButton" class="btn btn-default"><i class="fa fa-plus"></i></button>
                                     <script>
                                         $("#addNewUserButton").click(function () {
-                                            window.location.href = "{{ CONFIG.ROOTURL }}/account.php?new";
+                                            window.location.href = "{{ CONFIG.ROOTBACKENDURL }}/account.php?new";
                                         });
                                     </script>
                                 {% endif %}
@@ -99,7 +99,7 @@
                                         {% endif %}
                                         {% if user.users_userid != USERDATA.users_userid %}
                                             {% if 5|permissions %}
-                                                <a href="{{ CONFIG.ROOTURL }}/account.php?uid={{ user["users_userid"] }}"
+                                                <a href="{{ CONFIG.ROOTBACKENDURL }}/account.php?uid={{ user["users_userid"] }}"
                                                    type="button" title="Edit user" class="btn btn-default"><i
                                                             class="fa fa-pencil"></i></a>
                                             {% endif %}
@@ -122,7 +122,7 @@
                                                     <i class="fa fa-times-circle-o"></i></button>
                                             {% endif %}
                                             {% if 10|permissions %}
-                                                <a href="{{ CONFIG.ROOTURL }}/api/account/viewSiteAs.php?userid={{ user["users_userid"] }}"
+                                                <a href="{{ CONFIG.ROOTBACKENDURL }}/api/account/viewSiteAs.php?userid={{ user["users_userid"] }}"
                                                    title="Login as User">
                                                     <button type="button" class="btn btn-default"><i
                                                                 class="fa fa-sign-in"></i></button>
@@ -180,7 +180,7 @@
                             <div class="modal-body">
                                 <div class="list-group">
                                     {% for email in mailings[user.users_userid] %}
-                                        <a href="{{ CONFIG.ROOTURL }}/api/account/emailViewer.php?email={{ email.emailSent_id }}"
+                                        <a href="{{ CONFIG.ROOTBACKENDURL }}/api/account/emailViewer.php?email={{ email.emailSent_id }}"
                                            target="_blank" class="list-group-item"><span
                                                     class="badge">{{ email.emailSent_sent|date("d/m/Y H:i:s", "Europe/London") }}</span> {{ email.emailSent_subject }}
                                         </a>
@@ -188,7 +188,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <a href="{{ CONFIG.ROOTURL }}/api/account/emailViewer.php?email={{ user.users_emails }}"
+                                <a href="{{ CONFIG.ROOTBACKENDURL }}/api/account/emailViewer.php?email={{ user.users_emails }}"
                                    class="btn btn-default">Output All</a>
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             </div>
@@ -233,7 +233,7 @@
                 $(".logoutbutton").click(function () {
                     $("#loadingoverlay").show();
                     $.ajax({
-                        url: "{{ CONFIG.ROOTURL }}/api/account/destroyTokens.php?userid=" + $(this).data("userid"),
+                        url: "{{ CONFIG.ROOTBACKENDURL }}/api/account/destroyTokens.php?userid=" + $(this).data("userid"),
                         success: function (result) {
                             if (result == '1') {
                                 $("#loadingoverlay").hide();
@@ -248,7 +248,7 @@
                 $(".suspenduser").click(function () {
                     $("#loadingoverlay").show();
                     $.ajax({
-                        url: "{{ CONFIG.ROOTURL }}/api/account/suspend.php?userid=" + $(this).data("userid") + '&suspendval=' + $(this).data("suspendval"),
+                        url: "{{ CONFIG.ROOTBACKENDURL }}/api/account/suspend.php?userid=" + $(this).data("userid") + '&suspendval=' + $(this).data("suspendval"),
                         success: function (result) {
                             if (result == '1') {
                                 bootbox.alert("Success", function () {

@@ -1,0 +1,59 @@
+<?php
+require_once __DIR__ . '/common/headSecure.php';
+
+$PAGEDATA['pageConfig'] = ["TITLE" => "Articles", "BREADCRUMB" => false];
+
+if (!$AUTH->permissionCheck(32)) die("Sorry - you can't access this page");
+
+if (isset($_GET['id'])) {
+	$DBLIB->where("articles.articles_id", $bCMS->sanitizeString($_GET['id'])); //ie those that can actually be shown
+	$DBLIB->orderBy("articles_published", "DESC");
+	$DBLIB->where("articles_showInAdmin", 1); //ie those that can actually be shown
+	$DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
+	$DBLIB->where("articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
+	$PAGEDATA['article'] = $DBLIB->getone("articles");
+	if (!$PAGEDATA['article']) die("404 File not found");
+	if ($PAGEDATA['article']['articles_authors'] != null) $PAGEDATA['article']['articles_authors'] = explode(",",$PAGEDATA['article']['articles_authors']);
+	if ($PAGEDATA['article']['articles_categories'] != null) $PAGEDATA['article']['articles_categories'] = explode(",",$PAGEDATA['article']['articles_categories']);
+} else {
+	$PAGEDATA['article'] = null;
+}
+
+
+
+//              CATEGORIES
+//		Here only have 2 levels of nesting
+$DBLIB->orderBy("categories_order", "ASC");
+$DBLIB->orderBy("categories_displayName", "ASC");
+$DBLIB->where("categories_nestUnder IS NULL");
+$PAGEDATA['CATEGORIES'] = [];
+foreach ($DBLIB->get("categories") as $category) {
+	$DBLIB->orderBy("categories_order", "ASC");
+	$DBLIB->orderBy("categories_displayName", "ASC");
+	$DBLIB->where("categories_nestUnder", $category["categories_id"]);
+	$category['SUB'] = [];
+	foreach ($DBLIB->get("categories") as $subcategory) {
+		$category['SUB'][] = $subcategory;
+		$DBLIB->orderBy("categories_order", "ASC");
+		$DBLIB->orderBy("categories_displayName", "ASC");
+		$DBLIB->where("categories_nestUnder", $subcategory["categories_id"]);
+		foreach ($DBLIB->get("categories") as $subsubcategory) {
+			$category['SUB'][] = $subsubcategory;
+		}
+	}
+	$PAGEDATA['CATEGORIES'][] = $category;
+}
+
+
+
+//              Authors
+$DBLIB->orderBy("users.users_name1", "ASC");
+$DBLIB->orderBy("users.users_name2", "ASC");
+$DBLIB->orderBy("users.users_created", "ASC");
+$DBLIB->where("users_deleted", 0);
+$PAGEDATA['USERS'] = $DBLIB->get("users", null, ["users_name1","users_name2","users_userid"]);
+
+
+
+echo $TWIG->render('article.twig', $PAGEDATA);
+?>

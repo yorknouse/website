@@ -1,26 +1,26 @@
 {% for article in articles %}
     <div class="media meida-md">
-        {% if article.articles_thumbnail != null %}
+        {% if article.articles_id|articleThumbnail %}
             <div class="media-left">
-                <a href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}"><img src="{{ CONFIG.FILESTOREURL ~ "/archive/public/articleImages/" ~ article.articles_thumbnail }}" class="media-object" alt="{{ article.articlesDrafts_headline }}"></a>
+                <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}"><img src="{{ article.articles_id|articleThumbnail }}" class="media-object" alt="{{ article.articlesDrafts_headline }}"></a>
             </div>
         {% endif %}
 
         <div class="media-body">
             <div class="post-header">
-                <h3 class="media-heading"><a href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h3>
+                <h3 class="media-heading"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h3>
                 <div class="entry-meta">
-                    {% if article.articlesDrafts_byline != null %}
+                    {% if article.articlesDrafts_excerpt != null %}
                         <style>
-                            .articlebyline img {
+                            .articleexcerpt img {
                                 display:none; /* some old stuff */
                             }
                         </style>
-                        <p class="articlebyline">{{ article.articlesDrafts_byline|raw }}</p>
+                        <p class="articleexcerpt">{{ article.articlesDrafts_excerpt|raw }}</p>
                     {% endif %}
                     <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ article.articles_published|date("j M Y") }}</span>
                     {% for author in article.articles_authors %}
-                        <span class="comment-link"><a href="{{ CONFIG.ROOTURL }}/author/?a={{ author.users_userid }}">{{ author.users_name1 }} {{ author.users_name2 }}</a></span>
+                        <span class="comment-link"><a href="{{ CONFIG.ROOTFRONTENDURL }}/author/?a={{ author.users_userid }}">{{ author.users_name1 }} {{ author.users_name2 }}</a></span>
                     {% endfor %}
                 </div>
                 <!-- /.Post meta -->

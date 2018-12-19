@@ -1,0 +1,208 @@
+{% extends "assets/template.twig" %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        {% if search|length > 0 %}
+                            Search results for articles matching <b>{{ search }}</b>
+                        {% elseif pageConfig.author %}
+                            Articles filtered by Author (<a href="?">Clear</a>)
+                        {% else %}
+                            Articles
+                        {% endif %}
+                    </h3>
+                    <div class="box-tools pull-right">
+                        <form class="input-group input-group-sm" style="width: 150px;" method="GET">
+                            <input type="text" name="q" class="form-control pull-right" placeholder="Search" value="{{ search }}" />
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                {% if 31|permissions %}
+                                    <button type="button" title="Add new article" id="addNewButton" class="btn btn-default"><i class="fa fa-plus"></i></button>
+                                {% endif %}
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                    {% if articles|length > 0 %}
+                        <table class="table sticky-header" border="0" style="overflow-x: scroll;">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Headline</th>
+                                <th>Categories</th>
+                                <th>Publication Date</th>
+                                <th>Last updated</th>
+                                <th>Published author(s)</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for article in articles %}
+                                <tr
+                                        {% if article.articles_showInLists != 1 and article.articles_showInSearch != 1 %}
+                                        class="danger"
+                                        {% elseif article.articles_showInLists != 1  %}
+                                        class="warning"
+                                        {% endif %}>
+                                    <td>{{ article.articles_id }}</td>
+                                    <td>{{ article.articlesDrafts_headline|raw }}
+                                        {% if article.articles_showInLists != 1 and article.articles_showInSearch != 1 %}
+                                            <span class="label label-danger">Draft</span><br/>
+                                        {% elseif article.articles_showInLists != 1  %}
+                                            <span class="label label-warning">Shown in search only</span><br/>
+                                        {% endif %}
+
+                                    </td>
+                                    <td>
+                                        {% for category in CATEGORIES if category.categories_id in article.articles_categories %}
+                                        <span class="label label-info"
+                                        {% if category.categories_backgroundColor != "" %}
+                                        style="background-color: #{{ category.categories_backgroundColor }} !important; color: #{{ category.categories_backgroundColorContrast }} !important;"
+                                        {% endif %}>{{ category.categories_displayName }}</span><br/>
+                                        {% endfor %}
+                                    </td>
+                                    <td>{{ article.articles_published|date("D d M Y") }}</td>
+                                    <td>{{ article.articles_updated|date("d M Y h:i:s") }}</td>
+                                    <td>
+                                        {% for user in article.articles_authors %}
+                                            <a href="?a={{ user.users_userid }}">{{ user.users_name1 ~ ' ' ~ user.users_name2 }}</a><br/>
+                                        {% endfor %}
+                                    </td>
+                                    <td>
+                                        {% if article.articles_showInSearch == 1 and date(article.articles_published) < date() %}
+                                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}"
+                                           type="button" title="View on website" class="btn btn-default" target="_blank"><i
+                                                    class="fa fa-eye"></i></a>
+                                        {% endif %}
+                                        {% if 32|permissions %}
+                                            <a href="{{ CONFIG.ROOTBACKENDURL }}/article.php?id={{ article.articles_id }}"
+                                               type="button" title="Edit" class="btn btn-default"><i
+                                                        class="fa fa-pencil"></i></a>
+                                        {% endif %}
+                                        {% if 33|permissions %}
+                                        <button class="btn btn-danger deleteArticle" data-articleid="{{ article.articles_id }}"><i class="fa fa-trash-o"></i></button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <center><p style="margin: 10px;"><i>No results</i><br/><a href="?">Remove any filters</a></p></center>
+                    {% endif %}
+                </div>
+                <div class="overlay" id="loadingoverlay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+                {% if pagination.total > 1 %}
+                <div class="box-footer clearfix">
+                    <ul class="pagination pagination-sm no-margin pull-right">
+                        {% if pagination.page > 1 %}
+                        <li><a href="?{{ {page: (pagination.page -1)}|modifyGet }}">&laquo;</a></li>
+                        {% endif %}
+
+                        {% for i in range((pagination.page > 3 ? pagination.page-2 : 1), (pagination.total > 5 and pagination.page+2 < pagination.total ? pagination.page+2 : pagination.total)) %}
+                            <li><a href="?{{ {page: i}|modifyGet }}">
+                                    {% if pagination.page == i %}
+                                        <b>{{ i }}</b>
+                                    {% else %}
+                                        {{ i }}
+                                    {% endif %}
+                                </a></li>
+                        {% endfor %}
+
+                        {% if pagination.page < pagination.total %}
+                            <li><a href="?{{ {page: (pagination.page +1)}|modifyGet }}">&raquo;</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+
+                $("#loadingoverlay").hide();
+                {% if 31|permissions %}
+                $("#addNewButton").click(function () {
+                    bootbox.prompt({
+                        title: "Choose a type of article",
+                        inputType: 'select',
+                        inputOptions: [
+                            {
+                                text: 'Text article',
+                                value: '1',
+                            },
+                            {
+                                text: 'Gallery',
+                                value: '2',
+                                group: 'Coming soon',
+                            },
+                            {
+                                text: 'Live article',
+                                value: '4',
+                                group: 'Coming soon',
+                            },
+                            {
+                                text: 'Video article',
+                                value: '3',
+                                group: 'Coming soon',
+                            }
+                        ],
+                        callback: function (result) {
+                            switch (result) {
+                                case '1':
+                                    window.location.href = "{{ CONFIG.ROOTBACKENDURL }}/article.php?new";
+                                    break;
+                            }
+                        }
+                    });
+                });
+                {% endif %}
+                {% if 33|permissions %}
+                $(".deleteArticle").click(function () {
+                    var articleid = $(this).data("articleid");
+                    bootbox.confirm({
+                        message: "Are you sure you wish to delete this article?",
+                        buttons: {
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-default'
+                            },
+                            confirm: {
+                                label: 'Yes',
+                                className: 'btn-danger'
+                            }
+                        },
+                        callback: function (result) {
+                            if (result) {
+                                $("#loadingoverlay").show();
+                                $.ajax({
+                                    url: "{{ CONFIG.ROOTBACKENDURL }}/api/article/delete.php?articleid=" + articleid,
+                                    success: function (result) {
+                                        if (result == '1') {
+                                            bootbox.alert("Success - article has been deleted. Contact support@nouse.co.uk to have it recovered", function () {
+                                                location.reload();
+                                            });
+                                        } else {
+                                            bootbox.alert("Sorry - Operation could not be completed! Please reload the page", function () {
+                                                location.reload();
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
+                {% endif %}
+            });
+        </script>
+    </div>
+{% endblock %}

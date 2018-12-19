@@ -8,7 +8,6 @@
             this.fullSkinSearch();
             this.masonrySlide();
             this.toTop();
-            this.instagram();
             this.newsTicker();
             this.blogSlide();
             this.accordion();
@@ -104,15 +103,21 @@
             }
 
             function initEvents() {
-                openCtrl1.addEventListener('click', openSearch);
-                openCtrl2.addEventListener('click', openSearch);
-                closeCtrl.addEventListener('click', closeSearch);
-                document.addEventListener('keyup', function (ev) {
-                    // escape key.
-                    if (ev.keyCode === 27) {
-                        closeSearch();
-                    }
-                });
+                try {
+                    openCtrl1.addEventListener('click', openSearch);
+                    openCtrl2.addEventListener('click', openSearch);
+                    closeCtrl.addEventListener('click', closeSearch);
+                    document.addEventListener('keyup', function (ev) {
+                        // escape key.
+                        if (ev.keyCode === 27) {
+                            closeSearch();
+                        }
+                    });
+                }
+                catch(err) {
+                    return true;
+                }
+
             }
 
             function openSearch() {
@@ -180,40 +185,7 @@
                 return false;
             });
         },
-// -------------------------------------------------------------------------- //
-// Instagram
-// -------------------------------------------------------------------------- //
-        instagram: function () {
-            /*
-            $('#ri-grid').gridrotator({
-                rows: 1,
-                columns: 8,
-                animType: 'fadeInOut',
-                animSpeed: 1000,
-                step: 1,
-                w1024: {
-                    rows: 1,
-                    columns: 7
-                },
-                w768: {
-                    rows: 1,
-                    columns: 5
-                },
-                w480: {
-                    rows: 2,
-                    columns: 3
-                },
-                w320: {
-                    rows: 2,
-                    columns: 3
-                },
-                w240: {
-                    rows: 2,
-                    columns: 3
-                }
-            });
-            */
-        },
+
 // -------------------------------------------------------------------------- //
 // NewsTicker
 // -------------------------------------------------------------------------- //

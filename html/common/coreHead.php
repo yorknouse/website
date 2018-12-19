@@ -38,6 +38,7 @@ $CONN = new mysqli($CONFIG['DB_HOSTNAME'], $CONFIG['DB_USERNAME'], $CONFIG['DB_P
 if ($CONN->connect_error) throw new Exception($CONN->connect_error);
 $DBLIB = new MysqliDb ($CONN); //Re-use it in the wierd lib we love
 
+
 /* FUNCTIONS */
 class bCMS {
     function sanitizeString($var) {
@@ -61,20 +62,16 @@ class bCMS {
     function cleanString($var) {
         //HTML Purification
         //$var = str_replace(array("\r", "\n"), '<br>', $var); //Replace newlines
-
+/*
         $config = HTMLPurifier_Config::createDefault();
         $config->set('Cache.DefinitionImpl', null);
-        $config->set('AutoFormat.Linkify', true);
+        //$config->set('AutoFormat.Linkify', true);
         $purifier = new HTMLPurifier($config);
         $clean_html = $purifier->purify($var);
+    return $clean_html; //NOTE THAT THIS REQUIRES THE USE OF PREPARED STATEMENTS AS IT'S NOT ESCAPED
+*/
+    return $var;
 
-        $clean_html = urlencode($clean_html); //Url encoding stops \ problems!
-
-        global $CONN;
-        return mysqli_real_escape_string($CONN, $clean_html);
-    }
-    function unCleanString($var) {
-        return urldecode($var);
     }
     function formatSize($bytes) {
         if ($bytes >= 1073741824) {
@@ -185,9 +182,54 @@ class bCMS {
             return $presignedUrl;
         }
     }
+    public function articleThumbnail($article) {
+        global $DBLIB,$CONFIG;
+        if ($article == null) return false;
+        $DBLIB->where("articles_id", $this->sanitizeString($article));
+        $thumb = $DBLIB->getone("articles",["articles_thumbnail"]);
+        if (!$thumb or $thumb["articles_thumbnail"] == null) return false;
+        if (is_numeric($thumb["articles_thumbnail"])) return $this->s3URL($thumb["articles_thumbnail"], "large");
+        else return $CONFIG['FILESTOREURL'] . "/archive/public/articleImages/" . $thumb["articles_thumbnail"];
+    }
+    private $cloudflare = false;
+    private function cloudflareInit() {
+        global $CONFIG;
+        $this->cloudflare = [];
+        $this->cloudflare['key'] = new Cloudflare\API\Auth\APIKey($CONFIG['CLOUDFLARE']['EMAIL'], $CONFIG['CLOUDFLARE']['KEY']);
+        $this->cloudflare['adapter'] = new Cloudflare\API\Adapter\Guzzle($this->cloudflare['key']);
+        $this->cloudflare['zones'] = new \Cloudflare\API\Endpoints\Zones($this->cloudflare['adapter']);
+        $this->cloudflare['zoneid'] = $this->cloudflare['zones']->getZoneID('nouse.co.uk');
+        if (!$this->cloudflare['zoneid']) return false;
+        else return true;
+        //$this->cloudflare['user'] = new Cloudflare\API\Endpoints\User($this->cloudflare['adapter']);
+    }
     public function cacheClear($URL) {
+        if (!$this->cloudflare) $this->cloudflareInit();
+
+        $this->cloudflare['zones']->cachePurge($this->cloudflare['zoneid'], [$URL]);
         $this->auditLog("CACHECLEAR", null, $URL);
         return true;
+    }
+    public function cacheClearCategory($categoryid) {
+        global $DBLIB, $CONFIG;
+        if (!$categoryid) return false;
+
+        $DBLIB->where("categories_id", $this->sanitizeString($categoryid));
+        $category = $DBLIB->getOne("categories",["categories_name","categories_nestUnder"]);
+        if (!$category) return false;
+        $url = $CONFIG['ROOTFRONTENDURL'] . '/' . $category['categories_name'];
+        if ($category['categories_nestUnder'] != null) {
+            $DBLIB->where("categories_id", $category['categories_nestUnder']);
+            $category = $DBLIB->getone("categories",["categories_name","categories_nestUnder"]);
+            $url .= '/' . $category['categories_name'];
+            if ($category['categories_nestUnder'] != null) {
+                $DBLIB->where("categories_id", $category['categories_nestUnder']);
+                $category = $DBLIB->getone("categories",["categories_name"]);
+                $url .= '/' . $category['categories_name'];
+            }
+        }
+
+        return $this->cacheClear($url . "/");
     }
 }
 

@@ -20,7 +20,7 @@ if (is_numeric(substr($URL,0,1))) {
 
     $DBLIB->where("DATE(articles_published) = '" . $bCMS->sanitizeString($urlSplit[0]) . "-". $bCMS->sanitizeString($urlSplit[1]) . "-" . $bCMS->sanitizeString($urlSplit[2]) . "'");
     $DBLIB->where("articles_slug", $bCMS->sanitizeString($urlSplit[3]));
-    $DBLIB->where("articles_showInLists", 1);
+    $DBLIB->where("articles_showInSearch", 1);
     $DBLIB->where("articles_published <= '" . date("Y-m-d H:i:s") . "'");
     $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
     $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
@@ -32,7 +32,7 @@ if (is_numeric(substr($URL,0,1))) {
     $DBLIB->where("categories_id IN (" . $PAGEDATA["POST"]['articles_categories'] . ")");
     $DBLIB->orderBy("categories_order", "ASC");
     $DBLIB->where("categories_showPublic",1);
-    $PAGEDATA['POST']['CATEGORIES'] = $DBLIB->get('categories', null, ["categories_id","categories_displayName"]);
+    $PAGEDATA['POST']['CATEGORIES'] = $DBLIB->get('categories', null, ["categories_id","categories_displayName","categories_backgroundColorContrast","categories_backgroundColor"]);
 
 
     if ($PAGEDATA['POST']['articles_authors'] != null) {
@@ -107,6 +107,13 @@ if (is_numeric(substr($URL,0,1))) {
     $PAGEDATA['pageConfig']['leftBar']['LATEST'] = latestInCategory($PAGEDATA['POST']['CATEGORIES'][0]['categories_id'], 4);
     $PAGEDATA['pageConfig']['SIMILAR'] = similarArticles($PAGEDATA['POST']['articles_id'],3);
 
+    foreach ($PAGEDATA['POST']['CATEGORIES'] as $category) {
+        if ($category['categories_displayName'] == "Muse") $PAGEDATA['pageConfig']["MUSETheme"] = true;
+        if ($category['categories_backgroundColor'] != null) {
+            $PAGEDATA['pageConfig']['MENUColor']['backgroundColor'] = $category['categories_backgroundColor'];
+            $PAGEDATA['pageConfig']['MENUColor']['backgroundColorContrast'] = $category['categories_backgroundColorContrast'];
+}
+    }
     http_response_code(200);
     echo $TWIG->render('post.twig', $PAGEDATA);
     exit;
@@ -124,6 +131,12 @@ if (is_numeric(substr($URL,0,1))) {
         }
     }
     if (!isset($PAGEDATA['pageConfig']['CATEGORY'])) render404Error(); //We didn't find their category
+
+    if ($PAGEDATA['pageConfig']['CATEGORY']['categories_displayName'] == "Muse") $PAGEDATA['pageConfig']["MUSETheme"] = true;
+    if ($PAGEDATA['pageConfig']['CATEGORY']['categories_backgroundColor'] != null) {
+        $PAGEDATA['pageConfig']['MENUColor']['backgroundColor'] = $PAGEDATA['pageConfig']['CATEGORY']['categories_backgroundColor'];
+        $PAGEDATA['pageConfig']['MENUColor']['backgroundColorContrast'] = $PAGEDATA['pageConfig']['CATEGORY']['categories_backgroundColorContrast'];
+    }
 
     if (count($URL)>1) {
         foreach ($PAGEDATA['pageConfig']['CATEGORY']['SUB'] as $category) {
@@ -154,7 +167,7 @@ if (is_numeric(substr($URL,0,1))) {
     if (isset($_GET['page'])) $page = $bCMS->sanitizeString($_GET['page']);
     else $page = 1;
     $DBLIB->pageLimit = 10; //articles per page
-    $articles = $DBLIB->arraybuilder()->paginate("articles", $page, ["articles.*","articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_byline"]);
+    $articles = $DBLIB->arraybuilder()->paginate("articles", $page, ["articles.*","articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
     $PAGEDATA['pagination'] = ["page" => $page, "total" => $DBLIB->totalPages, "count" => $DBLIB->pageLimit*$DBLIB->totalPages];
     $PAGEDATA['articles'] = [];
     foreach ($articles as $article) {

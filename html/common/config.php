@@ -23,10 +23,12 @@ $CONFIG = array(
     'ANALYTICS' => ['TRACKINGID' => getenv('bCMS__GoogleAnalytics')],
     "nextHash" => "sha256", //Hashing algorithm to put new passwords in
     "PROJECT_FROM_EMAIL" => getenv('bCMS__EMAIL'),
-    "ROOTURL" => "", //Set on a frontend/backend basis
+    "ROOTFRONTENDURL" => getenv('bCMS__FRONTENDURL'), //Set on a frontend/backend basis
+    "ROOTBACKENDURL" => getenv('bCMS__BACKENDURL'), //Set on a frontend/backend basis
     "PROJECT_SUPPORT_EMAIL" => getenv('bCMS__SUPPORTEMAIL'),
     "FILESTOREURL" => getenv('bCMS__FILESTOREURL'),
     "RECAPTCHA" => ['KEY' => getenv('bCMS__RECAPTCHA_KEY'), 'SECRET' => getenv('bCMS__RECAPTCHA_SECRET')],
     'AWS' => ['UPLOAD' => true, 'KEY' => getenv('bCMS__S3_KEY'), 'SECRET' => getenv('bCMS__S3_SECRET'), 'DEFAULTUPLOADS' => ['BUCKET' => getenv('bCMS__S3_BUCKET'), 'ENDPOINT' =>  getenv('bCMS__S3_ENDPOINT'), 'REGION' => getenv('bCMS__S3_REGION'), 'CDNEndpoint' => getenv('bCMS__S3_CDN')], "FINEUPLOADER" => ["KEY" => getenv('bCMS__S3_KEY'), "SECRET" =>  getenv('bCMS__S3_SECRET')]],
+    "CLOUDFLARE" => ['EMAIL' => getenv('bCMS__CLOUDFLARE_EMAIL'), 'KEY' => getenv('bCMS__CLOUDFLARE_SECRET')],
 );
 date_default_timezone_set("UTC");

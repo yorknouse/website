@@ -34,7 +34,7 @@ $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts
 if (isset($_GET['page'])) $page = $bCMS->sanitizeString($_GET['page']);
 else $page = 1;
 $DBLIB->pageLimit = 10; //articles per page
-$articles = $DBLIB->arraybuilder()->paginate("articles", $page, ["articles.*","articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_byline"]);
+$articles = $DBLIB->arraybuilder()->paginate("articles", $page, ["articles.*","articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
 $PAGEDATA['pagination'] = ["page" => $page, "total" => $DBLIB->totalPages, "count" => $DBLIB->pageLimit*$DBLIB->totalPages];
 $PAGEDATA['articles'] = [];
 foreach ($articles as $article) {

@@ -1,0 +1,403 @@
+{% extends "assets/template.twig" %}
+{% block htmlIncludes %}
+    <!--Summernote-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.min.js"
+            integrity="sha256-1XDZ8T0bWi65wnqq7bBPK9QrWkE0fg6xLVAVuSqKw/4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css"
+          integrity="sha256-vHGOIPxeMV4uIsqGDzob0M6Zl8PY5+nJh7m0hJhJXfg=" crossorigin="anonymous"/>
+    <script src="{{ CONFIG.ROOTBACKENDURL }}/assets\js\libs\summernote\summernote-image-captionit.js"></script>
+
+
+    <!--Date picker-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js" integrity="sha256-VrmtNHAdGzjNsUNtWYG55xxE9xDTz4gF63x/prKXKH0=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js" integrity="sha256-5YmaxAwMjIpMrVlK84Y/+NjCpKnFYa8bWWBbUHSBGfU=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" integrity="sha256-yMjaV542P+q1RnH6XByCPDfUFhmOafWbeLPmqKh11zo=" crossorigin="anonymous" />
+
+{% endblock %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-4 col-sm-12">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    Article Details
+                </h3>
+
+                <div class="box-tools pull-right">
+                    {% if 33|permissions and article.articles_showInAdmin == 1 %}
+                        <button class="btn btn-sm btn-danger" id="deleteArticle"><i class="fa fa-trash-o"></i></button>
+                    {% endif %}
+                    {% if article.articles_showInSearch == 1 and date(article.articles_published) < date() %}
+                    <a target="_blank" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}" class="btn btn-sm btn-default">View on site</a>
+                    {% endif %}
+                </div>
+
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label>Headline</label>
+                    <textarea id="headline" style="resize: none;" rows="2" placeholder="University of York to open campus on the Moon" class="form-control">{{ article.articlesDrafts_headline|raw }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Excerpt</label>
+                    <textarea id="excerpt" style="resize: none;" rows="4" placeholder="Use of excerpts is advisable for display purposes" class="form-control">{{ article.articlesDrafts_excerpt|raw }}</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Publication date</label>
+                    <input type='text' class="form-control" id="published" />
+                    <p style="font-style: italic;">Articles with a status of "published" and a date in the future will be published upto two hours after the date and time selected due to cache constraints</p>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select class="form-control" id="status">
+                        <option value="1">Draft</option>
+                        <option value="2" {{ article.articles_showInSearch == 1 and article.articles_showInLists == 0 ? 'selected' : '' }}>Display in search only</option>
+                        <option value="3" {{ article.articles_showInLists == 1 and article.articles_showInSearch == 1 ? 'selected' : '' }}>Published</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Section</label>
+                    <select class="form-control" id="category1" multiple>
+                        {% for category in CATEGORIES %}
+                        <option {{ (category.categories_id in article.articles_categories ? 'selected') }}  value="{{ category.categories_id }}">{{ category.categories_displayName }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Categories</label>
+                    <select class="form-control" id="category2" multiple>
+                        {% for category in CATEGORIES if category.SUB|length > 0 %}
+                            <optgroup label="{{ category.categories_displayName }}">
+                            {% for category in category.SUB %}
+                                <option {{ (category.categories_id in article.articles_categories ? 'selected') }}  value="{{ category.categories_id }}">{{ category.categories_displayName }}</option>
+                            {% endfor %}
+                            </optgroup>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Authors</label>
+                    <select class="form-control" id="authors" multiple>
+                        {% for user in USERS %}
+                            <option {{ (user.users_userid in article.articles_authors ? 'selected') }} value="{{ user.users_userid }}">{{ user.users_name1 ~ " " ~ user.users_name2 }}</option>
+                        {% endfor %}
+                    </select>
+                    <p style="font-style: italic;">For editorials or articles with no author please leave blank</p>
+                </div>
+                <hr/>
+                <div class="form-group">
+                    <label>Slug</label>
+                    <textarea id="slug" disabled style="resize: none;" rows="2" class="form-control">{{ article.articles_slug }}</textarea>
+                    <p style="font-style: italic;">Contact support@nouse.co.uk for a custom URL</p>
+                </div>
+                {% if article.articles_showInLists == 1 or article.articles_showInSearch == 1 %}
+                <div class="form-group">
+                    <label>Lifetime views</label>
+                    <textarea disabled style="resize: none;" rows="1" class="form-control">{{ article.articles_lifetimeViews }}</textarea>
+                </div>
+                {% endif %}
+            </div>
+            <div class="overlay" id="loadingoverlay">
+                <i class="fa fa-refresh fa-spin"></i>
+            </div>
+        </div>
+        <script>
+            function randomString(length) {
+                var text = "";
+                var possible = "abcdefghijklmnopqrstuvwxyz0123456789";
+
+                for (var i = 0; i < length; i++)
+                    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+                return text;
+            }
+            var requestRunning = false;
+            $(document).ready(function () {
+                $('#published').datetimepicker({
+                    date: "{{ (article.articles_published == null ? "now"|date("Y-m-d H:i:s") : article.articles_published) }}",
+                    locale: "en-gb",
+                    format: "D MMM YYYY h:mm:ss a"
+                });
+                $("#category1").select2({
+                    theme: "bootstrap"
+                });
+                $("#category2").select2({
+                    theme: "bootstrap"
+                });
+                $("#authors").select2({
+                    theme: "bootstrap"
+                });
+                $("#loadingoverlay").fadeOut();
+
+                {% if article.articles_slug|length < 1 %}
+                $("#headline").change(function() {
+                    var slug = encodeURI($("#headline").val().split(" ").join("-").replace(/[^a-zA-Z0-9-_\.]/g, '').toLowerCase());
+                    if (!requestRunning) {
+                        requestRunning = true;
+                        $.ajax({
+                            url: "{{ CONFIG.ROOTBACKENDURL }}/api/article/slugTaken.php?slug=" + slug,
+                            success: function (result) {
+                                requestRunning = false;
+                                if (result == '1') {
+                                    $("#slug").val(slug);
+                                } else {
+                                    $("#slug").val(slug + "-" + randomString(5));
+                                }
+                            }
+                        });
+                    }
+                });
+                {% endif %}
+
+                {% if 33|permissions %}
+                $("#deleteArticle").click(function () {
+                    bootbox.confirm({
+                        message: "Are you sure you wish to delete this article?",
+                        buttons: {
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-default'
+                            },
+                            confirm: {
+                                label: 'Yes',
+                                className: 'btn-danger'
+                            }
+                        },
+                        callback: function (result) {
+                            if (result) {
+                                $.ajax({
+                                    url: "{{ CONFIG.ROOTBACKENDURL }}/api/article/delete.php?articleid={{ article.articles_id }}",
+                                    success: function (result) {
+                                        if (result == '1') {
+                                            bootbox.alert("Success - article has been deleted", function () {
+                                                window.location.href="{{ CONFIG.ROOTBACKENDURL }}";
+                                            });
+                                        } else {
+                                            bootbox.alert("Sorry - Operation could not be completed! Please reload the page", function () {
+                                                location.reload();
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
+                {% endif %}
+            });
+        </script>
+
+
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    Insert picture
+                </h3>
+                <div class="box-tools pull-right">
+                </div>
+            </div>
+            <div class="box-body">
+                {% embed 'common/plugins/fineuploader.twig' with {'publicBool': true, 'type': 'ARTICLE-IMAGE', 'paste': false, 'typeId': 2, 'subTypeId': 1, 'imagesOnly': true } %}
+                    {% block success %}
+                        var filepath = responseJson.url.split('.');
+                        var urlLarge = responseJson.url.slice(0, responseJson.url.lastIndexOf(".")) + " (large)" + responseJson.url.slice(responseJson.url.lastIndexOf("."));
+                        $('#editor').summernote('insertImage',urlLarge, function ($image) {
+                            $image.attr('data-fileid', responseJson.id);
+                            $image.attr('alt', '');
+                        });
+                    {% endblock %}
+                {% endembed %}
+            </div>
+        </div>
+
+
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    Thumbnail
+                </h3>
+                <div class="box-tools pull-right">
+                </div>
+            </div>
+            <div class="box-body no-padding">
+                <img src="{% if article.articles_id %}
+            {{ article.articles_id|articleThumbnail|default('') }}
+            {% else %}
+            {{ "1"|s3URL }}{# Current default thumbnail - this also needs to be set a few lines below in the JS #}
+            {% endif %}" alt="Thumbnail" id="thumbnailImage" style="width: 100%;" />
+            </div>
+            <div class="box-footer">
+                {% embed 'common/plugins/fineuploader.twig' with {'publicBool': true, 'type': 'ARTICLE-THUMBNAIL', 'paste': false, 'typeId': 3, 'subTypeId': 1, 'imagesOnly': true } %}
+                    {% block success %}
+                        var filepath = responseJson.url.split('.');
+                        var urlLarge = responseJson.url.slice(0, responseJson.url.lastIndexOf(".")) + " (large)" + responseJson.url.slice(responseJson.url.lastIndexOf("."));
+                        $("#thumbnailImage").attr("src",urlLarge);
+                        thumbnailid = responseJson.id;
+                    {% endblock %}
+                {% endembed %}
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="col-md-8 col-sm-12">
+        <div id="editor">{{ article.articlesDrafts_text|replace({"PS": "&pound;", "\n": "<br/>", "[ARCHIVECDNURL]":CONFIG.FILESTOREURL ~ "/archive/public"})|raw }}</div>
+        <script>
+            {% if article.articles_id %}
+            var thumbnailid = null; //Used to store a new thumbnail if one is set
+            {% else %}
+            var thumbnailid = 1; //Current default thumbnail
+            {% endif %}
+            $(document).ready(function () {
+                $('#editor').summernote({
+                    minHeight: 2000,             // set minimum height of editor
+                    maxHeight: null,             // set maximum height of editor
+                    focus: true,
+                    disableDragAndDrop: true, //We're using fineuploader for that
+                    placeholder: 'Your epic article goes here',
+                    toolbar: [
+                        ['lastSavedMessage', ['lastSave']],
+                        ['oops', ['undo', 'redo']],
+                        ['font', ['style', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+                        ['fontname', ['fontname']],
+                        ['color', ['forecolor', 'backcolor']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['table', ['table']],
+                        ['insert', ['link', 'hr']],
+                        ['nouseModules', ['sportScore', 'starRating']],
+                        ['code', ['codeview']]
+                    ],
+                    buttons: {
+                        sportScore: function (context) {
+                            var ui = $.summernote.ui;
+
+                            // create button
+                            var button = ui.button({
+                                contents: '<i class="fa fa-futbol-o"/> Sports Score',
+                                tooltip: 'Insert new sports result',
+                                click: function () {
+                                    // invoke insertText method with 'hello' on editor module.
+                                    //context.invoke('editor.insertText', 'hello');
+                                    bootbox.alert("Coming soon");
+                                }
+                            });
+
+                            return button.render();   // return button as jquery object
+                        },
+                        starRating: function (context) {
+                            var ui = $.summernote.ui;
+
+                            // create button
+                            var button = ui.button({
+                                contents: '<i class="fa fa-star"/> Star Rating',
+                                tooltip: 'Define the star rating for a review',
+                                click: function () {
+                                    // invoke insertText method with 'hello' on editor module.
+                                    /*
+                                    var dialog = bootbox.dialog({
+                                        title: '',
+                                        message: "<p></p>",
+                                        buttons: {
+                                            cancel: {
+                                                label: "Add",
+                                                className: 'btn-default',
+                                                callback: function(){
+                                                    context.invoke('editor.insertText', 'hello');
+                                                }
+                                            },
+                                        }
+                                    });
+                                    */
+                                    bootbox.alert("Coming soon");
+                                }
+                            });
+
+                            return button.render();   // return button as jquery object
+                        },
+                        lastSave: function (context) {
+                            var ui = $.summernote.ui;
+
+                            // create button
+                            var button = ui.button({
+                                className: '',
+                                contents: '<span id="lastSavedMessage">Save</span>',
+                                tooltip: "",
+                                click: function () {
+                                    var savingDialog = bootbox.dialog({
+                                        message: '<p class="text-center">Saving and publishing your changes</p>',
+                                        closeButton: false
+                                    });
+
+                                    $.ajax({
+                                        url: "{{ CONFIG.ROOTBACKENDURL }}/api/article/editArticle.php",
+                                        type: 'POST',
+                                        dataType: "json",
+                                        data: {
+                                            "text": $('#editor').summernote('code'),
+                                            "headline": $("#headline").val(),
+                                            "excerpt": $("#excerpt").val(),
+                                            "categories":($("#category1").val() || []).join(",") + "," + ($("#category2").val() || []).join(","),
+                                            "authors":($("#authors").val() || []).join(","),
+                                            "published":$("#published").val(),
+                                            "status":$("#status").val(),
+                                            "type":"1",
+                                            "slug":$("#slug").val(),
+                                            "thumbnail": thumbnailid,
+                                            {% if article.articles_id != null %}
+                                            "articleid": "{{ article.articles_id }}"
+                                            {% endif %}
+                                        },
+                                        success: function (result) {
+                                            savingDialog.modal('hide');
+                                            if (result.result) {
+                                                {% if article.articles_id == null %}
+                                                    window.location.href = "?id=" + result.response.articleid;
+                                                {% else %}
+                                                    window.onbeforeunload = null; //Let them leave a page without a warning after they save
+                                                    $('.note-status-output').html(
+                                                        '<div class="alert alert-success">' +
+                                                        'Saved' +
+                                                        '</div>'
+                                                    );
+                                                {% endif %}
+                                            } else {
+                                                console.log(result);
+                                                bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again");
+                                            }
+                                        },
+                                        error: function () {
+                                            savingDialog.modal('hide');
+                                            bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again");
+                                        }
+                                    });
+
+                                }
+                            });
+                            return button.render();   // return button as jquery object
+                        }
+                    },
+                    popover: {
+                        image: [
+                            ['custom', ['captionIt']],
+                            ['imagesize', ['imageSize100', 'imageSize50', 'imageSize25']],
+                            ['float', ['floatLeft', 'floatRight', 'floatNone']],
+                            ['remove', ['removeMedia']]
+                        ],
+                        link: [
+                            ['link', ['linkDialogShow', 'unlink']]
+                        ],
+                    },
+                    captionIt:{
+                        icon: '<i class="fa fa-commenting-o"></i>',
+                        figureClass:'',
+                        figcaptionClass:'',
+                        captionText:'Photo Credit: '
+                    }
+                });
+            });
+
+        </script>
+    </div>
+    {% endblock %}

@@ -46,11 +46,11 @@
             }
         </style>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js" integrity="sha256-FA14tBI8v+/1BtcH9XtJpcNbComBEpdawUZA6BPXRVw=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js" integrity="sha256-FcVIknBiVRk5KLQeIBb9VQdtFRMqwffXyZ+D8q0gQro=" crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" integrity="sha256-xJOZHfpxLR/uhh1BwYFS5fhmOAdIRQaiOul5F/b7v3s=" crossorigin="anonymous" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" integrity="sha256-nbyata2PJRjImhByQzik2ot6gSHSU4Cqdz5bNYL2zcU=" crossorigin="anonymous" />
 
-        <!--Fastclick - increases speed of response-->
+    <!--Fastclick - increases speed of response-->
          <script src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js" integrity="sha256-t6SrqvTQmKoGgi5LOl0AUy+lBRtIvEJ+++pLAsfAjWs=" crossorigin="anonymous"></script>
 
     <!-- AdminLTE App -->
@@ -132,7 +132,7 @@
 <div class="wrapper">
     <header class="main-header">
         <!-- Logo -->
-        <a href="{{ CONFIG.ROOTURL }}" class="logo">
+        <a href="{{ CONFIG.ROOTBACKENDURL }}" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini">{{ CONFIG.PROJECT_NAME }}</span>
             <!-- logo for regular state and mobile devices -->
@@ -185,10 +185,10 @@
                                     </div>
                                     <div class="pull-right">
                                         {% if USERDATA.viewSiteAs != false %}
-                                            <a href="{{ CONFIG.ROOTURL }}/api/account/viewSiteAs_terminate.php"
+                                            <a href="{{ CONFIG.ROOTBACKENDURL }}/api/account/viewSiteAs_terminate.php"
                                                class="btn btn-default btn-flat">Back to Admin</a>
                                         {% else %}
-                                            <a href="{{ CONFIG.ROOTURL }}/login/?logout"
+                                            <a href="{{ CONFIG.ROOTBACKENDURL }}/login/?logout"
                                                class="btn btn-default btn-flat">Sign out</a>
                                         {% endif %}
                                     </div>
@@ -212,12 +212,35 @@
         <!--<div style="height: 0px; width: 10px; padding: 0px; margin: 0px;" class="paddingapp"></div>-->
         <section class="sidebar">
             <ul class="sidebar-menu"  data-widget="tree">
-                {% if 2|permissions or 11|permissions %}
-                <li class="header">Security</li>
+            {% if 30|permissions %}
+                <li>
+                    <a href="{{ CONFIG.ROOTBACKENDURL }}/articles.php?a={{ USERDATA.users_userid }}">
+                        <i class="fa fa-address-card-o"></i> <span>My Articles</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ CONFIG.ROOTBACKENDURL }}/articles.php">
+                        <i class="fa fa-file-text"></i> <span>Articles</span>
+                    </a>
+                </li>
+            {% endif %}
+                {% if 20|permissions %}
+                    <li class="header">Frontend Admin</li>
                 {% endif %}
+
+                {% if 20|permissions %}
+                    <li>
+                        <a href="{{ CONFIG.ROOTBACKENDURL }}/featured.php">
+                            <i class="fa fa-newspaper-o"></i> <span>Featured articles</span>
+                        </a>
+                    </li>
+                {% endif %}
+            {% if 2|permissions or 11|permissions %}
+            <li class="header">Security</li>
+            {% endif %}
             {% if 2|permissions %}
             <li>
-                <a href="{{ CONFIG.ROOTURL }}/users.php">
+                <a href="{{ CONFIG.ROOTBACKENDURL }}/users.php">
                     <i class="fa fa-users"></i> <span>Users</span>
                 </a>
             </li>
@@ -225,11 +248,13 @@
 
             {% if 11|permissions %}
                 <li>
-                    <a href="{{ CONFIG.ROOTURL }}/permissions.php">
+                    <a href="{{ CONFIG.ROOTBACKENDURL }}/permissions.php">
                         <i class="fa fa-unlock-alt"></i> <span>Permissions</span>
                     </a>
                 </li>
             {% endif %}
+
+
             </ul>
         </section>
         <!-- /.sidebar -->
@@ -281,7 +306,7 @@
                                 else if ($("#forcechangepass1").val().length < 6) bootbox.alert("Sorry - Your password is too short!");
                                 else {
                                     $.ajax({
-                                        url: '{{ CONFIG.ROOTURL }}/api/account/forcePasswordChange.php?pass=' + $("#forcechangepass1").val(),
+                                        url: '{{ CONFIG.ROOTBACKENDURL }}/api/account/forcePasswordChange.php?pass=' + $("#forcechangepass1").val(),
                                         success: function (result) {
                                             if (result == '1') {
                                                 location.reload();
@@ -308,8 +333,7 @@
         <div class="pull-right hidden-xs">
             <a href="https://github.com/Jbithell/bCMS">bCMS {{ CONFIG.VERSION.TAG }}.{{ CONFIG.VERSION.COMMIT }}</a>
         </div>
-        <strong>&copy;2018-{{ "now"|date("Y") }} <a href="https://www.jbithell.com">James Bithell</a>.</strong> All rights
-        reserved.
+        <strong>Built 2018 by <a href="https://www.jbithell.com">James Bithell</a> - &copy; varies.</strong>
     </footer>
 </div><!-- ./wrapper -->
 <script>

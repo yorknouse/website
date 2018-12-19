@@ -1,8 +1,8 @@
 {% extends "assets/template.twig" %}
 {% block htmlIncludes %}
 	<!--Password Strength-->
-	<link rel="stylesheet" href="{{ CONFIG.ROOTURL }}/assets/css/strength.css"/>
-	<script src="{{ CONFIG.ROOTURL }}/assets/js/libs/strength.min.js"></script>
+	<link rel="stylesheet" href="{{ CONFIG.ROOTBACKENDURL }}/assets/css/strength.css"/>
+	<script src="{{ CONFIG.ROOTBACKENDURL }}/assets/js/libs/strength.min.js"></script>
 
 	<!--Date picker-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js" integrity="sha256-VrmtNHAdGzjNsUNtWYG55xxE9xDTz4gF63x/prKXKH0=" crossorigin="anonymous"></script>
@@ -56,7 +56,7 @@
 						}
 						function emailtaken(email) {
 							$.ajax({
-								url:"{{CONFIG.ROOTURL}}/api/account/emailInUse.php?email=" + email,
+								url:"{{CONFIG.ROOTBACKENDURL}}/api/account/emailInUse.php?email=" + email,
 								async: false,
 								success:function(data) {
 									result = data;
@@ -89,7 +89,7 @@
 						});
 						function usernametaken(username) {
 							$.ajax({
-								url:"{{CONFIG.ROOTURL}}/api/account/usernameInUse.php?username=" + username,
+								url:"{{CONFIG.ROOTBACKENDURL}}/api/account/usernameInUse.php?username=" + username,
 								async: false,
 								success:function(data) {
 									result = data;
@@ -121,7 +121,7 @@
 							} else {
 								$('#updatesettingsusccess').hide();
 								$.ajax({
-									url: '{{CONFIG.ROOTURL}}/api/account/basicDetails.php?userid={{ USER.users_userid }}&username=' + $('#username').val() + '&forename=' + $('#forename').val() + '&lastname=' + $('#lastname').val() + '&email=' + $('#email').val(),
+									url: '{{CONFIG.ROOTBACKENDURL}}/api/account/basicDetails.php?userid={{ USER.users_userid }}&username=' + $('#username').val() + '&forename=' + $('#forename').val() + '&lastname=' + $('#lastname').val() + '&email=' + $('#email').val(),
 									success: function (result) {
 										{% if USER.users_userid != "NEW" %}
 										if (result == '1') {
@@ -188,7 +188,7 @@
 							} else if ($("#passnew").val().length < 6) bootbox.alert("Sorry - Your password is too short!");
 							else {
 								$.ajax({
-									url: '{{CONFIG.ROOTURL}}/api/account/changePass.php?newpass=' + $("#passnew").val() + '&oldpass=' + $("#current_pass").val(),
+									url: '{{CONFIG.ROOTBACKENDURL}}/api/account/changePass.php?newpass=' + $("#passnew").val() + '&oldpass=' + $("#current_pass").val(),
 									success: function (result) {
 										if (result == '1') {
 											location.reload();
@@ -365,7 +365,7 @@
 							$('.savePermissionEdit').click(function() {
 								$("#permissionsOverlayLoading").show();
 								$.ajax({
-									url: '{{CONFIG.ROOTURL}}/api/account/permissions.php',
+									url: '{{CONFIG.ROOTBACKENDURL}}/api/account/permissions.php',
 									data: {
 										"users_userid":"{{ USER.users_userid }}",
 										"userPositions_id":$(this).data("positionid"),
@@ -407,7 +407,7 @@
 										if (result) {
 											$("#permissionsOverlayLoading").show();
 											$.ajax({
-												url: '{{ CONFIG.ROOTURL }}/api/account/permissions.php',
+												url: '{{ CONFIG.ROOTBACKENDURL }}/api/account/permissions.php',
 												data: {
 													"userPositions_id": thispositonid,
 													"users_userid":"{{ USER.users_userid }}",
@@ -455,7 +455,7 @@
 						{% block success %}
 							console.log(responseJson);
 							$.ajax({
-							url: '{{CONFIG.ROOTURL}}/api/account/thumbnail.php',
+							url: '{{CONFIG.ROOTBACKENDURL}}/api/account/thumbnail.php',
 							type : "POST",
 							data : {
 								"users_userid": "{{ USER.users_userid }}",
@@ -527,7 +527,7 @@
 						$('#save-social-settings').click(function() {
 							$("#update_social_success").hide();
 							$.ajax({
-								url: '{{CONFIG.ROOTURL}}/api/account/social.php',
+								url: '{{CONFIG.ROOTBACKENDURL}}/api/account/social.php',
 								data: {"data":$("#update_social_form").serialize(),"users_userid": "{{ USER.users_userid }}"},
 								type: "POST",
 								success: function (result) {

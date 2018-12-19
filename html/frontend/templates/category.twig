@@ -11,15 +11,15 @@
                     {% if pageConfig.SUBSUBCATEGORY is defined %}
                     <h3>{{ pageConfig.SUBSUBCATEGORY.categories_displayName }}</h3>
                     <ol class="breadcrumb">
-                        <li><a href="{{ CONFIG.ROOTURL ~ "/" ~ pageConfig.CATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.CATEGORY.categories_displayName }}</a></li>
-                        <li><a href="{{ CONFIG.ROOTURL ~ "/" ~ pageConfig.SUBCATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.SUBCATEGORY.categories_displayName }}</a></li>
-                        <li class="active"><a href="{{ CONFIG.ROOTURL ~ "/" ~ pageConfig.SUBSUBCATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.SUBSUBCATEGORY.categories_displayName }}</a></li>
+                        <li><a href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ pageConfig.CATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.CATEGORY.categories_displayName }}</a></li>
+                        <li><a href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ pageConfig.SUBCATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.SUBCATEGORY.categories_displayName }}</a></li>
+                        <li class="active"><a href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ pageConfig.SUBSUBCATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.SUBSUBCATEGORY.categories_displayName }}</a></li>
                     </ol>
                     {% elseif pageConfig.SUBCATEGORY is defined %}
                         <h3>{{ pageConfig.SUBCATEGORY.categories_displayName }}</h3>
                         <ol class="breadcrumb">
-                            <li><a href="{{ CONFIG.ROOTURL ~ "/" ~ pageConfig.CATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.CATEGORY.categories_displayName }}</a></li>
-                            <li class="active"><a href="{{ CONFIG.ROOTURL ~ "/" ~ pageConfig.SUBCATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.SUBCATEGORY.categories_displayName }}</a></li>
+                            <li><a href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ pageConfig.CATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.CATEGORY.categories_displayName }}</a></li>
+                            <li class="active"><a href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ pageConfig.SUBCATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.SUBCATEGORY.categories_displayName }}</a></li>
                         </ol>
                     {% else %}
                         <h3>{{ pageConfig.CATEGORY.categories_displayName }}</h3>
@@ -33,6 +33,18 @@
     <div class="container">
         <div class="row">
             <aside class="col-sm-4 col-md-3 rightSidebar">
+                <ol class="breadcrumb">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Library</a></li>
+                    <li class="active">Data</li>
+                </ol>
+                <ul class="portfolio-sorting list-inline text-center">
+                    <li><a href="#" class="active">All</a></li>
+                    <li><a href="#" >Design</a></li>
+                    <li><a href="#" >Coding</a></li>
+                </ul>
+                <div class="post-cat"><a href="#">Fashion</a><a href="#">Travel</a><a href="#">Lifestyle</a></div>
+
                 {% if pageConfig.CATEGORY.categories_facebook != null or pageConfig.CATEGORY.categories_instagram != null or pageConfig.CATEGORY.categories_twitter != null %}
                 <div class="about-card">
                     <div class="ui divider">{{ pageConfig.CATEGORY.categories_displayName }}</div>
@@ -56,13 +68,13 @@
                     <!--  /.End of title -->
                     {% for article in pageConfig.leftBar.LATEST %}
                     <div class="media latest_post">
-                        {% if article.articles_thumbnail != null %}
-                           <a class="media-left" href="{{ CONFIG.ROOTURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
-                                <img src="{{ CONFIG.FILESTOREURL ~ "/archive/public/articleImages/" ~ article.articles_thumbnail }}" class="media-object" alt="">
+                        {% if article.articles_id|articleThumbnail %}
+                           <a class="media-left" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
+                                <img src="{{ article.articles_id|articleThumbnail }}" class="media-object" alt="">
                             </a>
                         {% endif %}
                         <div class="media-body">
-                            <h6 class="media-heading"><a href="{{ CONFIG.ROOTURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h6>
+                            <h6 class="media-heading"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h6>
                             <div class="entry-meta">
                                 <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ article.articles_published|date("d/M/y") }}</span>
                             </div>

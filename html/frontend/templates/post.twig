@@ -10,7 +10,7 @@
         <meta property="og:image" content="{{ CONFIG.FILESTOREURL ~ "/archive/public/articleImages/" ~ POST.articles_thumbnail }}">
     {% endif %}
     <meta property="og:title" content="{{ POST.articlesDrafts_headline|raw }}">
-    <meta property="og:description" content="{{ POST.articlesDrafts_byline|raw }}">
+    <meta property="og:description" content="{{ POST.articlesDrafts_excerpt|raw }}">
 {% endblock %}
 {% block content %}
 <div class="container">
@@ -21,12 +21,12 @@
                     <header class="details-header">
                         <div class="post-cat">
                             {% for category in POST.CATEGORIES %}
-                                <a href="{{ CONFIG.ROOTURL ~ "/" ~ category.categories_id|getCategoryURL }}">{{ category.categories_displayName }}</a>
+                                <a href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ category.categories_id|getCategoryURL }}">{{ category.categories_displayName }}</a>
                             {% endfor %}
                         </div>
                         <h2>{{ POST.articlesDrafts_headline|raw }}</h2>
-                        {% if POST.articlesDrafts_byline|length > 0 %}
-                        <h4>{{ POST.articlesDrafts_byline|raw }}</h4>
+                        {% if POST.articlesDrafts_excerpt|length > 0 %}
+                        <h4>{{ POST.articlesDrafts_excerpt|raw }}</h4>
                         {% endif %}
                         <div class="element-block">
                             <div class="entry-meta">
@@ -35,7 +35,7 @@
                                 <span class="comment-link"><a href="#comments"><i class="fa fa-comment-o" aria-hidden="true"></i>{{ POST.COMMENTCOUNT }} Comment{{ POST.COMMENTCOUNT != 1 ? "s" : "" }}</a></span>
                                 {% endif %}
                                 {% for author in POST.articles_authors %}
-                                    <span class="comment-link"><a href="{{ CONFIG.ROOTURL }}/author/?a={{ author.users_userid }}">{{ author.users_name1 }} {{ author.users_name2 }}</a></span>
+                                    <span class="comment-link"><a href="{{ CONFIG.ROOTFRONTENDURL }}/author/?a={{ author.users_userid }}">{{ author.users_name1 }} {{ author.users_name2 }}</a></span>
                                 {% endfor %}
                             </div>
                             <!--<div class="reading-time"><span class="eta"></span> ({{ POST.articlesDrafts_text|split(' ')|length }} words)</div>-->
@@ -69,8 +69,8 @@
                 <!-- /.End of post details -->
                 <div class="stickyshare hidden-xs">
                     <aside class="share_article">
-                        <a href="#" class="boxed_icon facebook" data-share-url="{{ CONFIG.ROOTURL }}/{{ POST.articles_published|date("Y/m/d") }}/{{ POST.articles_slug }}" data-share-network="facebook" data-share-text="{{ POST.articlesDrafts_headline }}" data-share-title="Facebook Share"><i class="fa fa-facebook"></i></a>
-                        <a href="#" class="boxed_icon twitter" data-share-url="{{ CONFIG.ROOTURL }}/{{ POST.articles_published|date("Y/m/d") }}/{{ POST.articles_slug }}" data-share-network="twitter" data-share-text="{{ POST.articlesDrafts_headline }}" data-share-title="Twitter Share" data-share-via="yorknouse"><i class="fa fa-twitter"></i></a>
+                        <a href="#" class="boxed_icon facebook" data-share-url="{{ CONFIG.ROOTFRONTENDURL }}/{{ POST.articles_published|date("Y/m/d") }}/{{ POST.articles_slug }}" data-share-network="facebook" data-share-text="{{ POST.articlesDrafts_headline }}" data-share-title="Facebook Share"><i class="fa fa-facebook"></i></a>
+                        <a href="#" class="boxed_icon twitter" data-share-url="{{ CONFIG.ROOTFRONTENDURL }}/{{ POST.articles_published|date("Y/m/d") }}/{{ POST.articles_slug }}" data-share-network="twitter" data-share-text="{{ POST.articlesDrafts_headline }}" data-share-title="Twitter Share" data-share-via="yorknouse"><i class="fa fa-twitter"></i></a>
                         {% if POST.COMMENTCOUNT > 0 %}
                         <a href="#comments" class="boxed_icon comment"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" width="14" height="14" viewBox="0 0 14 14" enable-background="new 0 0 14 14" xml:space="preserve"><path d="M3.6 14c0 0-0.1 0-0.1 0 -0.1-0.1-0.2-0.2-0.2-0.3v-2.7h-2.9C0.2 11 0 10.8 0 10.6V0.4C0 0.2 0.2 0 0.4 0h13.3C13.8 0 14 0.2 14 0.4v10.2c0 0.2-0.2 0.4-0.4 0.4H6.9L3.9 13.9C3.8 14 3.7 14 3.6 14zM0.7 10.2h2.9c0.2 0 0.4 0.2 0.4 0.4v2.2l2.5-2.4c0.1-0.1 0.2-0.1 0.2-0.1h6.6v-9.5H0.7V10.2z"></path></svg><span>{{ POST.COMMENTCOUNT }}</span></a>
                         {% endif %}
@@ -86,7 +86,7 @@
                 <div class="author-bio">
                         {% if author.IMAGE %}
                             <div class="author-img">
-                                <a href="{{ CONFIG.ROOTURL }}/author/?a={{ author.users_userid }}"><img alt="{{ author.users_name1 }} {{ author.users_name2 }}" src="{{ author.IMAGE }}" class="avatar img-responsive"></a>
+                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/author/?a={{ author.users_userid }}"><img alt="{{ author.users_name1 }} {{ author.users_name2 }}" src="{{ author.IMAGE }}" class="avatar img-responsive"></a>
                             </div>
                         {% endif %}
 
@@ -132,14 +132,14 @@
                     {% for article in pageConfig.SIMILAR %}
                         <div class="col-sm-4">
                             <article class="post_article item_related">
-                                {% if article.articles_thumbnail != null %}
-                                    <a class="post_img" href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
+                                {% if article.articles_id|articleThumbnail != null %}
+                                    <a class="post_img" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
                                     <figure>
-                                        <img class="img-responsive" src="{{ CONFIG.FILESTOREURL ~ "/archive/public/articleImages/" ~ article.articles_thumbnail }}" alt="">
+                                        <img class="img-responsive" src="{{ article.articles_id|articleThumbnail }}" alt="">
                                     </figure>
                                 </a>
                                 {% endif %}
-                                <h4><a href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h4>
+                                <h4><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h4>
                             </article>
                             <!-- /.End of related post -->
                         </div>
@@ -256,13 +256,13 @@
                 </div>
                 {% for article in pageConfig.leftBar.LATEST %}
                     <div class="media latest_post">
-                        {% if article.articles_thumbnail != null %}
-                            <a class="media-left" href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
-                                <img src="{{ CONFIG.FILESTOREURL ~ "/archive/public/articleImages/" ~ article.articles_thumbnail }}" class="media-object" alt="">
+                        {% if article.articles_id|articleThumbnail != null %}
+                            <a class="media-left" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
+                                <img src="{{ article.articles_id|articleThumbnail }}" class="media-object" alt="">
                             </a>
                         {% endif %}
                         <div class="media-body">
-                            <h6 class="media-heading"><a href="{{ CONFIG.ROOTUL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h6>
+                            <h6 class="media-heading"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h6>
                             <div class="entry-meta">
                                 <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ article.articles_published|date("d/M/y") }}</span>
                             </div>

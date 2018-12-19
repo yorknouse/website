@@ -29,6 +29,6 @@ if (!$id) {
     die($DBLIB->getLastError());
 } else {
     header('Content-type: application/json');
-    die("" . json_encode(["id" => $id, "resize" => false]));
+    die("" . json_encode(["id" => $id, "resize" => false,"url" => $fileData["s3files_cdn_endpoint"] . "/" . $fileData["s3files_path"] . "/" . $fileData["s3files_filename"] . "." . $fileData["s3files_extension"]]));
 }
 ?>
