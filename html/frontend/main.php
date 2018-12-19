@@ -32,7 +32,7 @@ if (is_numeric(substr($URL,0,1))) {
     $DBLIB->where("categories_id IN (" . $PAGEDATA["POST"]['articles_categories'] . ")");
     $DBLIB->orderBy("categories_order", "ASC");
     $DBLIB->where("categories_showPublic",1);
-    $PAGEDATA['POST']['CATEGORIES'] = $DBLIB->get('categories', null, ["categories_id","categories_displayName","categories_backgroundColorContrast","categories_backgroundColor"]);
+    $PAGEDATA['POST']['CATEGORIES'] = $DBLIB->get('categories', null, ["categories_id","categories_nestUnder","categories_displayName","categories_backgroundColorContrast","categories_backgroundColor"]);
 
 
     if ($PAGEDATA['POST']['articles_authors'] != null) {

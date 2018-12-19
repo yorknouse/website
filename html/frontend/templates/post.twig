@@ -6,11 +6,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js" integrity="sha256-4F7e4JsAJyLUdpP7Q8Sah866jCOhv72zU5E8lIRER4w=" crossorigin="anonymous"></script>
 {% endblock %}
 {% block htmlMeta %}
-    {% if POST.articles_thumbnail != null %}
-        <meta property="og:image" content="{{ CONFIG.FILESTOREURL ~ "/archive/public/articleImages/" ~ POST.articles_thumbnail }}">
+    {% if POST.articles_id|articleThumbnail != null %}
+        <meta property="og:image" content="{{ POST.articles_id|articleThumbnail }}">
     {% endif %}
+    <meta property="fb:app_id" content="471873819886891" />
     <meta property="og:title" content="{{ POST.articlesDrafts_headline|raw }}">
     <meta property="og:description" content="{{ POST.articlesDrafts_excerpt|raw }}">
+    <meta property="og:type"   content="article" />
+    <meta property="article:content_tier"   content="free" />
+    <meta property="article:publisher" content="https://www.facebook.com/yorknouse" />
+    {% for category in POST.CATEGORIES if category.categories_nestUnder == null %}
+    <meta property="article:section" content="{{  category.categories_displayName }}" />
+    {% endfor %}
+    {% for author in POST.articles_authors if author.users_social_facebook != null %}
+    <meta property="article:author"   content="https://facebook.com/{{ author.users_social_facebook }}" />
+    {% endfor %}
+    <meta property="article:published_time" content="{{ POST.articles_published|date("d M Y") }}" />
+
 {% endblock %}
 {% block content %}
 <div class="container">

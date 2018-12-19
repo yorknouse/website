@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head >
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -63,6 +63,8 @@
         <meta property="og:url" content="https://nouse.co.uk">
     {% endblock %}
 
+    <!--Google adsense-->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 <body class="news-layout2">
 <div class="main-content animsition">
@@ -368,8 +370,12 @@
             {% endblock %}
 
             <div class=" container">
-                <div class="banner-content">
-                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/advertising.php"><img src="{{ CONFIG.ROOTFRONTENDURL }}/common/assets/adTemplates/728x90.jpg" class="img-responsive  center-block" alt=""></a>
+                <div class="banner-content" style="overflow: hidden;padding: 0px;">
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:728px;height:90px"
+                         data-ad-client="ca-pub-3272125391697294"
+                         data-ad-slot="7381694633"></ins>
+                    {#<a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/advertising.php"><img src="{{ CONFIG.ROOTFRONTENDURL }}/common/assets/adTemplates/728x90.jpg" class="img-responsive  center-block" alt=""></a>#}
                 </div>
                 <!-- /.End of banner content -->
             </div>
@@ -559,6 +565,8 @@
 
     gtag('js', new Date());
     gtag('config', '{{ CONFIG.ANALYTICS.TRACKINGID }}');
+
+    (adsbygoogle = window.adsbygoogle || []).push({});
 </script>
 </body>
 </html>
