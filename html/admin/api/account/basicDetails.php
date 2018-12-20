@@ -20,14 +20,14 @@ if (isset($_GET['username'])) {
 
     if (
         (
-            (!$newUser && !$thisUser && strtolower($_GET['email']) != $USERDATA['users_email']) //This users' user account
-          or ($thisUser && strtolower($_GET['email']) != $thisUser['users_email']) //Existing user account being edited
+            (!$newUser && !$thisUser && strtolower($_GET['email']) != strtolower($USERDATA['users_email'])) //This users' user account
+          or ($thisUser && strtolower($_GET['email']) != strtolower($thisUser['users_email'])) //Existing user account being edited
             or $newUser
         ) && $AUTH->emailTaken($bCMS->sanitizeString(strtolower($_GET['email'])))) die("Email taken");
     elseif (
         (
-            (!$newUser && !$thisUser && strtolower($_GET['username']) != $USERDATA['users_username']) //This users' user account
-            or ($thisUser && strtolower($_GET['username']) != $thisUser['users_username']) //Existing user account being edited
+            (!$newUser && !$thisUser && strtolower($_GET['username']) != strtolower($USERDATA['users_username'])) //This users' user account
+            or ($thisUser && strtolower($_GET['username']) != strtolower($thisUser['users_username'])) //Existing user account being edited
             or $newUser
         ) && $AUTH->usernameTaken($bCMS->sanitizeString(strtolower($_GET['username'])))) die("Username taken");
     else {
@@ -35,7 +35,8 @@ if (isset($_GET['username'])) {
             'users_email' => strtolower($bCMS->sanitizeString($_GET['email'])),
             'users_username' => strtolower($bCMS->sanitizeString($_GET['username'])),
             'users_name1' => $bCMS->sanitizeString($_GET['forename']),
-            'users_name2' => $bCMS->sanitizeString($_GET['lastname'])
+            'users_name2' => $bCMS->sanitizeString($_GET['lastname']),
+            'users_bio' => $bCMS->sanitizeString($_GET['bio'])
         );
 
 

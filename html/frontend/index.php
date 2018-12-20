@@ -35,6 +35,7 @@ $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts
 $PAGEDATA['allTimeMostRead'] = $DBLIB->get("articles", 4, ["articles.articles_lifetimeViews","articles.articles_id","articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline"]);
 
 
+
 // Homepage featured
 $DBLIB->orderBy("featuredHome_timestamp", "DESC");
 $featuredHomeArticles = $DBLIB->getone("featuredHome");

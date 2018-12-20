@@ -1,90 +1,84 @@
 {% extends "template.twig" %}
+{% block htmlIncludes %}
+    <script src="{{ CONFIG.ASSETSURL }}js/macy.js"></script>
+    <script>
+        $( document ).ready(function() {
+            var masonry = new Macy({
+                container: '#macy-container',
+                trueOrder: false,
+                waitForImages: false,
+                useOwnImageLoader: false,
+                debug: true,
+                mobileFirst: true,
+                columns: 1,
+                margin: 30,
+                breakAt: {
+                    1200: 3,
+                    992: 3,
+                    768: 2,
+                    480: 2
+                }
+            });
+        });
+    </script>
 
+{% endblock %}
 {% block prePageContent %}
-    <div class="parallax page_header"  data-parallax-bg-image="{{ CONFIG.ASSETSURL }}img/header-bg.jpg" data-parallax-direction="left">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <h3>Authors</h3>
-                    <ol class="breadcrumb">
-                        <li><a href="#">Home</a></li>
-                        <li class="active">Authors</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
+    <div class="parallax page_header" data-parallax-bg-image="{{ CONFIG.FILESTOREURL }}/site-assets/teamPhotos/201819Team.jpg"
+         data-parallax-direction="down" style="height: 500px;">
+
     </div>
 {% endblock %}
 {% block content %}
+    <div class="container">
+        <div class="row">
+            <main class="col-sm-12 content p_r_40">
+                <div id="macy-container">
+                    {% for user in USERS %}
+                    <article class="grid_post">
+                        <figure>
+                            {% if user.IMAGE %}
+                            <a href="{{ CONFIG.ROOTFRONTENDURL ~ "/author/?id=" ~ user.users_userid }}" class="grid_image">
+                                <img src="{{ user.IMAGE }}" class="img-responsive center-block" alt="{{ user.users_name1 ~ " " ~ user.users_name2 }}">
+                            </a>
+                            {% else %}
+                            <a href="{{ CONFIG.ROOTFRONTENDURL ~ "/author/?id=" ~ user.users_userid }}" class="grid_image">
+                                <img src="{{ CONFIG.FILESTOREURL }}/site-assets/logo/defaultUser.png" class="img-responsive center-block" alt="{{ user.users_name1 ~ " " ~ user.users_name2 }}">
+                            </a>
+                            {% endif %}
+                            <figcaption>
+                                <h3 class="grid_post_title" style="margin: 0;"><a href="{{ CONFIG.ROOTFRONTENDURL ~ "/author/?a=" ~ user.users_userid }}">{{ user.users_name1 ~ " " ~ user.users_name2 }}</a></h3>
+                                <div class="element-block">
+                                    <p>{{ user.users_bio|replace({"\n":"<br/>"})|raw }}</p>
+                                    {% for position in user.POSITIONS %}
+                                    <h4 style="margin-bottom: 3px;">{{ (position.userPositions_displayName == null ? position.positions_displayName : position.userPositions_displayName) }}</h4>
 
-<div class="container">
-    <div class="authors-content">
-        <figure class="author-card">
-            <figcaption>
-                <img src="{{ CONFIG.ASSETSURL }}img/img_avatar1.png" alt="" class="profile" />
-                <h3>Hans Down<span>San Francisco, CA</span></h3>
-                <p>I'm looking for something that can deliver a 50-pound payload of snow on a small feminine target. Can you suggest something? Hello...? </p>
-                <a href="author-post.html" class="follow">Follow</a>
-                <a href="author-post.html" class="info">More Info</a>
-            </figcaption>
-        </figure>
-        <!-- /.End of profile card -->
-        <figure class="author-card">
-            <img src="{{ CONFIG.ASSETSURL }}img/profile-bg-2.jpg" alt="">
-            <figcaption>
-                <img src="{{ CONFIG.ASSETSURL }}img/img_avatar2.png" alt="" class="profile" />
-                <h3>Wisteria Widget<span>San Francisco, CA</span></h3>
-                <p>Calvin: I'm a genius, but I'm a misunderstood genius. Hobbes: What's misunderstood about you? Calvin: Nobody thinks I'm a genius.</p>
-                <a href="author-post.html" class="follow">Follow</a>
-                <a href="author-post.html" class="info">More Info</a>
-            </figcaption>
-        </figure>
-        <!-- /.End of profile card -->
-        <figure class="author-card">
-            <img src="{{ CONFIG.ASSETSURL }}img/profile-bg-3.jpg" alt="">
-            <figcaption>
-                <img src="{{ CONFIG.ASSETSURL }}img/img_avatar3.png" alt="" class="profile" />
-                <h3>Desmond Eagle<span>San Francisco, CA</span></h3>
-                <p>If you want to stay dad you've got to polish your image. I think the image we need to create for you is "repentant but learning".</p>
-                <a href="author-post.html" class="follow">Follow</a>
-                <a href="author-post.html" class="info">More Info</a>
-            </figcaption>
-        </figure>
-        <!-- /.End of profile card -->
-        <figure class="author-card">
-            <img src="{{ CONFIG.ASSETSURL }}img/profile-bg-4.jpg" alt="">
-            <figcaption>
-                <img src="{{ CONFIG.ASSETSURL }}img/img_avatar4.png" alt="" class="profile" />
-                <h3>Naeem Khan<span>San Francisco, CA</span></h3>
-                <p>If you want to stay dad you've got to polish your image. I think the image we need to create for you is "repentant but learning".</p>
-                <a href="author-post.html" class="follow">Follow</a>
-                <a href="author-post.html" class="info">More Info</a>
-            </figcaption>
-        </figure>
-        <!-- /.End of profile card -->
-        <figure class="author-card">
-            <img src="{{ CONFIG.ASSETSURL }}img/profile-bg-5.jpg" alt="">
-            <figcaption>
-                <img src="{{ CONFIG.ASSETSURL }}img/img_avatar5.png" alt="" class="profile" />
-                <h3>Jahangir Alom<span>San Francisco, CA</span></h3>
-                <p>If you want to stay dad you've got to polish your image. I think the image we need to create for you is "repentant but learning".</p>
-                <a href="author-post.html" class="follow">Follow</a>
-                <a href="author-post.html" class="info">More Info</a>
-            </figcaption>
-        </figure>
-        <!-- /.End of profile card -->
-        <figure class="author-card">
-            <img src="{{ CONFIG.ASSETSURL }}img/profile-bg-6.jpg" alt="">
-            <figcaption>
-                <img src="{{ CONFIG.ASSETSURL }}img/img_avatar6.png" alt="" class="profile" />
-                <h3>Tuhin Sorker<span>San Francisco, CA</span></h3>
-                <p>If you want to stay dad you've got to polish your image. I think the image we need to create for you is "repentant but learning".</p>
-                <a href="author-post.html" class="follow">Follow</a>
-                <a href="author-post.html" class="info">More Info</a>
-            </figcaption>
-        </figure>
-        <!-- /.End of profile card -->
+                                        {% if date(position.userPositions_end) > date() %}
+                                        <p>Since {{ position.userPositions_start|date("M Y") }}</p>
+                                    {% else %}
+                                        <p>{{ position.userPositions_start|date("M Y") }}   to {{ position.userPositions_end|date("M Y") }}</p>
+                                    {% endif %}
+                                    {% endfor %}
+                                    {% if user.users_social_facebook != null %}
+                                        <a href="https://facebook.com/{{ user.users_social_facebook }}" class="btn link-btn btn-rounded" style="margin: 5px;"><i class="fa fa-facebook"></i></a>
+                                    {% endif %}
+                                    {% if user.users_social_instagram != null %}
+                                        <a href="https://instagram.com/{{ user.users_social_instagram }}" class="btn link-btn btn-rounded" style="margin: 5px;"><i class="fa fa-instagram"></i></a>
+                                    {% endif %}
+                                    {% if user.users_social_twitter != null %}
+                                        <a href="https://twitter.com/{{ user.users_social_twitter }}" class="btn link-btn btn-rounded" style="margin: 5px;"><i class="fa fa-twitter"></i></a>
+                                    {% endif %}
+                                    {% if user.users_social_snapchat != null %}
+                                        <a href="https://snapchat.com/add/{{ user.users_social_snpachat }}" class="btn link-btn btn-rounded" style="margin: 5px;"><i class="fa fa-snapchat"></i></a>
+                                    {% endif %}
+                                </div>
+                            </figcaption>
+                        </figure>
+                    </article>
+                    {% endfor %}
+                </div>
+            </main>
+        </div>
     </div>
-</div>
 
 {% endblock %}

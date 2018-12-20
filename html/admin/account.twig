@@ -44,6 +44,10 @@
 						<label for="email">Email address:</label>
 						<input type="email" class="form-control" id="email" name="email" value="{{USER['users_email']}}" />
 					</div>
+					<div class="form-group">
+						<label for="bio">Bio</label>
+						<textarea rows="3" class="form-control" id="bio" name="bio" placeholder="Please don't include details of your roles at Nouse here">{{USER['users_bio']}}</textarea>
+					</div>
 				</div>
 				<div class="box-footer">
 					<button id="save-account-settings" class="btn btn-default">Save</button>
@@ -121,7 +125,7 @@
 							} else {
 								$('#updatesettingsusccess').hide();
 								$.ajax({
-									url: '{{CONFIG.ROOTBACKENDURL}}/api/account/basicDetails.php?userid={{ USER.users_userid }}&username=' + $('#username').val() + '&forename=' + $('#forename').val() + '&lastname=' + $('#lastname').val() + '&email=' + $('#email').val(),
+									url: '{{CONFIG.ROOTBACKENDURL}}/api/account/basicDetails.php?userid={{ USER.users_userid }}&username=' + $('#username').val() + '&forename=' + $('#forename').val() + '&lastname=' + $('#lastname').val() + '&email=' + $('#email').val() + '&bio=' + $('#bio').val(),
 									success: function (result) {
 										{% if USER.users_userid != "NEW" %}
 										if (result == '1') {
@@ -219,7 +223,7 @@
 							<th>From</th>
 							<th>To</th>
 							<th>Show on site</th>
-							{% if USER.users_userid != USERDATA.users_userid and 13|permissions %}
+							{% if 13|permissions %}
 							<th></th>
 								<th></th>
 							{% endif %}
@@ -229,7 +233,7 @@
 						{% if USER.users_userid != "NEW" %}
 							{% for position in USER.POSITIONS %}
 								<tr>
-									{% if 13|permissions and USER.users_userid != USERDATA.users_userid %}
+									{% if 13|permissions %}
 										<td>
 											<div class="form-group">
 												<select class="form-control positionID">
@@ -298,7 +302,7 @@
 									{% endif %}
 								</tr>
 							{% endfor %}
-							{% if USER.users_userid != USERDATA.users_userid and 13|permissions %}
+							{% if 13|permissions %}
 							<tr><td colspan="999" style="font-weight: bold;">Add position</td></tr>
 							<tr>
 								<td>
