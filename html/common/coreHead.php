@@ -29,6 +29,8 @@ register_shutdown_function('errorHandler');
 
 try {
     //session_set_cookie_params(0, '/', '.' . $_SERVER['SERVER_NAME']); //Fix for subdomain bug
+    ini_set('session.gc_maxlifetime', 3600*8); //8 hours
+    session_set_cookie_params(3600*8);
     session_start(); //Open up the session
 } catch (Exception $e) {
     //Do Nothing

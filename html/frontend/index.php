@@ -18,6 +18,15 @@ foreach ($PAGEDATA['CATEGORIES'] as $key=>$category) {
 }
 
 
+
+$DBLIB->orderBy("(SELECT COUNT(*) FROM articlesReads WHERE articlesReads_timestamp > '" .  date("Y-m-d H:i:s", strtotime("-7 days")) . "')", "DESC");
+$DBLIB->where("articles_showInLists", 1);
+$DBLIB->where("articles_published <= '" . date("Y-m-d H:i:s") . "'");
+$DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
+$DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
+$PAGEDATA['weeklyMostRead'] = $DBLIB->get("articles", 6, ["articles.articles_id","articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline"]);
+
+
 $DBLIB->orderBy("articles_lifetimeViews", "DESC");
 $DBLIB->where("articles_showInLists", 1);
 $DBLIB->where("articles_published <= '" . date("Y-m-d H:i:s") . "'");

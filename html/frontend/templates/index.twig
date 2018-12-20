@@ -317,7 +317,22 @@
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="leftContentTabPanelRead">
-
+                        {% for article in weeklyMostRead %}
+                            <div class="media latest_post">
+                                {% if article.articles_id|articleThumbnail %}
+                                    <a class="media-left" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
+                                        <img src="{{ article.articles_id|articleThumbnail }}" class="media-object" alt="">
+                                    </a>
+                                {% endif %}
+                                <div class="media-body">
+                                    <h6 class="media-heading"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline|raw }}</a></h6>
+                                    <div class="entry-meta">
+                                        <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ article.articles_published|date("j M Y") }}</span>
+                                        <span class="comment-link"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
                     <div class="tab-pane fade" id="rightContentTabPanelRead">
                         {% for article in allTimeMostRead %}
