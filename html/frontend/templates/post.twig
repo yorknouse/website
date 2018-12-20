@@ -15,6 +15,8 @@
     <meta property="og:type"   content="article" />
     <meta property="article:content_tier"   content="free" />
     <meta property="article:publisher" content="https://www.facebook.com/yorknouse" />
+    <meta property="og:url" content="{{ CONFIG.ROOTFRONTENDURL }}/{{ POST.articles_published|date("Y/m/d") }}/{{ POST.articles_slug }}" />
+    <link rel="canonical" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ POST.articles_published|date("Y/m/d") }}/{{ POST.articles_slug }}" />
     {% for category in POST.CATEGORIES if category.categories_nestUnder == null %}
     <meta property="article:section" content="{{  category.categories_displayName }}" />
     {% endfor %}
