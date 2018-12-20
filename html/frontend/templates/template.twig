@@ -406,17 +406,42 @@
             }
         });
     }
+
     $(document).ready(function () {
         $('.animsition').animsition({
+
             {% if pageConfig.showLoader != true %}
             //Hurry the loader along by basically forcing it to show and then hide again - if you let it persist it'll wait for all the images to load
             timeout: true,
             timeoutCountdown: 1000,
             {% endif %}
             loadingInner: '<img src="https://nouse.ams3.cdn.digitaloceanspaces.com/site-assets/logo/kingfisher.svg" style="width: 80px;" />',
-            inDuration: 0,
-            //outDuration: 800,
+            browser: [ 'animation-duration', '-webkit-animation-duration'],
+            inDuration: 100,
+            outDuration: 100,
         });
+
+        /*
+        Okay so bear with me but for some unknown reason the following lines fix the animsition on Safari. Without registering the following handlers the site loads blank on all versions of safari.
+
+        I spent weeks debugging this and it's not clear at all why this fixes the library but please don't remove it and see here https://github.com/yorknouse/website/issues/10 for more details
+         */
+        $('.animsition').on('animsition.inStart', function(){
+            console.log("");
+        });
+        $('.animsition').on('animsition.inEnd', function(){
+            console.log("");
+        });
+        $('.animsition').on('animsition.outStart', function(){
+            console.log("");
+        });
+        $('.animsition').on('animsition.outEnd', function(){
+            console.log("");
+        });
+
+
+
+
         $('a').smoothScroll({offset: -100});
 
 
