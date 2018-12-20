@@ -21,11 +21,12 @@ if (is_numeric(substr($URL,0,1))) {
     $DBLIB->where("DATE(articles_published) = '" . $bCMS->sanitizeString($urlSplit[0]) . "-". $bCMS->sanitizeString($urlSplit[1]) . "-" . $bCMS->sanitizeString($urlSplit[2]) . "'");
     $DBLIB->where("articles_slug", $bCMS->sanitizeString($urlSplit[3]));
     $DBLIB->where("articles_showInSearch", 1);
-    $DBLIB->where("articles_published <= '" . date("Y-m-d H:i:s") . "'");
+    if (!isset($_GET['key'])) $DBLIB->where("articles_published <= '" . date("Y-m-d H:i:s") . "'");
     $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
     $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
     $PAGEDATA['POST'] = $DBLIB->getone("articles");
     if (!$PAGEDATA['POST']) render404Error();
+    if (isset($_GET['key']) and md5($PAGEDATA['POST']['articles_id']) != $_GET['key']) render404Error(); //If they've got the key wrong they can't view it in advance
 
     $PAGEDATA['pageConfig'] = ["TITLE" => $PAGEDATA['POST']['articlesDrafts_headline']];
 

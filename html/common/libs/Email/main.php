@@ -1,9 +1,4 @@
 <?php
-/*SENDING E-MAILS IN iMUN
-	1. require 'helpers/email.php';
-	2. sendemail("TO EMAIL ADDRESS", "NAME OF PERSON E-MAIL BEING SENT TO (OPTIONAL)", "E-MAIL SUBJECT", "MESSAGE CONTENTS");
-	3. That's it!
-*/
 require_once __DIR__ . '/../../config.php';
 
 function outputemail($html) {
@@ -919,7 +914,7 @@ function outputemail($html) {
 					<tbody><tr>
 					<td class="title" style="padding: 0;vertical-align: top;padding-top: 10px;padding-bottom: 12px;font-size: 12px;line-height: 21px;text-align: left;color: #999;font-family: Georgia,serif">&#10004;Official Message from '. $CONFIG['PROJECT_NAME'] .'</td>
 					<td class="webversion" style="padding: 0;vertical-align: top;padding-top: 10px;padding-bottom: 12px;font-size: 12px;line-height: 21px;text-align: right;width: 300px;color: #999;font-family: Georgia,serif">
-						<a href="' . $CONFIG['ROOTURL'] . '">Visit ' . $CONFIG['PROJECT_NAME'] . '</a>
+						<a href="' . $CONFIG['ROOTFRONTENDURL'] . '">Visit ' . $CONFIG['PROJECT_NAME'] . '</a>
 					</td>
 					</tr>
 				</tbody></table>
@@ -1004,15 +999,22 @@ function outputemail($html) {
 
 	</body></html>';
 }
-function sendemail($userid, $subject, $html) {
+function sendemail($userIDOrEmail, $subject, $html) {
 	global $DBLIB, $CONFIG;
-	$DBLIB->where('users_userid', $userid);
-	$user = $DBLIB->getone('users');
+	if (is_numeric($userIDOrEmail)) {
+        $DBLIB->where('users_userid', $userIDOrEmail);
+        $DBLIB->where("users_email != NULL");
+        $user = $DBLIB->getone('users', ['users_userid','users_name1','users_name2','users_email']);
+        if (!$user) return false; //Can't find user
+    } elseif (filter_var($userIDOrEmail, FILTER_VALIDATE_EMAIL)) {
+	    $user = [];
+	    $user['users_email'] = $userIDOrEmail;
+        $user["users_name1"] = $userIDOrEmail;
+        $user["users_name2"] = "";
+        $user['users_userid'] = null;
+    } else return false;
 
 	$outputhtml = outputemail($html);
-
-	if ($user["users_email"] == '') return false; //If the user hasn't entered an E-Mail address yet
-
 
     $email = new \SendGrid\Mail\Mail();
     $email->setFrom($CONFIG['PROJECT_FROM_EMAIL'], $CONFIG['PROJECT_NAME']);
@@ -1022,7 +1024,7 @@ function sendemail($userid, $subject, $html) {
     $email->addContent("text/html", $outputhtml);
     $sendgrid = new \SendGrid($CONFIG['SENDGRID']['APIKEY']);
 
-	$sqldata = Array ("users_userid" => $userid,
+	$sqldata = Array ("users_userid" => $user['users_userid'],
 				"emailSent_html" => $html,
 				"emailSent_subject" => $subject,
 				"emailSent_sent" => date('Y-m-d G:i:s'),
@@ -1032,7 +1034,7 @@ function sendemail($userid, $subject, $html) {
 				'emailSent_toName' => $user["users_name1"] .  ' ' . $user["users_name2"]
 	);
 	$emailid = $DBLIB->insert('emailSent', $sqldata);
-	if(!$emailid) die('Sorry - Could not send E-Mail');
+	if(!$emailid) return false;
 
     $response = $sendgrid->send($email);
     //$response->statusCode()
