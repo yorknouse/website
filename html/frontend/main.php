@@ -156,7 +156,6 @@ if (is_numeric(substr($URL,0,1))) {
             }
         }
     }
-
     //This is duplicated on the authors page
     $DBLIB->where("FIND_IN_SET('" . $thisCategory['categories_id'] . "',articles_categories)");
     $DBLIB->orderBy("articles_published", "DESC");
@@ -168,7 +167,7 @@ if (is_numeric(substr($URL,0,1))) {
     else $page = 1;
     $DBLIB->pageLimit = 10; //articles per page
     $articles = $DBLIB->arraybuilder()->paginate("articles", $page, ["articles.*","articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
-    $PAGEDATA['pagination'] = ["page" => $page, "total" => $DBLIB->totalPages, "count" => $DBLIB->pageLimit*$DBLIB->totalPages];
+    $PAGEDATA['pagination'] = ["page" => $page, "total" => $DBLIB->totalPages, "count" => $DBLIB->totalCount];
     $PAGEDATA['articles'] = [];
     foreach ($articles as $article) {
         if ($article['articles_authors'] != null) {
@@ -183,6 +182,19 @@ if (is_numeric(substr($URL,0,1))) {
         } else $article['articles_authors'] = false;
         $PAGEDATA['articles'][] = $article;
     }
+
+    //Get a list of featured articles for the masonry at the top
+    if (strlen($PAGEDATA['pageConfig']['CATEGORY']['categories_featured']) > 0) {
+        $PAGEDATA['FEATUREDARTICLES'] = [];
+        foreach (explode(",",$PAGEDATA['pageConfig']['CATEGORY']['categories_featured']) as $article) { //Has to be done like this otherwise it won't come out in the correct order
+            $DBLIB->where("articles.articles_id", $article);
+            $DBLIB->where("articles_showInLists", 1);
+            $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
+            $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
+            $PAGEDATA['FEATUREDARTICLES'][] = $DBLIB->getone("articles", ["articles.articles_id","articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
+        }
+    } else  $PAGEDATA['FEATUREDARTICLES'] =null;
+
 
     $PAGEDATA['pageConfig']['leftBar']['LATEST'] = latestInCategory($PAGEDATA['pageConfig']['CATEGORY']['categories_id'], 5);
 

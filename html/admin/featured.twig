@@ -1,5 +1,7 @@
 {% extends "assets/template.twig" %}
 {% block htmlIncludes %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha256-KM512VNnjElC30ehFwehXjx1YCHPiQkOPmqnrWtpccM=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha256-rByPlHULObEjJ6XQxW/flG2r+22R5dKiAoef+aXWfik=" crossorigin="anonymous" />
 {% endblock %}
 {% block content %}
 
@@ -7,41 +9,229 @@
         <div class="col-lg-12">
             <div class="box">
                 <div class="box-body table-responsive no-padding">
-                    <table class="table table-striped sticky-header">
+                   <table class="table table-striped">
                         <thead>
                             <tr>
                                 <th style="width: 60px;">Category</th>
                                 <th>Featured articles</th>
+                                {% if 21|permissions or 22|permissions %}
+                                <th></th>
+                                {% endif %}
                             </tr>
                         </thead>
                         <tbody>
+                        <tr>
+                            <td>
+                                <i>Homepage</i>
+                            </td>
+                            <td colspan="1">
+                                <select id="homepageSelect" class="chooser form-control" multiple="multiple">
+                                    {% for article in FEATUREDHOME %}
+                                        <option selected value="{{ article.articles_id }}">{{ article.articlesDrafts_headline }}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            {% if 22|permissions %}
+                                <td><button class="btn btn-default saveHomepageSelect"><i class="fa fa-save"></i></button></td>
+                            {% elseif 21|permissions %}
+                                <td></td>
+                            {% endif %}
+                        </tr>
                         {% for category in CATEGORIES %}
                         <tr>
                             <td>{{ category.categories_displayName }}</td>
                             <td>
                                 <select id="categorySelect{{ category.categories_id }}" class="chooser form-control" multiple="multiple">
+                                    {% for article in category.ARTICLES %}
+                                        <option selected value="{{ article.articles_id }}">{{ article.articlesDrafts_headline }}</option>
+                                    {% endfor %}
                                 </select>
                             </td>
+                            {% if 21|permissions %}
+                            <td><button class="btn btn-default saveCategorySelect" data-categoryid="{{ category.categories_id }}"><i class="fa fa-save"></i></button></td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                         </tbody>
                     </table>
                 </div>
+                {% if 21|permissions or 22|permissions %}
+                <div class="box-footer" style="text-align: right">
+                    Drag and drop articles to re-order them
+                </div>
+                {% endif %}
+                <div class="overlay" id="loadingoverlay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
             </div>
         </div>
     </div>
     <script>
-        {% for category in CATEGORIES %}
-        $("#categorySelect{{ category.categories_id }}").select2({
-            placeholder: "Search for a repository",
-            minimumInputLength: 0,
-            maximumSelectionSize: 6,
-            minimumResultsForSearch: 50,
-            data: [
+        $(document).ready(function () {
 
-                    ],
-                    });
-        {% endfor %}
+            {% for category in CATEGORIES %}
+
+            $("#categorySelect{{ category.categories_id }}").select2({
+                tags: false,
+                theme: "bootstrap",
+                multiple: true,
+                {% if 21|permissions != true %} disabled:true,{% endif %}
+                minimumInputLength: 0,
+                maximumSelectionLength: 6,
+                minimumResultsForSearch: 1,
+                placeholder: "Search for articles to feature",
+                ajax: {
+                    url: "{{ CONFIG.ROOTBACKENDURL }}/api/featured/articleSearch.php",
+                    dataType: "json",
+                    type: "POST",
+                    data: function (params) {
+                        var queryParameters = {
+                            term: params.term,
+                            categoryid: "{{ category.categories_id }}"
+                        }
+                        return queryParameters;
+                    },
+                    processResults: function (data) {
+                        if (data && data.result) {
+                            return {
+                                results: $.map(data.response, function (item) {
+                                    return {
+                                        text: item.articlesDrafts_headline,
+                                        id: item.articles_id
+                                    }
+                                })
+                            };
+                        } else return {};
+                    }
+                }
+            });
+            {% endfor %}
+            $("#homepageSelect").select2({
+                tags: false,
+                multiple: true,
+                theme: "bootstrap",
+                {% if 22|permissions != true %} disabled:true,{% endif %}
+                minimumInputLength: 0,
+                maximumSelectionLength: 6,
+                minimumResultsForSearch: 1,
+                placeholder: "Search for articles to feature at the top of the homepage",
+                ajax: {
+                    url: "{{ CONFIG.ROOTBACKENDURL }}/api/featured/articleSearch.php",
+                    dataType: "json",
+                    type: "POST",
+                    data: function (params) {
+                        var queryParameters = {
+                            term: params.term
+                        }
+                        return queryParameters;
+                    },
+                    processResults: function (data) {
+                        if (data && data.result) {
+                            return {
+                                results: $.map(data.response, function (item) {
+                                    return {
+                                        text: item.articlesDrafts_headline,
+                                        id: item.articles_id
+                                    }
+                                })
+                            };
+                        } else return {};
+                    }
+                }
+            });
+            $("ul.select2-selection__rendered").sortable({
+                containment: 'parent'
+            });
+            {% if 21|permissions %}
+            function getSelected(committeeId) {
+                //The way we're cheating the order out of the sortable element means it's easiest to create an array of ids to values from the element itself, and then to match them up to the actual sorted order which then leaves you with the IDs in order
+                var actualOrder = [];
+                var listNameToId = [];
+                $("#categorySelect" + committeeId).find("option").each(function(index) {
+                    listNameToId[$( this ).html()] = $( this ).attr('value');
+                });
+                $("#categorySelect" + committeeId).parent().find("li.select2-selection__choice").each(function(index) {
+                    /* below we're getting the value from the 'title' attribute
+                    of the containing 'li'; might want to look and see if there's
+                    another bit of the dom you'd rather use like the actual text */
+                    actualOrder.push(listNameToId[$( this ).attr('title')]);
+
+                });
+                return actualOrder;
+            }
+            $(".saveCategorySelect").click(function () {
+                $("#loadingoverlay").show();
+                $.ajax({
+                    url: "{{ CONFIG.ROOTBACKENDURL }}/api/featured/setCategory.php",
+                    type: 'POST',
+                    dataType: "json",
+                    data: {
+                        "selection": getSelected($(this).data("categoryid")).join(","),
+                        "categoryid": $(this).data("categoryid"),
+                    },
+                    success: function (result) {
+                        $("#loadingoverlay").hide();
+                        if (result.result) {
+                            //
+                        } else {
+                            console.log(result);
+                            bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again", function () {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function () {
+                        bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again", function () {
+                            location.reload();
+                        });
+                    }
+                });
+            });
+            {% endif %}
+            {% if 22|permissions %}
+            $(".saveHomepageSelect").click(function () {
+                var actualOrder = [];
+                var listNameToId = [];
+                $("#homepageSelect").find("option").each(function(index) {
+                    listNameToId[$( this ).html()] = $( this ).attr('value');
+                });
+                $("#homepageSelect").parent().find("li.select2-selection__choice").each(function(index) {
+                    /* below we're getting the value from the 'title' attribute
+                    of the containing 'li'; might want to look and see if there's
+                    another bit of the dom you'd rather use like the actual text */
+                    actualOrder.push(listNameToId[$( this ).attr('title')]);
+
+                });
+                $("#loadingoverlay").show();
+                $.ajax({
+                    url: "{{ CONFIG.ROOTBACKENDURL }}/api/featured/setHome.php",
+                    type: 'POST',
+                    dataType: "json",
+                    data: {
+                        "selection": actualOrder.join(",")
+                    },
+                    success: function (result) {
+                        $("#loadingoverlay").hide();
+                        if (result.result) {
+                            //
+                        } else {
+                            console.log(result);
+                            bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again", function () {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function () {
+                        bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again", function () {
+                            location.reload();
+                        });
+                    }
+                });
+            });
+            {% endif %}
+            $("#loadingoverlay").hide();
+        });
+
     </script>
 
 {% endblock %}
