@@ -85,6 +85,18 @@
                     </select>
                     <p style="font-style: italic;">For editorials or articles with no author please leave blank</p>
                 </div>
+                <div class="form-group">
+                    <label>Social Media Automation</label>
+                    {% set articleSocialConfig = article['articles_socialConfig']|split(',') %}
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="postToFacebook" {{ (articleSocialConfig[1] == 1 ? 'disabled' : '') }} {{ (articleSocialConfig[0] == 1 ? 'checked' : '') }}>
+                        <label class="form-check-label">{{ (articleSocialConfig[1] == 1 ? 'Posted' : 'Post') }} to Facebook</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="postToTwitter" {{ (articleSocialConfig[3] == 1 ? 'disabled' : '') }} {{ (articleSocialConfig[2] == 1 ? 'checked' : '') }}>
+                        <label class="form-check-label">{{ (articleSocialConfig[3] == 1 ? 'Posted' : 'Post') }} to Twitter</label>
+                    </div>
+                </div>
                 <hr/>
                 <div class="form-group">
                     <label>Slug</label>
@@ -346,8 +358,10 @@
                                             "slug":$("#slug").val(),
                                             "thumbnail": thumbnailid,
                                             {% if article.articles_id != null %}
-                                            "articleid": "{{ article.articles_id }}"
+                                            "articleid": "{{ article.articles_id }}",
                                             {% endif %}
+                                            "postToTwitter": ($("#postToTwitter").is(':checked') ? 1 : 0),
+                                            "postToFacebook": ($("#postToFacebook").is(':checked') ? 1 : 0)
                                         },
                                         success: function (result) {
                                             savingDialog.modal('hide');

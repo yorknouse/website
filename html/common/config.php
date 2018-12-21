@@ -30,6 +30,7 @@ $CONFIG = array(
     "RECAPTCHA" => ['KEY' => getenv('bCMS__RECAPTCHA_KEY'), 'SECRET' => getenv('bCMS__RECAPTCHA_SECRET')],
     'AWS' => ['UPLOAD' => true, 'KEY' => getenv('bCMS__S3_KEY'), 'SECRET' => getenv('bCMS__S3_SECRET'), 'DEFAULTUPLOADS' => ['BUCKET' => getenv('bCMS__S3_BUCKET'), 'ENDPOINT' =>  getenv('bCMS__S3_ENDPOINT'), 'REGION' => getenv('bCMS__S3_REGION'), 'CDNEndpoint' => getenv('bCMS__S3_CDN')], "FINEUPLOADER" => ["KEY" => getenv('bCMS__S3_KEY'), "SECRET" =>  getenv('bCMS__S3_SECRET')]],
     "CLOUDFLARE" => ['EMAIL' => getenv('bCMS__CLOUDFLARE_EMAIL'), 'KEY' => getenv('bCMS__CLOUDFLARE_SECRET')],
+    "IFTTT" => getenv('bCMS__IFTTT'),
     'VERSION' => ['COMMIT' => exec("cd " . __DIR__ . "/../../ && git log --pretty=\"%h\" -n1 HEAD"), 'TAG' => exec("cd " . __DIR__ . "/../../ && git describe --tags --abbrev=0"), "COMMITFULL" => exec("cd " . __DIR__ . "/../../ && git log --pretty=\"%H\" -n1 HEAD")],
 );
 if ($CONFIG['VERSION']['COMMIT'] == null) $CONFIG['VERSION']['COMMIT'] = 'DEV';

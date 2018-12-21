@@ -9,7 +9,6 @@ $articleData = [
     "articles_slug" => $bCMS->sanitizeString($_POST['slug']),
 ];
 
-
 $articleData["articles_categories"] = [];
 if ($_POST['categories'] != null) {
     foreach (explode(",", $bCMS->sanitizeString($_POST['categories'])) as $category) {
@@ -51,8 +50,8 @@ if ($_POST['status'] == 1) {
 $articleDraftsData = [
     "articlesDrafts_timestamp" => date("Y-m-d H:i:s"),
     "articlesDrafts_userid" => $AUTH->data['users_userid'],
-    "articlesDrafts_headline" => $bCMS->sanitizeString($_POST['headline']),
-    "articlesDrafts_excerpt"=> $bCMS->sanitizeString($_POST['excerpt']),
+    "articlesDrafts_headline" => $bCMS->cleanString($_POST['headline']),
+    "articlesDrafts_excerpt"=> $bCMS->cleanString($_POST['excerpt']),
     "articlesDrafts_text" => $bCMS->cleanString($_POST['text'])
 ];
 
@@ -63,7 +62,7 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
     //Edit an existing article
 
     $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
-    $article = $DBLIB->getone("articles",["articles_id",'articles_published',"articles_slug","articles_mediaCharterDone","articles_showInSearch"]);
+    $article = $DBLIB->getone("articles",["articles_socialConfig","articles_id",'articles_published',"articles_slug","articles_mediaCharterDone","articles_showInSearch"]);
     if (!$article) finish(false, ["code" => null, "message" => "No data specified"]);
 
     $bCMS->auditLog("EDIT", "articles", $article['articles_id'], $AUTH->data['users_userid']);
@@ -83,10 +82,47 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
         if (sendemail("media-charter-notifications@nouse.co.uk", "New article on Nouse.co.uk", $html)) $articleData['articles_mediaCharterDone'] = 1;
     }
 
+    $socialMedia = explode(",", $article['articles_socialConfig']);
+    if ($_POST['postToTwitter'] == 1 and $socialMedia['2'] != 1 and $socialMedia['3'] != 1) { //If it's not yet been posted to twitter but the checkbox has now been checked we should post it to twitter
+        $socialMedia['2'] = 1; //Say that they've chosen to post to twitter - set this to 1 so we know that
+    }
+    if ($_POST['postToFacebook'] == 1 and $socialMedia['0'] != 1 and $socialMedia['1'] != 1) { //If it's not yet been posted to fb but the checkbox has now been checked we should post it to fb
+        $socialMedia['0'] = 1; //Say that they've chosen to post to fb - set this to 1 so we know that
+    }
+    if ($_POST['postToTwitter'] == 0 and $socialMedia['2'] == 1 and $socialMedia['3'] != 1) { //They no longer want it to go on FB
+        $socialMedia['2'] = 0;
+    }
+    if ($_POST['postToFacebook'] == 0 and $socialMedia['0'] == 1 and $socialMedia['1'] != 1) { //They no longer want it to go on FB
+        $socialMedia['0'] = 0;
+    }
+
+
+
+
+    $articleData['articles_socialConfig'] = implode(",", $socialMedia); //Update the social media thing with whatever we've changed
+
     $articleDraftsData["articles_id"] = $article['articles_id'];
     $DBLIB->where("articles_id", $article['articles_id']);
     if (!$DBLIB->update("articles", $articleData)) finish(false, ["code" => null, "message" => "Update error"]);
     if ($DBLIB->insert("articlesDrafts", $articleDraftsData)) {
+
+        //Social Media automation
+        if (strtotime($articleData["articles_published"]) <= time() and $socialMedia['2'] == 1 and $socialMedia['3'] != 1) { //It's backdated so tweet now
+            $bCMS->postSocial($article['articles_id'], false, true);
+        }
+        if (strtotime($articleData["articles_published"]) <= time() and $socialMedia['0'] == 1 and $socialMedia['1'] != 1) { //It's backdated so post now
+            $bCMS->postSocial($article['articles_id'], true, false);
+        }
+
+        if (strtotime($articleData["articles_published"]) <= time() and $socialMedia['2'] == 1 and $socialMedia['3'] != 1 and $article['articles_showInSearch'] != 1 and $articleData["articles_showInSearch"] ==  1){
+            //They've decided to make this article public when it wasn't before which means it needs to be posted on facebook/twitter
+            $bCMS->postSocial($article['articles_id'], false, true);
+        }
+        if (strtotime($articleData["articles_published"]) <= time() and $socialMedia['0'] == 1 and $socialMedia['1'] != 1 and $article['articles_showInSearch'] != 1 and $articleData["articles_showInSearch"] ==  1){
+            //They've decided to make this article public when it wasn't before which means it needs to be posted on facebook/twitter
+            $bCMS->postSocial($article['articles_id'], true, false);
+        }
+
         foreach (explode(",", $articleData['articles_categories']) as $category) {
             $bCMS->cacheClearCategory($category);
         }
@@ -94,6 +130,21 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
     } else finish(false, ["code" => null, "message" => "Insert draft error"]);
 } elseif ($AUTH->permissionCheck(31)) {
     //Create a new article
+
+    $socialMedia = [1,0,1,0]; //Default
+    if ($_POST['postToTwitter'] != 1) { //They dont want it to go on FB
+        $socialMedia['2'] = 0;
+    } else {
+        $socialMedia['2'] = 1; //Say that they've chosen to post to twitter - set this to 1 so we know that
+
+    }
+
+    if ($_POST['postToFacebook'] != 1) { //They dont want it to go on FB
+        $socialMedia['0'] = 0;
+    } else {
+        $socialMedia['0'] = 1; //Say that they've chosen to post to fb - set this to 1 so we know that
+    }
+    $articleData['articles_socialConfig'] = implode(",", $socialMedia); //Update the social media thing with whatever we've changed
 
 
 
@@ -119,8 +170,18 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
             }
         }
 
+        //Social Media automation
+        if (strtotime($articleData["articles_published"]) <= time() and $socialMedia['2'] == 1) { //It's backdated so tweet now
+            $bCMS->postSocial($articleID, false, true);
+        }
+        if (strtotime($articleData["articles_published"]) <= time() and $socialMedia['0'] == 1) { //It's backdated so post now
+            $bCMS->postSocial($articleID, true, false);
+        }
 
+        //Audit log
         $bCMS->auditLog("CREATE", "articles", $articleID, $AUTH->data['users_userid']);
+
+        //Caching
         foreach (explode(",", $articleData['articles_categories']) as $category) {
             $bCMS->cacheClearCategory($category);
         }

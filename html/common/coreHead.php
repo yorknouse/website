@@ -233,6 +233,54 @@ class bCMS {
 
         return $this->cacheClear($url . "/");
     }
+    public function postSocial($articleid, $postToFacebook = true, $postToTwitter = true) {
+        global $DBLIB,$CONFIG;
+        $DBLIB->where("articles.articles_id", $this->sanitizeString($articleid));
+        $DBLIB->where("articles.articles_showInSearch", 1); //ie those that can actually be shown - no point tweeting a dud link
+        $DBLIB->where("articles.articles_published <= '" . date("Y-m-d H:i:s") . "'");
+        $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
+        $DBLIB->where("articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
+        $article = $DBLIB->getone("articles", ["articles.articles_socialConfig","articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
+        if (!$article) return false;
+
+        $realpermalink = $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article["articles_published"])) . "/" . $article['articles_slug'];
+        $postExcerpt = (strlen($article['articlesDrafts_excerpt']) > 0 ? $article['articlesDrafts_excerpt'] : $article['articlesDrafts_headline']);
+
+        $article["articles_socialConfig"] = explode(",", $article["articles_socialConfig"]);
+        if ($article["articles_socialConfig"][0] == 1 and $article["articles_socialConfig"][1] != 1 and $postToFacebook) {
+            //Go ahead and post to facebook
+
+
+            $url = 'https://maker.ifttt.com/trigger/socialMediaAutomationFB/with/key/' . $CONFIG['IFTTT'];
+            $ch = curl_init($url);
+            $xml = "value1=" . urlencode($postExcerpt) . "&value2=" . urlencode($realpermalink) . "&value3=null";
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
+            curl_setopt($ch,CURLOPT_RETURNTRANSFER,1); //Supress the output from being dumped
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+            if (true) $article["articles_socialConfig"][1] = 1; //TODO check the IFTTT response
+        }
+        if ($article["articles_socialConfig"][2] == 1 and $article["articles_socialConfig"][3] != 1 and $postToTwitter) {
+            //Go ahead and post to twitter
+
+            $url = 'https://maker.ifttt.com/trigger/socialMediaAutomationTwitter/with/key/' . $CONFIG['IFTTT'];
+            $ch = curl_init($url);
+            $xml = "value1=" . urlencode($postExcerpt) . "&value2=" . urlencode($realpermalink) . "&value3=null";
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
+            curl_setopt($ch,CURLOPT_RETURNTRANSFER,1); //Supress the output from being dumped
+            $response = curl_exec($ch);
+            curl_close($ch);
+
+            if (true) $article["articles_socialConfig"][3] = 1; //TODO check the IFTTT response
+        }
+
+        $DBLIB->where("articles_id", $this->sanitizeString($articleid));
+        if ($DBLIB->update("articles", ["articles.articles_socialConfig" => implode(",", $article["articles_socialConfig"])])) return true;
+        else return false;
+    }
 }
 
 $GLOBALS['bCMS'] = new bCMS;
