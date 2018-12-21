@@ -1002,8 +1002,8 @@ function outputemail($html) {
 function sendemail($userIDOrEmail, $subject, $html) {
 	global $DBLIB, $CONFIG;
 	if (is_numeric($userIDOrEmail)) {
-        $DBLIB->where('users_userid', $userIDOrEmail);
-        $DBLIB->where("users_email != NULL");
+	    $DBLIB->where('users_userid', $userIDOrEmail);
+        $DBLIB->where("users_email IS NOT NULL");
         $user = $DBLIB->getone('users', ['users_userid','users_name1','users_name2','users_email']);
         if (!$user) return false; //Can't find user
     } elseif (filter_var($userIDOrEmail, FILTER_VALIDATE_EMAIL)) {

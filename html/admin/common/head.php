@@ -2,6 +2,15 @@
 require_once __DIR__ . '/../../common/coreHead.php';
 
 
+try {
+    //session_set_cookie_params(0, '/', '.' . $_SERVER['SERVER_NAME']); //Fix for subdomain bug
+    ini_set('session.gc_maxlifetime', 3600*8); //8 hours
+    session_set_cookie_params(3600*8);
+    session_start(); //Open up the session
+} catch (Exception $e) {
+    //Do Nothing
+}
+
 $PAGEDATA = array('CONFIG' => $CONFIG, 'BODY' => true);
 //TWIG
 //Twig_Autoloader::register();

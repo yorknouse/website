@@ -12,7 +12,7 @@ function errorHandler() {
         try {
             header('Location: ' . $CONFIG['ERRORS']['URL'] . '?e=' . urlencode(error_get_last()['message']) . '&return=' . urlencode("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"));
         } catch (Exception $e) {
-            die('<meta http-equiv="refresh" content="0; url=' . $CONFIG['ROOTURL'] . '/error/?e=' . urlencode(error_get_last()['message']) . '&return=' . urlencode("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]") . '" />');
+            die('<meta http-equiv="refresh" content="0; url=' . $CONFIG['ROOTBACKENDURL'] . '/error/?e=' . urlencode(error_get_last()['message']) . '&return=' . urlencode("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]") . '" />');
         }
     }
 }
@@ -27,14 +27,6 @@ register_shutdown_function('errorHandler');
 
 */
 
-try {
-    //session_set_cookie_params(0, '/', '.' . $_SERVER['SERVER_NAME']); //Fix for subdomain bug
-    ini_set('session.gc_maxlifetime', 3600*8); //8 hours
-    session_set_cookie_params(3600*8);
-    session_start(); //Open up the session
-} catch (Exception $e) {
-    //Do Nothing
-}
 /* DATBASE CONNECTIONS */
 $CONN = new mysqli($CONFIG['DB_HOSTNAME'], $CONFIG['DB_USERNAME'], $CONFIG['DB_PASSWORD'], $CONFIG['DB_DATABASE']);
 if ($CONN->connect_error) throw new Exception($CONN->connect_error);

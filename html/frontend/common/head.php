@@ -84,8 +84,8 @@ function render404Error() {
 
 //Content security policy - BACKEND HAS A DIFFERENT ONE SO LOOK OUT FOR THAT
 header("Content-Security-Policy: default-src 'none';" .
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.pubnub.com https://cdnjs.cloudflare.com https://platform.twitter.com https://www.googletagmanager.com https://www.google-analytics.com https://cdn.syndication.twimg.com https://connect.facebook.net https://*.google.com https://*.google.co.uk https://*.googlesyndication.com https://www.googletagservices.com;".
-    //          We have laods of inline JS              Live sockets         Libs                        Twitter embedd              Google webmaster tools                    Google analytics                  Twitter pictures for embedd   Facebook share           Recapatcha +adsense          Google adsense                                 Google analytics etc
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.pubnub.com https://cdnjs.cloudflare.com https://platform.twitter.com https://www.googletagmanager.com https://www.google-analytics.com https://cdn.syndication.twimg.com https://connect.facebook.net https://*.google.com https://*.google.co.uk https://www.gstatic.com https://*.googlesyndication.com https://www.googletagservices.com;".
+    //          We have laods of inline JS              Live sockets         Libs                        Twitter embedd              Google webmaster tools                    Google analytics                  Twitter pictures for embedd   Facebook share           Recapatcha +adsense          Google adsense                                                     Google analytics etc
     "style-src 'unsafe-inline' 'self' https://*.twimg.com https://platform.twitter.com https://cdnjs.cloudflare.com https://fonts.googleapis.com;".
     //          We have loads of inline CSS  Twitter pics                             Live chat supports             Libs                        GFonts
     "font-src https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com;".
