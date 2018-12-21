@@ -213,6 +213,7 @@
         <section class="sidebar">
             <ul class="sidebar-menu"  data-widget="tree">
             {% if 30|permissions %}
+                <li class="header">Articles</li>
                 <li>
                     <a href="{{ CONFIG.ROOTBACKENDURL }}/articles.php?a={{ USERDATA.users_userid }}">
                         <i class="fa fa-address-card-o"></i> <span>My Articles</span>
@@ -253,7 +254,12 @@
                     </a>
                 </li>
             {% endif %}
-
+                <li class="header">Miscellaneous</li>
+                <li>
+                    <a href="{{ CONFIG.ROOTFRONTENDURL }}">
+                        <i class="fa fa-internet-explorer"></i> <span>Public site</span>
+                    </a>
+                </li>
 
             </ul>
         </section>

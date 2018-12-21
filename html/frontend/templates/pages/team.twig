@@ -38,11 +38,11 @@
                     <article class="grid_post">
                         <figure>
                             {% if user.IMAGE %}
-                            <a href="{{ CONFIG.ROOTFRONTENDURL ~ "/author/?id=" ~ user.users_userid }}" class="grid_image">
+                            <a href="{{ CONFIG.ROOTFRONTENDURL ~ "/author/?a=" ~ user.users_userid }}" class="grid_image">
                                 <img src="{{ user.IMAGE }}" class="img-responsive center-block" alt="{{ user.users_name1 ~ " " ~ user.users_name2 }}">
                             </a>
                             {% else %}
-                            <a href="{{ CONFIG.ROOTFRONTENDURL ~ "/author/?id=" ~ user.users_userid }}" class="grid_image">
+                            <a href="{{ CONFIG.ROOTFRONTENDURL ~ "/author/?a=" ~ user.users_userid }}" class="grid_image">
                                 <img src="{{ CONFIG.FILESTOREURL }}/site-assets/logo/defaultUser.png" class="img-responsive center-block" alt="{{ user.users_name1 ~ " " ~ user.users_name2 }}">
                             </a>
                             {% endif %}
