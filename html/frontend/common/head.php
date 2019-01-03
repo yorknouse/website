@@ -90,7 +90,7 @@ header("Content-Security-Policy: default-src 'none';" .
     //          We have loads of inline CSS  Twitter pics                             Live chat supports             Libs                        GFonts
     "font-src https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com;".
     //          Loading in google fonts     more gfonts                 Fonts from libs like fontawesome
-    "manifest-src 'self';".
+    "manifest-src 'self' https://*.digitaloceanspaces.com;".
     //          Show images on mobile devices like favicons
     "img-src 'self' data: blob: https://cdnjs.cloudflare.com https://*.digitaloceanspaces.com https://*.twitter.com https://*.twimg.com https://www.google-analytics.com https://www.googletagmanager.com https://i2.wp.com;".
     //                    Uploads    Images from libs                 Images                             Twitter embedd      More twitter          Google analytics                                                   User icons fallback
