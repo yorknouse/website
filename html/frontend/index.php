@@ -18,7 +18,6 @@ foreach ($PAGEDATA['CATEGORIES'] as $key=>$category) {
 }
 
 
-
 $DBLIB->orderBy("(SELECT COUNT(*) FROM articlesReads WHERE articlesReads_timestamp > '" .  date("Y-m-d H:i:s", strtotime("-7 days")) . "')", "DESC");
 $DBLIB->where("articles_showInLists", 1);
 $DBLIB->where("articles_published <= '" . date("Y-m-d H:i:s") . "'");

@@ -5,15 +5,10 @@ use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
 
 //GLOBALS STUFF - DON'T CHANGE
-/*
 function errorHandler() {
     if (error_get_last() and error_get_last()['type'] == '1') {
         global $CONFIG;
-        try {
-            header('Location: ' . $CONFIG['ERRORS']['URL'] . '?e=' . urlencode(error_get_last()['message']) . '&return=' . urlencode("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]"));
-        } catch (Exception $e) {
-            die('<meta http-equiv="refresh" content="0; url=' . $CONFIG['ROOTBACKENDURL'] . '/error/?e=' . urlencode(error_get_last()['message']) . '&return=' . urlencode("http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]") . '" />');
-        }
+        die('Sorry we hit an error. Our tech team have been automatically notified but please contact support@nouse.co.uk for help resolving this error for your device <p style="display:none;">' . "\n\n\n" . error_get_last()['message'] . "\n\n\n" . '</p>');
     }
 }
 //set_error_handler('errorHandler');
@@ -24,8 +19,6 @@ $CONFIG['ERRORS']['SENTRY-CLIENT']['HANDLER']->registerExceptionHandler();
 $CONFIG['ERRORS']['SENTRY-CLIENT']['HANDLER']->registerErrorHandler();
 $CONFIG['ERRORS']['SENTRY-CLIENT']['HANDLER']->registerShutdownFunction();
 register_shutdown_function('errorHandler');
-
-*/
 
 /* DATBASE CONNECTIONS */
 $CONN = new mysqli($CONFIG['DB_HOSTNAME'], $CONFIG['DB_USERNAME'], $CONFIG['DB_PASSWORD'], $CONFIG['DB_DATABASE']);
