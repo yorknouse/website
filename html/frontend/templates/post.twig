@@ -35,7 +35,10 @@
                     <header class="details-header">
                         <div class="post-cat">
                             {% for category in POST.CATEGORIES %}
-                                <a href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ category.categories_id|getCategoryURL }}">{{ category.categories_displayName }}</a>
+                                <a href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ category.categories_id|getCategoryURL }}"
+                                        {% if category.categories_backgroundColor != "" %}
+                                    style="background-color: #{{ category.categories_backgroundColor }} !important; color: #{{ category.categories_backgroundColorContrast }} !important;"
+                                        {% endif %}>{{ category.categories_displayName }}</a>
                             {% endfor %}
                         </div>
                         <h2>{{ POST.articlesDrafts_headline|raw }}</h2>
