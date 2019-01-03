@@ -17,6 +17,8 @@ if (isset($_GET['id'])) {
 	if ($PAGEDATA['article']['articles_categories'] != null) $PAGEDATA['article']['articles_categories'] = explode(",",$PAGEDATA['article']['articles_categories']);
 } else {
 	$PAGEDATA['article'] = null;
+	if (isset($_GET['type'])) $PAGEDATA['article']['articles_type'] = $_GET['type']; //So the new one is created in the right format
+	else $PAGEDATA['article']['articles_type'] = 1;
 }
 
 

@@ -5,7 +5,6 @@ header("Content-Type: text/json");
 $articleData = [
     "articles_published" => date("Y-m-d H:i:s", strtotime($bCMS->sanitizeString($_POST['published']))),
     "articles_updated" => date("Y-m-d H:i:s"),
-    "articles_type" => $bCMS->sanitizeString($_POST['type']),
     "articles_slug" => $bCMS->sanitizeString($_POST['slug']),
     "articles_socialExcerpt" => $bCMS->sanitizeString($_POST['socialexcerpt']),
 ];
@@ -134,9 +133,11 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
     $articleData['articles_socialConfig'] = implode(",", $socialMedia); //Update the social media thing with whatever we've changed
 
 
+    $articleData["articles_type"] = $bCMS->sanitizeString($_POST['type']);
+
 
     $articleID = $DBLIB->insert("articles", $articleData);
-    if (!$articleID) finish(false, ["code" => null, "message" => "Insert error"]);
+    if (!$articleID) finish(false, ["code" => null, "message" => "Insert error" . $DBLIB->getLastError()]);
     $articleDraftsData["articles_id"] = $articleID;
     if ($DBLIB->insert("articlesDrafts", $articleDraftsData)) {
 

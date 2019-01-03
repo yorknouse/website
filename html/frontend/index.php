@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/common/head.php';
 
-$PAGEDATA['pageConfig'] = ["TITLE" => null, "FEATURED" => true, "showLoader" => true];
+$PAGEDATA['pageConfig'] = ["TITLE" => null, "FEATURED" => true, "showLoader" => false];
 
 foreach ($PAGEDATA['CATEGORIES'] as $key=>$category) {
     if ($category['categories_showHome'] != 1) continue; //We're doing this for the homepage after all....
@@ -56,6 +56,8 @@ if ($featuredHomeArticles) {
 
 
 
+//Latest edition
+$PAGEDATA['pageConfig']['LATESTEDITION'] = latestInCategory(36, 1);
 
 echo $TWIG->render('index.twig', $PAGEDATA);
 ?>

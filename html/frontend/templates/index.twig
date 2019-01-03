@@ -311,6 +311,17 @@
             {% endfor %}
         </main>
         <aside class="col-sm-4 col-md-4 rightSidebar">
+            {% if pageConfig.LATESTEDITION|length > 0 %}
+            <div class="donation_widget">
+                <h4 class="donation_title">Latest edition</h4>
+                    <div class="row" style="text-align: right;">
+                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ pageConfig.LATESTEDITION[0].articles_published|date("Y/m/d") }}/{{ pageConfig.LATESTEDITION[0].articles_slug }}">
+                            <img src="{{ pageConfig.LATESTEDITION[0].articles_id|articleThumbnail }}" style="width:100%;" alt="{{ pageConfig.LATESTEDITION[0].articlesDrafts_headline|raw }}">
+                            <h4 style="padding-left: 15px; padding-right: 15px;">{{ pageConfig.LATESTEDITION[0].articlesDrafts_headline|raw }}</h4>
+                        </a>
+                    </div>
+            </div>
+            {% endif %}
             <div class="tab-widget">
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#leftContentTabPanelRead" data-toggle="tab">Popular now</a></li>

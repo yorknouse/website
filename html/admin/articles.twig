@@ -140,6 +140,10 @@
                                 value: '1',
                             },
                             {
+                                text: "Print Edition",
+                                value: '5',
+                            },
+                            {
                                 text: 'Gallery',
                                 value: '2',
                                 group: 'Coming soon',
@@ -158,7 +162,10 @@
                         callback: function (result) {
                             switch (result) {
                                 case '1':
-                                    window.location.href = "{{ CONFIG.ROOTBACKENDURL }}/article.php?new";
+                                    window.location.href = "{{ CONFIG.ROOTBACKENDURL }}/article.php?new&type=1";
+                                    break;
+                                case '5':
+                                    window.location.href = "{{ CONFIG.ROOTBACKENDURL }}/article.php?new&type=5";
                                     break;
                             }
                         }

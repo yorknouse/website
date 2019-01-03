@@ -26,10 +26,32 @@
     <meta property="article:published_time" content="{{ POST.articles_published|date("d M Y") }}" />
 
 {% endblock %}
+
+{% block prePageContent %}
+    {% if POST.articles_type == 5 %}
+    <div class="video-inner">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                    <header class="details-header">
+                        <h2>Print edition from {{ POST.articlesDrafts_headline|raw }}</h2>
+                    </header>
+                    <div class='embed-container' style="height: 820px;">
+                        <iframe src="{{ POST.articlesDrafts_text }}" style="width:100%;height:800px;" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+                    </div>
+                    <!-- /.End of HTML5 video -->
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
+
 {% block content %}
-<div class="container">
+    <div class="container">
     <div class="row">
         <main class="col-sm-8 col-md-9 content p_r_40">
+            {% if POST.articles_type != 5 %}
             <div class="details-body">
                 <div class="post_details stickydetails">
                     <header class="details-header">
@@ -78,8 +100,11 @@
                             float:left;
                             padding: 10px;
                         }
+                        .articleBodyDiv > iframe {
+                            max-width: 100%; /*Make legacy issue embedds fit*/
+                        }
                     </style>
-                    <div style="font-size: 17px;line-height: 25px;">
+                    <div class="articleBodyDiv" style="font-size: 17px;line-height: 25px;">
                     {{ POST.articlesDrafts_text|replace({"PS": "&pound;", "\n": "<br/>", "[ARCHIVECDNURL]":CONFIG.FILESTOREURL ~ "/archive/public"})|raw }}
                     </div>
                 </div>
@@ -96,10 +121,14 @@
                 <!-- /End of share icon -->
             </div>
             <!-- /.End of details body -->
+            {% endif %}
             <aside class="about-author">
+                {% if POST.articles_authors|length > 0 %}
                 <h3>About The Author{{ POST.articles_authors|length != 1 ? "s" : "" }}</h3>
+                {% endif %}
 
-                    {% for author in POST.articles_authors %}
+
+                {% for author in POST.articles_authors %}
                 <div class="author-bio">
                         {% if author.IMAGE %}
                             <div class="author-img">
@@ -145,13 +174,14 @@
             <!-- End of article -->
 
             <ins class="adsbygoogle"
-                 style="display:block"
+                 style="display:block; margin-bottom: 20px;"
                  data-ad-client="ca-pub-7908211756267459"
                  data-ad-slot="4589396792"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
 
             <!-- /.End of about author -->
+            {% if POST.articles_type != 5 %}
             <div class="post_related">
                 <h3 class="related_post_title">You Might Also Like...</h3>
                 <div class="row">
@@ -172,6 +202,7 @@
                     {% endfor %}
                 </div>
             </div>
+            {% endif %}
             <!-- /.End of  related post -->
             <style>
                 .reportComment, .replyComment {
@@ -230,7 +261,7 @@
             </div>
             {% endif %}
             <div class="comment_form">
-                <h3 class="replay_title" id="makeComment">Comment on this article</h3>
+                <h3 class="replay_title" id="makeComment">Leave a comment</h3>
                 <div class="form-group">
                     <textarea class="form-control" id="commentText" rows="3" placeholder=""></textarea>
                 </div>

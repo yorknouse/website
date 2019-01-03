@@ -201,7 +201,7 @@
             });
         </script>
 
-
+        {% if article.articles_type == 1  %}
         <div class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">
@@ -223,7 +223,7 @@
                 {% endembed %}
             </div>
         </div>
-
+        {% endif %}
 
         <div class="box box-default">
             <div class="box-header with-border">
@@ -255,15 +255,10 @@
     </div>
 
 
-
+    {% if article.articles_type == 1  %}
     <div class="col-md-8 col-sm-12">
         <div id="editor">{{ article.articlesDrafts_text|replace({"PS": "&pound;", "\n": "<br/>", "[ARCHIVECDNURL]":CONFIG.FILESTOREURL ~ "/archive/public"})|raw }}</div>
         <script>
-            {% if article.articles_id %}
-            var thumbnailid = null; //Used to store a new thumbnail if one is set
-            {% else %}
-            var thumbnailid = 1; //Current default thumbnail
-            {% endif %}
             $(document).ready(function () {
                 $('#editor').summernote({
                     minHeight: 2000,             // set minimum height of editor
@@ -339,57 +334,7 @@
                                 contents: '<span id="lastSavedMessage">Save</span>',
                                 tooltip: "",
                                 click: function () {
-                                    var savingDialog = bootbox.dialog({
-                                        message: '<p class="text-center">Saving and publishing your changes</p>',
-                                        closeButton: false
-                                    });
-
-                                    $.ajax({
-                                        url: "{{ CONFIG.ROOTBACKENDURL }}/api/article/editArticle.php",
-                                        type: 'POST',
-                                        dataType: "json",
-                                        data: {
-                                            "text": $('#editor').summernote('code'),
-                                            "headline": $("#headline").val(),
-                                            "excerpt": $("#excerpt").val(),
-                                            "categories":($("#category1").val() || []).join(",") + "," + ($("#category2").val() || []).join(","),
-                                            "authors":($("#authors").val() || []).join(","),
-                                            "published":$("#published").val(),
-                                            "status":$("#status").val(),
-                                            "type":"1",
-                                            "slug":$("#slug").val(),
-                                            "thumbnail": thumbnailid,
-                                            {% if article.articles_id != null %}
-                                            "articleid": "{{ article.articles_id }}",
-                                            {% endif %}
-                                            "postToTwitter": ($("#postToTwitter").is(':checked') ? 1 : 0),
-                                            "postToFacebook": ($("#postToFacebook").is(':checked') ? 1 : 0),
-                                            "socialexcerpt": $("#socialexcerpt").val()
-                                        },
-                                        success: function (result) {
-                                            savingDialog.modal('hide');
-                                            if (result.result) {
-                                                {% if article.articles_id == null %}
-                                                    window.location.href = "?id=" + result.response.articleid;
-                                                {% else %}
-                                                    window.onbeforeunload = null; //Let them leave a page without a warning after they save
-                                                    $('.note-status-output').html(
-                                                        '<div class="alert alert-success">' +
-                                                        'Saved' +
-                                                        '</div>'
-                                                    );
-                                                {% endif %}
-                                            } else {
-                                                console.log(result);
-                                                bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again");
-                                            }
-                                        },
-                                        error: function () {
-                                            savingDialog.modal('hide');
-                                            bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again");
-                                        }
-                                    });
-
+                                    saveArticle();
                                 }
                             });
                             return button.render();   // return button as jquery object
@@ -417,4 +362,119 @@
 
         </script>
     </div>
+        {% elseif article.articles_type == 5 %}
+    <div class="col-md-8 col-sm-12">
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    Print Edition Checklist
+                </h3>
+            </div>
+            <div class="box-body">
+                <ul>
+                    <li>Generate a PDF with the entire edition as one file, with spreads split into two pages</li>
+                    <li>Generate the cover as a JPEG and set it as the thumbnail for this article</li>
+                    <li>Upload the pdf edition to the print edition archive directory for archival purposes</li>
+                    <li><b>Upload the edition to issuu and enter the embed url below</b></li>
+                </ul>
+            </div>
+            <div class="box-footer" style="font-style: italic;">
+                <ul>
+                    <li>The headline is normally in the format "26 January 2011"</li>
+                    <li>No exceprt or author is set</li>
+                    <li>Category is "Print Edition Archive"</li>
+                </ul>
+            </div>
+        </div>
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    Print Edition Data
+                </h3>
+            </div>
+            <div class="box-body">
+                <div class="form-group">
+                    <label>Embed URL from Issuu</label>
+                    <input type='text' class="form-control" id="embeddurl" value="{{ article.articlesDrafts_text|raw }}" placeholder="https://e.issuu.com/anonymous-embed.html?u=yorknouse&amp;d=idgoesherenormally" />
+                    <p style="font-style: italic;">This is normally the bit after &lt;iframe src="</p>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button class="btn btn-default pull-right saveArticleButton">Save</button>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+
+    <script>
+        {% if article.articles_id %}
+        var thumbnailid = null; //Used to store a new thumbnail if one is set
+        {% else %}
+        var thumbnailid = 1; //Current default thumbnail
+        {% endif %}
+        function saveArticle() {
+            var savingDialog = bootbox.dialog({
+                message: '<p class="text-center">Saving and publishing your changes</p>',
+                closeButton: false
+            });
+
+            $.ajax({
+                url: "{{ CONFIG.ROOTBACKENDURL }}/api/article/editArticle.php",
+                type: 'POST',
+                dataType: "json",
+                data: {
+                    {% if article.articles_type == 1  %}
+                    "text": $('#editor').summernote('code'),
+                    {% elseif article.articles_type == 5 %}
+                    "text": $("#embeddurl").val(),
+                    {% endif %}
+                    "headline": $("#headline").val(),
+                    "excerpt": $("#excerpt").val(),
+                    "categories":($("#category1").val() || []).join(",") + "," + ($("#category2").val() || []).join(","),
+                    "authors":($("#authors").val() || []).join(","),
+                    "published":$("#published").val(),
+                    "status":$("#status").val(),
+                    "slug":$("#slug").val(),
+                    "thumbnail": thumbnailid,
+                    {% if article.articles_id != null %}
+                    "articleid": "{{ article.articles_id }}",
+                    {% else %}
+                    "type": "{{ article.articles_type }}", {#It's a new one so set the type#}
+                    {% endif %}
+                    "postToTwitter": ($("#postToTwitter").is(':checked') ? 1 : 0),
+                    "postToFacebook": ($("#postToFacebook").is(':checked') ? 1 : 0),
+                    "socialexcerpt": $("#socialexcerpt").val()
+                },
+                success: function (result) {
+                    savingDialog.modal('hide');
+                    if (result.result) {
+                        {% if article.articles_id == null %}
+                        window.location.href = "?id=" + result.response.articleid;
+                        {% else %}
+                        window.onbeforeunload = null; //Let them leave a page without a warning after they save
+                        $('.note-status-output').html(
+                            '<div class="alert alert-success">' +
+                            'Saved' +
+                            '</div>'
+                        );
+                        {% endif %}
+                    } else {
+                        console.log(result);
+                        bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again");
+                    }
+                },
+                error: function () {
+                    savingDialog.modal('hide');
+                    bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again");
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $(".saveArticleButton").click(function () {
+                saveArticle()
+            });
+        });
+    </script>
     {% endblock %}
