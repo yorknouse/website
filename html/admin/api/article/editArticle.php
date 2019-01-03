@@ -69,20 +69,6 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
     $bCMS->auditLog("EDIT", "articles", $article['articles_id'], $AUTH->data['users_userid']);
     $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug']);
 
-
-    //Establish if this action by this user will make the article public - in which case YUSU need to be notified
-    if ($article['articles_showInSearch'] != 1 and $article['articles_mediaCharterDone'] != 1 and $articleData["articles_showInSearch"] == 1) {
-        //YUSU Notification email html
-        $html = "You are receiving this email as a notification of a new article being uploaded to the Nouse.co.uk website in compliance with section 5.3 of the YUSU Media Charter.<br/><br/>";
-        if (strtotime($articleData["articles_published"]) > time()) $html .= "This article will be published at " . $articleData["articles_published"] . " GMT and this email is an advanced notification of publication. No further notifications will follow and this article will be automatically published.<br/><br/>";
-        $html .= "<b>Headline: </b>" . $bCMS->sanitizeString($_POST['headline']) . "<br/>";
-        if (strtotime($articleData["articles_published"]) > time()) $html .= "This article hasn't been published yet, so it's not accessible on our website. A secret link has been generated for you to preview it, but please don't share this externally: <a href='" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($articleData['articles_published'])) . "/". $articleData['articles_slug'] . "?key=" . md5($article['articles_id']) . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($articleData['articles_published'])) . "/". $articleData['articles_slug'] . "</a>";
-        else $html .= "<b>Link to article: </b><a href='" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($articleData['articles_published'])) . "/". $articleData['articles_slug'] . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($articleData['articles_published'])) . "/". $articleData['articles_slug'] . "</a>";
-        $html .= "<br/><br/><br/>If you have any questions about this notification please do not hesitate to contact us on support@nouse.co.uk.<br/>For queries relating to this article itself (for example concerns about its content) please contact editor@nouse.co.uk. <br/><br/><br/>Nouse Technical Team<br/><i>" . gethostname() . " (compliance tracked at  " . date("Y-m-d H:i:s") . " UTC)</i>";
-
-        if (sendemail("media-charter-notifications@nouse.co.uk", "New article on Nouse.co.uk", $html)) $articleData['articles_mediaCharterDone'] = 1;
-    }
-
     $socialMedia = explode(",", $article['articles_socialConfig']);
     if ($_POST['postToTwitter'] == 1 and $socialMedia['2'] != 1 and $socialMedia['3'] != 1) { //If it's not yet been posted to twitter but the checkbox has now been checked we should post it to twitter
         $socialMedia['2'] = 1; //Say that they've chosen to post to twitter - set this to 1 so we know that
@@ -156,19 +142,9 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
 
         //Establish if this will make the public - in which case YUSU need to be notified
         //This version is different because the article has to be updated
-        if ($articleData["articles_showInSearch"] == 1) {
-            //YUSU Notification email html
-            $html = "You are receiving this email as a notification of a new article being uploaded to the Nouse.co.uk website in compliance with section 5.3 of the YUSU Media Charter.<br/><br/>";
-            if (strtotime($articleData["articles_published"]) > time()) $html .= "This article will be published at " . $articleData["articles_published"] . " GMT and this email is an advanced notification of publication. No further notifications will follow and this article will be automatically published.<br/><br/>";
-            $html .= "<b>Headline: </b>" . $bCMS->sanitizeString($_POST['headline']) . "<br/>";
-            if (strtotime($articleData["articles_published"]) > time()) $html .= "This article hasn't been published yet, so it's not accessible on our website. A secret link has been generated for you to preview it, but please don't share this externally: <a href='" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($articleData['articles_published'])) . "/". $articleData['articles_slug'] . "?key=" . md5($articleID) . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($articleData['articles_published'])) . "/". $articleData['articles_slug'] . "</a>";
-            else $html .= "<b>Link to article: </b><a href='" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($articleData['articles_published'])) . "/". $articleData['articles_slug'] . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($articleData['articles_published'])) . "/". $articleData['articles_slug'] . "</a>";
-            $html .= "<br/><br/><br/>If you have any questions about this notification please do not hesitate to contact us on support@nouse.co.uk.<br/>For queries relating to this article itself (for example concerns about its content) please contact editor@nouse.co.uk. <br/><br/><br/>Nouse Technical Team<br/><i>" . gethostname() . " (compliance tracked at  " . date("Y-m-d H:i:s") . " UTC)</i>";
 
-            if (sendemail("media-charter-notifications@nouse.co.uk", "New article on Nouse.co.uk", $html)) {
-                $DBLIB->where("articles_id", $articleID);
-                $DBLIB->update("articles", ["articles_mediaCharterDone" => 1]);
-            }
+        if (strtotime($articleData["articles_published"]) <= time()) {
+            $bCMS->yusuNotify($articleID); //This article has been posted historically so we need to email YUSU
         }
 
         //Social Media automation

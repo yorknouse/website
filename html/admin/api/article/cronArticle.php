@@ -1,12 +1,10 @@
 <?php
 require_once __DIR__ . '/../apiHead.php';
-/**
- * Created by PhpStorm.
- * User: James
- * Date: 21/12/2018
- * Time: 01:19 PM
+/*
+ * AUTOMATED CRON JOBS
  */
 
+//          SOCIAL MEDIA POSTING
 $DBLIB->where("articles.articles_showInSearch", 1); //ie those that can actually be shown - no point tweeting a dud link
 $DBLIB->where("articles.articles_published <= '" . date("Y-m-d H:i:s") . "'");
 $DBLIB->where("(articles_socialConfig = '1,0,1,0' OR articles_socialConfig = '1,1,1,0' OR articles_socialConfig = '1,0,1,1'
@@ -23,7 +21,15 @@ if (count($articles) > 0) {
             $bCMS->postSocial($article['articles_id'], true, false); //Post to facebook
         }
     }
-    finish(true);
-} else finish(true, null, ["done" => 0]);
-
+}
+//          NOTIFY YUSU
+$DBLIB->where("articles.articles_showInSearch", 1); //ie those that can actually be shown - no point tweeting a dud link
+$DBLIB->where("articles.articles_published <= '" . date("Y-m-d H:i:s") . "'");
+$DBLIB->where("articles_mediaCharterDone",0);
+$articles = $DBLIB->get("articles", null, ["articles_id"]);
+if (count($articles) > 0) {
+    foreach ($articles as $article) {
+        $bCMS->yusuNotify($article['articles_id']); //This article has been posted historically so we need to email YUSU
+    }
+}
 
