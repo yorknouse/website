@@ -30,25 +30,25 @@
 					</div>
 					<div class="form-group">
 						<label>First Name:</label>
-						<input type="text" class="form-control" id="forename" name="forename" value="{{USER['users_name1']}}" />
+						<input type="text" class="form-control" id="forename" name="forename" value="{{USER['users_name1']}}" placeholder="York" />
 					</div>
 					<div class="form-group">
 						<label>Last Name:</label>
-						<input type="text" class="form-control" id="lastname" name="lastname" value="{{USER['users_name2']}}" />
+						<input type="text" class="form-control" id="lastname" name="lastname" value="{{USER['users_name2']}}" placeholder="Nouse" />
 					</div>
 					<hr/>
 					<div class="form-group">
 						<label>York Username</label>
-						<input type="text" class="form-control" id="yorkusername" name="yorkusername" {{ (USER.users_userid == USERDATA.users_userid ? 'disabled' : '') }} value="{{USER['users_googleAppsUsernameYork']}}" />
+						<input type="text" class="form-control" id="yorkusername" name="yorkusername" {{ (USER.users_userid == USERDATA.users_userid ? 'disabled' : '') }} value="{{USER['users_googleAppsUsernameYork']}}" placeholder="nse501" />
 					</div>
 					<div class="form-group">
 						<label>Nouse Username</label>
-						<input type="text" class="form-control" id="nouseusername" name="nouseusername" {{ (USER.users_userid == USERDATA.users_userid ? 'disabled' : '') }} value="{{USER['users_googleAppsUsernameNouse']}}" />
+						<input type="text" class="form-control" id="nouseusername" name="nouseusername" {{ (USER.users_userid == USERDATA.users_userid ? 'disabled' : '') }} value="{{USER['users_googleAppsUsernameNouse']}}" placeholder="york.nouse" />
 					</div>
 					<hr/>
 					<div class="form-group">
 						<label for="bio">Bio</label>
-						<textarea rows="3" class="form-control" id="bio" name="bio" placeholder="Please don't include details of your roles at Nouse here">{{USER['users_bio']}}</textarea>
+						<textarea rows="3" class="form-control" id="bio" name="bio" placeholder="Please don't include details of roles at Nouse here">{{USER['users_bio']}}</textarea>
 					</div>
 				</div>
 				<div class="box-footer">
@@ -315,6 +315,7 @@
 				</div>
 			</div>
 		</div>
+		{% if USER.users_userid != "NEW" %}
 		<div class="col-lg-6">
 			<div class="box panel-default">
 				<div class="box-header with-border">
@@ -356,6 +357,7 @@
 				</script>
 			</div>
 		</div>
+		{% endif %}
 		{% if USER.users_userid != "NEW" %}
 		<div class="col-lg-6">
 			<div class="box panel-default">

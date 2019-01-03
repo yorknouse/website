@@ -23,8 +23,8 @@ if (isset($_GET['forename'])) {
         'users_bio' => $bCMS->sanitizeString($_GET['bio'])
     );
     if ($USERDATA['users_userid'] != $_GET['userid']) {
-        $data['users_googleAppsUsernameYork'] = strstr($bCMS->sanitizeString($_GET['yorkusername']), '@', true);
-        $data['users_googleAppsUsernameNouse'] = strstr($bCMS->sanitizeString($_GET['nouseusername']), '@', true);
+        $data['users_googleAppsUsernameYork'] = (strlen($_GET['yorkusername']) > 0 ? strstr($bCMS->sanitizeString($_GET['yorkusername']), '@', true) : '');
+        $data['users_googleAppsUsernameNouse'] = (strlen($_GET['nouseusername']) > 0 ? strstr($bCMS->sanitizeString($_GET['nouseusername']), '@', true) : '');
     }
 
     if (!$newUser) {
