@@ -94,7 +94,7 @@ header("Content-Security-Policy: default-src 'none';" .
     //          Show images on mobile devices like favicons
     "img-src 'self' data: blob: https://cdnjs.cloudflare.com https://*.digitaloceanspaces.com https://*.twitter.com https://*.twimg.com https://www.google-analytics.com https://www.googletagmanager.com https://i2.wp.com;".
     //                    Uploads    Images from libs                 Images                             Twitter embedd      More twitter          Google analytics                                                   User icons fallback
-    "connect-src 'self' https://*.digitaloceanspaces.com https://*.pndsn.com https://sentry.io https://www.google-analytics.com;".
+    "connect-src 'self' https://*.digitaloceanspaces.com https://*.pndsn.com https://sentry.io https://www.google-analytics.com https://*.gstatic.com;".
     //                  File uploads                    Pubnub sockets          Error reporting     Google analytics
     "frame-src https://*.twitter.com https://staticxx.facebook.com https://www.google.com https://googleads.g.doubleclick.net;".
     //          Embedding twitter feed   Facebook feed              embedded maps               Google adsense
