@@ -96,6 +96,7 @@
                         <input type="checkbox" class="form-check-input" id="postToTwitter" {{ (articleSocialConfig[3] == 1 ? 'disabled' : '') }} {{ (articleSocialConfig[2] == 1 ? 'checked' : '') }}>
                         <label class="form-check-label">{{ (articleSocialConfig[3] == 1 ? 'Posted' : 'Post') }} to Twitter</label>
                     </div>
+                    <textarea id="socialexcerpt" {{ (articleSocialConfig[1] == 1 and articleSocialConfig[3] == 1 ? 'disabled' : '') }} style="resize: none;" rows="2" placeholder="Custom excerpt for social media display" class="form-control">{{ article.articles_socialExcerpt|raw }}</textarea>
                 </div>
                 <hr/>
                 <div class="form-group">
@@ -362,7 +363,8 @@
                                             "articleid": "{{ article.articles_id }}",
                                             {% endif %}
                                             "postToTwitter": ($("#postToTwitter").is(':checked') ? 1 : 0),
-                                            "postToFacebook": ($("#postToFacebook").is(':checked') ? 1 : 0)
+                                            "postToFacebook": ($("#postToFacebook").is(':checked') ? 1 : 0),
+                                            "socialexcerpt": $("#socialexcerpt").val()
                                         },
                                         success: function (result) {
                                             savingDialog.modal('hide');

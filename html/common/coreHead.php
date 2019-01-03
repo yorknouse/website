@@ -232,11 +232,18 @@ class bCMS {
         $DBLIB->where("articles.articles_published <= '" . date("Y-m-d H:i:s") . "'");
         $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
         $DBLIB->where("articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
-        $article = $DBLIB->getone("articles", ["articles.articles_socialConfig","articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
+        $article = $DBLIB->getone("articles", ["articles_socialExcerpt", "articles.articles_socialConfig","articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
         if (!$article) return false;
 
         $realpermalink = $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article["articles_published"])) . "/" . $article['articles_slug'];
-        $postExcerpt = (strlen($article['articlesDrafts_excerpt']) > 0 ? $article['articlesDrafts_excerpt'] : $article['articlesDrafts_headline']);
+        
+        if (strlen($article['articles_socialExcerpt']) > 0) {
+            $postExcerpt = $article['articles_socialExcerpt'];
+        } elseif (strlen($article['articlesDrafts_excerpt']) > 0) {
+            $postExcerpt = $article['articlesDrafts_excerpt'];
+        } else {
+            $postExcerpt = $article['articlesDrafts_headline'];
+        }
 
         $article["articles_socialConfig"] = explode(",", $article["articles_socialConfig"]);
         if ($article["articles_socialConfig"][0] == 1 and $article["articles_socialConfig"][1] != 1 and $postToFacebook) {

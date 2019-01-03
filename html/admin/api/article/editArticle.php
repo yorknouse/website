@@ -7,6 +7,7 @@ $articleData = [
     "articles_updated" => date("Y-m-d H:i:s"),
     "articles_type" => $bCMS->sanitizeString($_POST['type']),
     "articles_slug" => $bCMS->sanitizeString($_POST['slug']),
+    "articles_socialExcerpt" => $bCMS->sanitizeString($_POST['socialexcerpt']),
 ];
 
 $articleData["articles_categories"] = [];
