@@ -20,7 +20,7 @@ $CONFIG = array(
     'PROJECT_NAME' => getenv('bCMS__SITENAME'),
     'SENDGRID' => ['APIKEY' => getenv('bCMS__SendGridAPIKEY')],
     'ERRORS' => ['SENTRY' => getenv('bCMS__SENTRYLOGIN'), "SENTRYPublic" => getenv('bCMS__SENTRYLOGINPUBLIC')],
-    'ANALYTICS' => ['TRACKINGID' => getenv('bCMS__GoogleAnalytics')],
+    'ANALYTICS' => ['FRONTENDTRACKINGID' => getenv('bCMS__GoogleAnalyticsFrontend'),'BACKENDTRACKINGID' => getenv('bCMS__GoogleAnalyticsBackend')],
     "nextHash" => "sha256", //Hashing algorithm to put new passwords in
     "PROJECT_FROM_EMAIL" => getenv('bCMS__EMAIL'),
     "ROOTFRONTENDURL" => getenv('bCMS__FRONTENDURL'), //Set on a frontend/backend basis
