@@ -3,6 +3,7 @@
 <script src="{{ CONFIG.ASSETSURL }}js/macy.js"></script>
 <script>
     var currentSectionID = null;
+    var offset = 75;
     $( document ).ready(function() {
         //Change colour of menu
         var $w = $(window).scroll(function(){
@@ -10,14 +11,14 @@
                 //Do nothing - this is just here so everything else can be an "else if"
             }
             {% for key,category in CATEGORIES|reverse if category.categories_showHome == 1 %}
-            else if ( $w.scrollTop() > $("#category{{ category.categories_id }}Div" ).offset().top ) {
+            else if ( $w.scrollTop() > ($("#category{{ category.categories_id }}Div" ).offset().top-offset) ) {
                 if (currentSectionID != {{ category.categories_id }}) {
                     currentSectionID = {{ category.categories_id }};
                     $('#primaryNav').css({"background-color":"#{{ category.categories_backgroundColor }}","color": "#{{ category.categories_backgroundColorContrast }}"});
                 }
             }
             {% endfor %}
-            else if ( $w.scrollTop() < $("#categoryTopDiv").offset().top ) {
+            else if ( $w.scrollTop() < ($("#categoryTopDiv").offset().top-offset) ) {
                 if (currentSectionID != 0) {
                     //Back at the top so reset the header
                     currentSectionID = 0;
