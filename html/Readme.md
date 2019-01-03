@@ -13,6 +13,8 @@ _This might be needed to move between different hositng providers etc, but shoul
 - Setup Composer dependencies `cd /var/www/nouse/ && composer install`
 - Setup apache2 `cp edit.nouse.co.uk.conf /etc/apache2/sites-available/edit.nouse.co.uk.conf && a2ensite edit.nouse.co.uk && cp edit.nouse.co.uk.conf /etc/apache2/sites-available/nouse.co.uk.conf && a2ensite nouse.co.uk && service apache2 reload`
 - Edit the crontab (`crontab -e`) to include the following line `* * * * * php /var/www/nouse/html/admin/api/article/cronArticle.php`
+- Upload a `keys.php` file or set the environment variables using docker (there is a `keys.example.php` file to copy)
+- 
 ## Updating the server
 ```
 cd /var/www/nouse/ && /usr/bin/git reset --hard && /usr/bin/git pull
