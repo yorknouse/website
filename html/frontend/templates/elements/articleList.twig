@@ -1,4 +1,13 @@
+{% set adPosition = random(articles|length) %}
 {% for article in articles %}
+    {% if loop.index == adPosition %}
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-format="fluid"
+             data-ad-layout-key="-e1-6n+g9+6z-1fd"
+             data-ad-client="ca-pub-7908211756267459"
+             data-ad-slot="8786117514"></ins>
+    {% endif %}
     <div class="media meida-md">
         {% if article.articles_id|articleThumbnail %}
             <div class="media-left">
@@ -28,6 +37,7 @@
         </div>
     </div>
 {% endfor %}
+
 {% if pagination %}
     {% if pagination.count > 30 %}
             <p>Showing {{ pagination.count|number_format }} articles</p>
