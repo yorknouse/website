@@ -4,14 +4,6 @@
 
     <div class="row">
         <div class="col-lg-12">
-            {% if 3|permissions %}
-                <div class="alert alert-warning alert-dismissible" style="border: 0px; margin-bottom: 15px;">
-                    <h4><i class="fa fa-exclamation"></i> You have permission to view E-Mail addresses in this list</h4>
-                    Please use caution and do not divulge these email addresses as per appropriate privacy policies
-                </div>
-            {% endif %}
-        </div>
-        <div class="col-lg-12">
             <div class="box box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title">
@@ -44,11 +36,10 @@
                         <table class="table sticky-header" border="0" style="overflow-x: scroll;">
                             <thead>
                             <tr>
-                                <th>Username</th>
                                 <th>Firstname</th>
                                 <th>Lastname</th>
-                                {% if 3|permissions %}
-                                    <th>Email</th>{% endif %}
+                                <th>York Username</th>
+                                <th>Nouse Username</th>
                                 <th>Roles</th>
                                 <th></th>
                                 <th></th>
@@ -62,12 +53,11 @@
                                         {% elseif user.users_suspended == '1' %}
                                         class="danger"
                                         {% endif %}>
-                                    <td>{{ user.users_username }}</td>
                                     <td>{{ user["users_name1"] }}</td>
                                     <td>{{ user["users_name2"] }}</td>
+                                    <td>{{ user.users_googleAppsUsernameYork }}</td>
+                                    <td>{{ user.users_googleAppsUsernameNouse }}</td>
 
-                                    {% if 3|permissions %}
-                                        <td>{{ user["users_email"] }} {{ user["users_emailVerified"] == 1 ? '<i class="fa fa-check-square-o">' : null }}</td>{% endif %}
                                     <td>
                                         {% if user.currentPositions|length > 0 %}
                                             {% for position in user.currentPositions %}
@@ -103,16 +93,6 @@
                                                    type="button" title="Edit user" class="btn btn-default"><i
                                                             class="fa fa-pencil"></i></a>
                                             {% endif %}
-                                            {% if user.users_suspended == '0' %}
-                                                <!--Destroy all user tokens-->
-                                                {% if 7|permissions %}
-                                                    <button type="button" title="Log User out on all devices"
-                                                            class="btn btn-danger logoutbutton"
-                                                            data-userid="{{ user.users_userid }}"><i
-                                                                class="fa fa-sign-out"></i></button>
-                                                {% endif %}
-                                            {% endif %}
-
                                             {% if 9|permissions %}
                                                 <button type="button"
                                                         class="btn btn-{{ user.users_suspended == '1' ? 'success' : 'danger' }} suspenduser"
@@ -121,7 +101,7 @@
                                                         title="{{ user.users_suspended == '0' ? 'Suspend user' : 'Un-Suspend user' }}">
                                                     <i class="fa fa-times-circle-o"></i></button>
                                             {% endif %}
-                                            {% if 10|permissions %}
+                                            {% if 10|permissions and false %}
                                                 <a href="{{ CONFIG.ROOTBACKENDURL }}/api/account/viewSiteAs.php?userid={{ user["users_userid"] }}"
                                                    title="Login as User">
                                                     <button type="button" class="btn btn-default"><i

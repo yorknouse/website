@@ -1,13 +1,23 @@
 <?php
 require_once __DIR__ . '/../common/head.php';
 
-$PAGEDATA['pageConfig'] = ["TITLE" => "Login"];
-
 if (isset($_SESSION['return'])) {
 	$PAGEDATA['return'] = $_SESSION['return'];
 } else $PAGEDATA['return'] ="/";
 
-$AUTH->logout(); //Log em out even if they didn't want to - It solves a few issues!
-
-echo $TWIG->render('login/login1.twig', $PAGEDATA);
+if (isset($_GET['logout'])) {
+	$GLOBALS['AUTH']->logout();
+	try {
+		header('Location: ' . $CONFIG['ROOTFRONTENDURL']); //Check for session url to redirect to
+	} catch (Exception $e) {
+		die('<meta http-equiv="refresh" content="0;url=' . $CONFIG['ROOTFRONTENDURL'] . '" />');
+	}
+} else {
+	try {
+		header('Location: ' . $GLOBALS['AUTH']->generateURL()); //Check for session url to redirect to
+	} catch (Exception $e) {
+		die('<meta http-equiv="refresh" content="0;url=' . $GLOBALS['AUTH']->generateURL() . '" />');
+	}
+}
 ?>
+

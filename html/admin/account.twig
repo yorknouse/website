@@ -28,22 +28,24 @@
 					<div class="alert alert-success" id="updatesettingsusccess" style="display: none;">
 						<strong>Success!</strong> Account settings saved!
 					</div>
-					<div class="form-group" id="usernamecontainer">
-						<label for="username">Username:</label>
-						<input type="username" class="form-control" id="username" name="username" value="{{USER['users_username']}}" />
-					</div>
 					<div class="form-group">
-						<label for="email">First Name:</label>
+						<label>First Name:</label>
 						<input type="text" class="form-control" id="forename" name="forename" value="{{USER['users_name1']}}" />
 					</div>
 					<div class="form-group">
-						<label for="email">Last Name:</label>
+						<label>Last Name:</label>
 						<input type="text" class="form-control" id="lastname" name="lastname" value="{{USER['users_name2']}}" />
 					</div>
-					<div class="form-group" id="emailcontainer">
-						<label for="email">Email address:</label>
-						<input type="email" class="form-control" id="email" name="email" value="{{USER['users_email']}}" />
+					<hr/>
+					<div class="form-group">
+						<label>York Username</label>
+						<input type="text" class="form-control" id="yorkusername" name="yorkusername" {{ (USER.users_userid == USERDATA.users_userid ? 'disabled' : '') }} value="{{USER['users_googleAppsUsernameYork']}}" />
 					</div>
+					<div class="form-group">
+						<label>Nouse Username</label>
+						<input type="text" class="form-control" id="nouseusername" name="nouseusername" {{ (USER.users_userid == USERDATA.users_userid ? 'disabled' : '') }} value="{{USER['users_googleAppsUsernameNouse']}}" />
+					</div>
+					<hr/>
 					<div class="form-group">
 						<label for="bio">Bio</label>
 						<textarea rows="3" class="form-control" id="bio" name="bio" placeholder="Please don't include details of your roles at Nouse here">{{USER['users_bio']}}</textarea>
@@ -54,162 +56,34 @@
 				</div>
 					<script>
 					$(document).ready(function() {
-						function isemail(email) {
-							var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-							return regex.test(email);
-						}
-						function emailtaken(email) {
-							$.ajax({
-								url:"{{CONFIG.ROOTBACKENDURL}}/api/account/emailInUse.php?email=" + email,
-								async: false,
-								success:function(data) {
-									result = data;
-								}
-							 });
-								{% if USER.users_userid != USERDATA.users_userid %} return false; {% endif %}
-
-							 if (result == '1') return false;
-							 else return true;
-						}
-						function validemail(email) {
-							email = $("#email").val();
-							if (email.length > 0) {
-								if (emailtaken(email) || !isemail(email)) {
-									$("#emailcontainer").removeClass("has-success");
-									$("#emailcontainer").addClass("has-error");
-									return false;
-								} else {
-									$("#emailcontainer").removeClass("has-error");
-									$("#emailcontainer").addClass("has-success");
-									return true;
-								}
-							} else {
-								return true;
-							}
-
-						}
-						$("#email").keydown(function(){
-							validemail();
-						});
-						function usernametaken(username) {
-							$.ajax({
-								url:"{{CONFIG.ROOTBACKENDURL}}/api/account/usernameInUse.php?username=" + username,
-								async: false,
-								success:function(data) {
-									result = data;
-								}
-							 });
-							 if (result == '1') return false;
-							 else return true;
-						}
-						function validusername(username) {
-							username = $("#username").val();
-							if (usernametaken(username)) {
-								$("#usernamecontainer").removeClass("has-success");
-								$("#usernamecontainer").addClass("has-error");
-								return false;
-							} else {
-								$("#usernamecontainer").removeClass("has-error");
-								$("#usernamecontainer").addClass("has-success");
-								return true;
-							}
-						}
-						$("#username").keydown(function(){
-							validusername();
-						});
 						$('#save-account-settings').click(function() {
-							if (!validemail()) {
-								bootbox.alert("Please check your E-Mail address is valid and not already taken");
-							} else if ($('#username').val().length < 1) {
-								bootbox.alert("Please check user has been given a username");
-							} else {
-								$('#updatesettingsusccess').hide();
-								$.ajax({
-									url: '{{CONFIG.ROOTBACKENDURL}}/api/account/basicDetails.php?userid={{ USER.users_userid }}&username=' + $('#username').val() + '&forename=' + $('#forename').val() + '&lastname=' + $('#lastname').val() + '&email=' + $('#email').val() + '&bio=' + $('#bio').val(),
-									success: function (result) {
-										{% if USER.users_userid != "NEW" %}
-										if (result == '1') {
-											if ('{{USER.users_email}}' != $('#email').val()) {
-												//They have changed E-Mail address so we need to refresh so that they see the verify your E-Mail message-box
-												location.reload();
-											}
-											$('#updatesettingsusccess').show();
-										}
-										{% else %}
-										result = JSON.parse(result);
-										if (result) {
-											window.location.href = "?uid=" + result.newUserId;
-										}
-										{% endif %}
-										else {
-											bootbox.alert(result + '<br/>Error - Could not save - Please refresh the page and try again!', function () {
-												location.reload();
-											});
-										}
+							$('#updatesettingsusccess').hide();
+							$.ajax({
+								url: '{{CONFIG.ROOTBACKENDURL}}/api/account/basicDetails.php?userid={{ USER.users_userid }}&forename=' + $('#forename').val() + '&lastname=' + $('#lastname').val() + '&bio=' + $('#bio').val() + '&yorkusername=' + $('#yorkusername').val() + '&nouseusername=' + $('#nouseusername').val(),
+								success: function (result) {
+									{% if USER.users_userid != "NEW" %}
+									if (result == '1') {
+										$('#updatesettingsusccess').show();
 									}
-								});
-							}
-						});
-					});
-					</script>
-			</div>
-		</div>
-		{% if USER.users_userid == USERDATA.users_userid %}
-		<div class="col-lg-6">
-			<div class="box panel-default">
-				<div class="box-header with-border">
-					<h3 class="box-title">Password</h3>
-				</div>
-				<div class="panel-body">
-					<div class="alert alert-success" id="update_pass_success" style="display: none;">
-						<strong>Success!</strong> Password Changed!
-					</div>
-
-					<div class="form-group">
-						<label for="username">Current Password</label>
-						<input type="password" placeholder="Current Password" class="form-control" id="current_pass" />
-					</div>
-					<div class="form-group">
-						<style>
-						.button_strength {
-							display: none;
-						}
-						</style>
-						<label for="username">New Password</label>
-						<input type="password" placeholder="New Password" class="form-control" id="passnew" /><br/>
-						<input type="password" placeholder="Confirm New Password" class="form-control" id="passconf" />
-					</div>
-				</div>
-				<div class="box-footer">
-					<button id="save-password-settings" class="btn btn-default">Change</button>
-				</div>
-					<script>
-					$(document).ready(function() {
-						$("#passnew").strength();
-						$('#save-password-settings').click(function() {
-							if ($('#passnew').val() != $('#passconf').val()) {
-								bootbox.alert("Sorry - Your new password's don't match!");
-							} else if ($("#passnew").val().length < 6) bootbox.alert("Sorry - Your password is too short!");
-							else {
-								$.ajax({
-									url: '{{CONFIG.ROOTBACKENDURL}}/api/account/changePass.php?newpass=' + $("#passnew").val() + '&oldpass=' + $("#current_pass").val(),
-									success: function (result) {
-										if (result == '1') {
+									{% else %}
+									result = JSON.parse(result);
+									if (result) {
+										window.location.href = "?uid=" + result.newUserId;
+									}
+									{% endif %}
+									else {
+										bootbox.alert(result + '<br/>Error - Could not save - Please refresh the page and try again!', function () {
 											location.reload();
-										} else if (result == '2') {
-											bootbox.alert("Current password incorrect!");
-										} else {
-											bootbox.alert('Error - Could not change password - Please refresh the page and try again!');
-										}
+										});
 									}
-								});
-							}
+								}
+							});
+
 						});
 					});
 					</script>
 			</div>
 		</div>
-		{% endif %}
 		<div class="col-lg-6">
 			<div class="box">
 				<div class="box-header with-border">

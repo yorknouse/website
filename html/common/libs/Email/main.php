@@ -1003,9 +1003,13 @@ function sendemail($userIDOrEmail, $subject, $html) {
 	global $DBLIB, $CONFIG;
 	if (is_numeric($userIDOrEmail)) {
 	    $DBLIB->where('users_userid', $userIDOrEmail);
-        $DBLIB->where("users_email IS NOT NULL");
-        $user = $DBLIB->getone('users', ['users_userid','users_name1','users_name2','users_email']);
+        $user = $DBLIB->getone('users', ['users_userid','users_name1','users_name2','users_googleAppsUsernameYork','users_googleAppsUsernameNouse']);
         if (!$user) return false; //Can't find user
+        if (strlen($user['users_googleAppsUsernameNouse']) > 0) {
+            $user['users_email'] = $user['users_googleAppsUsernameNouse'] . "@nouse.co.uk";
+        } elseif (strlen($user['users_googleAppsUsernameYork']) > 0) {
+            $user['users_email'] = $user['users_googleAppsUsernameYork'] . "@york.ac.uk";
+        } else return false; //We don't have their york or nouse username
     } elseif (filter_var($userIDOrEmail, FILTER_VALIDATE_EMAIL)) {
 	    $user = [];
 	    $user['users_email'] = $userIDOrEmail;
