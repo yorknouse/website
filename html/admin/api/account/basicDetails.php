@@ -23,15 +23,15 @@ if (isset($_GET['forename'])) {
         'users_bio' => $bCMS->sanitizeString($_GET['bio'])
     );
     if ($USERDATA['users_userid'] != $_GET['userid']) {
-        $data['users_googleAppsUsernameYork'] = (strlen($_GET['yorkusername']) > 0 ? strstr($bCMS->sanitizeString($_GET['yorkusername']), '@', true) : '');
-        $data['users_googleAppsUsernameNouse'] = (strlen($_GET['nouseusername']) > 0 ? strstr($bCMS->sanitizeString($_GET['nouseusername']), '@', true) : '');
+        $data['users_googleAppsUsernameYork'] = (strlen($_GET['yorkusername']) > 0 ? str_replace("@york.ac.uk","",$bCMS->sanitizeString($_GET['yorkusername'])) : '');
+        $data['users_googleAppsUsernameNouse'] = (strlen($_GET['nouseusername']) > 0 ? str_replace("@nouse.co.uk","",$bCMS->sanitizeString($_GET['nouseusername'])) : '');
     }
 
     if (!$newUser) {
         $DBLIB->where('users_userid', $userid);
         if ($DBLIB->update('users', $data)) {
             $bCMS->auditLog("UPDATE", "users", json_encode($data), $AUTH->data['users_userid'],$userid);
-            die('1');
+            die("1");
         } else die("2");
     } else {
         $newUser = $DBLIB->insert("users", $data);
