@@ -29,6 +29,7 @@ class bID
                         $this->logout();
                         $this->login = false;
                     }
+                    $googleUserData['email'] = strtolower($googleUserData['email']);
                     $googleUserData['usernameFromEmail'] = str_replace("@" . $googleUserData['hd'],"",$googleUserData['email']);
                     $DBLIB->where("users.users_suspended", 0); //Don't select suspended users
                     $DBLIB->where("users.users_deleted",0); //Don't select a deleted user
