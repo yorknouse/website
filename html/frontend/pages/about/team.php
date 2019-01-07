@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../common/head.php';
 
-$PAGEDATA['pageConfig'] = ["TITLE" => "Current Team"];
+$PAGEDATA['pageConfig'] = ["TITLE" => "Current Team", "VIEW" => (isset($_GET['t']) ? "table" : "grid")];
 
 $completedUsers = [];
 
@@ -22,7 +22,9 @@ foreach ($DBLIB->get("userPositions", null, ["userPositions.users_userid"]) as $
         "users_social_instagram",
         "users_social_twitter",
         "users_social_snapchat",
-        "users_userid"
+        "users_userid",
+        "users_googleAppsUsernameYork",
+        "users_googleAppsUsernameNouse"
     ]);
     $user['POSITIONS'] = userPositions($user['users_userid']);
     $user['IMAGE'] =  userImage($user['users_userid']);
