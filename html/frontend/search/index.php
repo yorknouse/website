@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../common/head.php';
 
+if (!isset($_GET["q"])) render404Error();
 
 $PAGEDATA['pageConfig'] = ["TITLE" => "Search results for " . $_GET['q'] . " | Nouse", "FEATURED" => false];
 $term = $bCMS->sanitizeString($_GET['q']);

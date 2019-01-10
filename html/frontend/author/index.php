@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../common/head.php';
 
+if (!isset($_GET["a"])) render404Error();
 
 $PAGEDATA['pageConfig'] = ["TITLE" => null, "FEATURED" => false];
 
