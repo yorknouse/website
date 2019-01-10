@@ -15,6 +15,12 @@
                 if (currentSectionID != {{ category.categories_id }}) {
                     currentSectionID = {{ category.categories_id }};
                     $('#primaryNav').css({"background-color":"#{{ category.categories_backgroundColor }}","color": "#{{ category.categories_backgroundColorContrast }}"});
+
+                    if ("{{ category.categories_backgroundColorContrast }}" == "ffffff") { //Update mobile header to be correct colour
+                        $("#mobileLogoHeader").attr("src","{{CONFIG.FILESTOREURL}}/site-assets/logo/nouse-logo-full3-white.svg");
+                    } else {
+                        $("#mobileLogoHeader").attr("src","{{CONFIG.FILESTOREURL}}/site-assets/logo/nouse-logo-full3.svg");
+                    }
                 }
             }
             {% endfor %}
@@ -23,6 +29,7 @@
                     //Back at the top so reset the header
                     currentSectionID = 0;
                     $('#primaryNav').css({"background-color":"white","color": "black"});
+                    $("#mobileLogoHeader").attr("src","{{CONFIG.FILESTOREURL}}/site-assets/logo/nouse-logo-full3.svg");
                 }
             }
         });
