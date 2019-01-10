@@ -144,7 +144,7 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
         //Establish if this will make the public - in which case YUSU need to be notified
         //This version is different because the article has to be updated
 
-        if (strtotime($articleData["articles_published"]) <= time()) {
+        if (strtotime($articleData["articles_published"]) <= time() and $articleData["articles_showInSearch"] == 1) {
             $bCMS->yusuNotify($articleID); //This article has been posted historically so we need to email YUSU
         }
 

@@ -222,6 +222,7 @@ class bCMS {
         global $DBLIB,$CONFIG;
         $DBLIB->where("articles.articles_id", $this->sanitizeString($articleid));
         $DBLIB->where("articles_mediaCharterDone", 0);
+        $DBLIB->where("articles_showInSearch", 1);
         $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
         $DBLIB->where("articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
         $article = $DBLIB->getone("articles", ["articles.articles_id", "articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
