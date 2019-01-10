@@ -466,10 +466,10 @@
                 success: function (result) {
                     savingDialog.modal('hide');
                     if (result.result) {
+                        window.onbeforeunload = null; //Let them leave a page without a warning after they save
                         {% if article.articles_id == null %}
                         window.location.href = "?id=" + result.response.articleid;
                         {% else %}
-                        window.onbeforeunload = null; //Let them leave a page without a warning after they save
                         $('.note-status-output').html(
                             '<div class="alert alert-success">' +
                             'Saved' +
