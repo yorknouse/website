@@ -282,12 +282,12 @@
     <!--<div style="height: 0px; width: 10px; padding: 0px; margin: 0px;" class="paddingapp hidden-lg hidden-md hidden-sm"></div>-->
     <div class="content-wrapper" id="content-wrapper">
         {% endif %}
+             {% if CONFIG.VERSION.COMMIT == "DEV" %}
             <div class="alert alert-warning alert-dismissible" style="border: 0px; margin-bottom: 0px;">
-                <h4><i class="fa fa-terminal"></i> Developers at Work!</h4>
-                {{ CONFIG.PROJECT_NAME }} Admin is currently being worked on by our developers - Please bear with us if you
-                hit any snags!
+                <h4><i class="fa fa-terminal"></i> DEVELOPMENT BUILD</h4>
+                This is the dev build but probably running on a production database - take care
             </div>
-
+            {% endif %}
             {%  if pageConfig.BREADCRUMB == true and pageConfig.TITLE != null %}
             <section class="content-header">
                 <h1>
