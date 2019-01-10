@@ -36,12 +36,30 @@
     </script>
 {% endblock %}
 {% block prePageContent %}
+    {% if pageConfig.SUBCATEGORY is defined %}
+    <div class="breadcrumbBithell">
+        <div class="container" style="background-color: #F5F5F5;">
+        {% if pageConfig.SUBSUBCATEGORY is defined %}
+            <ol class="breadcrumb">
+                <li><a style="color: black;" href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ pageConfig.CATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.CATEGORY.categories_displayName }}</a></li>
+                <li><a style="color: black;" href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ pageConfig.SUBCATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.SUBCATEGORY.categories_displayName }}</a></li>
+                <li>{{ pageConfig.SUBSUBCATEGORY.categories_displayName }}</li>
+            </ol>
+        {% else %}
+            <ol class="breadcrumb">
+                <li><a style="color: black;" href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ pageConfig.CATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.CATEGORY.categories_displayName }}</a></li>
+                <li>{{ pageConfig.SUBCATEGORY.categories_displayName }}</li>
+            </ol>
+        {% endif %}
+        </div>
+    </div>
+    {% endif %}
     <div class="news-masonry">
         <div class="height_30"></div>
         <div class="container">
             <div class="row mas-m">
                 {% if FEATUREDARTICLES|length > 0 %}
-                    <div class="col-sm-6 mas-p">
+                    <div class="col-sm-{{ FEATUREDARTICLES|length < 2 ? "12" : "6"}} mas-p">
                         <div class="mas-item mas-big">
                             {% if FEATUREDARTICLES[0].articles_id|articleThumbnail %}
                                 <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[0].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[0].articles_slug }}"><figure><img src="{{ FEATUREDARTICLES[0].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDARTICLES[0].articlesDrafts_headline|raw }}"></figure></a>
@@ -182,20 +200,7 @@
         <div class="row">
 
             <aside class="col-sm-4 col-md-3 rightSidebar">
-                <div class="alert">
-                    {% if pageConfig.SUBSUBCATEGORY is defined %}
-                        <ol class="breadcrumb">
-                            <li><a style="color: black;" href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ pageConfig.CATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.CATEGORY.categories_displayName }}</a></li>
-                            <li><a style="color: black;" href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ pageConfig.SUBCATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.SUBCATEGORY.categories_displayName }}</a></li>
-                            <li class="active"><a style="color: black;" href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ pageConfig.SUBSUBCATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.SUBSUBCATEGORY.categories_displayName }}</a></li>
-                        </ol>
-                    {% elseif pageConfig.SUBCATEGORY is defined %}
-                        <ol class="breadcrumb">
-                            <li><a style="color: black;" href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ pageConfig.CATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.CATEGORY.categories_displayName }}</a></li>
-                            <li class="active"><a style="color: black;" href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ pageConfig.SUBCATEGORY.categories_id|getCategoryURL }}">{{ pageConfig.SUBCATEGORY.categories_displayName }}</a></li>
-                        </ol>
-                    {% endif %}
-                </div>
+
                 {% if pageConfig.CATEGORY.categories_facebook != null or pageConfig.CATEGORY.categories_instagram != null or pageConfig.CATEGORY.categories_twitter != null %}
                 <div class="about-card">
                     <div class="ui divider">{{ pageConfig.CATEGORY.categories_displayName }}</div>
