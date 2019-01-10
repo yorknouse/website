@@ -146,7 +146,10 @@ if (is_numeric(substr($URL,0,1))) {
     }
     if (!isset($PAGEDATA['pageConfig']['CATEGORY'])) render404Error(); //We didn't find their category
 
-    if ($PAGEDATA['pageConfig']['CATEGORY']['categories_displayName'] == "Muse") $PAGEDATA['pageConfig']["MUSETheme"] = true;
+    if ($PAGEDATA['pageConfig']['CATEGORY']['categories_displayName'] == "Muse") {
+        $PAGEDATA['pageConfig']["MUSETheme"] = true;
+        $PAGEDATA['pageConfig']['MENUSub'] = 4; //We're on MUSE so show their special menu
+    }
     if ($PAGEDATA['pageConfig']['CATEGORY']['categories_backgroundColor'] != null) {
         $PAGEDATA['pageConfig']['MENUColor']['backgroundColor'] = $PAGEDATA['pageConfig']['CATEGORY']['categories_backgroundColor'];
         $PAGEDATA['pageConfig']['MENUColor']['backgroundColorContrast'] = $PAGEDATA['pageConfig']['CATEGORY']['categories_backgroundColorContrast'];
