@@ -11,6 +11,19 @@ foreach (explode("&", parse_url($_SERVER["REQUEST_URI"], PHP_URL_QUERY)) as $par
     }
 }
 
+//Quick links redirect system
+$DBLIB->where("quickLinks_string",$bCMS->sanitizeString(rtrim($URL,"/")));
+$DBLIB->where("quickLinks_deleted", 0);
+$quickLink = $DBLIB->getone("quickLinks",["quickLinks_pointsTo"]);
+if ($quickLink) {
+    try {
+        header('Location: ' . $quickLink["quickLinks_pointsTo"], true, 301);
+        exit;
+    } catch (Exception $e) {
+        die('<meta http-equiv="refresh" content="0;url=' . $quickLink["quickLinks_pointsTo"] . '" />');
+    }
+}
+
 if (is_numeric(substr($URL,0,1))) {
     //The first character of URL is a number - this is therefore a post
 
