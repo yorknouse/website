@@ -122,7 +122,10 @@ if (is_numeric(substr($URL,0,1))) {
     $PAGEDATA['pageConfig']['SIMILAR'] = similarArticles($PAGEDATA['POST']['articles_id'],3);
 
     foreach ($PAGEDATA['POST']['CATEGORIES'] as $category) {
-        if ($category['categories_displayName'] == "Muse") $PAGEDATA['pageConfig']["MUSETheme"] = true;
+        if ($category['categories_displayName'] == "Muse") {
+            $PAGEDATA['pageConfig']["MUSETheme"] = true;
+            $PAGEDATA['pageConfig']['MENUSub'] = 4; //We're on MUSE so show their special menu
+        }
         if ($category['categories_backgroundColor'] != null) {
             $PAGEDATA['pageConfig']['MENUColor']['backgroundColor'] = $category['categories_backgroundColor'];
             $PAGEDATA['pageConfig']['MENUColor']['backgroundColorContrast'] = $category['categories_backgroundColorContrast'];
