@@ -25,6 +25,36 @@
     {% endfor %}
     <meta property="article:published_time" content="{{ POST.articles_published|date("d M Y") }}" />
 
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": "{{ CONFIG.ROOTFRONTENDURL }}/{{ POST.articles_published|date("Y/m/d") }}/{{ POST.articles_slug }}"
+            },
+            "headline": "{{ POST.articlesDrafts_headline|raw }}",
+            {% if POST.articles_id|articleThumbnail != null %}
+            "image": [
+                "{{ POST.articles_id|articleThumbnail }}"
+            ],
+            {% endif %}
+            "datePublished": "{{ POST.articles_published|date("c") }}",
+            "author": {
+                "@type": "Organization",
+                "name": "Nouse"
+            },
+            "publisher": {
+                "@type": "Organization",
+                "name": "Nouse",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "{{CONFIG.FILESTOREURL}}/site-assets/logo/nouse-logo-full3.png"
+                }
+            },
+            "description": "{{ POST.articlesDrafts_excerpt|raw }}"
+        }
+    </script>
 {% endblock %}
 
 {% block prePageContent %}
