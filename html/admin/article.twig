@@ -362,7 +362,15 @@
                         figureClass:'',
                         figcaptionClass:'',
                         captionText:'Photo Credit: '
+                    },
+                    callbacks: {
+                        onChange: function() {
+                            window.onbeforeunload = function() {
+                                return true;
+                            };
+                        }
                     }
+
                 });
             });
 
