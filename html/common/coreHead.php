@@ -30,8 +30,8 @@ header("Content-Security-Policy: default-src 'none';" .
     //          Loading in google fonts     more gfonts                 Fonts from libs like fontawesome
     "manifest-src 'self' https://*.digitaloceanspaces.com;".
     //          Show images on mobile devices like favicons
-    "img-src 'self' data: blob: https://cdnjs.cloudflare.com https://*.digitaloceanspaces.com https://*.twitter.com https://*.twimg.com https://www.google-analytics.com https://www.googletagmanager.com https://i2.wp.com;".
-    //                    Uploads    Images from libs                 Images                             Twitter embedd      More twitter          Google analytics                                                   User icons fallback
+    "img-src 'self' data: blob: https://cdnjs.cloudflare.com https://*.digitaloceanspaces.com https://*.twitter.com https://*.twimg.com https://www.google-analytics.com https://*.googlesyndication.com https://www.googletagmanager.com https://i2.wp.com;".
+    //                    Uploads    Images from libs                 Images                             Twitter embedd      More twitter          Google analytics                                                                          User icons fallback
     "connect-src 'self' https://*.digitaloceanspaces.com https://*.pndsn.com https://sentry.io https://www.google-analytics.com https://*.gstatic.com;".
     //                  File uploads                    Pubnub sockets          Error reporting     Google analytics
     "frame-src https://*.twitter.com https://staticxx.facebook.com https://www.google.com https://googleads.g.doubleclick.net https://e.issuu.com;".
