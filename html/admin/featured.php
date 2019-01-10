@@ -5,14 +5,16 @@ $PAGEDATA['pageConfig'] = ["TITLE" => "Featured Articles", "BREADCRUMB" => false
 
 if (!$AUTH->permissionCheck(20)) die("Sorry - you can't access this page");
 
-$DBLIB->where("categories_showPublic",1);
-$DBLIB->where("categories_showHome", 1);
-$DBLIB->orderBy("categories_order", "ASC");
-$DBLIB->orderBy("categories_displayName", "ASC");
-$DBLIB->where("categories_nestUnder IS NULL");
+$DBLIB->where("categories.categories_showAdmin",1);
+$DBLIB->where("categories.categories_showMenu",1);
+$DBLIB->orderBy("categories.categories_nestUnder", "ASC");
+$DBLIB->orderBy("categories.categories_order", "ASC");
+$DBLIB->orderBy("categories.categories_displayName", "ASC");
+$DBLIB->join("categories AS categoryParent", "categories.categories_nestUnder=categoryParent.categories_id", "LEFT");
+$DBLIB->where("((categories.categories_nestUnder IS NULL) OR categories.categories_nestUnder = '4')"); //Top level or under MUSE
 $PAGEDATA['CATEGORIES'] = [];
 
-foreach ($DBLIB->get("categories",null, ["categories_id", "categories_displayName","categories_featured"]) as $category) {
+foreach ($DBLIB->get("categories",null, ["categories.categories_id", "categories.categories_displayName","categories.categories_featured","categoryParent.categories_displayName AS parentName"]) as $category) {
     if (strlen($category['categories_featured']) > 0) {
         $category['ARTICLES'] = [];
         foreach (explode(",",$category['categories_featured']) as $article) { //Has to be done like this otherwise it won't come out in the correct order

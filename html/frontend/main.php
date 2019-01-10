@@ -152,6 +152,7 @@ if (is_numeric(substr($URL,0,1))) {
         $PAGEDATA['pageConfig']['MENUColor']['backgroundColorContrast'] = $PAGEDATA['pageConfig']['CATEGORY']['categories_backgroundColorContrast'];
     }
 
+
     if (count($URL)>1) {
         foreach ($PAGEDATA['pageConfig']['CATEGORY']['SUB'] as $category) {
             if (($URL[1] == $category['categories_name']) && ($category['categories_nestUnder'] == $PAGEDATA['pageConfig']['CATEGORY']['categories_id'])) {
@@ -198,9 +199,10 @@ if (is_numeric(substr($URL,0,1))) {
     }
 
     //Get a list of featured articles for the masonry at the top
-    if (strlen($PAGEDATA['pageConfig']['CATEGORY']['categories_featured']) > 0) {
+    if (strlen($thisCategory['categories_featured']) > 0) {
         $PAGEDATA['FEATUREDARTICLES'] = [];
-        foreach (explode(",",$PAGEDATA['pageConfig']['CATEGORY']['categories_featured']) as $article) { //Has to be done like this otherwise it won't come out in the correct order
+        foreach (explode(",",$thisCategory['categories_featured']) as $article) { //Has to be done like this otherwise it won't come out in the correct order
+            if (!$article) continue;
             $DBLIB->where("articles.articles_id", $article);
             $DBLIB->where("articles_showInLists", 1);
             $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");

@@ -103,7 +103,7 @@
     <div class="container">
         <div class="row mas-m">
             {% if FEATUREDHOME|length > 0 %}
-            <div class="col-sm-6 mas-p">
+            <div class="col-sm-{{ FEATUREDHOME|length < 2 ? "12" : "6" }} mas-p">
                 <div class="mas-item mas-big">
                     {% if FEATUREDHOME[0].articles_id|articleThumbnail %}
                     <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDHOME[0].articles_published|date("Y/m/d") }}/{{ FEATUREDHOME[0].articles_slug }}"><figure><img src="{{ FEATUREDHOME[0].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDHOME[0].articlesDrafts_headline|raw }}"></figure></a>

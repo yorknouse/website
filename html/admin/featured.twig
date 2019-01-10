@@ -39,7 +39,10 @@
                         </tr>
                         {% for category in CATEGORIES %}
                         <tr>
-                            <td>{{ category.categories_displayName }}</td>
+                            <td>{% if category.parentName %}
+                                    {{ category.parentName }}<br/>&rdsh;
+                                {% endif %}{{ category.categories_displayName }}
+                            </td>
                             <td>
                                 <select id="categorySelect{{ category.categories_id }}" class="chooser form-control" multiple="multiple">
                                     {% for article in category.ARTICLES %}
@@ -57,7 +60,8 @@
                 </div>
                 {% if 21|permissions or 22|permissions %}
                 <div class="box-footer" style="text-align: right">
-                    Drag and drop articles to re-order them
+                    Drag and drop articles to re-order them<br/>
+                    To break important news only set one article as featured and it will fill the width
                 </div>
                 {% endif %}
                 <div class="overlay" id="loadingoverlay">
@@ -79,6 +83,7 @@
                 minimumInputLength: 0,
                 maximumSelectionLength: 6,
                 minimumResultsForSearch: 1,
+                width: '100%',
                 placeholder: "Search for articles to feature",
                 ajax: {
                     url: "{{ CONFIG.ROOTBACKENDURL }}/api/featured/articleSearch.php",
@@ -115,6 +120,7 @@
                 {% if 22|permissions != true %} disabled:true,{% endif %}
                 minimumInputLength: 0,
                 maximumSelectionLength: 6,
+                width: '100%',
                 minimumResultsForSearch: 1,
                 placeholder: "Search for articles to feature at the top of the homepage",
                 ajax: {
@@ -128,7 +134,7 @@
                         return queryParameters;
                     },
                     processResults: function (data) {
-                        if (data && data.result) {
+                        if (data && data.result && data.response) {
                             return {
                                 results: $.map(data.response, function (item) {
                                     return {
