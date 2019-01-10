@@ -250,7 +250,7 @@ class bCMS {
         $DBLIB->where("articles_showInSearch", 1);
         $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
         $DBLIB->where("articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
-        $article = $DBLIB->getone("articles", ["articles.articles_id", "articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
+        $article = $DBLIB->getone("articles", ["articles.articles_id", "articles_categories", "articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
         if (!$article) return false;
 
         //YUSU Notification email html
@@ -261,12 +261,19 @@ class bCMS {
         if (strtotime($article["articles_published"]) > time()) $html .= "This article hasn't been published yet, so it's not accessible on our website. A secret link has been generated for you to preview it, but please don't share this externally: <a href='" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/". $article['articles_slug'] . "?key=" . md5($article['articles_id']) . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/". $article['articles_slug'] . "</a>";
         else $html .= "<b>Link to article: </b><a href='" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/". $article['articles_slug'] . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/". $article['articles_slug'] . "</a>";
         $html .= "<br/><br/><br/>If you have any questions about this notification please do not hesitate to contact us on support@nouse.co.uk.<br/>For queries relating to this article itself (for example concerns about its content) please contact editor@nouse.co.uk. <br/><br/><br/>Nouse Technical Team<br/><i>" . gethostname() . " (compliance tracked at  " . date("Y-m-d H:i:s") . " UTC)</i>";
-
-        if (sendemail("media-charter-notifications@nouse.co.uk", "New article on Nouse.co.uk", $html)) {
+        if (count(array_intersect([1,6,7], explode(",",$article['articles_categories']))) >0) {
+            if (sendemail("media-charter-notifications@nouse.co.uk", "New article on Nouse.co.uk", $html)) {
+                $DBLIB->where("articles_id", $article['articles_id']);
+                $DBLIB->update("articles", ["articles_mediaCharterDone" => 1]);
+                return true;
+            } else return false;
+        } else {
+            //We don't need to tell YUSU about this as it's not in categories 1,6 or 7
             $DBLIB->where("articles_id", $article['articles_id']);
-            $DBLIB->update("articles", ["articles_mediaCharterDone" => 1]);
+            $DBLIB->update("articles", ["articles_mediaCharterDone" => 2]);
             return true;
-        } else return false;
+        }
+
     }
     public function postSocial($articleid, $postToFacebook = true, $postToTwitter = true) {
         global $DBLIB,$CONFIG;
