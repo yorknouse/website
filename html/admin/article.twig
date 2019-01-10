@@ -40,7 +40,7 @@
                     <textarea id="headline" style="resize: none;" rows="2" placeholder="University of York to open campus on the Moon" class="form-control">{{ article.articlesDrafts_headline|raw }}</textarea>
                 </div>
                 <div class="form-group">
-                    <label>Excerpt</label>
+                    <label>Byline</label>
                     <textarea id="excerpt" style="resize: none;" rows="4" placeholder="Use of excerpts is advisable for display purposes" class="form-control">{{ article.articlesDrafts_excerpt|raw }}</textarea>
                 </div>
                 <div class="form-group">
@@ -96,7 +96,7 @@
                         <input type="checkbox" class="form-check-input" id="postToTwitter" {{ (articleSocialConfig[3] == 1 ? 'disabled' : '') }} {{ (articleSocialConfig[2] == 1 ? 'checked' : '') }}>
                         <label class="form-check-label">{{ (articleSocialConfig[3] == 1 ? 'Posted' : 'Post') }} to Twitter</label>
                     </div>
-                    <textarea id="socialexcerpt" {{ (articleSocialConfig[1] == 1 and articleSocialConfig[3] == 1 ? 'disabled' : '') }} style="resize: none;" rows="2" placeholder="Custom excerpt for social media display" class="form-control">{{ article.articles_socialExcerpt|raw }}</textarea>
+                    <textarea maxlength="280" id="socialexcerpt" {{ (articleSocialConfig[1] == 1 and articleSocialConfig[3] == 1 ? 'disabled' : '') }} style="resize: none;" rows="2" placeholder="Custom excerpt for social media display" class="form-control">{{ article.articles_socialExcerpt|raw }}</textarea>
                 </div>
                 <div class="form-group">
                     <div class="form-check">
