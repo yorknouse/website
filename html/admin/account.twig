@@ -84,6 +84,7 @@
 					</script>
 			</div>
 		</div>
+
 		<div class="col-lg-6">
 			<div class="box">
 				<div class="box-header with-border">
@@ -315,6 +316,76 @@
 				</div>
 			</div>
 		</div>
+
+		{% if USER.users_userid != "NEW" %}
+			<div class="col-lg-6">
+				<div class="box panel-default">
+					<div class="box-header with-border">
+						<h3 class="box-title">Social Media profiles</h3>
+					</div>
+					<div class="panel-body">
+						<div class="alert alert-success" id="update_social_success" style="display: none;">
+							<strong>Success!</strong> Social media updated!
+						</div>
+						<form id="update_social_form">
+							<p>Share links to your social media profiles to be displayed on your user profile page</p>
+
+							<label>Facebook</label>
+							<div class="input-group">
+								<span class="input-group-addon">https://facebook.com/</span>
+								<input type="text" class="form-control" name="facebook" value="{{ USER.users_social_facebook }}">
+							</div>
+							<br/>
+							<label>Twitter</label>
+							<div class="input-group">
+								<span class="input-group-addon">https://twitter.com/</span>
+								<input type="text" class="form-control" name="twitter" value="{{ USER.users_social_twitter }}">
+							</div><br/>
+							<label>Instagram</label>
+							<div class="input-group">
+								<span class="input-group-addon">https://instagram.com/</span>
+								<input type="text" class="form-control" name="instagram" value="{{ USER.users_social_instagram }}">
+							</div><br/>
+							<label>Linkedin</label>
+							<div class="input-group">
+								<span class="input-group-addon">https://linkedin.com/ln/</span>
+								<input type="text" class="form-control" name="linkedin" value="{{ USER.users_social_linkedin }}">
+							</div><br/>
+							<label>Snapchat</label>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-snapchat-ghost"></i></span>
+								<input type="text" class="form-control" name="snapchat" value="{{ USER.users_social_snapchat }}">
+							</div>
+						</form>
+					</div>
+					<div class="box-footer">
+						<button id="save-social-settings" class="btn btn-default">Save</button>
+					</div>
+					<script>
+						$(document).ready(function() {
+							$('#save-social-settings').click(function() {
+								$("#update_social_success").hide();
+								$.ajax({
+									url: '{{CONFIG.ROOTBACKENDURL}}/api/account/social.php',
+									data: {"data":$("#update_social_form").serialize(),"users_userid": "{{ USER.users_userid }}"},
+									type: "POST",
+									success: function (result) {
+										if (result == '1') {
+											$("#update_social_success").show();
+										} else {
+											bootbox.alert('Error - Could not change social settings - Please try again!', function() {
+												location.reload();
+											});
+										}
+									}
+								});
+							});
+						});
+					</script>
+				</div>
+			</div>
+		{% endif %}
+		
 		{% if USER.users_userid != "NEW" %}
 		<div class="col-lg-6">
 			<div class="box panel-default">
@@ -354,74 +425,6 @@
 				</div>
 				{% endif %}
 				<script>
-				</script>
-			</div>
-		</div>
-		{% endif %}
-		{% if USER.users_userid != "NEW" %}
-		<div class="col-lg-6">
-			<div class="box panel-default">
-				<div class="box-header with-border">
-					<h3 class="box-title">Social Media profiles</h3>
-				</div>
-				<div class="panel-body">
-					<div class="alert alert-success" id="update_social_success" style="display: none;">
-						<strong>Success!</strong> Social media updated!
-					</div>
-					<form id="update_social_form">
-						<p>Share links to your social media profiles to be displayed on your user profile page</p>
-
-						<label>Facebook</label>
-						<div class="input-group">
-							<span class="input-group-addon">https://facebook.com/</span>
-							<input type="text" class="form-control" name="facebook" value="{{ USER.users_social_facebook }}">
-						</div>
-						<br/>
-						<label>Twitter</label>
-						<div class="input-group">
-							<span class="input-group-addon">https://twitter.com/</span>
-							<input type="text" class="form-control" name="twitter" value="{{ USER.users_social_twitter }}">
-						</div><br/>
-						<label>Instagram</label>
-						<div class="input-group">
-							<span class="input-group-addon">https://instagram.com/</span>
-							<input type="text" class="form-control" name="instagram" value="{{ USER.users_social_instagram }}">
-						</div><br/>
-						<label>Linkedin</label>
-						<div class="input-group">
-							<span class="input-group-addon">https://linkedin.com/ln/</span>
-							<input type="text" class="form-control" name="linkedin" value="{{ USER.users_social_linkedin }}">
-						</div><br/>
-						<label>Snapchat</label>
-						<div class="input-group">
-							<span class="input-group-addon"><i class="fa fa-snapchat-ghost"></i></span>
-							<input type="text" class="form-control" name="snapchat" value="{{ USER.users_social_snapchat }}">
-						</div>
-					</form>
-				</div>
-				<div class="box-footer">
-					<button id="save-social-settings" class="btn btn-default">Save</button>
-				</div>
-				<script>
-					$(document).ready(function() {
-						$('#save-social-settings').click(function() {
-							$("#update_social_success").hide();
-							$.ajax({
-								url: '{{CONFIG.ROOTBACKENDURL}}/api/account/social.php',
-								data: {"data":$("#update_social_form").serialize(),"users_userid": "{{ USER.users_userid }}"},
-								type: "POST",
-								success: function (result) {
-									if (result == '1') {
-										$("#update_social_success").show();
-									} else {
-										bootbox.alert('Error - Could not change social settings - Please try again!', function() {
-											location.reload();
-										});
-									}
-								}
-							});
-						});
-					});
 				</script>
 			</div>
 		</div>
