@@ -91,7 +91,7 @@ class bID
         $this->googleClient->authenticate($code);
         $_SESSION['token'] = $this->googleClient->getAccessToken();
         try {
-            header('Location: ' . (isset($_SESSION['return']) ? $_SESSION['return'] :  $CONFIG['ROOTBACKENDURL'])); //Check for session url to redirect to
+            header('Location: ' . (isset($_SESSION['return']) ? $_SESSION['return'] :  $CONFIG['ROOTBACKENDURL']));  exit; //Check for session url to redirect to
         } catch (Exception $e) {
             die('<meta http-equiv="refresh" content="0;url=' . (isset($_SESSION['return']) ? $_SESSION['return'] : $CONFIG['ROOTBACKENDURL']) . '" />');
         }
