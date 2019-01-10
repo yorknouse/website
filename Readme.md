@@ -16,6 +16,24 @@ _This might be needed to move between different hositng providers etc, but shoul
 - Edit the crontab (`crontab -e`) to include the following line `* * * * * php /var/www/nouse/html/admin/api/article/cronArticle.php`
 - Upload a `keys.php` file or set the environment variables using docker (there is a `keys.example.php` file to copy)
 - Setup certbot for backend `certbot --apache`
+
+### Creating a new MySQL Server
+
+- Install MySQL etc. and copy the db
+- Create a MySQL user 
+```mysql
+CREATE USER 'nouseProd'@'%' IDENTIFIED BY 'aGTIFCgiIJQ4PA34awBxlHD';
+GRANT DELETE ON nouseProd . * TO 'nouseProd'@'%';
+GRANT INSERT ON nouseProd . * TO 'nouseProd'@'%';
+GRANT SELECT ON nouseProd . * TO 'nouseProd'@'%';
+GRANT UPDATE ON nouseProd . * TO 'nouseProd'@'%';
+FLUSH PRIVILEGES;
+```
+- Edit the config file and set the "bind address" to be the **private** ip of the droplet as we dont want to allow external connections `sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf`
+- `apt install s3cmd` then use the s3cmd config file `mysql/s3cfg` but be sure to set the access key at the top of it
+- Upload `mysl/runBackup.sh` to `/root` and set the root mysql password in the file
+- Add the following line to `crontab`: `0 */2 * * * bash /root/runBackup.sh`
+
 ## Updating the server
 ```
 cd /var/www/nouse/ && /usr/bin/git reset --hard && /usr/bin/git pull
