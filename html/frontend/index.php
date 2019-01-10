@@ -41,6 +41,7 @@ $featuredHomeArticles = $DBLIB->getone("featuredHome");
 if ($featuredHomeArticles) {
     $PAGEDATA['FEATUREDHOME'] = [];
     foreach (explode(",",$featuredHomeArticles['featuredHome_articles']) as $article) { //Has to be done like this otherwise it won't come out in the correct order
+        if ($article == "") continue;
         $DBLIB->where("articles.articles_id", $article);
         $DBLIB->where("articles_showInLists", 1);
         $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
