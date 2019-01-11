@@ -7,7 +7,6 @@
 {% endblock %}
 {% block htmlMeta %}
     {% if POST.articles_id|articleThumbnail != null %}
-        <meta property="og:image" content="{{ POST.articles_id|articleThumbnail|replace({'https://': 'http://' }) }}" />
         <meta property="og:image:secure_url" content="{{ POST.articles_id|articleThumbnail }}" />
     {% endif %}
     <meta property="fb:app_id" content="471873819886891" />
