@@ -218,8 +218,10 @@ class bCMS {
     public function cacheClear($URL) {
         if (!$this->cloudflare) $this->cloudflareInit();
 
-        $this->cloudflare['zones']->cachePurge($this->cloudflare['zoneid'], [$URL]);
-        $this->auditLog("CACHECLEAR", null, $URL);
+        $URL = [$URL, rtrim($URL,"/")]; //Also purge without a leading slash
+
+        $this->cloudflare['zones']->cachePurge($this->cloudflare['zoneid'], $URL);
+        $this->auditLog("CACHECLEAR", null, json_encode($URL));
         return true;
     }
     public function cacheClearCategory($categoryid) {
