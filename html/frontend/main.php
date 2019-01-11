@@ -186,6 +186,9 @@ if (is_numeric(substr($URL,0,1))) {
     $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
     if (isset($_GET['page'])) $page = $bCMS->sanitizeString($_GET['page']);
     else $page = 1;
+
+    if ($page < 1) $page = 1;
+    
     $DBLIB->pageLimit = 10; //articles per page
     $articles = $DBLIB->arraybuilder()->paginate("articles", $page, ["articles.*","articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
     $PAGEDATA['pagination'] = ["page" => $page, "total" => $DBLIB->totalPages, "count" => $DBLIB->totalCount];
