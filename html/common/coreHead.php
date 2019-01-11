@@ -220,9 +220,10 @@ class bCMS {
 
         $URL = [$URL, rtrim($URL,"/")]; //Also purge without a leading slash
 
-        $this->cloudflare['zones']->cachePurge($this->cloudflare['zoneid'], $URL);
-        $this->auditLog("CACHECLEAR", null, json_encode($URL));
-        return true;
+        if ($this->cloudflare['zones']->cachePurge($this->cloudflare['zoneid'], $URL)) {
+            $this->auditLog("CACHECLEAR", null, json_encode($URL));
+            return true;
+        } else return false;
     }
     public function cacheClearCategory($categoryid) {
         global $DBLIB, $CONFIG;
