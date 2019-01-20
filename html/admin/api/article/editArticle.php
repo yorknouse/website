@@ -5,7 +5,6 @@ header("Content-Type: text/json");
 $articleData = [
     "articles_published" => date("Y-m-d H:i:s", strtotime($bCMS->sanitizeString($_POST['published']))),
     "articles_updated" => date("Y-m-d H:i:s"),
-    "articles_slug" => $bCMS->sanitizeString($_POST['slug']),
     "articles_socialExcerpt" => $bCMS->cleanString($_POST['socialexcerpt']),
 ];
 
@@ -116,6 +115,7 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
     } else finish(false, ["code" => null, "message" => "Insert draft error"]);
 } elseif ($AUTH->permissionCheck(31)) {
     //Create a new article
+    $articleData["articles_slug"] = $bCMS->sanitizeString($_POST['slug']); //Only set the slug if it's a new article
 
     $socialMedia = [1,0,1,0]; //Default
     if ($_POST['postToTwitter'] != 1) { //They dont want it to go on FB
