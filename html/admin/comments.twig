@@ -1,0 +1,103 @@
+{% extends "assets/template.twig" %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        Comments results
+                    </h3>
+                    <div class="box-tools pull-right">
+                       <a href="?" class="btn btn-default btn-sm"><i class="fa fa-search"></i></a>
+                    </div>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                    {% if comments|length > 0 %}
+                        <table class="table sticky-header" border="0" style="overflow-x: scroll;">
+                            <thead>
+                            <tr>
+                                <th>&numero;</th>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>Text</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for comment in comments %}
+                                <tr
+                                        {% if comment.comments_show != 1 %}
+                                        class="danger"
+                                        {% endif %}>
+                                    <td>{{ comment.comments_id }}</td>
+                                    <td>{{ comment.comments_authorName|raw }}</td>
+                                    <td>{{ comment.comments_created|date("d M Y h:i:s") }}</td>
+                                    <td>{{ comment.comments_text|raw }}</td>
+                                    <td>
+                                        {% if comment.comments_show == 1 %}
+                                            {% if 41|permissions %}
+                                            <button class="btn btn-danger deleteComment" data-commentid="{{ comment.comments_id }}"><i class="fa fa-trash-o"></i></button>
+                                            {% endif %}
+                                        {% else %}
+                                            {% if 42|permissions %}
+                                            <button class="btn btn-success restoreComment" data-commentid="{{ comment.comments_id }}"><i class="fa fa-check"></i></button>
+                                            {% endif %}
+                                        {% endif %}
+
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <center><p style="margin: 10px;"><i>No results</i><br/><a href="?">Search again</a></p></center>
+                    {% endif %}
+                </div>
+                <div class="overlay" id="loadingoverlay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+            <script>
+                $(document).ready(function () {
+                    {% if 41|permissions %}
+                    $(".deleteComment").click(function () {
+                        $("#loadingoverlay").show();
+                        $.ajax({
+                            url: "{{ CONFIG.ROOTBACKENDURL }}/api/comment/delete.php?id=" + $(this).data("commentid"),
+                            success: function (result) {
+                                if (result.result) {
+                                    location.reload();
+                                } else {
+                                    bootbox.alert("Sorry - Operation could not be completed! Please reload the page", function () {
+                                        location.reload();
+                                    });
+                                }
+                            }
+                        });
+                    });
+                    {% endif %}
+                    {% if 42|permissions %}
+                    $(".restoreComment").click(function () {
+                        $("#loadingoverlay").show();
+                        $.ajax({
+                            url: "{{ CONFIG.ROOTBACKENDURL }}/api/comment/restore.php?id=" + $(this).data("commentid"),
+                            success: function (result) {
+                                if (result.result) {
+                                    location.reload();
+                                } else {
+                                    bootbox.alert("Sorry - Operation could not be completed! Please reload the page", function () {
+                                        location.reload();
+                                    });
+                                }
+                            }
+                        });
+                    });
+                    {% endif %}
+                    $("#loadingoverlay").hide();
+                });
+            </script>
+        </div>
+    </div>
+{% endblock %}

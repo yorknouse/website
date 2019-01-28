@@ -1,0 +1,37 @@
+{% extends "assets/template.twig" %}
+
+{% block content %}
+
+    <div class="row">
+        <form method="GET">
+            <div class="col-lg-4 col-lg-offset-4 col-md-8 col-md-offset-2 col-sm-12">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            Search Comments by ID or Text
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">&numero;</label>
+                            <div class="col-sm-10">
+                                <input type="number" class="form-control" name="id" placeholder="Comment ID Number">
+                            </div>
+                        </div>
+                        <p><i>or</i></p>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Search</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="q" placeholder="Extract from text of comment">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-default pull-right">Search</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
