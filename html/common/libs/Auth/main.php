@@ -15,6 +15,7 @@ class bID
         $this->googleClient->setClientId($CONFIG['GOOGLE']['AUTH']['CLIENT']);
         $this->googleClient->setClientSecret($CONFIG['GOOGLE']['AUTH']['SECRET']);
         $this->googleClient->setRedirectUri($CONFIG['ROOTBACKENDURL'] . '/api/login/oauthCallback.php');
+        $this->googleClient->setAccessType('offline'); //Do this so they don't have to login every 60 minutes
         $this->googleClient->setHostedDomain("*");
         $this->googleService = new Google_Service_Oauth2($this->googleClient);
         $this->googleClient->addScope(Google_Service_Oauth2::USERINFO_EMAIL);
