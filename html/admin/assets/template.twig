@@ -237,6 +237,14 @@
                         </a>
                     </li>
                 {% endif %}
+
+                {% if 40|permissions %}
+                    <li>
+                        <a href="{{ CONFIG.ROOTBACKENDURL }}/comments.php">
+                            <i class="fa fa-comments-o"></i> <span>Comments</span>
+                        </a>
+                    </li>
+                {% endif %}
             {% if 2|permissions or 11|permissions %}
             <li class="header">Security</li>
             {% endif %}
