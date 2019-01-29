@@ -4,13 +4,21 @@ require_once __DIR__ . '/config.php';
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
 
+use ChapterThree\AppleNewsAPI;
+use ChapterThree\AppleNewsAPI\Document;
+use ChapterThree\AppleNewsAPI\Document\Components\Body;
+use ChapterThree\AppleNewsAPI\Document\Layouts\Layout;
+use ChapterThree\AppleNewsAPI\Document\Styles\ComponentTextStyle;
+
 //GLOBALS STUFF - DON'T CHANGE
-function errorHandler() {
+function errorHandler()
+{
     if (error_get_last() and error_get_last()['type'] == '1') {
         global $CONFIG;
         die('Sorry we hit an error. Our tech team have been automatically notified but please contact support@nouse.co.uk for help resolving this error for your device <p style="display:none;">' . "\n\n\n" . error_get_last()['message'] . "\n\n\n" . '</p>');
     }
 }
+
 //set_error_handler('errorHandler');
 $CONFIG['ERRORS']['SENTRY-CLIENT']['MAIN'] = new Raven_Client($CONFIG['ERRORS']['SENTRY']);
 $CONFIG['ERRORS']['SENTRY-CLIENT']['MAIN']->setRelease($CONFIG['VERSION']['TAG'] . "." . $CONFIG['VERSION']['COMMIT']);
@@ -22,27 +30,26 @@ register_shutdown_function('errorHandler');
 
 //Content security policy - BACKEND HAS A DIFFERENT ONE SO LOOK OUT FOR THAT
 header("Content-Security-Policy: default-src 'none';" .
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.pubnub.com https://cdnjs.cloudflare.com https://platform.twitter.com https://www.googletagmanager.com https://www.google-analytics.com https://cdn.syndication.twimg.com https://connect.facebook.net https://*.google.com https://*.google.co.uk https://www.gstatic.com https://*.googlesyndication.com https://www.googletagservices.com;".
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.pubnub.com https://cdnjs.cloudflare.com https://platform.twitter.com https://www.googletagmanager.com https://www.google-analytics.com https://cdn.syndication.twimg.com https://connect.facebook.net https://*.google.com https://*.google.co.uk https://www.gstatic.com https://*.googlesyndication.com https://www.googletagservices.com;" .
     //          We have laods of inline JS              Live sockets         Libs                        Twitter embedd              Google webmaster tools                    Google analytics                  Twitter pictures for embedd   Facebook share           Recapatcha +adsense          Google adsense                                                     Google analytics etc
-    "style-src 'unsafe-inline' 'self' https://*.twimg.com https://platform.twitter.com https://cdnjs.cloudflare.com https://fonts.googleapis.com;".
+    "style-src 'unsafe-inline' 'self' https://*.twimg.com https://platform.twitter.com https://cdnjs.cloudflare.com https://fonts.googleapis.com;" .
     //          We have loads of inline CSS  Twitter pics                             Live chat supports             Libs                        GFonts
-    "font-src https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com;".
+    "font-src https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com;" .
     //          Loading in google fonts     more gfonts                 Fonts from libs like fontawesome
-    "manifest-src 'self' https://*.digitaloceanspaces.com;".
+    "manifest-src 'self' https://*.digitaloceanspaces.com;" .
     //          Show images on mobile devices like favicons
-    "img-src 'self' data: blob: https://cdnjs.cloudflare.com https://*.digitaloceanspaces.com https://*.twitter.com https://*.twimg.com https://www.google-analytics.com https://*.googlesyndication.com https://www.googletagmanager.com https://i2.wp.com;".
+    "img-src 'self' data: blob: https://cdnjs.cloudflare.com https://*.digitaloceanspaces.com https://*.twitter.com https://*.twimg.com https://www.google-analytics.com https://*.googlesyndication.com https://www.googletagmanager.com https://i2.wp.com;" .
     //                    Uploads    Images from libs                 Images                             Twitter embedd      More twitter          Google analytics                                                                          User icons fallback
-    "connect-src 'self' https://*.digitaloceanspaces.com https://*.pndsn.com https://sentry.io https://www.google-analytics.com https://*.gstatic.com;".
+    "connect-src 'self' https://*.digitaloceanspaces.com https://*.pndsn.com https://sentry.io https://www.google-analytics.com https://*.gstatic.com;" .
     //                  File uploads                    Pubnub sockets          Error reporting     Google analytics
-    "frame-src https://*.twitter.com https://staticxx.facebook.com https://www.google.com https://googleads.g.doubleclick.net https://e.issuu.com;".
+    "frame-src https://*.twitter.com https://staticxx.facebook.com https://www.google.com https://googleads.g.doubleclick.net https://e.issuu.com;" .
     //          Embedding twitter feed   Facebook feed              embedded maps               Google adsense                  Embedd editions
-    "object-src 'self' blob:;".
+    "object-src 'self' blob:;" .
     //          Inline PDFs generated by the system
-    "worker-src 'self' blob:;".
+    "worker-src 'self' blob:;" .
     //          Use of camera
-    "frame-ancestors 'self';".
+    "frame-ancestors 'self';" .
     "report-uri https://bithell.report-uri.com/r/d/csp/enforce"); //Send to report-uri
-
 
 
 /* DATBASE CONNECTIONS */
@@ -52,16 +59,13 @@ $DBLIB = new MysqliDb ($CONN); //Re-use it in the wierd lib we love
 
 
 /* FUNCTIONS */
-class bCMS {
-    function sanitizeString($var) {
-        //Setup Sanitize String Function
-        $var = strip_tags($var);
-        $var = htmlentities($var);
-        $var = stripslashes($var);
-        global $CONN;
-        return mysqli_real_escape_string($CONN, $var);
-    }
-    function randomString($length = 10, $stringonly = false) { //Generate a random string
+
+class bCMS
+{
+    private $cloudflare = false;
+
+    function randomString($length = 10, $stringonly = false)
+    { //Generate a random string
         $characters = 'abcdefghkmnopqrstuvwxyzABCDEFGHKMNOPQRSTUVWXYZ';
         if (!$stringonly) $characters .= '0123456789';
         $charactersLength = strlen($characters);
@@ -71,21 +75,25 @@ class bCMS {
         }
         return $randomString;
     }
-    function cleanString($var) {
+
+    function cleanString($var)
+    {
         //HTML Purification
         //$var = str_replace(array("\r", "\n"), '<br>', $var); //Replace newlines
-/*
-        $config = HTMLPurifier_Config::createDefault();
-        $config->set('Cache.DefinitionImpl', null);
-        //$config->set('AutoFormat.Linkify', true);
-        $purifier = new HTMLPurifier($config);
-        $clean_html = $purifier->purify($var);
-    return $clean_html; //NOTE THAT THIS REQUIRES THE USE OF PREPARED STATEMENTS AS IT'S NOT ESCAPED
-*/
-    return $var;
+        /*
+                $config = HTMLPurifier_Config::createDefault();
+                $config->set('Cache.DefinitionImpl', null);
+                //$config->set('AutoFormat.Linkify', true);
+                $purifier = new HTMLPurifier($config);
+                $clean_html = $purifier->purify($var);
+            return $clean_html; //NOTE THAT THIS REQUIRES THE USE OF PREPARED STATEMENTS AS IT'S NOT ESCAPED
+        */
+        return $var;
 
     }
-    function formatSize($bytes) {
+
+    function formatSize($bytes)
+    {
         if ($bytes >= 1073741824) {
             $bytes = number_format($bytes / 1073741824, 1) . ' GB';
         } elseif ($bytes >= 100000) {
@@ -101,28 +109,39 @@ class bCMS {
         }
         return $bytes;
     }
-    function modifyGet($array) {
+
+    function modifyGet($array)
+    {
         //Used to setup links that don't affect search terms etc.
-        foreach ($array as $key=>$value) {
+        foreach ($array as $key => $value) {
             $_GET[$key] = $value;
         }
         return $_GET;
     }
-    function auditLog($actionType = null, $table = null, $revelantData = null, $userid = null, $useridTo = null) { //Keep an audit trail of actions - $userid is this user, and $useridTo is who this action was done to if it was at all
-        global $DBLIB;
-        $data = [
-            "auditLog_actionType" => $this->sanitizeString($actionType),
-            "auditLog_actionTable" => $this->sanitizeString($table),
-            "auditLog_actionData" =>  $this->sanitizeString($revelantData),
-            "auditLog_timestamp" =>  date("Y-m-d H:i:s")
-            ];
-        if ($userid > 0) $data["users_userid"] = $this->sanitizeString($userid);
-        if ($useridTo > 0) $data["auditLog_actionUserid"] = $this->sanitizeString($useridTo);
 
-        if ($DBLIB->insert("auditLog", $data)) return true;
-        else return false;
+    public function articleThumbnail($article)
+    {
+        global $DBLIB, $CONFIG;
+        if ($article == null) return false;
+        $DBLIB->where("articles_id", $this->sanitizeString($article));
+        $thumb = $DBLIB->getone("articles", ["articles_thumbnail"]);
+        if (!$thumb or $thumb["articles_thumbnail"] == null) return false;
+        if (is_numeric($thumb["articles_thumbnail"])) return $this->s3URL($thumb["articles_thumbnail"], "large");
+        else return $CONFIG['FILESTOREURL'] . "/archive/public/articleImages/" . rawurlencode($thumb["articles_thumbnail"]);
     }
-    function s3URL($fileid, $size = false, $forceDownload = false, $expire = '+1 minute') {
+
+    function sanitizeString($var)
+    {
+        //Setup Sanitize String Function
+        $var = strip_tags($var);
+        $var = htmlentities($var);
+        $var = stripslashes($var);
+        global $CONN;
+        return mysqli_real_escape_string($CONN, $var);
+    }
+
+    function s3URL($fileid, $size = false, $forceDownload = false, $expire = '+1 minute')
+    {
         global $DBLIB, $CONFIG;
         /*
          * File interface for Amazon AWS S3.
@@ -136,35 +155,35 @@ class bCMS {
         if (strlen($fileid) < 1) return false;
         $DBLIB->where("s3files_id", $fileid);
         $DBLIB->where("s3files_meta_deleteOn IS NULL"); //If the file is to be deleted soon or has been deleted don't let them download it
-        $DBLIB->where("s3files_meta_physicallyStored",1); //If we've lost the file or deleted it we can't actually let them download it
+        $DBLIB->where("s3files_meta_physicallyStored", 1); //If we've lost the file or deleted it we can't actually let them download it
         $file = $DBLIB->getone("s3files");
         if (!$file) return false;
         if ($file['s3files_meta_public'] == 1) {
-            $returnFilePath = $file['s3files_cdn_endpoint'] . "/" . $file['s3files_path'] . "/" . $file['s3files_filename'];
+            $returnFilePath = $file['s3files_cdn_endpoint'] . "/" . $file['s3files_path'] . "/" . rawurlencode($file['s3files_filename']);
             switch ($size) {
                 case "tiny":
-                    $returnFilePath .= ' (tiny)';
+                    $returnFilePath .= '%20(tiny)';
                     break; //The want the original
                 case "small":
-                    $returnFilePath .= ' (small)';
+                    $returnFilePath .= '%20(small)';
                     break; //The want the original
                 case "medium":
-                    $returnFilePath .= ' (medium)';
+                    $returnFilePath .= '%20(medium)';
                     break; //The want the original
                 case "large":
-                    $returnFilePath .= ' (large)';
+                    $returnFilePath .= '%20(large)';
                     break; //The want the original
                 default:
                     //They want the original
             }
-            return $returnFilePath . "." . $file['s3files_extension'];
+            return $returnFilePath . "." . rawurlencode($file['s3files_extension']);
         } else {
             $s3Client = new Aws\S3\S3Client([
-                'region'  => $file["s3files_region"],
+                'region' => $file["s3files_region"],
                 'endpoint' => "https://" . $file["s3files_endpoint"],
                 'version' => 'latest',
                 'credentials' => array(
-                    'key'    => $CONFIG['AWS']['KEY'],
+                    'key' => $CONFIG['AWS']['KEY'],
                     'secret' => $CONFIG['AWS']['SECRET'],
                 )
             ]);
@@ -182,29 +201,56 @@ class bCMS {
 
             $parameters = [
                 'Bucket' => $file['s3files_bucket'],
-                'Key'    => $file['s3files_path'] . "/" . $file['s3files_filename'] . '.' . $file['s3files_extension'],
+                'Key' => $file['s3files_path'] . "/" . $file['s3files_filename'] . '.' . $file['s3files_extension'],
             ];
             if ($forceDownload) $parameters['ResponseContentDisposition'] = 'attachment; filename="' . $CONFIG['PROJECT_NAME'] . ' ' . $file['s3files_filename'] . '.' . $file['s3files_extension'] . '"';
             $cmd = $s3Client->getCommand('GetObject', $parameters);
             $request = $s3Client->createPresignedRequest($cmd, $file['expiry']);
-            $presignedUrl = (string) $request->getUri();
+            $presignedUrl = (string)$request->getUri();
 
-            $presignedUrl = $file['s3files_cdn_endpoint'] . explode($file["s3files_endpoint"],$presignedUrl)[1]; //Remove the endpoint itself from the url in order to set a new one
+            $presignedUrl = $file['s3files_cdn_endpoint'] . explode($file["s3files_endpoint"], $presignedUrl)[1]; //Remove the endpoint itself from the url in order to set a new one
 
             return $presignedUrl;
         }
     }
-    public function articleThumbnail($article) {
-        global $DBLIB,$CONFIG;
-        if ($article == null) return false;
-        $DBLIB->where("articles_id", $this->sanitizeString($article));
-        $thumb = $DBLIB->getone("articles",["articles_thumbnail"]);
-        if (!$thumb or $thumb["articles_thumbnail"] == null) return false;
-        if (is_numeric($thumb["articles_thumbnail"])) return $this->s3URL($thumb["articles_thumbnail"], "large");
-        else return $CONFIG['FILESTOREURL'] . "/archive/public/articleImages/" . $thumb["articles_thumbnail"];
+
+    public function cacheClearCategory($categoryid)
+    {
+        global $DBLIB, $CONFIG;
+        if (!$categoryid) return false;
+
+        $DBLIB->where("categories_id", $this->sanitizeString($categoryid));
+        $category = $DBLIB->getOne("categories", ["categories_name", "categories_nestUnder"]);
+        if (!$category) return false;
+        $url = $CONFIG['ROOTFRONTENDURL'] . '/' . $category['categories_name'];
+        if ($category['categories_nestUnder'] != null) {
+            $DBLIB->where("categories_id", $category['categories_nestUnder']);
+            $category = $DBLIB->getone("categories", ["categories_name", "categories_nestUnder"]);
+            $url .= '/' . $category['categories_name'];
+            if ($category['categories_nestUnder'] != null) {
+                $DBLIB->where("categories_id", $category['categories_nestUnder']);
+                $category = $DBLIB->getone("categories", ["categories_name"]);
+                $url .= '/' . $category['categories_name'];
+            }
+        }
+
+        return $this->cacheClear($url . "/");
     }
-    private $cloudflare = false;
-    private function cloudflareInit() {
+
+    public function cacheClear($URL)
+    {
+        if (!$this->cloudflare) $this->cloudflareInit();
+
+        $URL = [$URL, rtrim($URL, "/")]; //Also purge without a leading slash
+
+        if ($this->cloudflare['zones']->cachePurge($this->cloudflare['zoneid'], $URL)) {
+            $this->auditLog("CACHECLEAR", null, json_encode($URL));
+            return true;
+        } else return false;
+    }
+
+    private function cloudflareInit()
+    {
         global $CONFIG;
         $this->cloudflare = [];
         $this->cloudflare['key'] = new Cloudflare\API\Auth\APIKey($CONFIG['CLOUDFLARE']['EMAIL'], $CONFIG['CLOUDFLARE']['KEY']);
@@ -215,45 +261,49 @@ class bCMS {
         else return true;
         //$this->cloudflare['user'] = new Cloudflare\API\Endpoints\User($this->cloudflare['adapter']);
     }
-    public function cacheClear($URL) {
-        if (!$this->cloudflare) $this->cloudflareInit();
 
-        $URL = [$URL, rtrim($URL,"/")]; //Also purge without a leading slash
+    function auditLog($actionType = null, $table = null, $revelantData = null, $userid = null, $useridTo = null)
+    { //Keep an audit trail of actions - $userid is this user, and $useridTo is who this action was done to if it was at all
+        global $DBLIB;
+        $data = [
+            "auditLog_actionType" => $this->sanitizeString($actionType),
+            "auditLog_actionTable" => $this->sanitizeString($table),
+            "auditLog_actionData" => $this->sanitizeString($revelantData),
+            "auditLog_timestamp" => date("Y-m-d H:i:s")
+        ];
+        if ($userid > 0) $data["users_userid"] = $this->sanitizeString($userid);
+        if ($useridTo > 0) $data["auditLog_actionUserid"] = $this->sanitizeString($useridTo);
 
-        if ($this->cloudflare['zones']->cachePurge($this->cloudflare['zoneid'], $URL)) {
-            $this->auditLog("CACHECLEAR", null, json_encode($URL));
-            return true;
-        } else return false;
+        if ($DBLIB->insert("auditLog", $data)) return true;
+        else return false;
     }
-    public function cacheClearCategory($categoryid) {
+
+    public function categoryURL($categoryid) {
+        global $DBLIB, $bCMS;
+        $DBLIB->where("categories_id", $bCMS->sanitizeString($categoryid));
+        $category = $DBLIB->getone("categories",["categories_name","categories_nestUnder"]);
+        if ($category["categories_nestUnder"] == null) return $category["categories_name"];
+        $url = $category["categories_name"];
+
+        $DBLIB->where("categories_id", $category['categories_nestUnder']);
+        $category = $DBLIB->getone("categories",["categories_name","categories_nestUnder"]);
+        if ($category["categories_nestUnder"] == null) return $category["categories_name"] . "/" . $url;
+        $url = $category["categories_name"] . "/" . $url;
+
+        $DBLIB->where("categories_id", $category['categories_nestUnder']);
+        $category = $DBLIB->getone("categories",["categories_name","categories_nestUnder"]);
+        return $category["categories_name"] . "/" . $url;
+    }
+
+    public function yusuNotify($articleid)
+    {
         global $DBLIB, $CONFIG;
-        if (!$categoryid) return false;
-
-        $DBLIB->where("categories_id", $this->sanitizeString($categoryid));
-        $category = $DBLIB->getOne("categories",["categories_name","categories_nestUnder"]);
-        if (!$category) return false;
-        $url = $CONFIG['ROOTFRONTENDURL'] . '/' . $category['categories_name'];
-        if ($category['categories_nestUnder'] != null) {
-            $DBLIB->where("categories_id", $category['categories_nestUnder']);
-            $category = $DBLIB->getone("categories",["categories_name","categories_nestUnder"]);
-            $url .= '/' . $category['categories_name'];
-            if ($category['categories_nestUnder'] != null) {
-                $DBLIB->where("categories_id", $category['categories_nestUnder']);
-                $category = $DBLIB->getone("categories",["categories_name"]);
-                $url .= '/' . $category['categories_name'];
-            }
-        }
-
-        return $this->cacheClear($url . "/");
-    }
-    public function yusuNotify($articleid) {
-        global $DBLIB,$CONFIG;
         $DBLIB->where("articles.articles_id", $this->sanitizeString($articleid));
         $DBLIB->where("articles_mediaCharterDone", 0);
         $DBLIB->where("articles_showInSearch", 1);
         $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
         $DBLIB->where("articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
-        $article = $DBLIB->getone("articles", ["articles.articles_id", "articles_categories", "articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
+        $article = $DBLIB->getone("articles", ["articles.articles_id", "articles_categories", "articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline", "articlesDrafts.articlesDrafts_excerpt"]);
         if (!$article) return false;
 
         //YUSU Notification email html
@@ -261,10 +311,10 @@ class bCMS {
         if (strtotime($article["articles_published"]) > time()) $html .= "This article will be published at " . $article["articles_published"] . " GMT and this email is an advanced notification of publication. No further notifications will follow and this article will be automatically published.<br/><br/>";
         $html .= "<b>Headline: </b>" . $article['articlesDrafts_headline'] . "<br/>";
         $html .= "<b>Excerpt: </b>" . $article['articlesDrafts_excerpt'] . "<br/>";
-        if (strtotime($article["articles_published"]) > time()) $html .= "This article hasn't been published yet, so it's not accessible on our website. A secret link has been generated for you to preview it, but please don't share this externally: <a href='" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/". $article['articles_slug'] . "?key=" . md5($article['articles_id']) . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/". $article['articles_slug'] . "</a>";
-        else $html .= "<b>Link to article: </b><a href='" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/". $article['articles_slug'] . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/". $article['articles_slug'] . "</a>";
+        if (strtotime($article["articles_published"]) > time()) $html .= "This article hasn't been published yet, so it's not accessible on our website. A secret link has been generated for you to preview it, but please don't share this externally: <a href='" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "?key=" . md5($article['articles_id']) . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
+        else $html .= "<b>Link to article: </b><a href='" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
         $html .= "<br/><br/><br/>If you have any questions about this notification please do not hesitate to contact us on support@nouse.co.uk.<br/>For queries relating to this article itself (for example concerns about its content) please contact editor@nouse.co.uk. <br/><br/><br/>Nouse Technical Team<br/><i>" . gethostname() . " (compliance tracked at  " . date("Y-m-d H:i:s") . " UTC)</i>";
-        if (count(array_intersect([2,6,7], explode(",",$article['articles_categories']))) >0) {
+        if (count(array_intersect([2, 6, 7], explode(",", $article['articles_categories']))) > 0) {
             if (sendemail("media-charter-notifications@nouse.co.uk", "New article on Nouse.co.uk", $html)) {
                 $DBLIB->where("articles_id", $article['articles_id']);
                 $DBLIB->update("articles", ["articles_mediaCharterDone" => 1]);
@@ -278,18 +328,20 @@ class bCMS {
         }
 
     }
-    public function postSocial($articleid, $postToFacebook = true, $postToTwitter = true) {
-        global $DBLIB,$CONFIG;
+
+    public function postSocial($articleid, $postToFacebook = true, $postToTwitter = true)
+    {
+        global $DBLIB, $CONFIG;
         $DBLIB->where("articles.articles_id", $this->sanitizeString($articleid));
         $DBLIB->where("articles.articles_showInSearch", 1); //ie those that can actually be shown - no point tweeting a dud link
         $DBLIB->where("articles.articles_published <= '" . date("Y-m-d H:i:s") . "'");
         $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
         $DBLIB->where("articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
-        $article = $DBLIB->getone("articles", ["articles_socialExcerpt", "articles.articles_socialConfig","articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
+        $article = $DBLIB->getone("articles", ["articles_socialExcerpt", "articles.articles_socialConfig", "articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline", "articlesDrafts.articlesDrafts_excerpt"]);
         if (!$article) return false;
 
         $realpermalink = $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article["articles_published"])) . "/" . $article['articles_slug'];
-        
+
         if (strlen($article['articles_socialExcerpt']) > 0) {
             $postExcerpt = $article['articles_socialExcerpt'];
         } elseif (strlen($article['articlesDrafts_excerpt']) > 0) {
@@ -308,7 +360,7 @@ class bCMS {
             $xml = "value1=" . urlencode($postExcerpt) . "&value2=" . urlencode($realpermalink) . "&value3=null";
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
-            curl_setopt($ch,CURLOPT_RETURNTRANSFER,1); //Supress the output from being dumped
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //Supress the output from being dumped
             $response = curl_exec($ch);
             curl_close($ch);
 
@@ -322,7 +374,7 @@ class bCMS {
             $xml = "value1=" . urlencode($postExcerpt) . "&value2=" . urlencode($realpermalink) . "&value3=null";
             curl_setopt($ch, CURLOPT_POST, 1);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
-            curl_setopt($ch,CURLOPT_RETURNTRANSFER,1); //Supress the output from being dumped
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //Supress the output from being dumped
             $response = curl_exec($ch);
             curl_close($ch);
 
