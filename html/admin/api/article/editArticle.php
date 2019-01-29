@@ -108,6 +108,10 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
             $bCMS->postSocial($article['articles_id'], true, false);
         }
 
+        if (strtotime($articleData["articles_published"]) <= time() and $articleData["articles_showInLists"] == 1) {
+            $bCMS->postToAppleNews($article['articles_id']);
+        }
+
         foreach (explode(",", $articleData['articles_categories']) as $category) {
             $bCMS->cacheClearCategory($category);
         }
@@ -146,6 +150,10 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
 
         if (strtotime($articleData["articles_published"]) <= time() and $articleData["articles_showInSearch"] == 1) {
             $bCMS->yusuNotify($articleID); //This article has been posted historically so we need to email YUSU
+        }
+
+        if (strtotime($articleData["articles_published"]) <= time() and $articleData["articles_showInLists"] == 1) {
+            $bCMS->postToAppleNews($articleID);
         }
 
         //Social Media automation
