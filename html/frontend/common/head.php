@@ -42,20 +42,8 @@ $TWIG->addFilter(new Twig_SimpleFilter('unclean', function ($var) {
 }));
 $TWIG->addFilter(new Twig_SimpleFilter('getCategoryURL', function ($categoryid) {
     //Get the link to the category page
-    global $DBLIB, $bCMS;
-    $DBLIB->where("categories_id", $bCMS->sanitizeString($categoryid));
-    $category = $DBLIB->getone("categories",["categories_name","categories_nestUnder"]);
-    if ($category["categories_nestUnder"] == null) return $category["categories_name"];
-    $url = $category["categories_name"];
-
-    $DBLIB->where("categories_id", $category['categories_nestUnder']);
-    $category = $DBLIB->getone("categories",["categories_name","categories_nestUnder"]);
-    if ($category["categories_nestUnder"] == null) return $category["categories_name"] . "/" . $url;
-    $url = $category["categories_name"] . "/" . $url;
-
-    $DBLIB->where("categories_id", $category['categories_nestUnder']);
-    $category = $DBLIB->getone("categories",["categories_name","categories_nestUnder"]);
-    return $category["categories_name"] . "/" . $url;
+    global $bCMS;
+    return $bCMS->categoryURL($categoryid);
 }));
 $TWIG->addFilter(new Twig_SimpleFilter('modifyGet', function ($array) {
     global $bCMS;
