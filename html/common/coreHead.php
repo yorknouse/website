@@ -469,9 +469,9 @@ class bCMS
         $article['authors'] = $DBLIB->get("users", null, ["users_name1", "users_name2"]);
 
         $authorString = "";
-        foreach ($article['authors'] as $user) {
-            $authorString .= $user["users_name1"] . " " . $user["users_name2"] . " ";
-
+        foreach ($article['authors'] as $key=>$user) {
+            $authorString .= $user["users_name1"] . " " . $user["users_name2"];
+            if ($key > 0) $authorString .= " & ";
         }
 
 
