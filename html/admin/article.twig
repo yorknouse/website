@@ -430,7 +430,30 @@
         {% else %}
         var thumbnailid = 1; //Current default thumbnail
         {% endif %}
-        function saveArticle() {
+        function saveArticle(skipThumnailPrompt) {
+            //Check prompts
+            if (thumbnailid == 1 && !skipThumnailPrompt) {
+                //This is the default thumbnail so warn them of that and make sure they know what they're doing
+                bootbox.confirm({
+                    message: "You haven't set a nice thumbnail for this article yet - are you sure you want to save it?",
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            saveArticle(true);
+                        }
+                    }
+                });
+                return false;
+            }
             var savingDialog = bootbox.dialog({
                 message: '<p class="text-center">Saving and publishing your changes</p>',
                 closeButton: false
