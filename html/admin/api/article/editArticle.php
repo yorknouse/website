@@ -61,7 +61,7 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
     //Edit an existing article
 
     $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
-    $article = $DBLIB->getone("articles",["articles_socialConfig","articles_id",'articles_published',"articles_slug","articles_mediaCharterDone","articles_showInSearch",""]);
+    $article = $DBLIB->getone("articles",["articles_socialConfig","articles_id",'articles_published',"articles_slug","articles_mediaCharterDone","articles_showInSearch","articles_appleNewsID"]);
     if (!$article) finish(false, ["code" => null, "message" => "No data specified"]);
 
     $bCMS->auditLog("EDIT", "articles", $article['articles_id'], $AUTH->data['users_userid']);
@@ -111,7 +111,7 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
         if (strtotime($articleData["articles_published"]) <= time() and $articleData["articles_showInLists"] == 1) {
             $bCMS->postToAppleNews($article['articles_id']);
         } elseif (
-                $article['articles_published'] != null and ( //If already on apple news platform
+                $article['articles_appleNewsID'] != null and ( //If already on apple news platform
                 (strtotime($article["articles_published"]) >= time() and strtotime($articleData["articles_published"]) <= time()) or //If it was previously published but has now been set in advance
                 ($article['articles_showInSearch'] == 1 and $articleData["articles_showInSearch"] !=  1) //If it's been taken offline
             ))  {
