@@ -417,7 +417,22 @@ class bCMS
                 "explicitContent"=> false
             ];
             $part = $purifier->purify($part); //Often get unclosed tags
-            $part = str_replace("<p></p>","", $part); //Make sure there are none of these around as they just pad it out in an annoying way
+            $replacements = [ //List of annoying formatting issues that tend to pad out our articles badly
+                "<p></p>"=>"",
+                "<br/><p>"=>"<p>",
+                "</p><br/>"=>"</p>",
+                "<br /><p>"=>"<p>",
+                "</p><br />"=>"</p>",
+                "<br><p>"=>"<p>",
+                "</p><br>"=>"</p>",
+                "<p><br /></p>"=>"",
+                "<p><br/></p>"=>"",
+                "<p><br></p>"=>""
+            ];
+            foreach ($replacements as $key=>$value) {
+                $part = str_replace($key,$value, $part);
+            }
+
             if (strlen($part) > 0) { //You can't have anything that is null
                 $output[] = [
                     "role" => "body",
@@ -685,8 +700,7 @@ class bCMS
                 ]
             );
             if ($replaceResponse->data->id) return true;
-            //else return false;
-            else var_dump($replaceResponse);
+            else return false;
         } else {
             //Upload it as a new article
             $uploadResponse = $PublisherAPI->Post('/channels/' . $CONFIG["APPLE"]["NEWS"]["CHANNEL"] . '/articles',
@@ -704,9 +718,44 @@ class bCMS
                 $DBLIB->update("articles", ["articles_appleNewsID" => $uploadResponse->data->id]);
             }
             if ($uploadResponse->data->id) return true;
-            //else return false;
-            else var_dump($uploadResponse);
+            else return false;
         }
+    }
+    public function deleteAppleNews($articleid)
+    {
+        global $CONFIG, $DBLIB;
+        if ($articleid == null) return false;
+        $DBLIB->where("articles.articles_id", $this->sanitizeString($articleid));
+        $DBLIB->where("(articles_appleNewsID IS NOT NULL)");
+        $article = $DBLIB->getone("articles", ["articles_appleNewsID","articles_id"]);
+        if (!$article) return false;
+
+
+        $PublisherAPI = new ChapterThree\AppleNewsAPI\PublisherAPI(
+            $CONFIG["APPLE"]["NEWS"]["KEY"],
+            $CONFIG["APPLE"]["NEWS"]["SECRET"],
+            "https://news-api.apple.com"
+        );
+
+
+        $getArticleData = $PublisherAPI->Get('/articles/' . $article['articles_appleNewsID'],
+            [
+                'article_id' => $article['articles_appleNewsID']
+            ]
+        );
+        if ($getArticleData->errors) return false;
+
+        $deleteResponse = $PublisherAPI->delete('/articles/' . $article['articles_appleNewsID'],
+            [
+                'article_id' => $article['articles_appleNewsID']
+            ]
+        );
+        if ($deleteResponse->data->id) {
+            $DBLIB->where("articles.articles_id", $article['articles_id']);
+            $articleRemoveAppleNews = $DBLIB->update("articles", ["articles_appleNewsID"=>null]);
+            if ($articleRemoveAppleNews) return true;
+            else return false;
+        } else return false;
     }
 }
 
