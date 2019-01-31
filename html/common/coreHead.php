@@ -531,7 +531,7 @@ class bCMS
                 [
                     "role" => "author",
                     "layout"=> "authorLayout",
-                    "text"=>    $authorString . " | " . date("d/M/y", strtotime($article["articles_published"])),
+                    "text"=>    $authorString . " | " . date("l d M y", strtotime($article["articles_published"])),
                     "textStyle" => "authorStyle"
                 ]
 
