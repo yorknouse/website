@@ -750,12 +750,10 @@ class bCMS
                 'article_id' => $article['articles_appleNewsID']
             ]
         );
-        if ($deleteResponse->data->id) {
-            $DBLIB->where("articles.articles_id", $article['articles_id']);
-            $articleRemoveAppleNews = $DBLIB->update("articles", ["articles_appleNewsID"=>null]);
-            if ($articleRemoveAppleNews) return true;
-            else return false;
-        } else return false;
+        $DBLIB->where("articles.articles_id", $article['articles_id']);
+        $articleRemoveAppleNews = $DBLIB->update("articles", ["articles_appleNewsID"=>null]);
+        if ($articleRemoveAppleNews) return true;
+        else return false;
     }
 }
 
