@@ -103,9 +103,11 @@
                 </div>
             </div>
         </div>
-        {% block customTheme %}
-            {% if pageConfig.MUSETheme and false %}
-                <div class="insta-content">
+        {% if pageConfig.CustomTheme %}
+            {% include "customThemes/" ~ pageConfig.CustomTheme with {'CustomThemeSection': 'header'} %}
+        {% else %}
+            {% if pageConfig.MUSETheme %}
+                {#<div class="insta-content">
                     <div class="insta-link"><a href="https://www.instagram.com/yorkmuse/" rel="me" target="_blank" class="">yorkmuse</a></div>
                     <div id="ri-grid" class="ri-grid ri-grid-size-2">
                         <ul>
@@ -164,7 +166,7 @@
                             }
                         });
                     })
-                </script>
+                </script>#}
                 <div class="logo-wrapper" style="background-color: black;">
                 <div class="container">
                     <div class="header-logo">
@@ -278,7 +280,7 @@
 
                 </div>
             </div>
-        {% endblock %}
+        {% endif %}
         {% block prePageContent %}
         {% endblock %}
 

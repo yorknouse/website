@@ -46,7 +46,7 @@ if (is_numeric(substr($URL,0,1))) {
     $DBLIB->where("categories_id IN (" . $PAGEDATA["POST"]['articles_categories'] . ")");
     $DBLIB->orderBy("categories_order", "ASC");
     $DBLIB->where("categories_showPublic",1);
-    $PAGEDATA['POST']['CATEGORIES'] = $DBLIB->get('categories', null, ["categories_id","categories_nestUnder","categories_displayName","categories_backgroundColorContrast","categories_backgroundColor"]);
+    $PAGEDATA['POST']['CATEGORIES'] = $DBLIB->get('categories', null, ["categories_id","categories_nestUnder","categories_displayName","categories_backgroundColorContrast","categories_backgroundColor","categories_customTheme"]);
 
 
     if ($PAGEDATA['POST']['articles_authors'] != null) {
@@ -122,7 +122,9 @@ if (is_numeric(substr($URL,0,1))) {
     $PAGEDATA['pageConfig']['SIMILAR'] = similarArticles($PAGEDATA['POST']['articles_id'],3);
 
     foreach ($PAGEDATA['POST']['CATEGORIES'] as $category) {
-        if ($category['categories_displayName'] == "Muse") {
+        if ($category['categories_customTheme'] != null) {
+            $PAGEDATA['pageConfig']["CustomTheme"] = $category['categories_customTheme'];
+        } elseif ($category['categories_displayName'] == "Muse") {
             $PAGEDATA['pageConfig']["MUSETheme"] = true;
             $PAGEDATA['pageConfig']['MENUSub'] = 4; //We're on MUSE so show their special menu
         }
@@ -149,7 +151,9 @@ if (is_numeric(substr($URL,0,1))) {
     }
     if (!isset($PAGEDATA['pageConfig']['CATEGORY'])) render404Error(); //We didn't find their category
 
-    if ($PAGEDATA['pageConfig']['CATEGORY']['categories_displayName'] == "Muse") {
+    if ($PAGEDATA['pageConfig']['CATEGORY']['categories_customTheme'] != null) {
+        $PAGEDATA['pageConfig']["CustomTheme"] = $category['categories_customTheme'];
+    } elseif ($PAGEDATA['pageConfig']['CATEGORY']['categories_displayName'] == "Muse") {
         $PAGEDATA['pageConfig']["MUSETheme"] = true;
         $PAGEDATA['pageConfig']['MENUSub'] = 4; //We're on MUSE so show their special menu
     }
