@@ -54,6 +54,19 @@ $articleDraftsData = [
     "articlesDrafts_text" => $bCMS->cleanString($_POST['text'])
 ];
 
+if ($bCMS->sanitizeString($_POST['type']) == "2") {
+    //Gallery
+    $imagesList = explode(",", $bCMS->cleanString($_POST['text']));
+    $captionList = explode(",", $bCMS->cleanString($_POST['captions']));
+    if (count($captionList) > 0) {
+        foreach ($captionList as $key=>$image) {
+            if ($image != null) {
+                $DBLIB->where("s3files_id", $imagesList[$key]);
+                $DBLIB->update("s3files", ["s3files_meta_caption" => $image]);
+            }
+        }
+    }
+}
 
 
 if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {

@@ -140,13 +140,12 @@
                                 value: '1',
                             },
                             {
-                                text: "Print Edition",
-                                value: '5',
-                            },
-                            {
                                 text: 'Gallery',
                                 value: '2',
-                                group: 'Coming soon',
+                            },
+                            {
+                                text: "Print Edition",
+                                value: '5',
                             },
                             {
                                 text: 'Live article',
@@ -163,6 +162,9 @@
                             switch (result) {
                                 case '1':
                                     window.location.href = "{{ CONFIG.ROOTBACKENDURL }}/article.php?new&type=1";
+                                    break;
+                                case '2':
+                                    window.location.href = "{{ CONFIG.ROOTBACKENDURL }}/article.php?new&type=2";
                                     break;
                                 case '5':
                                     window.location.href = "{{ CONFIG.ROOTBACKENDURL }}/article.php?new&type=5";

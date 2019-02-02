@@ -43,11 +43,12 @@ if (is_numeric(substr($URL,0,1))) {
 
     $PAGEDATA['pageConfig'] = ["TITLE" => $PAGEDATA['POST']['articlesDrafts_headline']];
 
-    $DBLIB->where("categories_id IN (" . $PAGEDATA["POST"]['articles_categories'] . ")");
-    $DBLIB->orderBy("categories_order", "ASC");
-    $DBLIB->where("categories_showPublic",1);
-    $PAGEDATA['POST']['CATEGORIES'] = $DBLIB->get('categories', null, ["categories_id","categories_nestUnder","categories_displayName","categories_backgroundColorContrast","categories_backgroundColor","categories_customTheme"]);
-
+    if (strlen($PAGEDATA["POST"]['articles_categories']) > 0) {
+        $DBLIB->where("categories_id IN (" . $PAGEDATA["POST"]['articles_categories'] . ")");
+        $DBLIB->orderBy("categories_order", "ASC");
+        $DBLIB->where("categories_showPublic",1);
+        $PAGEDATA['POST']['CATEGORIES'] = $DBLIB->get('categories', null, ["categories_id","categories_nestUnder","categories_displayName","categories_backgroundColorContrast","categories_backgroundColor","categories_customTheme"]);
+    } else $PAGEDATA['POST']['CATEGORIES'] = [];
 
     if ($PAGEDATA['POST']['articles_authors'] != null) {
         $authors = explode(",",$PAGEDATA['POST']['articles_authors']);
@@ -133,6 +134,16 @@ if (is_numeric(substr($URL,0,1))) {
             $PAGEDATA['pageConfig']['MENUColor']['backgroundColorContrast'] = $category['categories_backgroundColorContrast'];
 }
     }
+
+    if ($PAGEDATA['POST']['articles_type'] == 2) {
+        $PAGEDATA['POST']['galleryImages'] = [];
+        if (strlen($PAGEDATA["POST"]['articlesDrafts_text']) > 0) {
+            foreach (explode(",", $PAGEDATA["POST"]['articlesDrafts_text']) as $image) {
+                $PAGEDATA['POST']['galleryImages'][] = $bCMS->s3URL($image, "large", false, null, true);
+            }
+        }
+    }
+
     http_response_code(200);
     echo $TWIG->render('post.twig', $PAGEDATA);
     exit;
