@@ -141,9 +141,7 @@ class bCMS
         global $CONN;
         return mysqli_real_escape_string($CONN, $var);
     }
-
-    function s3URL($fileid, $size = false, $forceDownload = false, $expire = '+1 minute')
-    {
+    function s3URL($fileid, $size = false, $forceDownload = false, $expire = '+1 minute', $returnArray = false) {
         global $DBLIB, $CONFIG;
         /*
          * File interface for Amazon AWS S3.
@@ -178,7 +176,7 @@ class bCMS
                 default:
                     //They want the original
             }
-            return $returnFilePath . "." . rawurlencode($file['s3files_extension']);
+            $presignedUrl = $returnFilePath . "." . rawurlencode($file['s3files_extension']);
         } else {
             $s3Client = new Aws\S3\S3Client([
                 'region' => $file["s3files_region"],
@@ -210,10 +208,10 @@ class bCMS
             $request = $s3Client->createPresignedRequest($cmd, $file['expiry']);
             $presignedUrl = (string)$request->getUri();
 
-            $presignedUrl = $file['s3files_cdn_endpoint'] . explode($file["s3files_endpoint"], $presignedUrl)[1]; //Remove the endpoint itself from the url in order to set a new one
-
-            return $presignedUrl;
+            $presignedUrl = $file['s3files_cdn_endpoint'] . explode($file["s3files_endpoint"],$presignedUrl)[1]; //Remove the endpoint itself from the url in order to set a new one
         }
+        if ($returnArray) return ["url" => $presignedUrl, "data" => $file];
+        else return $presignedUrl;
     }
 
     public function cacheClearCategory($categoryid)
