@@ -122,7 +122,7 @@ class bCMS {
         if ($DBLIB->insert("auditLog", $data)) return true;
         else return false;
     }
-    function s3URL($fileid, $size = false, $forceDownload = false, $expire = '+1 minute') {
+    function s3URL($fileid, $size = false, $forceDownload = false, $expire = '+1 minute', $returnArray = false) {
         global $DBLIB, $CONFIG;
         /*
          * File interface for Amazon AWS S3.
@@ -157,7 +157,7 @@ class bCMS {
                 default:
                     //They want the original
             }
-            return $returnFilePath . "." . $file['s3files_extension'];
+            $presignedUrl = $returnFilePath . "." . $file['s3files_extension'];
         } else {
             $s3Client = new Aws\S3\S3Client([
                 'region'  => $file["s3files_region"],
@@ -190,9 +190,9 @@ class bCMS {
             $presignedUrl = (string) $request->getUri();
 
             $presignedUrl = $file['s3files_cdn_endpoint'] . explode($file["s3files_endpoint"],$presignedUrl)[1]; //Remove the endpoint itself from the url in order to set a new one
-
-            return $presignedUrl;
         }
+        if ($returnArray) return ["url" => $presignedUrl, "data" => $file];
+        else return $presignedUrl;
     }
     public function articleThumbnail($article) {
         global $DBLIB,$CONFIG;

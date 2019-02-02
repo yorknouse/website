@@ -379,6 +379,73 @@
 
         </script>
     </div>
+    {% elseif article.articles_type == 2 %}
+        <div class="col-md-8 col-sm-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        Gallery
+                    </h3>
+                    <div class="box-tools pull-right">
+                        <button class="btn btn-box-tool btn-default saveArticleButton">Save</button>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row" id="imagesList">
+                        {% if article.galleryImages %}
+                            {% for image in article.galleryImages %}
+                                <div class="col-md-2" data-imageid="{{ image.data.s3files_id }}">
+                                    <div class="box">
+                                        <div class="box-header with-border">
+                                            <div class="box-title">
+                                                {{ image.data.s3files_id }}
+                                            </div>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool deleteGalleryImage">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <img src="{{ image.url }}" style="width:100%;" class="galleryEditImage" />
+                                        </div>
+                                        <div class="box-footer">{{ image.data.s3files_meta_caption }}</div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="box-footer">
+                    {% embed 'common/plugins/fineuploader.twig' with {'publicBool': true, 'type': 'ARTICLE-IMAGE', 'paste': false, 'typeId': 2, 'subTypeId': 2, 'imagesOnly': true } %}
+                        {% block success %}
+                            var filepath = responseJson.url.split('.');
+                            var urlLarge = responseJson.url.slice(0, responseJson.url.lastIndexOf(".")) + " (small)" + responseJson.url.slice(responseJson.url.lastIndexOf("."));
+                            $("#imagesList").append('<div class="col-md-2" data-imageid="' + responseJson.id + '"><div class="box"><div class="box-header with-border"><h3 class="box-title">' + responseJson.id + '</h3><div class="box-tools pull-right"><button type="button" class="btn btn-box-tool deleteGalleryImage"><i class="fa fa-times"></i></button></div></div><div class="box-body"><img src="' + urlLarge + '" style="width:100%;"  class="galleryEditImage" /></div><div class="box-footer"></div></div></div>');
+                        {% endblock %}
+                    {% endembed %}
+                    <script>
+                        $(document).ready(function () {
+                            $('body').on('click', '.deleteGalleryImage', function() {
+                               $(this).parent().parent().parent().parent().hide();
+                            });
+                            $('body').on('click', '.galleryEditImage', function() {
+                                var imageID = $(this).parent().parent().parent().data("imageid");
+                                bootbox.prompt({
+                                    title: "Image Caption",
+                                    value: $(this).parent().parent().find("div.box-footer").text(),
+                                    inputType: 'textarea',
+                                    callback: function (result) {
+                                        $("#imagesList").find("div[data-imageid='" + imageID + "']").find("div.box-footer").text(result);
+                                    }
+                                });
+
+                            });
+                        })
+                    </script>
+                </div>
+            </div>
+        </div>
         {% elseif article.articles_type == 5 %}
     <div class="col-md-8 col-sm-12">
         <div class="box box-default">
@@ -459,6 +526,28 @@
                 closeButton: false
             });
 
+            {% if article.articles_type == 2 %}
+            var galleryArray = [];
+            var captionArray = [];
+            $('#imagesList').children('div').each(function () {
+                if ($(this).is(":visible")) {
+                    galleryArray.push($(this).data("imageid"));
+                    captionArray.push($(this).find("div.box-footer").text());
+
+                }
+            });
+            {% endif %}
+
+            if ($("#headline").val().length < 1) {
+                bootbox.alert("Please specify a headline");
+                savingDialog.modal('hide');
+                return false;
+            } else if ($("#slug").val().length < 1) {
+                bootbox.alert("Please try again after a slug has been generated");
+                savingDialog.modal('hide');
+                return false;
+            }
+
             $.ajax({
                 url: "{{ CONFIG.ROOTBACKENDURL }}/api/article/editArticle.php",
                 type: 'POST',
@@ -466,6 +555,9 @@
                 data: {
                     {% if article.articles_type == 1  %}
                     "text": $('#editor').summernote('code'),
+                    {% elseif article.articles_type == 2 %}
+                    "text": galleryArray.join(","),
+                    "captions": captionArray.join(","),
                     {% elseif article.articles_type == 5 %}
                     "text": $("#embeddurl").val(),
                     {% endif %}
@@ -479,9 +571,8 @@
                     "thumbnail": thumbnailid,
                     {% if article.articles_id != null %}
                     "articleid": "{{ article.articles_id }}",
-                    {% else %}
-                    "type": "{{ article.articles_type }}", {#It's a new one so set the type#}
                     {% endif %}
+                    "type": "{{ article.articles_type }}", {#It's a new one so set the type#}
                     "postToTwitter": ($("#postToTwitter").is(':checked') ? 1 : 0),
                     "postToFacebook": ($("#postToFacebook").is(':checked') ? 1 : 0),
                     "socialexcerpt": $("#socialexcerpt").val()

@@ -15,6 +15,16 @@ if (isset($_GET['id'])) {
 	if (!$PAGEDATA['article']) die("404 File not found");
 	if ($PAGEDATA['article']['articles_authors'] != null) $PAGEDATA['article']['articles_authors'] = explode(",",$PAGEDATA['article']['articles_authors']);
 	if ($PAGEDATA['article']['articles_categories'] != null) $PAGEDATA['article']['articles_categories'] = explode(",",$PAGEDATA['article']['articles_categories']);
+
+	if ($PAGEDATA['article']['articles_type'] == 2) {
+		$PAGEDATA['article']['galleryImages'] = [];
+		if (strlen($PAGEDATA['article']['articlesDrafts_text']) > 0) {
+			foreach (explode(",", $PAGEDATA['article']['articlesDrafts_text']) as $image) {
+				$PAGEDATA['article']['galleryImages'][] = $bCMS->s3URL($image, "small", false, null, true);
+			}
+		}
+	}
+
 } else {
 	$PAGEDATA['article'] = null;
 	if (isset($_GET['type'])) $PAGEDATA['article']['articles_type'] = $_GET['type']; //So the new one is created in the right format
