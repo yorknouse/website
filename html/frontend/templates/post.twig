@@ -4,6 +4,89 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js" integrity="sha256-yNbKY1y6h2rbVcQtf0b8lq4a+xpktyFc3pSYoGAY1qQ=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" integrity="sha256-R91pD48xW+oHbpJYGn5xR0Q7tMhH4xOrWn1QqMRINtA=" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js" integrity="sha256-4F7e4JsAJyLUdpP7Q8Sah866jCOhv72zU5E8lIRER4w=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js" integrity="sha256-P93G0oq6PBPWTP1IR8Mz/0jHHUpaWL0aBJTKauisG7Q=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" integrity="sha256-PZLhE6wwMbg4AB3d35ZdBF9HD/dI/y4RazA3iRDurss=" crossorigin="anonymous" />
+
+    <script>
+        $(document).ready(function () {
+            var sync1 = $("#sync1");
+            var sync2 = $("#sync2");
+            sync1.owlCarousel({
+                singleItem: true,
+                slideSpeed: 1000,
+                navigation: false,
+                pagination: false,
+                afterAction: syncPosition,
+                responsiveRefreshRate: 200
+            });
+            sync2.owlCarousel({
+                items: 5,
+                itemsDesktop: [1199, 5],
+                itemsDesktopSmall: [979, 5],
+                itemsTablet: [768, 5],
+                itemsMobile: [479, 4],
+                pagination: false,
+                responsiveRefreshRate: 100,
+                afterInit: function (el) {
+                    el.find(".owl-item").eq(0).addClass("synced");
+                }
+            });
+            function syncPosition(el) {
+                var current = this.currentItem;
+                $("#sync2")
+                    .find(".owl-item")
+                    .removeClass("synced")
+                    .eq(current)
+                    .addClass("synced");
+                if ($("#sync2").data("owlCarousel") !== undefined) {
+                    center(current);
+                }
+            }
+            $("#sync2").on("click", ".owl-item", function (e) {
+                e.preventDefault();
+                var number = $(this).data("owlItem");
+                sync1.trigger("owl.goTo", number);
+            });
+            function center(number) {
+                var sync2visible = sync2.data("owlCarousel").owl.visibleItems;
+                var num = number;
+                var found = false;
+                for (var i in sync2visible) {
+                    if (num === sync2visible[i]) {
+                        var found = true;
+                    }
+                }
+
+                if (found === false) {
+                    if (num > sync2visible[sync2visible.length - 1]) {
+                        sync2.trigger("owl.goTo", num - sync2visible.length + 2);
+                    } else {
+                        if (num - 1 === -1) {
+                            num = 0;
+                        }
+                        sync2.trigger("owl.goTo", num);
+                    }
+                } else if (num === sync2visible[sync2visible.length - 1]) {
+                    sync2.trigger("owl.goTo", sync2visible[1]);
+                } else if (num === sync2visible[0]) {
+                    sync2.trigger("owl.goTo", num - 1);
+                }
+            }
+            $('.popup-gallery').magnificPopup({
+                delegate: 'a',
+                type: 'image',
+                tLoading: 'Loading image #%curr%...',
+                mainClass: 'mfp-img-mobile',
+                gallery: {
+                    enabled: true,
+                    navigateByImgClick: true,
+                    preload: [0, 1] // Will preload 0 - before current, and 1 after the current image
+                }
+            });
+        });
+    </script>
+
 {% endblock %}
 {% block htmlMeta %}
     {% if POST.articles_id|articleThumbnail != null %}
@@ -80,7 +163,13 @@
 {% block content %}
     <div class="container">
     <div class="row">
-        <main class="col-sm-8 col-md-9 content p_r_40">
+        <main class="
+            {% if POST.articles_type == 2 %}
+            col-sm-12
+             {% else %}
+             col-sm-8 col-md-9
+             {% endif %}content p_r_40">
+
             {% if POST.articles_type != 5 %}
             <div class="details-body">
                 <div class="post_details stickydetails">
@@ -116,6 +205,7 @@
                     </div>
                     {% endif %}
 
+                    {% if POST.articles_type == 1 %}
                     <style>
                         .legacyWordpressFigure {
                             padding: 8px;
@@ -143,6 +233,31 @@
                     <div class="articleBodyDiv" style="font-size: 17px;line-height: 25px;">
                     {{ POST.articlesDrafts_text|replace({"PS": "&pound;", "\n": "<br/>", "[ARCHIVECDNURL]":CONFIG.FILESTOREURL ~ "/archive/public"})|raw }}
                     </div>
+                    {% elseif POST.articles_type == 2 %}
+                    <div class="gallery_post popup-gallery">
+                        <div id="sync1" class="owl-carousel">
+                            {% for image in POST.galleryImages %}
+                            <div class="item">
+                                <div class="gallery_grid">
+                                    <figure class="effect-lily">
+                                        <a href="{{ image.url }}" class="gallery_img" title="{{ image.data.s3files_meta_caption }}">
+                                            <div class="full_skin"><i class="fa fa-arrows-alt" aria-hidden="true"></i></div>
+                                            <img src="{{ image.url }}" class="img-responsive" alt="{{ image.data.s3files_meta_caption }}">
+                                        </a>
+                                    </figure>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div id="sync2" class="owl-carousel">
+                            {% for image in POST.galleryImages %}
+                            <div class="item">
+                                <img src="{{ image.url }}" class="img-responsive" alt="{{ image.data.s3files_meta_caption }}">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
                 <!-- /.End of post details -->
                 <div class="stickyshare hidden-xs">
@@ -327,6 +442,7 @@
                 }
             </style>
         </main>
+        {% if POST.articles_type != 2 %}
         <aside class="col-sm-4 col-md-3 rightSidebar">
             <!--<div class="about-card">
                 <div class="ui divider">About me</div>
@@ -367,6 +483,7 @@
                 <!-- /.latest post -->
             </div>
         </aside>
+        {% endif %}
     </div>
 </div>
     <script>
