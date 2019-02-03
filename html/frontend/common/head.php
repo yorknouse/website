@@ -103,7 +103,7 @@ foreach ($DBLIB->get("categories") as $category) {
         $subcategory['SUB'] = $DBLIB->get("categories");
         $category['SUB'][] = $subcategory;
     }
-    $PAGEDATA['CATEGORIES'][] = $category;
+    $PAGEDATA['CATEGORIES'][$category["categories_id"]] = $category;
 }
 //                SEARCH
 $PAGEDATA['totalArticlesCountForSearch'] = $DBLIB->getValue("articles", "COUNT(*)");
