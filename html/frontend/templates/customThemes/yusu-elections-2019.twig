@@ -12,7 +12,7 @@
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
                     <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand"    href="{{ CONFIG.ROOTFRONTENDURL }}"><img src="{{CONFIG.FILESTOREURL}}/site-assets/headerImages/customThemes/YUSUElections/YUSUElections2019Logo.PNG" alt="Nouse elections logo" style="width:100%;"></a>
+                <a class="navbar-brand" href="{{ CONFIG.ROOTFRONTENDURL }}/yusu-elections-2019"><img src="{{CONFIG.FILESTOREURL}}/site-assets/headerImages/customThemes/YUSUElections/Website Graphic.svg" alt="Nouse elections logo" style="width:100%;"></a>
             </div>
             <!-- End Header Navigation -->
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -196,9 +196,10 @@
                                </li>
                            </ul>
                        </li>
-                     <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/">Elections News</a></li>
-                     <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/">Analysis</a></li>
-                     <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/">Galleries</a></li>
+                     <li class="hidden-lg hidden-md"><a href="{{ CONFIG.ROOTFRONTENDURL }}/yusu-elections-2019/candidates">Candidates</a></li>
+                     <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/yusu-elections-2019/news">Elections News</a></li>
+                     <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/yusu-elections-2019/analysis">Analysis</a></li>
+                     <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/yusu-elections-2019/galleries">Galleries</a></li>
                      <li><a href="https://yusu.org/vote" target="_blank">Vote</a></li>
                 </ul>
             </div>
@@ -216,4 +217,84 @@
 
         </div>
     </div>
+{% elseif CustomThemeSection == "categoryBody" %}
+<div class="container">
+    <div class="row">
+
+        <aside class="col-sm-4 col-md-3 rightSidebar">
+            <div class="latest_post_widget">
+                <div class="title-holder">
+                    <h3 class="title">Elections Timetable</h3>
+                    <span class="title-shape title-shape-dark"></span>
+                </div>
+
+                <div class="media latest_post">
+                     <div class="media-body">
+                        <h6 class="media-heading">Candidates announced</h6>
+                        <div class="entry-meta">
+                            <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>Tuesday 12th February - 9am</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="media latest_post">
+                    <div class="media-body">
+                        <h6 class="media-heading">Candidate Speed Dating</h6>
+                        <div class="entry-meta">
+                            <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>Thursday 14th February - 6pm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="media latest_post">
+                    <div class="media-body">
+                        <h6 class="media-heading">FTO Candidate Hustings</h6>
+                        <div class="entry-meta">
+                            <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>Friday 15th February - 7pm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="media latest_post">
+                    <div class="media-body">
+                        <h6 class="media-heading">Vote opens</h6>
+                        <div class="entry-meta">
+                            <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>Monday 18th February</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="media latest_post">
+                    <div class="media-body">
+                        <h6 class="media-heading">Vote closes</h6>
+                        <div class="entry-meta">
+                            <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>Friday 22nd February - 4pm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="media latest_post">
+                    <div class="media-body">
+                        <h6 class="media-heading">Elections results night</h6>
+                        <div class="entry-meta">
+                            <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>Saturday 23nd February - 7:30pm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="media latest_post">
+                    <div class="media-body">
+                        <h6 class="media-heading">Timewarp Elections Special afterparty</h6>
+                        <div class="entry-meta">
+                            <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>Saturday 23nd February</span>
+                        </div>
+                    </div>
+                </div>
+        </aside>
+        <main class="col-sm-8 col-md-9 content p_l_40">
+            {% embed 'elements/articleList.twig' with {'pagination': pagination, ' articles':  articles } %}
+            {% endembed %}
+        </main>
+    </div>
+</div>
 {% endif %}
