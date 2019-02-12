@@ -190,7 +190,11 @@
                         </div>
                         <div class="col-sm-8">
                             <div class="header-banner">
-                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/advertising.php"><img src="{{ CONFIG.ROOTFRONTENDURL }}/common/assets/adTemplates/728x90.jpg" class="img-responsive" alt=""></a>
+                                {% if date() < date("24 February 2019 00:00:00") %}
+                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/yusu-elections-2019"><img src="https://nouse.ams3.cdn.digitaloceanspaces.com/site-assets/headerImages/customThemes/YUSUElections/elections2019-header.jpg" class="img-responsive" alt=""></a>
+                                {% else %}
+                                 <a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/advertising.php"><img src="{{ CONFIG.ROOTFRONTENDURL }}/common/assets/adTemplates/728x90.jpg" class="img-responsive" alt=""></a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
