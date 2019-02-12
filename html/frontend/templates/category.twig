@@ -196,52 +196,56 @@
 
 {% endblock %}
 {% block content %}
-    <div class="container">
-        <div class="row">
+    {% if pageConfig.CustomTheme %}
+        {% include "customThemes/" ~ pageConfig.CustomTheme with {'CustomThemeSection': 'categoryBody'} %}
+    {% else %}
+        <div class="container">
+            <div class="row">
 
-            <aside class="col-sm-4 col-md-3 rightSidebar">
+                <aside class="col-sm-4 col-md-3 rightSidebar">
 
-                {% if pageConfig.CATEGORY.categories_facebook != null or pageConfig.CATEGORY.categories_instagram != null or pageConfig.CATEGORY.categories_twitter != null %}
-                <div class="about-card">
-                    <div class="ui divider">{{ pageConfig.CATEGORY.categories_displayName }}</div>
-                    {% if pageConfig.CATEGORY.categories_facebook != null %}
-                    <a href="{{ pageConfig.CATEGORY.categories_facebook }}" class="btn link-btn btn-rounded" style="margin: 5px;"><i class="fa fa-facebook"></i> Facebook</a>
-                    {% endif %}
-                    {% if pageConfig.CATEGORY.categories_instagram != null %}
-                        <a href="{{ pageConfig.CATEGORY.categories_instagram }}" class="btn link-btn btn-rounded" style="margin: 5px;"><i class="fa fa-instagram"></i> Instagram</a>
-                    {% endif %}
-                    {% if pageConfig.CATEGORY.categories_twitter != null %}
-                        <a href="{{ pageConfig.CATEGORY.categories_twitter }}" class="btn link-btn btn-rounded" style="margin: 5px;"><i class="fa fa-twitter"></i> Twitter</a>
-                    {% endif %}
-                </div>
-                {% endif %}
-                <!-- /.End of donation widget -->
-                <div class="latest_post_widget">
-                    <div class="title-holder">
-                        <h3 class="title">Latest in {{ pageConfig.CATEGORY.categories_displayName }}</h3>
-                        <span class="title-shape title-shape-dark"></span>
-                    </div>
-                    <!--  /.End of title -->
-                    {% for article in pageConfig.leftBar.LATEST %}
-                    <div class="media latest_post">
-                        {% if article.articles_id|articleThumbnail %}
-                           <a class="media-left" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
-                                <img src="{{ article.articles_id|articleThumbnail }}" class="media-object" alt="">
-                            </a>
+                    {% if pageConfig.CATEGORY.categories_facebook != null or pageConfig.CATEGORY.categories_instagram != null or pageConfig.CATEGORY.categories_twitter != null %}
+                    <div class="about-card">
+                        <div class="ui divider">{{ pageConfig.CATEGORY.categories_displayName }}</div>
+                        {% if pageConfig.CATEGORY.categories_facebook != null %}
+                        <a href="{{ pageConfig.CATEGORY.categories_facebook }}" class="btn link-btn btn-rounded" style="margin: 5px;"><i class="fa fa-facebook"></i> Facebook</a>
                         {% endif %}
-                        <div class="media-body">
-                            <h6 class="media-heading"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h6>
-                            <div class="entry-meta">
-                                <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ article.articles_published|date("d/M/y") }}</span>
+                        {% if pageConfig.CATEGORY.categories_instagram != null %}
+                            <a href="{{ pageConfig.CATEGORY.categories_instagram }}" class="btn link-btn btn-rounded" style="margin: 5px;"><i class="fa fa-instagram"></i> Instagram</a>
+                        {% endif %}
+                        {% if pageConfig.CATEGORY.categories_twitter != null %}
+                            <a href="{{ pageConfig.CATEGORY.categories_twitter }}" class="btn link-btn btn-rounded" style="margin: 5px;"><i class="fa fa-twitter"></i> Twitter</a>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    <!-- /.End of donation widget -->
+                    <div class="latest_post_widget">
+                        <div class="title-holder">
+                            <h3 class="title">Latest in {{ pageConfig.CATEGORY.categories_displayName }}</h3>
+                            <span class="title-shape title-shape-dark"></span>
+                        </div>
+                        <!--  /.End of title -->
+                        {% for article in pageConfig.leftBar.LATEST %}
+                        <div class="media latest_post">
+                            {% if article.articles_id|articleThumbnail %}
+                               <a class="media-left" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
+                                    <img src="{{ article.articles_id|articleThumbnail }}" class="media-object" alt="">
+                                </a>
+                            {% endif %}
+                            <div class="media-body">
+                                <h6 class="media-heading"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h6>
+                                <div class="entry-meta">
+                                    <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ article.articles_published|date("d/M/y") }}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    {% endfor %}
-            </aside>
-            <main class="col-sm-8 col-md-9 content p_l_40">
-                {% embed 'elements/articleList.twig' with {'pagination': pagination, ' articles':  articles } %}
-                {% endembed %}
-            </main>
+                        {% endfor %}
+                </aside>
+                <main class="col-sm-8 col-md-9 content p_l_40">
+                    {% embed 'elements/articleList.twig' with {'pagination': pagination, ' articles':  articles } %}
+                    {% endembed %}
+                </main>
+            </div>
         </div>
-    </div>
+    {% endif %}
 {% endblock %}

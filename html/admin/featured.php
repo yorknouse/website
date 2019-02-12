@@ -11,7 +11,11 @@ $DBLIB->orderBy("categories.categories_nestUnder", "ASC");
 $DBLIB->orderBy("categories.categories_order", "ASC");
 $DBLIB->orderBy("categories.categories_displayName", "ASC");
 $DBLIB->join("categories AS categoryParent", "categories.categories_nestUnder=categoryParent.categories_id", "LEFT");
-$DBLIB->where("((categories.categories_nestUnder IS NULL) OR categories.categories_nestUnder = '4')"); //Top level or under MUSE
+$DBLIB->where("(
+    (categories.categories_nestUnder IS NULL)
+    OR categories.categories_nestUnder = '4'
+    OR categories.categories_id = '3603'
+    )"); //Top level or under MUSE
 $PAGEDATA['CATEGORIES'] = [];
 
 foreach ($DBLIB->get("categories",null, ["categories.categories_id", "categories.categories_displayName","categories.categories_featured","categoryParent.categories_displayName AS parentName"]) as $category) {
