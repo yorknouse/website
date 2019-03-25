@@ -101,6 +101,13 @@
                                                         title="{{ user.users_suspended == '0' ? 'Suspend user' : 'Un-Suspend user' }}">
                                                     <i class="fa fa-times-circle-o"></i></button>
                                             {% endif %}
+                                            {% if 15|permissions %}
+                                                <button type="button"
+                                                        class="btn btn-danger deleteuser"
+                                                        data-userid="{{ user.users_userid }}"
+                                                        title="Delete User">
+                                                    <i class="fa fa-trash"></i></button>
+                                            {% endif %}
                                             {% if 10|permissions and false %}
                                                 <a href="{{ CONFIG.ROOTBACKENDURL }}/api/account/viewSiteAs.php?userid={{ user["users_userid"] }}"
                                                    title="Login as User">
@@ -232,6 +239,25 @@
                         success: function (result) {
                             if (result == '1') {
                                 bootbox.alert("Success", function () {
+                                    location.reload();
+                                });
+                            } else {
+                                bootbox.alert("Sorry - Operation could not be completed! Please reload the page", function () {
+                                    location.reload();
+                                });
+                            }
+                        }
+                    });
+                });
+                {% endif %}
+                {% if 15|permissions %}
+                $(".deleteuser").click(function () {
+                    $("#loadingoverlay").show();
+                    $.ajax({
+                        url: "{{ CONFIG.ROOTBACKENDURL }}/api/account/delete.php?userid=" + $(this).data("userid"),
+                        success: function (result) {
+                            if (result == '1') {
+                                bootbox.alert("Success - user deleted", function () {
                                     location.reload();
                                 });
                             } else {
