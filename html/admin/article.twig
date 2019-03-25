@@ -251,15 +251,26 @@
             {% endif %}" alt="Thumbnail" id="thumbnailImage" style="width: 100%;" />
             </div>
             <div class="box-footer">
+                <input id="thumbnailCredit" style="margin-bottom: 5px; display:none;" value="{{ article.articlesDrafts_thumbnailCredit|raw }}" class="form-control" placeholder="Image credit for caption" />
                 {% embed 'common/plugins/fineuploader.twig' with {'publicBool': true, 'type': 'ARTICLE-THUMBNAIL', 'paste': false, 'typeId': 3, 'subTypeId': 1, 'imagesOnly': true } %}
                     {% block success %}
                         var filepath = responseJson.url.split('.');
                         var urlLarge = responseJson.url.slice(0, responseJson.url.lastIndexOf(".")) + " (large)" + responseJson.url.slice(responseJson.url.lastIndexOf("."));
                         $("#thumbnailImage").attr("src",urlLarge);
                         thumbnailid = responseJson.id;
+                        $("#thumbnailCredit").show();
                     {% endblock %}
                 {% endembed %}
                 <p style="font-style: italic;">To display correctly, thumbnails should be wider they they are tall. Landscape images of around 2:1 aspect ratio work well</p>
+
+                {% if article.articles_thumbnail != 1 %}
+                <script>
+                    //Show the thumbnial credit box if it isn't the default one
+                    $(document).ready(function () {
+                       $("#thumbnailCredit").show();
+                    });
+                </script>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -498,7 +509,7 @@
         {% else %}
         var thumbnailid = 1; //Current default thumbnail
         {% endif %}
-        function saveArticle(skipThumnailPrompt) {
+        function saveArticle(skipThumnailPrompt, skipThumbnailCaptionPrompt) {
             //Check prompts
             if ((thumbnailid == 1 || (thumbnailid == null && "{{ article.articles_thumbnail }}" == "1")) && !skipThumnailPrompt) {
                 //This is the default thumbnail so warn them of that and make sure they know what they're doing
@@ -516,12 +527,35 @@
                     },
                     callback: function (result) {
                         if (result) {
-                            saveArticle(true);
+                            saveArticle(true, false);
                         }
                     }
                 });
                 return false;
             }
+            if (!skipThumbnailCaptionPrompt && $("#thumbnailCredit").val().length < 1 && thumbnailid != 1 && (thumbnailid != null || "{{ article.articles_thumbnail }}" != "1")) {
+                bootbox.confirm({
+                    message: "You haven't set a caption for the thumbnail for this article yet. <br/><br/>Please confirm that no caption is required - if you are unsure please consult a senior editor",
+                    buttons: {
+                        confirm: {
+                            label: 'No caption required',
+                            className: 'btn-danger'
+                        },
+                        cancel: {
+                            label: 'Cancel',
+                            className: 'btn-default'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            saveArticle(false, true);
+                        }
+                    }
+                });
+                return false;
+            }
+
+
             var savingDialog = bootbox.dialog({
                 message: '<p class="text-center">Saving and publishing your changes</p>',
                 closeButton: false
@@ -576,7 +610,8 @@
                     "type": "{{ article.articles_type }}", {#It's a new one so set the type#}
                     "postToTwitter": ($("#postToTwitter").is(':checked') ? 1 : 0),
                     "postToFacebook": ($("#postToFacebook").is(':checked') ? 1 : 0),
-                    "socialexcerpt": $("#socialexcerpt").val()
+                    "socialexcerpt": $("#socialexcerpt").val(),
+                    "thumbCredit": $("#thumbnailCredit").val(),
                 },
                 success: function (result) {
                     savingDialog.modal('hide');
