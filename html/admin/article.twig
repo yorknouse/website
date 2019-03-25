@@ -263,9 +263,9 @@
                 {% endembed %}
                 <p style="font-style: italic;">To display correctly, thumbnails should be wider they they are tall. Landscape images of around 2:1 aspect ratio work well</p>
 
-                {% if article.articles_thumbnail != 1 %}
+                {% if article.articles_id and article.articles_thumbnail != 1 %}
                 <script>
-                    //Show the thumbnial credit box if it isn't the default one
+                    //Show the thumbnail credit box if it isn't the default one
                     $(document).ready(function () {
                        $("#thumbnailCredit").show();
                     });
