@@ -509,7 +509,7 @@
         {% else %}
         var thumbnailid = 1; //Current default thumbnail
         {% endif %}
-        function saveArticle(skipThumnailPrompt, skipThumbnailCaptionPrompt) {
+        function saveArticle(skipThumnailPrompt, skipThumbnailCaptionPrompt, skipThumbnailCreditTypePrompt) {
             //Check prompts
             if ((thumbnailid == 1 || (thumbnailid == null && "{{ article.articles_thumbnail }}" == "1")) && !skipThumnailPrompt) {
                 //This is the default thumbnail so warn them of that and make sure they know what they're doing
@@ -527,7 +527,7 @@
                     },
                     callback: function (result) {
                         if (result) {
-                            saveArticle(true, false);
+                            saveArticle(true, false, false);
                         }
                     }
                 });
@@ -535,10 +535,10 @@
             }
             if (!skipThumbnailCaptionPrompt && $("#thumbnailCredit").val().length < 1 && thumbnailid != 1 && (thumbnailid != null || "{{ article.articles_thumbnail }}" != "1")) {
                 bootbox.confirm({
-                    message: "You haven't set a caption for the thumbnail for this article yet. <br/><br/>Please confirm that no caption is required - if you are unsure please consult a senior editor",
+                    message: "You haven't set a credit for the thumbnail for this article yet. <br/><br/>Please confirm that no credit is required - if you are unsure please consult a senior editor",
                     buttons: {
                         confirm: {
-                            label: 'No caption required',
+                            label: 'No credit required',
                             className: 'btn-danger'
                         },
                         cancel: {
@@ -548,13 +548,36 @@
                     },
                     callback: function (result) {
                         if (result) {
-                            saveArticle(false, true);
+                            saveArticle(false, true, false);
                         }
                     }
                 });
                 return false;
             }
 
+            if (!skipThumbnailCreditTypePrompt && thumbnailid != 1 && (thumbnailid != null || "{{ article.articles_thumbnail }}" != "1")) {
+                {% if article.articles_type != 6 %}
+                bootbox.confirm({
+                    message: "Because this article is not a conventional text based article you must credit the thumbnail you have used somewhere in your article (if credit is required) as a credit will not be automatically displayed using the text entered in the credit field<br/><br/>Please confirm that you have done this - if you are unsure please consult a senior editor",
+                    buttons: {
+                        confirm: {
+                            label: 'Thumbnail credited in body of article',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'Cancel',
+                            className: 'btn-default'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            saveArticle(false, false, true);
+                        }
+                    }
+                });
+                return false;
+                {% endif %}
+            }
 
             var savingDialog = bootbox.dialog({
                 message: '<p class="text-center">Saving and publishing your changes</p>',
