@@ -193,6 +193,7 @@
                                     success: function (result) {
                                         if (result == '1') {
                                             bootbox.alert("Success - article has been deleted", function () {
+                                                window.onbeforeunload = null; //Don't prompt to prevent them leaving if they've just deleted it
                                                 window.location.href="{{ CONFIG.ROOTBACKENDURL }}";
                                             });
                                         } else {
