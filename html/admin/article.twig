@@ -499,10 +499,10 @@
         {% endif %}
         function saveArticle(skipThumnailPrompt) {
             //Check prompts
-            if (thumbnailid == 1 && !skipThumnailPrompt) {
+            if ((thumbnailid == 1 || (thumbnailid == null && "{{ article.articles_thumbnail }}" == "1")) && !skipThumnailPrompt) {
                 //This is the default thumbnail so warn them of that and make sure they know what they're doing
                 bootbox.confirm({
-                    message: "You haven't set a nice thumbnail for this article yet - are you sure you want to save it?",
+                    message: "You haven't set a thumbnail for this article yet - are you sure you want to save it?",
                     buttons: {
                         confirm: {
                             label: 'Yes',
