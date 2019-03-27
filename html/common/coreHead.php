@@ -62,6 +62,9 @@ $DBLIB = new MysqliDb ($CONN); //Re-use it in the wierd lib we love
 
 /* FUNCTIONS */
 class bCMS {
+
+    private $cloudflare;
+
     function sanitizeString($var) {
         //Setup Sanitize String Function
         $var = strip_tags($var);
