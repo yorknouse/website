@@ -315,6 +315,7 @@
                     </aside>
                 </div>
                 <!-- /End of share icon -->
+
             </div>
             <!-- /.End of details body -->
             {% endif %}
@@ -505,6 +506,9 @@
                 <!--  /.End of title -->
 
             </div>#}
+            {% if POST.articles_appleNewsID != null and POST.articles_appleNewsShareLink != null %}
+                <a target="_blank" href="{{ POST.articles_appleNewsShareLink }}"><img src="{{ CONFIG.FILESTOREURL }}/site-assets/appleNews/US_UK_Apple_News_Badge_RGB_030619.svg" style="height: 40px; margin-bottom: 15px; margin-top:5px;" alt="Apple News badge" title="View on Apple News" /></a>
+            {% endif %}
             <div class="latest_post_widget">
                 <div class="title-holder">
                     <h3 class="title">Latest in {{ POST['CATEGORIES'][0].categories_displayName }}</h3>
