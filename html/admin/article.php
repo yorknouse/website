@@ -24,9 +24,8 @@ if (isset($_GET['id'])) {
 			}
 		}
 	}
-
 } else {
-	$PAGEDATA['article'] = null;
+	$PAGEDATA['article'] = [];
 	if (isset($_GET['type'])) $PAGEDATA['article']['articles_type'] = $_GET['type']; //So the new one is created in the right format
 	else $PAGEDATA['article']['articles_type'] = 1;
 }
