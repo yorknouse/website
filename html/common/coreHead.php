@@ -136,15 +136,6 @@ class bCMS {
         else return $CONFIG['FILESTOREURL'] . "/archive/public/articleImages/" . rawurlencode($thumb["articles_thumbnail"]);
     }
 
-    function sanitizeString($var)
-    {
-        //Setup Sanitize String Function
-        $var = strip_tags($var);
-        $var = htmlentities($var);
-        $var = stripslashes($var);
-        global $CONN;
-        return mysqli_real_escape_string($CONN, $var);
-    }
     function s3URL($fileid, $size = false, $forceDownload = false, $expire = '+1 minute', $returnArray = false) {
         global $DBLIB, $CONFIG;
         /*
