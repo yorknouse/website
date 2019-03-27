@@ -40,6 +40,9 @@
                     {% if article.articles_showInSearch == 1 and date(article.articles_published) < date() %}
                     <a target="_blank" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}" class="btn btn-sm btn-default">View on site</a>
                     {% endif %}
+                    {% if article.articles_appleNewsID != null and article.articles_appleNewsShareLink != null %}
+                        <a target="_blank" href="{{ article.articles_appleNewsShareLink }}"><img src="{{ CONFIG.ROOTBACKENDURL }}/assets/img/appleNews/US_UK_Apple_News_Badge_RGB_030619.svg" style="height: 30px;" alt="Apple News badge" title="View on Apple News" /></a>
+                    {% endif %}
                 </div>
 
             </div>

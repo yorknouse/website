@@ -694,7 +694,11 @@ class bCMS {
                     'metadata' => json_encode($metaData, JSON_UNESCAPED_SLASHES), // required
                 ]
             );
-            if ($replaceResponse->data->id) return true;
+            if ($replaceResponse->data->id) {
+                $DBLIB->where("articles_id", $article['articles_id']);
+                $DBLIB->update("articles", ["articles_appleNewsShareLink" => $replaceResponse->data->shareUrl]);
+                return true;
+            }
             else return false;
         } else {
             //Upload it as a new article
@@ -710,7 +714,7 @@ class bCMS {
             );
             if ($uploadResponse) {
                 $DBLIB->where("articles_id", $article['articles_id']);
-                $DBLIB->update("articles", ["articles_appleNewsID" => $uploadResponse->data->id]);
+                $DBLIB->update("articles", ["articles_appleNewsID" => $uploadResponse->data->id, "articles_appleNewsShareLink" => $uploadResponse->data->shareUrl]);
             }
             if ($uploadResponse->data->id) return true;
             else return false;
@@ -746,7 +750,7 @@ class bCMS {
             ]
         );
         $DBLIB->where("articles.articles_id", $article['articles_id']);
-        $articleRemoveAppleNews = $DBLIB->update("articles", ["articles_appleNewsID"=>null]);
+        $articleRemoveAppleNews = $DBLIB->update("articles", ["articles_appleNewsID"=>null,"articles_appleNewsShareLink"=>null]);
         if ($articleRemoveAppleNews) return true;
         else return false;
     }
