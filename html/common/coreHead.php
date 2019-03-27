@@ -692,6 +692,7 @@ class bCMS {
 
         }
 
+        $getArticleData = false;
         if ($article['articles_appleNewsID']) {
             //Update it as an existing article
             $getArticleData = $PublisherAPI->Get('/articles/' . $article['articles_appleNewsID'],
