@@ -543,6 +543,13 @@ class bCMS {
                     "lineHeight"=>26,
                     "textColor"=>"#000",
                 ],
+                "thumbnailCreditStyle" => [
+                    "textAlignment"=>"right",
+                    "fontName"=>"Georgia",
+                    "fontSize"=>12,
+                    "lineHeight"=>20,
+                    "textColor"=>"#000",
+                ],
                 "captionStyle" => [
                     "textAlignment"=>"left",
                     "fontName"=>"HelveticaNeue-Medium",
@@ -643,7 +650,7 @@ class bCMS {
                     "text"=>    "Thumbnail Credit: " . $article['articlesDrafts_thumbnailCredit'],
                     "layout" => "bodyLayout",
                     "format"=> "html",
-                    "textStyle" => "bodyStyle"
+                    "textStyle" => "thumbnailCreditStyle"
                 ]);
             }
         }
