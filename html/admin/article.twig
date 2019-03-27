@@ -1,11 +1,20 @@
 {% extends "assets/template.twig" %}
 {% block htmlIncludes %}
-    <!--Summernote-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.min.js"
-            integrity="sha256-1XDZ8T0bWi65wnqq7bBPK9QrWkE0fg6xLVAVuSqKw/4=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css"
-          integrity="sha256-vHGOIPxeMV4uIsqGDzob0M6Zl8PY5+nJh7m0hJhJXfg=" crossorigin="anonymous"/>
-    <script src="{{ CONFIG.ROOTBACKENDURL }}/assets\js\libs\summernote\summernote-image-captionit.js"></script>
+    {% if article.articles_type == 1  %}
+        <!--Summernote-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.min.js"
+                integrity="sha256-1XDZ8T0bWi65wnqq7bBPK9QrWkE0fg6xLVAVuSqKw/4=" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css"
+              integrity="sha256-vHGOIPxeMV4uIsqGDzob0M6Zl8PY5+nJh7m0hJhJXfg=" crossorigin="anonymous"/>
+        <script src="{{ CONFIG.ROOTBACKENDURL }}/assets\js\libs\summernote\summernote-image-captionit.js"></script>
+    {% elseif article.articles_type == 6  %}
+        <!--TuiEditor-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tui-editor/1.3.3/tui-editor.min.css" integrity="sha256-zSTn7JeigQDDTzSHZ3ASZchK24EtdXZUpggLn66VZDE=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tui-editor/1.3.3/tui-editor-contents.min.css" integrity="sha256-Zm/oGLAqn96YMJ/neh3dep6bEzBmUdB7JbuExdWwAX8=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.44.0/codemirror.min.css" integrity="sha256-I8NyGs4wjbMuBSUE40o55W6k6P7tu/7G28/JGUUYCIs=" crossorigin="anonymous" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" integrity="sha256-3YM6A3pH4QFCl9WbSU8oXF5N6W/2ylvW0o2g+Z6TmLQ=" crossorigin="anonymous" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/tui-editor/1.3.3/tui-editor-Editor-full.min.js" integrity="sha256-au5RzAQdasC8WDNaQpEXiEH5tTPLhlT7AMqB5cGO584=" crossorigin="anonymous"></script>
+    {% endif %}
 
 
     <!--Date picker-->
@@ -89,11 +98,11 @@
                     <label>Social Media Automation</label>
                     {% set articleSocialConfig = article['articles_socialConfig']|split(',') %}
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="postToFacebook" {{ (articleSocialConfig[1] == 1 ? 'disabled' : '') }} {{ (articleSocialConfig[0] == 1 ? 'checked' : '') }}>
+                        <input type="checkbox" class="form-check-input" id="postToFacebook" {{ (articleSocialConfig[1] == 1 ? 'disabled' : (article.articles_id == null ? 'checked' : (articleSocialConfig[0] != 1 ? '' : 'checked'))) }}>
                         <label class="form-check-label">{{ (articleSocialConfig[1] == 1 ? 'Posted' : 'Post') }} to Facebook</label>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="postToTwitter" {{ (articleSocialConfig[3] == 1 ? 'disabled' : '') }} {{ (articleSocialConfig[2] == 1 ? 'checked' : '') }}>
+                        <input type="checkbox" class="form-check-input" id="postToTwitter" {{ (articleSocialConfig[3] == 1 ? 'disabled' : (article.articles_id == null ? 'checked' : (articleSocialConfig[2] != 1 ? '' : 'checked'))) }}>
                         <label class="form-check-label">{{ (articleSocialConfig[3] == 1 ? 'Posted' : 'Post') }} to Twitter</label>
                     </div>
                     <textarea maxlength="280" id="socialexcerpt" {{ (articleSocialConfig[1] == 1 and articleSocialConfig[3] == 1 ? 'disabled' : '') }} style="resize: none;" rows="2" placeholder="Custom excerpt for social media display" class="form-control">{{ article.articles_socialExcerpt|raw }}</textarea>
@@ -193,6 +202,7 @@
                                     success: function (result) {
                                         if (result == '1') {
                                             bootbox.alert("Success - article has been deleted", function () {
+                                                window.onbeforeunload = null; //Don't prompt to prevent them leaving if they've just deleted it
                                                 window.location.href="{{ CONFIG.ROOTBACKENDURL }}";
                                             });
                                         } else {
@@ -210,7 +220,7 @@
             });
         </script>
 
-        {% if article.articles_type == 1  %}
+        {% if article.articles_type == 1 or article.articles_type == 6 %}
         <div class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">
@@ -224,10 +234,14 @@
                     {% block success %}
                         var filepath = responseJson.url.split('.');
                         var urlLarge = responseJson.url.slice(0, responseJson.url.lastIndexOf(".")) + " (large)" + responseJson.url.slice(responseJson.url.lastIndexOf("."));
+                        {% if article.articles_type == 1 %}
                         $('#editor').summernote('insertImage',urlLarge, function ($image) {
                             $image.attr('data-fileid', responseJson.id);
                             $image.attr('alt', '');
                         });
+                        {% elseif article.articles_type == 6 %}
+                            editor.setMarkdown(content + "\n\n" + '![' + responseJson.id + '](' + urlLarge.replace(/ /g, "%20") + ')', true)
+                        {% endif %}
                     {% endblock %}
                 {% endembed %}
             </div>
@@ -250,15 +264,26 @@
             {% endif %}" alt="Thumbnail" id="thumbnailImage" style="width: 100%;" />
             </div>
             <div class="box-footer">
+                <input id="thumbnailCredit" style="margin-bottom: 5px; display:none;" value="{{ article.articlesDrafts_thumbnailCredit|raw }}" class="form-control" placeholder="Image credit for caption" />
                 {% embed 'common/plugins/fineuploader.twig' with {'publicBool': true, 'type': 'ARTICLE-THUMBNAIL', 'paste': false, 'typeId': 3, 'subTypeId': 1, 'imagesOnly': true } %}
                     {% block success %}
                         var filepath = responseJson.url.split('.');
                         var urlLarge = responseJson.url.slice(0, responseJson.url.lastIndexOf(".")) + " (large)" + responseJson.url.slice(responseJson.url.lastIndexOf("."));
                         $("#thumbnailImage").attr("src",urlLarge);
                         thumbnailid = responseJson.id;
+                        $("#thumbnailCredit").show();
                     {% endblock %}
                 {% endembed %}
                 <p style="font-style: italic;">To display correctly, thumbnails should be wider they they are tall. Landscape images of around 2:1 aspect ratio work well</p>
+
+                {% if article.articles_id and article.articles_thumbnail != 1 %}
+                <script>
+                    //Show the thumbnail credit box if it isn't the default one
+                    $(document).ready(function () {
+                       $("#thumbnailCredit").show();
+                    });
+                </script>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -288,6 +313,7 @@
                         ['code', ['codeview']]
                     ],
                     buttons: {
+                        /*
                         sportScore: function (context) {
                             var ui = $.summernote.ui;
 
@@ -312,28 +338,13 @@
                                 contents: '<i class="fa fa-star"/> Star Rating',
                                 tooltip: 'Define the star rating for a review',
                                 click: function () {
-                                    // invoke insertText method with 'hello' on editor module.
-                                    /*
-                                    var dialog = bootbox.dialog({
-                                        title: '',
-                                        message: "<p></p>",
-                                        buttons: {
-                                            cancel: {
-                                                label: "Add",
-                                                className: 'btn-default',
-                                                callback: function(){
-                                                    context.invoke('editor.insertText', 'hello');
-                                                }
-                                            },
-                                        }
-                                    });
-                                    */
                                     bootbox.alert("Coming soon");
                                 }
                             });
 
                             return button.render();   // return button as jquery object
                         },
+                        */
                         lastSave: function (context) {
                             var ui = $.summernote.ui;
 
@@ -377,6 +388,91 @@
                 });
             });
 
+        </script>
+    </div>
+    {% elseif article.articles_type == 6 %}
+    <div class="col-md-8 col-sm-12">
+        <!-- IMPORT Font Awesome 5 here-->
+        <style>
+            /* class for our button */
+            .header-tui-button-class{
+                float: left;
+                box-sizing: border-box;
+                outline: none;
+                cursor: pointer;
+                background-color: #fff;
+                width: 22px;
+                height: 22px;
+                border-radius: 0;
+                margin: 5px 3px;
+                border: 1px solid #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        </style>
+        <div id="editor"></div>
+        <script>
+            var content = '';
+            {% for line in article.articlesDrafts_markdown|raw|split('\n') %}
+               content += '{{ line|raw|replace({"'": "\\'"}) }}';
+               content += "\n";
+            {% endfor %}
+            var editor = new tui.Editor({
+                el: document.querySelector('#editor'),
+                initialEditType: 'wysiwyg',
+                initialValue: content,
+                previewStyle: 'vertical',
+                language: "en_US",
+                placeholder: "Today the university has announced a new lunar campus as part of its expansion programme which began with the development of Heslington East",
+                toolbarItems: [
+                    {
+                        type: 'button',
+                        options: {
+                            $el: $('<div class="header-tui-button-class"><i class="fa fa-save"></i></div>'),
+                            name: 'savebutton',
+                            className: '',
+                            event: "saveEvent",
+                            tooltip: 'Save Article'
+                        }
+                    },
+                    'heading',
+                    'bold',
+                    'italic',
+                    'strike',
+                    'divider',
+                    'hr',
+                    'quote',
+                    'divider',
+                    'ul',
+                    'ol',
+                    'task',
+                    'indent',
+                    'outdent',
+                    'divider',
+                    // 'table',
+                    // 'image',
+                    'link',
+                    'divider',
+                    //'code',
+                    //'codeblock'
+                ],
+                hideModeSwitch: false,
+                exts: [],
+                height: '800px',
+                usageStatistics: false,
+                events: {
+                    change: function() {
+                        window.onbeforeunload = function() {
+                            return true;
+                        };
+                    }
+                },
+            });
+            editor.eventManager.addEventType('saveEvent');
+            editor.eventManager.listen('saveEvent', function() {
+                saveArticle();
+            });
         </script>
     </div>
     {% elseif article.articles_type == 2 %}
@@ -446,7 +542,41 @@
                 </div>
             </div>
         </div>
-        {% elseif article.articles_type == 5 %}
+    {% elseif article.articles_type == 4 %}
+        {# LiveBlogPro #}
+        <div class="col-md-8 col-sm-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        liveblogpro Checklist
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <ul>
+                        <li>Contact editor for login to liveblogpro</li>
+                        <li>Click "start new liveblog" at <a href="https://www.liveblogpro.com/user/account">https://www.liveblogpro.com/user/account</a></li>
+                        <li>Set all stream details including title and date</li>
+                        <li><b>Copy "premium embed" with "display live title" unchecked into the box below</b></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        Embed Data
+                    </h3>
+                </div>
+                <div class="box-body no-padding">
+                    <div class="form-group">
+                       <textarea class="form-control" id="embeddata" style="resize: none; border:0;" rows="6"> {{ article.articlesDrafts_text|raw }}</textarea>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button class="btn btn-default pull-right saveArticleButton">Save</button>
+                </div>
+            </div>
+        </div>
+    {% elseif article.articles_type == 5 %}
     <div class="col-md-8 col-sm-12">
         <div class="box box-default">
             <div class="box-header with-border">
@@ -497,30 +627,76 @@
         {% else %}
         var thumbnailid = 1; //Current default thumbnail
         {% endif %}
-        function saveArticle(skipThumnailPrompt) {
+        function saveArticle(skipThumnailPrompt, skipThumbnailCaptionPrompt, skipThumbnailCreditTypePrompt) {
             //Check prompts
-            if (thumbnailid == 1 && !skipThumnailPrompt) {
+            if ((thumbnailid == 1 || (thumbnailid == null && "{{ article.articles_thumbnail }}" == "1")) && !skipThumnailPrompt) {
                 //This is the default thumbnail so warn them of that and make sure they know what they're doing
                 bootbox.confirm({
-                    message: "You haven't set a nice thumbnail for this article yet - are you sure you want to save it?",
+                    message: "You haven't set a thumbnail for this article yet - are you sure you want to save it?",
                     buttons: {
                         confirm: {
                             label: 'Yes',
-                            className: 'btn-success'
+                            className: 'btn-danger'
                         },
                         cancel: {
-                            label: 'No',
-                            className: 'btn-danger'
+                            label: 'Cancel',
+                            className: 'btn-default'
                         }
                     },
                     callback: function (result) {
                         if (result) {
-                            saveArticle(true);
+                            saveArticle(true, false, false);
                         }
                     }
                 });
                 return false;
             }
+            if (!skipThumbnailCaptionPrompt && $("#thumbnailCredit").val().length < 1 && thumbnailid != 1 && (thumbnailid != null || "{{ article.articles_thumbnail }}" != "1")) {
+                bootbox.confirm({
+                    message: "You haven't set a credit for the thumbnail for this article yet. <br/><br/>Please confirm that no credit is required - if you are unsure please consult a senior editor",
+                    buttons: {
+                        confirm: {
+                            label: 'No credit required',
+                            className: 'btn-danger'
+                        },
+                        cancel: {
+                            label: 'Cancel',
+                            className: 'btn-default'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            saveArticle(false, true, false);
+                        }
+                    }
+                });
+                return false;
+            }
+
+            if (!skipThumbnailCreditTypePrompt && thumbnailid != 1 && (thumbnailid != null || "{{ article.articles_thumbnail }}" != "1")) {
+                {% if article.articles_type != 6 %}
+                bootbox.confirm({
+                    message: "Because this article is not a conventional text based article you must credit the thumbnail you have used somewhere in your article (if credit is required) as a credit will not be automatically displayed using the text entered in the credit field<br/><br/>Please confirm that you have done this - if you are unsure please consult a senior editor",
+                    buttons: {
+                        confirm: {
+                            label: 'Thumbnail credited in body of article',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'Cancel',
+                            className: 'btn-default'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            saveArticle(false, false, true);
+                        }
+                    }
+                });
+                return false;
+                {% endif %}
+            }
+
             var savingDialog = bootbox.dialog({
                 message: '<p class="text-center">Saving and publishing your changes</p>',
                 closeButton: false
@@ -558,8 +734,13 @@
                     {% elseif article.articles_type == 2 %}
                     "text": galleryArray.join(","),
                     "captions": captionArray.join(","),
+                    {% elseif article.articles_type == 4 %}
+                    "text": $("#embeddata").val(),
                     {% elseif article.articles_type == 5 %}
                     "text": $("#embeddurl").val(),
+                    {% elseif article.articles_type == 6 %}
+                    "markdown": editor.getMarkdown(),
+                    "text": editor.getHtml(),
                     {% endif %}
                     "headline": $("#headline").val(),
                     "excerpt": $("#excerpt").val(),
@@ -575,7 +756,8 @@
                     "type": "{{ article.articles_type }}", {#It's a new one so set the type#}
                     "postToTwitter": ($("#postToTwitter").is(':checked') ? 1 : 0),
                     "postToFacebook": ($("#postToFacebook").is(':checked') ? 1 : 0),
-                    "socialexcerpt": $("#socialexcerpt").val()
+                    "socialexcerpt": $("#socialexcerpt").val(),
+                    "thumbCredit": $("#thumbnailCredit").val(),
                 },
                 success: function (result) {
                     savingDialog.modal('hide');

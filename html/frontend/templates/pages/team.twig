@@ -50,7 +50,7 @@
                                     <figcaption>
                                         <h3 class="grid_post_title" style="margin: 0;"><a href="{{ CONFIG.ROOTFRONTENDURL ~ "/author/?a=" ~ user.users_userid }}">{{ user.users_name1 ~ " " ~ user.users_name2 }}</a></h3>
                                         <div class="element-block">
-                                            <p>{{ user.users_bio|replace({"\n":"<br/>"})|raw }}</p>
+                                            <p>{{ user.users_bio|replace({"\n":"<br/>"}) }}</p>
                                             {% for position in user.POSITIONS %}
                                                 <h4 style="margin-bottom: 3px;">{{ (position.userPositions_displayName == null ? position.positions_displayName : position.userPositions_displayName) }}</h4>
 

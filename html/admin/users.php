@@ -24,6 +24,7 @@ if (strlen($PAGEDATA['search']) > 0) {
 		users_googleAppsUsernameYork LIKE '%" . $PAGEDATA['search'] . "%'
 		OR users_name1 LIKE '%" . $PAGEDATA['search'] . "%'
 		OR users_name2 LIKE '%" . $PAGEDATA['search'] . "%'	
+		OR CONCAT( users_name1,  ' ', users_name2 ) LIKE '%" . $PAGEDATA['search'] . "%'
 		OR users_googleAppsUsernameNouse LIKE '%" . $PAGEDATA['search'] . "%'
     )");
 }

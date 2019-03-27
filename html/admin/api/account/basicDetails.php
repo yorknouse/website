@@ -20,7 +20,7 @@ if (isset($_GET['forename'])) {
     $data = Array (
         'users_name1' => $bCMS->sanitizeString($_GET['forename']),
         'users_name2' => $bCMS->sanitizeString($_GET['lastname']),
-        'users_bio' => $bCMS->sanitizeString($_GET['bio'])
+        'users_bio' => $bCMS->cleanString($_GET['bio'])
     );
     if ($USERDATA['users_userid'] != $_GET['userid']) {
         $data['users_googleAppsUsernameYork'] = (strlen($_GET['yorkusername']) > 0 ? str_replace("@york.ac.uk","",$bCMS->sanitizeString($_GET['yorkusername'])) : '');

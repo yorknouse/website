@@ -103,181 +103,191 @@
                 </div>
             </div>
         </div>
-
-        {% if pageConfig.MUSETheme %}
-            {#<div class="insta-content">
-                <div class="insta-link"><a href="#" rel="me" target="_blank" class="">Follow Me!</a></div>
-                <div id="ri-grid" class="ri-grid ri-grid-size-2">
-                    <ul>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/01.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/02.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/03.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/04.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/05.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/06.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/07.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/08.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/09.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/10.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/11.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/12.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/13.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/14.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/15.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/16.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/17.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/18.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/19.jpg" alt=""/></a></li>
-                        <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/20.jpg" alt=""/></a></li>
-                    </ul>
-                </div>
-            </div>
-            <script src="{{ CONFIG.ASSETSURL }}js/jquery.gridrotator.min.js"></script>
-
-            <script>
-                $(document).ready(function () {
-                    $('#ri-grid').gridrotator({
-                        rows: 1,
-                        columns: 8,
-                        animType: 'fadeInOut',
-                        animSpeed: 1000,
-                        step: 1,
-                        w1024: {
-                            rows: 1,
-                            columns: 7
-                        },
-                        w768: {
-                            rows: 1,
-                            columns: 5
-                        },
-                        w480: {
-                            rows: 2,
-                            columns: 3
-                        },
-                        w320: {
-                            rows: 2,
-                            columns: 3
-                        },
-                        w240: {
-                            rows: 2,
-                            columns: 3
-                        }
-                    });
-                })
-            </script>#}
-            <div class="logo-wrapper" style="background-color: black;">
-            <div class="container">
-                <div class="header-logo">
-                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/muse" class="logo-img">
-                        <img src="{{CONFIG.FILESTOREURL}}/site-assets/logo/MUSE%20Logo%20White%20small.png" alt="MUSE Logo" style="width: 100%; height: auto;">
-                    </a>
-                </div>
-            </div>
-        </div>
+        {% if pageConfig.CustomTheme %}
+            {% include "customThemes/" ~ pageConfig.CustomTheme with {'CustomThemeSection': 'header'} %}
         {% else %}
-        <!-- /.End of top header -->
-        <div class="logo-wrapper gray">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="header-logo" style="margin-top: 9px; width: 350px;">
-                            <a href="{{ CONFIG.ROOTFRONTENDURL }}" class="logo-img">
-                                <img src="{{CONFIG.FILESTOREURL}}/site-assets/logo/nouse-logo-full3.svg" alt="Nouse logo">
-                            </a>
-                        </div>
+            {% if pageConfig.MUSETheme %}
+                {#<div class="insta-content">
+                    <div class="insta-link"><a href="https://www.instagram.com/yorkmuse/" rel="me" target="_blank" class="">yorkmuse</a></div>
+                    <div id="ri-grid" class="ri-grid ri-grid-size-2">
+                        <ul>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/01.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/02.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/03.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/04.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/05.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/06.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/07.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/08.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/09.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/10.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/11.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/12.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/13.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/14.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/15.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/16.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/17.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/18.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/19.jpg" alt=""/></a></li>
+                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/20.jpg" alt=""/></a></li>
+                        </ul>
                     </div>
-                    <div class="col-sm-8">
-                        <div class="header-banner">
-                            <a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/advertising.php"><img src="{{ CONFIG.ROOTFRONTENDURL }}/common/assets/adTemplates/728x90.jpg" class="img-responsive" alt=""></a>
+                </div>
+                <script src="{{ CONFIG.ASSETSURL }}js/jquery.gridrotator.min.js"></script>
+
+                <script>
+                    $(document).ready(function () {
+                        $('#ri-grid').gridrotator({
+                            rows: 1,
+                            columns: 8,
+                            animType: 'fadeInOut',
+                            animSpeed: 1000,
+                            step: 1,
+                            w1024: {
+                                rows: 1,
+                                columns: 7
+                            },
+                            w768: {
+                                rows: 1,
+                                columns: 5
+                            },
+                            w480: {
+                                rows: 2,
+                                columns: 3
+                            },
+                            w320: {
+                                rows: 2,
+                                columns: 3
+                            },
+                            w240: {
+                                rows: 2,
+                                columns: 3
+                            }
+                        });
+                    })
+                </script>#}
+                <div class="logo-wrapper" style="background-color: black;">
+                <div class="container">
+                    <div class="header-logo">
+                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/muse" class="logo-img">
+                            <img src="{{CONFIG.FILESTOREURL}}/site-assets/logo/MUSE%20Logo%20White%20small.png" alt="MUSE Logo" style="width: 100%; height: auto;">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <!-- /.End of top header -->
+            <div class="logo-wrapper gray">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="header-logo" style="margin-top: 9px; width: 350px;">
+                                <a href="{{ CONFIG.ROOTFRONTENDURL }}" class="logo-img">
+                                    <img src="{{CONFIG.FILESTOREURL}}/site-assets/logo/nouse-logo-full3.svg" alt="Nouse logo">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="header-banner">
+                                {% if date() < date("22 March 2019 00:00:00") %}
+                                    {# TPP Advertising feature #}
+                                    <a href="https://tpp-careers.com" target="_blank"><img src="https://nouse.ams3.cdn.digitaloceanspaces.com/site-assets/advertising/tpp-march-2019/1837%20TPP%20Online%20ad%20-%20York%20728x90px.jpg" class="img-responsive" alt="TPP Advert"></a>
+                                {% elseif date() < date("24 February 2019 00:00:00") %}
+                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/yusu-elections-2019"><img src="https://nouse.ams3.cdn.digitaloceanspaces.com/site-assets/headerImages/customThemes/YUSUElections/elections2019-header.jpg" class="img-responsive" alt=""></a>
+                                {% else %}
+                                 <a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/advertising.php"><img src="{{ CONFIG.ROOTFRONTENDURL }}/common/assets/adTemplates/728x90.jpg" class="img-responsive" alt=""></a>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        {% endif %}
-        <nav class="navbar navbar-mobile navbar-custom navbar-sticky menu-bar-bottom bootsnav" id="primaryNav"
-        {% if pageConfig.MENUColor %}
-                style="background-color: #{{ pageConfig.MENUColor.backgroundColor }}; color: #{{ pageConfig.MENUColor.backgroundColorContrast }};"
-        {% endif %}>
-            <div class="container" style="background-color: inherit;">
-                <div class="attr-nav">
-                    <ul>
-                        <li id="btn-search1"><a href="javascript:void(0)" id="btn-search2"><i class="fa fa-search"></i></a></li>
-                    </ul>
-                </div>
-                <!-- End Atribute Navigation -->
-                <!-- Start Header Navigation -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu" style="background-color: inherit; color:inherit;">
-                        <i class="fa fa-bars"></i>
-                    </button>
-                    <a class="navbar-brand"  style="margin-top: 15px;" href="{{ CONFIG.ROOTFRONTENDURL }}"><img style="margin-top: 8px;" id="mobileLogoHeader" src="{{CONFIG.FILESTOREURL}}/site-assets/logo/nouse-logo-full3{{ pageConfig.MENUColor.backgroundColorContrast == "ffffff" ? "-white" : "" }}.svg" class="logo" alt="Nouse Logo"></a>
-                </div>
-                <!-- End Header Navigation -->
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="navbar-menu" style="background-color: inherit; color: inherit;">
-                    <ul class="nav navbar-nav" data-in="navFadeInDown" data-out="navFadeOutUp">
-                        {% if pageConfig.MENUSub %}
-                            {# This is basically to allow MUSE to have its sub categories shown instead of main menu #}
-                            <li><a href="{{ CONFIG.ROOTFRONTENDURL }}"><i class="fa fa-home"></i></a></li>
-                            {% for category in CATEGORIES[pageConfig.MENUSub].SUB %}
-                                {% if category.SUB|length < 1 or category.categories_showSub != 1 %}
-                                    <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ CATEGORIES[pageConfig.MENUSub].categories_name }}/{{ category.categories_name }}">{{ category.categories_displayName }}</a></li>
-                                {% else %}
+            {% endif %}
+            <nav class="navbar navbar-mobile navbar-custom navbar-sticky menu-bar-bottom bootsnav" id="primaryNav"
+            {% if pageConfig.MENUColor %}
+                    style="background-color: #{{ pageConfig.MENUColor.backgroundColor }}; color: #{{ pageConfig.MENUColor.backgroundColorContrast }};"
+            {% endif %}>
+                <div class="container" style="background-color: inherit;">
+                    <div class="attr-nav">
+                        <ul>
+                            <li id="btn-search1"><a href="javascript:void(0)" id="btn-search2"><i class="fa fa-search"></i></a></li>
+                        </ul>
+                    </div>
+                    <!-- End Atribute Navigation -->
+                    <!-- Start Header Navigation -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu" style="background-color: inherit; color:inherit;">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <a class="navbar-brand"  style="margin-top: 15px;" href="{{ CONFIG.ROOTFRONTENDURL }}"><img style="margin-top: 8px;" id="mobileLogoHeader" src="{{CONFIG.FILESTOREURL}}/site-assets/logo/nouse-logo-full3{{ pageConfig.MENUColor.backgroundColorContrast == "ffffff" ? "-white" : "" }}.svg" class="logo" alt="Nouse Logo"></a>
+                    </div>
+                    <!-- End Header Navigation -->
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="navbar-menu" style="background-color: inherit; color: inherit;">
+                        <ul class="nav navbar-nav" data-in="navFadeInDown" data-out="navFadeOutUp">
+                            {% if pageConfig.MENUSub %}
+                                {# This is basically to allow MUSE to have its sub categories shown instead of main menu #}
+                                <li><a href="{{ CONFIG.ROOTFRONTENDURL }}"><i class="fa fa-home"></i></a></li>
+                                {% for category in CATEGORIES[pageConfig.MENUSub].SUB %}
+                                    {% if category.SUB|length < 1 or category.categories_showSub != 1 %}
+                                        <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ CATEGORIES[pageConfig.MENUSub].categories_name }}/{{ category.categories_name }}">{{ category.categories_displayName }}</a></li>
+                                    {% else %}
+                                        <li class="dropdown active">
+                                            <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ CATEGORIES[pageConfig.MENUSub].categories_name }}/{{ category.categories_name }}"  style="color: inherit;" class="dropdown-toggle">{{ category.categories_displayName }}</a>
+                                            <ul class="dropdown-menu">
+                                                {% for subCategory in category.SUB if subCategory.categories_showMenu == 1 %}
+                                                    <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ CATEGORIES[pageConfig.MENUSub].categories_name }}/{{ category.categories_name }}/{{ subCategory.categories_name }}">{{ subCategory.categories_displayName }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                {% for category in CATEGORIES if category.categories_showMenu == 1 %}
+                                    {% if category.SUB|length < 1 or category.categories_showSub != 1 %}
+                                    <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ category.categories_name }}">{{ category.categories_displayName }}</a></li>
+                                    {% else %}
                                     <li class="dropdown active">
-                                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ CATEGORIES[pageConfig.MENUSub].categories_name }}/{{ category.categories_name }}"  style="color: inherit;" class="dropdown-toggle">{{ category.categories_displayName }}</a>
+                                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ category.categories_name }}"  style="color: inherit;" class="dropdown-toggle">{{ category.categories_displayName }}</a>
                                         <ul class="dropdown-menu">
                                             {% for subCategory in category.SUB if subCategory.categories_showMenu == 1 %}
-                                                <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ CATEGORIES[pageConfig.MENUSub].categories_name }}/{{ category.categories_name }}/{{ subCategory.categories_name }}">{{ subCategory.categories_displayName }}</a></li>
+                                                {% if subCategory.SUB|length < 1 %}
+                                                <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ category.categories_name }}/{{ subCategory.categories_name }}">{{ subCategory.categories_displayName }}</a></li>
+                                                {% else %}
+                                                <li class="dropdown">
+                                                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ category.categories_name }}/{{ subCategory.categories_name }}" class="dropdown-toggle">{{ subCategory.categories_displayName }}</a>
+                                                    <ul class="dropdown-menu">
+                                                        {% for subSubCategory in subCategory.SUB if subSubCategory.categories_showMenu == 1 %}
+                                                        <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ category.categories_name }}/{{ subCategory.categories_name }}/{{ subSubCategory.categories_name }}">{{ subSubCategory.categories_displayName }}</a></li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>
+                                                {% endif %}
+
                                             {% endfor %}
                                         </ul>
                                     </li>
-                                {% endif %}
-                            {% endfor %}
-                        {% else %}
-                            {% for category in CATEGORIES if category.categories_showMenu == 1 %}
-                                {% if category.SUB|length < 1 or category.categories_showSub != 1 %}
-                                <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ category.categories_name }}">{{ category.categories_displayName }}</a></li>
-                                {% else %}
-                                <li class="dropdown active">
-                                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ category.categories_name }}"  style="color: inherit;" class="dropdown-toggle">{{ category.categories_displayName }}</a>
-                                    <ul class="dropdown-menu">
-                                        {% for subCategory in category.SUB if subCategory.categories_showMenu == 1 %}
-                                            {% if subCategory.SUB|length < 1 %}
-                                            <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ category.categories_name }}/{{ subCategory.categories_name }}">{{ subCategory.categories_displayName }}</a></li>
-                                            {% else %}
-                                            <li class="dropdown">
-                                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ category.categories_name }}/{{ subCategory.categories_name }}" class="dropdown-toggle">{{ subCategory.categories_displayName }}</a>
-                                                <ul class="dropdown-menu">
-                                                    {% for subSubCategory in subCategory.SUB if subSubCategory.categories_showMenu == 1 %}
-                                                    <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ category.categories_name }}/{{ subCategory.categories_name }}/{{ subSubCategory.categories_name }}">{{ subSubCategory.categories_displayName }}</a></li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </li>
-                                            {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div>
+            </nav>
+            <div class="clearfix" style="{{ pageConfig.MENUColor is not defined or pageConfig.MENUColor.backgroundColor == "ffffff" ? "border-top: 1px solid #eaeaea" : "" }}"></div>
+            <!-- /.End of navigation -->
+            <div class="search">
+                <button id="btn-search-close" class="btn btn--search-close" aria-label="Close search form"> <i class="fa fa-times"></i></button>
+                <form class="search__form" action="javascript:void(0)" method="post">
+                    <input class="search__input" autocomplete="off" id="searchBox" name="search" type="search" placeholder="Search {{ totalArticlesCountForSearch|number_format }} articles..."/>
+                    <span class="search__info">Hit enter to search or ESC to close</span>
+                </form>
+                <div class="search__related" id="searchSuggestions">
 
-                                        {% endfor %}
-                                    </ul>
-                                </li>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    </ul>
-                </div><!-- /.navbar-collapse -->
+                </div>
             </div>
-        </nav>
-        <div class="clearfix" style="{{ pageConfig.MENUColor is not defined or pageConfig.MENUColor.backgroundColor == "ffffff" ? "border-top: 1px solid #eaeaea" : "" }}"></div>
-        <!-- /.End of navigation -->
-        <div class="search">
-            <button id="btn-search-close" class="btn btn--search-close" aria-label="Close search form"> <i class="fa fa-times"></i></button>
-            <form class="search__form" action="javascript:void(0)" method="post">
-                <input class="search__input" autocomplete="off" id="searchBox" name="search" type="search" placeholder="Search {{ totalArticlesCountForSearch|number_format }} articles..."/>
-                <span class="search__info">Hit enter to search or ESC to close</span>
-            </form>
-            <div class="search__related" id="searchSuggestions">
-
-            </div>
-        </div>
+        {% endif %}
         {% block prePageContent %}
         {% endblock %}
 

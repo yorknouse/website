@@ -159,18 +159,45 @@
     </div>
 {% endif %}
 {% endblock %}
-
+{#
+    Article Types
+            {
+                text: 'Text Article',
+                value: 6,
+            },
+            {
+                text: 'Gallery',
+                value: '2',
+            },
+            {
+                text: 'Video article',
+                value: '3'
+            },
+            {
+                text: 'LiveBlog Pro article',
+                value: '4',
+            },
+            {
+                text: "Print Edition",
+                value: '5',
+            },
+            {
+                text: 'HTML article',
+                value: '1',
+                group: 'Legacy',
+            }
+#}
 {% block content %}
     <div class="container">
     <div class="row">
         <main class="
-            {% if POST.articles_type == 2 %}
+            {% if POST.articles_type == 2 %} {#gallery#}
             col-sm-12
              {% else %}
              col-sm-8 col-md-9
              {% endif %}content p_r_40">
 
-            {% if POST.articles_type != 5 %}
+            {% if POST.articles_type != 5 %} {#details at top of article#}
             <div class="details-body">
                 <div class="post_details stickydetails">
                     <header class="details-header">
@@ -193,7 +220,7 @@
                                 <span class="comment-link"><a href="#comments"><i class="fa fa-comment-o" aria-hidden="true"></i>{{ POST.COMMENTCOUNT }} Comment{{ POST.COMMENTCOUNT != 1 ? "s" : "" }}</a></span>
                                 {% endif %}
                                 {% for author in POST.articles_authors %}
-                                    <span class="comment-link"><a href="{{ CONFIG.ROOTFRONTENDURL }}/author/?a={{ author.users_userid }}">{{ author.users_name1 }} {{ author.users_name2 }}</a></span>
+                                    <span class="comment-link"><a href="{{ CONFIG.ROOTFRONTENDURL }}/author/?a={{ author.users_userid }}" style="color: #002646;">{{ author.users_name1 }} {{ author.users_name2 }}</a></span>
                                 {% endfor %}
                             </div>
                             <!--<div class="reading-time"><span class="eta"></span> ({{ POST.articlesDrafts_text|split(' ')|length }} words)</div>-->
@@ -257,6 +284,24 @@
                             {% endfor %}
                         </div>
                     </div>
+                    {% elseif POST.articles_type == 6 %}
+                        <style>
+                            #articleText img {
+                                width: 100%;
+                            }
+                            #articleText {
+                                width: 100%;
+                            }
+                        </style>
+                        {% if POST.articles_id|articleThumbnail != null and POST.articlesDrafts_thumbnailCredit != null %}
+                            <img src="{{ POST.articles_id|articleThumbnail }}" style="width: 100%;" alt="Article Thumbnail">
+                            <div style="width: 100%; text-align: right;"><p>Image Credit: {{ POST.articlesDrafts_thumbnailCredit|raw }}</p></div>
+                        {% endif %}
+                        <div id="articleText">
+                            {{ POST.articlesDrafts_text|raw }}
+                        </div>
+                    {% elseif POST.articles_type == 4 %}
+                        {{ POST.articlesDrafts_text|raw }}
                     {% endif %}
                 </div>
                 <!-- /.End of post details -->
@@ -288,7 +333,7 @@
                         {% endif %}
 
                         <div class="author-info">
-                        <h4 class="author-name">{{ author.users_name1 }} {{ author.users_name2 }}</h4>
+                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/author/?a={{ author.users_userid }}"><h4 class="author-name">{{ author.users_name1 }} {{ author.users_name2 }}</h4></a>
                         {% for position in author.POSITIONS %}
                             <b>{{ (position.userPositions_displayName == null ? position.positions_displayName : position.userPositions_displayName) }}</b> (
                             <i class="fa fa-calendar-o" aria-hidden="true"></i>
@@ -299,7 +344,7 @@
                             {% endif %}
                             )<br/>
                         {% endfor %}
-                        <p>{{ author.users_bio|replace({"\n":"<br/>"})|raw }}</p>
+                        <p>{{ author.users_bio|replace({"\n":"<br/>"}) }}</p>
 
                         <p>
                         {% if author.users_social_facebook != null %}

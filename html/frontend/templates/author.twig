@@ -12,7 +12,7 @@
                         <img src="{{ pageConfig.USER.IMAGE }}" class="img-responsive center-block" alt="{{ pageConfig.USER.users_name1 }} {{ pageConfig.USER.users_name2 }}">
                     </figure>
                     {% endif %}
-                    <p>{{ pageConfig.USER.users_bio|replace({"\n":"<br/>"})|raw }}</p>
+                    <p>{{ pageConfig.USER.users_bio|replace({"\n":"<br/>"}) }}</p>
                     <p><em>{{ pageConfig.USER.users_name1 }}</em> has written {{ pageConfig.USER.ARTICLECOUNT }} article{{ (pageConfig.USER.ARTICLECOUNT != 1 ? "s" : "") }} for Nouse</p>
                     {% if pageConfig.USER.users_social_facebook != null %}
                         <a href="https://facebook.com/{{ pageConfig.USER.users_social_facebook }}" class="btn link-btn btn-rounded" style="margin: 5px;"><i class="fa fa-facebook"></i> Facebook</a>

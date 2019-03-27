@@ -54,6 +54,9 @@ $articleDraftsData = [
     "articlesDrafts_text" => $bCMS->cleanString($_POST['text'])
 ];
 
+if (isset($_POST['markdown'])) $articleDraftsData['articlesDrafts_markdown'] = $bCMS->cleanString($_POST['markdown']);
+if (isset($_POST['thumbCredit'])) $articleDraftsData['articlesDrafts_thumbnailCredit'] = $bCMS->cleanString($_POST['thumbCredit']);
+
 if ($bCMS->sanitizeString($_POST['type']) == "2") {
     //Gallery
     $imagesList = explode(",", $bCMS->cleanString($_POST['text']));

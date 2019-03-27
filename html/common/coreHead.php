@@ -32,21 +32,21 @@ register_shutdown_function('errorHandler');
 
 //Content security policy - BACKEND HAS A DIFFERENT ONE SO LOOK OUT FOR THAT
 header("Content-Security-Policy: default-src 'none';" .
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.pubnub.com https://cdnjs.cloudflare.com https://platform.twitter.com https://www.googletagmanager.com https://www.google-analytics.com https://cdn.syndication.twimg.com https://connect.facebook.net https://*.google.com https://*.google.co.uk https://www.gstatic.com https://*.googlesyndication.com https://www.googletagservices.com;" .
-    //          We have laods of inline JS              Live sockets         Libs                        Twitter embedd              Google webmaster tools                    Google analytics                  Twitter pictures for embedd   Facebook share           Recapatcha +adsense          Google adsense                                                     Google analytics etc
-    "style-src 'unsafe-inline' 'self' https://*.twimg.com https://platform.twitter.com https://cdnjs.cloudflare.com https://fonts.googleapis.com;" .
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.pubnub.com https://cdnjs.cloudflare.com https://platform.twitter.com https://www.googletagmanager.com https://www.google-analytics.com https://cdn.syndication.twimg.com https://connect.facebook.net https://*.google.com https://*.google.co.uk https://www.gstatic.com https://*.googlesyndication.com https://www.googletagservices.com  http://*.liveblogpro.com https://*.liveblogpro.com https://platform.vine.co;".
+    //          We have laods of inline JS              Live sockets         Libs                        Twitter embedd              Google webmaster tools                    Google analytics                  Twitter pictures for embedd   Facebook share           Recapatcha +adsense          Google adsense                                                     Google analytics etc                        Liveblog pro                                Liveblog pro
+    "style-src 'unsafe-inline' 'self' https://*.twimg.com https://platform.twitter.com https://cdnjs.cloudflare.com https://fonts.googleapis.com;".
     //          We have loads of inline CSS  Twitter pics                             Live chat supports             Libs                        GFonts
     "font-src https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com;" .
     //          Loading in google fonts     more gfonts                 Fonts from libs like fontawesome
     "manifest-src 'self' https://*.digitaloceanspaces.com;" .
     //          Show images on mobile devices like favicons
-    "img-src 'self' data: blob: https://cdnjs.cloudflare.com https://*.digitaloceanspaces.com https://*.twitter.com https://*.twimg.com https://www.google-analytics.com https://*.googlesyndication.com https://www.googletagmanager.com https://i2.wp.com;" .
-    //                    Uploads    Images from libs                 Images                             Twitter embedd      More twitter          Google analytics                                                                          User icons fallback
-    "connect-src 'self' https://*.digitaloceanspaces.com https://*.pndsn.com https://sentry.io https://www.google-analytics.com https://*.gstatic.com;" .
+    "img-src 'self' data: blob: https://cdnjs.cloudflare.com https://*.digitaloceanspaces.com https://*.twitter.com https://*.twimg.com https://www.google-analytics.com https://*.googlesyndication.com https://www.googletagmanager.com https://i2.wp.com             http://*.liveblogpro.com https://*.liveblogpro.com;".
+    //                    Uploads    Images from libs                 Images                             Twitter embedd      More twitter          Google analytics                                                                          User icons fallback            Liveblog pro
+    "connect-src 'self' https://*.digitaloceanspaces.com https://*.pndsn.com https://sentry.io https://www.google-analytics.com https://*.gstatic.com;".
     //                  File uploads                    Pubnub sockets          Error reporting     Google analytics
-    "frame-src https://*.twitter.com https://staticxx.facebook.com https://www.google.com https://googleads.g.doubleclick.net https://e.issuu.com;" .
-    //          Embedding twitter feed   Facebook feed              embedded maps               Google adsense                  Embedd editions
-    "object-src 'self' blob:;" .
+    "frame-src https://*.twitter.com https://staticxx.facebook.com https://www.google.com https://googleads.g.doubleclick.net https://e.issuu.com http://*.liveblogpro.com https://*.liveblogpro.com https://twitter.com;".
+    //          Embedding twitter feed   Facebook feed              embedded maps               Google adsense                  Embedd editions         LiveBlog pro                                    Live blog pro
+    "object-src 'self' blob:;".
     //          Inline PDFs generated by the system
     "worker-src 'self' blob:;" .
     //          Use of camera
@@ -61,13 +61,17 @@ $DBLIB = new MysqliDb ($CONN); //Re-use it in the wierd lib we love
 
 
 /* FUNCTIONS */
-
-class bCMS
-{
-    private $cloudflare = false;
-
-    function randomString($length = 10, $stringonly = false)
-    { //Generate a random string
+class bCMS {
+    function sanitizeString($var) {
+        //Setup Sanitize String Function
+        $var = strip_tags($var);
+        //$var = htmlentities($var);
+        //$var = stripslashes($var);
+        //global $CONN;
+        //return mysqli_real_escape_string($CONN, $var);
+        return $var;
+    }
+    function randomString($length = 10, $stringonly = false) { //Generate a random string
         $characters = 'abcdefghkmnopqrstuvwxyzABCDEFGHKMNOPQRSTUVWXYZ';
         if (!$stringonly) $characters .= '0123456789';
         $charactersLength = strlen($characters);
