@@ -134,23 +134,28 @@
                     bootbox.prompt({
                         title: "Choose a type of article",
                         inputType: 'select',
+                        value: 6,
                         inputOptions: [
                             {
-                                text: 'Text article',
-                                value: '1',
+                                text: 'Text Article',
+                                value: 6,
                             },
                             {
                                 text: 'Gallery',
                                 value: '2',
                             },
                             {
+                                text: 'liveblogpro article',
+                                value: '4',
+                            },
+                            {
                                 text: "Print Edition",
                                 value: '5',
                             },
                             {
-                                text: 'Live article',
-                                value: '4',
-                                group: 'Coming soon',
+                                text: 'HTML article',
+                                value: '1',
+                                group: 'Legacy',
                             },
                             {
                                 text: 'Video article',
@@ -166,8 +171,14 @@
                                 case '2':
                                     window.location.href = "{{ CONFIG.ROOTBACKENDURL }}/article.php?new&type=2";
                                     break;
+                                case '4':
+                                    window.location.href = "{{ CONFIG.ROOTBACKENDURL }}/article.php?new&type=4";
+                                    break;
                                 case '5':
                                     window.location.href = "{{ CONFIG.ROOTBACKENDURL }}/article.php?new&type=5";
+                                    break;
+                                case '6':
+                                    window.location.href = "{{ CONFIG.ROOTBACKENDURL }}/article.php?new&type=6";
                                     break;
                             }
                         }
