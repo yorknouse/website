@@ -22,7 +22,7 @@ _This might be needed to move between different hositng providers etc, but shoul
 - Install MySQL etc. and copy the db
 - Create a MySQL user 
 ```mysql
-CREATE USER 'nouseProd'@'%' IDENTIFIED BY 'aGTIFCgiIJQ4PA34awBxlHD';
+CREATE USER 'nouseProd'@'%' IDENTIFIED BY '';
 GRANT DELETE ON nouseProd . * TO 'nouseProd'@'%';
 GRANT INSERT ON nouseProd . * TO 'nouseProd'@'%';
 GRANT SELECT ON nouseProd . * TO 'nouseProd'@'%';

@@ -32,6 +32,7 @@ $CONFIG = array(
     "CLOUDFLARE" => ['EMAIL' => getenv('bCMS__CLOUDFLARE_EMAIL'), 'KEY' => getenv('bCMS__CLOUDFLARE_SECRET')],
     "IFTTT" => getenv('bCMS__IFTTT'),
     "GOOGLE" => ["AUTH" => ["CLIENT" => getenv('bCMS__OAUTHCLIENT'),  "SECRET" => getenv('bCMS__OAUTHSECRET')]],
+    "APPLE" => ["NEWS" => ["CHANNEL" => getenv('bCMS__APPLENEWSCHANNEL'), "KEY" => getenv('bCMS__APPLENEWSKEY'), "SECRET" => getenv('bCMS__APPLENEWSSECRET')]],
     'VERSION' => ['COMMIT' => exec("cd " . __DIR__ . "/../../ && git log --pretty=\"%h\" -n1 HEAD"), 'TAG' => exec("cd " . __DIR__ . "/../../ && git describe --tags --abbrev=0"), "COMMITFULL" => exec("cd " . __DIR__ . "/../../ && git log --pretty=\"%H\" -n1 HEAD")],
 );
 if ($CONFIG['VERSION']['COMMIT'] == null) $CONFIG['VERSION']['COMMIT'] = 'DEV';

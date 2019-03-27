@@ -39,4 +39,8 @@ putenv('bCMS__GoogleAnalyticsBackend=');
 putenv('bCMS__OAUTHCLIENT=');
 putenv('bCMS__OAUTHSECRET=');
 
+putenv('bCMS__APPLENEWSKEY=');
+putenv('bCMS__APPLENEWSSECRET=');
+putenv('bCMS__APPLENEWSCHANNEL=');
+
 ?>
