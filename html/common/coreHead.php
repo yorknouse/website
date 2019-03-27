@@ -640,9 +640,10 @@ class bCMS {
             if ($article['articlesDrafts_thumbnailCredit'] != null) {
                 array_push($coreData["components"],[
                     "role" => "body",
-                    "layout"=> "captionLayout",
                     "text"=>    "Thumbnail Credit: " . $article['articlesDrafts_thumbnailCredit'],
-                    "textStyle" => "captionStyle"
+                    "layout" => "bodyLayout",
+                    "format"=> "html",
+                    "textStyle" => "bodyStyle"
                 ]);
             }
         }
