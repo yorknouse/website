@@ -457,9 +457,11 @@ class bCMS {
             "https://news-api.apple.com"
         );
 
-        $DBLIB->where("users_deleted != 1");
-        $DBLIB->where("users_userid IN (" . $article['articles_authors'] . ")");
-        $article['authors'] = $DBLIB->get("users", null, ["users_name1", "users_name2"]);
+        if (strlen($article['articles_authors']) > 0) {
+            $DBLIB->where("users_deleted != 1");
+            $DBLIB->where("users_userid IN (" . $article['articles_authors'] . ")");
+            $article['authors'] = $DBLIB->get("users", null, ["users_name1", "users_name2"]);
+        } else $article['authors'] = null;
 
         $authorString = "";
         foreach ($article['authors'] as $key=>$user) {
