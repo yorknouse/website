@@ -497,40 +497,6 @@ class bCMS {
             "identifier" => "nouse-" . $article['articles_id'],
             "title" => $article['articlesDrafts_headline'],
             "language" => "en-GB",
-            "components" => [
-                [
-                    "role" => "header",
-                    "layout" => "headerImageLayout",
-                    "style" =>
-                        ["fill" =>
-                            [
-                                "type" => "image",
-                                "URL" => $this->articleThumbnail($article['articles_id']),
-                                "fillMode" => "cover",
-                                "verticalAlignment" => "center"
-                            ]
-                        ]
-                ],
-                [
-                    "role" => "title",
-                    "layout"=> "titleLayout",
-                    "text"=>$article['articlesDrafts_headline'],
-                    "textStyle" => "titleStyle"
-                ],
-                [
-                    "role" => "intro",
-                    "layout"=> "introLayout",
-                    "text"=>$article['articlesDrafts_excerpt'],
-                    "textStyle" => "introStyle"
-                ],
-                [
-                    "role" => "author",
-                    "layout"=> "authorLayout",
-                    "text"=>    $authorString . " | " . date("l d M y", strtotime($article["articles_published"])),
-                    "textStyle" => "authorStyle"
-                ]
-
-            ],
             "componentTextStyles" => [
                 "default-title" => [
 
@@ -652,6 +618,48 @@ class bCMS {
             ]
         ];
 
+        $coreData["components"] = [];
+
+        if ($this->articleThumbnail($article['articles_id'])) {
+            array_push($coreData["components"],[
+                "role" => "header",
+                "layout" => "headerImageLayout",
+                "style" =>
+                    ["fill" =>
+                        [
+                            "type" => "image",
+                            "URL" => $this->articleThumbnail($article['articles_id']),
+                            "fillMode" => "cover",
+                            "verticalAlignment" => "center"
+                        ]
+                    ]
+            ]);
+            if ($article['articlesDrafts_thumbnailCredit'] != null) {
+                array_push($coreData["components"],[
+                    "role" => "body",
+                    "layout"=> "captionLayout",
+                    "text"=>    "Thumbnail Credit: " . $article['articlesDrafts_thumbnailCredit'],
+                    "textStyle" => "captionStyle"
+                ]);
+            }
+        }
+
+        array_push($coreData["components"],[
+            "role" => "title",
+            "layout"=> "titleLayout",
+            "text"=>$article['articlesDrafts_headline'],
+            "textStyle" => "titleStyle"
+        ],[
+            "role" => "intro",
+            "layout"=> "introLayout",
+            "text"=>$article['articlesDrafts_excerpt'],
+            "textStyle" => "introStyle"
+        ],[
+            "role" => "author",
+            "layout"=> "authorLayout",
+            "text"=>    $authorString . " | " . date("l d M y", strtotime($article["articles_published"])),
+            "textStyle" => "authorStyle"
+        ]);
         foreach ($this->htmlToAppleNews($article['articlesDrafts_text']) as $draftPoint) {
             $coreData['components'][] = $draftPoint;
         }
