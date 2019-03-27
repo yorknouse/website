@@ -28,7 +28,7 @@ if (isset($_GET['a'])) {
 $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
 $DBLIB->where("articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
 $PAGEDATA['articles'] = [];
-$articles = $DBLIB->get("articles", [$DBLIB->pageLimit*($page-1),$DBLIB->pageLimit*$page], ["articles.articles_appleNewsID", "articles.articles_categories","articles.articles_slug", "articles.articles_authors", "articles.articles_published", "articles.articles_updated", "articles.articles_showInSearch", "articles.articles_showInLists","articles.articles_id","articles.articles_published", "articlesDrafts.articlesDrafts_headline"]);
+$articles = $DBLIB->get("articles", [$DBLIB->pageLimit*($page-1),$DBLIB->pageLimit*$page], ["articles.articles_appleNewsID", "articles.articles_appleNewsShareLink","articles.articles_categories","articles.articles_slug", "articles.articles_authors", "articles.articles_published", "articles.articles_updated", "articles.articles_showInSearch", "articles.articles_showInLists","articles.articles_id","articles.articles_published", "articlesDrafts.articlesDrafts_headline"]);
 $DBLIB->where("articles_showInAdmin", 1); //ie those that can actually be shown
 $PAGEDATA['pagination'] = ["page" => $page, "total" => $DBLIB->getValue("articles", "COUNT(*)")];
 foreach ($articles as $article) {
