@@ -769,10 +769,12 @@ class bCMS {
                 'article_id' => $article['articles_appleNewsID']
             ]
         );
-        $DBLIB->where("articles.articles_id", $article['articles_id']);
-        $articleRemoveAppleNews = $DBLIB->update("articles", ["articles_appleNewsID"=>null,"articles_appleNewsShareLink"=>null]);
-        if ($articleRemoveAppleNews) return true;
-        else return false;
+        if ($deleteResponse == "") {
+            $DBLIB->where("articles.articles_id", $article['articles_id']);
+            $articleRemoveAppleNews = $DBLIB->update("articles", ["articles_appleNewsID"=>null,"articles_appleNewsShareLink"=>null]);
+            if ($articleRemoveAppleNews) return true;
+            else return false;
+        } else return false;
     }
 }
 
