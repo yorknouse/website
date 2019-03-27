@@ -465,8 +465,8 @@ class bCMS {
 
         $authorString = "";
         foreach ($article['authors'] as $key=>$user) {
-            $authorString .= $user["users_name1"] . " " . $user["users_name2"];
             if ($key > 0) $authorString .= " & ";
+            $authorString .= $user["users_name1"] . " " . $user["users_name2"];
         }
 
 
