@@ -243,7 +243,8 @@
                             $image.attr('alt', '');
                         });
                         {% elseif article.articles_type == 6 %}
-                            editor.setMarkdown(content + "\n\n" + '![' + responseJson.id + '](' + urlLarge.replace(/ /g, "%20") + ')', true)
+                            var currentEditorContent = editor.getMarkdown();
+                            editor.setMarkdown(currentEditorContent + "\n\n" + '![' + responseJson.id + '](' + urlLarge.replace(/ /g, "%20") + ')', true)
                         {% endif %}
                     {% endblock %}
                 {% endembed %}
