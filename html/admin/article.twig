@@ -477,6 +477,16 @@
             editor.eventManager.listen('saveEvent', function() {
                 saveArticle();
             });
+            editor.eventManager.listen('pasteBefore', function(event) {
+                var html = event.$clipboardContainer.html();
+                var doc = new DOMParser().parseFromString(html, 'text/html');
+                doc.querySelectorAll('span').forEach(function(el) {
+                    el.outerHTML = el.textContent;
+                });
+                html = doc.body;
+                console.log(html)
+                event.$clipboardContainer.html(html.outerHTML);
+            });
         </script>
     </div>
     {% elseif article.articles_type == 2 %}
