@@ -244,6 +244,9 @@
                         });
                         {% elseif article.articles_type == 6 %}
                             var currentEditorContent = editor.getMarkdown();
+                            if (currentEditorContent.length < 1) {
+                                editor.setMarkdown("   ");
+                            }
                             editor.setMarkdown(currentEditorContent + "\n\n" + '![' + responseJson.id + '](' + urlLarge.replace(/ /g, "%20") + ')', true)
                         {% endif %}
                     {% endblock %}
