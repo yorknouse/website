@@ -146,13 +146,13 @@
 												$('#position{{ position.userPositions_id }}Start').datetimepicker({
 													date: "{{ position.userPositions_start }}",
 													locale: "en-gb",
-													format: "D MMM YYYY h:mm:ss a"
+													format: "D MMM YYYY"
 												});
 												$('#position{{ position.userPositions_id }}End').datetimepicker({
 													useCurrent: false, //Important! See issue #1075
 													date: "{{ position.userPositions_end }}",
 													locale: "en-gb",
-													format: "D MMM YYYY h:mm:ss a"
+													format: "D MMM YYYY"
 												});
 												$("#position{{ position.userPositions_id }}Start").on("dp.change", function (e) {
 													$('#position{{ position.userPositions_id }}End').data("DateTimePicker").minDate(e.date);
@@ -213,12 +213,12 @@
 								$(function () {
 									$('#newPositionStart').datetimepicker({
 										locale: "en-gb",
-										format: "D MMM YYYY h:mm:ss a"
+										format: "D MMM YYYY"
 									});
 									$('#newPositionEnd').datetimepicker({
 										useCurrent: false, //Important! See issue #1075
 										locale: "en-gb",
-										format: "D MMM YYYY h:mm:ss a"
+										format: "D MMM YYYY"
 									});
 									$("#newPositionStart").on("dp.change", function (e) {
 										$('#newPositionEnd').data("DateTimePicker").minDate(e.date);
@@ -249,8 +249,8 @@
 										"users_userid":"{{ USER.users_userid }}",
 										"userPositions_id":$(this).data("positionid"),
 										"positions_id":$(this).closest('tr').find('.positionID').val(),
-										"userPositions_start":$(this).closest('tr').find('.positionStart').val(),
-										"userPositions_end":$(this).closest('tr').find('.positionEnd').val(),
+										"userPositions_start":$(this).closest('tr').find('.positionStart').val() + " 00:00:00",
+										"userPositions_end":$(this).closest('tr').find('.positionEnd').val() + " 00:00:00",
 										"userPositions_show":($(this).closest('tr').find('.positionPublic').is(':checked') ? 1 : 0),
 										"action":"EDIT"
 									},
