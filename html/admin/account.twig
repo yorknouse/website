@@ -93,6 +93,46 @@
 			<div class="box">
 				<div class="box-header with-border">
 					<h3 class="box-title">Positions</h3>
+					<div class="box-tools pull-right">
+						<button type="button"
+								class="btn btn-box-tool leavetoday"
+								title="End all Positions today">
+							<i class="fa fa-hourglass-end"></i></button>
+					</div>
+
+					<script>
+						$(document).ready(function () {
+							{% if 13|permissions %}
+							$('.leavetoday').click(function() {
+								bootbox.confirm("Are you sure you want to end all this users positions today?", function(result){
+									if (result) {
+										$("#loadingoverlay").show();
+										$.ajax({
+											url: '{{CONFIG.ROOTBACKENDURL}}/api/account/permissions.php',
+											data: {
+												"users_userid": "{{ USER.users_userid }}",
+												"action":"ENDAll",
+												"userPositions_id": ""
+											},
+											type: "POST",
+											success: function (result) {
+												if (result.result) {
+													location.reload();
+												} else {
+													bootbox.alert('Error - Could not change permissions - Please try again!', function() {
+														location.reload();
+													});
+												}
+											}
+										});
+									}
+								});
+
+
+							});
+							{% endif %}
+						});
+					</script>
 				</div>
 				<div class="box-body no-padding">
 					<table class="table" border="0" style="overflow-x: scroll;">
