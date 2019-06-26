@@ -39,10 +39,12 @@ if ($_POST['action'] == "DELETE") {
 } elseif ($_POST['action'] == "ENDAll") {
     $DBLIB->where("users_userid", $bCMS->sanitizeString($_POST["users_userid"]));
     $DBLIB->where("userPositions_end > '" . date("Y-m-d H:i:s") . "'");
-    if ($DBLIB->update("userPositions", ["userPositions_end" => date("Y-m-d") . " 00:00:00"])) {
-        $bCMS->auditLog("ENDALL", "userPositions", $bCMS->sanitizeString($_POST["userPositions_id"]), $AUTH->data['users_userid'],$bCMS->sanitizeString($_POST["users_userid"]));
-        finish(true);
-    } else finish(false, ["code" => null, "message"=> "End all error"]);
+    foreach ($DBLIB->get("userPositions", null, ["userPositions_start", "userPositions_id"]) as $position) {
+        $DBLIB->where("userPositions_id", $position["userPositions_id"]);
+        $DBLIB->update("userPositions", ["userPositions_start" => $position['userPositions_start'], "userPositions_end" => date("Y-m-d") . " 00:00:00"]);
+    }
+    $bCMS->auditLog("ENDALL", "userPositions", $bCMS->sanitizeString($_POST["userPositions_id"]), $AUTH->data['users_userid'],$bCMS->sanitizeString($_POST["users_userid"]));
+    finish(true);
 } else finish(false, ["code" => null, "message"=> "Attribute action error"]);
 
 ?>
