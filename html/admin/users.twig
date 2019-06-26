@@ -93,6 +93,13 @@
                                                    type="button" title="Edit user" class="btn btn-default"><i
                                                             class="fa fa-pencil"></i></a>
                                             {% endif %}
+                                            {% if 13|permissions %}
+                                                <button type="button"
+                                                        class="btn btn-warning leavetoday"
+                                                        data-userid="{{ user.users_userid }}"
+                                                        title="End all Positions today">
+                                                    <i class="fa fa-hourglass-end"></i></button>
+                                            {% endif %}
                                             {% if 9|permissions %}
                                                 <button type="button"
                                                         class="btn btn-{{ user.users_suspended == '1' ? 'success' : 'danger' }} suspenduser"
@@ -115,6 +122,8 @@
                                                                 class="fa fa-sign-in"></i></button>
                                                 </a>
                                             {% endif %}
+
+
                                         {% endif %}
 
                                     </td>
@@ -267,6 +276,36 @@
                             }
                         }
                     });
+                });
+                {% endif %}
+                {% if 13|permissions %}
+                $('.leavetoday').click(function() {
+                    var userid = $(this).data("userid");
+                    bootbox.confirm("Are you sure you want to end all this users positions today?", function(result){
+                        if (result) {
+                            $("#loadingoverlay").show();
+                            $.ajax({
+                                url: '{{CONFIG.ROOTBACKENDURL}}/api/account/permissions.php',
+                                data: {
+                                    "users_userid": userid,
+                                    "action":"ENDAll",
+                                    "userPositions_id": ""
+                                },
+                                type: "POST",
+                                success: function (result) {
+                                    if (result.result) {
+                                        location.reload();
+                                    } else {
+                                        bootbox.alert('Error - Could not change permissions - Please try again!', function() {
+                                            location.reload();
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+
                 });
                 {% endif %}
             });
