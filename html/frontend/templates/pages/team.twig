@@ -90,23 +90,27 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for user in USERS %}
+                        {% for position in POSITIONS %}
                         <tr>
-                            <td>{% for position in user.POSITIONS if date(position.userPositions_end) > date() %}
-                                    {{ (position.userPositions_displayName == null ? position.positions_displayName : position.userPositions_displayName) }}<br/>
-                                {% endfor %}</td>
-                            <td {{ user.users_googleAppsUsernameNouse|length > 0 ? "" : "colspan='2'" }}>{{ user.users_name1 ~ " " ~ user.users_name2 }}</td>
-
+                            <td>{{ position.positions_displayName }}</td>
+                            <td>
+                                {% for user in position.USERS %}
+                                <a href="{{ CONFIG.ROOTFRONTENDURL ~ "/author/?a=" ~ user.users_userid }}">{{ user.users_name1 ~ " " ~ user.users_name2 }}</a><br/>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                {% for user in position.USERS %}
                                 {% if user.users_googleAppsUsernameNouse|length > 0 %}
-                                <td>
-                                    {{ user.users_googleAppsUsernameNouse }}@nouse.co.uk
-                                </td>
+                                       {{ user.users_googleAppsUsernameNouse }}@nouse.co.uk
                                 {% endif %}
-
+                                    <br/>
+                                {% endfor %}
+                            </td>
                         </tr>
                         {% endfor %}
                         </tbody>
                     </table>
+                    <a href="?g" class="btn btn-default pull-right" style="margin-bottom: 15px;">Grid View</a>
                 {% endif %}
             </main>
         </div>
