@@ -735,12 +735,11 @@ class bCMS {
                     'metadata' => json_encode($metaData, JSON_UNESCAPED_SLASHES), // required
                 ]
             );
-            if ($uploadResponse and $uploadResponse->data) {
+            if ($uploadResponse and $uploadResponse->data and $uploadResponse->data->id) {
                 $DBLIB->where("articles_id", $article['articles_id']);
                 $DBLIB->update("articles", ["articles_appleNewsID" => $uploadResponse->data->id, "articles_appleNewsShareLink" => $uploadResponse->data->shareUrl]);
-            }
-            if ($uploadResponse->data->id) return true;
-            else return false;
+                return true;
+            } else return false;
         }
     }
     public function deleteAppleNews($articleid)
