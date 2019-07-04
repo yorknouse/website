@@ -4,7 +4,7 @@ header("Content-Type: text/plain");
 
 if (!$AUTH->permissionCheck(45)) die("404");
 
-$DBLIB->where ('quickLinks_string', $bCMS->sanitizeString($_GET['slug']));
+$DBLIB->where ('quickLinks_string', $bCMS->sanitizeString($_GET['string']));
 $DBLIB->where ('quickLinks_deleted', 0);
 if ($DBLIB->getValue("quickLinks", "COUNT(*)") > 0) die("TAKEN");
 
