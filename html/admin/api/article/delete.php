@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../apiHeadSecure.php';
 header("Content-Type: text/plain");
 
-if ((!$AUTH->permissionCheck(33) and !isset($_GET['articleid'])) or !is_numeric($_GET['articleid'])) die("404");
+if (!$AUTH->permissionCheck(33) or !isset($_GET['articleid']) or !is_numeric($_GET['articleid'])) die("404");
 
 $bCMS->auditLog("DELETE", "articles", $bCMS->sanitizeString($_GET['articleid']), $AUTH->data['users_userid']);
 
