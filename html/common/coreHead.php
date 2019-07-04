@@ -703,7 +703,7 @@ class bCMS {
                     'article_id' => $article['articles_appleNewsID']
                 ]
             );
-            if ($getArticleData->errors) $getArticleData = false;
+            if (isset($getArticleData->errors)) $getArticleData = false;
         }
         if ($getArticleData) {
             $metaData['data']['revision'] = $getArticleData->data->revision; //This weird thing apple do where they require you to get a special id just before you update it to prevent you accidentally updating someone else's work
