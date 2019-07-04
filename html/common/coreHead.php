@@ -461,8 +461,11 @@ class bCMS {
         );
 
         if (strlen($article['articles_authors']) > 0) {
+            $article['articles_authors'] = explode(",", $article['articles_authors']);
+            $article['articles_authors'] = array_filter($article['articles_authors']); //Remove empty elements caused by weird things happenign to the string in the DB - this is a fix to an odd bug
+
             $DBLIB->where("users_deleted != 1");
-            $DBLIB->where("users_userid IN (" . $article['articles_authors'] . ")");
+            $DBLIB->where("users_userid IN (" . implode(",", $article['articles_authors']) . ")");
             $article['authors'] = $DBLIB->get("users", null, ["users_name1", "users_name2"]);
         } else $article['authors'] = [];
 
