@@ -464,7 +464,7 @@ class bCMS {
             $DBLIB->where("users_deleted != 1");
             $DBLIB->where("users_userid IN (" . $article['articles_authors'] . ")");
             $article['authors'] = $DBLIB->get("users", null, ["users_name1", "users_name2"]);
-        } else $article['authors'] = null;
+        } else $article['authors'] = [];
 
         $authorString = "";
         foreach ($article['authors'] as $key=>$user) {
@@ -483,7 +483,7 @@ class bCMS {
                 "maturityRating" => "GENERAL",
             ],
         ];
-
+        $thisArticleThumbnail = $this->articleThumbnail($article['articles_id']);
         $coreData = [
             'metadata' => [
                 'authors' => [],
@@ -494,7 +494,7 @@ class bCMS {
                 'datePublished' => date("c", strtotime($article["articles_published"])),
                 'excerpt' => $article["articlesDrafts_excerpt"],
                 //'keywords' => '',
-                'thumbnailURL' => $this->articleThumbnail($article['articles_id']), //At least 300x300
+                'thumbnailURL' => ($thisArticleThumbnail ? $thisArticleThumbnail : null), //At least 300x300
             ],
             "version" => "1.7",
             "identifier" => "nouse-" . $article['articles_id'],
@@ -732,7 +732,7 @@ class bCMS {
                     'metadata' => json_encode($metaData, JSON_UNESCAPED_SLASHES), // required
                 ]
             );
-            if ($uploadResponse) {
+            if ($uploadResponse and $uploadResponse->data) {
                 $DBLIB->where("articles_id", $article['articles_id']);
                 $DBLIB->update("articles", ["articles_appleNewsID" => $uploadResponse->data->id, "articles_appleNewsShareLink" => $uploadResponse->data->shareUrl]);
             }
