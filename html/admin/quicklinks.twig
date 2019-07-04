@@ -1,0 +1,195 @@
+{% extends "assets/template.twig" %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        {% if search|length > 0 %}
+                            Search results for links matching <b>{{ search }}</b>
+                        {% else %}
+                            Redirect Links
+                        {% endif %}
+                    </h3>
+                    <div class="box-tools pull-right">
+                        <form class="input-group input-group-sm" style="width: 150px;" method="GET">
+                            <input type="text" name="q" class="form-control pull-right" placeholder="Search" value="{{ search }}" />
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                {% if 45|permissions %}
+                                    <button type="button" title="Add New Link" data-toggle="modal" data-target="#addNewLinkModal" class="btn btn-default"><i class="fa fa-plus"></i></button>
+                                {% endif %}
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                    {% if quickLinks|length > 0 %}
+                        <table class="table sticky-header" border="0" style="overflow-x: scroll;">
+                            <thead>
+                            <tr>
+                                <th>URL</th>
+                                <th>Destination</th>
+                                <th>Notes</th>
+                                <th>Created at</th>
+                                <th>Creator</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for link in quickLinks %}
+                                <tr
+                                        {% if link.quickLinks_deleted == '1' %}
+                                        class="danger"
+                                        {% endif %}>
+                                    <td>{{ CONFIG.ROOTFRONTENDURL }}/{{ link['quickLinks_string'] }}</td>
+                                    <td><a href="{{ link['quickLinks_pointsTo_pretty'] }}" target="_blank">{{ link['quickLinks_pointsTo_pretty'] }}</a></td>
+                                    <td>{{ link["quickLinks_notes"] }}</td>
+                                    <td>{{ link['quickLinks_created'] }}</td>
+                                    <td>{{ link["users_name1"] }} {{ link["users_name2"] }}</td>
+                                    <td>
+                                        {% if 46|permissions and link.quickLinks_deleted != '1' and link.quickLinks_deletable == '1' %}
+                                            <button type="button"
+                                                    class="btn btn-danger deletelink"
+                                                    data-id="{{ link.quickLinks_id }}"
+                                                    title="Delete Link">
+                                                <i class="fa fa-trash"></i></button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <center><p style="margin: 10px;"><i>No results</i><br/><a href="?">Remove any filters</a></p></center>
+                    {% endif %}
+                </div>
+                <div class="overlay" id="loadingoverlay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+                {% if pagination.total > 1 %}
+                <div class="box-footer clearfix">
+                    <ul class="pagination pagination-sm no-margin pull-right">
+                        {% if pagination.page > 1 %}
+                        <li><a href="?{{ {page: (pagination.page -1)}|modifyGet }}">&laquo;</a></li>
+                        {% endif %}
+
+                        {% for i in range((pagination.page > 3 ? pagination.page-2 : 1), (pagination.total > 5 and pagination.page+2 < pagination.total ? pagination.page+2 : pagination.total)) %}
+                            <li><a href="?{{ {page: i}|modifyGet }}">
+                                    {% if pagination.page == i %}
+                                        <b>{{ i }}</b>
+                                    {% else %}
+                                        {{ i }}
+                                    {% endif %}
+                                </a></li>
+                        {% endfor %}
+
+                        {% if pagination.page < pagination.total %}
+                            <li><a href="?{{ {page: (pagination.page +1)}|modifyGet }}">&raquo;</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div id="addNewLinkModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"> Add new link</h4>
+                    </div>
+                    <div class="modal-body">
+                        <label>Redirect from</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">{{ CONFIG.ROOTFRONTENDURL }}/</span>
+                            <input type='text' class="form-control" id="newLinkString" />
+                        </div>
+                        <span class="label label-danger" id="newLinkTaken">Link in use</span><br/>
+                        <label>Redirect to</label>
+                        <div class="form-group">
+                           <input type='url' class="form-control" id="newLinkDestination" />
+                        </div>
+                        <label>Note</label>
+                        <div class="form-group">
+                            <input type='text' class="form-control" id="newLinkNote" />
+                        </div>
+                        <p>Please note that quicklinks override all site content - for example creating a link with the same address as an article or an author page will prevent that article being accessed</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success disabled" id="addnewlinksave" data-dismiss="modal">Create</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var requestRunning = false;
+            $(document).ready(function () {
+                $("#loadingoverlay").hide();
+                $("#newLinkTaken").hide();
+                {% if 46|permissions %}
+                $(".deletelink").click(function () {
+                    $("#loadingoverlay").show();
+                    $.ajax({
+                        url: "{{ CONFIG.ROOTBACKENDURL }}/api/quickLink/delete.php?id=" + $(this).data("id"),
+                        success: function (result) {
+                            if (result == '1') {
+                                bootbox.alert("Success - deleted", function () {
+                                    location.reload();
+                                });
+                            } else {
+                                bootbox.alert("Sorry - Operation could not be completed! Please reload the page", function () {
+                                    location.reload();
+                                });
+                            }
+                        }
+                    });
+                });
+                {% endif %}
+
+                $("#newLinkString").change(function() {
+                    var slug = $("#newLinkString").val().split(" ").join("-");
+                    $("#newLinkString").val(slug);
+                    if (!requestRunning) {
+                        if(!$("#addnewlinksave").hasClass("disabled")){
+                            $("#addnewlinksave").addClass("disabled");
+                        }
+                        requestRunning = true;
+                        $.ajax({
+                            url: "{{ CONFIG.ROOTBACKENDURL }}/api/quickLink/slugTaken.php?slug=" + encodeURI(slug),
+                            success: function (result) {
+                                requestRunning = false;
+                                if (result == "TAKEN") {
+                                    $("#newLinkTaken").show();
+                                } else {
+                                    $("#addnewlinksave").removeClass("disabled");
+                                    $("#newLinkTaken").hide();
+                                }
+                            }
+                        });
+                    }
+                });
+
+                $("#addnewlinksave").click(function () {
+                    $.ajax({
+                        url: "{{ CONFIG.ROOTBACKENDURL }}/api/quickLink/new.php?string=" + $("#newLinkString").val() + "&destination=" + $("#newLinkDestination").val() + "&notes=" + $("#newLinkNote").val(),
+                        success: function (result) {
+                            if (result == '1') {
+                                bootbox.alert("Added", function () {
+                                    location.reload();
+                                });
+                            } else {
+                                bootbox.alert("Sorry - Operation could not be completed! Please reload the page", function () {
+                                    location.reload();
+                                });
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+    </div>
+{% endblock %}
