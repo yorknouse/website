@@ -481,13 +481,19 @@
                 saveArticle();
             });
             editor.eventManager.listen('pasteBefore', function(event) {
-                var html = event.$clipboardContainer.html();
-                var doc = new DOMParser().parseFromString(html, 'text/html');
-                doc.querySelectorAll('span').forEach(function(el) {
-                    el.outerHTML = el.textContent;
-                });
-                html = doc.body;
-                event.$clipboardContainer.html(html.outerHTML);
+                try {
+                    var html = event.$clipboardContainer.html();
+                    var doc = new DOMParser().parseFromString(html, 'text/html');
+                    doc.querySelectorAll('span').forEach(function(el) {
+                        el.outerHTML = el.textContent;
+                    });
+                    html = doc.body;
+                    event.$clipboardContainer.html(html.outerHTML);
+                }
+                catch(err) {
+                    //When in the markdown editor this doesn't work so put it in a try catch to allow stuff to be pasted into Markdown editor
+                    return true;
+                }
             });
         </script>
     </div>
