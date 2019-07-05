@@ -3,7 +3,7 @@ require_once __DIR__ . '/../apiHead.php';
 /*
  * AUTOMATED CRON JOBS
  */
-
+echo "[INFO] Starting auto cron script";
 //          SOCIAL MEDIA POSTING
 $DBLIB->where("articles.articles_showInSearch", 1); //ie those that can actually be shown - no point tweeting a dud link
 $DBLIB->where("articles.articles_published <= '" . date("Y-m-d H:i:s") . "'");
@@ -11,6 +11,7 @@ $DBLIB->where("(articles_socialConfig = '1,0,1,0' OR articles_socialConfig = '1,
 OR articles_socialConfig = '1,0,0,0' OR articles_socialConfig = '1,0,0,1' OR articles_socialConfig = '0,0,1,0' OR articles_socialConfig = '0,1,1,0')");
 $articles = $DBLIB->get("articles", null, ["articles_id", "articles_socialConfig"]);
 if (count($articles) > 0) {
+    echo "[INFO] Posting " . count($articles) . " articles to social media";
     foreach ($articles as $article) {
         $article["articles_socialConfig"] = explode(",", $article["articles_socialConfig"]);
 
@@ -21,29 +22,32 @@ if (count($articles) > 0) {
             $bCMS->postSocial($article['articles_id'], true, false); //Post to facebook
         }
     }
-}
+} else echo "[INFO] No articles to post to social media";
 //          NOTIFY YUSU
 $DBLIB->where("articles.articles_showInSearch", 1); //ie those that can actually be shown - no point tweeting a dud link
 $DBLIB->where("articles.articles_published <= '" . date("Y-m-d H:i:s") . "'");
 $DBLIB->where("articles_mediaCharterDone",0);
 $articles = $DBLIB->get("articles", null, ["articles_id"]);
 if (count($articles) > 0) {
+    echo "[INFO] Telling YUSU about " . count($articles) . " articles";
     foreach ($articles as $article) {
         $bCMS->yusuNotify($article['articles_id']); //This article has been posted historically so we need to email YUSU
     }
-}
+} else echo "[INFO] No articles to tell YUSU about";
+
 //          APPLE NEWS
 $DBLIB->where("articles.articles_showInLists", 1); //ie those that can actually be shown - no point tweeting a dud link
-$DBLIB->where("articles.articles_published <= '" . date("Y-m-d H:i:s") . "'");
-$DBLIB->where("articles.articles_published >= '2018-01-01 00:00:00'");
+$DBLIB->where("(articles.articles_published <= '" . date("Y-m-d H:i:s") . "')");
+$DBLIB->where("(articles.articles_published >= '2018-01-01 00:00:00')");
 $DBLIB->where("(articles.articles_appleNewsID IS NULL)");
 $DBLIB->where("(articles.articles_appleNewsBlock IS NULL)");
 $articles = $DBLIB->get("articles", null, ["articles_id"]);
 if (count($articles) > 0) {
+    echo "[INFO] Uploading " . count($articles) . " articles to Apple News";
     foreach ($articles as $article) {
         if (!$bCMS->postToAppleNews($article['articles_id'])) {
             $DBLIB->where("articles_id", $article['articles_id']);
             $DBLIB->update("articles", ["articles_appleNewsBlock" => "Automatic cron upload fail"]);
         }
     }
-}
+} else echo "[INFO] No articles to post to Apple News";
