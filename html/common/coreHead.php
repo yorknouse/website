@@ -446,9 +446,10 @@ class bCMS {
         global $CONFIG, $DBLIB;
         $DBLIB->where("articles.articles_id", $this->sanitizeString($articleid));
         $DBLIB->where("articles.articles_showInLists", 1);
-        $DBLIB->where("articles.articles_type IN (1,6)");
+        $DBLIB->where("articles.articles_type IN (1,6)"); //Text articles only
         $DBLIB->where("articles.articles_published <= '" . date("Y-m-d H:i:s") . "'");
         $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
+        $DBLIB->where("(articles.articles_appleNewsBlock IS NULL)");
         $DBLIB->where("articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
         $article = $DBLIB->getone("articles");
         if (!$article) return false;
