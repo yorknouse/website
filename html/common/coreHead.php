@@ -429,7 +429,7 @@ class bCMS {
                 $part = str_replace($key,$value, $part);
             }
 
-            if (strlen($part) > 0) { //You can't have anything that is null
+            if (strlen(trim($part)) > 0) { //You can't have anything that is null
                 $output[] = [
                     "role" => "body",
                     "text" => $part,
