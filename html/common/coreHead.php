@@ -448,6 +448,7 @@ class bCMS {
         $DBLIB->where("articles.articles_showInLists", 1);
         $DBLIB->where("articles.articles_type IN (1,6)"); //Text articles only
         $DBLIB->where("articles.articles_published <= '" . date("Y-m-d H:i:s") . "'");
+        $DBLIB->where("articles.articles_categories IS NOT NULL"); //It needs to be in a category to go on Apple News
         $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
         $DBLIB->where("(articles.articles_appleNewsBlock IS NULL)");
         $DBLIB->where("articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
