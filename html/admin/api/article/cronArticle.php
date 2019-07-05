@@ -35,6 +35,7 @@ if (count($articles) > 0) {
 //          APPLE NEWS
 $DBLIB->where("articles.articles_showInLists", 1); //ie those that can actually be shown - no point tweeting a dud link
 $DBLIB->where("articles.articles_published <= '" . date("Y-m-d H:i:s") . "'");
+$DBLIB->where("articles.articles_published >= '2018-01-01 00:00:00'");
 $DBLIB->where("(articles.articles_appleNewsID IS NULL)");
 $DBLIB->where("(articles.articles_appleNewsBlock IS NULL)");
 $articles = $DBLIB->get("articles", null, ["articles_id"]);
