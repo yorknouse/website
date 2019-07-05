@@ -680,7 +680,7 @@ class bCMS {
             $coreData['components'][] = $draftPoint;
         }
 
-
+        if ($article['articles_categories'] == null) return false; //Article must be in a category
         $DBLIB->where("categories_appleNewsID IS NOT NULL");
         $DBLIB->where("categories_id IN (" . $article['articles_categories'] . ")");
         $article['categories'] = $DBLIB->get("categories", null, ["categories_appleNewsID"]);
