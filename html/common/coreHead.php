@@ -239,7 +239,8 @@ class bCMS {
     {
         if (!$this->cloudflare) $this->cloudflareInit();
 
-        $URL = [$URL, rtrim($URL, "/")]; //Also purge without a leading slash
+        if ($URL != rtrim($URL, "/")) $URL = [$URL, rtrim($URL, "/")]; //Also purge without a leading slash
+        else $URL = [$URL];
 
         if ($this->cloudflare['zones']->cachePurge($this->cloudflare['zoneid'], $URL)) {
             $this->auditLog("CACHECLEAR", null, json_encode($URL));
