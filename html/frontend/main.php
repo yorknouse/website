@@ -38,7 +38,23 @@ if (is_numeric(substr($URL,0,1))) {
     $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
     $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
     $PAGEDATA['POST'] = $DBLIB->getone("articles");
-    if (!$PAGEDATA['POST']) render404Error();
+    if (!$PAGEDATA['POST']) {
+        //A matching post can't be found so see if one exists but with a different date
+        $DBLIB->where("articles_slug", $bCMS->sanitizeString($urlSplit[3]));
+        $DBLIB->where("articles_showInSearch", 1);
+        $DBLIB->where("articles_published <= '" . date("Y-m-d H:i:s") . "'");
+        $retryPostSearch = $DBLIB->getone("articles", ["articles_published", "articles_slug"]);
+        if (!$retryPostSearch) render404Error();
+        else {
+            //We found an article that it probably is - let's redirect to it to try and be helpful
+            try {
+                header('Location: ' . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($retryPostSearch["articles_published"])) . "/" . $retryPostSearch['articles_slug']);
+                exit;
+            } catch (Exception $e) {
+                die('<meta http-equiv="refresh" content="0;url=' . ($CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($retryPostSearch["articles_published"])) . "/" . $retryPostSearch['articles_slug']) . '" />');
+            }
+        }
+    }
     if (isset($_GET['key']) and md5($PAGEDATA['POST']['articles_id']) != $_GET['key']) render404Error(); //If they've got the key wrong they can't view it in advance
 
     $PAGEDATA['pageConfig'] = ["TITLE" => $PAGEDATA['POST']['articlesDrafts_headline']];
