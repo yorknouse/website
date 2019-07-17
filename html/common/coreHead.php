@@ -237,15 +237,25 @@ class bCMS {
 
     public function cacheClear($URL)
     {
+        global $AUTH;
+
         if (!$this->cloudflare) $this->cloudflareInit();
 
         if ($URL != rtrim($URL, "/")) $URL = [$URL, rtrim($URL, "/")]; //Also purge without a leading slash
         else $URL = [$URL];
 
-        if ($this->cloudflare['zones']->cachePurge($this->cloudflare['zoneid'], $URL)) {
-            $this->auditLog("CACHECLEAR", null, json_encode($URL));
-            return true;
-        } else return false;
+        if (isset($AUTH->data['users_userid'])) $userid = $AUTH->data['users_userid'];
+        else $userid = null;
+
+        try {
+            if ($this->cloudflare['zones']->cachePurge($this->cloudflare['zoneid'], $URL)) {
+                $this->auditLog("CACHECLEAR", null, json_encode($URL), $userid);
+                return true;
+            } else return false;
+        } catch (Exception $e) {
+            return false;
+        }
+
     }
 
     private function cloudflareInit()
