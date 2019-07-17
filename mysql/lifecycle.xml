@@ -1,0 +1,19 @@
+<LifecycleConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/">
+  <Rule>
+    <ID>Expire old database backups</ID>
+    <Prefix>backup/database/production/</Prefix>
+    <Status>Enabled</Status>
+    <Expiration>
+      <Days>40</Days>
+    </Expiration>
+  </Rule>
+
+  <Rule>
+    <ID>Remove uncompleted failed multi part uploads</ID>
+    <Status>Enabled</Status>
+    <Prefix/>
+    <AbortIncompleteMultipartUpload>
+      <DaysAfterInitiation>1</DaysAfterInitiation>
+    </AbortIncompleteMultipartUpload>
+  </Rule>
+</LifecycleConfiguration>

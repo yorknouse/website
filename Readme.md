@@ -33,6 +33,8 @@ FLUSH PRIVILEGES;
 - `apt install s3cmd` then use the s3cmd config file `mysql/s3cfg` but be sure to set the access key at the top of it
 - Upload `mysl/runBackup.sh` to `/root` and set the root mysql password in the file
 - Add the following line to `crontab`: `0 */2 * * * bash /root/runBackup.sh`
+- Upload `mysl/lifecycle.xml` to `/root` for the bucket
+- Set the lifecycle policy for the bucket `s3cmd setlifecycle lifecycle "s3://BUCKETNAME"`
 
 ## Updating the server
 ```
