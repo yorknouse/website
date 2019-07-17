@@ -56,6 +56,56 @@
                 </div>
             </div>
         </div>
+        {% if 47|permissions %}
+        <div class="col-lg-4">
+            <div class="box">
+                <div class="box-header with-border">
+                    <hh class="box-title">Purge cache for a URL</hh>
+                </div>
+                <div class="box-body">
+                    <div class="form">
+                        <div class="form-group">
+                            <input type='url' class="form-control" id="macroPurgeCache" />
+                        </div>
+                        <div class="form-group">
+                            <button type="button" title="Save" class="btn btn-success" id="macroPurgeCacheSubmit">Purge</button>
+                        </div>
+                    </div>
+
+                    <script>
+                        $(function () {
+                            $("#cacheClearLoadingOverlay").hide();
+                            $("#macroPurgeCacheSubmit").click(function () {
+                                $("#cacheClearLoadingOverlay").show();
+                                $.ajax({
+                                    url: "{{ CONFIG.ROOTBACKENDURL }}/api/macros/clearCache.php?url=" + encodeURI($("#macroPurgeCache").val()),
+                                    type: "json",
+                                    success: function (result) {
+                                        if (result.result) {
+                                            bootbox.alert("Success - cache cleared for URL", function () {
+                                                $("#macroPurgeCache").val("");
+                                                $("#cacheClearLoadingOverlay").hide();
+                                            });
+                                        } else {
+                                            bootbox.alert("Sorry - Operation could not be completed! Please reload the page", function () {
+                                                location.reload();
+                                            });
+                                        }
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+                </div>
+                <div class="box-footer">
+                    The front-end of the Nouse website is agressivley cached - use this tool to clear the cache temporarily for a url. Takes around 1 minute to complete a purge at all edge nodes.
+                </div>
+                <div class="overlay" id="cacheClearLoadingOverlay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+        </div>
+        {% endif %}
     </div>
 
 {% endblock %}
