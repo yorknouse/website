@@ -166,7 +166,7 @@
 
                 {% if article.articles_slug|length < 1 %}
                 $("#headline").change(function() {
-                    var slug = encodeURI($("#headline").val().split(" ").join("-").replace(/[^a-zA-Z0-9-_\.]/g, '').toLowerCase());
+                    var slug = encodeURI(($("#headline").val().split(" ").join("-").replace(/[^a-zA-Z0-9-_\.]/g, '').toLowerCase()).split('.').join(""));
                     if (!requestRunning) {
                         requestRunning = true;
                         $.ajax({
