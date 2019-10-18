@@ -21,6 +21,7 @@ class bID
         $this->googleService = new Google_Service_Oauth2($this->googleClient);
         $this->googleClient->addScope(Google_Service_Oauth2::USERINFO_EMAIL);
         $this->googleClient->addScope(Google_Service_Oauth2::USERINFO_PROFILE);
+        $this->loginErrorMessage = false;
 
         if(isset($_SESSION['token'])) {
             $this->googleClient->setAccessToken($_SESSION['token']);
@@ -74,6 +75,7 @@ class bID
                             }
                             $this->permissions = array_unique($permissionCodes);
                             $this->login = true;
+                            $this->loginErrorMessage = false;
                         } else {
                             $this->loginErrorMessage = 'User found but does not have permission to login';
                             $this->logout();
