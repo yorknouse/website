@@ -4,6 +4,7 @@ require_once __DIR__ . '/../../config.php';
 class bID
 {
     public $login;
+    public $loginErrorMessage = '';
     public $data;
     private $permissions;
     private $googleClient;
@@ -29,6 +30,7 @@ class bID
                     if (!isset($googleUserData['hd']) || !in_array($googleUserData["hd"],["york.ac.uk","nouse.co.uk"])) { //Allowed domains
                         $this->logout();
                         $this->login = false;
+                        $this->loginErrorMessage = 'Please select a york.ac.uk account to login';
                     }
                     $googleUserData['email'] = strtolower($googleUserData['email']);
                     $googleUserData['usernameFromEmail'] = str_replace("@" . $googleUserData['hd'],"",$googleUserData['email']);
@@ -43,6 +45,7 @@ class bID
                     }
                     if ($this->data == null) {  //We can't find a username for them
                         $this->logout();
+                        $this->loginErrorMessage = 'User not found';
                         $this->login = false;
                     }
                     else {
@@ -72,10 +75,13 @@ class bID
                             $this->permissions = array_unique($permissionCodes);
                             $this->login = true;
                         } else {
+                            $this->loginErrorMessage = 'User found but does not have permission to login';
+                            $this->logout();
                             $this->login = false;
                         }
                     }
                 } else {
+                    $this->loginErrorMessage = 'Please select a Google account to login';
                     $this->login = false;
                 }
             } else {
