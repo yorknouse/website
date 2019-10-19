@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/common/headSecure.php';
 
-$PAGEDATA['pageConfig'] = ["TITLE" => "Account Settings", "BREADCRUMB" => true];
+$PAGEDATA['pageConfig'] = ["TITLE" => "Account Settings", "BREADCRUMB" => false];
 
 if (isset($_GET['new']) and $AUTH->permissionCheck(4)) {
     $PAGEDATA['pageConfig']['TITLE'] = "Create a new user";
