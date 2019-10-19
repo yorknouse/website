@@ -44,6 +44,8 @@
             </div>
             <!-- /.box -->
         </div>
+
+
         <div class="col-sm-12 col-md-6">
             <div class="box box-info collapsed-box">
                 <div class="box-header">
@@ -65,6 +67,23 @@
                                 {{ line|raw }}<br/>
                             {% endif %}
                         {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Most active users this week</h3>
+                </div>
+                <div class="box-body no-padding">
+                    <table class="table table-striped">
+                        {% for user in MOSTACTIVEUSERS.WEEK %}
+                            <tr>
+                                <td>{{user.users_name1}} {{ user.users_name2 }}</td>
+                                <td>{{user.counter}} audited actions</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
                 </div>
             </div>
         </div>
