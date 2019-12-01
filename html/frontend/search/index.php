@@ -5,7 +5,7 @@ if (!isset($_GET["q"])) render404Error();
 
 $PAGEDATA['pageConfig'] = ["TITLE" => "Search results for " . $_GET['q'] . " | Nouse", "FEATURED" => false];
 $term = $bCMS->sanitizeString($_GET['q']);
-$DBLIB->where("(articlesDrafts.articlesDrafts_excerpt LIKE '%" . $term . "%' OR articlesDrafts.articlesDrafts_headline LIKE '%" . $term . "%' OR articlesDrafts.articlesDrafts_text LIKE '%" . $term . "%')");
+$DBLIB->where("(articlesDrafts.articlesDrafts_excerpt LIKE '%" . $bCMS->sanitizeString($term) . "%' OR articlesDrafts.articlesDrafts_headline LIKE '%" . $bCMS->sanitizeString($term) . "%' OR articlesDrafts.articlesDrafts_text LIKE '%" . $bCMS->sanitizeString($term) . "%')");
 $DBLIB->orderBy("articles_published", "DESC");
 $DBLIB->where("articles_showInSearch", 1);
 $DBLIB->where("articles_published <= '" . date("Y-m-d H:i:s") . "'");

@@ -16,10 +16,10 @@ $DBLIB->join("users", "quickLinks.users_userid=users.users_userid", "LEFT");
 if (strlen($PAGEDATA['search']) > 0) {
 	//Search
 	$DBLIB->where("(
-		quickLinks.quickLinks_string LIKE '%" . $PAGEDATA['search'] . "%'
-		OR quickLinks.quickLinks_pointsTo LIKE '%" . $PAGEDATA['search'] . "%'
-		OR quickLinks.quickLinks_notes LIKE '%" . $PAGEDATA['search'] . "%'
-		OR CONCAT( users.users_name1,  ' ', users.users_name2 ) LIKE '%" . $PAGEDATA['search'] . "%'
+		quickLinks.quickLinks_string LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
+		OR quickLinks.quickLinks_pointsTo LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
+		OR quickLinks.quickLinks_notes LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
+		OR CONCAT( users.users_name1,  ' ', users.users_name2 ) LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
     )");
 }
 $quickLinks = $DBLIB->arraybuilder()->paginate('quickLinks', $page, ["quickLinks.*, users.users_name1, users.users_name2, users.users_userid"]);

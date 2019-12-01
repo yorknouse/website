@@ -21,11 +21,11 @@ $DBLIB->where("users_deleted", 0);
 if (strlen($PAGEDATA['search']) > 0) {
 	//Search
 	$DBLIB->where("(
-		users_googleAppsUsernameYork LIKE '%" . $PAGEDATA['search'] . "%'
-		OR users_name1 LIKE '%" . $PAGEDATA['search'] . "%'
-		OR users_name2 LIKE '%" . $PAGEDATA['search'] . "%'	
-		OR CONCAT( users_name1,  ' ', users_name2 ) LIKE '%" . $PAGEDATA['search'] . "%'
-		OR users_googleAppsUsernameNouse LIKE '%" . $PAGEDATA['search'] . "%'
+		users_googleAppsUsernameYork LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
+		OR users_name1 LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
+		OR users_name2 LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'	
+		OR CONCAT( users_name1,  ' ', users_name2 ) LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
+		OR users_googleAppsUsernameNouse LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
     )");
 }
 //if (!isset($_GET['suspended'])) $DBLIB->where ("users.users_suspended", "0");

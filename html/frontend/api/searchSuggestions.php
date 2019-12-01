@@ -5,7 +5,7 @@ if (!isset($_POST['searchterm'])) finish(false, ["code" => "PARAM", "message"=> 
 $term = $bCMS->sanitizeString($_POST['searchterm']);
 if (strlen($term) <1) finish(true, null,null);
 
-$DBLIB->where("(articlesDrafts.articlesDrafts_excerpt LIKE '%" . $term . "%' OR articlesDrafts.articlesDrafts_headline LIKE '%" . $term . "%')");
+$DBLIB->where("(articlesDrafts.articlesDrafts_excerpt LIKE '%" . $bCMS->sanitizeString($term) . "%' OR articlesDrafts.articlesDrafts_headline LIKE '%" . $bCMS->sanitizeString($term) . "%')");
 $DBLIB->orderBy("articles_published", "DESC");
 $DBLIB->where("articles_showInSearch", 1);
 $DBLIB->where("articles_published <= '" . date("Y-m-d H:i:s") . "'");

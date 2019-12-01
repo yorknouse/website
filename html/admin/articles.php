@@ -14,9 +14,9 @@ $DBLIB->pageLimit = 20;
 if (strlen($PAGEDATA['search']) > 0) {
 	//Search
 	$DBLIB->where("
-		(articlesDrafts.articlesDrafts_headline LIKE '%" . $PAGEDATA['search'] . "%'
-		OR articles.articles_slug LIKE '%" . $PAGEDATA['search'] . "%'
-		OR articlesDrafts.articlesDrafts_excerpt LIKE '%" . $PAGEDATA['search'] . "%')
+		(articlesDrafts.articlesDrafts_headline LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
+		OR articles.articles_slug LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
+		OR articlesDrafts.articlesDrafts_excerpt LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%')
     ");
 }
 $DBLIB->orderBy("articles_published", "DESC");

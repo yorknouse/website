@@ -66,12 +66,11 @@ class bCMS {
     private $cloudflare;
 
     function sanitizeString($var) {
-        //Setup Sanitize String Function
         $var = strip_tags($var);
         //$var = htmlentities($var);
         //$var = stripslashes($var);
-        //global $CONN;
-        //return mysqli_real_escape_string($CONN, $var);
+        global $CONN;
+        return mysqli_real_escape_string($CONN, $var);
         return $var;
     }
     function randomString($length = 10, $stringonly = false) { //Generate a random string
