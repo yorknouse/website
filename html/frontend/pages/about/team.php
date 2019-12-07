@@ -30,7 +30,7 @@ if ($PAGEDATA['pageConfig']['VIEW'] == "table") {
         ]) as $user) {
             $position['USERS'][] = $user;
         }
-        $PAGEDATA['POSITIONS'][] = $position;
+        if (count($position['USERS']) > 0) $PAGEDATA['POSITIONS'][] = $position; //Don't show a position if it's unfilled
     }
 } else {
     $DBLIB->where("userPositions.userPositions_end > '" . date("Y-m-d H:i:s") . "'");
