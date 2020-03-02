@@ -66,6 +66,7 @@ class bCMS {
     private $cloudflare;
 
     function sanitizeString($var) {
+        $var = htmlspecialchars ($var); //Sanitize all html out of it - important for user comments section
         $var = strip_tags($var);
         //$var = htmlentities($var);
         //$var = stripslashes($var);
@@ -87,16 +88,12 @@ class bCMS {
     function cleanString($var)
     {
         //HTML Purification
-        //$var = str_replace(array("\r", "\n"), '<br>', $var); //Replace newlines
-        /*
-                $config = HTMLPurifier_Config::createDefault();
-                $config->set('Cache.DefinitionImpl', null);
-                //$config->set('AutoFormat.Linkify', true);
-                $purifier = new HTMLPurifier($config);
-                $clean_html = $purifier->purify($var);
-            return $clean_html; //NOTE THAT THIS REQUIRES THE USE OF PREPARED STATEMENTS AS IT'S NOT ESCAPED
-        */
-        return $var;
+        $config = HTMLPurifier_Config::createDefault();
+        $config->set('Cache.DefinitionImpl', null);
+        //$config->set('AutoFormat.Linkify', true);
+        $purifier = new HTMLPurifier($config);
+        $clean_html = $purifier->purify($var);
+         return $clean_html; //NOTE THAT THIS REQUIRES THE USE OF PREPARED STATEMENTS AS IT'S NOT ESCAPED
 
     }
 
