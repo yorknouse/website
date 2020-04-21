@@ -4,18 +4,27 @@
  *
  * Any settings must go in the environment variables
  */
-ini_set('display_errors', 0);
-ini_set('display_startup_errors', 0);
-error_reporting(E_ALL);
 
-require_once (__DIR__ . '/../../keys.php');
+if(file_exists(__DIR__ . '/../../keys.php')) require_once (__DIR__ . '/../../keys.php'); //Some instances can't define environment variables so use this PHP file as a workaround
+
+if (getenv('bCMS__ERRORS') == "true") {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+} else {
+    ini_set('display_errors', 0);
+    ini_set('display_startup_errors', 0);
+    error_reporting(E_ALL);
+}
+
+
 require_once(__DIR__ . '/../../composer/vendor/autoload.php'); //Composer
-require_once(__DIR__ . '/libs/Auth/main.php');
-require_once(__DIR__ . '/libs/Email/main.php');
+require_once(__DIR__ . '/libs/Auth/main.php'); //Auth lib
+require_once(__DIR__ . '/libs/Email/main.php'); //Email sending lib
 $CONFIG = array(
     'DB_HOSTNAME' => getenv('bCMS__DB_HOSTNAME'),
     'DB_DATABASE' => getenv('bCMS__DB_DATABASE'),
-    'DB_USERNAME' => getenv('bCMS__DB_USERNAME'), //CREATE INSERT SELECT UPDATE DELETE
+    'DB_USERNAME' => getenv('bCMS__DB_USERNAME'), //CREATE INSERT SELECT UPDATE DELETE needed
     'DB_PASSWORD' => getenv('bCMS__DB_PASSWORD'),
     'PROJECT_NAME' => getenv('bCMS__SITENAME'),
     'SENDGRID' => ['APIKEY' => getenv('bCMS__SendGridAPIKEY')],

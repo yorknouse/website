@@ -22,13 +22,15 @@ function errorHandler()
 }
 
 //set_error_handler('errorHandler');
-$CONFIG['ERRORS']['SENTRY-CLIENT']['MAIN'] = new Raven_Client($CONFIG['ERRORS']['SENTRY']);
-$CONFIG['ERRORS']['SENTRY-CLIENT']['MAIN']->setRelease($CONFIG['VERSION']['TAG'] . "." . $CONFIG['VERSION']['COMMIT']);
-$CONFIG['ERRORS']['SENTRY-CLIENT']['HANDLER'] = new Raven_ErrorHandler($CONFIG['ERRORS']['SENTRY-CLIENT']['MAIN']);
-$CONFIG['ERRORS']['SENTRY-CLIENT']['HANDLER']->registerExceptionHandler();
-$CONFIG['ERRORS']['SENTRY-CLIENT']['HANDLER']->registerErrorHandler();
-$CONFIG['ERRORS']['SENTRY-CLIENT']['HANDLER']->registerShutdownFunction();
-register_shutdown_function('errorHandler');
+if (getenv('bCMS__ERRORS') != "true") {
+    $CONFIG['ERRORS']['SENTRY-CLIENT']['MAIN'] = new Raven_Client($CONFIG['ERRORS']['SENTRY']);
+    $CONFIG['ERRORS']['SENTRY-CLIENT']['MAIN']->setRelease($CONFIG['VERSION']['TAG'] . "." . $CONFIG['VERSION']['COMMIT']);
+    $CONFIG['ERRORS']['SENTRY-CLIENT']['HANDLER'] = new Raven_ErrorHandler($CONFIG['ERRORS']['SENTRY-CLIENT']['MAIN']);
+    $CONFIG['ERRORS']['SENTRY-CLIENT']['HANDLER']->registerExceptionHandler();
+    $CONFIG['ERRORS']['SENTRY-CLIENT']['HANDLER']->registerErrorHandler();
+    $CONFIG['ERRORS']['SENTRY-CLIENT']['HANDLER']->registerShutdownFunction();
+    register_shutdown_function('errorHandler');
+}
 
 //Content security policy - BACKEND HAS A DIFFERENT ONE SO LOOK OUT FOR THAT
 header("Content-Security-Policy: default-src 'none';" .
@@ -87,14 +89,13 @@ class bCMS {
 
     function cleanString($var)
     {
-        //HTML Purification
+        //HTML Purification - user comments are run through this so it's pretty important we strip out all bad HTML.
         $config = HTMLPurifier_Config::createDefault();
         $config->set('Cache.DefinitionImpl', null);
         //$config->set('AutoFormat.Linkify', true);
         $purifier = new HTMLPurifier($config);
         $clean_html = $purifier->purify($var);
-         return $clean_html; //NOTE THAT THIS REQUIRES THE USE OF PREPARED STATEMENTS AS IT'S NOT ESCAPED
-
+        return $clean_html; //NOTE THAT THIS REQUIRES THE USE OF PREPARED STATEMENTS AS IT'S NOT ESCAPED
     }
 
     function formatSize($bytes)
