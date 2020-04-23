@@ -68,6 +68,21 @@
                         <option value="3" {{ article.articles_showInLists == 1 and article.articles_showInSearch == 1 ? 'selected' : '' }}>Published</option>
                     </select>
                 </div>
+                <hr/>
+                <div class="form-group">
+                    <label>Edition</label>
+                    <select class="form-control" id="edition">
+                        <option value=""></option>
+                        {% for edition in EDITIONS %}
+                            <option {{ (edition.editions_id == article.editions_id ? 'selected') }}  value="{{ edition.editions_id }}">{{ edition.editions_name ~ (edition.editions_printNumber != null ? ' (' ~ 'Number ' ~ edition.editions_printNumber ~ ')' : '' )}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Print Edition Page Number</label>
+                    <input type="number" id="pagenumber" value="{{ article.articles_editionPage }}" class="form-control" />
+                </div>
+                <hr/>
                 <div class="form-group">
                     <label>Section</label>
                     <select class="form-control" id="category1" multiple>
@@ -769,6 +784,8 @@
                     "categories":($("#category1").val() || []).join(",") + "," + ($("#category2").val() || []).join(","),
                     "authors":($("#authors").val() || []).join(","),
                     "published":$("#published").val(),
+                    "edition":$("#edition").val(),
+                    "pagenumber":$("#pagenumber").val(),
                     "status":$("#status").val(),
                     "slug":$("#slug").val(),
                     "thumbnail": thumbnailid,
