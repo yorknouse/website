@@ -226,14 +226,19 @@
                     </a>
                 </li>
             {% endif %}
-                {% if 20|permissions %}
-                    <li class="header">Frontend Admin</li>
+                <li class="header">Frontend Admin</li>
+                {% if 49|permissions %}
+                    <li>
+                        <a href="{{ CONFIG.ROOTBACKENDURL }}/editions.php">
+                            <i class="fa fa-newspaper-o"></i> <span>Editions</span>
+                        </a>
+                    </li>
                 {% endif %}
 
                 {% if 20|permissions %}
                     <li>
                         <a href="{{ CONFIG.ROOTBACKENDURL }}/featured.php">
-                            <i class="fa fa-newspaper-o"></i> <span>Featured articles</span>
+                            <i class="fa fa-archive"></i> <span>Featured articles</span>
                         </a>
                     </li>
                 {% endif %}
