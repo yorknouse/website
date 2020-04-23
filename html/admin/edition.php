@@ -18,7 +18,7 @@ if (isset($_GET['id'])) {
 	$DBLIB->where("articles.articles_showInAdmin", 1); //ie those that can actually be shown
 	$DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
 	$DBLIB->where("articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
-	$articles = $DBLIB->get("articles", null, ["articles.articles_categories","articles.articles_slug", "articles.articles_authors", "articles.articles_published", "articles.articles_updated", "articles.articles_showInSearch", "articles.articles_showInLists","articles.articles_id","articles.articles_published", "articlesDrafts.articlesDrafts_headline"]);
+	$articles = $DBLIB->get("articles", null, ["articles.articles_categories","articles.articles_slug", "articles.articles_authors", "articles.articles_published", "articles.articles_updated", "articles.articles_showInSearch", "articles.articles_showInLists","articles.articles_id","articles.articles_published", "articlesDrafts.articlesDrafts_headline", "articles.articles_editionPage"]);
 	$PAGEDATA['articles'] = [];
 	foreach ($articles as $article) {
 		$article['articles_categories'] = explode(",", $article['articles_categories']);
