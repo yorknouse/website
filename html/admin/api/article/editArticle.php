@@ -33,8 +33,8 @@ if ($_POST['thumbnail'] != null) {
     $articleData["articles_thumbnail"] = $bCMS->sanitizeString($_POST['thumbnail']);
 }
 
-$articleData["editions_id"] = ($_POST['edition'] == null ? null : $_POST['edition']);
-$articleData["articles_editionPage"] = ($_POST['pagenumber'] == null ? null : $_POST['pagenumber']);
+if (isset($_POST['edition'])) $articleData["editions_id"] = ($_POST['edition'] == null ? null : $_POST['edition']);
+if (isset($_POST['pagenumber'])) $articleData["articles_editionPage"] = ($_POST['pagenumber'] == null ? null : $_POST['pagenumber']);
 
 if ($_POST['status'] == 1) {
     $articleData["articles_showInLists"] = 0;

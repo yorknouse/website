@@ -1,0 +1,191 @@
+{% extends "assets/template.twig" %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        {% if search|length > 0 %}
+                            Search results for editions matching <b>{{ search }}</b>
+                        {% else %}
+                            Editions
+                        {% endif %}
+                    </h3>
+                    <div class="box-tools pull-right">
+                        <form class="input-group input-group-sm" style="width: 150px;" method="GET">
+                            <input type="text" name="q" class="form-control pull-right" placeholder="Search" value="{{ search }}" />
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                {% if 50|permissions %}
+                                    <button type="button" title="Add new edition" id="addNewButton" class="btn btn-default"><i class="fa fa-plus"></i></button>
+                                {% endif %}
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                    {% if editions|length > 0 %}
+                        <table class="table sticky-header" border="0" style="overflow-x: scroll;">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>&numero;</th>
+                                <th>Name</th>
+                                <th>Thumbnail</th>
+                                <th>PDF</th>
+                                <th>Articles</th>
+                                <th>Publication Date</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for edition in editions %}
+                                <tr
+                                        {% if edition.editions_show != 1 %}
+                                        class="danger"
+                                        {% elseif edition.editions_showHome != 1  %}
+                                        class="warning"
+                                        {% endif %}>
+                                    <td>{{ edition.editions_id }}</td>
+                                    <td>{{ edition.editions_printNumber }}</td>
+                                    <td>{{ edition.editions_name|raw }}</td>
+                                    <td>{{ (edition.editions_thumbnail ? '<i class="fa fa-check"></i>' : '') }}</td>
+                                    <td>{{ (edition.editions_pdf ? '<i class="fa fa-check"></i>' : '') }}</td>
+                                    <td>{{ edition.count }}</td>
+                                    <td>{{ edition.editions_published|date("D d M Y") }}</td>
+                                    <td>
+                                        {% if edition.editions_show != 1 %}
+                                            <span class="label label-danger">Unpublished</span><br/>
+                                        {% endif %}
+                                        {% if edition.editions_showHome != 1 %}
+                                            <span class="label label-warning">Hidden from homepage</span><br/>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if edition.editions_show == 1 and date(edition.editions_published) < date() %}
+                                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/edition/{{ edition.editions_slug }}"
+                                           type="button" title="View on website" class="btn btn-default" target="_blank"><i
+                                                    class="fa fa-eye"></i></a>
+                                        {% endif %}
+                                        {% if 51|permissions %}
+                                            <a href="{{ CONFIG.ROOTBACKENDURL }}/edition.php?id={{ edition.editions_id }}"
+                                               type="button" title="Edit" class="btn btn-default"><i
+                                                        class="fa fa-pencil"></i></a>
+                                        {% endif %}
+                                        {% if 52|permissions %}
+                                        <button class="btn btn-danger deleteEdition" data-editionid="{{ edition.editions_id }}"><i class="fa fa-trash-o"></i></button>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <center><p style="margin: 10px;"><i>No results</i><br/><a href="?">Remove any filters</a></p></center>
+                    {% endif %}
+                </div>
+                <div class="overlay" id="loadingoverlay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+                {% if pagination.total > 1 %}
+                <div class="box-footer clearfix">
+                    <ul class="pagination pagination-sm no-margin pull-right">
+                        {% if pagination.page > 1 %}
+                        <li><a href="?{{ {page: (pagination.page -1)}|modifyGet }}">&laquo;</a></li>
+                        {% endif %}
+
+                        {% for i in range((pagination.page > 3 ? pagination.page-2 : 1), (pagination.total > 5 and pagination.page+2 < pagination.total ? pagination.page+2 : pagination.total)) %}
+                            <li><a href="?{{ {page: i}|modifyGet }}">
+                                    {% if pagination.page == i %}
+                                        <b>{{ i }}</b>
+                                    {% else %}
+                                        {{ i }}
+                                    {% endif %}
+                                </a></li>
+                        {% endfor %}
+
+                        {% if pagination.page < pagination.total %}
+                            <li><a href="?{{ {page: (pagination.page +1)}|modifyGet }}">&raquo;</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+
+                $("#loadingoverlay").hide();
+                {% if 50|permissions %}
+                $("#addNewButton").click(function () {
+                    bootbox.prompt({
+                        title: "Edition Title",
+                        inputType: 'text',
+                        placeholder: '23 November 1964',
+                        callback: function (result) {
+                            if (result) {
+                                $("#loadingoverlay").show();
+                                var title = result;
+                                $.ajax({
+                                    url: "{{ CONFIG.ROOTBACKENDURL }}/api/edition/new.php?title=" + title,
+                                    type: "json",
+                                    success: function (result) {
+                                        if (result.result) {
+                                            window.location.href = '{{ CONFIG.ROOTBACKENDURL }}/edition.php?id=' + result.response.id;
+                                        } else {
+                                            bootbox.alert("Sorry - Operation could not be completed! Please reload the page", function () {
+                                                location.reload();
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
+                {% endif %}
+                {% if 52|permissions %}
+                $(".deleteEdition").click(function () {
+                    var editionid = $(this).data("editionid");
+                    bootbox.confirm({
+                        message: "Are you sure you wish to delete this edition?",
+                        buttons: {
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-default'
+                            },
+                            confirm: {
+                                label: 'Yes',
+                                className: 'btn-danger'
+                            }
+                        },
+                        callback: function (result) {
+                            if (result) {
+                                $("#loadingoverlay").show();
+                                $.ajax({
+                                    url: "{{ CONFIG.ROOTBACKENDURL }}/api/edition/delete.php?editionid=" + editionid,
+                                    success: function (result) {
+                                        if (result == '1') {
+                                            bootbox.alert("Success - edition has been deleted. Contact support@nouse.co.uk to have it recovered", function () {
+                                                location.reload();
+                                            });
+                                        } else {
+                                            bootbox.alert("Sorry - Operation could not be completed! Please reload the page", function () {
+                                                location.reload();
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
+                {% endif %}
+            });
+        </script>
+    </div>
+{% endblock %}

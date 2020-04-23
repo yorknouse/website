@@ -74,7 +74,7 @@
                     <select class="form-control" id="edition">
                         <option value=""></option>
                         {% for edition in EDITIONS %}
-                            <option {{ (edition.editions_id == article.editions_id ? 'selected') }}  value="{{ edition.editions_id }}">{{ edition.editions_name ~ (edition.editions_printNumber != null ? ' (' ~ 'Number ' ~ edition.editions_printNumber ~ ')' : '' )}}</option>
+                            <option  {{ (edition.editions_id == article.editions_id ? ' selected') }}   value="{{ edition.editions_id }}">{{ edition.editions_name ~ (edition.editions_printNumber != null ? ' (' ~ 'Number ' ~ edition.editions_printNumber ~ ')' : '' )}}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -664,6 +664,7 @@
         {% else %}
         var thumbnailid = 1; //Current default thumbnail
         {% endif %}
+
         function saveArticle(skipThumnailPrompt, skipThumbnailCaptionPrompt, skipThumbnailCreditTypePrompt) {
             //Check prompts
             if ((thumbnailid == 1 || (thumbnailid == null && "{{ article.articles_thumbnail }}" == "1")) && !skipThumnailPrompt) {
@@ -805,6 +806,7 @@
                         {% if article.articles_id == null %}
                         window.location.href = "?id=" + result.response.articleid;
                         {% else %}
+
                         $('.note-status-output').html(
                             '<div class="alert alert-success">' +
                             'Saved' +
