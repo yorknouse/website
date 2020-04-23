@@ -22,7 +22,7 @@ function errorHandler()
 }
 
 //set_error_handler('errorHandler');
-if (getenv('bCMS__ERRORS') != "true") {
+if ($CONFIG['DEV'] != true) {
     $CONFIG['ERRORS']['SENTRY-CLIENT']['MAIN'] = new Raven_Client($CONFIG['ERRORS']['SENTRY']);
     $CONFIG['ERRORS']['SENTRY-CLIENT']['MAIN']->setRelease($CONFIG['VERSION']['TAG'] . "." . $CONFIG['VERSION']['COMMIT']);
     $CONFIG['ERRORS']['SENTRY-CLIENT']['HANDLER'] = new Raven_ErrorHandler($CONFIG['ERRORS']['SENTRY-CLIENT']['MAIN']);
