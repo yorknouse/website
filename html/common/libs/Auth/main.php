@@ -87,8 +87,21 @@ class bID
                     $this->login = false;
                 }
             } else {
-                $_SESSION['token'] = '';
-                $this->login = false;
+
+                //Their access token expired try and renew it with a refresh token
+                if (isset($_SESSION['token']["refreshToken"])) {
+                    $refreshToken = $_SESSION['token']["refreshToken"]; //Save it here otherwise the next call will over-write it
+                    $this->googleClient->fetchAccessTokenWithRefreshToken($refreshToken);
+                    $_SESSION['token'] = $this->googleClient->getAccessToken();
+                    $_SESSION['token']['refreshToken'] = $refreshToken;
+                    $this->googleClient->setAccessToken($_SESSION['token']);
+                    //var_dump($this->googleService->userinfo->get()); exit;
+                    $this->loginErrorMessage = 'Token renewal not implemented';
+                    $this->login = false;
+                } else {
+                    $this->loginErrorMessage = 'Access token expired';
+                    $this->login = false;
+                }
             }
         } else $this->login = false;
     }
@@ -98,7 +111,7 @@ class bID
     public function oauthCallback($code) {
         global $CONFIG;
         $this->googleClient->authenticate($code);
-        $_SESSION['token'] = $this->googleClient->getAccessToken();
+        $_SESSION['token'] = $this->googleClient->getAccessToken(["refreshToken"]);
         try {
             header('Location: ' . (isset($_SESSION['return']) ? $_SESSION['return'] :  $CONFIG['ROOTBACKENDURL']));  exit; //Check for session url to redirect to
         } catch (Exception $e) {
