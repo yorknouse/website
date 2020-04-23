@@ -63,6 +63,10 @@ $TWIG->addFilter(new Twig_SimpleFilter('s3URL', function ($fileid, $size = false
     global $bCMS;
     return $bCMS->s3URL($fileid, $size);
 }));
+$TWIG->addFilter(new Twig_SimpleFilter('s3DATA', function ($fileid) {
+    global $bCMS;
+    return $bCMS->s3URL($fileid, null, false, '+1 minute', true);
+}));
 $TWIG->addFilter(new Twig_SimpleFilter('articleThumbnail', function ($article) {
     global $bCMS;
     return $bCMS->articleThumbnail($article);
