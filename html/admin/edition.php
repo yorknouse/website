@@ -13,7 +13,8 @@ if (isset($_GET['id'])) {
 
 	//Download all articles for edition
 	$DBLIB->orderBy("articles.articles_editionPage", "ASC");
-	$DBLIB->orderBy("articles.articles_id", "ASC");
+	$DBLIB->orderBy("articles.articles_published", "ASC");
+	$DBLIB->orderBy("articles.articles_slug", "ASC");
 	$DBLIB->where("editions_id", $PAGEDATA['edition']['editions_id']);
 	$DBLIB->where("articles.articles_showInAdmin", 1); //ie those that can actually be shown
 	$DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
