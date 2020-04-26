@@ -2,42 +2,8 @@
 {% block htmlIncludes %}
 <script src="{{ CONFIG.ASSETSURL }}js/macy.js"></script>
 <script>
-    var currentSectionID = null;
-    var offset = 75;
-    $( document ).ready(function() {
-        //Change colour of menu
-        var $w = $(window).scroll(function(){
-            if (false) {
-                //Do nothing - this is just here so everything else can be an "else if"
-            }
-            {% for key,category in CATEGORIES|reverse if category.categories_showHome == 1 %}
-            else if ( $w.scrollTop() > ($("#category{{ category.categories_id }}Div" ).offset().top-offset) ) {
-                if (currentSectionID != {{ category.categories_id }}) {
-                    currentSectionID = {{ category.categories_id }};
-                    $('#primaryNav').css({"background-color":"#{{ category.categories_backgroundColor }}","color": "#{{ category.categories_backgroundColorContrast }}"});
-
-                    if ("{{ category.categories_backgroundColorContrast }}" == "ffffff") { //Update mobile header to be correct colour
-                        $("#mobileLogoHeader").attr("src","{{CONFIG.FILESTOREURL}}/site-assets/logo/nouse-logo-full3-white.svg");
-                    } else {
-                        $("#mobileLogoHeader").attr("src","{{CONFIG.FILESTOREURL}}/site-assets/logo/nouse-logo-full3.svg");
-                    }
-                }
-            }
-            {% endfor %}
-            else if ( $w.scrollTop() < ($("#categoryTopDiv").offset().top-offset) ) {
-                if (currentSectionID != 0) {
-                    //Back at the top so reset the header
-                    currentSectionID = 0;
-                    $('#primaryNav').css({"background-color":"white","color": "black"});
-                    $("#mobileLogoHeader").attr("src","{{CONFIG.FILESTOREURL}}/site-assets/logo/nouse-logo-full3.svg");
-                }
-            }
-        });
-
-
-
-
-        $(".masonry-slide1").owlCarousel({
+     $( document ).ready(function() {
+         $(".masonry-slide1").owlCarousel({
             autoPlay: 4000, //Set AutoPlay
             navigation: false, // Show next and prev buttons
             slideSpeed: 300,
@@ -65,45 +31,37 @@
             paginationSpeed: 400,
             singleItem: true
         });
-        var owl = $("#newsTicker");
-        owl.owlCarousel({
-            {% if pageConfig.EDITIONS|length > 1 %}
-            autoPlay: 5000, //Set AutoPlay to 5 seconds
-            {% else %}
-            autoPlay: false,
-            {% endif %}
-            singleItem: true,
-            transitionStyle: "goDown",
-            pagination: false,
-            navigation: false,
-            navigationText: [
-                "<i class='fa fa-angle-left'></i>",
-                "<i class='fa fa-angle-right'></i>"
-            ]
-        });
     });
 </script>
 {% endblock %}
 {% block prePageContent %}
-    {% if pageConfig.EDITIONS|length > 0 %}
-    <div class="container">
-        <div class="newstricker_inner">
-            <div class="trending"><strong>Latest</strong> edition{% if pageConfig.EDITIONS|length > 1 %}s{% endif %}</div>
-            <div id="newsTicker" class="owl-carousel owl-theme">
-                {% for edition in pageConfig.EDITIONS %}
-                <div class="item">
-                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/edition/{{ edition.editions_slug }}">{{ edition.editions_name|raw }}
-                        {% if edition.editions_printNumber %}
-                            (&numero;{{ edition.editions_printNumber }})
-                        {% endif %}
-                    </a>
+    {% if edition.editions_pdf %}
+    <div class="video-inner" style="margin-top: 0px;padding-bottom:10px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2">
+                    {% if edition.editions_thumbnail %}
+                        <a href="{{ edition.editions_pdf|s3URL }}" target="_blank">
+                            <img src="{{ edition.editions_thumbnail|s3URL("large") }}" style="width:100%;" alt="{{ edition.editions_name|raw }}">
+                        </a>
+                    {% else %}
+                        <a href="{{ edition.editions_pdf|s3URL }}" target="_blank"><h4 style="color:white;">PDF Download</h4></a>
+                    {% endif %}
+                    <header class="details-header" style="margin-bottom:0;">
+                        {% set pdfData = edition.editions_pdf|s3DATA %}
+                        <div class="element-block" style="margin-bottom: 30px;margin-top:10px;">
+                            <div class="entry-meta">
+                                <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ edition.editions_published|date("j M Y") }}</span>
+                                <span class="comment-link"><a href="{{ edition.editions_pdf|s3URL }}" target="_blank"><i class="fa fa-cloud-download" aria-hidden="true"></i> {{ pdfData.data.s3files_meta_size|formatsize }}</a></span>
+                            </div>
+                        </div>
+                    </header>
                 </div>
-                {% endfor %}
             </div>
         </div>
     </div>
     {% endif %}
-
+    {% if FEATUREDHOME %}
     <div class="news-masonry">
     <div class="height_30"></div>
     <div class="container">
@@ -257,148 +215,72 @@
         </div>
     </div>
 </div>
-
+    {% endif %}
 {% endblock %}
 {% block content %}
     <div class="container">
 
     <div class="row">
-        <main class="col-sm-8 col-md-8 content" id="categoryTopDiv">
-            {% for category in CATEGORIES if category.categories_showHome == 1 %}
-            <div class="category-holder style1" id="category{{ category.categories_id }}Div">
-                <div class="title-holder2" style="--backgroundColorCustom: #{{ category.categories_backgroundColor }};">
-                    <h3>{{ category.categories_displayName }}</h3>
-                    <div class="title-alignright">
-                        <ul class="title-filter">
-                            {% for subCategory in category.SUB if subCategory.categories_showHome == 1 %}
-                            <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ category.categories_name }}/{{ subCategory.categories_name }}">{{ subCategory.categories_displayName }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-                <!--  /.End of title -->
-                <div class="row">
-                    <div class="col-sm-6">
-                        {% if category.FEATUREDARTICLES|length > 0 %}
-                        <article class="grid_post">
-                            <figure>
-                                {% if category.FEATUREDARTICLES[0].articles_id|articleThumbnail %}
-                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ category.FEATUREDARTICLES[0].articles_published|date("Y/m/d") }}/{{ category.FEATUREDARTICLES[0].articles_slug }}" class="grid_image">
-                                    <img src="{{ category.FEATUREDARTICLES[0].articles_id|articleThumbnail("medium") }}" class="img-responsive" alt="">
-                                </a>
-                                {% endif %}
-                                <figcaption>
-                                    <!--<div class="post-cat"><a href="#">Fashion</a></div>-->
-                                    <div class="entry-meta">
-                                        <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ category.FEATUREDARTICLES[0].articles_published|date("j M Y") }}</span>
-                                    </div>
-                                    <h4 class="grid_post_title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ category.FEATUREDARTICLES[0].articles_published|date("Y/m/d") }}/{{ category.FEATUREDARTICLES[0].articles_slug }}">{{ category.FEATUREDARTICLES[0].articlesDrafts_headline|raw }}</a></h4>
-                                    <p>{{ category.FEATUREDARTICLES[0].articlesDrafts_excerpt|raw }}</p>
-                                    <!-- /.Post button -->
-                                </figcaption>
-                            </figure>
-                        </article>
+        <main class="col-lg-12 content">
+            {% for category in CATEGORIESARTICLES if category.articles|length > 0 %}
+            <div class="title-holder">
+                <h3 class="title">{{ category.categories_displayName }}</h3>
+                <span class="title-shape title-shape-dark"></span>
+            </div>
+            <!--<h3 class="widget-title">Latest Articles</h3>-->
+            <div class="grid-content latest_articles articlecategorygrid{{ category.categories_name }}">
+                {% for article in category.articles %}
+                <article class="grid_post">
+                    <figure>
+                        {% if article.articles_id|articleThumbnail %}
+                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}" class="grid_image">
+                            <img src="{{ article.articles_id|articleThumbnail }}" class="img-responsive" alt="{{ article.articlesDrafts_headline }}">
+                        </a>
                         {% endif %}
-                    </div>
-                    <div class="col-sm-6">
-                        {% for key,article in category.FEATUREDARTICLES %}
-                            {% if key > 0 %}{# Skip the first one as it's worked with above #}
-                            <div class="media latest_post">
-                                {% if article.articles_id|articleThumbnail %}
-                                <a class="media-left" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
-                                    <img src="{{ article.articles_id|articleThumbnail("tiny") }}" class="media-object" alt="">
-                                </a>
+                        <figcaption>
+                            <div class="post-cat">
+                                {% if article.articles_authors %}
+                                    <span>By</span>
+                                    {% for author in article.articles_authors %}
+                                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/author/?a={{ author.users_userid }}">{{ author.users_name1 ~ ' ' ~ author.users_name2 }}</a>
+                                    {% endfor %}
                                 {% endif %}
-                                <div class="media-body">
-                                    <h6 class="media-heading"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline|raw }}</a></h6>
-                                    <div class="entry-meta">
-                                        <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ article.articles_published|date("j M Y") }}</span>
-                                    </div>
-                                </div>
+                            </div>
+                            <h4 class="grid_post_title">
+                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a>
+                            </h4>
+                            {% if article.articlesDrafts_excerpt != null %}
+                            <div class="entry-meta">
+                                <span class="entry-date">{{ article.articlesDrafts_excerpt|raw }}</span>
                             </div>
                             {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
+                        </figcaption>
+                    </figure>
+                </article>
+                <script>
+                    $( document ).ready(function() {
+                        new Macy({
+                            container: '.articlecategorygrid{{ category.categories_name }}',
+                            trueOrder: false,
+                            waitForImages: false,
+                            useOwnImageLoader: false,
+                            debug: true,
+                            mobileFirst: true,
+                            columns: 1,
+                            margin: 30,
+                            breakAt: {
+                                1200: 5,
+                                992: 5,
+                                768: 4,
+                                480: 3
+                            }
+                        });
+                    });
+                </script>
+                {% endfor %}
             </div>
             {% endfor %}
         </main>
-        <aside class="col-sm-4 col-md-4 rightSidebar">
-            {% if pageConfig.LATESTEDITION %}
-                <div class="donation_widget">
-                    <h4 class="donation_title">Latest edition</h4>
-                    <div class="row" style="text-align: right;">
-                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/edition/{{ pageConfig.LATESTEDITION.editions_slug }}">
-                            <img src="{{ pageConfig.LATESTEDITION.editions_thumbnail|s3URL("medium") }}" style="width:100%;" alt="{{ pageConfig.LATESTEDITION.editions_name|raw }}">
-                            <h4 style="padding-left: 15px; padding-right: 15px;">{{ pageConfig.LATESTEDITION.editions_name|raw }}</h4>
-                        </a>
-                    </div>
-                </div>
-            {% endif %}
-            <div class="donation_widget">
-                <div class="row" style="text-align: right;">
-                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/join.php">
-                        <img src="https://nouse.ams3.cdn.digitaloceanspaces.com/site-assets/headerImages/join-nouse-gif.gif" style="width:100%;">
-                    </a>
-                </div>
-            </div>
-            <div class="tab-widget">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a href="#leftContentTabPanelRead" data-toggle="tab">Popular now</a></li>
-                    <li><a href="#rightContentTabPanelRead" data-toggle="tab">All time most read</a></li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane fade in active" id="leftContentTabPanelRead">
-                        {% for article in weeklyMostRead %}
-                            <div class="media latest_post">
-                                {% if article.articles_id|articleThumbnail %}
-                                    <a class="media-left" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
-                                        <img src="{{ article.articles_id|articleThumbnail }}" class="media-object" alt="">
-                                    </a>
-                                {% endif %}
-                                <div class="media-body">
-                                    <h6 class="media-heading"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline|raw }}</a></h6>
-                                    <div class="entry-meta">
-                                        <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ article.articles_published|date("l j M Y") }}</span>
-                                        <span class="comment-link"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <div class="tab-pane fade" id="rightContentTabPanelRead">
-                        {% for article in allTimeMostRead %}
-                            <div class="media latest_post">
-                                {% if article.articles_id|articleThumbnail %}
-                                    <a class="media-left" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
-                                        <img src="{{ article.articles_id|articleThumbnail }}" class="media-object" alt="">
-                                    </a>
-                                {% endif %}
-                                <div class="media-body">
-                                    <h6 class="media-heading"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline|raw }}</a></h6>
-                                    <div class="entry-meta">
-                                        <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ article.articles_published|date("j M Y") }}</span>
-                                        <span class="comment-link">{{ article.articles_lifetimeViews|number_format }} reads</span>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-            <!-- /.End of tab widget -->
-            <div class="banner-content category-holder" style="overflow: hidden;padding: 0px;">
-               <!--<img src="{{ CONFIG.ASSETSURL }}img/ad-300x250-1.png" class="img-responsive center-block" alt="">-->
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-7908211756267459"
-                     data-ad-slot="4815082919"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-            </div>
-
-        </aside>
     </div>
-    </div>
-    <div class="height_20"></div>
+</div>
 {% endblock %}

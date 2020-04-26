@@ -56,9 +56,19 @@ if ($featuredHomeArticles) {
 } else  $PAGEDATA['FEATUREDHOME'] =null;
 
 
+//Latest editions
+$DBLIB->where("editions_deleted", 0);
+$DBLIB->where("editions_showHome", 1);
+$DBLIB->orderBy("editions_published", "DESC");
+$PAGEDATA['pageConfig']['EDITIONS'] = $DBLIB->get("editions", 3, ["editions_id", "editions_name","editions_slug","editions_printNumber"]);
 
-//Latest edition
-$PAGEDATA['pageConfig']['LATESTEDITION'] = latestInCategory(36, 1);
+//Latest edition where there's a thumbnail box lower down on the right (normally a print edition)
+$DBLIB->where("editions_deleted", 0);
+$DBLIB->where("editions_showHome", 1);
+$DBLIB->where("(editions_thumbnail IS NOT NULL)");
+$DBLIB->orderBy("editions_published", "DESC");
+$PAGEDATA['pageConfig']['LATESTEDITION'] = $DBLIB->getone("editions", ["editions_id", "editions_name","editions_slug", "editions_thumbnail"]);
+
 
 echo $TWIG->render('index.twig', $PAGEDATA);
 ?>

@@ -2,7 +2,7 @@
 require_once __DIR__ . '/common/head.php';
 $URL = substr(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH), 1);
 
-//Manually build get because 404 kills it
+//Manually build get because .htaccess 404 handler kills it
 $_GET = [];
 foreach (explode("&", parse_url($_SERVER["REQUEST_URI"], PHP_URL_QUERY)) as $param) {
     if (strlen($param) > 0) {
@@ -23,11 +23,71 @@ if ($quickLink) {
         die('<meta http-equiv="refresh" content="0;url=' . $quickLink["quickLinks_pointsTo"] . '" />');
     }
 }
+$urlSplit = explode("/", $URL);
+if ($urlSplit[0] == "edition") {
+    //This is an edition page
 
-if (is_numeric(substr($URL,0,1))) {
+    $DBLIB->where("editions.editions_slug", $urlSplit[1]); //ie those that can actually be shown
+    $DBLIB->where("editions.editions_deleted", 0); //ie those that can actually be shown
+    $DBLIB->where("editions.editions_show",1);
+    $PAGEDATA['edition'] = $DBLIB->getone("editions");
+    if (!$PAGEDATA['edition']) render404Error();
+    $PAGEDATA['pageConfig']['TITLE'] = $PAGEDATA['edition']['editions_name'] . ($PAGEDATA['edition']['editions_printNumber'] != null ? ' | Edition &numero;' . $PAGEDATA['edition']['editions_printNumber'] : '') . " | Nouse";
+    $PAGEDATA['pageConfig']['EDITIONTheme'] = true;
+
+    $categoriesWorker = $PAGEDATA['CATEGORIES'];
+    //Download all articles for edition
+    $PAGEDATA['CATEGORIESARTICLES'] =[];
+    foreach ($categoriesWorker as $category) {
+        $category['articles'] = [];
+        $DBLIB->where("FIND_IN_SET('" . $category['categories_id'] . "',articles_categories)");
+        $DBLIB->orderBy("articles.articles_editionPage", "ASC");
+        $DBLIB->orderBy("articles.articles_published", "DESC");
+        $DBLIB->orderBy("articles.articles_slug", "ASC");
+        $DBLIB->where("editions_id", $PAGEDATA['edition']['editions_id']);
+        $DBLIB->where("articles_showInLists", 1);
+        $DBLIB->where("articles_published <= '" . date("Y-m-d H:i:s") . "'");
+        $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
+        $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
+        $articles = $DBLIB->get("articles", null, ["articles.*", "articlesDrafts.articlesDrafts_headline", "articlesDrafts.articlesDrafts_excerpt"]);
+
+        foreach ($articles as $article) {
+            $article['articles_categories'] = explode(",", $article['articles_categories']);
+            if ($article['articles_authors'] != null) {
+                $authors = explode(",", $article['articles_authors']);
+                $article['articles_authors'] = [];
+                foreach ($authors as $author) {
+                    if (strlen($author) < 1) continue;
+                    $DBLIB->where("users_userid", $author);
+                    $DBLIB->where("users_deleted", 0);
+                    $article['articles_authors'][] = $DBLIB->getone("users", ["users.users_name1", "users.users_name2", "users.users_userid"]);
+                }
+            } else $article['articles_authors'] = false;
+            $category['articles'][] = $article;
+        }
+        $PAGEDATA['CATEGORIESARTICLES'][] = $category;
+    }
+
+    //Get a list of featured articles for the masonry at the top
+    if (strlen($PAGEDATA['edition']['editions_featured']) > 0) {
+        $PAGEDATA['FEATUREDARTICLES'] = [];
+        foreach (explode(",",$PAGEDATA['edition']['editions_featured']) as $article) { //Has to be done like this otherwise it won't come out in the correct order
+            if (!$article) continue;
+            $DBLIB->where("articles.articles_id", $article);
+            $DBLIB->where("articles_showInLists", 1);
+            $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
+            $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
+            $PAGEDATA['FEATUREDARTICLES'][] = $DBLIB->getone("articles", ["articles.articles_id","articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
+        }
+    } else  $PAGEDATA['FEATUREDARTICLES'] =null;
+
+    http_response_code(200);
+    echo $TWIG->render('edition.twig', $PAGEDATA);
+    exit;
+
+} elseif (is_numeric(substr($URL,0,1))) {
     //The first character of URL is a number - this is therefore a post
 
-    $urlSplit = explode("/", $URL);
     if (count($urlSplit) < 4) render404Error(); //There aren't enough parts of the URL
     elseif (!is_numeric($urlSplit[0]) or !is_numeric($urlSplit[1]) or !is_numeric($urlSplit[2])) render404Error(); //The first bits aren't the date
 

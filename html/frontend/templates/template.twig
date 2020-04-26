@@ -7,7 +7,7 @@
 
     <title>
         {% if pageConfig.TITLE != null %}
-        {{ pageConfig.TITLE }}
+        {{ pageConfig.TITLE|raw }}
         {% else %}
             Nouse{# | Est 1964 | University of York's oldest society and student newspaper#}
         {% endif %}
@@ -178,6 +178,32 @@
                     </div>
                 </div>
             </div>
+            {% elseif pageConfig.EDITIONTheme %}
+                <div class="logo-wrapper" style="padding-bottom:0;">
+                    <div class="container">
+                        <div class="header-logo">
+                            <a href="{{ CONFIG.ROOTFRONTENDURL }}/" class="logo-img">
+                                <img src="{{CONFIG.FILESTOREURL}}/site-assets/logo/nouse-logo-full3.svg" alt="Nouse logo" style="width: 100%; height: auto;">
+                            </a>
+                            <table border="0" style="width:100%;margin-top:15px;font-weight: 500;">
+                                <tr style="width:100%;">
+                                    <td style="width:75%;text-align: left;">
+                                        <p>{{ edition.editions_name }}</p>
+                                    </td>
+                                    <td style="width:25%;text-align: right;">
+                                        {% if edition.editions_printNumber %}
+                                            <p>&numero;{{ edition.editions_printNumber }}</p>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            </table>
+                            {% if edition.editions_excerpt %}
+                                <p>{{ edition.editions_excerpt }}</p>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
             {% else %}
             <!-- /.End of top header -->
             <div class="logo-wrapper gray">
@@ -248,6 +274,9 @@
                                     {% endif %}
                                 {% endfor %}
                             {% else %}
+                                {% if pageConfig.EDITIONTheme %}
+                                <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/editions/" style="font-weight:800;">Editions</a></li>
+                                {% endif %}
                                 {% for category in CATEGORIES if category.categories_showMenu == 1 %}
                                     {% if category.SUB|length < 1 or category.categories_showSub != 1 %}
                                     <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ category.categories_name }}">{{ category.categories_displayName }}</a></li>
@@ -386,7 +415,7 @@
                                 </div>
                                 <div class="col-xs-6">
                                     <ul class="footer-cat" style="text-align: left;">
-                                        <li><a href="https://yorknouse.studentbeans.com/" target="_blank">Student Discounts</a></li>
+                                        <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/editions/">Editions</a></li>
                                         <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/policies.php#disclaimer">Disclaimer</a></li>
                                         <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/policies.php#privacy-policy">Privacy Policy</a></li>
                                         <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/policies.php#cookie-policy">Cookie Policy</a></li>

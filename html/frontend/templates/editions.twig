@@ -1,0 +1,60 @@
+{% extends "template.twig" %}
+{% block htmlIncludes %}
+<script src="{{ CONFIG.ASSETSURL }}js/macy.js"></script>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <main class="col-lg-12 content">
+            <div class="title-holder">
+                <h3 class="title">Editions Archive</h3>
+                <span class="title-shape title-shape-dark"></span>
+            </div>
+            <div class="grid-content latest_articles editionsgrid">
+                {% for edition in editions %}
+                <article class="grid_post">
+                    <figure>
+                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/edition/{{ edition.editions_slug }}" class="grid_image">
+                            <img src="{{ edition.editions_thumbnail|s3URL("small") }}" class="img-responsive" alt="{{ edition.editions_name }}">
+                        </a>
+                        <figcaption>
+                            <h4 class="grid_post_title">
+                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/edition/{{ edition.editions_slug }}">{{ edition.editions_name }}</a>
+                            </h4>
+                            <div class="entry-meta">
+                                {% if edition.editions_printNumber %}
+                                <span class="entry-date">&numero;{{ edition.editions_printNumber }}</span>
+                                {% endif %}
+                                {% if edition.editions_excerpt %}
+                                <span class="entry-date">{{ edition.editions_excerpt }}</span>
+                                {% endif %}
+                            </div>
+                        </figcaption>
+                    </figure>
+                </article>
+                <script>
+                    $( document ).ready(function() {
+                        new Macy({
+                            container: '.editionsgrid',
+                            trueOrder: false,
+                            waitForImages: false,
+                            useOwnImageLoader: false,
+                            debug: true,
+                            mobileFirst: true,
+                            columns: 1,
+                            margin: 30,
+                            breakAt: {
+                                1200: 5,
+                                992: 5,
+                                768: 4,
+                                480: 3
+                            }
+                        });
+                    });
+                </script>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}
