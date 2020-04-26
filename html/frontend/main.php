@@ -77,9 +77,14 @@ if ($urlSplit[0] == "edition") {
             $DBLIB->where("articles_showInLists", 1);
             $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
             $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
-            $PAGEDATA['FEATUREDARTICLES'][] = $DBLIB->getone("articles", ["articles.articles_id","articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
+            $article = $DBLIB->getone("articles", ["articles.articles_categories", "articles.articles_id","articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
+
+            $DBLIB->where("(categories_id IN (" . $article['articles_categories'] . "))");
+            $article["CATEGORIES"] = $DBLIB->get("categories", 1, ["categories_displayName","categories_id","categories_backgroundColor","categories_backgroundColorContrast"]);
+
+            $PAGEDATA['FEATUREDARTICLES'][] = $article;
         }
-    } else  $PAGEDATA['FEATUREDARTICLES'] =null;
+    } else $PAGEDATA['FEATUREDARTICLES'] =null;
 
     http_response_code(200);
     echo $TWIG->render('edition.twig', $PAGEDATA);

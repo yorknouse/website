@@ -61,52 +61,52 @@
         </div>
     </div>
     {% endif %}
-    {% if FEATUREDHOME %}
+    {% if FEATUREDARTICLES %}
     <div class="news-masonry">
     <div class="height_30"></div>
     <div class="container">
         <div class="row mas-m">
-            {% if FEATUREDHOME|length > 0 %}
-            <div class="col-sm-{{ FEATUREDHOME|length < 2 ? "12" : "6" }} mas-p">
+            {% if FEATUREDARTICLES|length > 0 %}
+            <div class="col-sm-{{ FEATUREDARTICLES|length < 2 ? "12" : "6" }} mas-p">
                 <div class="mas-item mas-big">
-                    {% if FEATUREDHOME[0].articles_id|articleThumbnail %}
-                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDHOME[0].articles_published|date("Y/m/d") }}/{{ FEATUREDHOME[0].articles_slug }}"><figure><img src="{{ FEATUREDHOME[0].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDHOME[0].articlesDrafts_headline|raw }}"></figure></a>
+                    {% if FEATUREDARTICLES[0].articles_id|articleThumbnail %}
+                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[0].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[0].articles_slug }}"><figure><img src="{{ FEATUREDARTICLES[0].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDARTICLES[0].articlesDrafts_headline|raw }}"></figure></a>
                     {% endif %}
                     <div class="mas-text">
                         <div class="post-cat">
-                            {% for category in FEATUREDHOME[0].CATEGORIES %}
+                            {% for category in FEATUREDARTICLES[0].CATEGORIES %}
                             <a href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ category.categories_id|getCategoryURL }}"
                             {% if category.categories_backgroundColor != "" %}
                              style="background-color: #{{ category.categories_backgroundColor }} !important; color: #{{ category.categories_backgroundColorContrast }} !important;"
                             {% endif %}>{{ category.categories_displayName }}</a>
                             {% endfor %}
                         </div>
-                        <h2 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDHOME[0].articles_published|date("Y/m/d") }}/{{ FEATUREDHOME[0].articles_slug }}">{{ FEATUREDHOME[0].articlesDrafts_headline|raw }}</a></h2>
+                        <h2 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[0].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[0].articles_slug }}">{{ FEATUREDARTICLES[0].articlesDrafts_headline|raw }}</a></h2>
                         <div class="mas-details">
-                            <p>{{ FEATUREDHOME[0].articlesDrafts_excerpt|raw }}</p>
+                            <p>{{ FEATUREDARTICLES[0].articlesDrafts_excerpt|raw }}</p>
                         </div>
                     </div>
                 </div>
             </div>
             {% endif %}
             <div class="col-sm-6 mas-p">
-                {% if FEATUREDHOME|length > 1 %}
+                {% if FEATUREDARTICLES|length > 1 %}
                 <div class="row mas-m hidden-xs">
                     <div class="col-xs-12 col-sm-12 mas-p">
                         <div class="mas-item masonry-sm mas-m-b">
-                            {% if FEATUREDHOME[1].articles_id|articleThumbnail %}
-                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDHOME[1].articles_published|date("Y/m/d") }}/{{ FEATUREDHOME[1].articles_slug }}"><figure><img src="{{ FEATUREDHOME[1].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDHOME[1].articlesDrafts_headline|raw }}"></figure></a>
+                            {% if FEATUREDARTICLES[1].articles_id|articleThumbnail %}
+                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[1].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[1].articles_slug }}"><figure><img src="{{ FEATUREDARTICLES[1].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDARTICLES[1].articlesDrafts_headline|raw }}"></figure></a>
                             {% endif %}
                             <div class="mas-text">
-                                <div class="post-cat">{% for category in FEATUREDHOME[1].CATEGORIES %}
+                                <div class="post-cat">{% for category in FEATUREDARTICLES[1].CATEGORIES %}
                                     <a href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ category.categories_id|getCategoryURL }}"
                                             {% if category.categories_backgroundColor != "" %}
                                         style="background-color: #{{ category.categories_backgroundColor }} !important; color: #{{ category.categories_backgroundColorContrast }} !important;"
                                             {% endif %}>{{ category.categories_displayName }}</a>
                                     {% endfor %}</div>
-                                <h4 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDHOME[1].articles_published|date("Y/m/d") }}/{{ FEATUREDHOME[1].articles_slug }}">{{ FEATUREDHOME[1].articlesDrafts_headline|raw }}</a></h4>
+                                <h4 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[1].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[1].articles_slug }}">{{ FEATUREDARTICLES[1].articlesDrafts_headline|raw }}</a></h4>
                                 <div class="mas-details">
-                                    <p>{{ FEATUREDHOME[1].articlesDrafts_excerpt|raw }}</p>
+                                    <p>{{ FEATUREDARTICLES[1].articlesDrafts_excerpt|raw }}</p>
                                 </div>
                             </div>
                         </div>
@@ -116,44 +116,44 @@
                 <div class="row mas-m">
                     <div class="col-xs-6 col-sm-6 mas-p">
                         <div class="masonry-slide1 owl-carousel owl-theme">
-                            {% if FEATUREDHOME|length > 2 %}
+                            {% if FEATUREDARTICLES|length > 2 %}
                             <div class="item">
                                 <div class="mas-item masonry-sm">
-                                    {% if FEATUREDHOME[2].articles_id|articleThumbnail %}
-                                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDHOME[2].articles_published|date("Y/m/d") }}/{{ FEATUREDHOME[2].articles_slug }}"><figure><img src="{{ FEATUREDHOME[2].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDHOME[2].articlesDrafts_headline|raw }}"></figure></a>
+                                    {% if FEATUREDARTICLES[2].articles_id|articleThumbnail %}
+                                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[2].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[2].articles_slug }}"><figure><img src="{{ FEATUREDARTICLES[2].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDARTICLES[2].articlesDrafts_headline|raw }}"></figure></a>
                                     {% endif %}
                                     <div class="mas-text">
-                                        <div class="post-cat">{% for category in FEATUREDHOME[2].CATEGORIES %}
+                                        <div class="post-cat">{% for category in FEATUREDARTICLES[2].CATEGORIES %}
                                                 <a href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ category.categories_id|getCategoryURL }}"
                                                         {% if category.categories_backgroundColor != "" %}
                                                     style="background-color: #{{ category.categories_backgroundColor }} !important; color: #{{ category.categories_backgroundColorContrast }} !important;"
                                                         {% endif %}>{{ category.categories_displayName }}</a>
                                             {% endfor %}</div>
-                                        <h4 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDHOME[2].articles_published|date("Y/m/d") }}/{{ FEATUREDHOME[2].articles_slug }}">{{ FEATUREDHOME[2].articlesDrafts_headline|raw }}</a></h4>
+                                        <h4 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[2].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[2].articles_slug }}">{{ FEATUREDARTICLES[2].articlesDrafts_headline|raw }}</a></h4>
                                         <div class="mas-details">
-                                            <p>{{ FEATUREDHOME[2].articlesDrafts_excerpt|raw }}</p>
+                                            <p>{{ FEATUREDARTICLES[2].articlesDrafts_excerpt|raw }}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- /.End of masonry item -->
                             </div>
                             {% endif %}
-                            {% if FEATUREDHOME|length > 3 %}
+                            {% if FEATUREDARTICLES|length > 3 %}
                                 <div class="item">
                                     <div class="mas-item masonry-sm">
-                                        {% if FEATUREDHOME[3].articles_id|articleThumbnail %}
-                                            <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDHOME[3].articles_published|date("Y/m/d") }}/{{ FEATUREDHOME[3].articles_slug }}"><figure><img src="{{ FEATUREDHOME[3].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDHOME[3].articlesDrafts_headline|raw }}"></figure></a>
+                                        {% if FEATUREDARTICLES[3].articles_id|articleThumbnail %}
+                                            <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[3].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[3].articles_slug }}"><figure><img src="{{ FEATUREDARTICLES[3].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDARTICLES[3].articlesDrafts_headline|raw }}"></figure></a>
                                         {% endif %}
                                         <div class="mas-text">
-                                            <div class="post-cat">{% for category in FEATUREDHOME[3].CATEGORIES %}
+                                            <div class="post-cat">{% for category in FEATUREDARTICLES[3].CATEGORIES %}
                                                     <a href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ category.categories_id|getCategoryURL }}"
                                                             {% if category.categories_backgroundColor != "" %}
                                                         style="background-color: #{{ category.categories_backgroundColor }} !important; color: #{{ category.categories_backgroundColorContrast }} !important;"
                                                             {% endif %}>{{ category.categories_displayName }}</a>
                                                 {% endfor %}</div>
-                                            <h4 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDHOME[3].articles_published|date("Y/m/d") }}/{{ FEATUREDHOME[3].articles_slug }}">{{ FEATUREDHOME[3].articlesDrafts_headline|raw }}</a></h4>
+                                            <h4 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[3].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[3].articles_slug }}">{{ FEATUREDARTICLES[3].articlesDrafts_headline|raw }}</a></h4>
                                             <div class="mas-details">
-                                                <p>{{ FEATUREDHOME[3].articlesDrafts_excerpt|raw }}</p>
+                                                <p>{{ FEATUREDARTICLES[3].articlesDrafts_excerpt|raw }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -164,44 +164,44 @@
                     </div>
                     <div class="col-xs-6 col-sm-6 mas-p">
                         <div class="masonry-slide2 owl-carousel owl-theme">
-                            {% if FEATUREDHOME|length > 4 %}
+                            {% if FEATUREDARTICLES|length > 4 %}
                                 <div class="item">
                                     <div class="mas-item masonry-sm">
-                                        {% if FEATUREDHOME[4].articles_id|articleThumbnail %}
-                                            <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDHOME[4].articles_published|date("Y/m/d") }}/{{ FEATUREDHOME[4].articles_slug }}"><figure><img src="{{ FEATUREDHOME[4].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDHOME[4].articlesDrafts_headline|raw }}"></figure></a>
+                                        {% if FEATUREDARTICLES[4].articles_id|articleThumbnail %}
+                                            <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[4].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[4].articles_slug }}"><figure><img src="{{ FEATUREDARTICLES[4].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDARTICLES[4].articlesDrafts_headline|raw }}"></figure></a>
                                         {% endif %}
                                         <div class="mas-text">
-                                            <div class="post-cat">{% for category in FEATUREDHOME[4].CATEGORIES %}
+                                            <div class="post-cat">{% for category in FEATUREDARTICLES[4].CATEGORIES %}
                                                     <a href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ category.categories_id|getCategoryURL }}"
                                                             {% if category.categories_backgroundColor != "" %}
                                                         style="background-color: #{{ category.categories_backgroundColor }} !important; color: #{{ category.categories_backgroundColorContrast }} !important;"
                                                             {% endif %}>{{ category.categories_displayName }}</a>
                                                 {% endfor %}</div>
-                                            <h4 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDHOME[4].articles_published|date("Y/m/d") }}/{{ FEATUREDHOME[4].articles_slug }}">{{ FEATUREDHOME[4].articlesDrafts_headline|raw }}</a></h4>
+                                            <h4 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[4].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[4].articles_slug }}">{{ FEATUREDARTICLES[4].articlesDrafts_headline|raw }}</a></h4>
                                             <div class="mas-details">
-                                                <p>{{ FEATUREDHOME[4].articlesDrafts_excerpt|raw }}</p>
+                                                <p>{{ FEATUREDARTICLES[4].articlesDrafts_excerpt|raw }}</p>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- /.End of masonry item -->
                                 </div>
                             {% endif %}
-                            {% if FEATUREDHOME|length > 5 %}
+                            {% if FEATUREDARTICLES|length > 5 %}
                                 <div class="item">
                                     <div class="mas-item masonry-sm">
-                                        {% if FEATUREDHOME[5].articles_id|articleThumbnail %}
-                                            <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDHOME[5].articles_published|date("Y/m/d") }}/{{ FEATUREDHOME[5].articles_slug }}"><figure><img src="{{ FEATUREDHOME[5].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDHOME[5].articlesDrafts_headline|raw }}"></figure></a>
+                                        {% if FEATUREDARTICLES[5].articles_id|articleThumbnail %}
+                                            <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[5].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[5].articles_slug }}"><figure><img src="{{ FEATUREDARTICLES[5].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDARTICLES[5].articlesDrafts_headline|raw }}"></figure></a>
                                         {% endif %}
                                         <div class="mas-text">
-                                            <div class="post-cat">{% for category in FEATUREDHOME[5].CATEGORIES %}
+                                            <div class="post-cat">{% for category in FEATUREDARTICLES[5].CATEGORIES %}
                                                     <a href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ category.categories_id|getCategoryURL }}"
                                                             {% if category.categories_backgroundColor != "" %}
                                                         style="background-color: #{{ category.categories_backgroundColor }} !important; color: #{{ category.categories_backgroundColorContrast }} !important;"
                                                             {% endif %}>{{ category.categories_displayName }}</a>
                                                 {% endfor %}</div>
-                                            <h4 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDHOME[5].articles_published|date("Y/m/d") }}/{{ FEATUREDHOME[5].articles_slug }}">{{ FEATUREDHOME[5].articlesDrafts_headline|raw }}</a></h4>
+                                            <h4 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[5].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[5].articles_slug }}">{{ FEATUREDARTICLES[5].articlesDrafts_headline|raw }}</a></h4>
                                             <div class="mas-details">
-                                                <p>{{ FEATUREDHOME[5].articlesDrafts_excerpt|raw }}</p>
+                                                <p>{{ FEATUREDARTICLES[5].articlesDrafts_excerpt|raw }}</p>
                                             </div>
                                         </div>
                                     </div>
