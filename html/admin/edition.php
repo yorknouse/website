@@ -36,11 +36,6 @@ if (isset($_GET['id'])) {
 	usort($PAGEDATA['edition']['featuredArticles'], function($a, $b) {
 		return $a['featuredKey'] - $b['featuredKey'];
 	});
-
-	$DBLIB->orderBy("categories_nestUnder", "ASC");
-	$DBLIB->orderBy("categories_order", "ASC");
-	$DBLIB->orderBy("categories_displayName", "ASC");
-	$PAGEDATA['CATEGORIES'] = $DBLIB->get("categories",null, ["categories_id","categories_displayName","categories_backgroundColor","categories_backgroundColorContrast"]);
 } else die("404 File not found");
 
 echo $TWIG->render('edition.twig', $PAGEDATA);

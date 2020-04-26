@@ -184,6 +184,7 @@
                                 </td>
                                 <td>
                                     {% for category in CATEGORIES %}
+                                        {#Only display top level categories #}
                                         {% if category.categories_id in article.articles_categories %}
                                             <span class="label label-info"
                                             {% if category.categories_backgroundColor != "" %}
