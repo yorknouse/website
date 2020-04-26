@@ -57,9 +57,9 @@ $TWIG->addFilter(new Twig_SimpleFilter('s3URL', function ($fileid, $size = false
     global $bCMS;
     return $bCMS->s3URL($fileid, $size);
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('articleThumbnail', function ($article) {
+$TWIG->addFilter(new Twig_SimpleFilter('articleThumbnail', function ($article, $size = "large") {
     global $bCMS;
-    return $bCMS->articleThumbnail($article);
+    return $bCMS->articleThumbnail($article, $size);
 }));
 
 //Begin Nouse Head

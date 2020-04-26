@@ -125,14 +125,14 @@ class bCMS {
         return $_GET;
     }
 
-    public function articleThumbnail($article)
+    public function articleThumbnail($article, $size = "large")
     {
         global $DBLIB, $CONFIG;
         if ($article == null) return false;
         $DBLIB->where("articles_id", $this->sanitizeString($article));
         $thumb = $DBLIB->getone("articles", ["articles_thumbnail"]);
         if (!$thumb or $thumb["articles_thumbnail"] == null) return false;
-        if (is_numeric($thumb["articles_thumbnail"])) return $this->s3URL($thumb["articles_thumbnail"], "large");
+        if (is_numeric($thumb["articles_thumbnail"])) return $this->s3URL($thumb["articles_thumbnail"], $size);
         else return $CONFIG['FILESTOREURL'] . "/archive/public/articleImages/" . rawurlencode($thumb["articles_thumbnail"]);
     }
 

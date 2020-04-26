@@ -278,7 +278,7 @@
                             <figure>
                                 {% if category.FEATUREDARTICLES[0].articles_id|articleThumbnail %}
                                 <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ category.FEATUREDARTICLES[0].articles_published|date("Y/m/d") }}/{{ category.FEATUREDARTICLES[0].articles_slug }}" class="grid_image">
-                                    <img src="{{ category.FEATUREDARTICLES[0].articles_id|articleThumbnail }}" class="img-responsive" alt="">
+                                    <img src="{{ category.FEATUREDARTICLES[0].articles_id|articleThumbnail("medium") }}" class="img-responsive" alt="">
                                 </a>
                                 {% endif %}
                                 <figcaption>
@@ -300,7 +300,7 @@
                             <div class="media latest_post">
                                 {% if article.articles_id|articleThumbnail %}
                                 <a class="media-left" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
-                                    <img src="{{ article.articles_id|articleThumbnail }}" class="media-object" alt="">
+                                    <img src="{{ article.articles_id|articleThumbnail("tiny") }}" class="media-object" alt="">
                                 </a>
                                 {% endif %}
                                 <div class="media-body">
