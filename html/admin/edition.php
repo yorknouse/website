@@ -11,6 +11,9 @@ if (isset($_GET['id'])) {
 	$PAGEDATA['edition'] = $DBLIB->getone("editions");
 	if (!$PAGEDATA['edition']) die("404 File not found");
 
+	$PAGEDATA['edition']['featuredArticlesID'] = explode(",",$PAGEDATA['edition']['editions_featured']);
+	$PAGEDATA['edition']['featuredArticles']=[];
+
 	//Download all articles for edition
 	$DBLIB->orderBy("articles.articles_editionPage", "ASC");
 	$DBLIB->orderBy("articles.articles_published", "ASC");
@@ -23,8 +26,16 @@ if (isset($_GET['id'])) {
 	$PAGEDATA['articles'] = [];
 	foreach ($articles as $article) {
 		$article['articles_categories'] = explode(",", $article['articles_categories']);
+		if (in_array($article['articles_id'], $PAGEDATA['edition']['featuredArticlesID'])) {
+			$article['featuredKey'] = array_search($article['articles_id'], $PAGEDATA['edition']['featuredArticlesID']);
+			$PAGEDATA['edition']['featuredArticles'][] = $article;
+		}
 		$PAGEDATA['articles'][] = $article;
 	}
+
+	usort($PAGEDATA['edition']['featuredArticles'], function($a, $b) {
+		return $a['featuredKey'] - $b['featuredKey'];
+	});
 
 	$DBLIB->orderBy("categories_nestUnder", "ASC");
 	$DBLIB->orderBy("categories_order", "ASC");

@@ -5,6 +5,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js" integrity="sha256-5YmaxAwMjIpMrVlK84Y/+NjCpKnFYa8bWWBbUHSBGfU=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" integrity="sha256-yMjaV542P+q1RnH6XByCPDfUFhmOafWbeLPmqKh11zo=" crossorigin="anonymous" />
 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha256-KM512VNnjElC30ehFwehXjx1YCHPiQkOPmqnrWtpccM=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha256-rByPlHULObEjJ6XQxW/flG2r+22R5dKiAoef+aXWfik=" crossorigin="anonymous" />
 {% endblock %}
 {% block content %}
 <div class="row">
@@ -20,7 +23,9 @@
                         <a href="{{ CONFIG.ROOTFRONTENDURL }}/edition/{{ edition.editions_slug }}"
                            type="button" title="View on website" class="btn btn-default btn-sm" target="_blank">View on site</a>
                     {% endif %}
+                    {% if 51|permissions %}
                     <button title="Save" id="saveButton" class="btn btn-success"><i class="fa fa-floppy-o"></i></button>
+                    {% endif %}
                 </div>
 
             </div>
@@ -28,15 +33,16 @@
                 <div class="form-group">
                     <label>Name</label>
                     <textarea id="name" style="resize: none;" rows="2" placeholder="23 November 1964" class="form-control">{{ edition.editions_name|raw }}</textarea>
-                    <i>The format is normally "26 January 2011"</i>
+                    <i>"23 November 1964" or "Freshers Supplement 2020" etc.</i>
                 </div>
                 <div class="form-group">
                     <label>Print Edition &numero;</label>
-                    <input id="printnumber" type="number" placeholder="001" class="form-control" value="{{ edition.editions_printNumber }}" />
+                    <input id="printnumber" type="number" placeholder="001" min="1" class="form-control" value="{{ edition.editions_printNumber }}" />
+                    <i>Only set this for conventional print editions</i>
                 </div>
                 <div class="form-group">
                     <label>Strapline</label>
-                    <textarea id="excerpt" style="resize: none;" rows="4" placeholder="Use of straplines is optional" class="form-control">{{ edition.editions_excerpt|raw }}</textarea>
+                    <textarea id="excerpt" style="resize: none;" rows="2" placeholder="Strapline displays underneath the title of the edition - not normally used unless the edition has special significance" class="form-control">{{ edition.editions_excerpt|raw }}</textarea>
                 </div>
                 <div class="form-group">
                     <label>Publication date</label>
@@ -69,48 +75,6 @@
                 <i class="fa fa-refresh fa-spin"></i>
             </div>
         </div>
-        <script>
-            var thumbnailid = '{{ edition.editions_thumbnail }}'; //Used to store a new thumbnail if one is set
-            var pdffileid = '{{ edition.editions_pdf }}';
-            $(document).ready(function () {
-                $('#published').datetimepicker({
-                    date: "{{ (edition.editions_published == null ? "now"|date("Y-m-d H:i:s") : edition.editions_published) }}",
-                    locale: "en-gb",
-                    format: "D MMM YYYY h:mm:ss a"
-                });
-                $(".loadingoverlay").fadeOut();
-                $("#saveButton").click(function () {
-                    $(".loadingoverlay").show();
-                    $.ajax({
-                        url: "{{ CONFIG.ROOTBACKENDURL }}/api/edition/edit.php",
-                        type: 'POST',
-                        dataType: "json",
-                        data: {
-                            "name": $("#name").val(),
-                            "excerpt": $("#excerpt").val(),
-                            "printnumber": $("#printnumber").val(),
-                            "published":$("#published").val(),
-                            "status":$("#status").val(),
-                            "thumbnail": thumbnailid,
-                            "pdfid": pdffileid,
-                            "editionid": "{{ edition.editions_id }}",
-                        },
-                        success: function (result) {
-                            if (result.result) {
-                                location.reload();
-                            } else {
-                                console.log(result);
-                                bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again");
-                            }
-                        },
-                        error: function () {
-                            bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again");
-                        }
-                    });
-                });
-            });
-        </script>
-
     </div>
     <div class="col-md-4 col-sm-12">
         <div class="box box-default">
@@ -167,6 +131,21 @@
 </div>
 <div class="row">
     <div class="col-lg-12">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                Featured Articles
+            </div>
+            <div class="box-body">
+                <select id="featuredSelect" class="chooser form-control" multiple="multiple">
+                    {% for article in edition.featuredArticles %}
+                        <option selected value="{{ article.articles_id }}">{{ article.articlesDrafts_headline }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="box-footer">
+                Consider the featured articles as a front cover - this is a standard mosaic (similar to category pages)
+            </div>
+        </div>
         <div class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">
@@ -236,4 +215,94 @@
         </div>
     </div>
 </div>
+    <script>
+        var thumbnailid = '{{ edition.editions_thumbnail }}'; //Used to store a new thumbnail if one is set
+        var pdffileid = '{{ edition.editions_pdf }}';
+        $(document).ready(function () {
+            $('#published').datetimepicker({
+                date: "{{ (edition.editions_published == null ? "now"|date("Y-m-d H:i:s") : edition.editions_published) }}",
+                locale: "en-gb",
+                format: "D MMM YYYY h:mm:ss a"
+            });
+            $(".loadingoverlay").fadeOut();
+            $("#saveButton").click(function () {
+                $(".loadingoverlay").show();
+                var actualOrder = [];
+                var listNameToId = [];
+                $("#featuredSelect").find("option").each(function(index) {
+                    listNameToId[$( this ).html()] = $( this ).attr('value');
+                });
+                $("#featuredSelect").parent().find("li.select2-selection__choice").each(function(index) {
+                    actualOrder.push(listNameToId[$( this ).attr('title')]);
+                });
+                $.ajax({
+                    url: "{{ CONFIG.ROOTBACKENDURL }}/api/edition/edit.php",
+                    type: 'POST',
+                    dataType: "json",
+                    data: {
+                        "name": $("#name").val(),
+                        "excerpt": $("#excerpt").val(),
+                        "printnumber": $("#printnumber").val(),
+                        "published":$("#published").val(),
+                        "status":$("#status").val(),
+                        "thumbnail": thumbnailid,
+                        "pdfid": pdffileid,
+                        "editionid": "{{ edition.editions_id }}",
+                        "featured":actualOrder.join(","),
+                    },
+                    success: function (result) {
+                        if (result.result) {
+                            location.reload();
+                        } else {
+                            console.log(result);
+                            bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again");
+                        }
+                    },
+                    error: function () {
+                        bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again");
+                    }
+                });
+            });
+
+            $("#featuredSelect").select2({
+                tags: false,
+                multiple: true,
+                theme: "bootstrap",
+                {% if 51|permissions != true %} disabled:true,{% endif %}
+                minimumInputLength: 0,
+                maximumSelectionLength: 6,
+                width: '100%',
+                minimumResultsForSearch: 1,
+                placeholder: "Search for articles to feature at the top of the article",
+                ajax: {
+                    url: "{{ CONFIG.ROOTBACKENDURL }}/api/featured/articleSearchEdition.php?editionid={{ edition.editions_id }}",
+                    dataType: "json",
+                    type: "POST",
+                    data: function (params) {
+                        var queryParameters = {
+                            term: params.term
+                        }
+                        return queryParameters;
+                    },
+                    processResults: function (data) {
+                        if (data && data.result && data.response) {
+                            return {
+                                results: $.map(data.response, function (item) {
+                                    return {
+                                        text: item.articlesDrafts_headline,
+                                        id: item.articles_id
+                                    }
+                                })
+                            };
+                        } else return {
+                            results: []
+                        };
+                    }
+                }
+            });
+            $("ul.select2-selection__rendered").sortable({
+                containment: 'parent'
+            });
+        });
+    </script>
 {% endblock %}

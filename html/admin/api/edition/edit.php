@@ -17,7 +17,7 @@ $newData["editions_show"] = ($_POST["status"] > 1 ? '1' : 0);
 $newData['editions_showHome'] = ($_POST["status"] > 2 ? '1' : 0);
 $newData["editions_pdf"] = ($_POST["pdfid"] != null ? $_POST["pdfid"] : null);
 $newData["editions_thumbnail"] = ($_POST["thumbnail"] != null ? $_POST["thumbnail"] : null);
-
+$newData["editions_featured"] = implode(",", explode(",", $bCMS->sanitizeString($_POST['featured'])));
 $DBLIB->where ('editions_id', $edition['editions_id']);
 if ($DBLIB->update ('editions', $newData)) {
     $bCMS->auditLog("EDIT", "editions", $edition['editions_id'], $AUTH->data['users_userid']);
