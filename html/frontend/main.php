@@ -35,6 +35,28 @@ if ($urlSplit[0] == "edition") {
     $PAGEDATA['pageConfig']['TITLE'] = $PAGEDATA['edition']['editions_name'] . ($PAGEDATA['edition']['editions_printNumber'] != null ? ' | Edition &numero;' . $PAGEDATA['edition']['editions_printNumber'] : '') . " | Nouse";
     $PAGEDATA['pageConfig']['EDITIONTheme'] = true;
 
+    //Get a list of featured articles for the masonry at the top
+    if (strlen($PAGEDATA['edition']['editions_featured']) > 0) {
+        $PAGEDATA['edition']['editions_featured'] = explode(",",$PAGEDATA['edition']['editions_featured']);
+        $PAGEDATA['FEATUREDARTICLES'] = [];
+        foreach ($PAGEDATA['edition']['editions_featured'] as $article) { //Has to be done like this otherwise it won't come out in the correct order
+            if (!$article) continue;
+            $DBLIB->where("articles.articles_id", $article);
+            $DBLIB->where("articles_showInLists", 1);
+            $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
+            $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
+            $article = $DBLIB->getone("articles", ["articles.articles_categories", "articles.articles_id","articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
+
+            $DBLIB->where("(categories_id IN (" . $article['articles_categories'] . "))");
+            $article["CATEGORIES"] = $DBLIB->get("categories", 1, ["categories_displayName","categories_id","categories_backgroundColor","categories_backgroundColorContrast"]);
+
+            $PAGEDATA['FEATUREDARTICLES'][] = $article;
+        }
+    } else {
+        $PAGEDATA['FEATUREDARTICLES'] =null;
+        $PAGEDATA['edition']['editions_featured'] = [];
+    }
+
     $categoriesWorker = $PAGEDATA['CATEGORIES'];
     //Download all articles for edition
     $PAGEDATA['CATEGORIESARTICLES'] =[];
@@ -52,6 +74,7 @@ if ($urlSplit[0] == "edition") {
         $articles = $DBLIB->get("articles", null, ["articles.*", "articlesDrafts.articlesDrafts_headline", "articlesDrafts.articlesDrafts_excerpt"]);
 
         foreach ($articles as $article) {
+            if (in_array($article['articles_id'], $PAGEDATA['edition']['editions_featured'])) continue; //Skip articles that we have already shown as featured
             $article['articles_categories'] = explode(",", $article['articles_categories']);
             if ($article['articles_authors'] != null) {
                 $authors = explode(",", $article['articles_authors']);
@@ -67,24 +90,6 @@ if ($urlSplit[0] == "edition") {
         }
         $PAGEDATA['CATEGORIESARTICLES'][] = $category;
     }
-
-    //Get a list of featured articles for the masonry at the top
-    if (strlen($PAGEDATA['edition']['editions_featured']) > 0) {
-        $PAGEDATA['FEATUREDARTICLES'] = [];
-        foreach (explode(",",$PAGEDATA['edition']['editions_featured']) as $article) { //Has to be done like this otherwise it won't come out in the correct order
-            if (!$article) continue;
-            $DBLIB->where("articles.articles_id", $article);
-            $DBLIB->where("articles_showInLists", 1);
-            $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
-            $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
-            $article = $DBLIB->getone("articles", ["articles.articles_categories", "articles.articles_id","articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
-
-            $DBLIB->where("(categories_id IN (" . $article['articles_categories'] . "))");
-            $article["CATEGORIES"] = $DBLIB->get("categories", 1, ["categories_displayName","categories_id","categories_backgroundColor","categories_backgroundColorContrast"]);
-
-            $PAGEDATA['FEATUREDARTICLES'][] = $article;
-        }
-    } else $PAGEDATA['FEATUREDARTICLES'] =null;
 
     http_response_code(200);
     echo $TWIG->render('edition.twig', $PAGEDATA);

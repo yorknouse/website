@@ -1,0 +1,19 @@
+{% if article.articles_id|articleThumbnail %}
+    <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
+        <figure>
+            <img src="{{ article.articles_id|articleThumbnail }}" class="img-responsive" alt="{{ article.articlesDrafts_headline|raw }}">
+        </figure>
+    </a>
+{% endif %}
+<div class="mas-text">
+    <div class="post-cat">{% for category in article.CATEGORIES %}
+            <a href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ category.categories_id|getCategoryURL }}"
+                    {% if category.categories_backgroundColor != "" %}
+                style="background-color: #{{ category.categories_backgroundColor }} !important; color: #{{ category.categories_backgroundColorContrast }} !important;"
+                    {% endif %}>{{ category.categories_displayName }}</a>
+        {% endfor %}</div>
+    <h4 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline|raw }}</a></h4>
+    <div class="mas-details">
+        <p>{{ article.articlesDrafts_excerpt|raw }}</p>
+    </div>
+</div>
