@@ -2,6 +2,20 @@
 {% block htmlIncludes %}
 <script src="{{ CONFIG.ASSETSURL }}js/macy.js"></script>
 {% endblock %}
+{% block htmlMeta %}
+{% if edition.editions_thumbnail %}
+    <meta property="og:image" content="{{ edition.editions_thumbnail|s3URL("large") }}" />
+{% endif %}
+<meta property="fb:app_id" content="471873819886891" />
+<meta property="og:title" content="{{ edition.editions_name|raw }}">
+<meta property="og:description" content="{{ edition.editions_excerpt|raw }}">
+<meta property="og:type"   content="article" />
+<meta property="article:content_tier"   content="free" />
+<meta property="article:publisher" content="https://www.facebook.com/yorknouse" />
+<meta property="og:url" content="{{ CONFIG.ROOTFRONTENDURL }}/edition/{{ edition.editions_slug }}" />
+<link rel="canonical" href="{{ CONFIG.ROOTFRONTENDURL }}/edition/{{ edition.editions_slug }}" />
+<meta property="article:published_time" content="{{ edition.editions_published|date("d M Y") }}" />
+{% endblock %}
 {% block prePageContent %}
     {% if edition.editions_pdf %}
     <div class="video-inner" style="margin-top: 0px;padding-bottom:10px;">
