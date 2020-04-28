@@ -11,7 +11,7 @@ if (!$edition) die("404");
 $newData = [];
 $newData["editions_name"] = $bCMS->cleanString($_POST["name"]);
 $newData["editions_excerpt"] = $bCMS->cleanString($_POST["excerpt"]);
-$newData["editions_printNumber"] = $_POST['printnumber'];
+$newData["editions_printNumber"] = (is_numeric($_POST['printnumber']) ? $_POST['printnumber'] : null);
 $newData["editions_published"] = date("Y-m-d H:i:s", strtotime($bCMS->cleanString($_POST["published"])));
 $newData["editions_show"] = ($_POST["status"] > 1 ? '1' : 0);
 $newData['editions_showHome'] = ($_POST["status"] > 2 ? '1' : 0);
