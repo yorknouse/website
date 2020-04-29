@@ -138,7 +138,14 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
             $bCMS->deleteAppleNews($article['articles_id']);
         }
 
-
+        //Caching
+        //Edition
+        if ($articleData['editions_id']) {
+            $DBLIB->where("editions_id", $articleData['editions_id']);
+            $edition = $DBLIB->getOne("editions", ["editions_slug"]);
+            if ($edition) $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/editions/" . $edition['editions_slug']);
+        }
+        //Categories
         foreach (explode(",", $articleData['articles_categories']) as $category) {
             $bCMS->cacheClearCategory($category);
         }
@@ -195,6 +202,13 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
         $bCMS->auditLog("CREATE", "articles", $articleID, $AUTH->data['users_userid']);
 
         //Caching
+        //Edition
+        if ($articleData['editions_id']) {
+            $DBLIB->where("editions_id", $articleData['editions_id']);
+            $edition = $DBLIB->getOne("editions", ["editions_slug"]);
+            if ($edition) $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/editions/" . $edition['editions_slug']);
+        }
+        //Categories
         foreach (explode(",", $articleData['articles_categories']) as $category) {
             $bCMS->cacheClearCategory($category);
         }
