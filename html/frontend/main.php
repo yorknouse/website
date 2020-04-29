@@ -61,6 +61,7 @@ if ($urlSplit[0] == "edition") {
     $categoriesWorker = $PAGEDATA['CATEGORIES'];
     //Download all articles for edition
     $PAGEDATA['CATEGORIESARTICLES'] =[];
+    $PAGEDATA['articlesIDs'] = [];
     foreach ($categoriesWorker as $category) {
         $category['articles'] = [];
         $DBLIB->where("FIND_IN_SET('" . $category['categories_id'] . "',articles_categories)");
@@ -76,6 +77,7 @@ if ($urlSplit[0] == "edition") {
 
         foreach ($articles as $article) {
             if (in_array($article['articles_id'], $PAGEDATA['edition']['editions_featured'])) continue; //Skip articles that we have already shown as featured
+            elseif (in_array($article['articles_id'], $PAGEDATA['articlesIDs'])) continue; //Don't add it twice if it's already been added for another category
             $article['articles_categories'] = explode(",", $article['articles_categories']);
             if ($article['articles_authors'] != null) {
                 $authors = explode(",", $article['articles_authors']);
@@ -87,6 +89,7 @@ if ($urlSplit[0] == "edition") {
                     $article['articles_authors'][] = $DBLIB->getone("users", ["users.users_name1", "users.users_name2", "users.users_userid"]);
                 }
             } else $article['articles_authors'] = false;
+            array_push($PAGEDATA['articlesIDs'],$article['articles_id']);
             $category['articles'][] = $article;
         }
         $PAGEDATA['CATEGORIESARTICLES'][] = $category;
