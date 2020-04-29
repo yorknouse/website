@@ -30,6 +30,7 @@ if ($urlSplit[0] == "edition") {
     $DBLIB->where("editions.editions_slug", $urlSplit[1]); //ie those that can actually be shown
     $DBLIB->where("editions.editions_deleted", 0); //ie those that can actually be shown
     $DBLIB->where("editions.editions_show",1);
+    $DBLIB->where("editions.editions_published <= '" . date("Y-m-d H:i:s") . "'");
     $PAGEDATA['edition'] = $DBLIB->getone("editions");
     if (!$PAGEDATA['edition']) render404Error();
     $PAGEDATA['pageConfig']['TITLE'] = $PAGEDATA['edition']['editions_name'] . ($PAGEDATA['edition']['editions_printNumber'] != null ? ' | Edition &numero;' . $PAGEDATA['edition']['editions_printNumber'] : '') . " | Nouse";

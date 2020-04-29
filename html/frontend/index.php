@@ -60,6 +60,7 @@ if ($featuredHomeArticles) {
 $DBLIB->where("editions_deleted", 0);
 $DBLIB->where("editions_show", 1);
 $DBLIB->where("editions_showHome", 1);
+$DBLIB->where("editions.editions_published <= '" . date("Y-m-d H:i:s") . "'");
 $DBLIB->orderBy("editions_published", "DESC");
 $PAGEDATA['pageConfig']['EDITIONS'] = $DBLIB->get("editions", 3, ["editions_id", "editions_name","editions_slug","editions_printNumber"]);
 
@@ -67,6 +68,7 @@ $PAGEDATA['pageConfig']['EDITIONS'] = $DBLIB->get("editions", 3, ["editions_id",
 $DBLIB->where("editions_deleted", 0);
 $DBLIB->where("editions_show", 1);
 $DBLIB->where("editions_showHome", 1);
+$DBLIB->where("editions.editions_published <= '" . date("Y-m-d H:i:s") . "'");
 $DBLIB->where("(editions_thumbnail IS NOT NULL)");
 $DBLIB->orderBy("editions_published", "DESC");
 $PAGEDATA['pageConfig']['LATESTEDITION'] = $DBLIB->getone("editions", ["editions_id", "editions_name","editions_slug", "editions_thumbnail"]);
