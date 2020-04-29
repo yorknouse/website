@@ -46,8 +46,20 @@
     {% if FEATUREDARTICLES %}
     <div class="news-masonry">
     <div class="height_30"></div>
-    <div class="container">
-        {# This is a bit of a custom masonary requested by the editor at the time #}
+
+        {# This is a bit of a custom masonary requested by the editor at the time - it doesn't work on mobile so there's a custom one below #}
+    <div class="container hidden-md hidden-lg">
+        <div class="row">
+            {% for article in FEATUREDARTICLES %}
+            <div class="col-sm-12 col-xs-12 mas-m-b">
+                <div class="mas-item mas-big ">
+                    {% include 'elements/masonryArticle.twig' with {'article':article} %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container hidden-sm hidden-xs">
         <div class="row mas-m">
             {% if FEATUREDARTICLES|length > 0 %}
             <div class="col-sm-12 col-md-{{ FEATUREDARTICLES|length < 2 ? "12" : "6" }} mas-p">
