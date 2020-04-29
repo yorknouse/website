@@ -61,15 +61,7 @@
                 {% if FEATUREDARTICLES|length > 0 %}
                     <div class="col-sm-{{ FEATUREDARTICLES|length < 2 ? "12" : "6"}} mas-p">
                         <div class="mas-item mas-big">
-                            {% if FEATUREDARTICLES[0].articles_id|articleThumbnail %}
-                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[0].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[0].articles_slug }}"><figure><img src="{{ FEATUREDARTICLES[0].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDARTICLES[0].articlesDrafts_headline|raw }}"></figure></a>
-                            {% endif %}
-                            <div class="mas-text">
-                                <h2 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[0].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[0].articles_slug }}">{{ FEATUREDARTICLES[0].articlesDrafts_headline|raw }}</a></h2>
-                                <div class="mas-details">
-                                    <p>{{ FEATUREDARTICLES[0].articlesDrafts_excerpt|raw }}</p>
-                                </div>
-                            </div>
+                            {% include 'elements/masonryArticle.twig' with {'article':FEATUREDARTICLES[0]} %}
                         </div>
                     </div>
                 {% endif %}
@@ -78,15 +70,7 @@
                         <div class="row mas-m hidden-xs">
                             <div class="col-xs-12 col-sm-12 mas-p">
                                 <div class="mas-item masonry-sm mas-m-b">
-                                    {% if FEATUREDARTICLES[1].articles_id|articleThumbnail %}
-                                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[1].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[1].articles_slug }}"><figure><img src="{{ FEATUREDARTICLES[1].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDARTICLES[1].articlesDrafts_headline|raw }}"></figure></a>
-                                    {% endif %}
-                                    <div class="mas-text">
-                                        <h4 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[1].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[1].articles_slug }}">{{ FEATUREDARTICLES[1].articlesDrafts_headline|raw }}</a></h4>
-                                        <div class="mas-details">
-                                            <p>{{ FEATUREDARTICLES[1].articlesDrafts_excerpt|raw }}</p>
-                                        </div>
-                                    </div>
+                                    {% include 'elements/masonryArticle.twig' with {'article':FEATUREDARTICLES[1]} %}
                                 </div>
                             </div>
                         </div>
@@ -97,15 +81,7 @@
                                 {% if FEATUREDARTICLES|length > 2 %}
                                     <div class="item">
                                         <div class="mas-item masonry-sm">
-                                            {% if FEATUREDARTICLES[2].articles_id|articleThumbnail %}
-                                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[2].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[2].articles_slug }}"><figure><img src="{{ FEATUREDARTICLES[2].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDARTICLES[2].articlesDrafts_headline|raw }}"></figure></a>
-                                            {% endif %}
-                                            <div class="mas-text">
-                                                <h4 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[2].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[2].articles_slug }}">{{ FEATUREDARTICLES[2].articlesDrafts_headline|raw }}</a></h4>
-                                                <div class="mas-details">
-                                                    <p>{{ FEATUREDARTICLES[2].articlesDrafts_excerpt|raw }}</p>
-                                                </div>
-                                            </div>
+                                            {% include 'elements/masonryArticle.twig' with {'article':FEATUREDARTICLES[2]} %}
                                         </div>
                                         <!-- /.End of masonry item -->
                                     </div>
@@ -113,15 +89,7 @@
                                 {% if FEATUREDARTICLES|length > 3 %}
                                     <div class="item">
                                         <div class="mas-item masonry-sm">
-                                            {% if FEATUREDARTICLES[3].articles_id|articleThumbnail %}
-                                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[3].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[3].articles_slug }}"><figure><img src="{{ FEATUREDARTICLES[3].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDARTICLES[3].articlesDrafts_headline|raw }}"></figure></a>
-                                            {% endif %}
-                                            <div class="mas-text">
-                                                <h4 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[3].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[3].articles_slug }}">{{ FEATUREDARTICLES[3].articlesDrafts_headline|raw }}</a></h4>
-                                                <div class="mas-details">
-                                                    <p>{{ FEATUREDARTICLES[3].articlesDrafts_excerpt|raw }}</p>
-                                                </div>
-                                            </div>
+                                            {% include 'elements/masonryArticle.twig' with {'article':FEATUREDARTICLES[3]} %}
                                         </div>
                                         <!-- /.End of masonry item -->
                                     </div>
@@ -133,15 +101,7 @@
                                 {% if FEATUREDARTICLES|length > 4 %}
                                     <div class="item">
                                         <div class="mas-item masonry-sm">
-                                            {% if FEATUREDARTICLES[4].articles_id|articleThumbnail %}
-                                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[4].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[4].articles_slug }}"><figure><img src="{{ FEATUREDARTICLES[4].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDARTICLES[4].articlesDrafts_headline|raw }}"></figure></a>
-                                            {% endif %}
-                                            <div class="mas-text">
-                                                <h4 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[4].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[4].articles_slug }}">{{ FEATUREDARTICLES[4].articlesDrafts_headline|raw }}</a></h4>
-                                                <div class="mas-details">
-                                                    <p>{{ FEATUREDARTICLES[4].articlesDrafts_excerpt|raw }}</p>
-                                                </div>
-                                            </div>
+                                            {% include 'elements/masonryArticle.twig' with {'article':FEATUREDARTICLES[4]} %}
                                         </div>
                                         <!-- /.End of masonry item -->
                                     </div>
@@ -149,15 +109,7 @@
                                 {% if FEATUREDARTICLES|length > 5 %}
                                     <div class="item">
                                         <div class="mas-item masonry-sm">
-                                            {% if FEATUREDARTICLES[5].articles_id|articleThumbnail %}
-                                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[5].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[5].articles_slug }}"><figure><img src="{{ FEATUREDARTICLES[5].articles_id|articleThumbnail }}" class="img-responsive" alt="{{ FEATUREDARTICLES[5].articlesDrafts_headline|raw }}"></figure></a>
-                                            {% endif %}
-                                            <div class="mas-text">
-                                                <h4 class="mas-title"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ FEATUREDARTICLES[5].articles_published|date("Y/m/d") }}/{{ FEATUREDARTICLES[5].articles_slug }}">{{ FEATUREDARTICLES[5].articlesDrafts_headline|raw }}</a></h4>
-                                                <div class="mas-details">
-                                                    <p>{{ FEATUREDARTICLES[5].articlesDrafts_excerpt|raw }}</p>
-                                                </div>
-                                            </div>
+                                            {% include 'elements/masonryArticle.twig' with {'article':FEATUREDARTICLES[5]} %}
                                         </div>
                                         <!-- /.End of masonry item -->
                                     </div>
