@@ -15,7 +15,7 @@
                 <article class="grid_post">
                     <figure>
                         <a href="{{ CONFIG.ROOTFRONTENDURL }}/edition/{{ edition.editions_slug }}" class="grid_image">
-                            <img src="{{ edition.editions_thumbnail|s3URL("small") }}" class="img-responsive" alt="{{ edition.editions_name }}">
+                            <img data-src="{{ edition.editions_thumbnail|s3URL("small") }}" class="img-responsive" style="width:100%;" alt="{{ edition.editions_name }}">
                         </a>
                         <figcaption>
                             <h4 class="grid_post_title">
@@ -51,10 +51,14 @@
                                 480: 3
                             }
                         });
+                        $('img[data-src]').each(function( index ) {
+                            $(this).attr("src", $(this).data("src"));
+                        });
                     });
                 </script>
                 {% endfor %}
             </div>
+            <p>Showing {{ editions|length }} Editions, more are held in our Physical Archive and at the Borthwick Institute for Archives.</p>
         </main>
     </div>
 </div>
