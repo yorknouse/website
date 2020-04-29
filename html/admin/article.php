@@ -34,6 +34,7 @@ if (isset($_GET['id'])) {
 
 //              CATEGORIES
 //		Here only have 2 levels of nesting
+$DBLIB->where("categories_showPublic",1);
 $DBLIB->orderBy("categories_order", "ASC");
 $DBLIB->orderBy("categories_displayName", "ASC");
 $DBLIB->where("categories_nestUnder IS NULL");
@@ -41,12 +42,14 @@ $PAGEDATA['CATEGORIES'] = [];
 foreach ($DBLIB->get("categories") as $category) {
 	$DBLIB->orderBy("categories_order", "ASC");
 	$DBLIB->orderBy("categories_displayName", "ASC");
+	$DBLIB->where("categories_showPublic",1);
 	$DBLIB->where("categories_nestUnder", $category["categories_id"]);
 	$category['SUB'] = [];
 	foreach ($DBLIB->get("categories") as $subcategory) {
 		$category['SUB'][] = $subcategory;
 		$DBLIB->orderBy("categories_order", "ASC");
 		$DBLIB->orderBy("categories_displayName", "ASC");
+		$DBLIB->where("categories_showPublic",1);
 		$DBLIB->where("categories_nestUnder", $subcategory["categories_id"]);
 		foreach ($DBLIB->get("categories") as $subsubcategory) {
 			$category['SUB'][] = $subsubcategory;
