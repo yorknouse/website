@@ -11,9 +11,12 @@ if (isset($_GET['id'])) {
 	$PAGEDATA['edition'] = $DBLIB->getone("editions");
 	if (!$PAGEDATA['edition']) die("404 File not found");
 
+	$DBLIB->where("editions_deleted", 0);
+	$PAGEDATA['editionTypes'] = $DBLIB->get("editions", null, ["DISTINCT editions_type"]);
+
+
 	$PAGEDATA['edition']['featuredArticlesID'] = explode(",",$PAGEDATA['edition']['editions_featured']);
 	$PAGEDATA['edition']['featuredArticles']=[];
-
 
 	$DBLIB->where("categories_showPublic",1);
 	$DBLIB->orderBy("categories_order", "ASC");

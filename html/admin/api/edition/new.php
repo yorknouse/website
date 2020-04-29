@@ -21,6 +21,7 @@ $result = $DBLIB->insert("editions", [
     "editions_deleted" => 0,
     "editions_showHome" => 1,
     "editions_show" => 0,
+    "editions_type" => "Print Edition",
     "editions_published" => date("Y-m-d H:i:s"),
     "editions_slug" => $editionSlug,
 ]);

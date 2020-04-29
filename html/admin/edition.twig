@@ -57,6 +57,15 @@
                         <option value="3" {{ edition.editions_show == 1 and edition.editions_showHome == 1 ? 'selected' : '' }}>Published on Homepage</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label>Type</label>
+                    <select class="form-control" id="type">
+                        {% for type in editionTypes %}
+                            {% set type = type.editions_type %}
+                            <option {{ edition.editions_type == type ? ' selected': ''}} value="{{ type }}">{{ type }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
                 <hr/>
                 <div class="form-group">
                     <label>Slug</label>
@@ -246,6 +255,7 @@
                         "printnumber": $("#printnumber").val(),
                         "published":$("#published").val(),
                         "status":$("#status").val(),
+                        "type":$("#type").val(),
                         "thumbnail": thumbnailid,
                         "pdfid": pdffileid,
                         "editionid": "{{ edition.editions_id }}",
