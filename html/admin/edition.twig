@@ -98,7 +98,7 @@
                 <img src="{{ (edition.editions_thumbnail ? edition.editions_thumbnail|s3URL : "") }}" alt="Thumbnail" id="thumbnailImage" style="width: 100%; {% if edition.editions_thumbnail|length < 1 %}display: none;{% endif %}" />
             </div>
             <div class="box-footer">
-                {% embed 'common/plugins/fineuploader.twig' with {'publicBool': true, 'type': 'EDITION-THUMBNAIL', 'paste': false, 'typeId': 4, 'subTypeId': edition.editions_id, 'imagesOnly': true } %}
+                {% embed 'common/plugins/fineuploader.twig' with {'publicBool': true, 'type': 'EDITION-THUMBNAIL', 'paste': true, 'typeId': 4, 'subTypeId': edition.editions_id, 'imagesOnly': true } %}
                     {% block success %}
                         var filepath = responseJson.url.split('.');
                         var urlLarge = responseJson.url.slice(0, responseJson.url.lastIndexOf(".")) + " (large)" + responseJson.url.slice(responseJson.url.lastIndexOf("."));
@@ -115,7 +115,7 @@
         <div class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">
-                    PDF
+                    Compressed PDF
                 </h3>
                 <div class="box-tools pull-right">
                 </div>
@@ -126,13 +126,37 @@
                     {{ editionPdfData['data']['s3files_original_name'] }}</a>
             </div>
             <div class="box-footer">
-                {% embed 'common/plugins/fineuploader.twig' with {'publicBool': true, 'type': 'EDITION-PDF', 'paste': true, 'typeId': 5, 'subTypeId': edition.editions_id, 'imagesOnly': false } %}
+                {% embed 'common/plugins/fineuploader.twig' with {'publicBool': true, 'type': 'EDITION-PDF', 'paste': false, 'typeId': 6, 'subTypeId': edition.editions_id, 'imagesOnly': false } %}
                     {% block success %}
                         $("#pdfLink").attr("href",responseJson.url);
                         pdffileid = responseJson.id;
                         $("#pdfLink").show();
                     {% endblock %}
-                {% endembed %}<p style="font-style: italic; margin-top: 4px;">Uploading a new PDF replaces the old one</p>
+                {% endembed %}<p style="font-style: italic; margin-top: 4px;">This is a compressed version of the PDF suitable for downloading by end users<br/>Uploading a new PDF replaces the old one</p>
+
+            </div>
+        </div>
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    High Quality PDF Original
+                </h3>
+                <div class="box-tools pull-right">
+                </div>
+            </div>
+            <div class="box-body">
+                <a href="{{ edition.editions_pdfOriginal|s3URL }}" id="pdfLink" style="{{ edition.editions_pdfOriginal|length < 1 ? 'display:none;' : '' }}" target="_blank" class="btn btn-default btn-lg"><i style="margin-right: 10px;" class="fa fa-file-pdf-o"></i>
+                    {% set editionPdfOrigData = edition.editions_pdfOriginal|s3DATA %}
+                    {{ editionPdfOrigData['data']['s3files_original_name'] }}</a>
+            </div>
+            <div class="box-footer">
+                {% embed 'common/plugins/fineuploader.twig' with {'publicBool': true, 'type': 'EDITION-PDF', 'paste': false, 'typeId': 5, 'subTypeId': edition.editions_id, 'imagesOnly': false } %}
+                {% block success %}
+                    $("#pdfLink").attr("href",responseJson.url);
+                    pdforigfileid = responseJson.id;
+                    $("#pdfLink").show();
+                {% endblock %}
+                {% endembed %}<p style="font-style: italic; margin-top: 4px;">This is the raw PDF that comes of out the publishing software<br/>Uploading a new PDF replaces the old one</p>
 
             </div>
         </div>
@@ -228,6 +252,7 @@
     <script>
         var thumbnailid = '{{ edition.editions_thumbnail }}'; //Used to store a new thumbnail if one is set
         var pdffileid = '{{ edition.editions_pdf }}';
+        var pdforigfileid = '{{ edition.editions_pdfOriginal }}';
         $(document).ready(function () {
             $('#published').datetimepicker({
                 date: "{{ (edition.editions_published == null ? "now"|date("Y-m-d H:i:s") : edition.editions_published) }}",
@@ -258,6 +283,7 @@
                         "type":$("#type").val(),
                         "thumbnail": thumbnailid,
                         "pdfid": pdffileid,
+                        "pdforigid": pdforigfileid,
                         "editionid": "{{ edition.editions_id }}",
                         "featured":actualOrder.join(","),
                     },

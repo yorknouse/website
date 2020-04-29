@@ -17,6 +17,7 @@ $newData["editions_show"] = ($_POST["status"] > 1 ? '1' : 0);
 $newData['editions_showHome'] = ($_POST["status"] > 2 ? '1' : 0);
 $newData["editions_pdf"] = ($_POST["pdfid"] != null ? $_POST["pdfid"] : null);
 $newData["editions_type"] = $_POST['type'];
+$newData["editions_pdfOriginal"] = ($_POST["pdforigid"] != null ? $_POST["pdforigid"] : null);
 $newData["editions_thumbnail"] = ($_POST["thumbnail"] != null ? $_POST["thumbnail"] : null);
 $newData["editions_featured"] = implode(",", explode(",", $bCMS->sanitizeString($_POST['featured'])));
 $DBLIB->where ('editions_id', $edition['editions_id']);
