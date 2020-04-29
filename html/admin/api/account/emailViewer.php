@@ -19,7 +19,7 @@ if (!$AUTH->permissionCheck(6)) die("Sorry you don't have access to this");
 			</tr>
 			<tr>
 				<td><b>Sent:</b></td>
-				<td>' . date("l, F j, Y h:i A", strtotime($email['emailSent_sent'])). '</td>
+				<td>' . date("l, F j, Y H:i A", strtotime($email['emailSent_sent'])). '</td>
 			</tr>
 			<tr>
 				<td><b>To:</b></td>
