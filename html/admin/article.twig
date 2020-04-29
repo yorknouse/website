@@ -287,7 +287,7 @@
             </div>
             <div class="box-footer">
                 <input id="thumbnailCredit" style="margin-bottom: 5px; display:none;" value="{{ article.articlesDrafts_thumbnailCredit|raw }}" class="form-control" placeholder="Image credit for caption" />
-                {% embed 'common/plugins/fineuploader.twig' with {'publicBool': true, 'type': 'ARTICLE-THUMBNAIL', 'paste': false, 'typeId': 3, 'subTypeId': 1, 'imagesOnly': true } %}
+                {% embed 'common/plugins/fineuploader.twig' with {'publicBool': true, 'type': 'ARTICLE-THUMBNAIL', 'paste': false, 'typeId': 3, 'subTypeId': article.articles_id, 'imagesOnly': true } %}
                     {% block success %}
                         var filepath = responseJson.url.split('.');
                         var urlLarge = responseJson.url.slice(0, responseJson.url.lastIndexOf(".")) + " (large)" + responseJson.url.slice(responseJson.url.lastIndexOf("."));
