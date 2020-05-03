@@ -19,15 +19,13 @@ if ($resp->isSuccess()) {
                 "comments_text" => $bCMS->cleanString($_POST['text']),
                 "comments_nestUnder"=> ($bCMS->sanitizeString((isset($_POST['commentid']) ? $_POST['commentid'] : null)) == "" ? null : $bCMS->sanitizeString($_POST['commentid'])),
                 "comments_recaptcha" => 1,
+                "comments_recaptchaScore" => $resp->getScore(),
+                "comments_authorIP" => (isset($_SERVER["HTTP_CF_CONNECTING_IP"]) ? $_SERVER["HTTP_CF_CONNECTING_IP"] : $_SERVER["REMOTE_ADDR"])
             ])) {
 
             //Send an email notification
             $article['articles_authors_array'] = explode(",", $article['articles_authors']);
             if (count($article['articles_authors_array']) > 0) {
-                //$DBLIB->where("(users_userid IN (" . $article['articles_authors'] . "))");
-                //$DBLIB->where("(users_googleAppsUsernameYork IS NOT NULL OR users_googleAppsUsernameNouse IS NOT NULL OR users_archive_email IS NOT NULL)");
-                //$DBLIB->get("users", null, ["users_googleAppsUsernameYork", "users_googleAppsUsernameNouse", "users_archive_email","users_name1", "users_name2"]);
-                //foreach ($article['articles_authors'] as $author) {
                 foreach ($article['articles_authors_array'] as $author) {
                     $html = "<b>Name: </b>" . (isset($_POST['name']) ? $_POST['name'] : "<i>Posted anonymously</i>") . "<br/>";
                     $html .= "<b>Text: </b>" . $bCMS->cleanString($_POST['text']) . "<br/>";
