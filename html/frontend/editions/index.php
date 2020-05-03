@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../common/head.php';
 
-$PAGEDATA['pageConfig'] = ["TITLE" => "Editions"];
+$PAGEDATA['pageConfig'] = ["TITLE" => "Editions", "ADS" => false];
 
 $DBLIB->orderBy("editions_published", "DESC");
 $DBLIB->where("editions_deleted", 0); //ie those that can actually be shown

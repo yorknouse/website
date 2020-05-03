@@ -63,8 +63,10 @@
         <meta property="og:url" content="https://nouse.co.uk">
     {% endblock %}
 
+    {% if pageConfig.ADS != false %}
     <!--Google adsense-->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    {% endif %}
 
     <!--Sentry Error logging-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/raven.js/3.26.2/raven.min.js"
@@ -322,7 +324,7 @@
         <div class="page-content" >
             {% block content %}
             {% endblock %}
-
+            {% if pageConfig.ADS != false %}
             <div class=" container">
                 <div class="banner-content" style="overflow: hidden;padding: 0px;">
                     <ins class="adsbygoogle"
@@ -335,6 +337,7 @@
                 </div>
                 <!-- /.End of banner content -->
             </div>
+            {% endif %}
         </div>
         {% block postPageContent %}
         {% endblock %}
@@ -549,7 +552,9 @@
     gtag('js', new Date());
     gtag('config', '{{ CONFIG.ANALYTICS.FRONTENDTRACKINGID }}');
 
+    {% if pageConfig.ADS != false %}
     (adsbygoogle = window.adsbygoogle || []).push({});
+    {% endif %}
 </script>
 </body>
 </html>
