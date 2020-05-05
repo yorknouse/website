@@ -36,8 +36,9 @@
                                 <th>ID</th>
                                 <th>Headline</th>
                                 <th>Categories</th>
-                                <th>Publication Date</th>
-                                <th>Last updated</th>
+                                <th>Edition</th>
+                                <th>Published</th>
+                                <th>Updated</th>
                                 <th>Published author(s)</th>
                                 <th></th>
                             </tr>
@@ -66,6 +67,15 @@
                                         style="background-color: #{{ category.categories_backgroundColor }} !important; color: #{{ category.categories_backgroundColorContrast }} !important;"
                                         {% endif %}>{{ category.categories_displayName }}</span><br/>
                                         {% endfor %}
+                                    </td>
+                                    <td>
+                                        <a href="{{ CONFIG.ROOTBACKENDURL }}/edition.php?id={{ article.editions_id }}">
+                                        {% if article.editions_printNumber %}
+                                            &numero;{{ article.editions_printNumber }}
+                                        {% elseif article.editions_id %}
+                                            <i class="fa fa-check"></i>
+                                        {% endif %}
+                                        </a>
                                     </td>
                                     <td>{{ article.articles_published|date("D d M Y") }}</td>
                                     <td>{{ article.articles_updated|date("d M Y H:i:s") }}</td>
