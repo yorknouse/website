@@ -47,16 +47,83 @@
     <div class="news-masonry">
     <div class="height_30"></div>
 
-        {# This is a bit of a custom masonary requested by the editor at the time - it doesn't work on mobile so there's a custom one below #}
+        {# This is a bit of a custom masonary requested by the editor at the time - it doesn't work on mobile so there's a desktop one below #}
     <div class="container hidden-md hidden-lg">
         <div class="row">
-            {% for article in FEATUREDARTICLES %}
+            {% if FEATUREDARTICLES|length > 0 %}
             <div class="col-sm-12 col-xs-12 mas-m-b">
-                <div class="mas-item mas-big ">
-                    {% include 'elements/masonryArticle.twig' with {'article':article} %}
+                <div class="mas-item mas-big" style="margin-bottom:0px;">
+                    {% include 'elements/masonryArticle.twig' with {'article':FEATUREDARTICLES[0]} %}
                 </div>
             </div>
-            {% endfor %}
+            {% endif %}
+            {# Its in an odd order to preserve aspect ratio#}
+            {% if FEATUREDARTICLES|length > 2 %}
+                <div class="col-xs-{{ FEATUREDARTICLES|length < 4 ? 12 : 6 }} mas-m-b" {{ FEATUREDARTICLES|length < 4 ? '' : 'style="padding-right:2px;"' }}>
+                    <div class="mas-item masonry-sm">
+                        {% include 'elements/masonryArticle.twig' with {'article':FEATUREDARTICLES[2]} %}
+                    </div>
+                </div>
+                {% if FEATUREDARTICLES|length > 3 %}
+                    <div class="col-xs-6  mas-m-b" style="padding-left:2px;">
+                        <div class="mas-item masonry-sm">
+                            {% include 'elements/masonryArticle.twig' with {'article':FEATUREDARTICLES[3]} %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+            {% if FEATUREDARTICLES|length > 1 %}
+                <div class="col-sm-12 col-xs-12 mas-m-b">
+                    <div class="mas-item masonry-sm">
+                        {% include 'elements/masonryArticle.twig' with {'article':FEATUREDARTICLES[1]} %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="row">
+            {% if FEATUREDARTICLES|length > 4 %}
+                <div class="col-sm-12 col-xs-12 mas-m-b">
+                    <div class="mas-item mas-big" style="margin-bottom:0px;">
+                        {% include 'elements/masonryArticle.twig' with {'article':FEATUREDARTICLES[4]} %}
+                    </div>
+                </div>
+            {% endif %}
+            {# Its in an odd order to preserve aspect ratio#}
+            {% if FEATUREDARTICLES|length > 6 %}
+                <div class="col-xs-{{ FEATUREDARTICLES|length < 8 ? 12 : 6 }} mas-m-b" {{ FEATUREDARTICLES|length < 8 ? '' : 'style="padding-right:2px;"' }}>
+                    <div class="mas-item masonry-sm">
+                        {% include 'elements/masonryArticle.twig' with {'article':FEATUREDARTICLES[6]} %}
+                    </div>
+                </div>
+                {% if FEATUREDARTICLES|length > 7 %}
+                    <div class="col-xs-6  mas-m-b" style="padding-left:2px;">
+                        <div class="mas-item masonry-sm">
+                            {% include 'elements/masonryArticle.twig' with {'article':FEATUREDARTICLES[7]} %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+            {% if FEATUREDARTICLES|length > 5 %}
+                <div class="col-sm-12 col-xs-12 mas-m-b">
+                    <div class="mas-item masonry-sm">
+                        {% include 'elements/masonryArticle.twig' with {'article':FEATUREDARTICLES[5]} %}
+                    </div>
+                </div>
+            {% endif %}
+            {% if FEATUREDARTICLES|length > 8 %}
+                <div class="col-xs-{{ FEATUREDARTICLES|length < 10 ? 12 : 6 }} mas-m-b" {{ FEATUREDARTICLES|length < 10 ? '' : 'style="padding-right:2px;"' }}>
+                    <div class="mas-item masonry-sm">
+                        {% include 'elements/masonryArticle.twig' with {'article':FEATUREDARTICLES[8]} %}
+                    </div>
+                </div>
+                {% if FEATUREDARTICLES|length > 9 %}
+                    <div class="col-xs-6  mas-m-b" style="padding-left:2px;">
+                        <div class="mas-item masonry-sm">
+                            {% include 'elements/masonryArticle.twig' with {'article':FEATUREDARTICLES[9]} %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
         </div>
     </div>
     <div class="container hidden-sm hidden-xs">
