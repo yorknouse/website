@@ -5,7 +5,7 @@
     </a>
 {% endif %}
 <div class="mas-text">
-    <div class="post-cat">{% for category in article.CATEGORIES %}
+    <div class="post-cat hidden-xs hidden-sm">{% for category in article.CATEGORIES %}
             <a href="{{ CONFIG.ROOTFRONTENDURL ~ "/" ~ category.categories_id|getCategoryURL }}"
                     {% if category.categories_backgroundColor != "" %}
                 style="background-color: #{{ category.categories_backgroundColor }} !important; color: #{{ category.categories_backgroundColorContrast }} !important;"
