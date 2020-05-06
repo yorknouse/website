@@ -5,7 +5,7 @@ header("Content-Type: text/json");
 $articleData = [
     "articles_published" => date("Y-m-d H:i:s", strtotime($bCMS->sanitizeString($_POST['published']))),
     "articles_updated" => date("Y-m-d H:i:s"),
-    "articles_socialExcerpt" => $bCMS->cleanString($_POST['socialexcerpt']),
+    "articles_socialExcerpt" => $bCMS->cleanString(trim($_POST['socialexcerpt'])),
 ];
 
 $articleData["articles_categories"] = [];
@@ -34,7 +34,7 @@ if ($_POST['thumbnail'] != null) {
 }
 
 if (isset($_POST['edition'])) $articleData["editions_id"] = ($_POST['edition'] == null ? null : $_POST['edition']);
-if (isset($_POST['pagenumber'])) $articleData["articles_editionPage"] = ($_POST['pagenumber'] == null ? null : $_POST['pagenumber']);
+if (isset($_POST['pagenumber'])) $articleData["articles_editionPage"] = ($_POST['pagenumber'] == null ? null : trim($_POST['pagenumber']));
 
 if ($_POST['status'] == 1) {
     $articleData["articles_showInLists"] = 0;
@@ -52,13 +52,13 @@ if ($_POST['status'] == 1) {
 $articleDraftsData = [
     "articlesDrafts_timestamp" => date("Y-m-d H:i:s"),
     "articlesDrafts_userid" => $AUTH->data['users_userid'],
-    "articlesDrafts_headline" => $bCMS->cleanString($_POST['headline']),
-    "articlesDrafts_excerpt"=> $bCMS->cleanString($_POST['excerpt']),
-    "articlesDrafts_text" => $bCMS->cleanString($_POST['text'])
+    "articlesDrafts_headline" => $bCMS->cleanString(trim($_POST['headline'])),
+    "articlesDrafts_excerpt"=> $bCMS->cleanString(trim($_POST['excerpt'])),
+    "articlesDrafts_text" => $bCMS->cleanString(trim($_POST['text']))
 ];
 
-if (isset($_POST['markdown'])) $articleDraftsData['articlesDrafts_markdown'] = $bCMS->cleanString($_POST['markdown']);
-if (isset($_POST['thumbCredit'])) $articleDraftsData['articlesDrafts_thumbnailCredit'] = $bCMS->cleanString($_POST['thumbCredit']);
+if (isset($_POST['markdown'])) $articleDraftsData['articlesDrafts_markdown'] = $bCMS->cleanString(trim($_POST['markdown']));
+if (isset($_POST['thumbCredit'])) $articleDraftsData['articlesDrafts_thumbnailCredit'] = $bCMS->cleanString(trim($_POST['thumbCredit']));
 
 if ($bCMS->sanitizeString($_POST['type']) == "2") {
     //Gallery
