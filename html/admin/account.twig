@@ -12,6 +12,10 @@
 	<!--Select2-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha256-KM512VNnjElC30ehFwehXjx1YCHPiQkOPmqnrWtpccM=" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha256-rByPlHULObEjJ6XQxW/flG2r+22R5dKiAoef+aXWfik=" crossorigin="anonymous" />
+
+	<!--Featured articles-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha256-KM512VNnjElC30ehFwehXjx1YCHPiQkOPmqnrWtpccM=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha256-rByPlHULObEjJ6XQxW/flG2r+22R5dKiAoef+aXWfik=" crossorigin="anonymous" />
 {% endblock %}
 {% block content %}
 	<div class="row" style="margin-top: 15px;">
@@ -82,7 +86,18 @@
 						<label for="bio">Bio</label>
 						<textarea rows="3" class="form-control" id="bio" name="bio" placeholder="Please don't include details of roles at Nouse here">{{USER['users_bio']}}</textarea>
 					</div>
-				</div>
+					{% if USER.users_userid != "NEW" %}
+					<hr/>
+					<div class="form-group">
+						<label>Website Page</label>
+						<input type="text" class="form-control" disabled value="{{ CONFIG.ROOTFRONTENDURL }}/account/a?={{USER['users_userid']}}" />
+						{% if 44|permissions %}
+							<a href="{{ CONFIG.ROOTBACKENDURL }}/quicklinks.php"><i>Setup a short link for an address that features your name!</i></a>
+						{% endif %}
+
+					</div>
+					{% endif %}
+						</div>
 				<div class="box-footer">
 					<button id="save-account-settings" class="btn btn-default">Save</button>
 				</div>
@@ -115,8 +130,102 @@
 					});
 					</script>
 			</div>
-		</div>
+			{% if USER.users_userid != "NEW" %}
+			<div class="box panel-default">
+				<div class="box-header with-border">
+					<h3 class="box-title">Featured Articles</h3>
+				</div>
+				<div class="box-body">
+					<select id="featuredSelect" class="chooser form-control" multiple="multiple">
+						{% for article in FEATUREDARTICLES %}
+							<option selected value="{{ article.articles_id }}">{{ article.articlesDrafts_headline }}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div class="box-footer">
+					<button id="save-featured-articles" class="btn btn-default">Save</button>
+				</div>
+				<div class="overlay loadingoverlay">
+					<i class="fa fa-refresh fa-spin"></i>
+				</div>
+				<script>
+					$(document).ready(function () {
+						$(".loadingoverlay").hide();
+						$("#save-featured-articles").click(function () {
+							$(".loadingoverlay").show();
+							var actualOrder = [];
+							var listNameToId = [];
+							$("#featuredSelect").find("option").each(function(index) {
+								listNameToId[$( this ).html()] = $( this ).attr('value');
+							});
+							$("#featuredSelect").parent().find("li.select2-selection__choice").each(function(index) {
+								actualOrder.push(listNameToId[$( this ).attr('title')]);
+							});
+							$.ajax({
+								url: "{{ CONFIG.ROOTBACKENDURL }}/api/account/editFeatured.php",
+								type: 'POST',
+								dataType: "json",
+								data: {
+									"users_userid": "{{ USER.users_userid }}",
+									"featured":actualOrder.join(","),
+								},
+								success: function (result) {
+									if (result.result) {
+										location.reload();
+									} else {
+										console.log(result);
+										bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again");
+									}
+								},
+								error: function () {
+									bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again");
+								}
+							});
+						});
 
+						$("#featuredSelect").select2({
+							tags: false,
+							multiple: true,
+							theme: "bootstrap",
+							minimumInputLength: 0,
+							maximumSelectionLength: 12,
+							width: '100%',
+							minimumResultsForSearch: 1,
+							placeholder: "Search for articles to feature at the top of your author page",
+							ajax: {
+								url: "{{ CONFIG.ROOTBACKENDURL }}/api/featured/articleSearchUser.php?userid={{ USER.users_userid }}",
+								dataType: "json",
+								type: "POST",
+								data: function (params) {
+									var queryParameters = {
+										term: params.term
+									}
+									return queryParameters;
+								},
+								processResults: function (data) {
+									if (data && data.result && data.response) {
+										return {
+											results: $.map(data.response, function (item) {
+												return {
+													text: item.articlesDrafts_headline,
+													id: item.articles_id
+												}
+											})
+										};
+									} else return {
+										results: []
+									};
+								}
+							}
+						});
+						$("ul.select2-selection__rendered").sortable({
+							containment: 'parent'
+						});
+					});
+				</script>
+			</div>
+			{% endif %}
+		</div>
 		<div class="col-lg-6">
 			<div class="box">
 				<div class="box-header with-border">

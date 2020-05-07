@@ -14,6 +14,7 @@ $PAGEDATA['pageConfig']['USER'] = $DBLIB->getone("users",[
     "users_social_instagram",
     "users_social_twitter",
     "users_social_snapchat",
+    "articles_featured",
     "users_userid"
 ]);
 if (!$PAGEDATA['pageConfig']['USER']) render404Error();
@@ -24,6 +25,30 @@ $DBLIB->where("articles_showInLists", 1);
 $DBLIB->where("articles_published <= '" . date("Y-m-d H:i:s") . "'");
 $PAGEDATA['pageConfig']['USER']['ARTICLECOUNT'] = $DBLIB->getValue("articles", "COUNT(*)");
 if ($PAGEDATA['pageConfig']['USER']['ARTICLECOUNT'] < 1) render404Error();
+
+//Featured articles
+//Get a list of featured articles for the masonry at the top
+if (strlen($PAGEDATA['pageConfig']['USER']['articles_featured']) > 0) {
+    $PAGEDATA['pageConfig']['USER']['articles_featured'] = explode(",",$PAGEDATA['pageConfig']['USER']['articles_featured']);
+    $PAGEDATA['FEATUREDARTICLES'] = [];
+    foreach ($PAGEDATA['pageConfig']['USER']['articles_featured'] as $article) { //Has to be done like this otherwise it won't come out in the correct order
+        if (!$article) continue;
+        $DBLIB->where("articles.articles_id", $article);
+        $DBLIB->where("articles_showInLists", 1);
+        $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
+        $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
+        $article = $DBLIB->getone("articles", ["articles.articles_categories", "articles.articles_id","articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
+
+        $DBLIB->where("(categories_id IN (" . $article['articles_categories'] . "))");
+        $article["CATEGORIES"] = $DBLIB->get("categories", 1, ["categories_displayName","categories_id","categories_backgroundColor","categories_backgroundColorContrast"]);
+
+        $PAGEDATA['FEATUREDARTICLES'][] = $article;
+    }
+} else {
+    $PAGEDATA['FEATUREDARTICLES'] =null;
+    $PAGEDATA['pageConfig']['USER']['articles_featured'] = null;
+}
+
 
 
 $DBLIB->where("FIND_IN_SET('" . $PAGEDATA['pageConfig']['USER']['users_userid'] . "',articles_authors)");

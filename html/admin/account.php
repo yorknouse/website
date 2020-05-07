@@ -28,6 +28,25 @@ if (isset($_GET['new']) and $AUTH->permissionCheck(4)) {
     $DBLIB->orderBy("positions_displayName", "ASC");
     $PAGEDATA['POSSIBLEPOSITIONS'] = $DBLIB->get("positions");
 
+    //Featured articles
+    if (strlen($PAGEDATA['USER']['articles_featured']) > 0) {
+        $PAGEDATA['USER']['articles_featured'] = explode(",",$PAGEDATA['USER']['articles_featured']);
+        $PAGEDATA['FEATUREDARTICLES'] = [];
+        foreach ($PAGEDATA['USER']['articles_featured'] as $article) { //Has to be done like this otherwise it won't come out in the correct order
+            if (!$article) continue;
+            $DBLIB->where("articles.articles_id", $article);
+            $DBLIB->where("articles_showInLists", 1);
+            $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
+            $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
+            $article = $DBLIB->getone("articles", ["articles.articles_id","articlesDrafts.articlesDrafts_headline"]);
+            $PAGEDATA['FEATUREDARTICLES'][] = $article;
+        }
+    } else {
+        $PAGEDATA['FEATUREDARTICLES'] =null;
+        $PAGEDATA['USER']['articles_featured'] = null;
+    }
+
+
     $PAGEDATA['pageConfig']['TITLE'] = "Account Settings for " . $PAGEDATA['USER']['users_name1'] . " " . $PAGEDATA['USER']['users_name2'];
 }
 
