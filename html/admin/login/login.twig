@@ -99,23 +99,21 @@
             'theme': 'dark',
             'onsuccess': function(googleUser) {
                 var profile = googleUser.getBasicProfile();
+                {% if LOGOUT %}
+                var auth2Logout = gapi.auth2.getAuthInstance();
+                auth2Logout.signOut().then(function () {
+                    console.log('User signed out.');
+                });
+                auth2Logout.disconnect();
+                toastr.success("Logout successful");
+                window.location.href = "?"; //Reload to allow them back in again
+                {% endif %}
                 toastr.success("Hi " + profile.getGivenName() + " - getting you logged in now");
                 var id_token = googleUser.getAuthResponse().id_token;
                 var xhr = new XMLHttpRequest();
                 xhr.open('POST', '{{CONFIG['ROOTBACKENDURL']}}/api/login/loginCallback.php');
                 xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
                 xhr.onload = function() {
-                    {% if LOGOUT %}
-                    if (gapi.auth2) {
-                        var auth2Logout = gapi.auth2.getAuthInstance();
-                        auth2Logout.signOut().then(function () {
-                            console.log('User signed out.');
-                        });
-                        auth2Logout.disconnect();
-                        toastr.success("Logout successful");
-                        window.location.href = "?"; //Reload to allow them back in again
-                    }
-                    {% endif %}
                     var responseJSON = JSON.parse(xhr.responseText);
                     if (responseJSON.result) {
                         //Login success
