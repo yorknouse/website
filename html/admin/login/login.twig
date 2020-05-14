@@ -95,11 +95,13 @@
     });
     function renderButton() {
         {% if LOGOUT %}
-        var auth2Logout = gapi.auth2.getAuthInstance();
-        if (auth2Logout) {
-            auth2Logout.signOut().then(function () {
-                console.log('User signed out.');
-            });
+        if (gapi.auth2) {
+            var auth2Logout = gapi.auth2.getAuthInstance();
+            if (auth2Logout) {
+                auth2Logout.signOut().then(function () {
+                    console.log('User signed out.');
+                });
+            }
         }
         {% endif %}
         gapi.signin2.render('signInButton', {
