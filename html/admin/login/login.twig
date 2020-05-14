@@ -106,8 +106,7 @@
                 });
                 auth2Logout.disconnect();
                 toastr.success("Logout successful");
-                window.location.href = "?"; //Reload to allow them back in again
-                {% endif %}
+                {% else %}
                 toastr.success("Hi " + profile.getGivenName() + " - getting you logged in now");
                 var id_token = googleUser.getAuthResponse().id_token;
                 var xhr = new XMLHttpRequest();
@@ -128,6 +127,7 @@
                     }
                 };
                 xhr.send('idtoken=' + id_token);
+                {% endif %}
             },
             'onfailure': function(error) {
                 if (error) {
