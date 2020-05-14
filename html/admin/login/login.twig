@@ -106,6 +106,7 @@
                 });
                 auth2Logout.disconnect();
                 toastr.success("Logout successful");
+                window.location.href = "{{ CONFIG.ROOTBACKENDURL }}/";
                 {% else %}
                 toastr.success("Hi " + profile.getGivenName() + " - getting you logged in now");
                 var id_token = googleUser.getAuthResponse().id_token;
