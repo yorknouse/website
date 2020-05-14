@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:og="http://ogp.me/ns#"
+      xmlns:fb="https://www.facebook.com/2008/fbml">
+<head>
+    <title>Nouse Login</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+
+    <!--Facebook Link Sharing Data-->
+    <meta property="og:title" content="Nouse"/>
+    <meta property="og:site_name" content="Nouse Login"/>
+    <meta property="og:description"
+          content="Nouse Login admin login"/>
+
+    <link rel="shortcut icon" href="https://nouse.ams3.cdn.digitaloceanspaces.com/site-assets/icons/favicon.ico">
+
+    <meta name="google-signin-client_id"
+          content="{{ CONFIG["GOOGLE"]["AUTH"]["CLIENT"] }}">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"
+            integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous" />
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js" integrity="sha256-yNbKY1y6h2rbVcQtf0b8lq4a+xpktyFc3pSYoGAY1qQ=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" integrity="sha256-R91pD48xW+oHbpJYGn5xR0Q7tMhH4xOrWn1QqMRINtA=" crossorigin="anonymous" />
+    <script>
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "progressBar": false,
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+        }
+    </script>
+    <style>
+        html, body, .container, #masterRow {
+            height: 99%;
+            font-size: 14px;
+        }
+        body {
+            background-image: url('https://nouse.ams3.cdn.digitaloceanspaces.com/site-assets/headerImages/centralhall-comp.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        #masterBox {
+            background-color: white;
+            box-shadow: 0px 1px 5px #888888;
+            border-radius: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            text-align: center;
+            margin: 0px;
+        }
+
+        a {
+            color: inherit; /* blue colors for links too */
+            text-decoration: inherit; /* no underline */
+        }
+
+        #signInButton > div{
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row align-items-center" id="masterRow">
+        <div class="col-lg-4 offset-lg-4
+                            col-md-6 offset-md-3
+                            col-sm-8 offset-sm-2
+                            col-xs-10 offset-xs-1">
+            <div id="masterBox">
+                <img src="{{CONFIG.FILESTOREURL}}/site-assets/logo/nouse-logo-full3.svg" alt="Nouse logo" style="width:240px; margin-bottom: 25px; margin-top: 10px;" />
+                <div id="signInButton"></div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        {% if LOGOUT %}
+        toastr.success("Logout successful");
+        {% endif %}
+    });
+    function renderButton() {
+        gapi.signin2.render('signInButton', {
+            'scope': 'profile email',
+            'width': 240,
+            'hosted_domain': 'nouse.co.uk',
+            'ux_mode': 'popup',
+            'height': 50,
+            'longtitle': true,
+            'theme': 'dark',
+            'onsuccess': function(googleUser) {
+                var profile = googleUser.getBasicProfile();
+                toastr.success("Hi " + profile.getGivenName() + " - getting you logged in now");
+                var id_token = googleUser.getAuthResponse().id_token;
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', '{{CONFIG['ROOTBACKENDURL']}}/api/login/loginCallback.php');
+                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                xhr.onload = function() {
+                    var responseJSON = JSON.parse(xhr.responseText);
+                    if (responseJSON.result) {
+                        //Login success
+                        toastr.success("All set, let's go!");
+                        window.location.href = responseJSON.response.return;
+                    } else {
+                        toastr.warning(responseJSON.error.message);
+                        var auth2 = gapi.auth2.getAuthInstance();
+                        auth2.signOut().then(function () {
+                            console.log('User signed out.');
+                        });
+                    }
+                };
+                xhr.send('idtoken=' + id_token);
+            },
+            'onfailure': function(error) {
+                if (error) {
+                    toastr.error(error);
+                }
+            }
+        });
+    }
+</script>
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ CONFIG.ANALYTICS.TRACKINGID }}"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', '{{ CONFIG.ANALYTICS.BACKENDTRACKINGID }}');
+</script>
+
+
+
+</body>
+</html>
+
+

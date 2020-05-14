@@ -19,7 +19,6 @@ if (getenv('bCMS__ERRORS') == "true") {
 
 
 require_once(__DIR__ . '/../../composer/vendor/autoload.php'); //Composer
-require_once(__DIR__ . '/libs/Auth/main.php'); //Auth lib
 require_once(__DIR__ . '/libs/Email/main.php'); //Email sending lib
 $CONFIG = array(
     'DB_HOSTNAME' => getenv('bCMS__DB_HOSTNAME'),
