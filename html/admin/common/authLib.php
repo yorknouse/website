@@ -14,7 +14,7 @@ class bID
         if (isset($_SESSION['token'])) {
             //Time to check whether it is valid
             $DBLIB->where('authTokens_token', $_SESSION['token']);
-            $DBLIB->where("authTokens_valid", '1');
+            $DBLIB->where("authTokens_valid", 1);
             $this->tokenCheckResult = $DBLIB->getOne("authTokens", ["authTokens_created", "authTokens_ipAddress", "users_userid", "authTokens_adminId"]);
             if ($this->tokenCheckResult != null) {
                 if ((strtotime($this->tokenCheckResult["authTokens_created"]) + (1 * 12 * (3600 * 1000))) < time()) {
