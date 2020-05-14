@@ -87,6 +87,7 @@
         });
     </script>
 
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 {% endblock %}
 {% block htmlMeta %}
     {% if POST.articles_id|articleThumbnail != null %}
@@ -138,6 +139,11 @@
             "description": "{{ POST.articlesDrafts_excerpt|raw }}"
         }
     </script>
+
+
+
+    <meta name="google-signin-client_id"
+          content="{{ CONFIG["GOOGLE"]["AUTH"]["CLIENT"] }}">
 {% endblock %}
 
 {% block prePageContent %}
@@ -464,13 +470,12 @@
                 <div class="form-group">
                     <textarea class="form-control" id="commentText" rows="3" placeholder=""></textarea>
                 </div>
-                <div class="form-group row">
+                <!--<div class="form-group row">
                     <label for="name" class="col-sm-2 col-form-label">Name</label>
                     <div class="col-sm-5">
                         <input class="form-control" id="commentName" type="text" placeholder="Anonymous">
                     </div>
                 </div>
-                <!--
                 <div class="form-group row">
                     <label for="email" class="col-sm-2 col-form-label">Email</label>
                     <div class="col-sm-5">
@@ -478,7 +483,9 @@
                     </div>
                 </div>
                  -->
-                <button id="submitComment" class="btn link-btn">Post Comment ⇾</button>
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                <button id="submitComment" style="display:none;" class="btn link-btn">Post Comment ⇾</button>
+                <p>Your name from your Google account will be published alongside the comment, and your name, email address and IP address will be stored in our database</p>
             </div>
             <!--Hide the badge on the basis we show more info to the user here-->
             <p><b>Disclaimer: </b>this page is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
@@ -536,6 +543,18 @@
     </div>
 </div>
     <script>
+        var userData = {};
+        var user = false;
+        function onSignIn(googleUser) {
+            user = true;
+            var profile = googleUser.getBasicProfile();
+            $("#submitComment").show();
+            userData["name"] = profile.getName();
+            userData["email"] = profile.getEmail();
+            userData["token"] = googleUser.getAuthResponse().id_token;
+        }
+
+
         var replyToComment = null; //Comment user is replying to
         $( document ).ready(function () {
             ajaxCall("readCounter.php", {"articleid": "{{ POST.articles_id }}"});
@@ -598,17 +617,21 @@
                     $("#makeComment").html("Reply to a comment by " + $(this).data("commentname"));
                 });
                 $("#submitComment").click(function(){
-                    if ($("#commentText").val().length > 0) {
-                        grecaptcha.execute('{{ CONFIG.RECAPTCHA.KEY }}', {action: 'addComment'}).then(function(token) {
-                            ajaxCall("addComment.php", {"articleid": "{{ POST.articles_id }}", "commentid": replyToComment,"recaptcha": token, "text":$("#commentText").val(), "name":$("#commentName").val()}, function () {
-                                toastr["success"]("", "Comment added");
-                                location.reload();
-                            }, function () {
-                                toastr["error"]("Sorry we can't connect to Nouse to add your comment", "Can't connect");
+                    if (user) {
+                        if ($("#commentText").val().length > 0) {
+                            grecaptcha.execute('{{ CONFIG.RECAPTCHA.KEY }}', {action: 'addComment'}).then(function(token) {
+                                ajaxCall("addComment.php", {"articleid": "{{ POST.articles_id }}", "commentid": replyToComment,"recaptcha": token, "text":$("#commentText").val(), "token":userData["token"]}, function () {
+                                    toastr["success"]("", "Comment added");
+                                    location.reload();
+                                }, function () {
+                                    toastr["error"]("Sorry we can't connect to Nouse to add your comment", "Can't connect");
+                                });
                             });
-                        });
+                        } else {
+                            toastr["warning"]("Please add a longer comment", "Comment too short");
+                        }
                     } else {
-                        toastr["warning"]("Please add a longer comment", "Comment too short");
+                        toastr["warning"]("Please sign in to Google", "Sign in required");
                     }
                 });
             });
