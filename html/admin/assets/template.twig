@@ -244,10 +244,24 @@
                 {% endif %}
 
                 {% if 40|permissions %}
-                    <li>
-                        <a href="{{ CONFIG.ROOTBACKENDURL }}/comments.php">
+                    <li class="treeview">
+                        <a href="#">
                             <i class="fa fa-comments-o"></i> <span>Comments</span>
+                            <span class="pull-right-container">
+                              <i class="fa fa-angle-left pull-right"></i>
+                            </span>
                         </a>
+                        <ul class="treeview-menu">
+                            <li><a href="{{ CONFIG.ROOTBACKENDURL }}/comments.php">
+                                    <i class="fa fa-circle-o"></i> Search individual comments</a>
+                            </li>
+                            {% if 54|permissions %}
+                            <li><a href="{{ CONFIG.ROOTBACKENDURL }}/commentsManager.php"><i class="fa fa-circle-o"></i> Moderate New Comments</a></li>
+                            {% endif %}
+                            {% if 53|permissions %}
+                                <li><a href="{{ CONFIG.ROOTBACKENDURL }}/commentersBanned.php" ><i class="fa fa-circle-o"></i> Banned Commenters</a></li>
+                            {% endif %}
+                        </ul>
                     </li>
                 {% endif %}
             {% if 2|permissions or 11|permissions %}

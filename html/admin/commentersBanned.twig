@@ -1,0 +1,37 @@
+{% extends "assets/template.twig" %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        Banned Commenters
+                    </h3>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                        <table class="table sticky-header" border="0" style="overflow-x: scroll;">
+                            <thead>
+                            <tr>
+                                <th style="width: 100%;">Email</th>
+                                <th>Number of Comments</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in list %}
+                                <tr>
+                                    <td>{{ item.comments_authorEmail }}</td>
+                                    <td>{{ item["COUNT(*)"] }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                </div>
+                <div class="box-footer" style="font-style:italic;">
+                    When a commenter is banned ALL their past and future comments are automatically rejected
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

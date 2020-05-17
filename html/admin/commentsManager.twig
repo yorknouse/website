@@ -1,0 +1,343 @@
+{% extends "assets/template.twig" %}
+{% block htmlIncludes %}
+<script src="{{ CONFIG.ROOTBACKENDURL }}/assets/js/libs/jquery.hotkeys.js"></script>
+{% endblock %}
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3 id="totalCommentsNeedingModeration">?</h3>
+
+                    <p>Comments Needing Moderation</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-hourglass-end" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>{{ allTimeYourModerated|number_format }}</h3>
+                    <p>Comments you've moderated</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-gavel" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-xs-6">
+
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3 id="totalCommentsAllTime">{{ allTimeComments|number_format }}</h3>
+
+                    <p>Total Comments (all time)</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-comments" aria-hidden="true"></i>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3 id="totalCommentsApprovalRate">{{ allTimeCommentsApprovedPercentage|number_format(3) }}%</h3>
+
+                    <p>Comment Approval Rate</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>{{ allTimeCommentersBanned|number_format }}</h3>
+                    <p>Banned commenters</p>
+                </div>
+
+                <div class="icon">
+                    <i class="fa fa-user"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3 id="totalCommentsApprovalRate">{{ allTimeCommentsAutoApprovedBasedOnPreviousRep|number_format }}</h3>
+
+                    <p>Comments Approved Automatically</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-check-circle-o" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>{{ allTimeCommentsManual|number_format }}</h3>
+
+                    <p>Comments Approved Manually</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+
+
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>{{ allTimeCommentsManualReject|number_format }}</h3>
+
+                    <p>Comments Rejected Manually</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-times"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-default" id="commentApproveBox" style="display:none;">
+                <div class="box-header with-border">
+                    <h3 class="box-title" id="commentTitle">
+                    </h3>
+                </div>
+                <div class="box-body">
+                  <div class="form-group">
+                        <input type="name" disabled class="form-control" id="commentName">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" disabled class="form-control" id="commentPosted">
+                    </div>
+                    <div>
+                      <textarea class="textarea" id="commentText" disabled
+                                style="width: 100%; height: 300px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;">
+                      </textarea>
+                     </div>
+                </div>
+                <div class="box-footer clearfix">
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-success" id="approve">Approve</button>
+                        <button type="button" class="btn btn-warning" id="reject">Reject</button>
+                        <button type="button" class="btn btn-danger" id="rejectAll">Reject all that match this text</button>
+                        <button type="button" class="btn btn-info" id="block">Reject &amp; Block user</button>
+                    </div>
+                </div>
+                <div class="overlay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-sm-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        How Comments Work
+                    </h3>
+                </div>
+                <div class="box-body">
+                    <p>When a comment comes in it's first checked to ensure it was not submitted by a bot using <a href="https://www.google.com/recaptcha" target="_blank">Google ReCapatcha</a>. It then goes through the following steps:
+                    <ul>
+                        <li>If it has been posted by someone with a @york.ac.uk email address it is automatically approved</li>
+                        <li>If the Google Account the person is using is banned the post is automatically rejected</li>
+                        <li>If the Google Account the person is using has previously had any of its comments approved the comment is automatically approved</li>
+                        <li>Comments before 2019 were all automatically approved</li>
+                        <li>Otherwise, it ends up here for moderation</li>
+                    </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        Keyboard Shortcuts
+                    </h3>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                    <table class="table">
+                        <tr><td>Approve</td><td>alt+h</td></tr>
+                        <tr><td>Reject</td><td>alt+j</td></tr>
+                        <tr><td>Reject all that match this text</td><td>alt+k</td></tr>
+                        <tr><td>Reject &amp; Block user</td><td>alt+l</td></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var commentid = null;
+        function nextComment() {
+            $.ajax({
+                url: "{{ CONFIG.ROOTBACKENDURL }}/api/comment/manager/nextComment.php",
+                type: "json",
+                success: function (result) {
+                    if (result.result) {
+                        $("#totalCommentsNeedingModeration").html(result.response.remaining);
+                        if (result.response.comment) {
+                            commentid = result.response.comment['comments_id'];
+                            $(".overlay").hide();
+                            $("#commentApproveBox").show();
+                            $("#commentTitle").html("Approve Comment " + commentid);
+                            $("#commentName").val(result.response.comment['comments_authorName']);
+                            $("#commentPosted").val(result.response.comment['comments_created']);
+                            $("#commentText").val(result.response.comment['comments_text']);
+                        } else {
+                            commentid = null;
+                            $("#commentApproveBox").hide();
+                        }
+                    } else {
+                        bootbox.alert("Sorry - Operation could not be completed! Please reload the page", function () {
+                            location.reload();
+                        });
+                    }
+                }
+            });
+        }
+        function approveComment() {
+            if (commentid == null) {
+                return false;
+            }
+            $(".overlay").show();
+            $.ajax({
+                url: "{{ CONFIG.ROOTBACKENDURL }}/api/comment/manager/approve.php",
+                data: {
+                   "commentid": commentid
+                }, method: "POST",
+                type: "json",
+                success: function (result) {
+                    if (result.result) {
+                        nextComment();
+                    } else {
+                        bootbox.alert("Sorry - operation could not be completed! Please reload the page", function () {
+                            location.reload();
+                        });
+                    }
+                }
+            });
+        }
+        function rejectComment() {
+            if (commentid == null) {
+                return false;
+            }
+            $(".overlay").show();
+            $.ajax({
+                url: "{{ CONFIG.ROOTBACKENDURL }}/api/comment/manager/reject.php",
+                data: {
+                    "commentid": commentid
+                }, method: "POST",
+                type: "json",
+                success: function (result) {
+                    if (result.result) {
+                        nextComment();
+                    } else {
+                        bootbox.alert("Sorry - operation could not be completed! Please reload the page", function () {
+                            location.reload();
+                        });
+                    }
+                }
+            });
+        }
+        function rejectAll() {
+            if (commentid == null) {
+                return false;
+            }
+            $(".overlay").show();
+            $.ajax({
+                url: "{{ CONFIG.ROOTBACKENDURL }}/api/comment/manager/rejectAll.php",
+                data: {
+                    "commentid": commentid
+                }, method: "POST",
+                type: "json",
+                success: function (result) {
+                    if (result.result) {
+                        nextComment();
+                    } else {
+                        bootbox.alert("Sorry - operation could not be completed! Please reload the page", function () {
+                            location.reload();
+                        });
+                    }
+                }
+            });
+        }
+        function blockUser() {
+            if (commentid == null) {
+                return false;
+            }
+            $(".overlay").show();
+            $.ajax({
+                url: "{{ CONFIG.ROOTBACKENDURL }}/api/comment/manager/blockUser.php",
+                data: {
+                    "commentid": commentid
+                }, method: "POST",
+                type: "json",
+                success: function (result) {
+                    if (result.result) {
+                        nextComment();
+                    } else {
+                        bootbox.alert("Sorry - operation could not be completed! Please reload the page", function () {
+                            location.reload();
+                        });
+                    }
+                }
+            });
+        }
+        $(document).ready(function () {
+            $("#approve").click(function () {
+                approveComment();
+            });
+            $("#reject").click(function () {
+                rejectComment();
+            });
+            $("#block").click(function () {
+                blockUser();
+            });
+            $("#rejectAll").click(function () {
+                rejectAll();
+            });
+
+            nextComment();
+
+            $(document).bind('keydown', 'alt+h', function () {
+               approveComment();
+            });
+            $(document).bind('keydown', 'alt+j', function () {
+                rejectComment();
+            });
+            $(document).bind('keydown', 'alt+k', function () {
+                rejectAll();
+            });
+            $(document).bind('keydown', 'alt+l', function () {
+                blockUser();
+            });
+        });
+
+    </script>
+{% endblock %}
