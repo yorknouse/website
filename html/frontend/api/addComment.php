@@ -25,7 +25,7 @@ if ($resp->isSuccess()) {
 
             $approvalStatus = 0;
             if ($bannedAccount > 0) $approvalStatus = 4;
-            elseif ($payload['hd'] == 'york.ac.uk') $approvalStatus = 2; //Auto trust york.ac.uk
+            elseif (isset($payload['hd']) and $payload['hd'] == 'york.ac.uk') $approvalStatus = 2; //Auto trust york.ac.uk
             elseif ($approvedAccount > 0) $approvalStatus = 5; //If they've had a post approved before, then let's auto approve it as they're probably to be trusted
 
             if ($DBLIB->insert("comments", [
