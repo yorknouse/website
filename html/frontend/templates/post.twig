@@ -621,13 +621,14 @@
                         if ($("#commentText").val().length > 0) {
                             grecaptcha.execute('{{ CONFIG.RECAPTCHA.KEY }}', {action: 'addComment'}).then(function(token) {
                                 ajaxCall("addComment.php", {"articleid": "{{ POST.articles_id }}", "commentid": replyToComment,"recaptcha": token, "text":$("#commentText").val(), "token":userData["token"]}, function (result) {
-                                    result = JSON.parse(result);
+                                    toastr.options.onHidden = function() {
+                                        location.reload();
+                                    }
                                     if (result.result) {
                                         toastr["success"]("", result.response.message);
                                     } else {
                                         toastr["error"]("", result.response.message);
                                     }
-                                    location.reload();
                                 }, function (result) {
                                     console.log(result)
                                     toastr["error"]("Sorry we can't connect to Nouse to add your comment", "Can't connect");
