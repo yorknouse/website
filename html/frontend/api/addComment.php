@@ -4,6 +4,7 @@ require_once __DIR__ . '/apiHead.php';
 if (!isset($_POST['articleid'])) finish(false, ["code" => "PARAM", "message"=> "No article id set"]);
 elseif (!isset($_POST['text'])) finish(false, ["code" => "PARAM", "message"=> "No text set"]);
 elseif (!isset($_POST['recaptcha'])) finish(false, ["code" => "PARAM", "message"=> "No capatcah entered"]);
+elseif (!isset($_POST['token'])) finish(false, ["code" => "PARAM", "message"=> "Please login to Google"]);
 
 $recaptcha = new \ReCaptcha\ReCaptcha($CONFIG['RECAPTCHA']['SECRET']);
 $resp = $recaptcha->verify($_POST['recaptcha'], isset($_SERVER["HTTP_CF_CONNECTING_IP"]) ? $_SERVER["HTTP_CF_CONNECTING_IP"] : $_SERVER["REMOTE_ADDR"]);
@@ -14,11 +15,18 @@ if ($resp->isSuccess()) {
         $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
         $article = $DBLIB->getone("articles", ["articles_id","articles_authors","articles_published","articles_slug"]);
         if ($article) {
-            if ($DBLIB->insert("comments",
-                ["articles_id" => $article['articles_id'],
+            $DBLIB->where("comments_authorGoogleID", $payload['id']);
+            $DBLIB->where("comments_approved", 4); //A 4 means that the comment was rejected AND the google account is blocked
+            $bannedAccount = $DBLIB->getValue("comments", "COUNT(*)");
+            if ($bannedAccount > 0) finish(false, ["code" => "BLOCKED", "message"=> "Unexpected error please try again later"]);
+
+            if ($DBLIB->insert("comments", [
+                    "articles_id" => $article['articles_id'],
                     "comments_created" => date('Y-m-d G:i:s'),
                     "comments_authorName" => $payload['name'],
                     "comments_authorEmail" => $payload['email'],
+                    "comments_authorGoogleID" => $payload['id'],
+                    "comments_approved" => ($payload['hd'] == 'york.ac.uk' ? 2 : 0), //Auto approve all york.ac.uk comments
                     "comments_text" => $bCMS->cleanString($_POST['text']),
                     "comments_nestUnder" => ($bCMS->sanitizeString((isset($_POST['commentid']) ? $_POST['commentid'] : null)) == "" ? null : $bCMS->sanitizeString($_POST['commentid'])),
                     "comments_recaptcha" => 1,
@@ -26,20 +34,21 @@ if ($resp->isSuccess()) {
                     "comments_authorIP" => (isset($_SERVER["HTTP_CF_CONNECTING_IP"]) ? $_SERVER["HTTP_CF_CONNECTING_IP"] : $_SERVER["REMOTE_ADDR"])
                 ])) {
 
-                //Send an email notification
-                $article['articles_authors_array'] = explode(",", $article['articles_authors']);
-                if (count($article['articles_authors_array']) > 0) {
-                    foreach ($article['articles_authors_array'] as $author) {
-                        $html = "<b>Name: </b>" . (isset($_POST['name']) ? $_POST['name'] : "<i>Posted anonymously</i>") . "<br/>";
-                        $html .= "<b>Text: </b>" . $bCMS->cleanString($_POST['text']) . "<br/>";
-                        $html .= "<b>Article Link: </b><a href='" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
-                        $html .= "<br/><br/><br/>If you have any concerns about this comment please contact web@nouse.co.uk.<br/><br/>Nouse Technical Team<br/><i>Server " . gethostname() . " (sent at  " . date("Y-m-d H:i:s") . " UTC)</i>";
-                        sendemail($author, "New comment added to your article on Nouse.co.uk", $html);
+                if ($payload['hd'] == 'york.ac.uk') {
+                    //Send an email notification
+                    $article['articles_authors_array'] = explode(",", $article['articles_authors']);
+                    if (count($article['articles_authors_array']) > 0 and ) {
+                        foreach ($article['articles_authors_array'] as $author) {
+                            $html = "<b>Name: </b>" . $payload['name'] . "<br/>";
+                            $html .= "<b>Text: </b>" . $bCMS->cleanString($_POST['text']) . "<br/>";
+                            $html .= "<b>Article Link: </b><a href='" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
+                            $html .= "<br/><br/><br/>If you have any concerns about this comment please contact web@nouse.co.uk.<br/><br/>Nouse Technical Team<br/><i>Server " . gethostname() . " (sent at  " . date("Y-m-d H:i:s") . " UTC)</i>";
+                            sendemail($author, "New comment added to your article on Nouse.co.uk", $html);
+                        }
                     }
-                }
-
-                $bCMS->cacheClear($_SERVER['HTTP_REFERER']);
-                finish(true);
+                    $bCMS->cacheClear($_SERVER['HTTP_REFERER']);
+                    finish(true, null, ["message" => "Comment posted"]);
+                } else finish(true, null, ["message" => "Comment is pending approval"]);
             } else finish(false, ["code" => "DB", "message" => "Could not insert"]);
         }
     } else finish(false, ["code" => "DB", "message"=> "Could not find article"]);
