@@ -15,7 +15,7 @@ if ($resp->isSuccess()) {
         $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
         $article = $DBLIB->getone("articles", ["articles_id","articles_authors","articles_published","articles_slug"]);
         if ($article) {
-            $DBLIB->where("comments_authorGoogleID", $payload['id']);
+            $DBLIB->where("comments_authorEmail", $payload['email']);
             $DBLIB->where("comments_approved", 4); //A 4 means that the comment was rejected AND the google account is blocked
             $bannedAccount = $DBLIB->getValue("comments", "COUNT(*)");
             if ($bannedAccount > 0) finish(false, ["code" => "BLOCKED", "message"=> "Unexpected error please try again later"]);
@@ -25,7 +25,6 @@ if ($resp->isSuccess()) {
                     "comments_created" => date('Y-m-d G:i:s'),
                     "comments_authorName" => $payload['name'],
                     "comments_authorEmail" => $payload['email'],
-                    "comments_authorGoogleID" => $payload['id'],
                     "comments_approved" => ($payload['hd'] == 'york.ac.uk' ? 2 : 0), //Auto approve all york.ac.uk comments
                     "comments_text" => $bCMS->cleanString($_POST['text']),
                     "comments_nestUnder" => ($bCMS->sanitizeString((isset($_POST['commentid']) ? $_POST['commentid'] : null)) == "" ? null : $bCMS->sanitizeString($_POST['commentid'])),
