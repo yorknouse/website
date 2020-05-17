@@ -18,14 +18,22 @@ if ($resp->isSuccess()) {
             $DBLIB->where("comments_authorEmail", $payload['email']);
             $DBLIB->where("comments_approved", 4); //A 4 means that the comment was rejected AND the google account is blocked
             $bannedAccount = $DBLIB->getValue("comments", "COUNT(*)");
-            if ($bannedAccount > 0) finish(false, ["code" => "BLOCKED", "message"=> "Unexpected error please try again later"]);
+
+            $DBLIB->where("comments_authorEmail", $payload['email']);
+            $DBLIB->where("comments_approved", 1); //A 4 means that the comment was rejected AND the google account is blocked
+            $approvedAccount = $DBLIB->getValue("comments", "COUNT(*)");
+
+            $approvalStatus = 0;
+            if ($bannedAccount > 0) $approvalStatus = 4;
+            elseif ($payload['hd'] == 'york.ac.uk') $approvalStatus = 2; //Auto trust york.ac.uk
+            elseif ($approvedAccount > 0) $approvalStatus = 5; //If they've had a post approved before, then let's auto approve it as they're probably to be trusted
 
             if ($DBLIB->insert("comments", [
                     "articles_id" => $article['articles_id'],
                     "comments_created" => date('Y-m-d G:i:s'),
                     "comments_authorName" => $payload['name'],
                     "comments_authorEmail" => $payload['email'],
-                    "comments_approved" => ($payload['hd'] == 'york.ac.uk' ? 2 : 0), //Auto approve all york.ac.uk comments
+                    "comments_approved" => $approvalStatus, //Auto approve all york.ac.uk comments
                     "comments_text" => $bCMS->cleanString($_POST['text']),
                     "comments_nestUnder" => ($bCMS->sanitizeString((isset($_POST['commentid']) ? $_POST['commentid'] : null)) == "" ? null : $bCMS->sanitizeString($_POST['commentid'])),
                     "comments_recaptcha" => 1,
@@ -33,7 +41,7 @@ if ($resp->isSuccess()) {
                     "comments_authorIP" => (isset($_SERVER["HTTP_CF_CONNECTING_IP"]) ? $_SERVER["HTTP_CF_CONNECTING_IP"] : $_SERVER["REMOTE_ADDR"])
                 ])) {
 
-                if ($payload['hd'] == 'york.ac.uk') {
+                if ($approvalStatus == 2 or $approvalStatus = 5) {
                     //Send an email notification
                     $article['articles_authors_array'] = explode(",", $article['articles_authors']);
                     if (count($article['articles_authors_array']) > 0) {
