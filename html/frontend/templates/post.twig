@@ -621,8 +621,12 @@
                         if ($("#commentText").val().length > 0) {
                             grecaptcha.execute('{{ CONFIG.RECAPTCHA.KEY }}', {action: 'addComment'}).then(function(token) {
                                 ajaxCall("addComment.php", {"articleid": "{{ POST.articles_id }}", "commentid": replyToComment,"recaptcha": token, "text":$("#commentText").val(), "token":userData["token"]}, function (result) {
-                                    console.log(result);
-                                    toastr["success"]("", "Comment added");
+                                    result = JSON.parse(result);
+                                    if (result.result) {
+                                        toastr["success"]("", result.response.message);
+                                    } else {
+                                        toastr["error"]("", result.response.message);
+                                    }
                                     location.reload();
                                 }, function (result) {
                                     console.log(result)
