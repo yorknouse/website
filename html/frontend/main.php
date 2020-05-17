@@ -165,6 +165,7 @@ if ($urlSplit[0] == "edition") {
     //      GET THE COMMENTS - UPTO 4 TIERS DEEP
     $DBLIB->where("articles_id",$PAGEDATA['POST']['articles_id']);
     $DBLIB->where("comments_show",1);
+    $DBLIB->where("(comments_approved = 1 OR comments_approved = 2 OR comments_approved = 3)");
     $DBLIB->orderBy("comments_created", "ASC");
     $DBLIB->where("comments_nestUnder IS NULL");
     $comments = $DBLIB->get("comments", null, ["comments_authorName", "comments_authorURL", "comments_created", "comments_text","comments_upvotes","comments_downvotes","comments_id"]);
@@ -173,6 +174,7 @@ if ($urlSplit[0] == "edition") {
     foreach ($comments as $comment) {
         $DBLIB->where("articles_id",$PAGEDATA['POST']['articles_id']);
         $DBLIB->where("comments_show",1);
+        $DBLIB->where("(comments_approved = 1 OR comments_approved = 2 OR comments_approved = 3)");
         $DBLIB->where("comments_nestUnder", $comment['comments_id']);
         $DBLIB->orderby("comments_created","ASC");
         $subcomments = $DBLIB->get("comments", null, ["comments_authorName", "comments_authorURL", "comments_created", "comments_text","comments_upvotes","comments_downvotes","comments_id"]);
@@ -181,6 +183,7 @@ if ($urlSplit[0] == "edition") {
         foreach ($subcomments as $subcomment) {
             $DBLIB->where("articles_id",$PAGEDATA['POST']['articles_id']);
             $DBLIB->where("comments_show",1);
+            $DBLIB->where("(comments_approved = 1 OR comments_approved = 2 OR comments_approved = 3)");
             $DBLIB->where("comments_nestUnder", $subcomment['comments_id']);
             $DBLIB->orderby("comments_created","ASC");
             $subsubcomments = $DBLIB->get("comments", null, ["comments_authorName", "comments_authorURL", "comments_created", "comments_text","comments_upvotes","comments_downvotes","comments_id"]);
@@ -189,6 +192,7 @@ if ($urlSplit[0] == "edition") {
             foreach ($subsubcomments as $subsubcomment) {
                 $DBLIB->where("articles_id",$PAGEDATA['POST']['articles_id']);
                 $DBLIB->where("comments_show",1);
+                $DBLIB->where("(comments_approved = 1 OR comments_approved = 2 OR comments_approved = 3)");
                 $DBLIB->where("comments_nestUnder", $subsubcomment['comments_id']);
                 $subsubsubcomments = $DBLIB->get("comments", null, ["comments_authorName", "comments_authorURL", "comments_created", "comments_text","comments_upvotes","comments_downvotes","comments_id"]);
                 $PAGEDATA['POST']['COMMENTCOUNT'] += count($subsubsubcomments);
@@ -196,6 +200,7 @@ if ($urlSplit[0] == "edition") {
                 foreach ($subsubsubcomments as $subsubsubcomment) {
                     $DBLIB->where("articles_id",$PAGEDATA['POST']['articles_id']);
                     $DBLIB->where("comments_show",1);
+                    $DBLIB->where("(comments_approved = 1 OR comments_approved = 2 OR comments_approved = 3)");
                     $DBLIB->where("comments_nestUnder", $subsubsubcomment['comments_id']);
                     $subsubsubcomment['SUB'] = $DBLIB->get("comments", null, ["comments_authorName", "comments_authorURL", "comments_created", "comments_text","comments_upvotes","comments_downvotes","comments_id"]);
                     $PAGEDATA['POST']['COMMENTCOUNT'] += count($subsubsubcomment['SUB']);
