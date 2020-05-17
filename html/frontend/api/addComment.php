@@ -28,20 +28,20 @@ if ($resp->isSuccess()) {
             elseif (isset($payload['hd']) and $payload['hd'] == 'york.ac.uk') $approvalStatus = 2; //Auto trust york.ac.uk
             elseif ($approvedAccount > 0) $approvalStatus = 5; //If they've had a post approved before, then let's auto approve it as they're probably to be trusted
 
-            if ($DBLIB->insert("comments", [
-                    "articles_id" => $article['articles_id'],
-                    "comments_created" => date('Y-m-d G:i:s'),
-                    "comments_authorName" => $payload['name'],
-                    "comments_authorEmail" => $payload['email'],
-                    "comments_approved" => $approvalStatus, //Auto approve all york.ac.uk comments
-                    "comments_text" => $bCMS->cleanString($_POST['text']),
-                    "comments_nestUnder" => ($bCMS->sanitizeString((isset($_POST['commentid']) ? $_POST['commentid'] : null)) == "" ? null : $bCMS->sanitizeString($_POST['commentid'])),
-                    "comments_recaptcha" => 1,
-                    "comments_recaptchaScore" => $resp->getScore(),
-                    "comments_authorIP" => (isset($_SERVER["HTTP_CF_CONNECTING_IP"]) ? $_SERVER["HTTP_CF_CONNECTING_IP"] : $_SERVER["REMOTE_ADDR"])
-                ])) {
-
-                if ($approvalStatus == 2 or $approvalStatus = 5) {
+            $insert = $DBLIB->insert("comments", [
+                "articles_id" => $article['articles_id'],
+                "comments_created" => date('Y-m-d G:i:s'),
+                "comments_authorName" => $payload['name'],
+                "comments_authorEmail" => $payload['email'],
+                "comments_approved" => $approvalStatus, //Auto approve all york.ac.uk comments
+                "comments_text" => $bCMS->cleanString($_POST['text']),
+                "comments_nestUnder" => ($bCMS->sanitizeString((isset($_POST['commentid']) ? $_POST['commentid'] : null)) == "" ? null : $bCMS->sanitizeString($_POST['commentid'])),
+                "comments_recaptcha" => 1,
+                "comments_recaptchaScore" => $resp->getScore(),
+                "comments_authorIP" => (isset($_SERVER["HTTP_CF_CONNECTING_IP"]) ? $_SERVER["HTTP_CF_CONNECTING_IP"] : $_SERVER["REMOTE_ADDR"])
+            ]);
+            if ($insert) {
+                if ($approvalStatus == 2 or $approvalStatus == 5) {
                     //Send an email notification
                     $article['articles_authors_array'] = explode(",", $article['articles_authors']);
                     if (count($article['articles_authors_array']) > 0) {
