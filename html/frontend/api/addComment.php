@@ -37,7 +37,7 @@ if ($resp->isSuccess()) {
                 if ($payload['hd'] == 'york.ac.uk') {
                     //Send an email notification
                     $article['articles_authors_array'] = explode(",", $article['articles_authors']);
-                    if (count($article['articles_authors_array']) > 0 and ) {
+                    if (count($article['articles_authors_array']) > 0) {
                         foreach ($article['articles_authors_array'] as $author) {
                             $html = "<b>Name: </b>" . $payload['name'] . "<br/>";
                             $html .= "<b>Text: </b>" . $bCMS->cleanString($_POST['text']) . "<br/>";
