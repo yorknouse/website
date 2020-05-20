@@ -10,7 +10,7 @@ else $PAGEDATA['search'] = null;
 
 if (isset($_GET['page'])) $page = $bCMS->sanitizeString($_GET['page']);
 else $page = 1;
-$DBLIB->pageLimit = 200;
+$DBLIB->pageLimit = 100;
 if (strlen($PAGEDATA['search']) > 0) {
 	//Search
 	$DBLIB->where("
@@ -22,8 +22,8 @@ if (strlen($PAGEDATA['search']) > 0) {
 }
 $DBLIB->orderBy("editions_published", "DESC");
 $DBLIB->where("editions_deleted", 0); //ie those that can actually be shown
-$editions = $DBLIB->get("editions", [$DBLIB->pageLimit*($page-1),$DBLIB->pageLimit*$page], ["editions.*"]);
-$PAGEDATA['pagination'] = ["page" => $page, "total" => $DBLIB->getValue("editions", "COUNT(*)")];
+$editions = $DBLIB->arraybuilder()->paginate("editions", $page, ["editions.*"]);
+$PAGEDATA['pagination'] = ["page" => $page, "total" => $DBLIB->totalPages];
 $PAGEDATA['editions'] = [];
 foreach ($editions as $edition) {
 	$DBLIB->where("editions_id", $edition['editions_id']);
