@@ -14,7 +14,7 @@ $expectedHostName = ""; // v4-only
 // validation, then change this to match the integer value you specified
 // otherwise your policy document will be invalid.
 // http://docs.fineuploader.com/branch/develop/api/options.html#validation-option
-$expectedMaxSize = 500000000;
+$expectedMaxSize = 50000000000; //50Gb
 $method = getRequestMethod();
 // This second conditional will only ever evaluate to true if
 // the delete file feature is enabled
