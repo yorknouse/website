@@ -16,24 +16,28 @@
 <meta property="article:published_time" content="{{ edition.editions_published|date("d M Y") }}" />
 {% endblock %}
 {% block prePageContent %}
-    {% if edition.editions_pdf %}
+    {% if edition.editions_pdf or edition.editions_pdfOriginal %}
     <div class="video-inner" style="margin-top: 0px;padding-bottom:10px;">
         <div class="container">
             <div class="row">
                 <div class="col-sm-8 col-sm-offset-2">
                     {% if edition.editions_thumbnail %}
-                        <a href="{{ edition.editions_pdf|s3URL }}" target="_blank">
+                        <a href="{{ (edition.editions_pdf ? edition.editions_pdf|s3URL : edition.editions_pdfOriginal|s3URL) }}" target="_blank">
                             <img src="{{ edition.editions_thumbnail|s3URL("large") }}" style="width:100%;" alt="{{ edition.editions_name|raw }}">
                         </a>
                     {% else %}
-                        <a href="{{ edition.editions_pdf|s3URL }}" target="_blank"><h4 style="color:white;">PDF Download</h4></a>
+                        <a href="{{ (edition.editions_pdf ? edition.editions_pdf|s3URL : edition.editions_pdfOriginal|s3URL) }}" target="_blank"><h4 style="color:white;">PDF Download</h4></a>
                     {% endif %}
                     <header class="details-header" style="margin-bottom:0;">
-                        {% set pdfData = edition.editions_pdf|s3DATA %}
+                        {% if editions_pdf %}
+                            {% set pdfData = edition.editions_pdf|s3DATA %}
+                        {% else %}
+                            {% set pdfData = edition.editions_pdfOriginal|s3DATA %}
+                        {% endif %}
                         <div class="element-block" style="margin-bottom: 30px;margin-top:10px;">
                             <div class="entry-meta">
                                 <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ edition.editions_published|date("j M Y") }}</span>
-                                <span class="comment-link"><a href="{{ edition.editions_pdf|s3URL }}" target="_blank"><i class="fa fa-cloud-download" aria-hidden="true"></i> {{ pdfData.data.s3files_meta_size|formatsize }}</a></span>
+                                <span class="comment-link"><a href="{{ (edition.editions_pdf ? edition.editions_pdf|s3URL : edition.editions_pdfOriginal|s3URL) }}" target="_blank"><i class="fa fa-cloud-download" aria-hidden="true"></i> {{ pdfData.data.s3files_meta_size|formatsize }}</a></span>
                             </div>
                         </div>
                     </header>
@@ -49,68 +53,73 @@
 {% endblock %}
 {% block content %}
     <div class="container">
-
-    <div class="row">
-        <main class="col-lg-12 content">
-            {% for category in CATEGORIESARTICLES if category.articles|length > 0 %}
-            <div class="title-holder">
-                <h3 class="title">{{ category.categories_displayName }}</h3>
-                <span class="title-shape title-shape-dark"></span>
-            </div>
-            <!--<h3 class="widget-title">Latest Articles</h3>-->
-            <div class="grid-content latest_articles articlecategorygrid{{ category.categories_name }}">
-                {% for article in category.articles %}
-                <article class="grid_post">
-                    <figure>
-                        {% if article.articles_id|articleThumbnail %}
-                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}" class="grid_image">
-                            <img src="{{ article.articles_id|articleThumbnail }}" class="img-responsive" alt="{{ article.articlesDrafts_headline }}">
-                        </a>
-                        {% endif %}
-                        <figcaption>
-                            <div class="post-cat">
-                                {% if article.articles_authors %}
-                                    <span>By</span>
-                                    {% for author in article.articles_authors %}
-                                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/author/?a={{ author.users_userid }}">{{ author.users_name1 ~ ' ' ~ author.users_name2 }}</a>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
-                            <h4 class="grid_post_title">
-                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a>
-                            </h4>
-                            {% if article.articlesDrafts_excerpt != null %}
-                            <div class="entry-meta">
-                                <span class="entry-date">{{ article.articlesDrafts_excerpt|raw }}</span>
-                            </div>
+        <div class="row">
+            <main class="col-lg-12 content">
+                {% for category in CATEGORIESARTICLES if category.articles|length > 0 %}
+                <div class="title-holder">
+                    <h3 class="title">{{ category.categories_displayName }}</h3>
+                    <span class="title-shape title-shape-dark"></span>
+                </div>
+                <!--<h3 class="widget-title">Latest Articles</h3>-->
+                <div class="grid-content latest_articles articlecategorygrid{{ category.categories_name }}">
+                    {% for article in category.articles %}
+                    <article class="grid_post">
+                        <figure>
+                            {% if article.articles_id|articleThumbnail %}
+                            <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}" class="grid_image">
+                                <img src="{{ article.articles_id|articleThumbnail }}" class="img-responsive" alt="{{ article.articlesDrafts_headline }}">
+                            </a>
                             {% endif %}
-                        </figcaption>
-                    </figure>
-                </article>
-                <script>
-                    $( document ).ready(function() {
-                        new Macy({
-                            container: '.articlecategorygrid{{ category.categories_name }}',
-                            trueOrder: false,
-                            waitForImages: false,
-                            useOwnImageLoader: false,
-                            debug: true,
-                            mobileFirst: true,
-                            columns: 1,
-                            margin: 30,
-                            breakAt: {
-                                1200: 5,
-                                992: 5,
-                                768: 4,
-                                480: 3
-                            }
+                            <figcaption>
+                                <div class="post-cat">
+                                    {% if article.articles_authors %}
+                                        <span>By</span>
+                                        {% for author in article.articles_authors %}
+                                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/author/?a={{ author.users_userid }}">{{ author.users_name1 ~ ' ' ~ author.users_name2 }}</a>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <h4 class="grid_post_title">
+                                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a>
+                                </h4>
+                                {% if article.articlesDrafts_excerpt != null %}
+                                <div class="entry-meta">
+                                    <span class="entry-date">{{ article.articlesDrafts_excerpt|raw }}</span>
+                                </div>
+                                {% endif %}
+                            </figcaption>
+                        </figure>
+                    </article>
+                    <script>
+                        $( document ).ready(function() {
+                            new Macy({
+                                container: '.articlecategorygrid{{ category.categories_name }}',
+                                trueOrder: false,
+                                waitForImages: false,
+                                useOwnImageLoader: false,
+                                debug: true,
+                                mobileFirst: true,
+                                columns: 1,
+                                margin: 30,
+                                breakAt: {
+                                    1200: 5,
+                                    992: 5,
+                                    768: 4,
+                                    480: 3
+                                }
+                            });
                         });
-                    });
-                </script>
+                    </script>
+                    {% endfor %}
+                </div>
                 {% endfor %}
-            </div>
-            {% endfor %}
-        </main>
-    </div>
+            </main>
+            {% if edition.editions_pdf and edition.editions_pdfOriginal %}{# If the compressed version was available they'll only have been shown that above - so give a link to it here #}
+                {% set pdfDataOrig = edition.editions_pdfOriginal|s3DATA %}
+                <a href="{{ edition.editions_pdfOriginal|s3URL }}">
+                    <i class="fa fa-cloud-download" aria-hidden="true"></i> Download original PDF ({{ pdfDataOrig.data.s3files_meta_size|formatsize }})
+                </a>
+            {% endif %}
+        </div>
 </div>
 {% endblock %}
