@@ -61,10 +61,12 @@ $TWIG->addFilter(new Twig_SimpleFilter('s3DATA', function ($fileid) {
     global $bCMS;
     return $bCMS->s3URL($fileid, null, false, '+1 minute', true);
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('articleThumbnail', function ($article, $size = "large") {
-    global $bCMS;
-    return $bCMS->articleThumbnail($article, $size);
+$TWIG->addFilter(new Twig_SimpleFilter('articleThumbnail', function ($article, $size = "large",$socialOverlay='') {
+    global $bCMS, $CONFIG;
+    if ($socialOverlay != '') return $CONFIG['ROOTFRONTENDURL'] . '/api/imageProcessor.php?url=' .urlencode($bCMS->articleThumbnail($article, $size)) . '&overlay=' . urlencode($CONFIG['FILESTOREURL'] . '/site-assets/socialOverlays/' . $socialOverlay . '.png');
+    else return $bCMS->articleThumbnail($article, $size);
 }));
+
 
 //Begin Nouse Head
 function render404Error() {
