@@ -139,8 +139,17 @@ if ($urlSplit[0] == "edition") {
         $DBLIB->where("categories_id IN (" . $PAGEDATA["POST"]['articles_categories'] . ")");
         $DBLIB->orderBy("categories_order", "ASC");
         $DBLIB->where("categories_showPublic",1);
-        $PAGEDATA['POST']['CATEGORIES'] = $DBLIB->get('categories', null, ["categories_id","categories_nestUnder","categories_displayName","categories_backgroundColorContrast","categories_backgroundColor","categories_customTheme"]);
+        $PAGEDATA['POST']['CATEGORIES'] = $DBLIB->get('categories', null, ["categories_id","categories_nestUnder","categories_displayName","categories_backgroundColorContrast","categories_backgroundColor","categories_customTheme", "categories_socialMediaOverlay"]);
     } else $PAGEDATA['POST']['CATEGORIES'] = [];
+
+    $PAGEDATA['POST']['SOCIAL-OVERLAY'] = false;
+    foreach ($PAGEDATA['POST']['CATEGORIES'] as $category) {
+        if ($category['categories_socialMediaOverlay'] != null) {
+            $PAGEDATA['POST']['SOCIAL-OVERLAY'] = $category['categories_socialMediaOverlay'];
+            break;
+        }
+    }
+
 
     if ($PAGEDATA['POST']['articles_authors'] != null) {
         $authors = explode(",",$PAGEDATA['POST']['articles_authors']);
@@ -229,7 +238,7 @@ if ($urlSplit[0] == "edition") {
         if ($category['categories_backgroundColor'] != null) {
             $PAGEDATA['pageConfig']['MENUColor']['backgroundColor'] = $category['categories_backgroundColor'];
             $PAGEDATA['pageConfig']['MENUColor']['backgroundColorContrast'] = $category['categories_backgroundColorContrast'];
-}
+        }
     }
 
     if ($PAGEDATA['POST']['articles_type'] == 2) {

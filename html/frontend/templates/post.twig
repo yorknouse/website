@@ -91,7 +91,7 @@
 {% endblock %}
 {% block htmlMeta %}
     {% if POST.articles_id|articleThumbnail != null %}
-        <meta property="og:image" content="{{ POST.articles_id|articleThumbnail|replace({" ":"%20"}) }}" />
+        <meta property="og:image" content="{{ POST.articles_id|articleThumbnail('large',(POST['SOCIAL-OVERLAY'] ? POST['SOCIAL-OVERLAY'] : null))|replace({" ":"%20"})|raw }}" />
     {% endif %}
     <meta property="fb:app_id" content="471873819886891" />
     <meta property="og:title" content="{{ POST.articlesDrafts_headline|raw }}">
@@ -120,7 +120,7 @@
             "headline": "{{ POST.articlesDrafts_headline|raw }}",
             {% if POST.articles_id|articleThumbnail != null %}
             "image": [
-                "{{ POST.articles_id|articleThumbnail }}"
+                "{{ POST.articles_id|articleThumbnail('large',(POST['SOCIAL-OVERLAY'] ? POST['SOCIAL-OVERLAY'] : null))|replace({" ":"%20"})|raw }}"
             ],
             {% endif %}
             "datePublished": "{{ POST.articles_published|date("c") }}",
