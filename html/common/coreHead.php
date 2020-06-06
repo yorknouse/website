@@ -232,27 +232,37 @@ class bCMS {
         return $this->cacheClear($url . "/");
     }
 
-    public function cacheClear($URL)
+    public function cacheClear($URL, $all = false)
     {
         global $AUTH;
 
         if (!$this->cloudflare) $this->cloudflareInit();
 
-        if ($URL != rtrim($URL, "/")) $URL = [$URL, rtrim($URL, "/")]; //Also purge without a leading slash
-        else $URL = [$URL];
-
         if (isset($AUTH->data['users_userid'])) $userid = $AUTH->data['users_userid'];
         else $userid = null;
 
-        try {
-            if ($this->cloudflare['zones']->cachePurge($this->cloudflare['zoneid'], $URL)) {
-                //$this->auditLog("CACHECLEAR", null, json_encode($URL), $userid); - Don't audit log as it fills the table very quickly
-                return true;
-            } else return false;
-        } catch (Exception $e) {
-            return false;
-        }
+        if ($URL == false and $all == true) {
+            try {
+                if ($this->cloudflare['zones']->cachePurgeEverything($this->cloudflare['zoneid'])) {
+                    $this->auditLog("CACHECLEARALL", null, "Entire site", $userid);
+                    return true;
+                } else return false;
+            } catch (Exception $e) {
+                return false;
+            }
+        } else {
+            if ($URL != rtrim($URL, "/")) $URL = [$URL, rtrim($URL, "/")]; //Also purge without a leading slash
+            else $URL = [$URL];
 
+            try {
+                if ($this->cloudflare['zones']->cachePurge($this->cloudflare['zoneid'], $URL)) {
+                    //$this->auditLog("CACHECLEAR", null, json_encode($URL), $userid); - Don't audit log as it fills the table very quickly
+                    return true;
+                } else return false;
+            } catch (Exception $e) {
+                return false;
+            }
+        }
     }
 
     private function cloudflareInit()
