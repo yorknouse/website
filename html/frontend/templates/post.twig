@@ -140,7 +140,11 @@
         }
     </script>
 
-
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@yorknouse">
+    <meta name="twitter:title" content="{{ POST.articlesDrafts_headline|raw }}">
+    <meta name="twitter:description" content="{{ POST.articlesDrafts_excerpt|raw }}">
+    <meta name="twitter:image" content="{{ POST.articles_id|articleThumbnail('large',(POST['SOCIAL-OVERLAY'] ? POST['SOCIAL-OVERLAY'] : null))|replace({" ":"%20"})|raw }}">
 
     <meta name="google-signin-client_id"
           content="{{ CONFIG["GOOGLE"]["AUTH"]["CLIENT"] }}">
