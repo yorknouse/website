@@ -2,7 +2,7 @@
 if (!isset($_GET['url']) or !isset($_GET['overlay'])) exit;
 $scaleFactor = 0.35; // Scale factor for size of overlay
 $aspectRatio = 1.91; // Aspect ratio for final image for facebook display etc.
-$paddingOfOverlay = 50; //How much of a gap between the bottom of the image and the overlay there shold be
+$paddingOfOverlay = 0.07; //Scale factor of how much of a gap between the bottom of the image and the overlay there should be
 
 /*
  * DOWNLOAD ALL THE IMAGES
@@ -54,7 +54,7 @@ $overlayNewHeight = ($imageNewWidth/$overlayWidth)*$overlayHeight*$scaleFactor;
 header('Content-type: image/jpeg');
 $out = imagecreatetruecolor($imageNewWidth, $imageNewHeight);
 imagecopyresampled($out, $file, 0,0,$posX,$posY, $imageWidth, $imageHeight, $imageWidth, $imageHeight);
-imagecopyresampled($out, $overlay, $imageNewWidth-($overlayNewWidth-1), ($imageNewHeight-($overlayNewHeight-1))-$paddingOfOverlay, 0, 0, $overlayNewWidth, $overlayNewHeight, $overlayWidth, $overlayHeight);
+imagecopyresampled($out, $overlay, $imageNewWidth-($overlayNewWidth-1), ($imageNewHeight-($overlayNewHeight-1))-($imageNewHeight*$paddingOfOverlay), 0, 0, $overlayNewWidth, $overlayNewHeight, $overlayWidth, $overlayHeight);
 imagejpeg($out, null, 90);
 /*
  * CLEAR OUT SOME MEMORY
