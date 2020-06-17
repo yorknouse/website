@@ -77,6 +77,20 @@
                     </div>
                 {% endif %}
             {% endif %}
+            {% if articles|length > 10 %}
+                <div class="col-xs-{{ articles|length < 12 ? 12 : 6 }} mas-m-b" {{ articles|length < 12 ? '' : 'style="padding-right:2px;"' }}>
+                    <div class="mas-item masonry-sm">
+                        {% include 'elements/masonryArticle.twig' with {'article':articles[10]} %}
+                    </div>
+                </div>
+                {% if articles|length > 11 %}
+                    <div class="col-xs-6  mas-m-b" style="padding-left:2px;">
+                        <div class="mas-item masonry-sm">
+                            {% include 'elements/masonryArticle.twig' with {'article':articles[11]} %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
         </div>
     </div>
     <div class="container hidden-sm hidden-xs">
