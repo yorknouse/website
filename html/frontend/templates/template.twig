@@ -57,10 +57,23 @@
     <meta name="theme-color" content="#ffffff">
 
     {% block htmlMeta %}
-        <meta property="og:image" content="{{CONFIG.FILESTOREURL}}/site-assets/icons/apple-touch-icon.png">
-        <meta property="og:title" content="Nouse">
+        <meta property="fb:app_id" content="471873819886891" />
+        <meta property="og:title" content="{% if pageConfig.TITLE != null %}{{ pageConfig.TITLE|raw }}{% else %}Nouse | University of York's oldest society and student newspaper{% endif %}">
         <meta property="og:description" content="Founded in 1964, making us the oldest society on campus, Nouse has consistently provided the student voice for generations of York students and an important critical voice of the University and the Students’ Union.">
-        <meta property="og:url" content="https://nouse.co.uk">
+
+        <meta property="article:content_tier"   content="free" />
+        <meta property="article:publisher" content="https://www.facebook.com/yorknouse" />
+
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@yorknouse">
+        <meta name="twitter:title" content="{% if pageConfig.TITLE != null %}{{ pageConfig.TITLE|raw }}{% else %}Nouse | University of York's oldest society and student newspaper{% endif %}">
+        <meta name="twitter:description" content="Founded in 1964, making us the oldest society on campus, Nouse has consistently provided the student voice for generations of York students and an important critical voice of the University and the Students’ Union.">
+
+        <meta property="og:image" content="{{CONFIG.FILESTOREURL}}/site-assets/headerImages/ogheader-centralhall-comp.jpg" />
+        <meta name="twitter:image" content="{{CONFIG.FILESTOREURL}}/site-assets/headerImages/ogheader-centralhall-comp.jpg">
+
+        <meta name="google-signin-client_id"
+              content="{{ CONFIG["GOOGLE"]["AUTH"]["CLIENT"] }}">
     {% endblock %}
 
     {% if pageConfig.ADS != false %}
