@@ -175,7 +175,7 @@
 
                 $("#addnewlinksave").click(function () {
                     $.ajax({
-                        url: "{{ CONFIG.ROOTBACKENDURL }}/api/quickLink/new.php?string=" + $("#newLinkString").val() + "&destination=" + $("#newLinkDestination").val() + "&notes=" + $("#newLinkNote").val(),
+                        url: "{{ CONFIG.ROOTBACKENDURL }}/api/quickLink/new.php?string=" + encodeURIComponent($("#newLinkString").val()) + "&destination=" + encodeURIComponent($("#newLinkDestination").val()) + "&notes=" + $("#newLinkNote").val(),
                         success: function (result) {
                             if (result == '1') {
                                 bootbox.alert("Added", function () {
