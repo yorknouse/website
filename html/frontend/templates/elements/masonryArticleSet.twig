@@ -196,7 +196,7 @@
         </div>
         <div class="row mas-m">
             {% if articles|length > 8 %}
-                <div class="col-sm-12 col-md-{{ articles|length < 10 ? "12" : "6" }} mas-p">
+                <div class="col-sm-12 col-md-{{ articles|length < 10 ? "12" : "6" }} mas-p mas-m-b">
                     <div class="mas-item{{ articles|length < 11 ? ' masonry-sm' : ' mas-big' }}">
                         {% include 'elements/masonryArticle.twig' with {'article':articles[8]} %}
                     </div>
@@ -214,13 +214,13 @@
                     {% if articles|length > 10 %}
                         <div class="row mas-m">
                             <div class="col-sm-12 col-md-{{ articles|length < 12 ? 12 : 6 }} mas-p">
-                                <div class="mas-item masonry-sm">
+                                <div class="mas-item masonry-sm mas-m-b">
                                     {% include 'elements/masonryArticle.twig' with {'article':articles[10]} %}
                                 </div>
                             </div>
                             {% if articles|length > 11 %}
                                 <div class="col-sm-12 col-md-6 mas-p">
-                                    <div class="mas-item masonry-sm">
+                                    <div class="mas-item masonry-sm mas-m-b">
                                         {% include 'elements/masonryArticle.twig' with {'article':articles[11]} %}
                                     </div>
                                 </div>
