@@ -54,6 +54,7 @@ $CONFIG = array(
     "IFTTT" => getenv('bCMS__IFTTT'),
     "GOOGLE" => ["AUTH" => ["CLIENT" => getenv('bCMS__OAUTHCLIENT'),  "SECRET" => getenv('bCMS__OAUTHSECRET')]],
     "APPLE" => ["NEWS" => ["CHANNEL" => getenv('bCMS__APPLENEWSCHANNEL'), "KEY" => getenv('bCMS__APPLENEWSKEY'), "SECRET" => getenv('bCMS__APPLENEWSSECRET')]],
+    'JIRAWIDGET' => getenv("bCMS__JIRAWIDGET"),
     'DEV' => (getenv('bCMS__ERRORS') == "true" ? true : false),
     'VERSION' => ['COMMIT' => exec("cd " . __DIR__ . "/../../ && git log --pretty=\"%h\" -n1 HEAD"), 'TAG' => exec("cd " . __DIR__ . "/../../ && git describe --tags --abbrev=0"), "COMMITFULL" => exec("cd " . __DIR__ . "/../../ && git log --pretty=\"%H\" -n1 HEAD")],
 );

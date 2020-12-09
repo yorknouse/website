@@ -43,4 +43,6 @@ putenv('bCMS__APPLENEWSKEY=');
 putenv('bCMS__APPLENEWSSECRET=');
 putenv('bCMS__APPLENEWSCHANNEL=');
 
+putenv('bCMS__JIRAWIDGET=')
+
 ?>
