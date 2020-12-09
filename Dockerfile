@@ -18,6 +18,7 @@ RUN apt-get install -y \
 		zlib1g-dev \
 		libicu-dev \
 		unzip \
+		git \
 		nano \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
 	&& docker-php-ext-install -j$(nproc) gd
