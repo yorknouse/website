@@ -9,6 +9,7 @@ RUN a2ensite apache2site.conf
 COPY docker/apache2admin.conf /etc/apache2/sites-available/apache2admin.conf
 RUN a2ensite apache2admin.conf
 RUN a2dismod autoindex -f
+RUN a2enmod rewrite
 
 RUN apt-get install -y \
         software-properties-common \
