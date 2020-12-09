@@ -29,11 +29,11 @@ RUN docker-php-ext-install intl
 RUN docker-php-ext-install gd
 
 COPY . /var/www/
-
+RUN ssh-keyscan -t rsa github.com >> ~/.ssh/known_hosts # Has to be done so Composer can download our dependency from Github
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 WORKDIR /var/www
 RUN composer install
-#RUN chown -R www-data:www-data html/admin/common/twigCache
+# RUN chown -R www-data:www-data html/admin/common/twigCache
 
 
 # To get in container - docker exec -t -i nouse-container /bin/bash
