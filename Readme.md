@@ -7,7 +7,7 @@ Based on bCMS - a custom built content management system. There's probably going
 ## Docker
 
 1. Make sure you're the root user `sudo su` then `cd /root/`
-1. Install `docker.io`
+1. `apt update && apt install docker.io docker-compose`
 1. `systemctl enable docker` to ensure docker boots on startup
 1. Generate a key for Github pull access `ssh-keygen -t rsa -b 4096 -C "tech@nouse.co.uk"` and then add it to the server `eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa`
 1. Add this key to the repo [Github Deploy Key](https://github.com/yorknouse/website/settings/keys) - copy it from `cat /root/.ssh/id_rsa.pub`
@@ -30,7 +30,7 @@ bash updater.sh
 - Install MySQL etc. and copy the db
 - Create a MySQL user 
 ```mysql
-CREATE USER 'nouseProd'@'%' IDENTIFIED BY '';
+CREATE USER 'nouseProd'@'%' IDENTIFIED BY 'PASSWORDGOESHERE';
 GRANT DELETE ON nouseProd . * TO 'nouseProd'@'%';
 GRANT INSERT ON nouseProd . * TO 'nouseProd'@'%';
 GRANT SELECT ON nouseProd . * TO 'nouseProd'@'%';
@@ -38,10 +38,11 @@ GRANT UPDATE ON nouseProd . * TO 'nouseProd'@'%';
 FLUSH PRIVILEGES;
 ```
 - Edit the config file and set the "bind address" to be the **private** ip of the droplet as we dont want to allow external connections `sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf`
-- `apt install s3cmd` then use the s3cmd config file `mysql/s3cfg` but be sure to set the access key at the top of it
-- Upload `mysl/runBackup.sh` to `/root` and set the root mysql password in the file
+- `apt install s3cmd`
+- Upload `mysql/s3cfg` to `/root/.s3cfg` but be sure to set the access key at the top in the file
+- Upload `mysl/runBackup.sh` to `/root/runBackup.sh` and set the root mysql password in the file
 - Add the following line to `crontab`: `0 */2 * * * bash /root/runBackup.sh`
-- Upload `mysl/lifecycle.xml` to `/root` for the bucket
+- Upload `mysl/lifecycle.xml` to `/root`
 - Set the lifecycle policy for the bucket `s3cmd setlifecycle lifecycle "s3://BUCKETNAME"`
 
-**NB** The University firewall only allows port 80 through to the internet, so to access the MySQL database for maintenance purposes use a SSH Tunnel.
+**NB** The University firewall only allows port 80 through to the internet, so to access the MySQL database for maintenance purposes use a SSH Tunnel on the University VPN
