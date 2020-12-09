@@ -6,14 +6,14 @@ Based on bCMS - a custom built content management system. There's probably going
 
 ## Docker
 
-1. Make sure you're the root user `sudo su`
+1. Make sure you're the root user `sudo su` then `cd /root/`
 1. Install `docker.io`
 1. `systemctl enable docker` to ensure docker boots on startup
 1. Generate a key for Github pull access `ssh-keygen -t rsa -b 4096 -C "tech@nouse.co.uk"` and then add it to the server `eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa`
-1. Add this key to the repo [Github Deploy Key](https://github.com/yorknouse/website/settings/keys)
+1. Add this key to the repo [Github Deploy Key](https://github.com/yorknouse/website/settings/keys) - copy it from `cat /root/.ssh/id_rsa.pub`
 1. Clone the repo `git clone git@github.com:yorknouse/website.git`
-1. `cd` into it
-1. Create `nouseprod.env` based on the example file, and fill out the details
+1. `cd website` to get into it
+1. Create `nouseprod.env` based on the example file, and fill out the details (do this with `nano nouseprod.env`)
 1. Run `bash updater.sh`
 1. Once you're happy it's all working, add the following line to `crontab`: `0 4 * * * bash /root/nouse/updater.sh` - this will automatically update the site at 4am Daily
 
