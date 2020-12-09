@@ -1,23 +1,31 @@
 # Nouse Website
 
-Based on bCMS - a custom built content management system
+Based on bCMS - a custom built content management system. There's probably going to always be some debate about whether this was the best idea for Nouse, but it has enabled us to do some really great custom stuff over the years, and overcome crippling performance issues on Wordpress 
 
-## Creating a new server 
+# WebServer 
 
-_This might be needed to move between different hositng providers etc, but should only be done by those with experince configuring Linux webservers_
+## Docker
 
-- Install the apt requirements `apt update && apt upgrade -y && apt install software-properties-common apache2 php php-curl php-mysqli php-mbstring zip unzip mysql-client composer -y`
-- Install certbot `add-apt-repository universe && add-apt-repository ppa:certbot/certbot && apt-get update && apt-get install python-certbot-apache`
-- Generate a key for Github pull access `ssh-keygen -t rsa -b 4096 -C "tech@nouse.co.uk"` and then add it to the server `eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa`
-- Add this key to the repo [Github Deploy Key](https://github.com/yorknouse/website/settings/keys)
-- Clone the repo `git clone git@github.com:yorknouse/website.git /var/www/nouse/`
-- Setup Composer dependencies `cd /var/www/nouse/ && composer install`
-- Setup apache2 `cp edit.nouse.co.uk.conf /etc/apache2/sites-available/edit.nouse.co.uk.conf && a2ensite edit.nouse.co.uk && cp edit.nouse.co.uk.conf /etc/apache2/sites-available/nouse.co.uk.conf && a2ensite nouse.co.uk && service apache2 reload`
-- Edit the crontab (`crontab -e`) to include the following line `* * * * * php /var/www/nouse/html/admin/api/article/cronArticle.php`
-- Upload a `keys.php` file or set the environment variables using docker (there is a `keys.example.php` file to copy)
-- Setup certbot for backend `certbot --apache`
+1. Make sure you're the root user `sudo su`
+1. Install `docker.io`
+1. `systemctl enable docker` to ensure docker boots on startup
+1. Generate a key for Github pull access `ssh-keygen -t rsa -b 4096 -C "tech@nouse.co.uk"` and then add it to the server `eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa`
+1. Add this key to the repo [Github Deploy Key](https://github.com/yorknouse/website/settings/keys)
+1. Clone the repo `git clone git@github.com:yorknouse/website.git`
+1. `cd` into it
+1. Create `nouseprod.env` based on the example file, and fill out the details
+1. Run `bash updater.sh`
+1. Once you're happy it's all working, add the following line to `crontab`: `0 4 * * * bash /root/nouse/updater.sh` - this will automatically update the site at 4am Daily
 
-### Creating a new MySQL Server
+## Updating
+```
+cd nouse
+bash updater.sh
+```
+
+# MySQL Server
+
+## Creating a new server
 
 - Install MySQL etc. and copy the db
 - Create a MySQL user 
@@ -36,8 +44,4 @@ FLUSH PRIVILEGES;
 - Upload `mysl/lifecycle.xml` to `/root` for the bucket
 - Set the lifecycle policy for the bucket `s3cmd setlifecycle lifecycle "s3://BUCKETNAME"`
 
-## Updating the server
-```
-cd /var/www/nouse/ && /usr/bin/git reset --hard && /usr/bin/git pull
-rm /var/www/nouse/composer.lock && composer install --working-dir=/var/www/nouse
-```
+**NB** The University firewall only allows port 80 through to the internet, so to access the MySQL database for maintenance purposes use a SSH Tunnel.
