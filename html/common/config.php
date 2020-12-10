@@ -23,7 +23,7 @@ require_once(__DIR__ . '/libs/Email/main.php'); //Email sending lib
 $CONFIG = array(
     'DB_HOSTNAME' => getenv('MYSQL_HOSTNAME'),
     'DB_DATABASE' => getenv('MYSQL_DATABASE'),
-    'DB_USERNAME' => getenv('MYSQL_DB_USERNAME'), //CREATE INSERT SELECT UPDATE DELETE needed
+    'DB_USERNAME' => getenv('MYSQL_USER'), //CREATE INSERT SELECT UPDATE DELETE needed
     'DB_PASSWORD' => getenv('MYSQL_PASSWORD'),
     'PROJECT_NAME' => "Nouse",
     'SENDGRID' => ['APIKEY' => getenv('bCMS__SendGridAPIKEY')],
