@@ -149,6 +149,7 @@ if ($urlSplit[0] == "edition") {
             break;
         }
     }
+    if (!$PAGEDATA['POST']['articles_thumbnail']) $PAGEDATA['POST']['SOCIAL-OVERLAY'] = false;
 
 
     if ($PAGEDATA['POST']['articles_authors'] != null) {
