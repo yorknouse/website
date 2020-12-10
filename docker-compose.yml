@@ -1,7 +1,8 @@
 version: '3'
 services:
   db:
-    image: mysql:5.7
+    image: mysql/mysql-server:5.7
+    command: --default-authentication-plugin=mysql_native_password
     container_name: db
     volumes:
       - db_data:/var/lib/mysql
@@ -30,10 +31,8 @@ services:
     env_file:
       - nouseprod.env
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin/phpmyadmin:5.0
     container_name: phpmyadmin
-    networks:
-      - app
     environment:
       - PMA_ARBITRARY=0
       - PMA_HOST=db
@@ -45,6 +44,8 @@ services:
       - 8081:80
     depends_on:
       - db
+    networks:
+      - app
     volumes:
       - /sessions
   mysql-backup:
