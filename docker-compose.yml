@@ -2,6 +2,7 @@ version: '3'
 services:
   db:
     image: mysql:5.7
+    container_name: db
     volumes:
       - db_data:/var/lib/mysql
     restart: always
@@ -29,7 +30,7 @@ services:
     env_file:
       - nouseprod.env
   phpmyadmin:
-    image: phpmyadmin
+    image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
     networks:
       - app
@@ -47,7 +48,8 @@ services:
     volumes:
       - /sessions
   mysql-backup:
-     image: mysql-backup:latest
+     image: databack/mysql-backup:latest
+     container_name: mysql-backup
      environment:
        - DB_SERVER=db
        - DB_PORT=3306
