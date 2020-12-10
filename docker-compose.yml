@@ -10,7 +10,8 @@ services:
     environment:
       - MYSQL_DATABASE=nouse
       - MYSQL_USER=nouse
-      - MYSQL_PASSWORD=nousePass
+    env_file:
+      - nouseprod.env
     networks:
       - app
   nouse:
@@ -24,10 +25,9 @@ services:
     networks:
       - app
     environment:
-      - bCMS__DB_HOSTNAME=db:3306
-      - bCMS__DB_DATABASE=nouse
-      - bCMS__DB_USERNAME=nouse
-      - bCMS__DB_PASSWORD=nousePass
+      - MYSQL_HOSTNAME=db
+      - MYSQL_DATABASE=nouse
+      - MYSQL_USER=nouse
     env_file:
       - nouseprod.env
   phpmyadmin:
@@ -53,7 +53,6 @@ services:
        - DB_SERVER=db
        - DB_PORT=3306
        - DB_USER=nouse
-       - DB_PASS=nousePass
        - DB_NAMES=nouse
        - DB_DUMP_FREQ=1440 #Daily
        - DB_DUMP_BEGIN=0230 #2:30am

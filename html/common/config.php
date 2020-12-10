@@ -21,10 +21,10 @@ if (getenv('bCMS__ERRORS') == "true") {
 require_once(__DIR__ . '/../../composer/vendor/autoload.php'); //Composer
 require_once(__DIR__ . '/libs/Email/main.php'); //Email sending lib
 $CONFIG = array(
-    'DB_HOSTNAME' => getenv('bCMS__DB_HOSTNAME'),
-    'DB_DATABASE' => getenv('bCMS__DB_DATABASE'),
-    'DB_USERNAME' => getenv('bCMS__DB_USERNAME'), //CREATE INSERT SELECT UPDATE DELETE needed
-    'DB_PASSWORD' => getenv('bCMS__DB_PASSWORD'),
+    'DB_HOSTNAME' => getenv('MYSQL_HOSTNAME'),
+    'DB_DATABASE' => getenv('MYSQL_DATABASE'),
+    'DB_USERNAME' => getenv('MYSQL_DB_USERNAME'), //CREATE INSERT SELECT UPDATE DELETE needed
+    'DB_PASSWORD' => getenv('MYSQL_PASSWORD'),
     'PROJECT_NAME' => "Nouse",
     'SENDGRID' => ['APIKEY' => getenv('bCMS__SendGridAPIKEY')],
     'ERRORS' => ['SENTRY' => getenv('bCMS__SENTRYLOGIN'), "SENTRYPublic" => getenv('bCMS__SENTRYLOGINPUBLIC')],
@@ -56,6 +56,7 @@ $CONFIG = array(
     "APPLE" => ["NEWS" => ["CHANNEL" => getenv('bCMS__APPLENEWSCHANNEL'), "KEY" => getenv('bCMS__APPLENEWSKEY'), "SECRET" => getenv('bCMS__APPLENEWSSECRET')]],
     'JIRAWIDGET' => getenv("bCMS__JIRAWIDGET"),
     'DEV' => (getenv('bCMS__ERRORS') == "true" ? true : false),
+    'HOSTNAME' => $_SERVER['HTTP_HOST'],
     'VERSION' => ['COMMIT' => exec("cd " . __DIR__ . "/../../ && git log --pretty=\"%h\" -n1 HEAD"), 'TAG' => exec("cd " . __DIR__ . "/../../ && git describe --tags --abbrev=0"), "COMMITFULL" => exec("cd " . __DIR__ . "/../../ && git log --pretty=\"%H\" -n1 HEAD")],
 );
 if ($CONFIG['VERSION']['COMMIT'] == null) $CONFIG['VERSION']['COMMIT'] = 'DEV';

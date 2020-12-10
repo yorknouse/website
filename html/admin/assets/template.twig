@@ -283,12 +283,20 @@
                 </li>
             {% endif %}
                 <li class="header">Miscellaneous</li>
-                {% if 11|permissions %}
+                {% if 43|permissions %}
                 <li>
                     <a href="{{ CONFIG.ROOTBACKENDURL }}/macros.php">
                         <i class="fa fa-terminal"></i> <span>Macros</span>
                     </a>
                 </li>
+                {% endif %}
+                {% if 55|permissions %}
+                    <li>
+                        <a href="{{ CONFIG.HOSTNAME }}:8081">
+                            <i class="fa fa-database"></i> <span>Database</span>
+                            <span class="right badge badge-danger">VPN</span>
+                        </a>
+                    </li>
                 {% endif %}
                 {% if 48|permissions %}
                     <li>
