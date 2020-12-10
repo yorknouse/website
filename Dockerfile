@@ -24,13 +24,9 @@ RUN apt-get install -y \
 		unzip \
 		git \
 		nano \
-	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
-	&& docker-php-ext-install -j$(nproc) gd
-RUN docker-php-ext-install zip
-RUN docker-php-ext-install mbstring
-RUN docker-php-ext-install mysqli
-RUN docker-php-ext-install intl
-RUN docker-php-ext-install gd
+		&& apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --enable-gd
+RUN docker-php-ext-install -j$(nproc) gd zip mbstring mysqli intl
 
 COPY . /var/www/
 
