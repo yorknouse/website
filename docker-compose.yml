@@ -1,13 +1,71 @@
 version: '3'
 services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE=nouse
+      MYSQL_USER=nouse
+      MYSQL_PASSWORD=nousePass
+    networks:
+      app
   nouse:
     image: nouse
     container_name: nouse-container
     ports:
       - 80:80
     restart: always
+    depends_on:
+      - db
+    networks:
+      app
+    environment:
+      bCMS__DB_HOSTNAME=db:3306
+      bCMS__DB_DATABASE=nouse
+      bCMS__DB_USERNAME=nouse
+      bCMS__DB_PASSWORD=nousePass
     env_file:
       - nouseprod.env
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: phpmyadmin
+    networks:
+      app
+    environment:
+      - PMA_ARBITRARY=0
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - PMA_USER=nouse
+      - PMA_PASSWORD=nousePass
+    restart: always
+    ports:
+      - 8081:80
+    depends_on:
+      - db
+    volumes:
+      - /sessions
+  mysql-backup:
+     image: mysql-backup
+     environment:
+       - DB_SERVER=db
+       - DB_PORT=3306
+       - DB_USER=nouse
+       - DB_PASS=nousePass
+       - DB_NAMES=nouse
+       - DB_DUMP_FREQ=1440 #Daily
+       - DB_DUMP_BEGIN=0230 #2:30am
+       - COMPRESSION=gzip
+       - NICE=true
+     env_file:
+       - nouseprod.env
+     networks:
+       app
+     depends_on:
+       - db
+     volumes:
+       - /etc/localtime:/etc/localtime:ro
   netdata:
     image: netdata/netdata
     container_name: netdata
@@ -18,6 +76,8 @@ services:
       - SYS_PTRACE
     security_opt:
       - apparmor:unconfined
+    networks:
+      monitoring
     volumes:
       - netdataconfig:/etc/netdata
       - netdatalib:/var/lib/netdata
@@ -32,3 +92,7 @@ volumes:
   netdataconfig:
   netdatalib:
   netdatacache:
+  db_data: { }
+networks:
+  app:
+  monitoring:

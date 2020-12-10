@@ -2,9 +2,11 @@
 
 Based on bCMS - a custom built content management system. There's probably going to always be some debate about whether this was the best idea for Nouse, but it has enabled us to do some really great custom stuff over the years, and overcome crippling performance issues on Wordpress 
 
-# WebServer 
+# Server Setup
 
 ## Docker
+
+The whole stack runs off one docker-compose file which makes this all a lot simpler!
 
 1. Make sure you're the root user `sudo su` then `cd /root/`
 1. `apt update && apt install docker.io docker-compose`
@@ -23,26 +25,18 @@ cd nouse
 bash updater.sh
 ```
 
-# MySQL Server
+# Database
 
-## Creating a new server
+## MySQL Setup
 
-- Install MySQL `apt install mysql` and copy over the database (https://www.digitalocean.com/community/tutorials/how-to-migrate-a-mysql-database-between-two-servers)
-- Create a MySQL user 
-```mysql
-CREATE USER 'nouseProd'@'%' IDENTIFIED BY 'PASSWORDGOESHERE';
-GRANT DELETE ON nouseProd . * TO 'nouseProd'@'%';
-GRANT INSERT ON nouseProd . * TO 'nouseProd'@'%';
-GRANT SELECT ON nouseProd . * TO 'nouseProd'@'%';
-GRANT UPDATE ON nouseProd . * TO 'nouseProd'@'%';
-FLUSH PRIVILEGES;
-```
-- Edit the config file and set the "bind address" to be 0.0.0.0 so we can access the server when we're on campus (although we don't want to allow public connections) `sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf`
-- `apt install s3cmd`
-- Upload `mysql/s3cfg` to `/root/.s3cfg` but be sure to set the access key at the top in the file
-- Upload `mysl/runBackup.sh` to `/root/runBackup.sh` and set the root mysql password in the file
-- Add the following line to `crontab`: `0 */2 * * * bash /root/runBackup.sh`
-- Upload `mysl/lifecycle.xml` to `/root`
-- Set the lifecycle policy for the bucket `s3cmd setlifecycle lifecycle "s3://BUCKETNAME"`
+*Coming Soon*
 
-**NB** The University firewall only allows port 80 through to the internet, so to access the MySQL database for maintenance purposes use a SSH Tunnel on the University VPN
+## MySQL Backups
+
+One of the containers runs a backup every day at about 2:30am and pops it in our S3 bucket. That's all automatic, but you do need to set up a lifecycle rule for the spaces/S3 bucket. This is so the backups are deleted after 40 days and we don't get bancrupted by them.
+
+- Set the lifecycle policy for the bucket using the `lifecycle.xml` file
+
+## MySQL remote access
+
+phpmyadmin is accessible by visitng port 8081 of the server - normally you'd need the University network or VPN to do this in the case of a University Server

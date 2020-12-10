@@ -25,7 +25,7 @@ $CONFIG = array(
     'DB_DATABASE' => getenv('bCMS__DB_DATABASE'),
     'DB_USERNAME' => getenv('bCMS__DB_USERNAME'), //CREATE INSERT SELECT UPDATE DELETE needed
     'DB_PASSWORD' => getenv('bCMS__DB_PASSWORD'),
-    'PROJECT_NAME' => getenv('bCMS__SITENAME'),
+    'PROJECT_NAME' => "Nouse",
     'SENDGRID' => ['APIKEY' => getenv('bCMS__SendGridAPIKEY')],
     'ERRORS' => ['SENTRY' => getenv('bCMS__SENTRYLOGIN'), "SENTRYPublic" => getenv('bCMS__SENTRYLOGINPUBLIC')],
     'ANALYTICS' => ['FRONTENDTRACKINGID' => getenv('bCMS__GoogleAnalyticsFrontend'),'BACKENDTRACKINGID' => getenv('bCMS__GoogleAnalyticsBackend')],
@@ -38,16 +38,16 @@ $CONFIG = array(
     "RECAPTCHA" => ['KEY' => getenv('bCMS__RECAPTCHA_KEY'), 'SECRET' => getenv('bCMS__RECAPTCHA_SECRET')],
     'AWS' => [
         'UPLOAD' => true,
-        'KEY' => getenv('bCMS__S3_KEY'),
-        'SECRET' => getenv('bCMS__S3_SECRET'),
+        'KEY' => getenv('AWS_ACCESS_KEY_ID'),
+        'SECRET' => getenv('AWS_SECRET_ACCESS_KEY'),
         'DEFAULTUPLOADS' => [
-            'BUCKET' => getenv('bCMS__S3_BUCKET'),
-            'ENDPOINT' =>  getenv('bCMS__S3_ENDPOINT'),
-            'REGION' => getenv('bCMS__S3_REGION'),
-            'CDNEndpoint' => getenv('bCMS__S3_CDN')
+            'BUCKET' => getenv('AWS_BUCKET'),
+            'ENDPOINT' =>  getenv('AWS_ENDPOINT_URL'),
+            'REGION' => getenv('AWS_DEFAULT_REGION'),
+            'CDNEndpoint' => getenv('AWS_CDN')
         ], "FINEUPLOADER" => [
-            "KEY" => getenv('bCMS__S3_KEY'),
-            "SECRET" =>  getenv('bCMS__S3_SECRET')
+            "KEY" => getenv('AWS_ACCESS_KEY_ID'),
+            "SECRET" =>  getenv('AWS_SECRET_ACCESS_KEY')
         ]
     ],
     "CLOUDFLARE" => ['EMAIL' => getenv('bCMS__CLOUDFLARE_EMAIL'), 'KEY' => getenv('bCMS__CLOUDFLARE_SECRET')],
