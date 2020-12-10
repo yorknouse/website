@@ -16,6 +16,7 @@ RUN apt-get install -y \
 		libfreetype6-dev \
 		libjpeg62-turbo-dev \
 		libpng-dev \
+		libjpeg-dev \
 		libzip-dev \
 		libonig-dev \
 		zlib1g-dev \
