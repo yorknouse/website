@@ -27,7 +27,7 @@ bash updater.sh
 
 ## Creating a new server
 
-- Install MySQL etc. and copy the db
+- Install MySQL `apt install mysql` and copy over the database (https://www.digitalocean.com/community/tutorials/how-to-migrate-a-mysql-database-between-two-servers)
 - Create a MySQL user 
 ```mysql
 CREATE USER 'nouseProd'@'%' IDENTIFIED BY 'PASSWORDGOESHERE';
@@ -37,7 +37,7 @@ GRANT SELECT ON nouseProd . * TO 'nouseProd'@'%';
 GRANT UPDATE ON nouseProd . * TO 'nouseProd'@'%';
 FLUSH PRIVILEGES;
 ```
-- Edit the config file and set the "bind address" to be the **private** ip of the droplet as we dont want to allow external connections `sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf`
+- Edit the config file and set the "bind address" to be 0.0.0.0 so we can access the server when we're on campus (although we don't want to allow public connections) `sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf`
 - `apt install s3cmd`
 - Upload `mysql/s3cfg` to `/root/.s3cfg` but be sure to set the access key at the top in the file
 - Upload `mysl/runBackup.sh` to `/root/runBackup.sh` and set the root mysql password in the file
