@@ -29,7 +29,10 @@ bash updater.sh
 
 ## MySQL Setup
 
-*Coming Soon*
+```
+cat nouseBackup.sql | docker exec -i db /usr/bin/mysql -u root --password=PASSWORDYOUSETEARLIER nouse
+```
+Enter the password you set at the top of `nouseprod.env` (the root password into the above, and update the sql file to your correct file)
 
 ## MySQL Backups
 
