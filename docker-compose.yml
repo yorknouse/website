@@ -6,11 +6,11 @@ services:
       - db_data:/var/lib/mysql
     restart: always
     environment:
-      MYSQL_DATABASE=nouse
-      MYSQL_USER=nouse
-      MYSQL_PASSWORD=nousePass
+      - MYSQL_DATABASE=nouse
+      - MYSQL_USER=nouse
+      - MYSQL_PASSWORD=nousePass
     networks:
-      app
+      - app
   nouse:
     image: nouse
     container_name: nouse-container
@@ -20,19 +20,19 @@ services:
     depends_on:
       - db
     networks:
-      app
+      - app
     environment:
-      bCMS__DB_HOSTNAME=db:3306
-      bCMS__DB_DATABASE=nouse
-      bCMS__DB_USERNAME=nouse
-      bCMS__DB_PASSWORD=nousePass
+      - bCMS__DB_HOSTNAME=db:3306
+      - bCMS__DB_DATABASE=nouse
+      - bCMS__DB_USERNAME=nouse
+      - bCMS__DB_PASSWORD=nousePass
     env_file:
       - nouseprod.env
   phpmyadmin:
     image: phpmyadmin
     container_name: phpmyadmin
     networks:
-      app
+      - app
     environment:
       - PMA_ARBITRARY=0
       - PMA_HOST=db
@@ -61,7 +61,7 @@ services:
      env_file:
        - nouseprod.env
      networks:
-       app
+       - app
      depends_on:
        - db
      volumes:
@@ -77,7 +77,7 @@ services:
     security_opt:
       - apparmor:unconfined
     networks:
-      monitoring
+      - monitoring
     volumes:
       - netdataconfig:/etc/netdata
       - netdatalib:/var/lib/netdata
