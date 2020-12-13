@@ -15,6 +15,7 @@ The whole stack runs off one docker-compose file which makes this all a lot simp
 1. Add this key to the repo [Github Deploy Key](https://github.com/yorknouse/website/settings/keys) - copy it from `cat /root/.ssh/id_rsa.pub`
 1. Clone the repo `git clone git@github.com:yorknouse/website.git`
 1. `cd website` to get into it
+1. Download the Cloudflare Origin Certificate - place the certificate (`.crt` file) in the `docker/ssl` directory, and dump the `ssl.key` file in the root of the repo. 
 1. Create `nouseprod.env` based on the example file, and fill out the details (do this with `nano nouseprod.env`)
 1. Run `bash updater.sh`
 1. Once you're happy it's all working, add the following line to `crontab`: `0 4 * * * bash /root/nouse/updater.sh` - this will automatically update the site at 4am Daily

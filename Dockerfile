@@ -4,6 +4,12 @@ COPY docker/php.ini /var/www/php.ini
 RUN mv "/var/www/php.ini" "$PHP_INI_DIR/php.ini"
 
 RUN a2dissite 000-default.conf
+RUN a2enmod ssl
+RUN a2dismod autoindex -f
+RUN a2enmod rewrite
+
+COPY docker/ssl/crt /etc/apache2/ssl/ssl.crt
+COPY ssl.key /etc/apache2/ssl/ssl.key
 
 COPY docker/apache2site.conf /etc/apache2/sites-available/apache2site.conf
 RUN a2ensite apache2site.conf
@@ -11,9 +17,6 @@ COPY docker/apache2admin.conf /etc/apache2/sites-available/apache2admin.conf
 RUN a2ensite apache2admin.conf
 COPY docker/001default-apache2.conf /etc/apache2/sites-available/001default-apache2.conf
 RUN a2ensite 001default-apache2.conf
-
-RUN a2dismod autoindex -f
-RUN a2enmod rewrite
 
 RUN apt-get install -y \
         software-properties-common \
