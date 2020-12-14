@@ -133,7 +133,7 @@
                 "name": "Nouse",
                 "logo": {
                     "@type": "ImageObject",
-                    "url": "{{CONFIG.FILESTOREURL}}/site-assets/logo/nouse-logo-full3.png"
+                    "url": "{{CONFIG.ASSETSFILESTOREURL}}/logo/nouse-logo-full3.png"
                 }
             },
             "description": "{{ POST.articlesDrafts_excerpt|raw }}"
@@ -238,7 +238,7 @@
                     </header>
                     {% if POST.articles_archiveFallback %}
                     <div class="alert alert-warning">
-                        <strong>Archive</strong> This article is from our archive and might not display correctly. <a href="{{ CONFIG.FILESTOREURL }}/archive/public/articles/{{ POST.articles_archiveFallback }}">Download PDF</a>
+                        <strong>Archive</strong> This article is from our archive and might not display correctly. <a href="{{ CONFIG.FILESTOREURL }}/file/nouseArticlePDFArchive/archive/public/articles/{{ POST.articles_archiveFallback }}">Download PDF</a>
                     </div>
                     {% endif %}
 
@@ -268,7 +268,7 @@
                         }
                     </style>
                     <div class="articleBodyDiv" style="font-size: 17px;line-height: 25px;">
-                    {{ POST.articlesDrafts_text|replace({"PS": "&pound;", "\n": "<br/>", "[ARCHIVECDNURL]":CONFIG.FILESTOREURL ~ "/archive/public"})|raw }}
+                    {{ POST.articlesDrafts_text|replace({"PS": "&pound;", "\n": "<br/>", "[ARCHIVECDNURL]":CONFIG.ARCHIVEFILESTOREURL})|raw }}
                     </div>
                     {% elseif POST.articles_type == 2 %}
                     <div class="gallery_post popup-gallery">
