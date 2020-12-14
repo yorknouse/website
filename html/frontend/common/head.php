@@ -143,5 +143,5 @@ function userImage($userid) {
     $thumb = $DBLIB->getone("users",["users_thumbnail", "users_created"]);
     if (!$thumb or $thumb["users_thumbnail"] == null) return false;
     if (is_numeric($thumb["users_thumbnail"])) return $bCMS->s3URL($thumb["users_thumbnail"], "small");
-    else return $CONFIG['FILESTOREURL'] . "/archive/public/articleImages/body/" . date("Y/m", strtotime($thumb['users_created'])) . "/" . $thumb["users_thumbnail"];
+    else return $CONFIG['ARCHIVEFILESTOREURL'] . "/articleImages/body/" . date("Y/m", strtotime($thumb['users_created'])) . "/" . $thumb["users_thumbnail"];
 }

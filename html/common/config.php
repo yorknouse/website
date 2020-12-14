@@ -34,8 +34,7 @@ $CONFIG = array(
     "ROOTFRONTENDURL" => getenv('bCMS__FRONTENDURL'), //Set on a frontend/backend basis
     "ROOTBACKENDURL" => getenv('bCMS__BACKENDURL'), //Set on a frontend/backend basis
     "PROJECT_SUPPORT_EMAIL" => getenv('bCMS__SUPPORTEMAIL'),
-    "FILESTOREURL" => "https://bbcdn.nouse.co.uk/file/",
-    "ASSETSFILESTOREURL" => "https://bbcdn.nouse.co.uk/file/nouseSiteAssets", //Site assets like logos etc
+    "FILESTOREURL" => "https://bbcdn.nouse.co.uk/file",
     "ARCHIVEFILESTOREURL" => "https://bbcdn.nouse.co.uk/file/nouseOldImageLibrary/archive/public", //Images pre 2019
     "RECAPTCHA" => ['KEY' => getenv('bCMS__RECAPTCHA_KEY'), 'SECRET' => getenv('bCMS__RECAPTCHA_SECRET')],
     'AWS' => [

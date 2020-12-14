@@ -133,7 +133,7 @@ class bCMS {
         $thumb = $DBLIB->getone("articles", ["articles_thumbnail"]);
         if (!$thumb or $thumb["articles_thumbnail"] == null) return false;
         if (is_numeric($thumb["articles_thumbnail"])) return $this->s3URL($thumb["articles_thumbnail"], $size);
-        else return $CONFIG['FILESTOREURL'] . "/archive/public/articleImages/" . rawurlencode($thumb["articles_thumbnail"]);
+        else return $CONFIG['ARCHIVEFILESTOREURL'] . "/articleImages/" . rawurlencode($thumb["articles_thumbnail"]);
     }
 
     function s3URL($fileid, $size = false, $forceDownload = false, $expire = '+1 minute', $returnArray = false) {

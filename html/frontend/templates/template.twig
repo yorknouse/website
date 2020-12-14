@@ -44,16 +44,16 @@
     {% block htmlIncludes %}{% endblock %}
 
     <!--Icons (favicon apple touch etc.)-->
-    <link rel="apple-touch-icon" sizes="180x180" href="{{CONFIG.ASSETSFILESTOREURL}}/icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{CONFIG.ASSETSFILESTOREURL}}/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{CONFIG.ASSETSFILESTOREURL}}/icons/favicon-16x16.png">
-    <link rel="manifest" href="{{CONFIG.ASSETSFILESTOREURL}}/icons/site.webmanifest">
-    <link rel="mask-icon" href="{{CONFIG.ASSETSFILESTOREURL}}/icons/safari-pinned-tab.svg" color="#000000">
-    <link rel="shortcut icon" href="{{CONFIG.ASSETSFILESTOREURL}}/icons/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/icons/favicon-16x16.png">
+    <link rel="manifest" href="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/icons/site.webmanifest">
+    <link rel="mask-icon" href="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/icons/safari-pinned-tab.svg" color="#000000">
+    <link rel="shortcut icon" href="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/icons/favicon.ico">
     <meta name="apple-mobile-web-app-title" content="Nouse">
     <meta name="application-name" content="Nouse">
     <meta name="msapplication-TileColor" content="#2b5797">
-    <meta name="msapplication-config" content="{{CONFIG.ASSETSFILESTOREURL}}/icons/browserconfig.xml">
+    <meta name="msapplication-config" content="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/icons/browserconfig.xml">
     <meta name="theme-color" content="#ffffff">
 
     {% block htmlMeta %}
@@ -70,8 +70,8 @@
         <meta name="twitter:title" content="{% if pageConfig.TITLE != null %}{{ pageConfig.TITLE|raw }}{% else %}Nouse | University of York's oldest society and student newspaper{% endif %}">
         <meta name="twitter:description" content="Founded in 1964, making us the oldest society on campus, Nouse has consistently provided the student voice for generations of York students and an important critical voice of the University and the Students’ Union.">
 
-        <meta property="og:image" content="{{CONFIG.ASSETSFILESTOREURL}}/headerImages/ogheader-centralhall-comp.jpg" />
-        <meta name="twitter:image" content="{{CONFIG.ASSETSFILESTOREURL}}/headerImages/ogheader-centralhall-comp.jpg">
+        <meta property="og:image" content="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/headerImages/ogheader-centralhall-comp.jpg" />
+        <meta name="twitter:image" content="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/headerImages/ogheader-centralhall-comp.jpg">
 
         <meta name="google-signin-client_id"
               content="{{ CONFIG["GOOGLE"]["AUTH"]["CLIENT"] }}">
@@ -189,7 +189,7 @@
                 <div class="container">
                     <div class="header-logo">
                         <a href="{{ CONFIG.ROOTFRONTENDURL }}/muse" class="logo-img">
-                            <img src="{{CONFIG.ASSETSFILESTOREURL}}/logo/MUSE%20Logo%20White%20small.png" alt="MUSE Logo" style="width: 100%; height: auto;">
+                            <img src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png" alt="MUSE Logo" style="width: 100%; height: auto;">
                         </a>
                     </div>
                 </div>
@@ -199,7 +199,7 @@
                     <div class="container">
                         <div class="header-logo">
                             <a href="{{ CONFIG.ROOTFRONTENDURL }}/" class="logo-img">
-                                <img src="{{CONFIG.ASSETSFILESTOREURL}}/logo/nouse-logo-full3.svg" alt="Nouse logo" style="width: 100%; height: auto;">
+                                <img src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/logo/nouse-logo-full3.svg" alt="Nouse logo" style="width: 100%; height: auto;">
                             </a>
                             <table border="0" style="width:100%;margin-top:15px;font-weight: 500;">
                                 <tr style="width:100%;">
@@ -228,16 +228,16 @@
                         <div class="col-sm-4">
                             <div class="header-logo" style="margin-top: 9px; width: 350px;">
                                 <a href="{{ CONFIG.ROOTFRONTENDURL }}" class="logo-img">
-                                    <img src="{{CONFIG.ASSETSFILESTOREURL}}/logo/nouse-logo-full3.svg" alt="Nouse logo">
+                                    <img src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/logo/nouse-logo-full3.svg" alt="Nouse logo">
                                 </a>
                             </div>
                         </div>
                         <div class="col-sm-8">
                             <div class="header-banner">
                                 {% if date() >= date("13 July 2020 13:30:00") and date() <= date("07 September 2020 13:30:00") %}
-                                    <a href="https://wearehomesforstudents.com/student-accommodation/york/abode?utm_source=Nouse%20News%20?utm_medium=referral?utm_campaign=202007%20HFS%20Abode%20York%20Nouse%20Newspaper%20Web%20Banner%20July?utm_content=link" target="_blank"><img src="{{CONFIG.ASSETSFILESTOREURL}}/advertising/Abode%20Student%20Housing.gif" class="img-responsive" alt="Homes for Students - Advert"></a>
+                                    <a href="https://wearehomesforstudents.com/student-accommodation/york/abode?utm_source=Nouse%20News%20?utm_medium=referral?utm_campaign=202007%20HFS%20Abode%20York%20Nouse%20Newspaper%20Web%20Banner%20July?utm_content=link" target="_blank"><img src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/advertising/Abode%20Student%20Housing.gif" class="img-responsive" alt="Homes for Students - Advert"></a>
                                 {% elseif date() >= date("29 April 2020 11:00:00") and date() <= date("22 June 2020 00:00:00") %}
-                                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/editions/" target="_blank"><img src="{{CONFIG.ASSETSFILESTOREURL}}/advertising/Weekly%20Nouse%20Banner%20Compressed.jpg" class="img-responsive" alt="The Weekly Nouse - COVID-19 - Advert"></a>
+                                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/editions/" target="_blank"><img src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/advertising/Weekly%20Nouse%20Banner%20Compressed.jpg" class="img-responsive" alt="The Weekly Nouse - COVID-19 - Advert"></a>
                                 {% else %}
                                     <a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/advertising.php"><img src="{{ CONFIG.ROOTFRONTENDURL }}/common/assets/adTemplates/728x90.jpg" class="img-responsive" alt=""></a>
                                 {% endif %}
@@ -263,7 +263,7 @@
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu" style="background-color: inherit; color:inherit;">
                             <i class="fa fa-bars"></i>
                         </button>
-                        <a class="navbar-brand"  style="margin-top: 15px;" href="{{ CONFIG.ROOTFRONTENDURL }}"><img style="margin-top: 8px;" id="mobileLogoHeader" src="{{CONFIG.ASSETSFILESTOREURL}}/logo/nouse-logo-full3{{ pageConfig.MENUColor.backgroundColorContrast == "ffffff" ? "-white" : "" }}.svg" class="logo" alt="Nouse Logo"></a>
+                        <a class="navbar-brand"  style="margin-top: 15px;" href="{{ CONFIG.ROOTFRONTENDURL }}"><img style="margin-top: 8px;" id="mobileLogoHeader" src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/logo/nouse-logo-full3{{ pageConfig.MENUColor.backgroundColorContrast == "ffffff" ? "-white" : "" }}.svg" class="logo" alt="Nouse Logo"></a>
                     </div>
                     <!-- End Header Navigation -->
                     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -409,7 +409,7 @@
                     <div class="col-sm-5 col-xs-12">
                         <div class="footer-box">
                             <div class="footer-logo">
-                                <img src="{{CONFIG.ASSETSFILESTOREURL}}/logo/kingfisher-white.png" class="img-responsive" alt="" style="height: 35px;">
+                                <img src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/logo/kingfisher-white.png" class="img-responsive" alt="" style="height: 35px;">
                             </div>
                             <p>Founded in 1964, making us the oldest society on campus, Nouse has consistently provided the student voice for generations of York students and an important critical voice of the University and the Students’ Union.</p>
                         </div>
@@ -498,7 +498,7 @@
             timeout: true,
             timeoutCountdown: 1000,
             {% endif %}
-            //loadingInner: '<img src="{{CONFIG.ASSETSFILESTOREURL}}/logo/kingfisher.svg" style="width: 80px;" />',
+            //loadingInner: '<img src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/logo/kingfisher.svg" style="width: 80px;" />',
             browser: [ 'animation-duration', '-webkit-animation-duration'],
             inDuration: 100,
             outDuration: 100,
