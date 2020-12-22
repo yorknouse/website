@@ -107,11 +107,12 @@ x-amz-meta-size
     $( document ).ready(function() {
         $('#{{ thisElementID }}').fineUploaderS3({
             request: {
-                endpoint: "https://{{ CONFIG.AWS.DEFAULTUPLOADS.BUCKET }}.{{ CONFIG.AWS.DEFAULTUPLOADS.ENDPOINT }}",
+                endpoint: "https://{{ CONFIG.AWS.DEFAULTUPLOADS.ENDPOINT }}/{{ CONFIG.AWS.DEFAULTUPLOADS.BUCKET }}/",
                 accessKey: "{{ CONFIG.AWS.FINEUPLOADER.KEY }}"
             },
             signature: {
-                endpoint: "{{ CONFIG.ROOTBACKENDURL }}/api/s3files/generateSignature.php"
+                endpoint: "{{ CONFIG.ROOTBACKENDURL }}/api/s3files/generateSignature.php",
+                version: 4
             },
             uploadSuccess: {
                 endpoint: "{{ CONFIG.ROOTBACKENDURL }}/api/s3files/uploadSuccess.php",
@@ -131,6 +132,7 @@ x-amz-meta-size
                 }
             },
             objectProperties: {
+                region: "{{ CONFIG.AWS.DEFAULTUPLOADS.REGION }}",
                 bucket: "{{ CONFIG.AWS.DEFAULTUPLOADS.BUCKET }}",
                 {% if publicBool %}
                 acl: "public-read",
