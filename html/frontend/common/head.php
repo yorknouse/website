@@ -63,7 +63,7 @@ $TWIG->addFilter(new Twig_SimpleFilter('s3DATA', function ($fileid) {
 }));
 $TWIG->addFilter(new Twig_SimpleFilter('articleThumbnail', function ($article, $size = "large",$socialOverlay='') {
     global $bCMS, $CONFIG;
-    if ($socialOverlay != '') return $CONFIG['ROOTFRONTENDURL'] . '/api/imageProcessor.php?url=' .urlencode($bCMS->articleThumbnail($article, $size)) . '&overlay=' . urlencode($CONFIG['FILESTOREURL'] . '/site-assets/socialOverlays/' . $socialOverlay . '.png');
+    if ($socialOverlay != '') return $CONFIG['ROOTFRONTENDURL'] . '/api/imageProcessor.php?url=' .urlencode($bCMS->articleThumbnail($article, $size)) . '&overlay=' . urlencode($CONFIG['FILESTOREURL'] . '/nouseSiteAssets/socialOverlays/' . $socialOverlay . '.png');
     else return $bCMS->articleThumbnail($article, $size);
 }));
 
