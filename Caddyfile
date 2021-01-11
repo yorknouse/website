@@ -3,6 +3,9 @@
 	http_port  80
 	https_port 443
 	admin off
+
+	# TLS Options
+    email tech@nouse.co.uk  #Used to generate Letsencrypt certificates
 }
 {$serverHostname:localhost} {
     #Extra Tools
@@ -19,7 +22,7 @@
         reverse_proxy netdata:19999
     }
 
-    tls internal
+    tls {$caddyUseInternalSelfSignedCertificate}
 
     reverse_proxy nouse:80
 
