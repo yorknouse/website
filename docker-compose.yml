@@ -1,51 +1,62 @@
 version: '3'
 services:
+  caddy:
+    image: caddy/caddy:2-alpine
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - /errorPages:/etc/caddy/errorPages/
+      - caddy:/data
+    environment:
+      ACME_AGREE: 'true'
+    depends_on:
+      - db
+      - nouse
+      - phpmyadmin
+      - netdata
   db:
     image: mysql/mysql-server:5.7
     command: --default-authentication-plugin=mysql_native_password
     container_name: db
     volumes:
       - db_data:/var/lib/mysql
+      - /etc/localtime:/etc/localtime:ro
     restart: always
     environment:
       - MYSQL_DATABASE=nouse
-      - MYSQL_USER=nouse
       - MYSQL_ROOT_HOST=%
+      - MYSQL_USER=userDocker
+      - MYSQL_PASSWORD=passDocker
+      - MYSQL_ROOT_PASSWORD=rootPass
     env_file:
       - nouseprod.env
-    networks:
-      - app
   nouse:
     image: nouse
     container_name: nouse-container
-    ports:
-      - 80:80
-      - 443:443
     restart: always
     depends_on:
       - db
-    networks:
-      - app
     environment:
       - MYSQL_HOSTNAME=db
       - MYSQL_DATABASE=nouse
-      - MYSQL_USER=nouse
+      - MYSQL_USER=userDocker
+      - MYSQL_PASSWORD=passDocker
     env_file:
       - nouseprod.env
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.0
     container_name: phpmyadmin
     environment:
-      - PMA_ARBITRARY=0
       - PMA_HOST=db
       - PMA_PORT=3306
+      - PMA_ARBITRARY=1
+      - PMA_USER=userDocker
+      - PMA_PASSWORD=passDocker
     restart: always
-    ports:
-      - 8081:80
     depends_on:
       - db
-    networks:
-      - app
     volumes:
       - /sessions
   mysql-backup:
@@ -54,7 +65,8 @@ services:
      environment:
        - DB_SERVER=db
        - DB_PORT=3306
-       - DB_USER=nouse
+       - DB_USER=root
+       - DB_PASS=rootPass
        - DB_NAMES=nouse
        - DB_DUMP_FREQ=1440 #Daily
        - DB_DUMP_BEGIN=0230 #2:30am
@@ -62,24 +74,21 @@ services:
        - NICE=true
      env_file:
        - nouseprod.env
-     networks:
-       - app
      depends_on:
        - db
      volumes:
        - /etc/localtime:/etc/localtime:ro
   netdata:
+    hostname: netdata.example.org
     image: netdata/netdata
     container_name: netdata
-    ports:
-      - 8080:19999
     restart: unless-stopped
     cap_add:
       - SYS_PTRACE
     security_opt:
       - apparmor:unconfined
-    networks:
-      - monitoring
+    logging:
+      driver: none
     volumes:
       - netdataconfig:/etc/netdata
       - netdatalib:/var/lib/netdata
@@ -94,7 +103,5 @@ volumes:
   netdataconfig:
   netdatalib:
   netdatacache:
+  caddy:
   db_data: { }
-networks:
-  app:
-  monitoring:

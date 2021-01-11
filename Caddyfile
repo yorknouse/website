@@ -1,0 +1,31 @@
+{
+    # Top level config and options for Caddy
+	http_port  80
+	https_port 443
+	admin off
+	# TLS Options
+	email tech@nouse.co.uk  #Used to generate Letsencrypt certificates
+}
+144.126.193.47 {
+    #Extra Tools
+
+    basicauth /tools/* bcrypt {
+        nouseAdmin {$nouseAdminPassword:JDJ5JDEyJERYNy9hRDVBRi93U2VWaWRvZXlNSmVDQkpmLkE5MjhmTXdpcU5rWTh5VVRRdUVVNmhVbzdHIA==} #default is "password" - needs to be a base64 hash of bcrypt
+    }
+    route /tools/phpmyadmin/* {
+        uri strip_prefix /tools/phpmyadmin
+        reverse_proxy phpmyadmin:80
+    }
+    route /tools/netdata/* {
+        uri strip_prefix /tools/netdata
+        reverse_proxy netdata:19999
+    }
+
+    reverse_proxy nouse:80
+
+    encode gzip
+}
+www.nouse.co.uk nouse.co.uk edit.nouse.co.uk {
+    reverse_proxy nouse:80
+    encode gzip
+}
