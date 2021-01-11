@@ -13,6 +13,8 @@ services:
       - ./ssl/origin-pull-ca.pem:/etc/ssl/certs/origin-pull-ca.pem
     environment:
       ACME_AGREE: 'true'
+    env_file:
+      - nouseprod.env
     depends_on:
       - db
       - nouse
