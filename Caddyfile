@@ -3,8 +3,6 @@
 	http_port  80
 	https_port 443
 	admin off
-	# TLS Options
-	email tech@nouse.co.uk  #Used to generate Letsencrypt certificates
 }
 {$hostname:localhost} {
     #Extra Tools
@@ -21,11 +19,19 @@
         reverse_proxy netdata:19999
     }
 
+    tls internal
+
     reverse_proxy nouse:80
 
     encode gzip
 }
 www.nouse.co.uk nouse.co.uk edit.nouse.co.uk {
+    tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
+        client_auth {
+            mode require_and_verify
+            trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
+        }
+    }
     reverse_proxy nouse:80
     encode gzip
 }
