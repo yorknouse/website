@@ -250,7 +250,7 @@
             <div class="box-body">
                 {% embed 'common/plugins/fineuploader.twig' with {'publicBool': true, 'type': 'ARTICLE-IMAGE', 'paste': false, 'typeId': 2, 'subTypeId': (article.articles_id ?: '0'), 'imagesOnly': true } %}
                     {% block success %}
-                        var urlLarge = "{{ CONFIG.ROOTFRONTENDURL }}/image/?f=" + responseJson.id + "&s=large";
+                        var urlLarge = "{{ CONFIG.ROOTFRONTENDURL }}/image/?f=" + responseJson.id + "&s=large&r=true";
                         {% if article.articles_type == 1 %}
                         $('#editor').summernote('insertImage',urlLarge, function ($image) {
                             $image.attr('data-fileid', responseJson.id);
@@ -288,7 +288,7 @@
                 <input id="thumbnailCredit" style="margin-bottom: 5px; display:none;" value="{{ article.articlesDrafts_thumbnailCredit|raw }}" class="form-control" placeholder="Image credit for caption" />
                 {% embed 'common/plugins/fineuploader.twig' with {'publicBool': true, 'type': 'ARTICLE-THUMBNAIL', 'paste': false, 'typeId': 3, 'subTypeId': (article.articles_id ?: '0'), 'imagesOnly': true } %}
                     {% block success %}
-                        $("#thumbnailImage").attr("src","{{ CONFIG.ROOTFRONTENDURL }}/image/?f=" + responseJson.id + "&s=large");
+                        $("#thumbnailImage").attr("src","{{ CONFIG.ROOTFRONTENDURL }}/image/?f=" + responseJson.id + "&s=large&r=true");
                         thumbnailid = responseJson.id;
                         $("#thumbnailCredit").show();
                     {% endblock %}
