@@ -154,23 +154,26 @@ class bCMS {
         if (!$file) return false;
         if ($file['s3files_meta_public'] == 1) {
             $returnFilePath = $file['s3files_cdn_endpoint'] . "/" . $file['s3files_path'] . "/" . rawurlencode($file['s3files_filename']);
-            //TODO restore image compression system
-            /*switch ($size) {
-                case "tiny":
-                    $returnFilePath .= '%20(tiny)';
-                    break; //The want the original
-                case "small":
-                    $returnFilePath .= '%20(small)';
-                    break; //The want the original
-                case "medium":
-                    $returnFilePath .= '%20(medium)';
-                    break; //The want the original
-                case "large":
-                    $returnFilePath .= '%20(large)';
-                    break; //The want the original
-                default:
-                    //They want the original
-            }*/
+            if ($file['s3files_compressed'] == 1) {
+                //If we have a compressed version of this file opt to use it!
+                switch ($size) {
+                    case "tiny":
+                        $returnFilePath .= '_tiny';
+                        break;
+                    case "small":
+                        $returnFilePath .= '_small';
+                        break;
+                    case "medium":
+                        $returnFilePath .= '_medium';
+                        break;
+                    case "large":
+                        $returnFilePath .= '_large';
+                        break;
+                    default:
+                        $returnFilePath .= '_comp'; //TODO evaluate whether this is a good idea - or whether in some cases it's better to serve a fully uncompressed version
+                        break;
+                }
+            }
             $presignedUrl = $returnFilePath . "." . rawurlencode($file['s3files_extension']);
         } else {
             $s3Client = new Aws\S3\S3Client([
@@ -187,8 +190,29 @@ class bCMS {
 
 
             switch ($file['s3files_meta_type']) {
+                case 0:
+                    //Unknown
+                    break;
                 case 1:
                     //This is a user thumbnail
+                    break;
+                case 2:
+                    //Article image
+                    break;
+                case 3:
+                    //Article Thumbnail
+                    break;
+                case 4:
+                    //Edition thumbnail
+                    break;
+                case 5:
+                    //Edition pdf uncompressed original
+                    break;
+                case 6:
+                    //Edition pdf
+                    break;
+                case 9:
+                    //Library Image
                     break;
                 default:
                     //There are no specific requirements for this file so not to worry.
