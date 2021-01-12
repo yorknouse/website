@@ -213,32 +213,16 @@
         <!--<div style="height: 0px; width: 10px; padding: 0px; margin: 0px;" class="paddingapp"></div>-->
         <section class="sidebar">
             <ul class="sidebar-menu"  data-widget="tree">
-            {% if 30|permissions %}
-                <li class="header">Articles</li>
                 <li>
-                    <a href="{{ CONFIG.ROOTBACKENDURL }}/articles.php?a={{ USERDATA.users_userid }}">
-                        <i class="fa fa-address-card-o"></i> <span>My Articles</span>
+                    <a href="{{ CONFIG.ROOTBACKENDURL }}/images.php">
+                        <i class="fa fa-picture-o"></i> <span>Image Library</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{ CONFIG.ROOTBACKENDURL }}/articles.php">
-                        <i class="fa fa-file-text"></i> <span>Articles</span>
-                    </a>
-                </li>
-            {% endif %}
-                <li class="header">Frontend Admin</li>
+
                 {% if 49|permissions %}
                     <li>
                         <a href="{{ CONFIG.ROOTBACKENDURL }}/editions.php">
                             <i class="fa fa-newspaper-o"></i> <span>Editions</span>
-                        </a>
-                    </li>
-                {% endif %}
-
-                {% if 20|permissions %}
-                    <li>
-                        <a href="{{ CONFIG.ROOTBACKENDURL }}/featured.php">
-                            <i class="fa fa-archive"></i> <span>Featured articles</span>
                         </a>
                     </li>
                 {% endif %}
@@ -264,25 +248,51 @@
                         </ul>
                     </li>
                 {% endif %}
-            {% if 2|permissions or 11|permissions %}
-            <li class="header">Security</li>
-            {% endif %}
-            {% if 2|permissions %}
-            <li>
-                <a href="{{ CONFIG.ROOTBACKENDURL }}/users.php">
-                    <i class="fa fa-users"></i> <span>Users</span>
-                </a>
-            </li>
-            {% endif %}
 
-            {% if 11|permissions %}
-                <li>
-                    <a href="{{ CONFIG.ROOTBACKENDURL }}/permissions.php">
-                        <i class="fa fa-unlock-alt"></i> <span>Permissions</span>
-                    </a>
-                </li>
-            {% endif %}
-                <li class="header">Miscellaneous</li>
+                {% if 44|permissions %}
+                    <li>
+                        <a href="{{ CONFIG.ROOTBACKENDURL }}/quicklinks.php">
+                            <i class="fa fa-link"></i> <span>Short Links</span>
+                        </a>
+                    </li>
+                {% endif %}
+                {% if 2|permissions %}
+                    <li>
+                        <a href="{{ CONFIG.ROOTBACKENDURL }}/users.php">
+                            <i class="fa fa-users"></i> <span>Users</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                <li class="header">Articles</li>
+                {% if 30|permissions %}
+                    <li>
+                        <a href="{{ CONFIG.ROOTBACKENDURL }}/articles.php?a={{ USERDATA.users_userid }}">
+                            <i class="fa fa-address-card-o"></i> <span>My Articles</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ CONFIG.ROOTBACKENDURL }}/articles.php">
+                            <i class="fa fa-file-text"></i> <span>All Articles</span>
+                        </a>
+                    </li>
+                {% endif %}
+                {% if 20|permissions %}
+                    <li>
+                        <a href="{{ CONFIG.ROOTBACKENDURL }}/featured.php">
+                            <i class="fa fa-archive"></i> <span>Featured articles</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                <li class="header">Admin</li>
+                {% if 11|permissions %}
+                    <li>
+                        <a href="{{ CONFIG.ROOTBACKENDURL }}/permissions.php">
+                            <i class="fa fa-unlock-alt"></i> <span>Permissions</span>
+                        </a>
+                    </li>
+                {% endif %}
                 {% if 43|permissions %}
                 <li>
                     <a href="{{ CONFIG.ROOTBACKENDURL }}/macros.php">
@@ -292,9 +302,15 @@
                 {% endif %}
                 {% if 55|permissions %}
                     <li>
-                        <a href="{{ CONFIG.HOSTNAME }}:8081">
+                        <a href="https://yusunouse01.york.ac.uk/tools/phpmyadmin/">
                             <i class="fa fa-database"></i> <span>Database</span>
-                            <span class="right badge badge-danger">VPN</span>
+                        </a>
+                    </li>
+                {% endif %}
+                {% if 56|permissions %}
+                    <li>
+                        <a href="https://yusunouse01.york.ac.uk/tools/netdata/">
+                            <i class="fa fa-stethoscope"></i> <span>Netdata Monitoring</span>
                         </a>
                     </li>
                 {% endif %}
@@ -305,30 +321,6 @@
                         </a>
                     </li>
                 {% endif %}
-                {% if 44|permissions %}
-                    <li>
-                        <a href="{{ CONFIG.ROOTBACKENDURL }}/quicklinks.php">
-                            <i class="fa fa-link"></i> <span>Short Links</span>
-                        </a>
-                    </li>
-                {% endif %}
-                <li>
-                    <a href="{{ CONFIG.ROOTFRONTENDURL }}">
-                        <i class="fa fa-internet-explorer"></i> <span>Public site</span>
-                    </a>
-                </li>
-                <li class="header">Advertising</li>
-                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-                <!-- Backend left sidebar -->
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-7908211756267459"
-                     data-ad-slot="4725607097"
-                     data-ad-format="auto"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
             </ul>
         </section>
         <!-- /.sidebar -->

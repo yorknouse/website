@@ -13,14 +13,6 @@ $region = $CONFIG['AWS']['DEFAULTUPLOADS']['REGION'];
 // These are used throughout the request.
 
 
-// POST POLICY
-// Amazon requires a base64-encoded POST policy written in JSON.
-// This tells Amazon what is acceptable for this request. For
-// simplicity, we set the expiration date to always be 24H in
-// the future. The two "starts-with" fields are used to restrict
-// the content of "key" and "Content-Type", which are specified
-// later in the POST fields. Again for simplicity, we use blank
-// values ('') to not put any restrictions on those two fields.
 function generatePolicy($inputObject) {
     global $accessKeyId,$region;
     $shortDate = gmdate('Ymd');
@@ -40,6 +32,22 @@ function signV4RestRequest($policy) {
     $signingKey = hash_hmac('sha256', 'aws4_request', $signingKey, true);
     return hash_hmac('sha256', $policy, $signingKey);
 }
+function signV4RestRequestRaw($rawStringToSign) {
+    global $secretKey,$region;
+
+    $pattern = "/.+\\n.+\\n(\\d+)\/(.+)\/s3\/aws4_request\\n(.+)/s";
+    preg_match($pattern, $rawStringToSign, $matches);
+
+    $hashedCanonicalRequest = hash('sha256', $matches[3]);
+    $stringToSign = preg_replace("/^(.+)\/s3\/aws4_request\\n.+$/s", '$1/s3/aws4_request'."\n".$hashedCanonicalRequest, $rawStringToSign);
+
+    $dateKey = hash_hmac('sha256', $matches[1], 'AWS4' . $secretKey, true);
+    $dateRegionKey = hash_hmac('sha256', $matches[2], $dateKey, true);
+    $dateRegionServiceKey = hash_hmac('sha256', 's3', $dateRegionKey, true);
+    $signingKey = hash_hmac('sha256', 'aws4_request', $dateRegionServiceKey, true);
+
+    return hash_hmac('sha256', $hashedCanonicalRequest, $signingKey);
+}
 
 header('Content-Type: application/json');
 $responseBody = file_get_contents('php://input');
@@ -48,7 +56,7 @@ $jsonContent = json_encode($contentAsObject);
 if (isset($contentAsObject["headers"])) $headersStr = $contentAsObject["headers"];
 else $headersStr = false;
 if ($headersStr) {
-    echo json_encode(["response"=>"error"]);
+    echo json_encode(["signature"=>signV4RestRequestRaw($headersStr)]);
 } else {
     $policyObj = json_decode($jsonContent, true);
     $encodedPolicy = generatePolicy($policyObj);

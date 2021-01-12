@@ -1,0 +1,9 @@
+{% if allowUploads %}
+        {% embed 'common/plugins/uppy.twig' with {'publicBool': true, 'type': 'LIBRARY-IMAGE', 'paste': false, 'typeId': 9, 'imagesOnly': true,  } %}
+            {% block success %}
+                //$("#thumbnailImage").attr("src",url);
+                //thumbnailid = responseJson.id;
+                //$("#thumbnailCredit").show();
+            {% endblock %}
+        {% endembed %}
+{% endif %}
