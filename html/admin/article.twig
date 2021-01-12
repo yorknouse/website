@@ -305,6 +305,27 @@
                 {% endif %}
             </div>
         </div>
+        <div class="box box-default">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    Saved Versions
+                </h3>
+                <div class="box-tools pull-right">
+                </div>
+            </div>
+            <div class="box-body no-padding">
+                <table class="table">
+                    {% for draft in article.drafts %}
+                    <tr>
+                        <td>v{{ draft.articlesDrafts_id }}</td>
+                        <td>{{ draft.articlesDrafts_timestamp|date("G:i:s l j M Y") }}</td>
+                        <td>{{ draft.articlesDrafts_changelog }}</td>
+                        <td><a href="?a={{ draft.users_userid }}">{{ draft.users_name1 ~ ' ' ~ draft.users_name2 }}</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
     </div>
 
 
