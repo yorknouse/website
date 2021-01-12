@@ -154,7 +154,8 @@ class bCMS {
         if (!$file) return false;
         if ($file['s3files_meta_public'] == 1) {
             $returnFilePath = $file['s3files_cdn_endpoint'] . "/" . $file['s3files_path'] . "/" . rawurlencode($file['s3files_filename']);
-            switch ($size) {
+            //TODO restore image compression system
+            /*switch ($size) {
                 case "tiny":
                     $returnFilePath .= '%20(tiny)';
                     break; //The want the original
@@ -169,7 +170,7 @@ class bCMS {
                     break; //The want the original
                 default:
                     //They want the original
-            }
+            }*/
             $presignedUrl = $returnFilePath . "." . rawurlencode($file['s3files_extension']);
         } else {
             $s3Client = new Aws\S3\S3Client([

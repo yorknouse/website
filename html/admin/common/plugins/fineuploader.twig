@@ -161,7 +161,7 @@ x-amz-meta-size
                 acceptFiles: "image/gif, image/jpeg, image/png",
                  {% endif %}
                 sizeLimit: 50000000000, //50Gb
-                itemLimit: {{ fileLimit is defined ? fileLimit*5 : 1000 }} //Have to multiply by 5 because of the scaled images
+                itemLimit: {{ fileLimit is defined ? fileLimit : 1000 }}
             },
             retry: {
                 enableAuto: true
@@ -175,7 +175,7 @@ x-amz-meta-size
             deleteFile: {
                 enabled: false
             },
-            scaling: {
+            {# scaling: {
                 sendOriginal: true, //Send the original file as well
                 hideScaled: true, //Don't show all the extra ones we generate
                 sizes: [
@@ -184,7 +184,7 @@ x-amz-meta-size
                     {name: "medium", maxSize: 800},
                     {name: "large", maxSize: 1500}
                 ]
-            },
+            },#}
             {% if paste %}
             {# Only one fineuploader on the page can be setup to allow files to be pasted - so set this carefully #}
             paste: {
