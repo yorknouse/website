@@ -127,6 +127,7 @@ for file in listOfFiles:
     fileKey = str(file['s3files_path']) + "/" + str(file['s3files_filename']) + "." + str(file['s3files_extension'])
     fileKey = fileKey.replace("\\", "")
     print("[INFO] Starting " + str((counter/total)*100) + "%: " + str(fileKey) + " | " + str(file['s3files_id']))
+    counter += 1
     try:
         s3client.download_file(str(file['s3files_bucket']), fileKey, "image."+str(file['s3files_extension']))
     except:
