@@ -22,6 +22,11 @@ x-amz-meta-size
     {% set thisElementID = ('uppy' ~ random()) %}
     <div id="{{ thisElementID }}"></div>
     <script>
+        function getExtension(fileName) {
+            var re = /(?:\.([^.]+))?$/;
+            var extension = re.exec(fileName)[1];
+            return extension.toLowerCase();
+        }
         new Uppy.Core({
             debug: true,
             allowMultipleUploads: true,
@@ -40,8 +45,9 @@ x-amz-meta-size
             },
             onBeforeFileAdded: (currentFile, files) => {
                 var updatedFile = currentFile;
+                var safeFilename = currentFile.name.replace(/[^a-z0-9]/gi, '').toLowerCase() + "." + getExtension(currentFile.name);
                 {% if publicBool %}
-                updatedFile.name = "db/webUploads/public" + "/" + "{{ type }}" +"/" + Date.now() + "-" + (Math.floor(Math.random() * (99999999999999999999 - 9999999999 + 1)) + 9999999999) + "-" + currentFile.name;
+                updatedFile.name = "db/webUploads/public" + "/" + "{{ type }}" +"/" + Date.now() + "-" + (Math.floor(Math.random() * (99999999999999999999 - 9999999999 + 1)) + 9999999999) + "-" + safeFilename;
                 {% else %}
                 updatedFile.name = "db/webUploads/private" + "/" + "{{ type }}" +"/" + Date.now() + "-" + (Math.floor(Math.random() * (99999999999999999999 - 9999999999 + 1)) + 9999999999) + "." + getExtension(currentFile.name);
                 {% endif %}
