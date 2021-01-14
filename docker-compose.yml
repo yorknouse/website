@@ -63,6 +63,18 @@ services:
       - db
     volumes:
       - /sessions
+  compressor:
+    build: ./compressor
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - MYSQL_HOSTNAME=db
+      - MYSQL_DATABASE=nouse
+      - MYSQL_USER=userDocker
+      - MYSQL_PASSWORD=passDocker
+    env_file:
+      - nouseprod.env
   mysql-backup:
      image: databack/mysql-backup:latest
      container_name: mysql-backup
@@ -93,6 +105,13 @@ services:
       - apparmor:unconfined
     logging:
       driver: none
+    depends_on: #Relies on everything because it needs to start last in order to access details of docker containers
+      - caddy
+      - nouse
+      - db
+      - phpmyadmin
+      - mysql-backup
+      - compressor
     volumes:
       - netdataconfig:/etc/netdata
       - netdatalib:/var/lib/netdata
@@ -102,18 +121,6 @@ services:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /etc/os-release:/host/etc/os-release:ro
-  compressor:
-    build: ./compressor
-    restart: always
-    depends_on:
-      - db
-    environment:
-      - MYSQL_HOSTNAME=db
-      - MYSQL_DATABASE=nouse
-      - MYSQL_USER=userDocker
-      - MYSQL_PASSWORD=passDocker
-    env_file:
-      - nouseprod.env
 volumes:
   netdataconfig:
   netdatalib:
