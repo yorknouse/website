@@ -142,7 +142,7 @@ for file in listOfFiles:
         success = True
         for type,upload in comp.items():
             try:
-                s3client.upload_file(type+"."+str(file['s3files_extension']), str(file['s3files_bucket']), upload,ExtraArgs={'ContentType': mimetype})
+                s3client.upload_file(type+"."+str(file['s3files_extension']), str(file['s3files_bucket']), upload,ExtraArgs={'ContentType': mimetype,'ACL':'public'})
             except boto3.exceptions.S3UploadFailedError:
                 print("[ERROR] Failed to upload comp file")
                 success = False
