@@ -102,8 +102,6 @@ services:
       - SYS_PTRACE
     security_opt:
       - apparmor:unconfined
-    logging:
-      driver: none
     depends_on: #Relies on everything because it needs to start last in order to access details of docker containers
       - caddy
       - nouse
