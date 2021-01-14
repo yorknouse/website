@@ -41,11 +41,11 @@ services:
     restart: always
     depends_on:
       - db
-    #environment:
-    #  - MYSQL_HOSTNAME=db
-    #  - MYSQL_DATABASE=nouse
-    #  - MYSQL_USER=userDocker
-    #  - MYSQL_PASSWORD=passDocker
+    environment:
+      - MYSQL_HOSTNAME=db
+      - MYSQL_DATABASE=nouse
+      - MYSQL_USER=userDocker
+      - MYSQL_PASSWORD=passDocker
     env_file:
       - nouseprod.env
   phpmyadmin:
@@ -94,7 +94,7 @@ services:
      volumes:
        - /etc/localtime:/etc/localtime:ro
   netdata:
-    hostname: netdata.example.org
+    hostname: yusunouse01.york.ac.uk
     image: netdata/netdata
     container_name: netdata
     restart: unless-stopped
@@ -112,7 +112,7 @@ services:
       - mysql-backup
       - compressor
     volumes:
-      - netdataconfig:/etc/netdata
+      - ./netdata/config:/etc/netdata:ro
       - netdatalib:/var/lib/netdata
       - netdatacache:/var/cache/netdata
       - /etc/passwd:/host/etc/passwd:ro
@@ -120,8 +120,8 @@ services:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /etc/os-release:/host/etc/os-release:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 volumes:
-  netdataconfig:
   netdatalib:
   netdatacache:
   caddy:
