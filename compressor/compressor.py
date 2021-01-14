@@ -139,10 +139,13 @@ for file in listOfFiles:
         if mimetype is None:
             mimetype = "binary/octet-stream"
         os.remove("image."+str(file['s3files_extension']))
+        extraArgs = {'ContentType': mimetype}
+        if file['s3files_meta_public'] == 1:
+            extraArgs.update({'ACL':'public-read'})
         success = True
         for type,upload in comp.items():
             try:
-                s3client.upload_file(type+"."+str(file['s3files_extension']), str(file['s3files_bucket']), upload,ExtraArgs={'ContentType': mimetype,'ACL':'public'})
+                s3client.upload_file(type+"."+str(file['s3files_extension']), str(file['s3files_bucket']), upload,ExtraArgs=extraArgs)
             except boto3.exceptions.S3UploadFailedError:
                 print("[ERROR] Failed to upload comp file")
                 success = False
