@@ -2,7 +2,7 @@
 {% block htmlIncludes %}
 <script src="{{ CONFIG.ASSETSURL }}js/macy.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/12.3.0/lazyload.min.js" integrity="sha256-bojBIKfs4l2WDcJODncBIGEe5fhU7/sM3zRO5/f2nqE=" crossorigin="anonymous"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/12.3.0/lazyload.min.js" integrity="sha256-bojBIKfs4l2WDcJODncBIGEe5fhU7/sM3zRO5/f2nqE=" crossorigin="anonymous"></script>-->
 {% endblock %}
 {% block content %}
 <div class="container">
@@ -17,7 +17,7 @@
                 <article class="grid_post">
                     <figure>
                         <a href="{{ CONFIG.ROOTFRONTENDURL }}/edition/{{ edition.editions_slug }}" class="grid_image">
-                            <img data-src="{{ edition.editions_thumbnail|s3URL("small") }}" class="img-responsive lazy" style="width:100%;" alt="{{ edition.editions_name }}">
+                            <img src="{{ edition.editions_thumbnail|s3URL("small") }}" class="img-responsive" style="width:100%;" alt="{{ edition.editions_name }}">
                         </a>
                         <figcaption>
                             <h4 class="grid_post_title">
@@ -36,10 +36,10 @@
                     </figure>
                 </article>
                 <script>
-                    var lazyLoadInstance = new LazyLoad({
-                        elements_selector: ".lazy",
-                        load_delay: 300
-                    });
+                    //var lazyLoadInstance = new LazyLoad({
+                    //    elements_selector: ".lazy",
+                    //    load_delay: 300
+                   // });
                     $( document ).ready(function() {
                         var macy_instance = new Macy({
                             container: '.editionsgrid',
@@ -57,9 +57,9 @@
                                 480: 3
                             }
                         });
-                        macy_instance.runOnImageLoad(function () {
-                            macy_instance.recalculate(true);
-                        }, true);
+                        //macy_instance.runOnImageLoad(function () {
+                        //    macy_instance.recalculate(true);
+                        //}, true);
                     });
                 </script>
                 {% endfor %}

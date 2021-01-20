@@ -8,6 +8,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js" integrity="sha256-P93G0oq6PBPWTP1IR8Mz/0jHHUpaWL0aBJTKauisG7Q=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" integrity="sha256-PZLhE6wwMbg4AB3d35ZdBF9HD/dI/y4RazA3iRDurss=" crossorigin="anonymous" />
 
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css" integrity="sha256-fDncdclXlALqR3HOO34OGHxek91q8ApmD3gGldM+Rng=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css" integrity="sha256-2DoaRRHfHWna6mpfGImxAx/cu0vFGpqEkcf/YXf+yk4=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.transitions.min.css" integrity="sha256-dXyOKu96u6fTl8EzuQyIRkxBEIzVLPQT8c16NSCl4Sc=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js" integrity="sha256-4OK8Th0+5QJMThqlimytmqQvxjqMic4YATocjyuUh1w=" crossorigin="anonymous"></script>
+
+
     <script>
         $(document).ready(function () {
             var sync1 = $("#sync1");
@@ -200,12 +208,7 @@
 {% block content %}
     <div class="container">
     <div class="row">
-        <main class="
-            {% if POST.articles_type == 2 %} {#gallery#}
-            col-sm-12
-             {% else %}
-             col-sm-8 col-md-9
-             {% endif %}content p_r_40">
+        <main class="col-sm-12 content p_r_40">
 
             {% if POST.articles_type != 5 %} {#details at top of article#}
             <div class="details-body">
@@ -336,48 +339,38 @@
 
 
                 {% for author in POST.articles_authors %}
-                <div class="author-bio">
+                    <div class="author-bio">
                         {% if author.IMAGE %}
-                            <div class="author-img">
-                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/author/?a={{ author.users_userid }}"><img alt="{{ author.users_name1 }} {{ author.users_name2 }}" src="{{ author.IMAGE }}" class="avatar img-responsive"></a>
-                            </div>
+                        <div class="author-img">
+                            <a href="{{ CONFIG.ROOTFRONTENDURL }}/author/?a={{ author.users_userid }}"><img alt="{{ author.users_name1 }} {{ author.users_name2 }}" src="{{ author.IMAGE }}" class="avatar img-responsive"></a>
+                        </div>
                         {% endif %}
-
                         <div class="author-info">
-                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/author/?a={{ author.users_userid }}"><h4 class="author-name">{{ author.users_name1 }} {{ author.users_name2 }}</h4></a>
-                        {% for position in author.POSITIONS %}
-                            <b>{{ (position.userPositions_displayName == null ? position.positions_displayName : position.userPositions_displayName) }}</b> (
-                            <i class="fa fa-calendar-o" aria-hidden="true"></i>
-                            {% if date(position.userPositions_end) > date() %}
-                                Since {{ position.userPositions_start|date("M Y") }}
-                            {% else %}
-                                {{ position.userPositions_start|date("M Y") }}   to {{ position.userPositions_end|date("M Y") }}
-                            {% endif %}
-                            )<br/>
-                        {% endfor %}
-                        <p>{{ author.users_bio|replace({"\n":"<br/>"}) }}</p>
-
-                        <p>
-                        {% if author.users_social_facebook != null %}
-                            <a href="https://facebook.com/{{ author.users_social_facebook }}" class="social-link facebook" style="margin: 5px;"><i class="fa fa-facebook"></i></a>
-                        {% endif %}
-                        {% if author.users_social_instagram != null %}
-                            <a href="https://instagram.com/{{ author.users_social_instagram }}" class="social-link instagram" style="margin: 5px;"><i class="fa fa-instagram"></i></a>
-                        {% endif %}
-                        {% if author.users_social_twitter != null %}
-                            <a href="https://twitter.com/{{ author.users_social_twitter }}" class="social-link twitter" style="margin: 5px;"><i class="fa fa-twitter"></i></a>
-                        {% endif %}
-                        {% if author.users_social_snapchat != null %}
-                            <a href="https://snapchat.com/add/{{ author.users_social_snpachat }}" class="social-link" style="margin: 5px;"><i class="fa fa-snapchat"></i></a>
-                        {% endif %}
-                        {% if author.users_social_linkedin != null %}
-                            <a href="https://www.linkedin.com/in/{{ author.users_social_linkedin }}" class="social-link" style="margin: 5px;"><i class="fa fa-linkedin"></i></a>
-                        {% endif %}
-                        </p>
+                            <a href="{{ CONFIG.ROOTFRONTENDURL }}/author/?a={{ author.users_userid }}"><h4 class="author-name">{{ author.users_name1 }} {{ author.users_name2 }}</h4></a>
+                            <p>{{ author.users_bio|replace({"\n":"<br/>"}) }}</p>
+                            {% for position in author.POSITIONS if date(position.userPositions_end) > date() %}
+                                <b>{{ (position.userPositions_displayName == null ? position.positions_displayName : position.userPositions_displayName) }}</b> since {{ position.userPositions_start|date("M Y") }}<br/>
+                            {% endfor %}
+                            <p>
+                                {% if author.users_social_facebook != null %}
+                                    <a href="https://facebook.com/{{ author.users_social_facebook }}" class="social-link facebook" style="margin: 5px;"><i class="fa fa-facebook"></i></a>
+                                {% endif %}
+                                {% if author.users_social_instagram != null %}
+                                    <a href="https://instagram.com/{{ author.users_social_instagram }}" class="social-link instagram" style="margin: 5px;"><i class="fa fa-instagram"></i></a>
+                                {% endif %}
+                                {% if author.users_social_twitter != null %}
+                                    <a href="https://twitter.com/{{ author.users_social_twitter }}" class="social-link twitter" style="margin: 5px;"><i class="fa fa-twitter"></i></a>
+                                {% endif %}
+                                {% if author.users_social_snapchat != null %}
+                                    <a href="https://snapchat.com/add/{{ author.users_social_snpachat }}" class="social-link" style="margin: 5px;"><i class="fa fa-snapchat"></i></a>
+                                {% endif %}
+                                {% if author.users_social_linkedin != null %}
+                                    <a href="https://www.linkedin.com/in/{{ author.users_social_linkedin }}" class="social-link" style="margin: 5px;"><i class="fa fa-linkedin"></i></a>
+                                {% endif %}
+                            </p>
+                        </div>
                     </div>
-                </div>
-                    {% endfor %}
-
+                {% endfor %}
                 <!-- /.End of author bio -->
             </aside>
             <!-- End of article -->
@@ -392,10 +385,10 @@
             <!-- /.End of about author -->
             {% if POST.articles_type != 5 %}
             <div class="post_related">
-                <h3 class="related_post_title">You Might Also Like...</h3>
+                <h3 class="related_post_title">Latest in {{ POST['CATEGORIES'][0].categories_displayName }}</h3>
                 <div class="row">
-                    {% for article in pageConfig.SIMILAR %}
-                        <div class="col-sm-4">
+                    {% for article in pageConfig.leftBar.LATEST %}
+                        <div class="col-sm-3">
                             <article class="post_article item_related">
                                 {% if article.articles_id|articleThumbnail != null %}
                                     <a class="post_img" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
@@ -499,51 +492,6 @@
                 }
             </style>
         </main>
-        {% if POST.articles_type != 2 %}
-        <aside class="col-sm-4 col-md-3 rightSidebar">
-            <!--<div class="about-card">
-                <div class="ui divider">About me</div>
-                <figure>
-                    <img src="{{ CONFIG.ASSETSURL }}img/about-avatar.jpg" class="img-responsive center-block" alt="">
-                </figure>
-                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p>
-                <img src="{{ CONFIG.ASSETSURL }}img/signature.png" class="img-responsive center-block" alt="">
-            </div>-->
-            {#<div class="latest_post_widget">
-                <div class="title-holder">
-                    <h3 class="title">Most read</h3>
-                    <span class="title-shape title-shape-dark"></span>
-                </div>
-                <!--  /.End of title -->
-
-            </div>#}
-            {% if POST.articles_appleNewsID != null and POST.articles_appleNewsShareLink != null %}
-                <a target="_blank" href="{{ POST.articles_appleNewsShareLink }}"><img src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/appleNews/US_UK_Apple_News_Badge_RGB_030619.svg" style="height: 40px; margin-bottom: 15px; margin-top:5px;" alt="Apple News badge" title="View on Apple News" /></a>
-            {% endif %}
-            <div class="latest_post_widget">
-                <div class="title-holder">
-                    <h3 class="title">Latest in {{ POST['CATEGORIES'][0].categories_displayName }}</h3>
-                    <span class="title-shape title-shape-dark"></span>
-                </div>
-                {% for article in pageConfig.leftBar.LATEST %}
-                    <div class="media latest_post">
-                        {% if article.articles_id|articleThumbnail != null %}
-                            <a class="media-left" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
-                                <img src="{{ article.articles_id|articleThumbnail }}" class="media-object" alt="">
-                            </a>
-                        {% endif %}
-                        <div class="media-body">
-                            <h6 class="media-heading"><a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">{{ article.articlesDrafts_headline }}</a></h6>
-                            <div class="entry-meta">
-                                <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ article.articles_published|date("d/M/y") }}</span>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-                <!-- /.latest post -->
-            </div>
-        </aside>
-        {% endif %}
     </div>
 </div>
     <script>
