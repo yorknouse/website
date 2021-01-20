@@ -29,7 +29,7 @@ $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id"
 $DBLIB->join("editions", "articles.editions_id=editions.editions_id", "LEFT");
 $DBLIB->where("articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
 $PAGEDATA['articles'] = [];
-$articles = $DBLIB->arraybuilder()->paginate("articles", $page, ["articles.articles_appleNewsID", "articles.articles_appleNewsShareLink","articles.articles_categories","articles.articles_slug", "articles.articles_authors", "articles.articles_published", "articles.articles_updated", "articles.articles_showInSearch", "articles.articles_showInLists","articles.articles_id","articles.articles_published", "articlesDrafts.articlesDrafts_headline","editions.editions_id", "editions.editions_printNumber"]);
+$articles = $DBLIB->arraybuilder()->paginate("articles", $page, ["articles.articles_categories","articles.articles_slug", "articles.articles_authors", "articles.articles_published", "articles.articles_updated", "articles.articles_showInSearch", "articles.articles_showInLists","articles.articles_id","articles.articles_published", "articlesDrafts.articlesDrafts_headline","editions.editions_id", "editions.editions_printNumber"]);
 $PAGEDATA['pagination'] = ["page" => $page, "total" => $DBLIB->totalPages];
 foreach ($articles as $article) {
 	if ($article['articles_authors'] != null) {

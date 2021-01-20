@@ -85,9 +85,6 @@
                                         {% endfor %}
                                     </td>
                                     <td>
-                                        {% if article.articles_appleNewsID != null and article.articles_appleNewsShareLink != null %}
-                                            <a href="{{ article.articles_appleNewsShareLink }}" target="_blank"><img src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/appleNews/Apple_News_icon_sRGB_032019.svg" alt="Apple News badge" title="Apple News" style="height: 34px; margin: 2px;"></a>
-                                        {% endif %}
 
                                         {% if article.articles_showInSearch == 1 and date(article.articles_published) < date() %}
                                         <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}"
