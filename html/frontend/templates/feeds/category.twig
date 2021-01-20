@@ -18,7 +18,8 @@
             <title>{{ article.articlesDrafts_headline }}</title>
             <content:encoded><![CDATA[{{ article.articlesDrafts_excerpt|raw }}]]></content:encoded>
             {% for author in article.articles_authors %}
-                <author>tech@nouse.co.uk ({{ author.users_name1 }} {{ author.users_name2 }})</author>
+                {# Yes the email is wrong, but it doesn't really matter as google seems to ignore it for some reason #}
+                <author>{{ author.users_name1 }}.{{ author.users_name2 }}@nouse.co.uk ({{ author.users_name1 }} {{ author.users_name2 }})</author>
             {% endfor %}
 
         </item>
