@@ -38,7 +38,4 @@ WORKDIR /var/www
 RUN composer install
 # RUN chown -R www-data:www-data html/admin/common/twigCache
 
-
 # To get in container - docker exec -t -i nouse-container /bin/bash
-
-# docker stats
