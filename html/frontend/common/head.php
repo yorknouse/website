@@ -5,7 +5,7 @@ header("Cache-Control:public, max-age=900, s-maxage=3600, stale-while-revalidate
 
 $CONFIG['ASSETSURL'] = $CONFIG['ROOTFRONTENDURL'] . "/common/assets/theme/osru/assets/";
 
-$PAGEDATA = array('CONFIG' => $CONFIG, 'BODY' => true);
+$PAGEDATA = array('CONFIG' => $CONFIG, 'BODY' => true, 'URL' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
 
 
 //TWIG
