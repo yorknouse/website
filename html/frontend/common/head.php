@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . '/../../common/coreHead.php';
+header("Cache-Control:public, max-age=900, s-maxage=3600, stale-while-revalidate=900, stale-if-error=3600");
+
 
 $CONFIG['ASSETSURL'] = $CONFIG['ROOTFRONTENDURL'] . "/common/assets/theme/osru/assets/";
 

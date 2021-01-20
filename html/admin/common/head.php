@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../../common/coreHead.php';
 require_once __DIR__ . '/authLib.php';
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Pragma: no-cache");
 
 try {
     //session_set_cookie_params(0, '/', '.' . $_SERVER['SERVER_NAME']); //Fix for subdomain bug
