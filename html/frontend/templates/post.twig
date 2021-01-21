@@ -233,7 +233,11 @@
                                 <span class="comment-link"><a href="#comments"><i class="fa fa-comment-o" aria-hidden="true"></i>{{ POST.COMMENTCOUNT }} Comment{{ POST.COMMENTCOUNT != 1 ? "s" : "" }}</a></span>
                                 {% endif %}
                                 {% for author in POST.articles_authors %}
-                                    <span class="comment-link"><a href="{{ CONFIG.ROOTFRONTENDURL }}/author/?a={{ author.users_userid }}" style="color: #002646;">{{ author.users_name1 }} {{ author.users_name2 }}</a></span>
+                                    <span class="comment-link"><a href="{{ CONFIG.ROOTFRONTENDURL }}/author/?a={{ author.users_userid }}" style="color: #002646;">{{ author.users_name1 }} {{ author.users_name2 }} </a>
+                                        {% if author.users_social_twitter != null %}
+                                    &nbsp;<a href="https://twitter.com/{{ author.users_social_twitter }}"><i class="fa fa-twitter"></i></a>
+                                {% endif %}
+                                        </span>
                                 {% endfor %}
                             </div>
                             <!--<div class="reading-time"><span class="eta"></span> ({{ POST.articlesDrafts_text|split(' ')|length }} words)</div>-->
