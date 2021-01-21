@@ -24,6 +24,10 @@ if (isset($_GET['id'])) {
 			}
 		}
 	}
+	$DBLIB->orderBy("articlesDrafts_timestamp", "DESC");
+	$DBLIB->join("users", "users.users_userid=articlesDrafts.articlesDrafts_userid", "LEFT");
+	$DBLIB->where("articles_id",$PAGEDATA['article']['articles_id']);
+	$PAGEDATA['article']['drafts'] = $DBLIB->get("articlesDrafts");
 } else {
 	$PAGEDATA['article'] = [];
 	if (isset($_GET['type'])) $PAGEDATA['article']['articles_type'] = $_GET['type']; //So the new one is created in the right format

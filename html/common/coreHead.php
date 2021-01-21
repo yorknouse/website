@@ -6,12 +6,6 @@ use Aws\S3\Exception\S3Exception;
 
 use voku\helper\HtmlDomParser;
 
-use ChapterThree\AppleNewsAPI;
-use ChapterThree\AppleNewsAPI\Document;
-use ChapterThree\AppleNewsAPI\Document\Components\Body;
-use ChapterThree\AppleNewsAPI\Document\Layouts\Layout;
-use ChapterThree\AppleNewsAPI\Document\Styles\ComponentTextStyle;
-
 //GLOBALS STUFF - DON'T CHANGE
 function errorHandler()
 {
@@ -42,8 +36,8 @@ header("Content-Security-Policy: default-src 'none';" .
     //          Loading in google fonts     more gfonts                 Fonts from libs like fontawesome
     "manifest-src 'self' https://*.nouse.co.uk;" .
     //          Show images on mobile devices like favicons
-    "img-src 'self' data: blob: https://cdnjs.cloudflare.com https://*.nouse.co.uk https://nouse.ams3.digitaloceanspaces.com https://nouse.ams3.cdn.digitaloceanspaces.com https://*.twitter.com https://*.twimg.com https://www.google-analytics.com https://*.googlesyndication.com https://www.googletagmanager.com https://i2.wp.com             http://*.liveblogpro.com https://*.liveblogpro.com;".
-    //                    Uploads    Images from libs                 Images                                                                                                Twitter embedd      More twitter          Google analytics                                                                          User icons fallback            Liveblog pro
+    "img-src 'self' data: blob: https://cdnjs.cloudflare.com https://*.nouse.co.uk https://nouse.co.uk https://nouse.ams3.digitaloceanspaces.com https://nouse.ams3.cdn.digitaloceanspaces.com https://*.twitter.com https://*.twimg.com https://www.google-analytics.com https://*.googlesyndication.com https://www.googletagmanager.com https://i2.wp.com             http://*.liveblogpro.com https://*.liveblogpro.com;".
+    //                    Uploads    Images from libs                 Images                                                                                                                    Twitter embedd      More twitter          Google analytics                                                                          User icons fallback            Liveblog pro
     "connect-src 'self' https://*.nouse.co.uk https://*.backblazeb2.com  https://*.amazonaws.com https://*.digitaloceanspaces.com https://*.pndsn.com https://sentry.io https://www.google-analytics.com https://*.gstatic.com https://*.googlesyndication.com  https://*.atlassian.com;".
     //                  File uploads                                                                                                Pubnub sockets          Error reporting     Google analytics                                        Adds                        Jira Widget
     "frame-src https://*.twitter.com https://staticxx.facebook.com https://www.google.com https://googleads.g.doubleclick.net https://*.googlesyndication.com https://e.issuu.com http://*.liveblogpro.com https://*.liveblogpro.com https://twitter.com https://*.nouse.co.uk https://nouse.ams3.cdn.digitaloceanspaces.com https://accounts.google.com;".
@@ -154,21 +148,25 @@ class bCMS {
         if (!$file) return false;
         if ($file['s3files_meta_public'] == 1) {
             $returnFilePath = $file['s3files_cdn_endpoint'] . "/" . $file['s3files_path'] . "/" . rawurlencode($file['s3files_filename']);
-            switch ($size) {
-                case "tiny":
-                    $returnFilePath .= '%20(tiny)';
-                    break; //The want the original
-                case "small":
-                    $returnFilePath .= '%20(small)';
-                    break; //The want the original
-                case "medium":
-                    $returnFilePath .= '%20(medium)';
-                    break; //The want the original
-                case "large":
-                    $returnFilePath .= '%20(large)';
-                    break; //The want the original
-                default:
-                    //They want the original
+            if ($file['s3files_compressed'] == 1) {
+                //If we have a compressed version of this file opt to use it!
+                switch ($size) {
+                    case "tiny":
+                        $returnFilePath .= '_tiny';
+                        break;
+                    case "small":
+                        $returnFilePath .= '_small';
+                        break;
+                    case "medium":
+                        $returnFilePath .= '_medium';
+                        break;
+                    case "large":
+                        $returnFilePath .= '_large';
+                        break;
+                    default:
+                        $returnFilePath .= '_comp'; //TODO evaluate whether this is a good idea - or whether in some cases it's better to serve a fully uncompressed version
+                        break;
+                }
             }
             $presignedUrl = $returnFilePath . "." . rawurlencode($file['s3files_extension']);
         } else {
@@ -186,8 +184,29 @@ class bCMS {
 
 
             switch ($file['s3files_meta_type']) {
+                case 0:
+                    //Unknown
+                    break;
                 case 1:
                     //This is a user thumbnail
+                    break;
+                case 2:
+                    //Article image
+                    break;
+                case 3:
+                    //Article Thumbnail
+                    break;
+                case 4:
+                    //Edition thumbnail
+                    break;
+                case 5:
+                    //Edition pdf uncompressed original
+                    break;
+                case 6:
+                    //Edition pdf
+                    break;
+                case 9:
+                    //Library Image
                     break;
                 default:
                     //There are no specific requirements for this file so not to worry.
@@ -399,403 +418,6 @@ class bCMS {
         $DBLIB->where("articles_id", $this->sanitizeString($articleid));
         if ($DBLIB->update("articles", ["articles.articles_socialConfig" => implode(",", $article["articles_socialConfig"])])) return true;
         else return false;
-    }
-
-
-    function htmlToAppleNews($html)
-    {
-        //HTML Purification
-        $config = HTMLPurifier_Config::createDefault();
-        $config->set('HTML.DefinitionID', 'enduser-customize.html tutorial');
-        $config->set('HTML.DefinitionRev', 1);
-        $config->set('Cache.DefinitionImpl', null); // TODO: remove this later!
-        $config->set('HTML.Allowed', 'p,strong,b,em,i,a[href],ul,ol,li,br,sub,sup,del,s,pre,code,samp,blockquote,img[src]');
-        $purifier = new HTMLPurifier($config);
-        $purified = $purifier->purify($html);
-
-        $images = [];
-        $simpleHtmlDom = HtmlDomParser::str_get_html($purified);
-        $newHTML = $simpleHtmlDom->save();
-        $newHTML = str_replace("<p></p>","", $newHTML);
-        foreach($simpleHtmlDom->find("img") as $key=>$element){
-            $newHTML = str_replace($simpleHtmlDom->find("img",$key)->outertext,"!IMG!", $newHTML);
-            $images[] = str_replace(" ", "%20", $element->src);
-        }
-        $output = [];
-
-        foreach (explode("!IMG!", $newHTML) as $key=>$part) {
-            if ($key > 0) $output[] = [
-                "role" => "photo",
-                "URL" => $images[$key-1],
-                "explicitContent"=> false
-            ];
-            $part = $purifier->purify($part); //Often get unclosed tags
-            $replacements = [ //List of annoying formatting issues that tend to pad out our articles badly
-                "<p></p>"=>"",
-                "<br/><p>"=>"<p>",
-                "</p><br/>"=>"</p>",
-                "<br /><p>"=>"<p>",
-                "</p><br />"=>"</p>",
-                "<br><p>"=>"<p>",
-                "</p><br>"=>"</p>",
-                "<p><br /></p>"=>"",
-                "<p><br/></p>"=>"",
-                "<p><br></p>"=>""
-            ];
-            foreach ($replacements as $key=>$value) {
-                $part = str_replace($key,$value, $part);
-            }
-
-            if (strlen(trim($part)) > 0) { //You can't have anything that is null
-                $output[] = [
-                    "role" => "body",
-                    "text" => $part,
-                    "layout" => "bodyLayout",
-                    "format"=> "html",
-                    "textStyle" => "bodyStyle"
-                ];
-            }
-        }
-        return $output;
-    }
-    public function postToAppleNews($articleid)
-    {
-        global $CONFIG, $DBLIB;
-        $DBLIB->where("articles.articles_id", $this->sanitizeString($articleid));
-        $DBLIB->where("articles.articles_showInLists", 1);
-        $DBLIB->where("articles.articles_type IN (1,6)"); //Text articles only
-        $DBLIB->where("articles.articles_published <= '" . date("Y-m-d H:i:s") . "'");
-        $DBLIB->where("articles.articles_categories IS NOT NULL"); //It needs to be in a category to go on Apple News
-        $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
-        $DBLIB->where("(articles.articles_appleNewsBlock IS NULL)");
-        $DBLIB->where("articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
-        $article = $DBLIB->getone("articles");
-        if (!$article) return false;
-
-
-        $PublisherAPI = new ChapterThree\AppleNewsAPI\PublisherAPI(
-            $CONFIG["APPLE"]["NEWS"]["KEY"],
-            $CONFIG["APPLE"]["NEWS"]["SECRET"],
-            "https://news-api.apple.com"
-        );
-
-        if (strlen($article['articles_authors']) > 0) {
-            $article['articles_authors'] = explode(",", $article['articles_authors']);
-            $article['articles_authors'] = array_filter($article['articles_authors']); //Remove empty elements caused by weird things happenign to the string in the DB - this is a fix to an odd bug
-
-            $DBLIB->where("users_deleted != 1");
-            $DBLIB->where("users_userid IN (" . implode(",", $article['articles_authors']) . ")");
-            $article['authors'] = $DBLIB->get("users", null, ["users_name1", "users_name2"]);
-        } else $article['authors'] = [];
-
-        $authorString = "";
-        foreach ($article['authors'] as $key=>$user) {
-            if ($key > 0) $authorString .= " & ";
-            $authorString .= $user["users_name1"] . " " . $user["users_name2"];
-        }
-
-
-       $metaData =  [
-            'data' => [
-                'isSponsored' => false,
-                'links' => [
-                    'sections' => [],
-                ],
-                "isPreview" => false,
-                "maturityRating" => "GENERAL",
-            ],
-        ];
-        $thisArticleThumbnail = $this->articleThumbnail($article['articles_id']);
-        $coreData = [
-            'metadata' => [
-                'authors' => [],
-                'canonicalURL' => $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article["articles_published"])) . "/" . $article['articles_slug'],
-                //'coverArt' => [''],
-                'dateCreated' => date("c", strtotime($article["articles_published"])),
-                'dateModified' => date("c", time()),
-                'datePublished' => date("c", strtotime($article["articles_published"])),
-                'excerpt' => $article["articlesDrafts_excerpt"],
-                //'keywords' => '',
-                'thumbnailURL' => ($thisArticleThumbnail ? $thisArticleThumbnail : null), //At least 300x300
-            ],
-            "version" => "1.7",
-            "identifier" => "nouse-" . $article['articles_id'],
-            "title" => $article['articlesDrafts_headline'],
-            "language" => "en-GB",
-            "componentTextStyles" => [
-                "default-title" => [
-
-                    "fontName"=>"HelveticaNeue-Thin",
-                    "fontSize"=>36,
-                    "textColor"=>"#2F2F2F",
-                    "textAlignment"=>"center",
-                    "lineHeight"=>44,
-                ],
-                "default-subtitle" => [
-
-                    "fontName"=>"HelveticaNeue-Thin",
-                    "fontSize"=>20,
-                    "textColor"=>"#2F2F2F",
-                    "textAlignment"=>"center",
-                    "lineHeight"=>24,
-                ],
-                "titleStyle" => [
-                    "textAlignment"=>"left",
-                    "fontName"=>"HelveticaNeue-Bold",
-                    "fontSize"=>64,
-                    "lineHeight"=>74,
-                    "textColor"=>"#000",
-                ],
-                "introStyle" => [
-                    "textAlignment"=>"left",
-                    "fontName"=>"HelveticaNeue-Medium",
-                    "fontSize"=>24,
-                    "textColor"=>"#000",
-                ],
-                "authorStyle" => [
-                    "textAlignment"=>"left",
-                    "fontName"=>"HelveticaNeue-Bold",
-                    "fontSize"=>16,
-                    "textColor"=>"#000",
-                ],
-                "bodyStyle" => [
-                    "textAlignment"=>"left",
-                    "fontName"=>"Georgia",
-                    "fontSize"=>18,
-                    "lineHeight"=>26,
-                    "textColor"=>"#000",
-                ],
-                "thumbnailCreditStyle" => [
-                    "textAlignment"=>"right",
-                    "fontName"=>"Georgia",
-                    "fontSize"=>12,
-                    "lineHeight"=>20,
-                    "textColor"=>"#000",
-                ],
-                "captionStyle" => [
-                    "textAlignment"=>"left",
-                    "fontName"=>"HelveticaNeue-Medium",
-                    "fontSize"=>12,
-                    "lineHeight"=>17,
-                    "textColor"=>"#000",
-                ],
-                "heading1Style" => [
-                    "textAlignment"=>"left",
-                    "fontName"=>"HelveticaNeue-Medium",
-                    "fontSize"=>28,
-                    "lineHeight"=>41,
-                    "textColor"=>"#000",
-                ],
-                "pullquoteStyle" => [
-                    "textAlignment"=>"left",
-                    "fontName"=>"HelveticaNeue-Bold",
-                    "fontSize"=>28,
-                    "lineHeight"=>41,
-                    "textColor"=>"#000",
-                ]
-            ],
-            "componentLayouts" => [
-                "headerImageLayout" => [
-                    "columnStart" => 0,
-                    "columnSpan" => 7,
-                    "ignoreDocumentMargin" => true,
-                    "minimumHeight" => "42vh"
-                ],
-                "titleLayout" => [
-                    "columnStart" => 0,
-                    "columnSpan" => 7,
-                    "margin" => [
-                        "top" => 30,
-                        "bottom" => 10
-                    ]
-                ],
-                "introLayout" => [
-                    "columnStart" => 0,
-                    "columnSpan" => 7,
-                    "margin" => [
-                        "top" => 15,
-                        "bottom" => 15
-                    ]
-                ],
-                "authorLayout" => [
-                    "columnStart" => 0,
-                    "columnSpan" => 7,
-                    "margin" => [
-                        "top" => 15,
-                        "bottom" => 15
-                    ]
-                ],
-                "bodyLayout" => [
-                    "columnStart" => 0,
-                    "columnSpan" => 7,
-                    "margin" => [
-                        "top" => 15,
-                        "bottom" => 15
-                    ]
-                ],
-                "captionLayout" => [
-                    "columnStart" => 5,
-                    "columnSpan" => 2,
-                    "margin" => [
-                        "top" => 15,
-                        "bottom" => 30
-                    ]
-                ]
-            ],
-            "layout" => [
-                "columns" => 7,
-                "width" => 1024,
-                "margin"=> 60,
-                "gutter"=> 20
-            ]
-        ];
-
-        $coreData["components"] = [];
-
-        if ($this->articleThumbnail($article['articles_id'])) {
-            array_push($coreData["components"],[
-                "role" => "header",
-                "layout" => "headerImageLayout",
-                "style" =>
-                    ["fill" =>
-                        [
-                            "type" => "image",
-                            "URL" => $this->articleThumbnail($article['articles_id']),
-                            "fillMode" => "cover",
-                            "verticalAlignment" => "center"
-                        ]
-                    ]
-            ]);
-            if ($article['articlesDrafts_thumbnailCredit'] != null) {
-                array_push($coreData["components"],[
-                    "role" => "body",
-                    "text"=>    "Thumbnail Credit: " . $article['articlesDrafts_thumbnailCredit'],
-                    "layout" => "bodyLayout",
-                    "format"=> "html",
-                    "textStyle" => "thumbnailCreditStyle"
-                ]);
-            }
-        }
-
-        array_push($coreData["components"],[
-            "role" => "title",
-            "layout"=> "titleLayout",
-            "text"=>$article['articlesDrafts_headline'],
-            "textStyle" => "titleStyle"
-        ],[
-            "role" => "intro",
-            "layout"=> "introLayout",
-            "text"=>$article['articlesDrafts_excerpt'],
-            "textStyle" => "introStyle"
-        ],[
-            "role" => "author",
-            "layout"=> "authorLayout",
-            "text"=>    $authorString . " | " . date("l d M y", strtotime($article["articles_published"])),
-            "textStyle" => "authorStyle"
-        ]);
-        foreach ($this->htmlToAppleNews($article['articlesDrafts_text']) as $draftPoint) {
-            $coreData['components'][] = $draftPoint;
-        }
-
-        if ($article['articles_categories'] == null) return false; //Article must be in a category
-        $DBLIB->where("categories_appleNewsID IS NOT NULL");
-        $DBLIB->where("categories_id IN (" . $article['articles_categories'] . ")");
-        $article['categories'] = $DBLIB->get("categories", null, ["categories_appleNewsID"]);
-
-        $metaData['data']['links']['sections'][] = "https://news-api.apple.com/sections/d2d73607-1406-4ece-bb8a-a16a613f0e86"; //Put it in home section by default
-        foreach ($article['categories'] as $category) {
-            $metaData['data']['links']['sections'][] = "https://news-api.apple.com/sections/" . $category['categories_appleNewsID'];
-        }
-
-
-
-        foreach ($article['authors'] as $user) {
-            $coreData['metadata']['authors'][] = $user["users_name1"] . " " . $user["users_name2"];
-
-        }
-
-        $getArticleData = false;
-        if ($article['articles_appleNewsID']) {
-            //Update it as an existing article
-            $getArticleData = $PublisherAPI->Get('/articles/' . $article['articles_appleNewsID'],
-                [
-                    'article_id' => $article['articles_appleNewsID']
-                ]
-            );
-            if (isset($getArticleData->errors)) $getArticleData = false;
-        }
-        if ($getArticleData) {
-            $metaData['data']['revision'] = $getArticleData->data->revision; //This weird thing apple do where they require you to get a special id just before you update it to prevent you accidentally updating someone else's work
-            $replaceResponse = $PublisherAPI->post('/articles/' . $article['articles_appleNewsID'],
-                [
-                    'article_id' => $article['articles_appleNewsID']
-                ],
-                [
-                    // required. Apple News Native formatted JSON string.
-                    'json' => json_encode($coreData, JSON_UNESCAPED_SLASHES),
-                    'metadata' => json_encode($metaData, JSON_UNESCAPED_SLASHES), // required
-                ]
-            );
-            if ($replaceResponse->data->id) {
-                $DBLIB->where("articles_id", $article['articles_id']);
-                $DBLIB->update("articles", ["articles_appleNewsShareLink" => $replaceResponse->data->shareUrl]);
-                return true;
-            }
-            else return false;
-        } else {
-            //Upload it as a new article
-            $uploadResponse = $PublisherAPI->Post('/channels/' . $CONFIG["APPLE"]["NEWS"]["CHANNEL"] . '/articles',
-                [
-                    'channel_id' => $CONFIG["APPLE"]["NEWS"]["CHANNEL"]
-                ],
-                [
-                    // required. Apple News Native formatted JSON string.
-                    'json' => json_encode($coreData, JSON_UNESCAPED_SLASHES),
-                    'metadata' => json_encode($metaData, JSON_UNESCAPED_SLASHES), // required
-                ]
-            );
-            if ($uploadResponse and $uploadResponse->data and $uploadResponse->data->id) {
-                $DBLIB->where("articles_id", $article['articles_id']);
-                $DBLIB->update("articles", ["articles_appleNewsID" => $uploadResponse->data->id, "articles_appleNewsShareLink" => $uploadResponse->data->shareUrl]);
-                return true;
-            } else return false;
-        }
-    }
-    public function deleteAppleNews($articleid)
-    {
-        global $CONFIG, $DBLIB;
-        if ($articleid == null) return false;
-        $DBLIB->where("articles.articles_id", $this->sanitizeString($articleid));
-        $DBLIB->where("(articles_appleNewsID IS NOT NULL)");
-        $article = $DBLIB->getone("articles", ["articles_appleNewsID","articles_id"]);
-        if (!$article) return false;
-
-
-        $PublisherAPI = new ChapterThree\AppleNewsAPI\PublisherAPI(
-            $CONFIG["APPLE"]["NEWS"]["KEY"],
-            $CONFIG["APPLE"]["NEWS"]["SECRET"],
-            "https://news-api.apple.com"
-        );
-
-
-        $getArticleData = $PublisherAPI->Get('/articles/' . $article['articles_appleNewsID'],
-            [
-                'article_id' => $article['articles_appleNewsID']
-            ]
-        );
-        if ($getArticleData->errors) return false;
-
-        $deleteResponse = $PublisherAPI->delete('/articles/' . $article['articles_appleNewsID'],
-            [
-                'article_id' => $article['articles_appleNewsID']
-            ]
-        );
-        if ($deleteResponse == "") {
-            $DBLIB->where("articles.articles_id", $article['articles_id']);
-            $articleRemoveAppleNews = $DBLIB->update("articles", ["articles_appleNewsID"=>null,"articles_appleNewsShareLink"=>null]);
-            if ($articleRemoveAppleNews) return true;
-            else return false;
-        } else return false;
     }
 }
 

@@ -35,21 +35,5 @@ if (count($articles) > 0) {
     }
 } else echo "[INFO] No articles to tell YUSU about \n";
 
-//          APPLE NEWS
-$DBLIB->where("articles.articles_showInLists", 1); //ie those that can actually be shown - no point tweeting a dud link
-$DBLIB->where("(articles.articles_published <= '" . date("Y-m-d H:i:s") . "')");
-$DBLIB->where("(articles.articles_published >= '2018-01-01 00:00:00')");
-$DBLIB->where("(articles.articles_appleNewsID IS NULL)");
-$DBLIB->where("(articles.articles_appleNewsBlock IS NULL)");
-$articles = $DBLIB->get("articles", null, ["articles_id"]);
-if (count($articles) > 0) {
-    echo "[INFO] Uploading " . count($articles) . " articles to Apple News \n";
-    foreach ($articles as $article) {
-        if (!$bCMS->postToAppleNews($article['articles_id'])) {
-            $DBLIB->where("articles_id", $article['articles_id']);
-            $DBLIB->update("articles", ["articles_appleNewsBlock" => "Automatic cron upload fail"]);
-        }
-    }
-} else echo "[INFO] No articles to post to Apple News \n";
 
 echo "[INFO] Script finished \n";

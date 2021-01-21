@@ -13,30 +13,19 @@
         {% endif %}
     </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/css/animsition.min.css" integrity="sha256-FAIOZJGGkyuIp/gVrVL/k52z4rpCKMrRlYMdGCWstUo=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
     <link href="{{ CONFIG.ASSETSURL }}css/bootsnav.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css" integrity="sha256-fDncdclXlALqR3HOO34OGHxek91q8ApmD3gGldM+Rng=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css" integrity="sha256-2DoaRRHfHWna6mpfGImxAx/cu0vFGpqEkcf/YXf+yk4=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.transitions.min.css" integrity="sha256-dXyOKu96u6fTl8EzuQyIRkxBEIzVLPQT8c16NSCl4Sc=" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fluidbox/2.0.5/css/fluidbox.min.css" integrity="sha256-5oR7lL1eUeRKAkRd76G2tJ1pNrqsKIOmJZrzOIpq8Gc=" crossorigin="anonymous" />
     <link href="{{ CONFIG.ASSETSURL }}css/style.css" rel="stylesheet">
 
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/js/animsition.min.js" integrity="sha256-8y2mv4ETTGZLMlggdrgmCzthTVCNXGUdCQe1gd8qkyM=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-smooth-scroll/2.2.0/jquery.smooth-scroll.min.js" integrity="sha256-fdhzLBb+vMfwRwZKZPtza9iFcdVtEhrWRHhxSzEy4Ek=" crossorigin="anonymous"></script>
     <script src="{{ CONFIG.ASSETSURL }}js/bootsnav.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
     <script src="{{ CONFIG.ASSETSURL }}js/ResizeSensor.min.js"></script>
     <script src="{{ CONFIG.ASSETSURL }}js/theia-sticky-sidebar.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js" integrity="sha256-4OK8Th0+5QJMThqlimytmqQvxjqMic4YATocjyuUh1w=" crossorigin="anonymous"></script>
     <script src="{{ CONFIG.ASSETSURL }}js/modernizr.custom.js"></script>
     <script src="{{ CONFIG.ASSETSURL }}js/parallax-background.min.js"></script>
     <script src="{{ CONFIG.ASSETSURL }}js/jquery.simpleSocialShare.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fluidbox/2.0.5/js/jquery.fluidbox.min.js" integrity="sha256-AVBLVWwvNE9uzNP36wynCSm3JIIkjvjXsj/Ol30JzGM=" crossorigin="anonymous"></script>
     <script src="{{ CONFIG.ASSETSURL }}js/jquery.shuffle.min.js"></script>
     <script src="{{ CONFIG.ASSETSURL }}js/custom.js"></script>
 
@@ -88,7 +77,7 @@
     <script>Raven.config('{{ CONFIG.ERRORS.SENTRYPublic }}').install()</script>
 </head>
 <body class="news-layout2">
-<div class="main-content animsition">
+<div class="main-content">
     <div class="page-outer-wrap">
         <div class="top-header {{ pageConfig.MUSETheme ? "light" : "dark" }}">
             <div class="container">
@@ -98,6 +87,7 @@
                             <ul>
                                 <li><span class="headre-weather"><i class="fa fa-calendar-check-o"></i>&nbsp; {{ "now"|date("l, F j") }}</span></li>
                                 <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/advertising.php">Advertise</a></li>
+                                <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/editions/">Past Editions</a></li>
                                 <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/team.php">Team</a></li>
                                 <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/">About</a></li>
                                 <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/join.php">Join</a></li>
@@ -110,11 +100,11 @@
                                 <a href="https://www.facebook.com/yorknouse"><i class="fa fa-facebook"></i></a>
                                 <a href="https://twitter.com/yorknouse"><i class="fa fa-twitter"></i></a>
                                 <a href="https://www.instagram.com/yorknouse/"><i class="fa fa-instagram"></i></a>
-                                <a href="https://apple.news/TC65o_YMuSz661d_Y-zRWnA" title="Apple News"><i class="fa fa-apple"></i></a>
+                                <a href="https://www.linkedin.com/company/yorknouse/" title="LinkedIn"><i class="fa fa-linkedin-square"></i></a>
                                 <a href="https://en.wikipedia.org/wiki/Nouse"><i class="fa fa-wikipedia-w"></i></a>
                             </li>
                             <li>
-                                <a href="{{ CONFIG.ROOTBACKENDURL }}">Editor Login</a>
+                                <a href="{{ CONFIG.ROOTBACKENDURL }}" style="font-family: 'Alegreya Sans', sans-serif;">Editor Login</a>
                             </li>
                         </ul>
                     </div>
@@ -403,7 +393,7 @@
         <!-- /. End of instagram -->
     </div>
     <footer class="footer-black">
-        <div class="main-footer">
+        <div class="main-footer" style="padding-bottom: 10px;">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-5 col-xs-12">
@@ -420,20 +410,18 @@
                             <div class="row">
                                 <div class="col-xs-6">
                                     <ul class="footer-cat" style="text-align: right;">
-                                        <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/">About Nouse</a></li>
-                                        <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/team.php">Who’s Nouse</a></li>
+                                        <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/policies.php#disclaimer">Disclaimer</a></li>
+                                        <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/policies.php#privacy-policy">Privacy Policy</a></li>
+                                        <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/policies.php#cookie-policy">Cookie Policy</a></li>
                                         <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/credits.php">Website Credits</a></li>
-                                        <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/advertising.php">Advertising</a></li>
-                                        <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/contact/">Contact Us</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-xs-6">
                                     <ul class="footer-cat" style="text-align: left;">
-                                        <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/editions/">Editions</a></li>
-                                        <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/policies.php#disclaimer">Disclaimer</a></li>
-                                        <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/policies.php#privacy-policy">Privacy Policy</a></li>
-                                        <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/policies.php#cookie-policy">Cookie Policy</a></li>
+                                        <li><a href="https://yusu.org" target="_blank">YUSU</a></li>
+                                        <li><a href="https://www.yorkgsa.org" target="_blank">York GSA</a></li>
                                         <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/archives.php">Archives</a></li>
+                                        <li><a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/contact/">Contact Us</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -442,15 +430,22 @@
                     </div>
                     <div class="col-sm-3 col-xs-12 hidden-xs">
                         <div class="footer-box">
-                            <h3 class="widget-title title-white" style="margin-bottom: 15px;">Our Community</h3>
+                            <h3 class="widget-title title-white" style="margin-bottom: 15px;">Student Media</h3>
                             <ul class="footer-cat">
-                                <li><a href="https://york.ac.uk" target="_blank">University of York</a></li>
-                                <li><a href="https://yusu.org" target="_blank">York Student Union</a></li>
-                                <li><a href="https://www.yorkgsa.org" target="_blank">York Graduate Students' Association</a></li>
+                                <li><a href="https://ury.org.uk" target="_blank">University Radio York</a></li>
+                                <li><a href="https://ystv.co.uk" target="_blank">York Student Television</a></li>
+                                <li><a href="https://www.yorkvision.co.uk" target="_blank">York Vision</a></li>
+                                {# <li><a href="https://www.yorkstudentcinema.org" target="_blank">York Student Cinema</a></li>#}
+                                <li><a href="https://thelemonpress.co.uk" target="_blank">The Lemon Press</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
+                <div class="footer-box" style="padding-top: 15px;">
+                    <p style="font-size:15px;">Nouse is grateful to the <a href="https://york.ac.uk" target="_blank" style="color: inherit;" >University of York</a> for their hosting of elements of this site. <a href="https://www.york.ac.uk/about/legal-statements/" style="color: inherit;" target="_blank">University Legal Statements &amp; Disclaimer</a></p>
+                    <!--Compulsory message, please don't remove ! -->
+                </div>
+
             </div>
         </div>
         <div class="sub-footer">
@@ -491,40 +486,6 @@
     }
 
     $(document).ready(function () {
-        $('.animsition').animsition({
-
-            {% if pageConfig.showLoader != true %}
-            //Hurry the loader along by basically forcing it to show and then hide again - if you let it persist it'll wait for all the images to load
-            timeout: true,
-            timeoutCountdown: 1000,
-            {% endif %}
-            //loadingInner: '<img src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/logo/kingfisher.svg" style="width: 80px;" />',
-            browser: [ 'animation-duration', '-webkit-animation-duration'],
-            inDuration: 100,
-            outDuration: 100,
-        });
-
-        /*
-        Okay so bear with me but for some unknown reason the following lines fix the animsition on Safari. Without registering the following handlers the site loads blank on all versions of safari.
-
-        I spent weeks debugging this and it's not clear at all why this fixes the library but please don't remove it and see here https://github.com/yorknouse/website/issues/10 for more details
-         */
-        $('.animsition').on('animsition.inStart', function(){
-            console.log("");
-        });
-        $('.animsition').on('animsition.inEnd', function(){
-            console.log("");
-        });
-        $('.animsition').on('animsition.outStart', function(){
-            console.log("");
-        });
-        $('.animsition').on('animsition.outEnd', function(){
-            console.log("");
-        });
-
-
-
-
         $('a').smoothScroll({offset: -100});
 
 
@@ -553,7 +514,7 @@
 </script>
 
 
-<script async src="https://www.googletagmanager.com/gtag/js?id={{ CONFIG.ANALYTICS.TRACKINGID }}"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ CONFIG.ANALYTICS.FRONTENDTRACKINGID }}"></script>
 <script>
     console.log("%c {{ CONFIG.PROJECT_NAME }} version {{ CONFIG.VERSION.TAG }} build {{ CONFIG.VERSION.COMMITFULL }}", 'font-size: 25px; font-style: italic;');
 

@@ -2,6 +2,7 @@ version: '3'
 services:
   caddy:
     image: caddy/caddy:2-alpine
+    restart: always
     ports:
       - 80:80
       - 443:443
@@ -19,7 +20,6 @@ services:
       - db
       - nouse
       - phpmyadmin
-      - netdata
   db:
     image: mysql/mysql-server:5.7
     command: --default-authentication-plugin=mysql_native_password
@@ -37,7 +37,7 @@ services:
     env_file:
       - nouseprod.env
   nouse:
-    image: nouse
+    build: .
     container_name: nouse-container
     restart: always
     depends_on:
@@ -63,8 +63,21 @@ services:
       - db
     volumes:
       - /sessions
+  compressor:
+    build: ./compressor
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - MYSQL_HOSTNAME=db
+      - MYSQL_DATABASE=nouse
+      - MYSQL_USER=userDocker
+      - MYSQL_PASSWORD=passDocker
+    env_file:
+      - nouseprod.env
   mysql-backup:
      image: databack/mysql-backup:latest
+     restart: unless-stopped
      container_name: mysql-backup
      environment:
        - DB_SERVER=db
@@ -83,7 +96,7 @@ services:
      volumes:
        - /etc/localtime:/etc/localtime:ro
   netdata:
-    hostname: netdata.example.org
+    hostname: yusunouse01.york.ac.uk
     image: netdata/netdata
     container_name: netdata
     restart: unless-stopped
@@ -91,10 +104,15 @@ services:
       - SYS_PTRACE
     security_opt:
       - apparmor:unconfined
-    logging:
-      driver: none
+    depends_on: #Relies on everything because it needs to start last in order to access details of docker containers
+      - caddy
+      - nouse
+      - db
+      - phpmyadmin
+      - mysql-backup
+      - compressor
     volumes:
-      - netdataconfig:/etc/netdata
+      - ./netdata/config:/etc/netdata:ro
       - netdatalib:/var/lib/netdata
       - netdatacache:/var/cache/netdata
       - /etc/passwd:/host/etc/passwd:ro
@@ -102,9 +120,8 @@ services:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /etc/os-release:/host/etc/os-release:ro
-
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 volumes:
-  netdataconfig:
   netdatalib:
   netdatacache:
   caddy:

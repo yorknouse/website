@@ -85,9 +85,6 @@
                                         {% endfor %}
                                     </td>
                                     <td>
-                                        {% if article.articles_appleNewsID != null and article.articles_appleNewsShareLink != null %}
-                                            <a href="{{ article.articles_appleNewsShareLink }}" target="_blank"><img src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/appleNews/Apple_News_icon_sRGB_032019.svg" alt="Apple News badge" title="Apple News" style="height: 34px; margin: 2px;"></a>
-                                        {% endif %}
 
                                         {% if article.articles_showInSearch == 1 and date(article.articles_published) < date() %}
                                         <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}"
@@ -157,32 +154,12 @@
                             {
                                 text: 'Gallery',
                                 value: '2',
-                            },
-                            {
-                                text: 'liveblogpro article',
-                                value: '4',
-                            },
-                            {
-                                text: 'HTML article',
-                                value: '1',
-                                group: 'Legacy',
-                            },
-                            {
-                                text: 'Video article',
-                                value: '3',
-                                group: 'Coming soon',
                             }
                         ],
                         callback: function (result) {
                             switch (result) {
-                                case '1':
-                                    window.location.href = "{{ CONFIG.ROOTBACKENDURL }}/article.php?new&type=1";
-                                    break;
                                 case '2':
                                     window.location.href = "{{ CONFIG.ROOTBACKENDURL }}/article.php?new&type=2";
-                                    break;
-                                case '4':
-                                    window.location.href = "{{ CONFIG.ROOTBACKENDURL }}/article.php?new&type=4";
                                     break;
                                 case '6':
                                     window.location.href = "{{ CONFIG.ROOTBACKENDURL }}/article.php?new&type=6";

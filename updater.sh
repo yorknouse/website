@@ -1,4 +1,3 @@
 git pull
-docker build -t nouse .
-docker-compose up -d
+docker-compose up -d --build
 docker system prune -f

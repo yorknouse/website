@@ -54,7 +54,6 @@ $CONFIG = array(
     "CLOUDFLARE" => ['EMAIL' => getenv('bCMS__CLOUDFLARE_EMAIL'), 'KEY' => getenv('bCMS__CLOUDFLARE_SECRET')],
     "IFTTT" => getenv('bCMS__IFTTT'),
     "GOOGLE" => ["AUTH" => ["CLIENT" => getenv('bCMS__OAUTHCLIENT'),  "SECRET" => getenv('bCMS__OAUTHSECRET')]],
-    "APPLE" => ["NEWS" => ["CHANNEL" => getenv('bCMS__APPLENEWSCHANNEL'), "KEY" => getenv('bCMS__APPLENEWSKEY'), "SECRET" => getenv('bCMS__APPLENEWSSECRET')]],
     'JIRAWIDGET' => getenv("bCMS__JIRAWIDGET"),
     'DEV' => (getenv('bCMS__ERRORS') == "true" ? true : false),
     'HOSTNAME' => $_SERVER['HTTP_HOST'],

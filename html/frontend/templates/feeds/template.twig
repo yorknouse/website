@@ -1,22 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet title="XSL_formatting" type="text/xsl" href="{{ CONFIG.ROOTFRONTENDURL }}/feeds/feed.xsl.php"?>
+<?xml-stylesheet title="XSL_formatting" type="text/xsl" href="{{ CONFIG.ROOTFRONTENDURL }}/common/assets/feed.xml"?>
 <rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
     <channel>
         <title><![CDATA[Nouse]]></title>
         <description><![CDATA[Nouse is York's oldest student newspaper]]></description>
         <link>{{ CONFIG.ROOTFRONTENDURL }}</link>
-        <image>
-            <url></url>
-            <title>Nouse</title>
-            <link>{{ CONFIG.ROOTFRONTENDURL }}</link>
-        </image>
         <generator>RSS for bCMS</generator>
-        <lastBuildDate>{{ "now"|date("D, d M Y H:i:s") }} UTC</lastBuildDate>
+        <lastBuildDate>{{ "now"|date("D, d M Y H:i:s O") }}</lastBuildDate>
         <copyright><![CDATA[Copyright: (C) Nouse.]]></copyright>
         <language><![CDATA[en-gb]]></language>
         {% block content %}
 
         {% endblock %}
+        <atom:link href="{{ URL }}" rel="self" type="application/rss+xml" />
     </channel>
 </rss>
 

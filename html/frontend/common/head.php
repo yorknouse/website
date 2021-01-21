@@ -1,9 +1,11 @@
 <?php
 require_once __DIR__ . '/../../common/coreHead.php';
+header("Cache-Control:public, max-age=900, s-maxage=3600, stale-while-revalidate=900, stale-if-error=3600");
+
 
 $CONFIG['ASSETSURL'] = $CONFIG['ROOTFRONTENDURL'] . "/common/assets/theme/osru/assets/";
 
-$PAGEDATA = array('CONFIG' => $CONFIG, 'BODY' => true);
+$PAGEDATA = array('CONFIG' => $CONFIG, 'BODY' => true, 'URL' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
 
 
 //TWIG
@@ -63,7 +65,7 @@ $TWIG->addFilter(new Twig_SimpleFilter('s3DATA', function ($fileid) {
 }));
 $TWIG->addFilter(new Twig_SimpleFilter('articleThumbnail', function ($article, $size = "large",$socialOverlay='') {
     global $bCMS, $CONFIG;
-    if ($socialOverlay != '') return $CONFIG['ROOTFRONTENDURL'] . '/api/imageProcessor.php?url=' .urlencode($bCMS->articleThumbnail($article, $size)) . '&overlay=' . urlencode($CONFIG['FILESTOREURL'] . '/nouseSiteAssets/socialOverlays/' . $socialOverlay . '.png');
+    if ($socialOverlay != '') return $CONFIG['ROOTFRONTENDURL'] . '/image/socialProcessor.php?url=' .urlencode($bCMS->articleThumbnail($article, $size)) . '&overlay=' . urlencode($CONFIG['FILESTOREURL'] . '/nouseSiteAssets/socialOverlays/' . $socialOverlay . '.png');
     else return $bCMS->articleThumbnail($article, $size);
 }));
 

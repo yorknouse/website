@@ -1,0 +1,27 @@
+{% extends "feeds/template.twig" %}
+{% block content %}
+    <ttl>15</ttl>
+    {% for article in articles %}
+        <item>
+            {% if article.articles_id|articleThumbnail %}
+                <media:thumbnail url="{{ article.articles_id|articleThumbnail }}">
+                    <media:credit role="author" scheme="urn:ebu">
+
+                        <![CDATA[Google]]>
+
+                    </media:credit>
+                </media:thumbnail>
+            {% endif %}
+            <guid isPermaLink="false">article-{{ article.articles_id }}</guid>
+            <link>{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}</link>
+            <pubDate>{{ article.articles_published|date("D, d M Y H:i:s O") }}</pubDate>
+            <title>{{ article.articlesDrafts_headline }}</title>
+            <content:encoded><![CDATA[{{ article.articlesDrafts_excerpt|raw }}]]></content:encoded>
+            {% for author in article.articles_authors %}
+                {# Yes the email is wrong, but it doesn't really matter as google seems to ignore it for some reason #}
+                <author>{{ author.users_name1 }}.{{ author.users_name2 }}@nouse.co.uk ({{ author.users_name1 }} {{ author.users_name2 }})</author>
+            {% endfor %}
+
+        </item>
+    {% endfor %}
+{% endblock %}

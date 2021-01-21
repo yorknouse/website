@@ -227,7 +227,6 @@ if ($urlSplit[0] == "edition") {
     //          END COMMENTS
 
     $PAGEDATA['pageConfig']['leftBar']['LATEST'] = latestInCategory($PAGEDATA['POST']['CATEGORIES'][0]['categories_id'], 4);
-    $PAGEDATA['pageConfig']['SIMILAR'] = similarArticles($PAGEDATA['POST']['articles_id'],3);
 
     foreach ($PAGEDATA['POST']['CATEGORIES'] as $category) {
         if ($category['categories_customTheme'] != null) {
@@ -348,7 +347,11 @@ if ($urlSplit[0] == "edition") {
     $PAGEDATA['pageConfig']['TITLE'] = $thisCategory['categories_displayName'] . " | Nouse";
 
     http_response_code(200);
-    echo $TWIG->render('category.twig', $PAGEDATA);
+    if (isset($_GET['rss'])) {
+        header('Content-Type: text/xml');
+        echo $TWIG->render('feeds/category.twig', $PAGEDATA);
+    }
+    else echo $TWIG->render('category.twig', $PAGEDATA);
     exit;
 }
 ?>
