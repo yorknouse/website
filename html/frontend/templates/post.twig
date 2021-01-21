@@ -322,9 +322,7 @@
                     <aside class="share_article">
                         <a href="#" class="boxed_icon facebook" data-share-url="{{ CONFIG.ROOTFRONTENDURL }}/{{ POST.articles_published|date("Y/m/d") }}/{{ POST.articles_slug }}" data-share-network="facebook" data-share-text="{{ POST.articlesDrafts_headline }}" data-share-title="Facebook Share"><i class="fa fa-facebook"></i></a>
                         <a href="#" class="boxed_icon twitter" data-share-url="{{ CONFIG.ROOTFRONTENDURL }}/{{ POST.articles_published|date("Y/m/d") }}/{{ POST.articles_slug }}" data-share-network="twitter" data-share-text="{{ POST.articlesDrafts_headline }}" data-share-title="Twitter Share" data-share-via="yorknouse"><i class="fa fa-twitter"></i></a>
-                        {% if POST.COMMENTCOUNT > 0 %}
                         <a href="#comments" class="boxed_icon comment"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0" width="14" height="14" viewBox="0 0 14 14" enable-background="new 0 0 14 14" xml:space="preserve"><path d="M3.6 14c0 0-0.1 0-0.1 0 -0.1-0.1-0.2-0.2-0.2-0.3v-2.7h-2.9C0.2 11 0 10.8 0 10.6V0.4C0 0.2 0.2 0 0.4 0h13.3C13.8 0 14 0.2 14 0.4v10.2c0 0.2-0.2 0.4-0.4 0.4H6.9L3.9 13.9C3.8 14 3.7 14 3.6 14zM0.7 10.2h2.9c0.2 0 0.4 0.2 0.4 0.4v2.2l2.5-2.4c0.1-0.1 0.2-0.1 0.2-0.1h6.6v-9.5H0.7V10.2z"></path></svg><span>{{ POST.COMMENTCOUNT }}</span></a>
-                        {% endif %}
                     </aside>
                 </div>
                 <!-- /End of share icon -->
@@ -411,9 +409,10 @@
                     margin-left: 10px;
                 }
             </style>
-            {% if POST.COMMENTS|length > 0 %}
             <div class="comments" id="comments">
-                <h3 class="comment_title">{{ POST.COMMENTCOUNT }} Comment{{ POST.COMMENTCOUNT|length != 1 ? "s" : "" }}</h3>
+                {% if POST.COMMENTCOUNT > 0 %}
+                <h3 class="comment_title">{{ POST.COMMENTCOUNT }} Comment{{ POST.COMMENTCOUNT != 1 ? "s" : "" }}</h3>
+                {% endif %}
                 {% for comment in POST.COMMENTS %}
                 <div class="media">
                    <div class="media-body">
@@ -460,37 +459,45 @@
                     </div>
                 </div>
                 {% endfor %}
-            </div>
-            {% endif %}
-            <div class="comment_form">
-                <h3 class="replay_title" id="makeComment">Leave a comment</h3>
-                <div class="form-group">
-                    <textarea class="form-control" id="commentText" rows="3" placeholder=""></textarea>
-                </div>
-                <!--<div class="form-group row">
-                    <label for="name" class="col-sm-2 col-form-label">Name</label>
-                    <div class="col-sm-5">
-                        <input class="form-control" id="commentName" type="text" placeholder="Anonymous">
+                <button class="btn btn-rounded commentShowHideButton">{% if POST.COMMENTCOUNT < 1 %}Make the first comment on this article{% else %}Add your comment to the conversation{% endif %}</button>
+                <div class="comment_form" style="display: none;">
+                    <h3 class="replay_title" id="makeComment">Leave a comment</h3>
+                    <div class="form-group">
+                        <textarea class="form-control" id="commentText" rows="3" placeholder=""></textarea>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label for="email" class="col-sm-2 col-form-label">Email</label>
-                    <div class="col-sm-5">
-                        <input class="form-control" id="commentEmail" type="text" placeholder="Anonymous">
+                    <!--<div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Name</label>
+                        <div class="col-sm-5">
+                            <input class="form-control" id="commentName" type="text" placeholder="Anonymous">
+                        </div>
                     </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-5">
+                            <input class="form-control" id="commentEmail" type="text" placeholder="Anonymous">
+                        </div>
+                    </div>
+                     -->
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    <button id="submitComment" style="display:none;" class="btn link-btn">Post Comment ⇾</button>
+                    <p style="margin-top:5px;margin-bottom:5px;">Your name from your Google account will be published alongside the comment, and your name, email address and IP address will be stored in our database to help us combat spam. Comments from outside the university require moderator approval to reduce spam, but Nouse accepts no responsibility for reviewing content comments on our site</p>
+                    <!--Hide the badge on the basis we show more info to the user here-->
+                    <p><b>Disclaimer: </b>this page is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
                 </div>
-                 -->
-                <div class="g-signin2" data-onsuccess="onSignIn"></div>
-                <button id="submitComment" style="display:none;" class="btn link-btn">Post Comment ⇾</button>
-                <p style="margin-top:5px;margin-bottom:5px;">Your name from your Google account will be published alongside the comment, and your name, email address and IP address will be stored in our database to help us combat spam. Comments from outside the university require moderator approval to reduce spam, but Nouse accepts no responsibility for reviewing content comments on our site</p>
             </div>
-            <!--Hide the badge on the basis we show more info to the user here-->
-            <p><b>Disclaimer: </b>this page is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms of Service</a> apply.</p>
             <style>
                 .grecaptcha-badge {
                     display:none;
                 }
             </style>
+            <script>
+                $(document).ready(function () {
+                   $(".commentShowHideButton").click(function() {
+                       $(".comment_form").fadeIn();
+                       $(this).hide();
+                   });
+                });
+            </script>
         </main>
     </div>
 </div>
