@@ -5,8 +5,8 @@ if (!$CONFIG['AWS']['UPLOAD']) die("Uploads disabled");
 
 // USER OPTIONS
 // Replace these values with ones appropriate to you.
-$accessKeyId = $CONFIG['AWS']['FINEUPLOADER']['KEY'];
-$secretKey = $CONFIG['AWS']['FINEUPLOADER']['SECRET'];
+$accessKeyId = $CONFIG['AWS']['UPLOADER']['KEY'];
+$secretKey = $CONFIG['AWS']['UPLOADER']['SECRET'];
 $region = $CONFIG['AWS']['DEFAULTUPLOADS']['REGION'];
 //$acl = 'public'; // private, public-read, etc
 // VARIABLES

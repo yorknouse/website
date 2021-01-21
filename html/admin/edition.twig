@@ -98,11 +98,9 @@
                 <img src="{{ (edition.editions_thumbnail ? edition.editions_thumbnail|s3URL : "") }}" alt="Thumbnail" id="thumbnailImage" style="width: 100%; {% if edition.editions_thumbnail|length < 1 %}display: none;{% endif %}" />
             </div>
             <div class="box-footer">
-                {% embed 'common/plugins/fineuploader.twig' with {'publicBool': true, 'type': 'EDITION-THUMBNAIL', 'paste': true, 'typeId': 4, 'subTypeId': edition.editions_id, 'imagesOnly': true } %}
+                {% embed 'common/plugins/uppy.twig' with {'publicBool': true, 'type': 'EDITION-THUMBNAIL', 'paste': true, 'typeId': 4, 'subTypeId': edition.editions_id, 'imagesOnly': true, 'fileLimit': 1 } %}
                     {% block success %}
-                        var filepath = responseJson.url.split('.');
-                        var urlLarge = responseJson.url.slice(0, responseJson.url.lastIndexOf(".")) + " (large)" + responseJson.url.slice(responseJson.url.lastIndexOf("."));
-                        $("#thumbnailImage").attr("src",urlLarge);
+                        $("#thumbnailImage").attr("src",url);
                         thumbnailid = responseJson.id;
                         $("#thumbnailImage").show();
                     {% endblock %}
@@ -126,9 +124,9 @@
                     {{ editionPdfData['data']['s3files_original_name'] }}</a>
             </div>
             <div class="box-footer">
-                {% embed 'common/plugins/fineuploader.twig' with {'publicBool': true, 'type': 'EDITION-PDF', 'paste': false, 'typeId': 6, 'subTypeId': edition.editions_id, 'imagesOnly': false } %}
+                {% embed 'common/plugins/uppy.twig' with {'publicBool': true, 'type': 'EDITION-PDF', 'paste': false, 'typeId': 6, 'subTypeId': edition.editions_id, 'imagesOnly': false, 'fileLimit': 1 } %}
                     {% block success %}
-                        $("#pdfLinkCompressed").attr("href",responseJson.url);
+                        $("#pdfLinkCompressed").attr("href",url);
                         pdffileid = responseJson.id;
                         $("#pdfLinkCompressed").show();
                     {% endblock %}
@@ -150,9 +148,9 @@
                     {{ editionPdfOrigData['data']['s3files_original_name'] }}</a>
             </div>
             <div class="box-footer">
-                {% embed 'common/plugins/fineuploader.twig' with {'publicBool': true, 'type': 'EDITION-PDF', 'paste': false, 'typeId': 5, 'subTypeId': edition.editions_id, 'imagesOnly': false } %}
+                {% embed 'common/plugins/uppy.twig' with {'publicBool': true, 'type': 'EDITION-PDF', 'paste': false, 'typeId': 5, 'subTypeId': edition.editions_id, 'imagesOnly': false, 'fileLimit': 1 } %}
                 {% block success %}
-                    $("#pdfLink").attr("href",responseJson.url);
+                    $("#pdfLink").attr("href",url);
                     pdforigfileid = responseJson.id;
                     $("#pdfLink").show();
                 {% endblock %}

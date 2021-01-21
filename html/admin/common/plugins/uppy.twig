@@ -55,13 +55,15 @@ x-amz-meta-size
             },
             onBeforeUpload: (files) => {
                 for (const [key, value] of Object.entries(files)) {
+                    {% if licenceCredit %}
                     if (value.meta.credit !== undefined && value.meta.credit.length > 5) {
                         //Checking on the form completed
-                        value.name =
+                        //value.name =
                     } else {
                         uppy.info(`Please specify an image credit`, 'error')
                         return false;
                     }
+                    {% endif %}
                 }
             }
         }).use(Uppy.Dashboard, {
@@ -72,17 +74,21 @@ x-amz-meta-size
             browserBackButtonClose: false,
             showLinkToFileUploadResult: false,
             proudlyDisplayPoweredByUppy: false,
+            hideProgressAfterFinish: true,
+            
             {% if fileLimit is defined and fileLimit == 1 and imagesOnly is defined and imagesOnly %}
             autoOpenFileEditor: true,
             {% endif %}
             showProgressDetails: true,
             metaFields: [
-                { id: 'name', name: 'Name', placeholder: 'filename' },
+                {% if licenceCredit %}
+                { id: 'title', name: 'Title', placeholder: 'filetitle' },
                 { id: 'license', name: 'License', placeholder: 'specify license' },
                 { id: 'credit', name: 'Credit', placeholder: 'How should the image be credited? Don\'t include "Image:"' },
                 { id: 'ownwork', name: 'Photo from a member of the Nouse Team?', render: function({value, onChange}, h) {
                         return h('input', { type: 'checkbox', onChange: (ev) => onChange(ev.target.checked ? 'on' : 'off'), defaultChecked: value === 'off' })
                     } }
+                {% endif %}
             ]
         }).use(Uppy.AwsS3, {
             metaFields: ['name','typeid','subtype'],
@@ -111,6 +117,21 @@ x-amz-meta-size
                     }
                 })
             }
+        /*}).use(Uppy.ImageEditor, {
+            quality: 0.8,
+            cropperOptions: {
+                aspectRatio:1
+            },
+            actions: {
+                revert: true,
+                rotate: true,
+                flip: false,
+                zoomIn: false,
+                zoomOut: false,
+                cropSquare: true,
+                cropWidescreen: false,
+                cropWidescreenVertical: false,
+            }*/
         }).on('upload-success', (file, response) => {
             $.ajax({
                 url: "{{ CONFIG.ROOTBACKENDURL }}/api/s3files/uploadSuccess.php",

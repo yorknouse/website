@@ -46,7 +46,7 @@ $CONFIG = array(
             'ENDPOINT' =>  str_replace("https://","",getenv('AWS_ENDPOINT_URL')),
             'REGION' => getenv('AWS_DEFAULT_REGION'),
             'CDNEndpoint' => getenv('AWS_CDN')
-        ], "FINEUPLOADER" => [
+        ], "UPLOADER" => [
             "KEY" => getenv('AWS_ACCESS_KEY_ID'),
             "SECRET" =>  getenv('AWS_SECRET_ACCESS_KEY')
         ]
