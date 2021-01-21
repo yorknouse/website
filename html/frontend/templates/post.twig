@@ -309,6 +309,22 @@
                             #articleText {
                                 width: 100%;
                             }
+                            #articleText>p {
+                                font-size: 18px;
+                            }
+
+                            {% if POST.articles_dropCapital == 1 %}
+                            #articleText>p:first-child:first-letter {
+                                float: left;
+                                font-family: inherit;
+                                color: #932E6C;
+                                font-size: 120px;
+                                line-height: 80px;
+                                padding-top: 2px;
+                                padding-right: 8px;
+                                padding-left: 3px;
+                            }
+                            {% endif %}
                         </style>
                         {% if POST.articles_id|articleThumbnail != null and POST.articlesDrafts_thumbnailCredit != null %}
                             <img src="{{ POST.articles_id|articleThumbnail }}" style="width: 100%;" alt="Article Thumbnail">

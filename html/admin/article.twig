@@ -111,6 +111,13 @@
                 </div>
                 <div class="form-group">
                     <label>Social Media Automation</label>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="dropCap" {{ (article.articles_dropCapital == 1 ? 'checked':'')) }}>
+                        <label class="form-check-label">Drop Capital</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Social Media Automation</label>
                     {% set articleSocialConfig = article['articles_socialConfig']|split(',') %}
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" id="postToFacebook" {{ (articleSocialConfig[1] == 1 ? 'disabled' : (article.articles_id == null ? 'checked' : (articleSocialConfig[0] != 1 ? '' : 'checked'))) }}>
@@ -794,6 +801,7 @@
                     {% elseif article.articles_type == 6 %}
                     "markdown": editor.getMarkdown(),
                     "text": editor.getHtml(),
+                    "dropCap": ($("#dropCap").is(':checked') ? 1 : 0),
                     {% endif %}
                     "headline": $("#headline").val(),
                     "excerpt": $("#excerpt").val(),

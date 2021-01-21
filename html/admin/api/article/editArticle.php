@@ -49,6 +49,8 @@ if ($_POST['status'] == 1) {
     $articleData["articles_showInSearch"] = 1;
     $articleData["articles_showInAdmin"] = 1;
 }
+if (isset($_POST['dropCap'])) $articleDraftsData['articles_dropCapital'] = $_POST['dropCap'];
+
 $articleDraftsData = [
     "articlesDrafts_timestamp" => date("Y-m-d H:i:s"),
     "articlesDrafts_userid" => $AUTH->data['users_userid'],
