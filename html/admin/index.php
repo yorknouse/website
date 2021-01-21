@@ -13,7 +13,7 @@ $DBLIB->where("(auditLog.auditLog_timestamp >= curdate() - INTERVAL DAYOFWEEK(cu
 $DBLIB->join("users","auditLog.users_userid = users.users_userid","LEFT");
 $DBLIB->groupBy ("auditLog.users_userid");
 $DBLIB->orderBy ("counter","DESC");
-$PAGEDATA['MOSTACTIVEUSERS']['WEEK'] = $DBLIB->get("auditlog",5,["users.users_name1", "users.users_name2", "auditLog.users_userid", "COUNT(*) AS counter"]);
+$PAGEDATA['MOSTACTIVEUSERS']['WEEK'] = $DBLIB->get("auditLog",5,["users.users_name1", "users.users_name2", "auditLog.users_userid", "COUNT(*) AS counter"]);
 
 echo $TWIG->render('index.twig', $PAGEDATA);
 ?>
