@@ -26,6 +26,12 @@ cd nouse
 bash updater.sh
 ```
 
+## Backblaze Setup
+
+You need to setup the CORS on the bucket to allow uploads
+
+`aws s3api put-bucket-cors --bucket=nousePublicBackendUploads --endpoint-url=https://s3.eu-central-003.backblazeb2.com  --cors-configuration=file://cors.json`
+
 # Database
 
 ## MySQL Setup
