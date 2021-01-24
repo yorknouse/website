@@ -70,7 +70,7 @@ x-amz-meta-size
             inline: true,
             target: '#{{ thisElementID }}',
             note: '{% if imagesOnly is defined and imagesOnly %}Images only{% endif %}',
-            height: 500,
+            height: {% if licenceCredit != true and fileLimit < 2 %}300{% else %}500{% endif %},
             browserBackButtonClose: false,
             showLinkToFileUploadResult: false,
             proudlyDisplayPoweredByUppy: false,
