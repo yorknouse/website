@@ -57,10 +57,11 @@
     <!-- AdminLTE App -->
         <script src="assets/js/app.js"></script>
 
+    {% if CONFIG['DEV'] != true %}
         <!--Sentry Error logging-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/raven.js/raven-js@3.27.0/raven.min.js" integrity="sha512-BNlQR4YOp6HCeydT0Sq+4FHuL7PIQ9U2UVISF0/uvqMkxYnk2VF/du25ghIWWvt+633NsxJ4bHSuSVJUpUT8rw==" crossorigin="anonymous"></script>
         <script>Raven.config('{{ CONFIG.ERRORS.SENTRYPublic }}').install()</script>
-
+        {% endif %}
         <script>
             //Random colour generator
             Colors = {};
