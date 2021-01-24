@@ -19,7 +19,14 @@ $newData["editions_pdf"] = ($_POST["pdfid"] != null ? $_POST["pdfid"] : null);
 $newData["editions_type"] = $_POST['type'];
 $newData["editions_pdfOriginal"] = ($_POST["pdforigid"] != null ? $_POST["pdforigid"] : null);
 $newData["editions_thumbnail"] = ($_POST["thumbnail"] != null ? $_POST["thumbnail"] : null);
-$newData["editions_featured"] = implode(",", explode(",", $bCMS->sanitizeString($_POST['featured'])));
+if ($_POST['featuredHighlights'] != "{}") {
+    $highlights = json_decode ($_POST['featuredHighlights'],true);
+    foreach ($highlights['sections'] as $sectionKey => $section) {
+        $highlights['sections'][$sectionKey]['name'] = $bCMS->sanitizeString($section['name']);
+    }
+    $newData["editions_featuredHighlights"] = json_encode($highlights);
+} else $newData["editions_featuredHighlights"] = "{}";
+
 $DBLIB->where ('editions_id', $edition['editions_id']);
 if ($DBLIB->update ('editions', $newData)) {
     $bCMS->auditLog("EDIT", "editions", $edition['editions_id'], $AUTH->data['users_userid']);

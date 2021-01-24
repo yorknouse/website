@@ -1,10 +1,15 @@
 <?php
 require_once __DIR__ . '/../apiHeadSecure.php';
 
-if (!isset($_POST['term']) or !isset($_GET['editionid'])) finish(false, ["code" => "PARAM", "message"=> "No term set"]);
+if (!isset($_GET['editionid'])) finish(false, ["code" => "PARAM", "message"=> "Not set"]);
 
-$term = $bCMS->sanitizeString($_POST['term']);
-if (strlen($term) > 0) $DBLIB->where("(articlesDrafts.articlesDrafts_headline LIKE '%" . $bCMS->sanitizeString($term) . "%')");
+
+if (isset($_POST['articleid'])) {
+    $DBLIB->where("articles.articles_id IN (" .  $bCMS->sanitizeString($_POST['articleid']) . ")");
+} else {
+    $term = $bCMS->sanitizeString($_POST['term']);
+    if (strlen($term) > 0) $DBLIB->where("(articlesDrafts.articlesDrafts_headline LIKE '%" . $bCMS->sanitizeString($term) . "%')");
+}
 $DBLIB->orderBy("articles_published", "DESC");
 $DBLIB->where("articles_showInLists", 1);
 $DBLIB->where("articles_published <= '" . date("Y-m-d H:i:s") . "'");

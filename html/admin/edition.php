@@ -15,8 +15,6 @@ if (isset($_GET['id'])) {
 	$PAGEDATA['editionTypes'] = $DBLIB->get("editions", null, ["DISTINCT editions_type"]);
 
 
-	$PAGEDATA['edition']['featuredArticlesID'] = explode(",",$PAGEDATA['edition']['editions_featured']);
-	$PAGEDATA['edition']['featuredArticles']=[];
 
 	$DBLIB->where("categories_showPublic",1);
 	$DBLIB->orderBy("categories_order", "ASC");
@@ -42,20 +40,10 @@ if (isset($_GET['id'])) {
 			if (in_array($article['articles_id'], $PAGEDATA['articlesIDs'])) continue; //Don't add it twice if it's already been added for another category
 
 			$article['articles_categories'] = explode(",", $article['articles_categories']);
-			if (in_array($article['articles_id'], $PAGEDATA['edition']['featuredArticlesID'])) {
-				$article['featuredKey'] = array_search($article['articles_id'], $PAGEDATA['edition']['featuredArticlesID']);
-				$PAGEDATA['edition']['featuredArticles'][] = $article;
-			}
-
 			array_push($PAGEDATA['articlesIDs'],$article['articles_id']);
 			$PAGEDATA['articles'][] = $article;
 		}
 	}
-
-	usort($PAGEDATA['edition']['featuredArticles'], function($a, $b) {
-		return $a['featuredKey'] - $b['featuredKey'];
-	});
-
 } else die("404 File not found");
 
 echo $TWIG->render('edition.twig', $PAGEDATA);

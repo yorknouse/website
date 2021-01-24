@@ -11,101 +11,132 @@
 {% endblock %}
 {% block content %}
 <div class="row">
-    <div class="col-md-4 col-sm-12">
-        <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">
-                    Edition Details
-                </h3>
+    <div class="col-md-8 col-sm-12">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            Edition Details
+                        </h3>
 
-                <div class="box-tools pull-right">
-                    {% if edition.editions_show == 1 and date(edition.editions_published) < date() %}
-                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/edition/{{ edition.editions_slug }}"
-                           type="button" title="View on website" class="btn btn-default btn-sm" target="_blank">View on site</a>
-                    {% endif %}
-                    {% if 51|permissions %}
-                    <button title="Save" id="saveButton" class="btn btn-success"><i class="fa fa-floppy-o"></i></button>
-                    {% endif %}
-                </div>
+                        <div class="box-tools pull-right">
+                            {% if edition.editions_show == 1 and date(edition.editions_published) < date() %}
+                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/edition/{{ edition.editions_slug }}"
+                                   type="button" title="View on website" class="btn btn-default btn-sm" target="_blank">View on site</a>
+                            {% endif %}
+                            {% if 51|permissions %}
+                                <button title="Save" id="saveButton" class="btn btn-success"><i class="fa fa-floppy-o"></i></button>
+                            {% endif %}
+                        </div>
 
+                    </div>
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label>Name</label>
+                            <textarea id="name" style="resize: none;" rows="2" placeholder="23 November 1964" class="form-control">{{ edition.editions_name|raw }}</textarea>
+                            <i>"23 November 1964" or "Freshers Supplement 2020" etc.</i>
+                        </div>
+                        <div class="form-group">
+                            <label>Print Edition &numero;</label>
+                            <input id="printnumber" type="number" placeholder="001" min="1" class="form-control" value="{{ edition.editions_printNumber }}" />
+                            <i>Only set this for conventional print editions</i>
+                        </div>
+                        <div class="form-group">
+                            <label>Strapline</label>
+                            <textarea id="excerpt" style="resize: none;" rows="2" placeholder="Strapline displays underneath the title of the edition - not normally used unless the edition has special significance" class="form-control">{{ edition.editions_excerpt|raw }}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Publication date</label>
+                            <input type='text' class="form-control" id="published" />
+                            <p style="font-style: italic;">Editions with a status of "published" and a date in the future will be published upto two hours after the date and time selected due to cache constraints</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select class="form-control" id="status">
+                                <option value="1">Draft</option>
+                                <option value="2" {{ edition.editions_show == 1 and edition.editions_showHome == 0 ? 'selected' : '' }}>Published only</option>
+                                <option value="3" {{ edition.editions_show == 1 and edition.editions_showHome == 1 ? 'selected' : '' }}>Published on Homepage</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Type</label>
+                            <select class="form-control" id="type">
+                                {% for type in editionTypes %}
+                                    {% set type = type.editions_type %}
+                                    <option {{ edition.editions_type == type ? ' selected': ''}} value="{{ type }}">{{ type }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="form-group">
+                            <label>Slug</label>
+                            <textarea id="slug" disabled style="resize: none;" rows="2" class="form-control">{{ edition.editions_slug }}</textarea>
+                            <p style="font-style: italic;">Contact support@nouse.co.uk for a custom URL</p>
+                        </div>
+                    </div>
+                    <div class="overlay loadingoverlay">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
+                </div>
             </div>
-            <div class="box-body">
-                <div class="form-group">
-                    <label>Name</label>
-                    <textarea id="name" style="resize: none;" rows="2" placeholder="23 November 1964" class="form-control">{{ edition.editions_name|raw }}</textarea>
-                    <i>"23 November 1964" or "Freshers Supplement 2020" etc.</i>
+            <div class="col-md-6 col-sm-12">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            Thumbnail
+                        </h3>
+                        <div class="box-tools pull-right">
+                        </div>
+                    </div>
+                    <div class="box-body no-padding">
+                        <img src="{{ (edition.editions_thumbnail ? edition.editions_thumbnail|s3URL : "") }}" alt="Thumbnail" id="thumbnailImage" style="width: 100%; {% if edition.editions_thumbnail|length < 1 %}display: none;{% endif %}" />
+                    </div>
+                    <div class="box-footer">
+                        {% embed 'common/plugins/uppy.twig' with {'publicBool': true, 'type': 'EDITION-THUMBNAIL', 'paste': true, 'typeId': 4, 'subTypeId': edition.editions_id, 'imagesOnly': true, 'fileLimit': 1 } %}
+                            {% block success %}
+                                $("#thumbnailImage").attr("src",url);
+                                thumbnailid = responseJson.id;
+                                $("#thumbnailImage").show();
+                            {% endblock %}
+                        {% endembed %}
+                        <p style="margin-top: 6px;">
+                            <b>Generate the cover as a JPEG export and set it as the thumbnail</b>
+                            <br/>To display correctly, thumbnails should be taller than they are wide. Portrait images of around 1:2 aspect ratio work well</p>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Print Edition &numero;</label>
-                    <input id="printnumber" type="number" placeholder="001" min="1" class="form-control" value="{{ edition.editions_printNumber }}" />
-                    <i>Only set this for conventional print editions</i>
-                </div>
-                <div class="form-group">
-                    <label>Strapline</label>
-                    <textarea id="excerpt" style="resize: none;" rows="2" placeholder="Strapline displays underneath the title of the edition - not normally used unless the edition has special significance" class="form-control">{{ edition.editions_excerpt|raw }}</textarea>
-                </div>
-                <div class="form-group">
-                    <label>Publication date</label>
-                    <input type='text' class="form-control" id="published" />
-                    <p style="font-style: italic;">Editions with a status of "published" and a date in the future will be published upto two hours after the date and time selected due to cache constraints</p>
-                </div>
-                <div class="form-group">
-                    <label>Status</label>
-                    <select class="form-control" id="status">
-                        <option value="1">Draft</option>
-                        <option value="2" {{ edition.editions_show == 1 and edition.editions_showHome == 0 ? 'selected' : '' }}>Published only</option>
-                        <option value="3" {{ edition.editions_show == 1 and edition.editions_showHome == 1 ? 'selected' : '' }}>Published on Homepage</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Type</label>
-                    <select class="form-control" id="type">
-                        {% for type in editionTypes %}
-                            {% set type = type.editions_type %}
-                            <option {{ edition.editions_type == type ? ' selected': ''}} value="{{ type }}">{{ type }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <hr/>
-                <div class="form-group">
-                    <label>Slug</label>
-                    <textarea id="slug" disabled style="resize: none;" rows="2" class="form-control">{{ edition.editions_slug }}</textarea>
-                    <p style="font-style: italic;">Contact support@nouse.co.uk for a custom URL</p>
-                </div>
-            </div>
-            <div class="box-footer">
-                <b>Tips</b>
-                <ul>
-                    <li>Generate a PDF with the entire edition as one file, with spreads split into two pages</li>
-                    <li>Generate the cover as a JPEG export and set it as the thumbnail</li>
-                </ul>
-            </div>
-            <div class="overlay loadingoverlay">
-                <i class="fa fa-refresh fa-spin"></i>
             </div>
         </div>
-    </div>
-    <div class="col-md-4 col-sm-12">
         <div class="box box-default">
             <div class="box-header with-border">
                 <h3 class="box-title">
-                    Thumbnail
+                    Featured Highlights
                 </h3>
                 <div class="box-tools pull-right">
+                    <button type="button" title="Add new" id="featuredHighlightsAddNewButton" class="btn btn-default btn-sm"><i class="fa fa-plus"></i></button>
                 </div>
             </div>
-            <div class="box-body no-padding">
-                <img src="{{ (edition.editions_thumbnail ? edition.editions_thumbnail|s3URL : "") }}" alt="Thumbnail" id="thumbnailImage" style="width: 100%; {% if edition.editions_thumbnail|length < 1 %}display: none;{% endif %}" />
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th style="width: 150px;">Name</th>
+                        <th>Header Image</th>
+                        <th>Featured Articles</th>
+                        <th>Custom Box Header</th>
+                        <th>Custom Boxes</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody id="featuredHighlightsMasterTable">
+                    </tbody>
+                </table>
             </div>
             <div class="box-footer">
-                {% embed 'common/plugins/uppy.twig' with {'publicBool': true, 'type': 'EDITION-THUMBNAIL', 'paste': true, 'typeId': 4, 'subTypeId': edition.editions_id, 'imagesOnly': true, 'fileLimit': 1 } %}
-                    {% block success %}
-                        $("#thumbnailImage").attr("src",url);
-                        thumbnailid = responseJson.id;
-                        $("#thumbnailImage").show();
-                    {% endblock %}
-                {% endembed %}
-                <p style="font-style: italic; margin-top: 4px;">To display correctly, thumbnails should be taller than they are wide. Portrait images of around 1:2 aspect ratio work well</p>
+                <cite>Featured Highlights</cite> allow you to showcase content from the edition in a web-specific format.
+                Any articles featured in <cite>Featured Highlights</cite> are not shown in the normal list of articles for an edition on the website.<br/>
+                <cite>Featured Highlights</cite> also allows you to show nibs/cartoons without them being full articles, using the "custom box" feature
             </div>
         </div>
     </div>
@@ -130,8 +161,11 @@
                         pdffileid = responseJson.id;
                         $("#pdfLinkCompressed").show();
                     {% endblock %}
-                {% endembed %}<p style="font-style: italic; margin-top: 4px;">This is a compressed version of the PDF suitable for downloading by end users<br/>Uploading a new PDF replaces the old one</p>
-
+                {% endembed %}
+                <p style="margin-top: 6px;">
+                    <b>Generate a PDF with the entire edition as one file, with spreads split into two pages</b>, then compress it so it's suitable for downloading by end users.
+                    <br/>Uploading a new PDF replaces the old one
+                </p>
             </div>
         </div>
         <div class="box box-default">
@@ -154,97 +188,132 @@
                     pdforigfileid = responseJson.id;
                     $("#pdfLink").show();
                 {% endblock %}
-                {% endembed %}<p style="font-style: italic; margin-top: 4px;">This is the raw PDF that comes of out the publishing software<br/>Uploading a new PDF replaces the old one</p>
-
+                {% endembed %}
+                <p style="margin-top: 6px;">
+                    <b>Generate a PDF with the entire edition as one file, with spreads split into two pages</b>
+                    <br/>Uploading a new PDF replaces the old one
+                </p>
             </div>
         </div>
     </div>
 </div>
 <div class="row">
     <div class="col-lg-12">
-        <div class="box box-success">
+        <div class="box box-default" id="featuredHighlightsEditBox">
             <div class="box-header with-border">
-                Featured Articles
-            </div>
-            <div class="box-body">
-                <select id="featuredSelect" class="chooser form-control" multiple="multiple">
-                    {% for article in edition.featuredArticles %}
-                        <option selected value="{{ article.articles_id }}">{{ article.articlesDrafts_headline }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="box-footer">
-                Consider the featured articles as a front cover - upto 16 articles can be featured
-            </div>
-        </div>
-        <div class="box box-default">
-            <div class="box-header with-border">
-                <h3 class="box-title">
-                    Articles in Edition
+                <h3 class="box-title" id="featuredHighlightsEditBoxTitle">
+                    Edit
                 </h3>
             </div>
-            <div class="box-body table-responsive no-padding">
-                {% if articles|length > 0 %}
-                    <table class="table sticky-header" border="0" style="overflow-x: scroll;">
-                        <thead>
-                        <tr>
-                            <th>Page</th>
-                            <th>ID</th>
-                            <th>Headline</th>
-                            <th>Categories</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for article in articles %}
-                            <tr
-                                    {% if article.articles_showInLists != 1 and article.articles_showInSearch != 1 %}
-                                class="danger"
-                            {% elseif article.articles_showInLists != 1  %}
-                                class="warning"
-                                    {% endif %}>
-                                <td>{{ article.articles_editionPage }}</td>
-                                <td>{{ article.articles_id }}</td>
-                                <td>{{ article.articlesDrafts_headline|raw }}
-                                    {% if article.articles_showInLists != 1 and article.articles_showInSearch != 1 %}
-                                        <span class="label label-danger">Draft</span><br/>
-                                    {% elseif article.articles_showInLists != 1  %}
-                                        <span class="label label-warning">Shown in search only</span><br/>
-                                    {% endif %}
+            <div class="box-body" style="background-color: #fafafa;">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="box">
+                            <div class="box-header with-border">
+                                Featured Articles
+                            </div>
+                            <div class="box-body">
+                                <select id="featuredHighlightsEditBoxArticleSelect" class="chooser form-control" multiple="multiple">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">
+                                    Header Image
+                                </h3>
+                            </div>
+                            <div class="box-body no-padding">
+                                <img src="" id="featuredHighlightsEditBoxHeaderImage" style="width: 100%;" />
+                            </div>
+                            <div class="box-footer">
+                                {% embed 'common/plugins/uppy.twig' with {'publicBool': true, 'type': 'EDITION-FEATUREHIGHLIGHTS-HEADER', 'paste': true, 'typeId': 7, 'subTypeId': edition.editions_id, 'imagesOnly': true, 'fileLimit': 1 } %}
+                                    {% block success %}
+                                        $("#featuredHighlightsEditBoxHeaderImage").attr("src",url);
+                                        featuredHighlightsData['sections'][$("#featuredHighlightsEditBox").data("section")]['headerImage'] = responseJson.id;
+                                        $("#thumbnailImage").show();
+                                    {% endblock %}
+                                {% endembed %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box box-default">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                Articles in Edition
+                            </h3>
+                        </div>
+                        <div class="box-body table-responsive no-padding">
+                            {% if articles|length > 0 %}
+                                <table class="table sticky-header" border="0" style="overflow-x: scroll;">
+                                    <thead>
+                                    <tr>
+                                        <th>Page</th>
+                                        <th>ID</th>
+                                        <th>Headline</th>
+                                        <th>Section</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for article in articles %}
+                                        <tr
+                                                {% if article.articles_showInLists != 1 and article.articles_showInSearch != 1 %}
+                                            class="danger"
+                                        {% elseif article.articles_showInLists != 1  %}
+                                            class="warning"
+                                                {% endif %}>
+                                            <td>{{ article.articles_editionPage }}</td>
+                                            <td>{{ article.articles_id }}</td>
+                                            <td>{{ article.articlesDrafts_headline|raw }}
+                                                {% if article.articles_showInLists != 1 and article.articles_showInSearch != 1 %}
+                                                    <span class="label label-danger">Draft</span><br/>
+                                                {% elseif article.articles_showInLists != 1  %}
+                                                    <span class="label label-warning">Shown in search only</span><br/>
+                                                {% endif %}
 
-                                </td>
-                                <td>
-                                    {% for category in CATEGORIES %}
-                                        {#Only display top level categories #}
-                                        {% if category.categories_id in article.articles_categories %}
-                                            <span class="label label-info"
+                                            </td>
+                                            <td>
+                                                {% for category in CATEGORIES %}
+                                                    {#Only display top level categories #}
+                                                    {% if category.categories_id in article.articles_categories %}
+                                                        <span class="label label-info"
                                             {% if category.categories_backgroundColor != "" %}
                                             style="background-color: #{{ category.categories_backgroundColor }} !important; color: #{{ category.categories_backgroundColorContrast }} !important;"
                                             {% endif %}>{{ category.categories_displayName }}</span><br/>
-                                        {% endif %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                            <td>
+                                                {% if article.articles_showInSearch == 1 and date(article.articles_published) < date() %}
+                                                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}"
+                                                       type="button" title="View on website" class="btn btn-default" target="_blank"><i
+                                                                class="fa fa-eye"></i></a>
+                                                {% endif %}
+                                                {% if 32|permissions %}
+                                                    <a href="{{ CONFIG.ROOTBACKENDURL }}/article.php?id={{ article.articles_id }}"
+                                                       type="button" title="Edit" class="btn btn-default"><i
+                                                                class="fa fa-pencil"></i></a>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
                                     {% endfor %}
-                                </td>
-                                <td>
-                                    {% if article.articles_showInSearch == 1 and date(article.articles_published) < date() %}
-                                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}"
-                                           type="button" title="View on website" class="btn btn-default" target="_blank"><i
-                                                    class="fa fa-eye"></i></a>
-                                    {% endif %}
-                                    {% if 32|permissions %}
-                                        <a href="{{ CONFIG.ROOTBACKENDURL }}/article.php?id={{ article.articles_id }}"
-                                           type="button" title="Edit" class="btn btn-default"><i
-                                                    class="fa fa-pencil"></i></a>
-                                    {% endif %}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                {% else %}
-                    <center><p style="margin: 10px;">No articles<br/><i>Add articles to this edition by setting the edition on the left when editing an article</i></p></center>
-                {% endif %}
-            </div>
-        </div>
+                                    </tbody>
+                                </table>
+                            {% else %}
+                                <center><p style="margin: 10px;">No articles<br/><i>Add articles to this edition by setting the edition on the left when editing an article</i></p></center>
+                            {% endif %}
+                        </div>
+                    </div>
     </div>
 </div>
     <script>
@@ -283,7 +352,7 @@
                         "pdfid": pdffileid,
                         "pdforigid": pdforigfileid,
                         "editionid": "{{ edition.editions_id }}",
-                        "featured":actualOrder.join(","),
+                        "featuredHighlights":JSON.stringify(featuredHighlightsData),
                     },
                     success: function (result) {
                         if (result.result) {
@@ -298,17 +367,112 @@
                     }
                 });
             });
+            /*
+            FEATURED HIGHILGHTS SECTION
+              */
+            $("#featuredHighlightsEditBox").hide();
+            try {
+                var featuredHighlightsData = JSON.parse('{{  edition.editions_featuredHighlights|raw }}');
+            }
+            catch(err) {
+                console.log(err);
+                var featuredHighlightsData = {
+                    "sections": []
+                };
+            }
+            function refreshFeaturedHighlights() {
+                $("#featuredHighlightsMasterTable").html("");
+                $( featuredHighlightsData['sections'] ).each(function( index, element ) {
+                    $("#featuredHighlightsMasterTable").append(`
+                        <tr>
+                            <td>` + element.name + `</td>
+                            <td>` + (element.headerImage == false ? '<i class="fa fa-times"></i>':'<i class="fa fa-check"></i>') + `</td>
+                            <td>` + element.articles.length + `</td>
+                            <td>` + ($.isEmptyObject(element.customBoxHeader) ? '<i class="fa fa-times"></i>':'<i class="fa fa-check"></i>') + `</td>
+                            <td>` + element.customBoxes.length + `</td>
+                            <td><button type="button" class="btn btn-default btn-sm featuredHighlightsEditButton" data-section="` + index + `"><i class="fa fa-pencil"></i></button></td>
+                        </tr>`);
+                });
+            }
+            refreshFeaturedHighlights();
+            $('body').on('click','.featuredHighlightsEditButton',function(){
+                refreshFeaturedHighlights();
+                $("#featuredHighlightsEditBox").hide();
+                var thisSection = featuredHighlightsData['sections'][$(this).data("section")];
+                $("#featuredHighlightsEditBox").data("section",$(this).data("section"));
+                if (thisSection['headerImage']) {
+                    $("#featuredHighlightsEditBoxHeaderImage").src("{{ CONFIG.ROOTFRONTENDURL }}/image/?f=" + thisSection['headerImage'] + "&s=large&r=true");
+                } else {
+                    $("#featuredHighlightsEditBoxHeaderImage").hide();
+                }
+                var selector = $('#featuredHighlightsEditBoxArticleSelect');
+                selector.empty().trigger('change.select2');
+                if (thisSection['articles'].length > 0) {
+                    $.ajax({
+                        url: "{{ CONFIG.ROOTBACKENDURL }}/api/featured/articleSearchEdition.php?editionid={{ edition.editions_id }}",
+                        type: 'POST',
+                        dataType: "json",
+                        data: {
+                            "articleid":thisSection['articles'].join(",")
+                        },
+                        success: function (result) {
+                            if (result.result) {
+                                //Sort them into the order
+                                $( thisSection['articles'] ).each(function( e,element ) {
+                                    $( result.response ).each(function( i,item ) {
+                                        if (element == item.articles_id) {
+                                            selector.append(new Option(item.articlesDrafts_headline,item.articles_id,true, true));
+                                        }
+                                    });
+                                });
+                                selector.trigger('change.select2');
+                            }
+                        }
+                    });
+                }
+                $("#featuredHighlightsEditBoxTitle").html("Edit " + thisSection['name']);
+                $("#featuredHighlightsEditBox").show();
+            });
 
-            $("#featuredSelect").select2({
+            $("#featuredHighlightsAddNewButton").click(function () {
+                bootbox.prompt("Name", function(result){
+                    if (result && result.length > 0) {
+                        featuredHighlightsData['sections'].push({
+                            'name':result,
+                            'articles':[],
+                            'headerImage':false,
+                            'customBoxes':[],
+                            "customBoxHeader":{},
+                        });
+                        refreshFeaturedHighlights();
+                    }
+                });
+            });
+            {% if 51|permissions  %}
+            function featuredHighlightsUpdateArticles() {
+                if ($("#featuredHighlightsEditBox").data("section") !== undefined) {
+                    console.log("Updating order");
+                    featuredHighlightsData['sections'][$("#featuredHighlightsEditBox").data("section")]['articles'] = [];
+                    var actualOrder = [];
+                    var listNameToId = [];
+                    $("#featuredHighlightsEditBoxArticleSelect").find("option").each(function(index) {
+                        listNameToId[$( this ).html()] = $( this ).attr('value');
+                    });
+                    $("#featuredHighlightsEditBoxArticleSelect").parent().find("li.select2-selection__choice").each(function(index) {
+                        actualOrder.push(listNameToId[$( this ).attr('title')]);
+                    });
+                    featuredHighlightsData['sections'][$("#featuredHighlightsEditBox").data("section")]['articles'] = actualOrder;
+                }
+            }
+            $("#featuredHighlightsEditBoxArticleSelect").select2({
                 tags: false,
                 multiple: true,
                 theme: "bootstrap",
-                {% if 51|permissions != true %} disabled:true,{% endif %}
                 minimumInputLength: 0,
                 maximumSelectionLength: 16,
                 width: '100%',
                 minimumResultsForSearch: 1,
-                placeholder: "Search for articles to feature at the top of the article",
+                placeholder: "Search for articles",
                 ajax: {
                     url: "{{ CONFIG.ROOTBACKENDURL }}/api/featured/articleSearchEdition.php?editionid={{ edition.editions_id }}",
                     dataType: "json",
@@ -335,9 +499,20 @@
                     }
                 }
             });
-            $("ul.select2-selection__rendered").sortable({
-                containment: 'parent'
+            $('#featuredHighlightsEditBoxArticleSelect').on('change', function () {
+                featuredHighlightsUpdateArticles();
             });
+            $('#featuredHighlightsEditBoxArticleSelect').parent().find("ul.select2-selection__rendered").sortable({
+                containment: 'parent',
+                update: function () {
+                    featuredHighlightsUpdateArticles();
+                }
+            });
+
+            {% endif %}
+
+
+
         });
     </script>
 {% endblock %}
