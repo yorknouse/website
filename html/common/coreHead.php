@@ -17,13 +17,12 @@ function errorHandler()
 
 //set_error_handler('errorHandler');
 if ($CONFIG['DEV'] != true) {
-    $CONFIG['ERRORS']['SENTRY-CLIENT']['MAIN'] = new Raven_Client($CONFIG['ERRORS']['SENTRY']);
-    $CONFIG['ERRORS']['SENTRY-CLIENT']['MAIN']->setRelease($CONFIG['VERSION']['TAG'] . "." . $CONFIG['VERSION']['COMMIT']);
-    $CONFIG['ERRORS']['SENTRY-CLIENT']['HANDLER'] = new Raven_ErrorHandler($CONFIG['ERRORS']['SENTRY-CLIENT']['MAIN']);
-    $CONFIG['ERRORS']['SENTRY-CLIENT']['HANDLER']->registerExceptionHandler();
-    $CONFIG['ERRORS']['SENTRY-CLIENT']['HANDLER']->registerErrorHandler();
-    $CONFIG['ERRORS']['SENTRY-CLIENT']['HANDLER']->registerShutdownFunction();
-    register_shutdown_function('errorHandler');
+    Sentry\init([
+        'dsn' => $CONFIG['ERRORS']['SENTRY'],
+        'traces_sample_rate' => 0.1, //Capture 10% of pageloads for perforamnce monitoring
+        'release' => $CONFIG['VERSION']['TAG'] . "." . $CONFIG['VERSION']['COMMIT'],
+        'sample_rate' => 1.0,
+    ]);
 }
 
 //Content security policy - BACKEND HAS A DIFFERENT ONE SO LOOK OUT FOR THAT
