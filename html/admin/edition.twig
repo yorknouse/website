@@ -106,6 +106,30 @@
                             <br/>To display correctly, thumbnails should be taller than they are wide. Portrait images of around 1:2 aspect ratio work well</p>
                     </div>
                 </div>
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            Custom Header Image
+                        </h3>
+                        <div class="box-tools pull-right">
+                        </div>
+                    </div>
+                    <div class="box-body no-padding">
+                        <img src="{{ (edition.editions_headerImage ? edition.editions_headerImage|s3URL : "") }}" alt="Header Image" id="headerImage" style="width: 100%; {% if edition.editions_thumbnail|length < 1 %}display: none;{% endif %}" />
+                    </div>
+                    <div class="box-footer">
+                        {% embed 'common/plugins/uppy.twig' with {'publicBool': true, 'type': 'EDITION-HEADER', 'paste': true, 'typeId': 8, 'subTypeId': edition.editions_id, 'imagesOnly': true, 'fileLimit': 1 } %}
+                            {% block success %}
+                                $("#headerImage").attr("src",url);
+                                headerid = responseJson.id;
+                                $("#headerImage").show();
+                            {% endblock %}
+                        {% endembed %}
+                        <p style="margin-top: 6px;">
+                            <b>Generate the cover as a JPEG export and set it as the thumbnail</b>
+                            <br/>To display correctly, thumbnails should be taller than they are wide. Portrait images of around 1:2 aspect ratio work well</p>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="box box-default">
@@ -318,6 +342,7 @@
 </div>
     <script>
         var thumbnailid = '{{ edition.editions_thumbnail }}'; //Used to store a new thumbnail if one is set
+        var headerid = '{{ edition.editions_headerImage }}';
         var pdffileid = '{{ edition.editions_pdf }}';
         var pdforigfileid = '{{ edition.editions_pdfOriginal }}';
         $(document).ready(function () {
@@ -349,6 +374,7 @@
                         "status":$("#status").val(),
                         "type":$("#type").val(),
                         "thumbnail": thumbnailid,
+                        "header":headerid,
                         "pdfid": pdffileid,
                         "pdforigid": pdforigfileid,
                         "editionid": "{{ edition.editions_id }}",

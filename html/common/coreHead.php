@@ -207,6 +207,9 @@ class bCMS {
                 case 7:
                     //Edition Featured Highlights Header Image
                     break;
+                case 8:
+                    //Edition custom header image
+                    break;
                 case 9:
                     //Library Image
                     break;

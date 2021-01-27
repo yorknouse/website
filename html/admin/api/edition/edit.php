@@ -19,6 +19,7 @@ $newData["editions_pdf"] = ($_POST["pdfid"] != null ? $_POST["pdfid"] : null);
 $newData["editions_type"] = $_POST['type'];
 $newData["editions_pdfOriginal"] = ($_POST["pdforigid"] != null ? $_POST["pdforigid"] : null);
 $newData["editions_thumbnail"] = ($_POST["thumbnail"] != null ? $_POST["thumbnail"] : null);
+$newData["editions_headerImage"] = ($_POST["header"] != null ? $_POST["header"] : null);
 if ($_POST['featuredHighlights'] != "{}") {
     $highlights = json_decode ($_POST['featuredHighlights'],true);
     foreach ($highlights['sections'] as $sectionKey => $section) {
