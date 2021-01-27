@@ -1,6 +1,6 @@
 {% if article.articles_id|articleThumbnail %}
     <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}">
-        <figure style="background-image: url('{{ article.articles_id|articleThumbnail }}');background-repeat: no-repeat;background-size: cover;background-position: center;">
+        <figure style="background-image: url('{{ article.articles_id|articleThumbnail("medium") }}');background-repeat: no-repeat;background-size: cover;background-position: center;">
         </figure>
     </a>
 {% endif %}

@@ -100,7 +100,7 @@
                         <figure>
                             {% if article.articles_id|articleThumbnail %}
                             <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}" class="grid_image">
-                                <img src="{{ article.articles_id|articleThumbnail }}" class="img-responsive" alt="{{ article.articlesDrafts_headline }}">
+                                <img src="{{ article.articles_id|articleThumbnail("small") }}" class="img-responsive" alt="{{ article.articlesDrafts_headline }}">
                             </a>
                             {% endif %}
                             <figcaption>
