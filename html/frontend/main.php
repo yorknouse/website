@@ -1,8 +1,5 @@
 <?php
 require_once __DIR__ . '/common/head.php';
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 
 function displayEdition($edition, $preview = false) {
@@ -23,11 +20,13 @@ function displayEdition($edition, $preview = false) {
                 $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
                 $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
                 $article = $DBLIB->getone("articles", ["articles.articles_categories", "articles.articles_id","articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
-                if ($article['articles_categories']) {
-                    $DBLIB->where("(categories_id IN (" . $article['articles_categories'] . "))");
-                    $article["CATEGORIES"] = $DBLIB->get("categories", 1, ["categories_displayName","categories_id","categories_backgroundColor","categories_backgroundColorContrast"]);
-                } else $article["CATEGORIES"] = [];
-                $PAGEDATA['edition']['editions_featuredHighlights']['sections'][$sectionKey]['articles'][$articleKey] = $article;
+                if ($article) {
+                    if ($article['articles_categories']) {
+                        $DBLIB->where("(categories_id IN (" . $article['articles_categories'] . "))");
+                        $article["CATEGORIES"] = $DBLIB->get("categories", 1, ["categories_displayName","categories_id","categories_backgroundColor","categories_backgroundColorContrast"]);
+                    } else $article["CATEGORIES"] = [];
+                    $PAGEDATA['edition']['editions_featuredHighlights']['sections'][$sectionKey]['articles'][$articleKey] = $article;
+                }
             }
         }
     }
