@@ -73,5 +73,7 @@ $TWIG->addFilter(new Twig_SimpleFilter('articleThumbnail', function ($article) {
     global $bCMS;
     return $bCMS->articleThumbnail($article);
 }));
-
+$TWIG->addFilter(new Twig_SimpleFilter('md5', function ($string) {
+    return md5($string);
+}));
 $GLOBALS['AUTH'] = new bID;

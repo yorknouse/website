@@ -115,99 +115,47 @@
             {% include "customThemes/" ~ pageConfig.CustomTheme with {'CustomThemeSection': 'header'} %}
         {% else %}
             {% if pageConfig.MUSETheme %}
-                {#<div class="insta-content">
-                    <div class="insta-link"><a href="https://www.instagram.com/yorkmuse/" rel="me" target="_blank" class="">yorkmuse</a></div>
-                    <div id="ri-grid" class="ri-grid ri-grid-size-2">
-                        <ul>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/01.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/02.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/03.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/04.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/05.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/06.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/07.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/08.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/09.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/10.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/11.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/12.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/13.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/14.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/15.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/16.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/17.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/18.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/19.jpg" alt=""/></a></li>
-                            <li><a href="#"><img src="{{ CONFIG.ASSETSURL }}img/instagram/20.jpg" alt=""/></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <script src="{{ CONFIG.ASSETSURL }}js/jquery.gridrotator.min.js"></script>
-
-                <script>
-                    $(document).ready(function () {
-                        $('#ri-grid').gridrotator({
-                            rows: 1,
-                            columns: 8,
-                            animType: 'fadeInOut',
-                            animSpeed: 1000,
-                            step: 1,
-                            w1024: {
-                                rows: 1,
-                                columns: 7
-                            },
-                            w768: {
-                                rows: 1,
-                                columns: 5
-                            },
-                            w480: {
-                                rows: 2,
-                                columns: 3
-                            },
-                            w320: {
-                                rows: 2,
-                                columns: 3
-                            },
-                            w240: {
-                                rows: 2,
-                                columns: 3
-                            }
-                        });
-                    })
-                </script>#}
                 <div class="logo-wrapper" style="background-color: black;">
-                <div class="container">
-                    <div class="header-logo">
-                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/muse" class="logo-img">
-                            <img src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png" alt="MUSE Logo" style="width: 100%; height: auto;">
-                        </a>
-                    </div>
-                </div>
-            </div>
-            {% elseif pageConfig.EDITIONTheme %}
-                <div class="logo-wrapper" style="padding-bottom:0;">
                     <div class="container">
                         <div class="header-logo">
-                            <a href="{{ CONFIG.ROOTFRONTENDURL }}/" class="logo-img">
-                                <img src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/logo/nouse-logo-full3.svg" alt="Nouse logo" style="width: 100%; height: auto;">
+                            <a href="{{ CONFIG.ROOTFRONTENDURL }}/muse" class="logo-img">
+                                <img src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png" alt="MUSE Logo" style="width: 100%; height: auto;">
                             </a>
-                            <table border="0" style="width:100%;margin-top:15px;font-weight: 500;">
-                                <tr style="width:100%;">
-                                    <td style="width:75%;text-align: left;">
-                                        <p>{{ edition.editions_name }}</p>
-                                    </td>
-                                    <td style="width:25%;text-align: right;">
-                                        {% if edition.editions_printNumber %}
-                                            <p>&numero;{{ edition.editions_printNumber }}</p>
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                            </table>
-                            {% if edition.editions_excerpt %}
-                                <p>{{ edition.editions_excerpt }}</p>
-                            {% endif %}
                         </div>
-
+                    </div>
+                </div>
+            {% elseif pageConfig.EDITIONTheme %}
+                <div class="logo-wrapper">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="header-logo" style="margin-top: 9px; width: 350px;">
+                                    <a href="{{ CONFIG.ROOTFRONTENDURL }}" class="logo-img">
+                                        <img src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/logo/nouse-logo-full3.svg" alt="Nouse logo">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-sm-8">
+                                {% if edition.editions_headerImage %}
+                                    <div class="header-banner">
+                                        <img src="{{ edition.editions_headerImage|s3URL("medium") }}" class="img-responsive" alt="{{ edition.editions_name }}">
+                                    </div>
+                                {% else %}
+                                <div class="header-banner" style="text-align: right;">
+                                    <p>{{ edition.editions_name }}
+                                        <b>
+                                            {% if edition.editions_printNumber %}
+                                            <br/>&numero;{{ edition.editions_printNumber }}
+                                            {% endif %}
+                                        </b>
+                                        {% if edition.editions_excerpt %}
+                                            <br/>{{ edition.editions_excerpt }}
+                                        {% endif %}
+                                    </p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                 </div>
             {% else %}

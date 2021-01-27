@@ -39,6 +39,8 @@
                     {% endif %}
                     {% if article.articles_showInSearch == 1 and date(article.articles_published) < date() %}
                     <a target="_blank" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}" class="btn btn-sm btn-default">View on site</a>
+                    {% else %}
+                        <a target="_blank" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}?preview&post={{ article.articles_id }}&key={{ article.articles_id|md5 }}" class="btn btn-sm btn-default">Preview on Site</a>
                     {% endif %}
                 </div>
 
