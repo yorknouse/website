@@ -349,6 +349,9 @@ if ($urlSplit[0] == "edition") {
     http_response_code(200);
     if (isset($_GET['rss'])) {
         header('Content-Type: text/xml');
+        header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
         echo $TWIG->render('feeds/category.twig', $PAGEDATA);
     }
     else echo $TWIG->render('category.twig', $PAGEDATA);
