@@ -210,7 +210,7 @@ foreach (explode("&", parse_url($_SERVER["REQUEST_URI"], PHP_URL_QUERY)) as $par
 }
 
 //Quick links redirect system
-$DBLIB->where("quickLinks_string",$bCMS->sanitizeString(rtrim($URL,"/")));
+$DBLIB->where("quickLinks_string",strtolower($bCMS->sanitizeString(rtrim($URL,"/"))));
 $DBLIB->where("quickLinks_deleted", 0);
 $quickLink = $DBLIB->getone("quickLinks",["quickLinks_pointsTo"]);
 if ($quickLink) {
