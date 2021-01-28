@@ -235,7 +235,7 @@ if (isset($_GET['preview']) and isset($_GET['key'])) {
             displayEdition($edition,true);
         }
     } elseif (isset($_GET['post'])) {
-        $DBLIB->where("articles_id", $_GET['post']);
+        $DBLIB->where("articles.articles_id", $_GET['post']);
         $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
         $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
         $post = $DBLIB->getone("articles");
