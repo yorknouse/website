@@ -207,9 +207,7 @@
                 </div>
             </div>
             <div class="box-body no-padding">
-                {% if edition.editions_headerImage %}
-                    <img src="{{ edition.editions_headerImage|s3URL("large") }}" alt="Header Image" id="headerImage" style="width: 100%; {% if edition.editions_thumbnail|length < 1 %}display: none;{% endif %}" />
-                {% endif %}
+                    <img src="{{ (edition.editions_headerImage ? edition.editions_headerImage|s3URL("large") : "") }}" alt="Header Image" id="headerImage" style="{% if edition.editions_headerImage %}width: 100%;{% else %}display: none;{% endif %}" />
             </div>
             <div class="box-footer">
                 {% embed 'common/plugins/uppy.twig' with {'publicBool': true, 'type': 'EDITION-HEADER', 'paste': true, 'typeId': 8, 'subTypeId': edition.editions_id, 'imagesOnly': true, 'fileLimit': 1 } %}
