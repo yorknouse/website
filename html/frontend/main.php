@@ -26,7 +26,7 @@ function displayEdition($edition, $preview = false) {
                         $article["CATEGORIES"] = $DBLIB->get("categories", 1, ["categories_displayName","categories_id","categories_backgroundColor","categories_backgroundColorContrast"]);
                     } else $article["CATEGORIES"] = [];
                     $PAGEDATA['edition']['editions_featuredHighlights']['sections'][$sectionKey]['articles'][$articleKey] = $article;
-                }
+                } else $PAGEDATA['edition']['editions_featuredHighlights']['sections'][$sectionKey]['articles'][$articleKey] = false;
             }
         }
     }
