@@ -170,8 +170,9 @@ function displayPost($post, $preview = false)
     }
     //          END COMMENTS
 
-    $PAGEDATA['pageConfig']['leftBar']['LATEST'] = latestInCategory($PAGEDATA['POST']['CATEGORIES'][0]['categories_id'], 4);
-
+    if (count($PAGEDATA['POST']['CATEGORIES']) > 0) {
+        $PAGEDATA['pageConfig']['leftBar']['LATEST'] = latestInCategory($PAGEDATA['POST']['CATEGORIES'][0]['categories_id'], 4);
+    }
     foreach ($PAGEDATA['POST']['CATEGORIES'] as $category) {
         if ($category['categories_customTheme'] != null) {
             $PAGEDATA['pageConfig']["CustomTheme"] = $category['categories_customTheme'];
