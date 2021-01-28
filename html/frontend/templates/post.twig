@@ -436,7 +436,7 @@
                 {% for comment in POST.COMMENTS %}
                 <div class="media">
                    <div class="media-body">
-                        <h4 class="media-heading">{{ (comment.comments_authorName|length > 0 ? comment.comments_authorName : '<em>Anonymous</em>')|raw }} <small>Posted on {{ comments.comments_created|date("l j M Y") }}</small></h4>
+                        <h4 class="media-heading">{{ (comment.comments_authorName|length > 0 ? comment.comments_authorName : '<em>Anonymous</em>')|raw }} <small>Posted on {{ comment.comments_created|date("l j M Y") }}</small></h4>
                         <p>{{ comment.comments_text|replace({"\n": "<br/>"})|raw }}</p>
                        <button data-commentid="{{ comment.comments_id }}" class="upvoteComment btn link-btn btn-rounded"><i class="fa fa-thumbs-up"></i> <span>{{ comment.comments_upvotes }}</span></button>
                        <button data-commentid="{{ comment.comments_id }}" class="downvoteComment btn link-btn btn-rounded"><i class="fa fa-thumbs-down"></i> <span>{{ comment.comments_downvotes }}</span></button>
@@ -445,7 +445,7 @@
                         {% for comment in comment.SUB %}
                             <div class="media" style="margin-left: 40px;">
                                 <div class="media-body">
-                                    <h4 class="media-heading">{{ (comment.comments_authorName|length > 0 ? comment.comments_authorName : '<em>Anonymous</em>')|raw }} <small>Posted on {{ comments.comments_created|date("l j M Y") }}</small></h4>
+                                    <h4 class="media-heading">{{ (comment.comments_authorName|length > 0 ? comment.comments_authorName : '<em>Anonymous</em>')|raw }} <small>Posted on {{ comment.comments_created|date("l j M Y") }}</small></h4>
                                     <p>{{ comment.comments_text|replace({"\n": "<br/>"})|raw }}</p>
                                     <button data-commentid="{{ comment.comments_id }}" class="upvoteComment btn link-btn btn-rounded"><i class="fa fa-thumbs-up"></i> <span>{{ comment.comments_upvotes }}</span></button>
                                     <button data-commentid="{{ comment.comments_id }}" class="downvoteComment btn link-btn btn-rounded"><i class="fa fa-thumbs-down"></i> <span>{{ comment.comments_downvotes }}</span></button>
@@ -454,7 +454,7 @@
                                     {% for comment in comment.SUB %}
                                         <div class="media" style="margin-left: 40px;">
                                             <div class="media-body">
-                                                <h4 class="media-heading">{{ (comment.comments_authorName|length > 0 ? comment.comments_authorName : '<em>Anonymous</em>')|raw }} <small>Posted on {{ comments.comments_created|date("l j M Y") }}</small></h4>
+                                                <h4 class="media-heading">{{ (comment.comments_authorName|length > 0 ? comment.comments_authorName : '<em>Anonymous</em>')|raw }} <small>Posted on {{ comment.comments_created|date("l j M Y") }}</small></h4>
                                                 <p>{{ comment.comments_text|replace({"\n": "<br/>"})|raw }}</p>
                                                 <button data-commentid="{{ comment.comments_id }}" class="upvoteComment btn link-btn btn-rounded"><i class="fa fa-thumbs-up"></i> <span>{{ comment.comments_upvotes }}</span></button>
                                                 <button data-commentid="{{ comment.comments_id }}" class="downvoteComment btn link-btn btn-rounded"><i class="fa fa-thumbs-down"></i> <span>{{ comment.comments_downvotes }}</span></button>
@@ -462,7 +462,7 @@
                                                 {% for comment in comment.SUB %}
                                                     <div class="media" style="margin-left: 40px;">
                                                         <div class="media-body">
-                                                            <h4 class="media-heading">{{ (comment.comments_authorName|length > 0 ? comment.comments_authorName : '<em>Anonymous</em>')|raw }} <small>Posted on {{ comments.comments_created|date("l j M Y") }}</small></h4>
+                                                            <h4 class="media-heading">{{ (comment.comments_authorName|length > 0 ? comment.comments_authorName : '<em>Anonymous</em>')|raw }} <small>Posted on {{ comment.comments_created|date("l j M Y") }}</small></h4>
                                                             <p>{{ comment.comments_text|replace({"\n": "<br/>"})|raw }}</p>
                                                             <button data-commentid="{{ comment.comments_id }}" class="upvoteComment btn link-btn btn-rounded"><i class="fa fa-thumbs-up"></i> <span>{{ comment.comments_upvotes }}</span></button>
                                                             <button data-commentid="{{ comment.comments_id }}" class="downvoteComment btn link-btn btn-rounded"><i class="fa fa-thumbs-down"></i> <span>{{ comment.comments_downvotes }}</span></button>
