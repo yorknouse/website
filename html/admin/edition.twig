@@ -260,7 +260,7 @@
                                     {% block success %}
                                         $("#featuredHighlightsEditBoxHeaderImage").attr("src",url);
                                         featuredHighlightsData['sections'][$("#featuredHighlightsEditBox").data("section")]['headerImage'] = responseJson.id;
-                                        $("#thumbnailImage").show();
+                                        $("#featuredHighlightsEditBoxHeaderImage").show();
                                     {% endblock %}
                                 {% endembed %}
                             </div>
@@ -344,6 +344,7 @@
     </div>
 </div>
     <script>
+        var featuredHighlightsData = {};
         var thumbnailid = '{{ edition.editions_thumbnail }}'; //Used to store a new thumbnail if one is set
         var headerid = '{{ edition.editions_headerImage }}';
         var pdffileid = '{{ edition.editions_pdf }}';
@@ -401,11 +402,11 @@
               */
             $("#featuredHighlightsEditBox").hide();
             try {
-                var featuredHighlightsData = JSON.parse('{{  edition.editions_featuredHighlights|raw }}');
+                featuredHighlightsData = JSON.parse('{{  edition.editions_featuredHighlights|raw }}');
             }
             catch(err) {
                 console.log(err);
-                var featuredHighlightsData = {
+                featuredHighlightsData = {
                     "sections": []
                 };
             }
