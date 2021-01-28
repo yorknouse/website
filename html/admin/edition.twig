@@ -431,7 +431,7 @@
                 var thisSection = featuredHighlightsData['sections'][$(this).data("section")];
                 $("#featuredHighlightsEditBox").data("section",$(this).data("section"));
                 if (thisSection['headerImage']) {
-                    $("#featuredHighlightsEditBoxHeaderImage").src("{{ CONFIG.ROOTFRONTENDURL }}/image/?f=" + thisSection['headerImage'] + "&s=large&r=true");
+                    $("#featuredHighlightsEditBoxHeaderImage").attr("src","{{ CONFIG.ROOTFRONTENDURL }}/image/?f=" + thisSection['headerImage'] + "&s=large&r=true");
                 } else {
                     $("#featuredHighlightsEditBoxHeaderImage").hide();
                 }
