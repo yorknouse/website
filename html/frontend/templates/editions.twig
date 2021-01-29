@@ -1,8 +1,6 @@
 {% extends "template.twig" %}
 {% block htmlIncludes %}
-<script src="{{ CONFIG.ASSETSURL }}js/macy.js"></script>
-
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/12.3.0/lazyload.min.js" integrity="sha256-bojBIKfs4l2WDcJODncBIGEe5fhU7/sM3zRO5/f2nqE=" crossorigin="anonymous"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/macy/2.5.1/macy.min.js" integrity="sha512-/o/3HSUNsIEsxRpMb5LdGO+algy6JHTf3tMn2VpWKfVexrEAepEzsuJPA51tJVdC9kCHsN5+Z4GJ35pcldgsGw==" crossorigin="anonymous"></script>
 {% endblock %}
 {% block content %}
 <div class="container">
@@ -35,37 +33,28 @@
                         </figcaption>
                     </figure>
                 </article>
-                <script>
-                    //var lazyLoadInstance = new LazyLoad({
-                    //    elements_selector: ".lazy",
-                    //    load_delay: 300
-                   // });
-                    $( document ).ready(function() {
-                        var macy_instance = new Macy({
-                            container: '.editionsgrid',
-                            trueOrder: true,
-                            waitForImages: false,
-                            useOwnImageLoader: false,
-                            debug: false,
-                            mobileFirst: true,
-                            columns: 1,
-                            margin: 30,
-                            breakAt: {
-                                1200: 5,
-                                992: 5,
-                                768: 4,
-                                480: 3
-                            }
-                        });
-                        //macy_instance.runOnImageLoad(function () {
-                        //    macy_instance.recalculate(true);
-                        //}, true);
-                    });
-                </script>
                 {% endfor %}
             </div>
             <p>Showing {{ editions|length }} Editions, more are held in our Physical Archive and at the Borthwick Institute for Archives.</p>
         </main>
     </div>
 </div>
+<script>
+  new Macy({
+        container: '.editionsgrid',
+        trueOrder: true,
+        waitForImages: true,
+        useOwnImageLoader: false,
+        debug: false,
+        mobileFirst: true,
+        columns: 1,
+        margin: 30,
+        breakAt: {
+            1200: 5,
+            992: 5,
+            768: 4,
+            480: 3
+        }
+    });
+</script>
 {% endblock %}
