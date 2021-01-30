@@ -69,9 +69,9 @@ $TWIG->addFilter(new Twig_SimpleFilter('s3DATA', function ($fileid) {
     global $bCMS;
     return $bCMS->s3URL($fileid, null, false, '+1 minute', true);
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('articleThumbnail', function ($article) {
+$TWIG->addFilter(new Twig_SimpleFilter('articleThumbnail', function ($article,$size = false, $overrideImageDisplay = false) {
     global $bCMS;
-    return $bCMS->articleThumbnail($article);
+    return $bCMS->articleThumbnail($article,$size,$overrideImageDisplay);
 }));
 $TWIG->addFilter(new Twig_SimpleFilter('md5', function ($string) {
     return md5($string);

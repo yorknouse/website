@@ -132,12 +132,14 @@
                     </div>
                     <textarea maxlength="280" id="socialexcerpt" {{ (articleSocialConfig[1] == 1 and articleSocialConfig[3] == 1 ? 'disabled' : '') }} style="resize: none;" rows="2" placeholder="Custom excerpt for social media display" class="form-control">{{ article.articles_socialExcerpt|raw }}</textarea>
                 </div>
-                <!--<div class="form-group">
+                <hr/>
+                <div class="form-group">
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" disabled checked>
-                        <label class="form-check-label">Notify YUSU of publication</label>
+                        <input type="checkbox" id="displayImages" class="form-check-input" {{ article.articles_displayImages == 1 or article.articles_id == null ? 'checked':'' }}>
+                        <label class="form-check-label">Display Images in the Article</label>
+                        <p style="font-style: italic;">Uncheck this for articles where the legal basis for using the images is uncertain. <a href="https://nouse.co.uk/imageRemoval" target="_blank">Learn more</a></p>
                     </div>
-                </div>-->
+                </div>
                 <hr/>
                 <div class="form-group">
                     <label>Slug</label>
@@ -285,7 +287,7 @@
             </div>
             <div class="box-body no-padding">
                 <img src="{% if article.articles_id %}
-            {{ article.articles_id|articleThumbnail|default('') }}
+            {{ article.articles_id|articleThumbnail('large',true)|default('') }}
             {% else %}
             {{ "1"|s3URL }}{# Current default thumbnail - this also needs to be set a few lines below in the JS #}
             {% endif %}" alt="Thumbnail" id="thumbnailImage" style="width: 100%;" />
@@ -461,7 +463,7 @@
         <script>
             var content = '';
             {% for line in article.articlesDrafts_markdown|raw|split('\n') %}
-               content += '{{ line|raw|replace({"'": "\\'"}) }}';
+               content += `{{ line|raw|replace({"`": "\\`"}) }}`;
                content += "\n";
             {% endfor %}
             var editor = new tui.Editor({
@@ -819,6 +821,7 @@
                     "type": "{{ article.articles_type }}", {#It's a new one so set the type#}
                     "postToTwitter": ($("#postToTwitter").is(':checked') ? 1 : 0),
                     "postToFacebook": ($("#postToFacebook").is(':checked') ? 1 : 0),
+                    "displayImages": ($("#displayImages").is(':checked') ? 1 : 0),
                     "socialexcerpt": $("#socialexcerpt").val(),
                     "thumbCredit": $("#thumbnailCredit").val(),
                 },

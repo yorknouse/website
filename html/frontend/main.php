@@ -3,7 +3,7 @@ require_once __DIR__ . '/common/head.php';
 
 
 function displayEdition($edition, $preview = false) {
-    global $PAGEDATA, $DBLIB,$TWIG,$bCMS;
+    global $PAGEDATA, $DBLIB,$TWIG,$bCMS,$CONFIG;
     $PAGEDATA['edition'] = $edition;
     $PAGEDATA['pageConfig']['TITLE'] = $PAGEDATA['edition']['editions_name'] . ($PAGEDATA['edition']['editions_printNumber'] != null ? ' | Edition &numero;' . $PAGEDATA['edition']['editions_printNumber'] : '') . " | Nouse";
     $PAGEDATA['pageConfig']['EDITIONTheme'] = true;
@@ -75,7 +75,7 @@ function displayEdition($edition, $preview = false) {
 }
 function displayPost($post, $preview = false)
 {
-    global $PAGEDATA, $DBLIB,$TWIG,$bCMS;
+    global $PAGEDATA, $DBLIB,$TWIG,$bCMS,$CONFIG;
     $PAGEDATA['POST'] = $post;
 
     $PAGEDATA['pageConfig'] = ["TITLE" => $PAGEDATA['POST']['articlesDrafts_headline']];
@@ -194,6 +194,20 @@ function displayPost($post, $preview = false)
                 $PAGEDATA['POST']['galleryImages'][] = $bCMS->s3URL($image, "large", false, null, true);
             }
         }
+    }
+
+    //Hide all older images
+    if ($PAGEDATA['POST']['articles_displayImages'] == 0) {
+        $dom = new DOMDocument();
+        $dom->loadHTML($PAGEDATA['POST']['articlesDrafts_text']);
+        $images = $dom->getElementsByTagName('img');
+        foreach ($images as $image) {
+            //$old_src = $image->getAttribute('src');
+            $new_src = $CONFIG['FILESTOREURL'] . '/nouseSiteAssets/imageArchive-comp.jpg';
+            $image->setAttribute('src', $new_src);
+            //$image->setAttribute('data-src', $old_src);
+        }
+        $PAGEDATA['POST']['articlesDrafts_text'] = $dom->saveHTML();
     }
 
     http_response_code(200);

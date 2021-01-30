@@ -117,14 +117,15 @@ class bCMS {
         return $_GET;
     }
 
-    public function articleThumbnail($article, $size = "large")
+    public function articleThumbnail($article, $size = "large", $overrideImageDisplay = false)
     {
         global $DBLIB, $CONFIG;
         if ($article == null) return false;
         $DBLIB->where("articles_id", $this->sanitizeString($article));
-        $thumb = $DBLIB->getone("articles", ["articles_thumbnail"]);
+        $thumb = $DBLIB->getone("articles", ["articles_thumbnail","articles_displayImages"]);
         if (!$thumb or $thumb["articles_thumbnail"] == null) return false;
-        if (is_numeric($thumb["articles_thumbnail"])) return $this->s3URL($thumb["articles_thumbnail"], $size);
+        elseif ($thumb['articles_displayImages'] == 0 and $overrideImageDisplay != true) return $CONFIG['FILESTOREURL'] . '/nouseSiteAssets/imageArchive-comp.jpg';
+        elseif (is_numeric($thumb["articles_thumbnail"])) return $this->s3URL($thumb["articles_thumbnail"], $size);
         else return $CONFIG['ARCHIVEFILESTOREURL'] . "/articleImages/" . rawurlencode($thumb["articles_thumbnail"]);
     }
 

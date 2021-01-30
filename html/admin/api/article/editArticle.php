@@ -6,6 +6,7 @@ $articleData = [
     "articles_published" => date("Y-m-d H:i:s", strtotime($bCMS->sanitizeString($_POST['published']))),
     "articles_updated" => date("Y-m-d H:i:s"),
     "articles_socialExcerpt" => $bCMS->cleanString(trim($_POST['socialexcerpt'])),
+    "articles_displayImages" => $_POST['displayImages'],
 ];
 
 $articleData["articles_categories"] = [];

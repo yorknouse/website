@@ -248,6 +248,11 @@
                         <strong>Archive</strong> This article is from our archive and might not display correctly. <a href="{{ CONFIG.FILESTOREURL }}/nouseArticlePDFArchive/archive/public/articles/{{ POST.articles_archiveFallback }}">Download PDF</a>
                     </div>
                     {% endif %}
+                    {% if POST.articles_displayImages == 0 %}
+                        <div class="alert alert-danger">
+                            <strong>Images</strong> This article has had its images hidden due to a legal challenge. <a href="{{ CONFIG.ROOTFRONTENDURL }}/imageRemoval" target="_blank">Learn more about images in the Nouse Archive</a>
+                        </div>
+                    {% endif %}
 
                     {% if POST.articles_type == 1 %}
                     <style>
