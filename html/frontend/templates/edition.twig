@@ -5,6 +5,8 @@
             padding: 0 !important;
         }
     </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/macy/2.5.1/macy.min.js" integrity="sha512-/o/3HSUNsIEsxRpMb5LdGO+algy6JHTf3tMn2VpWKfVexrEAepEzsuJPA51tJVdC9kCHsN5+Z4GJ35pcldgsGw==" crossorigin="anonymous"></script>
 {% endblock %}
 {% block htmlMeta %}
 {% if edition.editions_thumbnail %}
@@ -57,34 +59,48 @@
     {% endif %}
 {% endblock %}
 {% block content %}
+        <div class="container-fluid">
         {% for section in edition['editions_featuredHighlights']['sections'] %}
-            <div class="row">
-                <div class="col-sm-12 col-md-8">
-                    {% if section.headerImage %}
-                        <img src="{{ section.headerImage|s3URL("large") }}" class="img-responsive" alt="Section header image" />
-                    {% endif %}
-                </div>
-                <div class="col-sm-12 col-md-4">
+            <div class="height_30"></div>
+             <div class="row">
+                    <div class="col-sm-12 col-md-offset-1 col-md-{{ section['customBoxHeader'] ? '7':'10' }} {# col-lg-offset-2  col-lg-{{ section['customBoxHeader'] ? '6':'8' }} #}" style="text-align: center;">
+                        {% if section.headerImage %}
+                            <img src="{{ section.headerImage|s3URL("large") }}" style="width: 100%;" alt="Section header image" />
+                        {% endif %}
+                    </div>
                     {% if section['customBoxHeader'] %}
-                        {{ section['customBoxHeader'] }}
+                    <div class="col-sm-12 col-md-3 {# col-lg-2  #} rightSidebar">
+                        <div class="about-card">
+                            {% if section['customBoxHeader'] and section['customBoxHeader']['type'] == "text" %}
+                                <h4>{{ section['customBoxHeader']['title'] }}</h4>
+                                <p>{{ section['customBoxHeader']['text'] }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
                     {% endif %}
                 </div>
-            </div>
-           <div class="row">
-                <div class="col-sm-12
-                {% if section['customBoxes'] %}col-md-8 {% else %}col-md-12{% endif %}">
-                    {% if section['articles'] %}
-                        {% include 'elements/masonryArticleSet.twig' with { 'articles':section['articles'] } %}
+                <div class="row">
+                    <div class="col-sm-12 col-md-offset-1 col-md-{{ section['customBoxHeader'] ? '7':'10' }} {# col-lg-offset-2  col-lg-{{ section['customBoxHeader'] ? '6':'8' }} #}">
+                        {% if section['articles'] %}
+                            {% include 'elements/masonryArticleSet.twig' with { 'articles':section['articles'] } %}
+                        {% endif %}
+                    </div>
+                    {% if section['customBoxes'] %}
+                        <div class="col-sm-12 col-md-3 {# col-lg-2  #} rightSidebar">
+                            <div class="height_30"></div>
+                            {% for box in section['customBoxes'] %}
+                            <div class="about-card">
+                                {% if box and box['type'] == "text" %}
+                                    <h4>{{ box['title'] }}</h4>
+                                    <p>{{ box['text'] }}</p>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
                     {% endif %}
                 </div>
-                <div class="col-sm-12 col-md-4">
-                    <div class="height_30"></div>
-                    {% for box in section['customBoxes'] %}
-                        BOXY BOXY
-                    {% endfor %}
-                </div>
-           </div>
             {% endfor %}
+        </div>
         <div class="container">
             <main class="col-lg-12 content">
                 <div class="height_30"></div>
