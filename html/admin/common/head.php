@@ -16,12 +16,23 @@ try {
 $PAGEDATA = array('CONFIG' => $CONFIG, 'BODY' => true);
 //TWIG
 //Twig_Autoloader::register();
-$TWIGLOADER = new Twig_Loader_Filesystem(__DIR__ . '/../');
-$TWIG = new Twig_Environment($TWIGLOADER, array(
-    'debug' => true
-));
-$TWIG->addExtension(new Twig_Extension_Debug());
-$TWIG->addFilter(new Twig_SimpleFilter('timeago', function ($datetime) {
+$TWIGLOADER = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../');
+if ($CONFIG['DEV']) {
+    $TWIG = new \Twig\Environment($TWIGLOADER, array(
+        'debug' => true,
+        'auto_reload' => true,
+        'charset' => 'utf-8'
+    ));
+    $TWIG->addExtension(new \Twig\Extension\DebugExtension());
+} else {
+    $TWIG = new \Twig\Environment($TWIGLOADER, array(
+        'debug' => false,
+        'auto_reload' => false,
+        'cache' =>'/tmp/admin/',
+        'charset' => 'utf-8'
+    ));
+}
+$TWIG->addFilter(new \Twig\TwigFilter('timeago', function ($datetime) {
     $time = time() - strtotime($datetime);
     $units = array (
         31536000 => 'year',
@@ -40,40 +51,40 @@ $TWIG->addFilter(new Twig_SimpleFilter('timeago', function ($datetime) {
             .' '.$val.(($numberOfUnits>1) ? 's' : '').' ago';
     }
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('formatsize', function ($var) {
+$TWIG->addFilter(new \Twig\TwigFilter('formatsize', function ($var) {
     global $bCMS;
     return $bCMS->formatSize($var);
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('unclean', function ($var) {
+$TWIG->addFilter(new \Twig\TwigFilter('unclean', function ($var) {
     global $bCMS;
     return $bCMS->unCleanString($var);
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('permissions', function ($permissionid) {
+$TWIG->addFilter(new \Twig\TwigFilter('permissions', function ($permissionid) {
     global $AUTH;
     if (!$AUTH->login) return false;
     else return $AUTH->permissionCheck($permissionid);
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('modifyGet', function ($array) {
+$TWIG->addFilter(new \Twig\TwigFilter('modifyGet', function ($array) {
     global $bCMS;
     return http_build_query(($bCMS->modifyGet($array)));
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('randomString', function ($characters) {
+$TWIG->addFilter(new \Twig\TwigFilter('randomString', function ($characters) {
     global $bCMS;
     return $bCMS->randomString($characters);
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('s3URL', function ($fileid, $size = false) {
+$TWIG->addFilter(new \Twig\TwigFilter('s3URL', function ($fileid, $size = false) {
     global $bCMS;
     return $bCMS->s3URL($fileid, $size);
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('s3DATA', function ($fileid) {
+$TWIG->addFilter(new \Twig\TwigFilter('s3DATA', function ($fileid) {
     global $bCMS;
     return $bCMS->s3URL($fileid, null, false, '+1 minute', true);
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('articleThumbnail', function ($article,$size = false, $overrideImageDisplay = false) {
+$TWIG->addFilter(new \Twig\TwigFilter('articleThumbnail', function ($article,$size = false, $overrideImageDisplay = false) {
     global $bCMS;
     return $bCMS->articleThumbnail($article,$size,$overrideImageDisplay);
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('md5', function ($string) {
+$TWIG->addFilter(new \Twig\TwigFilter('md5', function ($string) {
     return md5($string);
 }));
 $GLOBALS['AUTH'] = new bID;

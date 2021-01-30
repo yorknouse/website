@@ -104,7 +104,8 @@
         <div class="container">
             <main class="col-lg-12 content">
                 <div class="height_30"></div>
-                {% for category in CATEGORIESARTICLES if category.articles|length > 0 %}
+                {% for category in CATEGORIESARTICLES %}
+                    {% if category.articles|length > 0 %}
                 <div class="title-holder">
                     <h3 class="title">{{ category.categories_displayName }}</h3>
                     <span class="title-shape title-shape-dark"></span>
@@ -161,6 +162,7 @@
                     </script>
                     {% endfor %}
                 </div>
+                    {% endif %}
                 {% endfor %}
             </main>
             {% if edition.editions_pdf and edition.editions_pdfOriginal %}{# If the compressed version was available they'll only have been shown that above - so give a link to it here #}

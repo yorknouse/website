@@ -10,12 +10,24 @@ $PAGEDATA = array('CONFIG' => $CONFIG, 'BODY' => true, 'URL' => (isset($_SERVER[
 
 //TWIG
 //Twig_Autoloader::register();
-$TWIGLOADER = new Twig_Loader_Filesystem(__DIR__ . '/../templates/');
-$TWIG = new Twig_Environment($TWIGLOADER, array(
-    'debug' => true
-));
-$TWIG->addExtension(new Twig_Extension_Debug());
-$TWIG->addFilter(new Twig_SimpleFilter('timeago', function ($datetime) {
+$TWIGLOADER = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../templates/');
+
+if ($CONFIG['DEV']) {
+    $TWIG = new \Twig\Environment($TWIGLOADER, array(
+        'debug' => true,
+        'auto_reload' => true,
+        'charset' => 'utf-8'
+    ));
+    $TWIG->addExtension(new \Twig\Extension\DebugExtension());
+} else {
+    $TWIG = new \Twig\Environment($TWIGLOADER, array(
+        'debug' => false,
+        'auto_reload' => false,
+        'cache' =>'/tmp/frontend/',
+        'charset' => 'utf-8'
+    ));
+}
+$TWIG->addFilter(new \Twig\TwigFilter('timeago', function ($datetime) {
     $time = time() - strtotime($datetime);
     $units = array (
         31536000 => 'year',
@@ -34,36 +46,36 @@ $TWIG->addFilter(new Twig_SimpleFilter('timeago', function ($datetime) {
             .' '.$val.(($numberOfUnits>1) ? 's' : '').' ago';
     }
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('formatsize', function ($var) {
+$TWIG->addFilter(new \Twig\TwigFilter('formatsize', function ($var) {
     global $bCMS;
     return $bCMS->formatSize($var);
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('unclean', function ($var) {
+$TWIG->addFilter(new \Twig\TwigFilter('unclean', function ($var) {
     global $bCMS;
     return $bCMS->unCleanString($var);
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('getCategoryURL', function ($categoryid) {
+$TWIG->addFilter(new \Twig\TwigFilter('getCategoryURL', function ($categoryid) {
     //Get the link to the category page
     global $bCMS;
     return $bCMS->categoryURL($categoryid);
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('modifyGet', function ($array) {
+$TWIG->addFilter(new \Twig\TwigFilter('modifyGet', function ($array) {
     global $bCMS;
     return http_build_query(($bCMS->modifyGet($array)));
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('randomString', function ($characters) {
+$TWIG->addFilter(new \Twig\TwigFilter('randomString', function ($characters) {
     global $bCMS;
     return $bCMS->randomString($characters);
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('s3URL', function ($fileid, $size = false) {
+$TWIG->addFilter(new \Twig\TwigFilter('s3URL', function ($fileid, $size = false) {
     global $bCMS;
     return $bCMS->s3URL($fileid, $size);
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('s3DATA', function ($fileid) {
+$TWIG->addFilter(new \Twig\TwigFilter('s3DATA', function ($fileid) {
     global $bCMS;
     return $bCMS->s3URL($fileid, null, false, '+1 minute', true);
 }));
-$TWIG->addFilter(new Twig_SimpleFilter('articleThumbnail', function ($article, $size = "large",$socialOverlay='') {
+$TWIG->addFilter(new \Twig\TwigFilter('articleThumbnail', function ($article, $size = "large",$socialOverlay='') {
     global $bCMS, $CONFIG;
     if ($socialOverlay != '') return $CONFIG['ROOTFRONTENDURL'] . '/image/socialProcessor.php?url=' .urlencode($bCMS->articleThumbnail($article, $size)) . '&overlay=' . urlencode($CONFIG['FILESTOREURL'] . '/nouseSiteAssets/socialOverlays/' . $socialOverlay . '.png');
     else return $bCMS->articleThumbnail($article, $size);

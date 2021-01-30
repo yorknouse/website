@@ -93,12 +93,14 @@
                 <div class="form-group">
                     <label>Categories</label>
                     <select class="form-control" id="category2" multiple>
-                        {% for category in CATEGORIES if category.SUB|length > 0 %}
-                            <optgroup label="{{ category.categories_displayName }}">
-                            {% for category in category.SUB %}
-                                <option {{ (category.categories_id in article.articles_categories ? 'selected') }}  value="{{ category.categories_id }}">{{ category.categories_displayName }}</option>
-                            {% endfor %}
-                            </optgroup>
+                        {% for category in CATEGORIES %}
+                            {% if category.SUB|length > 0 %}
+                                <optgroup label="{{ category.categories_displayName }}">
+                                {% for category in category.SUB %}
+                                    <option {{ (category.categories_id in article.articles_categories ? 'selected') }}  value="{{ category.categories_id }}">{{ category.categories_displayName }}</option>
+                                {% endfor %}
+                                </optgroup>
+                            {% endif %}
                         {% endfor %}
                     </select>
                 </div>

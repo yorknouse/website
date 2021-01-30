@@ -109,11 +109,15 @@
     <meta property="article:publisher" content="https://www.facebook.com/yorknouse" />
     <meta property="og:url" content="{{ CONFIG.ROOTFRONTENDURL }}/{{ POST.articles_published|date("Y/m/d") }}/{{ POST.articles_slug }}" />
     <link rel="canonical" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ POST.articles_published|date("Y/m/d") }}/{{ POST.articles_slug }}" />
-    {% for category in POST.CATEGORIES if category.categories_nestUnder == null %}
+    {% for category in POST.CATEGORIES %}
+        {% if category.categories_nestUnder == null %}
     <meta property="article:section" content="{{  category.categories_displayName }}" />
+        {% endif %}
     {% endfor %}
-    {% for author in POST.articles_authors if author.users_social_facebook != null %}
-    <meta property="article:author"   content="https://facebook.com/{{ author.users_social_facebook }}" />
+    {% for author in POST.articles_authors %}
+        {%  if author.users_social_facebook != null %}
+            <meta property="article:author"   content="https://facebook.com/{{ author.users_social_facebook }}" />
+        {% endif %}
     {% endfor %}
     <meta property="article:published_time" content="{{ POST.articles_published|date("d M Y") }}" />
 
@@ -371,8 +375,10 @@
                         <div class="author-info">
                             <a href="{{ CONFIG.ROOTFRONTENDURL }}/author/?a={{ author.users_userid }}"><h4 class="author-name">{{ author.users_name1 }} {{ author.users_name2 }}</h4></a>
                             <p>{{ author.users_bio|replace({"\n":"<br/>"}) }}</p>
-                            {% for position in author.POSITIONS if date(position.userPositions_end) > date() %}
+                            {% for position in author.POSITIONS %}
+                                {% if date(position.userPositions_end) > date() %}
                                 <b>{{ (position.userPositions_displayName == null ? position.positions_displayName : position.userPositions_displayName) }}</b> since {{ position.userPositions_start|date("M Y") }}<br/>
+                                {% endif %}
                             {% endfor %}
                             <p>
                                 {% if author.users_social_facebook != null %}
