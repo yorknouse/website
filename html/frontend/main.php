@@ -23,7 +23,8 @@ function displayEdition($edition, $preview = false) {
                 if ($article) {
                     if ($article['articles_categories']) {
                         $DBLIB->where("(categories_id IN (" . $article['articles_categories'] . "))");
-                        $article["CATEGORIES"] = $DBLIB->get("categories", 1, ["categories_displayName","categories_id","categories_backgroundColor","categories_backgroundColorContrast"]);
+                        $DBLIB->orderBy("-categories.categories_order", "DESC");
+                        $article["CATEGORIES"] = $DBLIB->get("categories", null, ["categories_displayName","categories_id","categories_backgroundColor","categories_backgroundColorContrast"]);
                     } else $article["CATEGORIES"] = [];
                     $PAGEDATA['edition']['editions_featuredHighlights']['sections'][$sectionKey]['articles'][$articleKey] = $article;
                 } else $PAGEDATA['edition']['editions_featuredHighlights']['sections'][$sectionKey]['articles'][$articleKey] = false;
