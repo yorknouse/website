@@ -256,7 +256,7 @@
                                 <img src="" id="featuredHighlightsEditBoxHeaderImage" style="width: 100%;" />
                             </div>
                             <div class="box-footer">
-                                {% embed 'common/plugins/uppy.twig' with {'publicBool': true, 'type': 'EDITION-FEATUREHIGHLIGHTS-HEADER', 'paste': true, 'typeId': 7, 'subTypeId': edition.editions_id, 'imagesOnly': true, 'fileLimit': 1 } %}
+                                {% embed 'common/plugins/uppy.twig' with {'publicBool': true, 'type': 'EDITION-FEATUREHIGHLIGHTS-HEADER', 'paste': true, 'typeId': 7, 'subTypeId': edition.editions_id, 'imagesOnly': true, 'fileLimit': 1, 'resetAfter': true } %}
                                     {% block success %}
                                         $("#featuredHighlightsEditBoxHeaderImage").attr("src",url);
                                         featuredHighlightsData['sections'][$("#featuredHighlightsEditBox").data("section")]['headerImage'] = responseJson.id;

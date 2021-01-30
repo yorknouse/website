@@ -155,6 +155,9 @@ x-amz-meta-size
                         var url = responseJson.url;
                         {% block success %}
                         {% endblock %}
+                        {% if resetAfter is defined and resetAfter %}
+                            uppy.reset();
+                        {% endif %}
                     }
                 }
             });
