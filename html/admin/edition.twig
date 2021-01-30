@@ -237,11 +237,30 @@
                     <div class="col-sm-12 col-md-6">
                         <div class="box">
                             <div class="box-header with-border">
-                                Featured Articles
+                                <h3 class="box-title">
+                                    Featured Articles
+                                </h3>
                             </div>
                             <div class="box-body">
                                 <select id="featuredHighlightsEditBoxArticleSelect" class="chooser form-control" multiple="multiple">
                                 </select>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">
+                                    Custom Boxes
+                                </h3>
+                                <div class="box-tools pull-right">
+                                    {% if 51|permissions  %}
+                                    <button type="button" title="Add new" id="featuredHighlightsEditBoxCustomBoxesAddNewButton" class="btn btn-default btn-sm"><i class="fa fa-plus"></i></button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="row" id="featuredHighlightsEditBoxCustomBoxes">
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -255,14 +274,38 @@
                             <div class="box-body no-padding">
                                 <img src="" id="featuredHighlightsEditBoxHeaderImage" style="width: 100%;" />
                             </div>
+                            {% if 51|permissions  %}
                             <div class="box-footer">
-                                {% embed 'common/plugins/uppy.twig' with {'publicBool': true, 'type': 'EDITION-FEATUREHIGHLIGHTS-HEADER', 'paste': true, 'typeId': 7, 'subTypeId': edition.editions_id, 'imagesOnly': true, 'fileLimit': 1, 'resetAfter': true } %}
+                                 {% embed 'common/plugins/uppy.twig' with {'publicBool': true, 'type': 'EDITION-FEATUREHIGHLIGHTS-HEADER', 'paste': true, 'typeId': 7, 'subTypeId': edition.editions_id, 'imagesOnly': true, 'fileLimit': 1, 'resetAfter': true } %}
                                     {% block success %}
                                         $("#featuredHighlightsEditBoxHeaderImage").attr("src",url);
                                         featuredHighlightsData['sections'][$("#featuredHighlightsEditBox").data("section")]['headerImage'] = responseJson.id;
                                         $("#featuredHighlightsEditBoxHeaderImage").show();
                                     {% endblock %}
                                 {% endembed %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">
+                                    Custom Box Header
+                                </h3>
+                            </div>
+                            <div class="box-body">
+                               <form id="featuredHighlightsEditBoxHeaderBoxForm">
+                                    <div class="box-body">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Title</span>
+                                            <input type="text" class="form-control featuredHighlightsEditBoxHeaderBoxFormItem" placeholder="Moon campus to get new study space" name="title" value="">
+                                        </div>
+                                        <br/>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">Text</span>
+                                            <textarea class="form-control featuredHighlightsEditBoxHeaderBoxFormItem" placeholder="City of York Council has approved planning permission for the University to construct a brand new building on the lunar campus." rows="5" name="text"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -461,6 +504,38 @@
                     });
                 }
                 $("#featuredHighlightsEditBoxTitle").html("Edit " + thisSection['name']);
+
+                $("#featuredHighlightsEditBoxHeaderBoxForm").find("input[name='title']").val("");
+                $("#featuredHighlightsEditBoxHeaderBoxForm").find("textarea[name='text']").val("");
+                if (thisSection['customBoxHeader']['type'] == "text") {
+                    $("#featuredHighlightsEditBoxHeaderBoxForm").find("input[name='title']").val(thisSection['customBoxHeader']['title']);
+                    $("#featuredHighlightsEditBoxHeaderBoxForm").find("textarea[name='text']").val(thisSection['customBoxHeader']['text']);
+                }
+
+                $("#featuredHighlightsEditBoxCustomBoxes").html("");
+
+                $( thisSection['customBoxes'] ).each(function( index, element ) {
+                    if (element.type == "text") {
+                        $("#featuredHighlightsEditBoxCustomBoxes").append(`<div class="col-sm-12 col-md-6">
+                        <div class="box">
+                            <form class="featuredHighlightsEditBoxCustomBoxesForm">
+                                <div class="box-body">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Title</span>
+                                        <input type="text" class="form-control featuredHighlightsEditBoxCustomBoxesFormItem" placeholder="Moon campus to get new study space" name="title" value="` + element.title + `">
+                                    </div>
+                                    <br/>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Text</span>
+                                        <textarea class="form-control featuredHighlightsEditBoxCustomBoxesFormItem" placeholder="City of York Council has approved planning permission for the University to construct a brand new building on the lunar campus." rows="5" name="text">` + element.text + `</textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>`);
+                    }
+                });
+
                 $("#featuredHighlightsEditBox").show();
             });
 
@@ -477,6 +552,57 @@
                         refreshFeaturedHighlights();
                     }
                 });
+            });
+            {% if 51|permissions  %}
+            $('body').on('input','.featuredHighlightsEditBoxHeaderBoxFormItem',function() {
+                var title = $("form#featuredHighlightsEditBoxHeaderBoxForm").find("input[name='title']").val();
+                var text = $("form#featuredHighlightsEditBoxHeaderBoxForm").find("textarea[name='text']").val();
+                if (title.length > 0 || text.length > 0) {
+                    featuredHighlightsData['sections'][$("#featuredHighlightsEditBox").data("section")]['customBoxHeader'] = {
+                        "type": "text",
+                        "text": text,
+                        "title": title
+                    };
+                } else {
+                    featuredHighlightsData['sections'][$("#featuredHighlightsEditBox").data("section")]['customBoxHeader'] = {};
+                }
+            });
+            $('body').on('input','.featuredHighlightsEditBoxCustomBoxesFormItem',function() {
+                var boxes = [];
+                $("form.featuredHighlightsEditBoxCustomBoxesForm").each(function( index, element ) {
+                    var title = $(element).find("input[name='title']").val();
+                    var text = $(element).find("textarea[name='text']").val();
+                    if (title.length > 0 || text.length > 0) {
+                        boxes.push({
+                            "type": "text",
+                            "text": text,
+                            "title": title
+                        });
+                    }
+                });
+                featuredHighlightsData['sections'][$("#featuredHighlightsEditBox").data("section")]['customBoxes'] = boxes;
+            });
+            {% endif %}
+            $("#featuredHighlightsEditBoxCustomBoxesAddNewButton").click(function () {
+                $("#featuredHighlightsEditBoxCustomBoxes").append(`
+                        <div class="col-sm-12 col-md-6">
+                        <div class="box">
+                            <form class="featuredHighlightsEditBoxCustomBoxesForm">
+                                <div class="box-body">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Title</span>
+                                        <input type="text" class="form-control featuredHighlightsEditBoxCustomBoxesFormItem" placeholder="Moon campus to get new study space" name="title">
+                                    </div>
+                                    <br/>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">Text</span>
+                                        <textarea class="form-control featuredHighlightsEditBoxCustomBoxesFormItem" placeholder="City of York Council has approved planning permission for the University to construct a brand new building on the lunar campus." rows="5" name="text"></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                        `);
             });
             {% if 51|permissions  %}
             function featuredHighlightsUpdateArticles() {
