@@ -11,6 +11,7 @@
             <link>{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}</link>
             <pubDate>{{ article.articles_published|date("D, d M Y H:i:s O") }}</pubDate>
             <title>{{ article.articlesDrafts_headline }}</title>
+            <description>{{ article.articlesDrafts_excerpt }}</description>
             <content:encoded><![CDATA[{{ article.articlesDrafts_text|raw }}]]></content:encoded>
             {% for author in article.articles_authors %}
                 {# Yes the email is wrong, but it doesn't really matter as google seems to ignore it for some reason #}
