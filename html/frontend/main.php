@@ -346,8 +346,8 @@ if ($urlSplit[0] == "edition") {
 
     if ($page < 1) $page = 1;
     
-    $DBLIB->pageLimit = 10; //articles per page
-    $articles = $DBLIB->arraybuilder()->paginate("articles", $page, ["articles.*","articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
+    $DBLIB->pageLimit = (isset($_GET['rss']) ? 60 : 10); //articles per page
+    $articles = $DBLIB->arraybuilder()->paginate("articles", $page, ["articles.*","articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt","articlesDrafts.articlesDrafts_text"]);
     $PAGEDATA['pagination'] = ["page" => $page, "total" => $DBLIB->totalPages, "count" => $DBLIB->totalCount];
     $PAGEDATA['articles'] = [];
     foreach ($articles as $article) {
