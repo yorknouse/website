@@ -393,8 +393,6 @@ class bCMS {
         $article["articles_socialConfig"] = explode(",", $article["articles_socialConfig"]);
         if ($article["articles_socialConfig"][0] == 1 and $article["articles_socialConfig"][1] != 1 and $postToFacebook) {
             //Go ahead and post to facebook
-
-
             $url = 'https://maker.ifttt.com/trigger/socialMediaAutomationFB/with/key/' . $CONFIG['IFTTT'];
             $ch = curl_init($url);
             $xml = "value1=" . urlencode($postExcerpt) . "&value2=" . urlencode($realpermalink) . "&value3=null";
@@ -408,7 +406,6 @@ class bCMS {
         }
         if ($article["articles_socialConfig"][2] == 1 and $article["articles_socialConfig"][3] != 1 and $postToTwitter) {
             //Go ahead and post to twitter
-
             $url = 'https://maker.ifttt.com/trigger/socialMediaAutomationTwitter/with/key/' . $CONFIG['IFTTT'];
             $ch = curl_init($url);
             $xml = "value1=" . urlencode($postExcerpt) . "&value2=" . urlencode($realpermalink) . "&value3=null";
