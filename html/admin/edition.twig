@@ -445,7 +445,10 @@
               */
             $("#featuredHighlightsEditBox").hide();
             try {
-                featuredHighlightsData = JSON.parse('{{  edition.editions_featuredHighlights|raw }}');
+                var text = `{{  edition.editions_featuredHighlights|raw }}`;
+                text = text.replace(/\n/g,"\\n");
+                text = text.replace(/\r/g,"\\r");
+                featuredHighlightsData = JSON.parse(text);
             }
             catch(err) {
                 console.log(err);
@@ -460,9 +463,9 @@
                         <tr>
                             <td>` + element.name + `</td>
                             <td>` + (element.headerImage == false ? '<i class="fa fa-times"></i>':'<i class="fa fa-check"></i>') + `</td>
-                            <td>` + element.articles.length + `</td>
+                            <td>` + (element.articles ? element.articles.length : '') + `</td>
                             <td>` + ($.isEmptyObject(element.customBoxHeader) ? '<i class="fa fa-times"></i>':'<i class="fa fa-check"></i>') + `</td>
-                            <td>` + element.customBoxes.length + `</td>
+                            <td>` + (element.customBoxes ? element.customBoxes.length : '') + `</td>
                             <td><button type="button" class="btn btn-default btn-sm featuredHighlightsEditButton" data-section="` + index + `"><i class="fa fa-pencil"></i></button></td>
                         </tr>`);
                 });
@@ -480,7 +483,7 @@
                 }
                 var selector = $('#featuredHighlightsEditBoxArticleSelect');
                 selector.empty().trigger('change.select2');
-                if (thisSection['articles'].length > 0) {
+                if (thisSection['articles'] && thisSection['articles'].length > 0) {
                     $.ajax({
                         url: "{{ CONFIG.ROOTBACKENDURL }}/api/featured/articleSearchEdition.php?editionid={{ edition.editions_id }}",
                         type: 'POST',

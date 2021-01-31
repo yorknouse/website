@@ -14,8 +14,6 @@ if (isset($_GET['id'])) {
 	$DBLIB->where("editions_deleted", 0);
 	$PAGEDATA['editionTypes'] = $DBLIB->get("editions", null, ["DISTINCT editions_type"]);
 
-
-
 	$DBLIB->where("categories_showPublic",1);
 	$DBLIB->orderBy("categories_order", "ASC");
 	$DBLIB->orderBy("categories_displayName", "ASC");
