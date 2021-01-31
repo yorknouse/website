@@ -14,7 +14,7 @@ RUN a2ensite apache2admin.conf
 COPY docker/apache/001default-apache2.conf /etc/apache2/sites-available/001default-apache2.conf
 RUN a2ensite 001default-apache2.conf
 
-RUN apt-get install -y \
+RUN apt-get install -y -qq \
         software-properties-common \
 		libfreetype6-dev \
 		libjpeg62-turbo-dev \
@@ -27,15 +27,26 @@ RUN apt-get install -y \
 		unzip \
 		git \
 		nano \
+		cron \
+		dos2unix \
 		&& apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --enable-gd
 RUN docker-php-ext-install -j$(nproc) gd zip mbstring mysqli intl
+
+RUN touch /var/log/cron.log
+RUN chmod 0777 /var/log/cron.log
+
+RUN (crontab -l ; echo "* * * * * php /var/www/html/admin/api/article/cronArticle.php >> /var/log/cron.log") | crontab
 
 COPY . /var/www/
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 WORKDIR /var/www
 RUN composer install
-# RUN chown -R www-data:www-data html/admin/common/twigCache
+
+COPY docker/start.sh /var/www/start.sh
+RUN dos2unix /var/www/start.sh
 
 # To get in container - docker exec -t -i nouse-container /bin/bash
+
+CMD ["bash","/var/www/start.sh"]
