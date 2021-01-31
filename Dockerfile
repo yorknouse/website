@@ -33,10 +33,12 @@ RUN apt-get install -y -qq \
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --enable-gd
 RUN docker-php-ext-install -j$(nproc) gd zip mbstring mysqli intl
 
+COPY docker/job-cron /etc/cron.d/job-cron
+RUN chmod 0644 /etc/cron.d/job-cron
+RUN dos2unix /etc/cron.d/job-cron
+RUN crontab /etc/cron.d/job-cron
 RUN touch /var/log/cron.log
 RUN chmod 0777 /var/log/cron.log
-
-RUN (crontab -l ; echo "* * * * * php /var/www/html/admin/api/article/cronArticle.php >> /var/log/cron.log") | crontab
 
 COPY . /var/www/
 

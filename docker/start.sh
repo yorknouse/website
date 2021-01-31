@@ -1,4 +1,4 @@
 #!/bin/bash
 
-/usr/bin/crontab &
+cron -f &
 docker-php-entrypoint apache2-foreground
