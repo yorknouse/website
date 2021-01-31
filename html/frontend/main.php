@@ -12,10 +12,10 @@ if (count($articles) > 0) {
         $article["articles_socialConfig"] = explode(",", $article["articles_socialConfig"]);
 
         if ($article["articles_socialConfig"]['2'] == 1 and $article["articles_socialConfig"]['3'] != 1) {
-            $bCMS->postSocial($article['articles_id'], false, true); //Post to twitter
+            //$bCMS->postSocial($article['articles_id'], false, true); //Post to twitter
         }
         if ($article["articles_socialConfig"]['0'] == 1 and $article["articles_socialConfig"]['1'] != 1) {
-            $bCMS->postSocial($article['articles_id'], true, false); //Post to facebook
+            //$bCMS->postSocial($article['articles_id'], true, false); //Post to facebook
         }
     }
 }
@@ -26,7 +26,7 @@ $DBLIB->where("articles_mediaCharterDone",0);
 $articles = $DBLIB->get("articles", null, ["articles_id"]);
 if (count($articles) > 0) {
     foreach ($articles as $article) {
-        $bCMS->yusuNotify($article['articles_id']); //This article has been posted historically so we need to email YUSU
+        //$bCMS->yusuNotify($article['articles_id']); //This article has been posted historically so we need to email YUSU
     }
 }
 
