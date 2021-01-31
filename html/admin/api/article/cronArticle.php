@@ -38,8 +38,4 @@ if (count($articles) > 0) {
     }
 } else $output .= "[INFO] No articles to tell YUSU about \n";
 
-
-
 $output .= "[INFO] Script finished \n";
-
-sendemail("tech@nouse.co.uk", "Cron Ran", $output);
