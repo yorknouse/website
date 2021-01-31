@@ -34,9 +34,13 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg --enable-gd
 RUN docker-php-ext-install -j$(nproc) gd zip mbstring mysqli intl
 
 COPY docker/job-cron /etc/cron.d/job-cron
+COPY docker/cron-minute.sh /var/www/cron-minute.sh
 RUN chmod 0644 /etc/cron.d/job-cron
+RUN chmod 0644 /var/www/cron-minute.sh
 RUN dos2unix /etc/cron.d/job-cron
+RUN dos2unix /var/www/cron-minute.sh
 RUN crontab /etc/cron.d/job-cron
+
 RUN touch /var/log/cron.log
 RUN chmod 0777 /var/log/cron.log
 
