@@ -249,7 +249,7 @@
                     </header>
                     {% if POST.articles_archiveFallback %}
                     <div class="alert alert-warning">
-                        <strong>Archive</strong> This article is from our archive and might not display correctly. <a href="{{ CONFIG.FILESTOREURL }}/nouseArticlePDFArchive/archive/public/articles/{{ POST.articles_archiveFallback }}">Download PDF</a>
+                        <strong>Archive</strong> This article is from our archive and might not display correctly. <a href="{{ CONFIG.FILESTOREURL }}/nouseArticlePDFArchive/archive/public/articles/{{ POST.articles_archiveFallback|url_encode }}">Download PDF</a>
                     </div>
                     {% endif %}
                     {% if POST.articles_displayImages == 0 %}
