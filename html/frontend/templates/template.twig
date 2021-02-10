@@ -125,40 +125,6 @@
                         </div>
                     </div>
                 </div>
-            {% elseif pageConfig.EDITIONTheme %}
-                <div class="logo-wrapper">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <div class="header-logo" style="margin-top: 9px; width: 350px;">
-                                    <a href="{{ CONFIG.ROOTFRONTENDURL }}" class="logo-img">
-                                        <img src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/logo/nouse-logo-full3.svg" alt="Nouse logo">
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-sm-8">
-                                {% if edition.editions_headerImage %}
-                                    <div class="header-banner">
-                                        <img src="{{ edition.editions_headerImage|s3URL("medium") }}" class="img-responsive" alt="{{ edition.editions_name }}">
-                                    </div>
-                                {% else %}
-                                <div class="header-banner" style="text-align: right;">
-                                    <p>{{ edition.editions_name }}
-                                        <b>
-                                            {% if edition.editions_printNumber %}
-                                            <br/>&numero;{{ edition.editions_printNumber }}
-                                            {% endif %}
-                                        </b>
-                                        {% if edition.editions_excerpt %}
-                                            <br/>{{ edition.editions_excerpt }}
-                                        {% endif %}
-                                    </p>
-                                </div>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                </div>
             {% else %}
             <!-- /.End of top header -->
             <div class="logo-wrapper gray">

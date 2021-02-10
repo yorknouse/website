@@ -27,6 +27,28 @@
 
 {% endblock %}
 {% block prePageContent %}
+    {% if edition.editions_headerImage %}
+        <div class="container-fluid">
+             <div class="row">
+                    <div class="col-sm-12 col-md-offset-1 col-md-10" style="text-align: center;">
+                        <img src="{{ edition.editions_headerImage|s3URL("medium") }}" class="img-responsive" alt="{{ edition.editions_name }}" style="width: 100%;">
+                    </div>
+             </div>
+         </div>
+    {% else %}
+        <div class="container" style="text-align: center;">
+            <h3>{{ edition.editions_name }}
+                <b>
+                    {% if edition.editions_printNumber %}
+                       &nbsp;&numero;{{ edition.editions_printNumber }}
+                    {% endif %}
+                </b>
+            </h3>
+            {% if edition.editions_excerpt %}
+                <p> {{ edition.editions_excerpt }}</p>
+            {% endif %}
+        </div>
+    {% endif %}
     {% if edition.editions_pdf or edition.editions_pdfOriginal %}
     <div class="video-inner" style="margin-top: 0px;padding-bottom:10px;">
         <div class="container">
