@@ -12,21 +12,23 @@ function displayEdition($edition, $preview = false) {
     $articlesFeatured = []; //Keep track of articles already displayed once
     if (isset($PAGEDATA['edition']['editions_featuredHighlights']['sections'])) {
         foreach ($PAGEDATA['edition']['editions_featuredHighlights']['sections'] as $sectionKey => $section) {
-            foreach ($section['articles'] as $articleKey => $article) {
-                $articlesFeatured[] = $article;
-                $DBLIB->where("articles.articles_id", $article);
-                if (!$preview) $DBLIB->where("articles_showInLists", 1);
-                $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
-                $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
-                $article = $DBLIB->getone("articles", ["articles.articles_categories", "articles.articles_id","articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
-                if ($article) {
-                    if ($article['articles_categories']) {
-                        $DBLIB->where("(categories_id IN (" . $article['articles_categories'] . "))");
-                        $DBLIB->orderBy("-categories.categories_order", "DESC");
-                        $article["CATEGORIES"] = $DBLIB->get("categories", null, ["categories_displayName","categories_id","categories_backgroundColor","categories_backgroundColorContrast"]);
-                    } else $article["CATEGORIES"] = [];
-                    $PAGEDATA['edition']['editions_featuredHighlights']['sections'][$sectionKey]['articles'][$articleKey] = $article;
-                } else $PAGEDATA['edition']['editions_featuredHighlights']['sections'][$sectionKey]['articles'][$articleKey] = false;
+            if ($section['articles']) {
+                foreach ($section['articles'] as $articleKey => $article) {
+                    $articlesFeatured[] = $article;
+                    $DBLIB->where("articles.articles_id", $article);
+                    if (!$preview) $DBLIB->where("articles_showInLists", 1);
+                    $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
+                    $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
+                    $article = $DBLIB->getone("articles", ["articles.articles_categories", "articles.articles_id","articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
+                    if ($article) {
+                        if ($article['articles_categories']) {
+                            $DBLIB->where("(categories_id IN (" . $article['articles_categories'] . "))");
+                            $DBLIB->orderBy("-categories.categories_order", "DESC");
+                            $article["CATEGORIES"] = $DBLIB->get("categories", null, ["categories_displayName","categories_id","categories_backgroundColor","categories_backgroundColorContrast"]);
+                        } else $article["CATEGORIES"] = [];
+                        $PAGEDATA['edition']['editions_featuredHighlights']['sections'][$sectionKey]['articles'][$articleKey] = $article;
+                    } else $PAGEDATA['edition']['editions_featuredHighlights']['sections'][$sectionKey]['articles'][$articleKey] = false;
+                }
             }
         }
     }
