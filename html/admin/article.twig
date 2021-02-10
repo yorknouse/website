@@ -465,7 +465,7 @@
         <script>
             var content = '';
             {% for line in article.articlesDrafts_markdown|raw|split('\n') %}
-               content += `{{ line|raw|replace({"`": "\\`"}) }}`;
+               content += `{{ line|raw|replace({"`": "\\`"})|raw }}`;
                content += "\n";
             {% endfor %}
             var editor = new tui.Editor({
