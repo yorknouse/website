@@ -246,27 +246,7 @@
                 </div>
             </div>
         {% endif %}
-        {% if pageConfig.EDITIONTheme %}
-            {# Mobile alternative #}
-            <div class="container-flex hidden-md hidden-lg">
-            {% if edition.editions_headerImage %}
-                    <img src="{{ edition.editions_headerImage|s3URL("medium") }}" style="width: 100%;" alt="{{ edition.editions_name }}">
-            {% else %}
-                <div style="text-align: center;padding:10px;">
-                    <p>{{ edition.editions_name }}
-                        <b>
-                            {% if edition.editions_printNumber %}
-                                <br/>&numero;{{ edition.editions_printNumber }}
-                            {% endif %}
-                        </b>
-                        {% if edition.editions_excerpt %}
-                            <br/>{{ edition.editions_excerpt }}
-                        {% endif %}
-                    </p>
-                </div>
-            {% endif %}
-            </div>
-        {% endif %}
+        
         {% block prePageContent %}
         {% endblock %}
 
