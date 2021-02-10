@@ -23,12 +23,12 @@ $newData["editions_headerImage"] = ($_POST["header"] != null ? $_POST["header"] 
 if ($_POST['featuredHighlights'] != "{}") {
     $highlights = json_decode ($_POST['featuredHighlights'],true);
     foreach ($highlights['sections'] as $sectionKey => $section) {
-        $highlights['sections'][$sectionKey]['name'] = $bCMS->sanitizeString($section['name']);
+        $highlights['sections'][$sectionKey]['name'] = $bCMS->cleanString($section['name']);
         foreach ($section['customBoxes'] as $boxKey => $box) {
-            $highlights['sections'][$sectionKey]['customBoxes'][$boxKey]['title'] = $bCMS->sanitizeString($box['title']);
+            $highlights['sections'][$sectionKey]['customBoxes'][$boxKey]['title'] = $bCMS->cleanString($box['title']);
             $highlights['sections'][$sectionKey]['customBoxes'][$boxKey]['text'] = $bCMS->cleanString($box['text']);
         }
-        $highlights['sections'][$sectionKey]['customBoxHeader']['title'] = $bCMS->sanitizeString($section['customBoxHeader']['title']);
+        $highlights['sections'][$sectionKey]['customBoxHeader']['title'] = $bCMS->cleanString($section['customBoxHeader']['title']);
         $highlights['sections'][$sectionKey]['customBoxHeader']['text'] = $bCMS->cleanString($section['customBoxHeader']['text']);
     }
     $newData["editions_featuredHighlights"] = json_encode($highlights);
