@@ -805,7 +805,6 @@
                     {% elseif article.articles_type == 6 %}
                     "markdown": editor.getMarkdown(),
                     "text": editor.getHtml(),
-                    "dropCap": ($("#dropCap").is(':checked') ? 1 : 0),
                     {% endif %}
                     "headline": $("#headline").val(),
                     "excerpt": $("#excerpt").val(),
@@ -826,6 +825,7 @@
                     "displayImages": ($("#displayImages").is(':checked') ? 1 : 0),
                     "socialexcerpt": $("#socialexcerpt").val(),
                     "thumbCredit": $("#thumbnailCredit").val(),
+                    "dropCap": ($("#dropCap").is(':checked') ? 1 : 0),
                 },
                 success: function (result) {
                     savingDialog.modal('hide');

@@ -7,6 +7,7 @@ $articleData = [
     "articles_updated" => date("Y-m-d H:i:s"),
     "articles_socialExcerpt" => $bCMS->cleanString(trim($_POST['socialexcerpt'])),
     "articles_displayImages" => $_POST['displayImages'],
+    "articles_dropCapital" => $_POST['dropCap'],
 ];
 
 $articleData["articles_categories"] = [];
@@ -50,7 +51,6 @@ if ($_POST['status'] == 1) {
     $articleData["articles_showInSearch"] = 1;
     $articleData["articles_showInAdmin"] = 1;
 }
-if (isset($_POST['dropCap'])) $articleDraftsData['articles_dropCapital'] = $_POST['dropCap'];
 
 $articleDraftsData = [
     "articlesDrafts_timestamp" => date("Y-m-d H:i:s"),
@@ -60,7 +60,7 @@ $articleDraftsData = [
     "articlesDrafts_text" => $bCMS->cleanString(trim($_POST['text']))
 ];
 
-if (isset($_POST['markdown'])) $articleDraftsData['articlesDrafts_markdown'] = $bCMS->cleanString(trim($_POST['markdown']));
+if (isset($_POST['markdown'])) $articleDraftsData['articlesDrafts_markdown'] = trim($_POST['markdown']);
 if (isset($_POST['thumbCredit'])) $articleDraftsData['articlesDrafts_thumbnailCredit'] = $bCMS->cleanString(trim($_POST['thumbCredit']));
 
 if ($bCMS->sanitizeString($_POST['type']) == "2") {
