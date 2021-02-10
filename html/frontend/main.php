@@ -20,6 +20,7 @@ function displayEdition($edition, $preview = false) {
                     $articlesFeatured[] = $article;
                     $DBLIB->where("articles.articles_id", $article);
                     if (!$preview) $DBLIB->where("articles_showInLists", 1);
+                    else $DBLIB->where("articles_showInAdmin", 1);
                     $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
                     $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
                     $article = $DBLIB->getone("articles", ["articles.articles_categories", "articles.articles_id","articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
@@ -48,6 +49,7 @@ function displayEdition($edition, $preview = false) {
         $DBLIB->orderBy("articles.articles_slug", "ASC");
         $DBLIB->where("editions_id", $PAGEDATA['edition']['editions_id']);
         if (!$preview) $DBLIB->where("articles_showInLists", 1);
+        else $DBLIB->where("articles_showInAdmin", 1);
         if (!$preview) $DBLIB->where("articles_published <= '" . date("Y-m-d H:i:s") . "'");
         $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
         $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
