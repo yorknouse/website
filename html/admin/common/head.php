@@ -28,7 +28,7 @@ if ($CONFIG['DEV']) {
     $TWIG = new \Twig\Environment($TWIGLOADER, array(
         'debug' => false,
         'auto_reload' => false,
-        'cache' =>'/tmp/admin/',
+        'cache' =>sys_get_temp_dir().DIRECTORY_SEPARATOR.'admin'.DIRECTORY_SEPARATOR,
         'charset' => 'utf-8'
     ));
 }

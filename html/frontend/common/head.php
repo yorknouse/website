@@ -23,7 +23,7 @@ if ($CONFIG['DEV']) {
     $TWIG = new \Twig\Environment($TWIGLOADER, array(
         'debug' => false,
         'auto_reload' => false,
-        'cache' =>'/tmp/frontend/',
+        'cache' =>sys_get_temp_dir().DIRECTORY_SEPARATOR.'frontend'.DIRECTORY_SEPARATOR,
         'charset' => 'utf-8'
     ));
 }
