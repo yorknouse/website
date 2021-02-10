@@ -94,15 +94,15 @@
                     <div class="col-sm-12 col-md-3 {# col-lg-2  #} rightSidebar">
                         <div class="about-card">
                             {% if section['customBoxHeader'] and section['customBoxHeader']['type'] == "text" %}
-                                <h4>{{ section['customBoxHeader']['title'] }}</h4>
-                                <p>{{ section['customBoxHeader']['text'] }}</p>
+                                <h4>{{ section['customBoxHeader']['title']|nl2br }}</h4>
+                                <p>{{ section['customBoxHeader']['text']|nl2br }}</p>
                             {% endif %}
                         </div>
                     </div>
                     {% endif %}
                 </div>
                 <div class="row">
-                    <div class="col-sm-12 col-md-offset-1 col-md-{{ section['customBoxHeader'] ? '7':'10' }} {# col-lg-offset-2  col-lg-{{ section['customBoxHeader'] ? '6':'8' }} #}">
+                    <div class="col-sm-12 col-md-offset-1 col-md-{{ section['customBoxes'] ? '7':'10' }} {# col-lg-offset-2  col-lg-{{ section['customBoxHeader'] ? '6':'8' }} #}">
                         {% if section['articles'] %}
                             {% include 'elements/masonryArticleSet.twig' with { 'articles':section['articles'] } %}
                         {% endif %}
@@ -111,12 +111,14 @@
                         <div class="col-sm-12 col-md-3 {# col-lg-2  #} rightSidebar">
                             <div class="height_30"></div>
                             {% for box in section['customBoxes'] %}
-                            <div class="about-card">
                                 {% if box and box['type'] == "text" %}
-                                    <h4>{{ box['title'] }}</h4>
-                                    <p>{{ box['text'] }}</p>
+                                    <div class="about-card">
+                                        {% if box and box['type'] == "text" and box['title'] != "" and box['text'] != "" %}
+                                            <h4>{{ box['title']|nl2br }}</h4>
+                                            <p>{{ box['text']|nl2br }}</p>
+                                        {% endif %}
+                                    </div>
                                 {% endif %}
-                            </div>
                             {% endfor %}
                         </div>
                     {% endif %}
