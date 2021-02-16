@@ -445,9 +445,7 @@
               */
             $("#featuredHighlightsEditBox").hide();
             try {
-                var text = `{{  edition.editions_featuredHighlights|raw }}`;
-                text = text.replace(/\n/g,"\\n");
-                text = text.replace(/\r/g,"\\r");
+                var text = "{{  edition.editions_featuredHighlights|escape('js')|raw }}";
                 featuredHighlightsData = JSON.parse(text);
             }
             catch(err) {
