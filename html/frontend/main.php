@@ -19,7 +19,10 @@ function displayEdition($edition, $preview = false) {
                 foreach ($section['articles'] as $articleKey => $article) {
                     $articlesFeatured[] = $article;
                     $DBLIB->where("articles.articles_id", $article);
-                    if (!$preview) $DBLIB->where("articles_showInLists", 1);
+                    if (!$preview) {
+                        $DBLIB->where("articles_showInLists", 1);
+                        $DBLIB->where("articles.articles_published <= '" . date("Y-m-d H:i:s") . "'");
+                    }
                     else $DBLIB->where("articles_showInAdmin", 1);
                     $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
                     $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
@@ -392,6 +395,7 @@ if ($urlSplit[0] == "edition") {
             if (!$article) continue;
             $DBLIB->where("articles.articles_id", $article);
             $DBLIB->where("articles_showInLists", 1);
+            $DBLIB->where("articles.articles_published <= '" . date("Y-m-d H:i:s") . "'");
             $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
             $DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
             $PAGEDATA['FEATUREDARTICLES'][] = $DBLIB->getone("articles", ["articles.articles_id","articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
