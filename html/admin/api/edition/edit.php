@@ -36,7 +36,7 @@ if ($_POST['featuredHighlights'] != "{}") {
 
 $DBLIB->where ('editions_id', $edition['editions_id']);
 if ($DBLIB->update ('editions', $newData)) {
-    $bCMS->auditLog("EDIT", "editions", $edition['editions_id'], $AUTH->data['users_userid']);
+    $bCMS->auditLog("EDIT", "editions", json_encode(["edition" => $edition['editions_id'], "newData" => $newData]), $AUTH->data['users_userid']);
     $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/edition/" . $edition['editions_slug']);
     $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL']);
     finish(true);
