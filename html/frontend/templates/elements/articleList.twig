@@ -37,25 +37,24 @@
         </div>
     </div>
 {% endfor %}
-
-{% if pagination %}
+{% if pagination and pagination.total > 1 %}
     {% if pagination.count > 30 %}
             <p>Showing {{ pagination.count|number_format }} articles</p>
     {% endif %}
-<ul class="pagination">
-    {% if pagination.page > 1 %}
-        <li><a href="?{{ {page: (pagination.page -1)}|modifyGet }}">&#8701;</a></li>
-    {% endif %}
+    <ul class="pagination">
+        {% if pagination.page > 1 %}
+            <li><a href="?{{ {page: (pagination.page -1)}|modifyGet }}">&#8701;</a></li>
+        {% endif %}
 
-    {% for i in range((pagination.page > 5 ? pagination.page-5 : 1), (pagination.total > 10 and pagination.page+5 < pagination.total ? pagination.page+5 : pagination.total)) %}
-        <li
-                {% if pagination.page == i %}
-            class="active"
-                {% endif %}><a href="?{{ {page: i}|modifyGet }}">{{ i }}</a></li>
-    {% endfor %}
+        {% for i in range((pagination.page > 5 ? pagination.page-5 : 1), (pagination.total > 10 and pagination.page+5 < pagination.total ? pagination.page+5 : pagination.total)) %}
+            <li
+                    {% if pagination.page == i %}
+                class="active"
+                    {% endif %}><a href="?{{ {page: i}|modifyGet }}">{{ i }}</a></li>
+        {% endfor %}
 
-    {% if pagination.page < pagination.total %}
-        <li><a href="?{{ {page: (pagination.page +1)}|modifyGet }}">&#8702;</a></li>
-    {% endif %}
-</ul>
+        {% if pagination.page < pagination.total %}
+            <li><a href="?{{ {page: (pagination.page +1)}|modifyGet }}">&#8702;</a></li>
+        {% endif %}
+    </ul>
 {% endif %}
