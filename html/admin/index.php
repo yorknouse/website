@@ -22,8 +22,7 @@ $DBLIB->where("articlesDrafts.articlesDrafts_userid",$AUTH->data['users_userid']
 $DBLIB->groupBy ("articlesDrafts.articles_id");
 $DBLIB->where("articles.articles_showInAdmin", 1);
 $DBLIB->join("articles","articles.articles_id=articlesDrafts.articles_id","LEFT");
-$PAGEDATA['recentlyEditedArticles'] = $DBLIB->get("articlesDrafts",10,["articles.articles_updated", "articles.articles_showInSearch", "articles.articles_showInLists","articles.articles_id","articles.articles_published", "articlesDrafts.articlesDrafts_headline"]);
-
+$PAGEDATA['recentlyEditedArticles'] = $DBLIB->get("articlesDrafts",10,["articlesDrafts.articles_id","articlesDrafts.articlesDrafts_headline"]);
 
 echo $TWIG->render('index.twig', $PAGEDATA);
 ?>

@@ -100,33 +100,15 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Headline</th>
-                                <th>Published</th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for article in recentlyEditedArticles %}
-                                <tr
-                                    {% if article.articles_showInLists != 1 and article.articles_showInSearch != 1 %}
-                                        class="danger"
-                                    {% elseif article.articles_showInLists != 1  %}
-                                        class="warning"
-                                    {% endif %}>
+                                <tr>
                                     <td>{{ article.articles_id }}</td>
-                                    <td>{{ article.articlesDrafts_headline|raw }}
-                                        {% if article.articles_showInLists != 1 and article.articles_showInSearch != 1 %}
-                                            <span class="label label-danger">Draft</span><br/>
-                                        {% elseif article.articles_showInLists != 1  %}
-                                            <span class="label label-warning">Shown in search only</span><br/>
-                                        {% endif %}
-                                    </td>
-                                    <td>{{ article.articles_updated|date("d M Y H:i:s") }}</td>
+                                    <td>{{ article.articlesDrafts_headline|raw }}</td>
                                     <td>
-                                        {% if article.articles_showInSearch == 1 and date(article.articles_published) < date() %}
-                                            <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}"
-                                               type="button" title="View on website" class="btn btn-default" target="_blank"><i
-                                                        class="fa fa-eye"></i></a>
-                                        {% endif %}
                                         {% if 32|permissions %}
                                             <a href="{{ CONFIG.ROOTBACKENDURL }}/article.php?id={{ article.articles_id }}"
                                                type="button" title="Edit" class="btn btn-default"><i
