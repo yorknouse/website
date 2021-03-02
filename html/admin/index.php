@@ -15,5 +15,15 @@ $DBLIB->groupBy ("auditLog.users_userid");
 $DBLIB->orderBy ("counter","DESC");
 $PAGEDATA['MOSTACTIVEUSERS']['WEEK'] = $DBLIB->get("auditLog",5,["users.users_name1", "users.users_name2", "auditLog.users_userid", "COUNT(*) AS counter"]);
 
+
+//My recent edits
+$DBLIB->orderBy("articlesDrafts.articlesDrafts_timestamp", "DESC");
+$DBLIB->where("articlesDrafts.articlesDrafts_userid",$AUTH->data['users_userid']);
+$DBLIB->groupBy ("articlesDrafts.articles_id");
+$DBLIB->where("articles.articles_showInAdmin", 1);
+$DBLIB->join("articles","articles.articles_id=articlesDrafts.articles_id","LEFT");
+$PAGEDATA['recentlyEditedArticles'] = $DBLIB->get("articlesdrafts",10,["articles.articles_updated", "articles.articles_showInSearch", "articles.articles_showInLists","articles.articles_id","articles.articles_published", "articlesDrafts.articlesDrafts_headline"]);
+
+
 echo $TWIG->render('index.twig', $PAGEDATA);
 ?>
