@@ -17,12 +17,13 @@ $PAGEDATA['MOSTACTIVEUSERS']['WEEK'] = $DBLIB->get("auditLog",5,["users.users_na
 
 
 //My recent edits
-$DBLIB->orderBy("articlesDrafts.articlesDrafts_timestamp", "DESC");
+/*$DBLIB->orderBy("articlesDrafts.articlesDrafts_timestamp", "DESC");
 $DBLIB->where("articlesDrafts.articlesDrafts_userid",$AUTH->data['users_userid']);
 $DBLIB->groupBy ("articlesDrafts.articles_id");
 $DBLIB->where("articles.articles_showInAdmin", 1);
 $DBLIB->join("articles","articles.articles_id=articlesDrafts.articles_id","LEFT");
-$PAGEDATA['recentlyEditedArticles'] = $DBLIB->get("articlesDrafts",10,["articlesDrafts.articles_id","articlesDrafts.articlesDrafts_headline"]);
+$PAGEDATA['recentlyEditedArticles'] = $DBLIB->get("articlesDrafts",10,["articlesDrafts.articles_id","articlesDrafts.articlesDrafts_headline"]);*/
+$PAGEDATA['recentlyEditedArticles'] = [];
 
 echo $TWIG->render('index.twig', $PAGEDATA);
 ?>
