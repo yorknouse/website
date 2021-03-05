@@ -101,8 +101,7 @@ services:
     container_name: grafana
     restart: unless-stopped
     volumes:
-      - ./docker/grafana:/var/lib/grafana
-      - grafana:/var/lib/grafana
+       - grafana:/var/lib/grafana
     environment:
       - GF_INSTALL_PLUGINS=grafana-clock-panel,cloudflare-app
       - GF_INSTANCE_NAME=Nouse
