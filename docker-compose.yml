@@ -8,7 +8,7 @@ services:
       - 443:443
     volumes:
       - caddy:/data
-      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
       - ./ssl/ssl.key:/etc/ssl/private/ssl.key
       - ./ssl/ssl.crt:/etc/ssl/certs/ssl.crt
       - ./ssl/origin-pull-ca.pem:/etc/ssl/certs/origin-pull-ca.pem
@@ -21,12 +21,13 @@ services:
       - nouse
       - phpmyadmin
   db:
-    image: mysql/mysql-server:5.7
-    command: --default-authentication-plugin=mysql_native_password
+    image: mysql/mysql-server:8
+    command: --default-authentication-plugin=mysql_native_password --innodb-thread-concurrency=0
     container_name: db
     volumes:
       - db_data:/var/lib/mysql
       - /etc/localtime:/etc/localtime:ro
+      - ./docker/mysql:/etc/mysql/conf.d
     restart: always
     environment:
       - MYSQL_DATABASE=nouse
@@ -50,7 +51,7 @@ services:
     env_file:
       - nouseprod.env
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:5.0
+    image: phpmyadmin/phpmyadmin:5.1
     container_name: phpmyadmin
     environment:
       - PMA_HOST=db
@@ -112,7 +113,7 @@ services:
       - mysql-backup
       - compressor
     volumes:
-      - ./netdata/config:/etc/netdata:ro
+      - ./docker/netdata/config:/etc/netdata:ro
       - netdatalib:/var/lib/netdata
       - netdatacache:/var/cache/netdata
       - /etc/passwd:/host/etc/passwd:ro
