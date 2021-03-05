@@ -96,6 +96,33 @@ services:
        - db
      volumes:
        - /etc/localtime:/etc/localtime:ro
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: unless-stopped
+    volumes:
+      - ./docker/grafana:/var/lib/grafana
+      - grafana:/var/lib/grafana
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,cloudflare-app
+      - GF_instance_name=Nouse
+      - GF_SERVER_PROTOCOL=http
+      - GF_SERVER_HTTP_PORT=80
+      - GF_SERVER_ENABLE_GZIP=true
+      - GF_SNAPSHOTS_EXTERNAL_ENABLED=false
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_USERS_ALLOW_ORG_CREATE=false
+      - GF_USERS_AUTO_ASSIGN_ORG=true
+      - GF_USERS_DEFAULT_THEME=light
+      - GF_AUTH_SIGNOUT_REDIRECT_URL="https://nouse.co.uk"
+      - GF_SERVER_DOMAIN=myrul.com
+      - GF_SMTP_ENABLED=false
+      - GF_LOG_LEVEL=critical
+      - GF_ALERTING_ENABLED=false
+      - GF_EXPLORE_ENABLED=false
+      - GF_EXPLORE_ENABLED=false
+      - GF_DATE_FORMATS_DEFAULT_TIMEZONE="Europe/London"
+      - GF_EXPRESSIONS_ENABLED=false
   netdata:
     hostname: yusunouse01.york.ac.uk
     image: netdata/netdata
@@ -138,3 +165,4 @@ volumes:
   netdatacache:
   caddy:
   db_data: { }
+  grafana:

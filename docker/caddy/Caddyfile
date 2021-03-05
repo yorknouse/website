@@ -36,3 +36,13 @@ www.nouse.co.uk nouse.co.uk edit.nouse.co.uk {
     reverse_proxy nouse:80
     encode gzip
 }
+stats.nouse.co.uk {
+    tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
+        client_auth {
+            mode require_and_verify
+            trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
+        }
+    }
+    reverse_proxy grafana:80
+    encode gzip
+}
