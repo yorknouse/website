@@ -134,7 +134,7 @@ services:
     security_opt:
       - apparmor:unconfined
     environment:
-      - PGID=120
+      - PGID=120 #This varies from server to server (https://learn.netdata.cloud/docs/agent/packaging/docker) - find it with      grep docker /etc/group | cut -d ':' -f 3
     depends_on: #Relies on everything because it needs to start last in order to access details of docker containers
       - caddy
       - nouse
