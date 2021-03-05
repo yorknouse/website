@@ -34,6 +34,8 @@ First download and authenticate the AWS Cli (using your Backblaze credentials), 
 
 # Database
 
+**N.B.** the database is in Latin1, this needs upgrading but for now just remember to keep your clients etc using that!
+
 ## MySQL Setup
 
 ```
