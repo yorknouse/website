@@ -101,9 +101,6 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     restart: unless-stopped
-    volumes:
-      - ./docker/grafana/config:/etc/grafana
-      - ./docker/grafana/dashboards:/var/lib/grafana/dashboards
     depends_on:
       - db
     environment:
