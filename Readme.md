@@ -49,4 +49,8 @@ One of the containers runs a backup every day at about 2:30am and pops it in our
 
 ## MySQL remote access
 
-phpmyadmin is accessible at http://yusunouse01.york.ac.uk/tools/phpmyadmin
+phpmyadmin is accessible at http://yusunouse01.york.ac.uk/tools/phpmyadmin, with login = nouseAdmin and password = [nouseAdminPassword set in nouseprod.env]
+
+# Netdata
+
+netdata is accessible at http://yusunouse01.york.ac.uk/tools/netdata, with login = nouseAdmin and password = [nouseAdminPassword set in nouseprod.env]
