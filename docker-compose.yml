@@ -38,7 +38,7 @@ services:
     env_file:
       - nouseprod.env
   nouse:
-    build: .
+    image: nouse/website:latest
     container_name: nouse-container
     restart: always
     depends_on:
@@ -122,6 +122,17 @@ services:
       - /sys:/host/sys:ro
       - /etc/os-release:/host/etc/os-release:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: always
+    environment:
+      - WATCHTOWER_NO_STARTUP_MESSAGE=true
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_POLL_INTERVAL=30
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /root/.docker/config.json:/config.json
 volumes:
   netdatalib:
   netdatacache:
