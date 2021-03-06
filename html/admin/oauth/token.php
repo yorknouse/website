@@ -2,8 +2,8 @@
 require_once 'oauthHead.php';
 if (isset($_POST['grant_type']) && $_POST['grant_type'] == "authorization_code") {
     //This is an authorization code request, not that we really support anything else
-    if (isset($_POST['code'])) {
-        $thisClient = $CLIENTS[urldecode($_POST['client_id'])];
+    if (isset($_POST['code']) && isset($_POST['client_id'])) {
+        $thisClient = $CLIENTS[$_POST['client_id']];
         if (!$thisClient) die("Service not found");
         if ($thisClient['secret'] != $_POST['client_secret']) die("Auth error");
 
@@ -43,6 +43,6 @@ if (isset($_POST['grant_type']) && $_POST['grant_type'] == "authorization_code")
 
         if ($_POST['client_id'] == "GRAFANA") $jwtArray["role"] = "Editor"; //TODO change to viewier
 
-        die(json_encode(["expires_in" => 3600,"access_token" => $accessTokenCode,"token_type" => "Bearer","id_token"=>generateJWT(,$accessTokenCode)]));
+        die(json_encode(["expires_in" => 3600,"access_token" => $accessTokenCode,"token_type" => "Bearer","id_token"=>generateJWT($jwtArray,$accessTokenCode)]));
     } else die("Error - missing parameters");
 }
