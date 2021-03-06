@@ -41,7 +41,7 @@ if (isset($_POST['grant_type']) && $_POST['grant_type'] == "authorization_code")
 
         $jwtArray = ["exp"=>strtotime("+1 hour"),"email"=>$email,"name" =>$name];
 
-        if ($_POST['client_id'] == "GRAFANA") $jwtArray["role"] = "Editor"; //TODO change to viewier
+        if ($_POST['client_id'] == "GRAFANA") $jwtArray["role"] = "Viewer";
 
         die(json_encode(["expires_in" => 3600,"access_token" => $accessTokenCode,"token_type" => "Bearer","id_token"=>generateJWT($jwtArray,$accessTokenCode)]));
     } else die("Error - missing parameters");
