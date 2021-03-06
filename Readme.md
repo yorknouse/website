@@ -56,3 +56,9 @@ phpmyadmin is accessible at http://yusunouse01.york.ac.uk/tools/phpmyadmin, with
 # Netdata
 
 netdata is accessible at http://yusunouse01.york.ac.uk/tools/netdata, with login = nouseAdmin and password = [nouseAdminPassword set in nouseprod.env]
+
+# Grafana
+
+Grafana (stats.nouse.co.uk) runs as an instance inside the MySQL server. It has full root access to the database due to Docker limitations so as such no users have edit permissions. Instead, set up your queries and graphs in the text files under `"`docker/grafana/dashboards`. You can also generate these locally by running grafana and using the UI to export JSON files. 
+
+Grafana security is managed by an oauth hook from the main admin site. 
