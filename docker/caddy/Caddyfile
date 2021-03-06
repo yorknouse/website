@@ -10,17 +10,43 @@
 {$serverHostname:localhost} {
     #Extra Tools
 
-    basicauth /tools/* bcrypt {
-        nouseAdmin {$nouseAdminPassword:JDJ5JDEyJERYNy9hRDVBRi93U2VWaWRvZXlNSmVDQkpmLkE5MjhmTXdpcU5rWTh5VVRRdUVVNmhVbzdHIA==} #default is "password" - needs to be a base64 hash of bcrypt
+    route /auth* {
+        auth_portal {
+          backends {
+            generic_oauth2_backend {
+                method oauth2
+                realm nouse
+                provider nouse
+                domain_name edit.nouse.co.uk
+                client_id CADDY
+                client_secret bqxDRS7h8uAgXc
+                scopes email
+              }
+          }
+        }
     }
-    route /tools/phpmyadmin/* {
-        uri strip_prefix /tools/phpmyadmin
-        reverse_proxy phpmyadmin:80
+    route /tools/* {
+        jwt {
+          primary yes
+          trusted_tokens {
+            static_secret {
+              token_name access_token
+              token_secret bqxDRS7h8uAgXc
+            }
+          }
+          auth_url /auth/oauth2/nouse
+          allow roles verified
+        }
+        route phpmyadmin/* {
+            uri strip_prefix /tools/phpmyadmin
+            reverse_proxy phpmyadmin:80
+        }
+        route netdata/* {
+            uri strip_prefix /tools/netdata
+            reverse_proxy netdata:19999
+        }
     }
-    route /tools/netdata/* {
-        uri strip_prefix /tools/netdata
-        reverse_proxy netdata:19999
-    }
+
 
     reverse_proxy nouse:80
 
