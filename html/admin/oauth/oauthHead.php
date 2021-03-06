@@ -3,12 +3,14 @@ require_once __DIR__ . '/../common/head.php';
 
 $CLIENTS = [
     "CADDY" => [
-        "autoApprove" => true,
-        "secret"=>"bqxDRS7h8uAgXc"
+        "secret"=>"AMVLUAJBN61EJ979PFQZL7GSV6FLKNXF0X4Y2TEV",
+        "permission" => 56,
+        "name" => "Caddy"
     ],
     "GRAFANA" => [
-        "autoApprove" => true,
-        "secret"=>"7kQ4ybmDTm9pEg"
+        "secret"=>"LD50Z6QKZXLFAPKQJ136ZLNZBFF38Y2C2ZGKKNI4",
+        "permission"=> 57,
+        "name" => "Grafana"
     ]
 ];
 function base64UrlEncode($text)
