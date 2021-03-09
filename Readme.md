@@ -38,14 +38,14 @@ First download and authenticate the AWS Cli (using your Backblaze credentials), 
 
 ## MySQL Setup
 
+To transfer a MySQL dump file (named `nouseBackup.sql`) run:
 ```
-cat nouseBackup.sql | docker exec -i db /usr/bin/mysql -u root --password=PASSWORDYOUSETEARLIER nouse
+cat nouseBackup.sql | docker exec -i db /usr/bin/mysql -u root --password=rootPass nouse
 ```
-Enter the password you set at the top of `nouseprod.env` (the root password into the above, and update the sql file to your correct file)
 
 ## MySQL Backups
 
-One of the containers runs a backup every day at about 2:30am and pops it in our S3 bucket. That's all automatic, but you do need to set up a lifecycle rule for the spaces/S3 bucket. This is so the backups are deleted after 40 days and we don't get bancrupted by them.
+`mysql-backup` runs a backup every day at about 2:30am and pops it in our S3 bucket. That's all automatic, but you do need to set up a lifecycle rule for the spaces/S3 bucket. This is so the backups are deleted after 40 days and we don't get bancrupted by them.
 
 - Set the lifecycle policy for the bucket using the `lifecycle.xml` file
 

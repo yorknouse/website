@@ -5,9 +5,6 @@ if (!$CONFIG['AWS']['UPLOAD']) die("Uploads disabled");
 
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: GET");
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 $bucket = $CONFIG['AWS']['DEFAULTUPLOADS']['BUCKET'];
 // Directory to place uploaded files in.
 use Aws\S3\S3Client;
