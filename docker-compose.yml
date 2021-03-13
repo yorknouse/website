@@ -67,7 +67,7 @@ services:
       - /sessions
   compressor:
     image: nouse/image-compressor:latest
-    restart: always
+    restart: unless-stopped
     depends_on:
       - db
     environment:
