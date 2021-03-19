@@ -102,8 +102,8 @@
         <meta property="og:image" content="{{ POST.articles_id|articleThumbnail('large',(POST['SOCIAL-OVERLAY'] ? POST['SOCIAL-OVERLAY'] : null))|replace({" ":"%20"})|raw }}" />
     {% endif %}
     <meta property="fb:app_id" content="471873819886891" />
-    <meta property="og:title" content="{{ POST.articlesDrafts_headline|raw }}">
-    <meta property="og:description" content="{{ POST.articlesDrafts_excerpt|raw }}">
+    <meta property="og:title" content="{{ POST.articlesDrafts_headline|escape("html") }}">
+    <meta property="og:description" content="{{ POST.articlesDrafts_excerpt|escape("html") }}">
     <meta property="og:type"   content="article" />
     <meta property="article:content_tier"   content="free" />
     <meta property="article:publisher" content="https://www.facebook.com/yorknouse" />
@@ -111,7 +111,7 @@
     <link rel="canonical" href="{{ CONFIG.ROOTFRONTENDURL }}/{{ POST.articles_published|date("Y/m/d") }}/{{ POST.articles_slug }}" />
     {% for category in POST.CATEGORIES %}
         {% if category.categories_nestUnder == null %}
-    <meta property="article:section" content="{{  category.categories_displayName }}" />
+    <meta property="article:section" content="{{  category.categories_displayName|escape("html") }}" />
         {% endif %}
     {% endfor %}
     {% for author in POST.articles_authors %}
@@ -129,7 +129,7 @@
                 "@type": "WebPage",
                 "@id": "{{ CONFIG.ROOTFRONTENDURL }}/{{ POST.articles_published|date("Y/m/d") }}/{{ POST.articles_slug }}"
             },
-            "headline": "{{ POST.articlesDrafts_headline|raw }}",
+            "headline": "{{ POST.articlesDrafts_headline|escape("js") }}",
             {% if POST.articles_id|articleThumbnail != null %}
             "image": [
                 "{{ POST.articles_id|articleThumbnail('large',(POST['SOCIAL-OVERLAY'] ? POST['SOCIAL-OVERLAY'] : null))|replace({" ":"%20"})|raw }}"
@@ -148,14 +148,14 @@
                     "url": "{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/logo/nouse-logo-full3.png"
                 }
             },
-            "description": "{{ POST.articlesDrafts_excerpt|raw }}"
+            "description": "{{ POST.articlesDrafts_excerpt|escape("js") }}"
         }
     </script>
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@yorknouse">
-    <meta name="twitter:title" content="{{ POST.articlesDrafts_headline|raw }}">
-    <meta name="twitter:description" content="{{ POST.articlesDrafts_excerpt|raw }}">
+    <meta name="twitter:title" content="{{ POST.articlesDrafts_headline|escape("html") }}">
+    <meta name="twitter:description" content="{{ POST.articlesDrafts_excerpt|escape("html") }}">
     <meta name="twitter:image" content="{{ POST.articles_id|articleThumbnail('large',(POST['SOCIAL-OVERLAY'] ? POST['SOCIAL-OVERLAY'] : null))|replace({" ":"%20"})|raw }}">
 
     <meta name="google-signin-client_id"
