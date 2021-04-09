@@ -23,13 +23,11 @@
       "datasource": "Nouse-Database",
       "description": "",
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 6,
         "w": 24,
         "x": 0,
         "y": 0
@@ -39,7 +37,7 @@
         "content": "# Nouse Grafana\n\nWelcome to the Nouse Grafana Site, which enables you to visualise data from our database, such as reads of articles\n\nIt's run by our Technical Directors, so get in touch with them if there's any more graphs/data you'd like to see!\n\n\nPlease note that this system does not have any persistent storage so any changes you make will not be saved. Data is pulled live from the Nouse database in real time",
         "mode": "markdown"
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "7.5.3",
       "targets": [
         {
           "format": "time_series",
@@ -81,7 +79,6 @@
           "color": {
             "mode": "thresholds"
           },
-          "custom": {},
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
@@ -89,10 +86,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           }
@@ -103,7 +96,7 @@
         "h": 8,
         "w": 5,
         "x": 0,
-        "y": 4
+        "y": 6
       },
       "id": 4,
       "options": {
@@ -119,7 +112,7 @@
         "showThresholdMarkers": false,
         "text": {}
       },
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "7.5.3",
       "targets": [
         {
           "format": "time_series",
@@ -234,7 +227,7 @@
         "h": 8,
         "w": 19,
         "x": 5,
-        "y": 4
+        "y": 6
       },
       "id": 2,
       "maxDataPoints": null,
@@ -306,9 +299,7 @@
       "datasource": "Nouse-Database",
       "description": "",
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
@@ -317,7 +308,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 12
+        "y": 14
       },
       "hiddenSeries": false,
       "id": 6,
@@ -337,7 +328,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "7.5.3",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -397,7 +388,9 @@
         }
       ],
       "thresholds": [],
+      "timeFrom": null,
       "timeRegions": [],
+      "timeShift": null,
       "title": "Article Reads by Hour",
       "tooltip": {
         "shared": false,
@@ -442,18 +435,16 @@
       "dashes": false,
       "datasource": "Nouse-Database",
       "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
+        "defaults": {},
         "overrides": []
       },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
         "h": 8,
-        "w": 12,
+        "w": 24,
         "x": 0,
-        "y": 18
+        "y": 20
       },
       "hiddenSeries": false,
       "id": 10,
@@ -473,7 +464,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.4.3",
+      "pluginVersion": "7.5.3",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -528,155 +519,6 @@
               "name": "$__timeFilter",
               "params": [],
               "type": "macro"
-            }
-          ]
-        }
-      ],
-      "thresholds": [],
-      "timeRegions": [],
-      "title": "Comments posted on the site",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:391",
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:392",
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": "Nouse-Database",
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 12,
-        "y": 18
-      },
-      "hiddenSeries": false,
-      "id": 11,
-      "interval": "24h",
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.4.3",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "format": "time_series",
-          "group": [
-            {
-              "params": [
-                "$__interval",
-                "none"
-              ],
-              "type": "time"
-            }
-          ],
-          "metricColumn": "none",
-          "queryType": "randomWalk",
-          "rawQuery": true,
-          "rawSql": "SELECT\n  $__timeGroupAlias(comments_created,$__interval),\n  count(comments_id) AS \"comments_id\"\nFROM comments\nWHERE\n  $__timeFilter(comments_created) AND\n  (comments_approved = 1 OR comments_approved = 2 OR comments_approved = 3 OR comments_approved =5)\nGROUP BY 1\nORDER BY $__timeGroup(comments_created,$__interval)",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "comments_id"
-                ],
-                "type": "column"
-              },
-              {
-                "params": [
-                  "count"
-                ],
-                "type": "aggregate"
-              },
-              {
-                "params": [
-                  "comments_id"
-                ],
-                "type": "alias"
-              }
-            ]
-          ],
-          "table": "comments",
-          "timeColumn": "comments_created",
-          "timeColumnType": "timestamp",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            },
-            {
-              "datatype": "tinyint",
-              "name": "",
-              "params": [
-                "(comments_approved = 1 OR comments_approved = 2 OR comments_approved = 3 OR comments_approved =5)",
-                "=",
-                "1"
-              ],
-              "type": "expression"
             }
           ]
         }
@@ -765,6 +607,6 @@
   },
   "timezone": "Europe/London",
   "title": "Home",
-  "uid": "rvfN3ZUGk",
+  "uid": "homedash",
   "version": 12
 }

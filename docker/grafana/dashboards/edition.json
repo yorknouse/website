@@ -1,0 +1,67 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Stats about a particular edition",
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 5,
+  "iteration": 1617993709052,
+  "links": [],
+  "panels": [],
+  "schemaVersion": 27,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "The Weekly Nouse Edition 21",
+          "value": "918"
+        },
+        "datasource": "Nouse-Database",
+        "definition": "SELECT editions.editions_id AS \"__value\", editions.editions_name  AS \"__text\" FROM editions WHERE editions.editions_deleted = 0 ORDER BY editions.editions_published DESC",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Edition",
+        "multi": false,
+        "name": "editionid",
+        "options": [],
+        "query": "SELECT editions.editions_id AS \"__value\", editions.editions_name  AS \"__text\" FROM editions WHERE editions.editions_deleted = 0 ORDER BY editions.editions_published DESC",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "2019-01-01T00:00:00.000Z",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Edition Stats",
+  "uid": "edition",
+  "version": 2
+}

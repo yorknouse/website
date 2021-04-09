@@ -1,0 +1,276 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Stats about a particular article",
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 3,
+  "iteration": 1617992639317,
+  "links": [],
+  "panels": [
+    {
+      "datasource": "Nouse-Database",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 3,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "7.5.3",
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "queryType": "randomWalk",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  articles_published AS \"time\",\n  articles_lifetimeViews\nFROM articles\nWHERE\n  articles_id = $articleid\nORDER BY articles_published",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "articles_lifetimeViews"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "articles",
+          "timeColumn": "articles_published",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "datatype": "int",
+              "name": "",
+              "params": [
+                "articles_id",
+                "=",
+                "$articleid"
+              ],
+              "type": "expression"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Total Article Reads",
+      "type": "stat"
+    },
+    {
+      "datasource": "Nouse-Database",
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Article Reads",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "graph": false,
+              "legend": false,
+              "tooltip": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 13,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 5,
+      "options": {
+        "graph": {},
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltipOptions": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "7.5.3",
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [
+            {
+              "params": [
+                "1h",
+                "none"
+              ],
+              "type": "time"
+            }
+          ],
+          "metricColumn": "none",
+          "queryType": "randomWalk",
+          "rawQuery": false,
+          "rawSql": "SELECT\n  $__timeGroupAlias(articlesReads_timestamp,1h),\n  count(articlesReads_id) AS \"Article Reads\"\nFROM articlesReads\nWHERE\n  articles_id = $articleid\nGROUP BY 1\nORDER BY $__timeGroup(articlesReads_timestamp,1h)",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "articlesReads_id"
+                ],
+                "type": "column"
+              },
+              {
+                "params": [
+                  "count"
+                ],
+                "type": "aggregate"
+              },
+              {
+                "params": [
+                  "Article Reads"
+                ],
+                "type": "alias"
+              }
+            ]
+          ],
+          "table": "articlesReads",
+          "timeColumn": "articlesReads_timestamp",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "datatype": "int",
+              "name": "",
+              "params": [
+                "articles_id",
+                "=",
+                "$articleid"
+              ],
+              "type": "expression"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Article Reads by Hour",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 27,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "York Mind revealed as Roses 2021 charity recipient",
+          "value": "150123"
+        },
+        "datasource": "Nouse-Database",
+        "definition": "SELECT articles.articles_id AS \"__value\", articlesDrafts.articlesDrafts_headline  AS \"__text\" FROM articles LEFT JOIN articlesDrafts ON articles.articles_id=articlesDrafts.articles_id WHERE articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1) AND articles.articles_showInAdmin = 1 ORDER BY articles.articles_published DESC",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Article",
+        "multi": false,
+        "name": "articleid",
+        "options": [],
+        "query": "SELECT articles.articles_id AS \"__value\", articlesDrafts.articlesDrafts_headline  AS \"__text\" FROM articles LEFT JOIN articlesDrafts ON articles.articles_id=articlesDrafts.articles_id WHERE articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1) AND articles.articles_showInAdmin = 1 ORDER BY articles.articles_published DESC",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "2019-01-01T00:00:00.000Z",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Article Stats",
+  "uid": "article",
+  "version": 4
+}
