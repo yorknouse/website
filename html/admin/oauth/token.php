@@ -35,7 +35,7 @@ if (isset($_POST['grant_type']) && $_POST['grant_type'] == "authorization_code")
         
         if ($user['users_googleAppsUsernameYork'] != null) $email = $user['users_googleAppsUsernameYork'] . "@york.ac.uk";
         elseif ($user['users_googleAppsUsernameNouse'] != null) $email = $user['users_googleAppsUsernameNouse']. "@nouse.co.uk";
-        else $email = $user['users_userid'] . "@nouse.co.uk";
+        else $email = $user['users_userid'] . "@nouse.co.uk"; //Bit of a get-out-of-jail solution
 
         $name = preg_replace("/[^A-Za-z0-9 ]/", '', $user['users_name1']) . " " . preg_replace("/[^A-Za-z0-9 ]/", '', $user['users_name2']);
 
