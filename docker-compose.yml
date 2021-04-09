@@ -29,6 +29,7 @@ services:
       - db_data:/var/lib/mysql
       - /etc/localtime:/etc/localtime:ro
       - ./docker/mysql:/etc/mysql/conf.d
+      - ./docker/mysql/readonly.sql:/docker-entrypoint-initdb.d/readonly.sql
     restart: always
     environment:
       - MYSQL_DATABASE=nouse
