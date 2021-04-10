@@ -87,20 +87,22 @@
                                         {% endfor %}
                                     </td>
                                     <td>
-
-                                        {% if article.articles_showInSearch == 1 and date(article.articles_published) < date() %}
-                                        <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}"
-                                           type="button" title="View on website" class="btn btn-default" target="_blank"><i
-                                                    class="fa fa-eye"></i></a>
-                                        {% endif %}
-                                        {% if 32|permissions %}
-                                            <a href="{{ CONFIG.ROOTBACKENDURL }}/article.php?id={{ article.articles_id }}"
-                                               type="button" title="Edit" class="btn btn-default"><i
-                                                        class="fa fa-pencil"></i></a>
-                                        {% endif %}
-                                        {% if 33|permissions %}
-                                        <button class="btn btn-danger deleteArticle" data-articleid="{{ article.articles_id }}"><i class="fa fa-trash-o"></i></button>
-                                        {% endif %}
+                                        <div class="btn-group">
+                                            {% if article.articles_showInSearch == 1 and date(article.articles_published) < date() %}
+                                            <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}"
+                                               type="button" title="View on website" class="btn btn-default" target="_blank"><i
+                                                        class="fa fa-eye"></i></a>
+                                                <a target="_blank" href="https://stats.nouse.co.uk/d/article/article-stats?var-articleid={{ article.articles_id }}&from={{ ((article.articles_published|date("U"))-7200)*1000 }}&to=now" title="View Article Stats" class="btn btn-default"><i class="fa fa-line-chart"></i></a>
+                                            {% endif %}
+                                            {% if 32|permissions %}
+                                                <a href="{{ CONFIG.ROOTBACKENDURL }}/article.php?id={{ article.articles_id }}"
+                                                   type="button" title="Edit" class="btn btn-default"><i
+                                                            class="fa fa-pencil"></i></a>
+                                            {% endif %}
+                                            {% if 33|permissions %}
+                                            <button class="btn btn-danger deleteArticle" data-articleid="{{ article.articles_id }}"><i class="fa fa-trash-o"></i></button>
+                                            {% endif %}
+                                        </div>
                                     </td>
                                 </tr>
                             {% endfor %}
