@@ -3,6 +3,7 @@ require_once __DIR__ . '/common/head.php';
 
 function displayEdition($edition, $preview = false) {
     global $PAGEDATA, $DBLIB,$TWIG,$bCMS,$CONFIG;
+    if ($preview) $PAGEDATA['preview'] = true;
     $PAGEDATA['edition'] = $edition;
     $PAGEDATA['pageConfig']['TITLE'] = $PAGEDATA['edition']['editions_name'] . ($PAGEDATA['edition']['editions_printNumber'] != null ? ' | Edition &numero;' . $PAGEDATA['edition']['editions_printNumber'] : '') . " | Nouse";
     $PAGEDATA['pageConfig']['EDITIONTheme'] = true;
@@ -85,6 +86,7 @@ function displayEdition($edition, $preview = false) {
 function displayPost($post, $preview = false)
 {
     global $PAGEDATA, $DBLIB,$TWIG,$bCMS,$CONFIG;
+    if ($preview) $PAGEDATA['preview'] = true;
     $PAGEDATA['POST'] = $post;
 
     $PAGEDATA['pageConfig'] = ["TITLE" => $PAGEDATA['POST']['articlesDrafts_headline']];

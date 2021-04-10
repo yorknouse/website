@@ -547,7 +547,9 @@
 
         var replyToComment = null; //Comment user is replying to
         $( document ).ready(function () {
+            {% if preview %}{% else %}{# Odd syntax because preview is often unset #}
             ajaxCall("readCounter.php", {"articleid": "{{ POST.articles_id }}"});
+            {% endif %}
             $(".reportComment").click(function(){
                 var dialog = bootbox.dialog({
                     title: 'Report Comment',
