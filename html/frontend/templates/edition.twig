@@ -53,7 +53,7 @@
         </div>
     {% endif %}
     {% if edition.editions_pdf or edition.editions_pdfOriginal %}
-    <div style="padding-bottom:10px;background-image:url({{ CONFIG.ASSETSURL }}flipbook/img/bg.jpg);">
+    <div style="padding-bottom:10px;background-image:url({{ CONFIG.ASSETSURL }}flipbook/img/bg-blur.jpg);background-repeat: no-repeat;background-size: cover;">
         <div class="container">
             {% include 'elements/flipBook.twig' with { 'pdf':(edition.editions_pdf ? edition.editions_pdf : edition.editions_pdfOriginal),'pdfOrig':edition.editions_pdfOriginal } %}
         </div>
