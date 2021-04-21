@@ -215,6 +215,9 @@ class bCMS {
                 case 9:
                     //Library Image
                     break;
+                case 10:
+                    //Advert image
+                    break;
                 default:
                     //There are no specific requirements for this file so not to worry.
             }

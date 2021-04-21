@@ -1,0 +1,245 @@
+{% extends "assets/template.twig" %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="box-title">
+                        {% if search|length > 0 %}
+                            Search results for adverts matching <b>{{ search }}</b>
+                        {% else %}
+                            Adverts
+                        {% endif %}
+                    </h3>
+                    <div class="box-tools pull-right">
+                        <form class="input-group input-group-sm" style="width: 150px;" method="GET">
+                            <input type="text" name="q" class="form-control pull-right" placeholder="Search" value="{{ search }}" />
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                <button type="button" title="Add new edition" id="addNewButton" class="btn btn-default"><i class="fa fa-plus"></i></button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                    {% if adverts|length > 0 %}
+                        <table class="table sticky-header" border="0" style="overflow-x: scroll;">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Impressions</th>
+                                <th>Clicks</th>
+                                <th>Enabled</th>
+                                <th>Link</th>
+                                <th>Banner Image</th>
+                                <th>Mobile Banner Image</th>
+                                <th>Duration</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for advert in adverts %}
+                                <tr
+                                 {% if advert.adverts_bannerImage == null or advert.adverts_link == null %}
+                                    class="danger"
+                                {% elseif advert.adverts_enabled != 1  %}
+                                    class="warning"
+                                        {% endif %}>
+                                    <td>{{ advert.adverts_id }}</td>
+                                    <td>
+                                        {% if advert.adverts_bannerImage == null %}
+                                            <span class="label label-danger">Missing Image</span><br/>
+                                        {% endif %}
+                                        {% if advert.adverts_link == null %}
+                                            <span class="label label-danger">Missing Link</span><br/>
+                                        {% endif %}
+                                        {% if advert.adverts_default == 1 and advert.adverts_enabled == 1 %}
+                                            <span class="label label-warning">Default</span><br/>
+                                        {% endif %}
+                                        {% if advert.adverts_enabled != 1 %}
+                                            <span class="label label-warning">Disabled</span><br/>
+                                        {% endif %}
+                                        {% if advert.CURRENT %}
+                                            <span class="label label-success">Currently running</span><br/>
+                                        {% endif %}
+                                        {{ advert.adverts_name }}</td>
+                                    <td>{{ advert.adverts_impressions }}</td>
+                                    <td>{{ advert.adverts_clicks }}</td>
+                                    <td>{{ (advert.adverts_enabled ? '<i class="fa fa-check"></i>' : '') }}</td>
+                                    <td>{{ (advert.adverts_link != null ? '<i class="fa fa-check"></i>' : '') }}</td>
+                                    <td>{{ (advert.adverts_bannerImage ? '<i class="fa fa-check"></i>' : '') }}</td>
+                                    <td>{{ (advert.adverts_bannerImageMob ? '<i class="fa fa-check"></i>' : '') }}</td>
+                                    <td>{{ (advert.adverts_start ? advert.adverts_start|date("D d M Y") ~ " - " : "") ~ (advert.adverts_end ? advert.adverts_end|date("D d M Y") : "") }}</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a href="{{ CONFIG.ROOTBACKENDURL }}/advert.php?id={{ advert.adverts_id }}"
+                                               type="button" title="Edit" class="btn btn-default"><i
+                                                        class="fa fa-pencil"></i></a>
+                                            {% if advert.adverts_default != 1 and advert.adverts_enabled == 1 %}
+                                            <button class="btn btn-success defaultAdvert" data-id="{{ advert.adverts_id }}" title="Make Default"><i class="fa fa-thumb-tack"></i></button>
+                                            {% endif %}
+                                            {% if advert.adverts_enabled != 1 and advert.adverts_bannerImage != null and advert.adverts_link != null  %}
+                                                <button class="btn btn-success toggleEnableAdvert" data-id="{{ advert.adverts_id }}" title="Enable"><i class="fa fa-check"></i></button>
+                                            {% elseif advert.adverts_enabled == 1 and advert.adverts_default != 1 %}
+                                                <button class="btn btn-warning toggleEnableAdvert" data-id="{{ advert.adverts_id }}" title="Disable"><i class="fa fa-times"></i></button>
+                                            {% endif %}
+                                            <!--<button class="btn btn-danger deleteAdvert" data-id="{{ advert.adverts_id }}" title="Delete"><i class="fa fa-trash-o"></i></button>-->
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <center><p style="margin: 10px;"><i>No results</i><br/><a href="?">Remove any filters</a></p></center>
+                    {% endif %}
+                </div>
+                <div class="overlay" id="loadingoverlay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                </div>
+                {% if pagination.total > 1 %}
+                    <div class="box-footer clearfix">
+                        <ul class="pagination pagination-sm no-margin pull-right">
+                            {% if pagination.page > 1 %}
+                                <li><a href="?{{ {page: (pagination.page -1)}|modifyGet }}">&laquo;</a></li>
+                            {% endif %}
+
+                            {% for i in range((pagination.page > 3 ? pagination.page-2 : 1), (pagination.total > 5 and pagination.page+2 < pagination.total ? pagination.page+2 : pagination.total)) %}
+                                <li><a href="?{{ {page: i}|modifyGet }}">
+                                        {% if pagination.page == i %}
+                                            <b>{{ i }}</b>
+                                        {% else %}
+                                            {{ i }}
+                                        {% endif %}
+                                    </a></li>
+                            {% endfor %}
+
+                            {% if pagination.page < pagination.total %}
+                                <li><a href="?{{ {page: (pagination.page +1)}|modifyGet }}">&raquo;</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <script>
+            $(document).ready(function () {
+                $("#loadingoverlay").hide();
+                $("#addNewButton").click(function () {
+                    bootbox.prompt({
+                        title: "Advert Name",
+                        inputType: 'text',
+                        placeholder: 'FirstBus YorKey Card to the Lunar Campus Promotion',
+                        callback: function (result) {
+                            if (result) {
+                                $("#loadingoverlay").show();
+                                var title = result;
+                                $.ajax({
+                                    url: "{{ CONFIG.ROOTBACKENDURL }}/api/advert/new.php?title=" + title,
+                                    type: "json",
+                                    success: function (result) {
+                                        if (result.result) {
+                                            window.location.href = '{{ CONFIG.ROOTBACKENDURL }}/advert.php?id=' + result.response.id;
+                                        } else {
+                                            bootbox.alert("Sorry - Operation could not be completed! Please reload the page", function () {
+                                                location.reload();
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
+                $(".deleteAdvert").click(function () {
+                    var id = $(this).data("id");
+                    bootbox.confirm({
+                        message: "Are you sure you wish to delete this advert?",
+                        buttons: {
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-default'
+                            },
+                            confirm: {
+                                label: 'Yes',
+                                className: 'btn-danger'
+                            }
+                        },
+                        callback: function (result) {
+                            if (result) {
+                                $("#loadingoverlay").show();
+                                $.ajax({
+                                    url: "{{ CONFIG.ROOTBACKENDURL }}/api/advert/delete.php?id=" + id,
+                                    success: function (result) {
+                                        if (result == '1') {
+                                            bootbox.alert("Success - advert has been deleted. Contact support@nouse.co.uk to have it recovered", function () {
+                                                location.reload();
+                                            });
+                                        } else {
+                                            bootbox.alert("Sorry - Operation could not be completed! Please reload the page", function () {
+                                                location.reload();
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
+                $(".defaultAdvert").click(function () {
+                    var id = $(this).data("id");
+                    bootbox.confirm({
+                        message: "Are you sure you wish to make this advert the default?",
+                        buttons: {
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-default'
+                            },
+                            confirm: {
+                                label: 'Yes',
+                                className: 'btn-success'
+                            }
+                        },
+                        callback: function (result) {
+                            if (result) {
+                                $("#loadingoverlay").show();
+                                $.ajax({
+                                    url: "{{ CONFIG.ROOTBACKENDURL }}/api/advert/default.php?id=" + id,
+                                    success: function (result) {
+                                        if (result == '1') {
+                                            location.reload();
+                                        } else {
+                                            bootbox.alert("Sorry - Operation could not be completed! Please reload the page", function () {
+                                                location.reload();
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        }
+                    });
+                });
+                $(".toggleEnableAdvert").click(function () {
+                    var id = $(this).data("id");
+                    $("#loadingoverlay").show();
+                    $.ajax({
+                        url: "{{ CONFIG.ROOTBACKENDURL }}/api/advert/toggleEnable.php?id=" + id,
+                        success: function (result) {
+                            if (result == '1') {
+                                location.reload();
+                            } else {
+                                bootbox.alert("Sorry - Operation could not be completed! Please reload the page", function () {
+                                    location.reload();
+                                });
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+    </div>
+{% endblock %}

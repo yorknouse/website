@@ -139,13 +139,7 @@
                         </div>
                         <div class="col-sm-8">
                             <div class="header-banner">
-                                {% if date() >= date("13 July 2020 13:30:00") and date() <= date("07 September 2020 13:30:00") %}
-                                    <a href="https://wearehomesforstudents.com/student-accommodation/york/abode?utm_source=Nouse%20News%20?utm_medium=referral?utm_campaign=202007%20HFS%20Abode%20York%20Nouse%20Newspaper%20Web%20Banner%20July?utm_content=link" target="_blank"><img src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/advertising/Abode%20Student%20Housing.gif" class="img-responsive" alt="Homes for Students - Advert"></a>
-                                {% elseif date() >= date("29 April 2020 11:00:00") and date() <= date("22 June 2020 00:00:00") %}
-                                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/editions/" target="_blank"><img src="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/advertising/Weekly%20Nouse%20Banner%20Compressed.jpg" class="img-responsive" alt="The Weekly Nouse - COVID-19 - Advert"></a>
-                                {% else %}
-                                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/pages/about/advertising.php"><img src="{{ CONFIG.ROOTFRONTENDURL }}/common/assets/adTemplates/728x90.jpg" class="img-responsive" alt=""></a>
-                                {% endif %}
+                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/api/advert.php?link" target="_blank"><img src="{{ CONFIG.ROOTFRONTENDURL }}/api/advert.php?image" class="img-responsive" alt="Advertising Feature"></a>
                             </div>
                         </div>
                     </div>
@@ -156,6 +150,7 @@
             {% if pageConfig.MENUColor %}
                     style="background-color: #{{ pageConfig.MENUColor.backgroundColor }}; color: #{{ pageConfig.MENUColor.backgroundColorContrast }};"
             {% endif %}>
+                <a href="{{ CONFIG.ROOTFRONTENDURL }}/api/advert.php?link" target="_blank" class="hidden-lg hidden-md"><img src="{{ CONFIG.ROOTFRONTENDURL }}/api/advert.php?image&mob" class="img-responsive" alt="Advertising Feature"></a>
                 <div class="container" style="background-color: inherit;">
                     <div class="attr-nav">
                         <ul>
