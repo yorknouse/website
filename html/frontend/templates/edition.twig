@@ -44,43 +44,24 @@
                     {% endif %}
                 </b>
             </h3>
+            <h4>
+                {{ edition.editions_type }}
+            </h4>
             {% if edition.editions_excerpt %}
                 <p> {{ edition.editions_excerpt }}</p>
             {% endif %}
         </div>
     {% endif %}
     {% if edition.editions_pdf or edition.editions_pdfOriginal %}
-    <div class="video-inner" style="margin-top: 0px;padding-bottom:10px;">
+    <div style="padding-bottom:10px;background-image:url({{ CONFIG.ASSETSURL }}flipbook/img/bg.jpg);">
         <div class="container">
-            <div class="row">
-                <div class="col-sm-8 col-sm-offset-2">
-                    {% if edition.editions_thumbnail %}
-                        <a href="{{ (edition.editions_pdf ? edition.editions_pdf|s3URL : edition.editions_pdfOriginal|s3URL) }}" target="_blank">
-                            <img src="{{ edition.editions_thumbnail|s3URL("large") }}" style="width:100%;" alt="{{ edition.editions_name|raw }}">
-                        </a>
-                    {% else %}
-                        <a href="{{ (edition.editions_pdf ? edition.editions_pdf|s3URL : edition.editions_pdfOriginal|s3URL) }}" target="_blank"><h4 style="color:white;">PDF Download</h4></a>
-                    {% endif %}
-                    <header class="details-header" style="margin-bottom:0;">
-                        {% if editions_pdf %}
-                            {% set pdfData = edition.editions_pdf|s3DATA %}
-                        {% else %}
-                            {% set pdfData = edition.editions_pdfOriginal|s3DATA %}
-                        {% endif %}
-                        <div class="element-block" style="margin-bottom: 30px;margin-top:10px;">
-                            <div class="entry-meta">
-                                <span class="entry-date"><i class="fa fa-calendar-o" aria-hidden="true"></i>{{ edition.editions_published|date("j M Y") }}</span>
-                                <span class="comment-link"><a href="{{ (edition.editions_pdf ? edition.editions_pdf|s3URL : edition.editions_pdfOriginal|s3URL) }}" target="_blank"><i class="fa fa-cloud-download" aria-hidden="true"></i> {{ pdfData.data.s3files_meta_size|formatsize }}</a></span>
-                            </div>
-                        </div>
-                    </header>
-                </div>
-            </div>
+            {% include 'elements/flipBook.twig' with { 'pdf':(edition.editions_pdf ? edition.editions_pdf : edition.editions_pdfOriginal),'pdfOrig':edition.editions_pdfOriginal } %}
         </div>
     </div>
     {% endif %}
 {% endblock %}
 {% block content %}
+    {% if edition['editions_featuredHighlights'] %}
         <div class="container-fluid">
         {% for section in edition['editions_featuredHighlights']['sections'] %}
             <div class="height_30"></div>
@@ -125,6 +106,8 @@
                 </div>
             {% endfor %}
         </div>
+    {% endif %}
+    {% if category.articles %}
         <div class="container">
             <main class="col-lg-12 content">
                 <div class="height_30"></div>
@@ -189,11 +172,6 @@
                     {% endif %}
                 {% endfor %}
             </main>
-            {% if edition.editions_pdf and edition.editions_pdfOriginal %}{# If the compressed version was available they'll only have been shown that above - so give a link to it here #}
-                {% set pdfDataOrig = edition.editions_pdfOriginal|s3DATA %}
-                <a href="{{ edition.editions_pdfOriginal|s3URL }}">
-                    <i class="fa fa-cloud-download" aria-hidden="true"></i> Download original PDF ({{ pdfDataOrig.data.s3files_meta_size|formatsize }})
-                </a>
-            {% endif %}
         </div>
+    {% endif %}
 {% endblock %}

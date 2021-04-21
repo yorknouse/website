@@ -26,7 +26,7 @@ Watchtower does the updating for you anytime you push a new tag (which triggers 
 
 ## Backblaze Setup
 
-You need to setup the CORS on the bucket to allow uploads
+You need to setup the CORS on the bucket to allow uploads from any host, and downloads from any host
 
 First download and authenticate the AWS Cli (using your Backblaze credentials), then download the cors.json file from this repo and run:
 
