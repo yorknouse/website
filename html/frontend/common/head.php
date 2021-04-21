@@ -3,7 +3,7 @@ require_once __DIR__ . '/../../common/coreHead.php';
 header("Cache-Control:public, max-age=900, s-maxage=3600, stale-while-revalidate=900, stale-if-error=3600");
 
 
-$CONFIG['ASSETSURL'] = $CONFIG['ROOTFRONTENDURL'] . "/common/assets/theme/osru/assets/";
+$CONFIG['ASSETSURL'] = $CONFIG['ROOTFRONTENDURL'] . "/common/assets/";
 
 $PAGEDATA = array('CONFIG' => $CONFIG, 'BODY' => true, 'URL' => (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]");
 
