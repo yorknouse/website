@@ -13,7 +13,7 @@ function displayEdition($edition, $preview = false) {
     $articlesFeatured = []; //Keep track of articles already displayed once
     if (isset($PAGEDATA['edition']['editions_featuredHighlights']['sections'])) {
         foreach ($PAGEDATA['edition']['editions_featuredHighlights']['sections'] as $sectionKey => $section) {
-            if ($section['customBoxHeader']['type'] == "text" or isset($section['customBoxHeader']['title'])) {
+            if ((isset($section['customBoxHeader']['type']) and $section['customBoxHeader']['type'] == "text") or isset($section['customBoxHeader']['title'])) {
                 if ($section['customBoxHeader']['title'] == "" and $section['customBoxHeader']['text'] == "") $PAGEDATA['edition']['editions_featuredHighlights']['sections'][$sectionKey]['customBoxHeader'] = false;
             }
             if ($section['articles']) {
