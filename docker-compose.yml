@@ -1,7 +1,7 @@
 version: '3'
 services:
   caddy:
-    image: nouse/caddy:latest
+    image: ghcr.io/yorknouse/caddy:latest
     restart: always
     ports:
       - 80:80
@@ -40,7 +40,7 @@ services:
     env_file:
       - nouseprod.env
   nouse:
-    image: index.docker.io/nouse/website:latest
+    image: ghcr.io/yorknouse/website/main:latest
     container_name: nouse-container
     restart: always
     depends_on:
@@ -67,7 +67,7 @@ services:
     volumes:
       - /sessions
   compressor:
-    image: nouse/image-compressor:latest
+    image: ghcr.io/yorknouse/image-compressor:latest
     restart: unless-stopped
     depends_on:
       - db
