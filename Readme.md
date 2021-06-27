@@ -6,7 +6,7 @@ Nouse was based on "bCMS" originally, a custom built content management system. 
 
 Firstly, an apology. This repo was, in its early life, a 3-year labour of love of over 580 commits just trying to keep up with Nouse as the society grew and its needs developed. There are no tests or migrations and documentation is limited. Code quality and style varies as the project grew alongside its creators skill set. No linting is provided or used.
 
-For performance reasons, AdamRMS does not use a router, and instead leaves routing to Apache. Caddy sits in front of appache to termiate SSL and do some reverse proxying. The project is structured around three directories within /html:
+For performance reasons, the site does not use a router, and instead leaves routing to Apache. Caddy sits in front of appache to termiate SSL and do some reverse proxying. The project is structured around three directories within /html:
 
 admin - The "backend" edit dashboard
 common - (not publicly accessible) Classes, Functions & Templates shared by both other directories
