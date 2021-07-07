@@ -29,8 +29,6 @@ The whole stack runs off one docker-compose file which makes this all a lot simp
 1. Make sure you're the root user `sudo su` then `cd /root/`
 1. `apt update && apt install docker.io docker-compose`
 1. `systemctl enable docker` to ensure docker boots on startup
-1. Generate a key for Github pull access `ssh-keygen -t rsa -b 4096 -C "tech@nouse.co.uk"` and then add it to the server `eval $(ssh-agent -s) && ssh-add ~/.ssh/id_rsa`
-1. Add this key to the repo [Github Deploy Key](https://github.com/yorknouse/website/settings/keys) - copy it from `cat /root/.ssh/id_rsa.pub`
 1. Clone the repo `git clone git@github.com:yorknouse/website.git`
 1. `cd website` to get into it
 1. Download the Cloudflare Origin Certificate - place the certificate (`.crt` file) in the `ssl` directory, with the `ssl.key` file  
