@@ -20,6 +20,7 @@ if (isset($_GET['forename'])) {
     $data = Array (
         'users_name1' => $bCMS->sanitizeString($_GET['forename']),
         'users_name2' => $bCMS->sanitizeString($_GET['lastname']),
+        'users_pronouns' => $bCMS->sanitizeString($_GET['pronouns']),
         'users_bio' => $bCMS->cleanString($_GET['bio'])
     );
     if ($USERDATA['users_userid'] != $_GET['userid']) {
