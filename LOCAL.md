@@ -27,7 +27,7 @@ You now need to open a shell within the container and run:
 mysql -u userDocker -p nouse < /home/db.sql
 ```
 
-You will be asked to enter a password. It's the MYSQL_PASSWORD defined in the Dockerfile.local. `passDocker` if you did not make any changes. After entering the password the container will most likely just hang up. If you don't see an increase in CPU and/or RAM usage something went wrong. Otherwise, in about 2 minutes (depending on your machine) you should see the `docker_compressor` container come online. You are now all set.
+You will be asked to enter a password. It's the MYSQL_PASSWORD defined in the Dockerfile.local. `passDocker` if you did not make any changes. After entering the password the container will most likely freeze. If you don't see an increase in CPU and/or RAM usage something went wrong. Otherwise, in about 2 minutes (depending on your machine) you should see the `docker_compressor` container come online. You are now all set.
 
 # Functionality
 
