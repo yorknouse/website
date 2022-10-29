@@ -15,7 +15,8 @@ $PAGEDATA['pageConfig']['USER'] = $DBLIB->getone("users",[
     "users_social_twitter",
     "users_social_snapchat",
     "articles_featured",
-    "users_userid"
+    "users_userid",
+    "users_pronouns"
 ]);
 if (!$PAGEDATA['pageConfig']['USER']) render404Error();
 $PAGEDATA['pageConfig']['TITLE'] = $PAGEDATA['pageConfig']['USER']['users_name1'] . " " . $PAGEDATA['pageConfig']['USER']['users_name2'] . " | Nouse";

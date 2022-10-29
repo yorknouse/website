@@ -121,7 +121,8 @@ function displayPost($post, $preview = false)
                 "users_social_instagram",
                 "users_social_twitter",
                 "users_social_snapchat",
-                "users_userid"]);
+                "users_userid",
+                "users_pronouns",]);
             $author['POSITIONS'] = userPositions($author['users_userid']);
             $author['IMAGE'] =  userImage($author['users_userid']);
 
