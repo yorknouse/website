@@ -29,6 +29,6 @@ mysql -u userDocker -p nouse < /home/db.sql
 
 You will be asked to enter a password. It's the MYSQL_PASSWORD defined in the Dockerfile.local. `passDocker` if you did not make any changes. After entering the password the container will most likely freeze. If you don't see an increase in CPU and/or RAM usage something went wrong. Otherwise, in about 2 minutes (depending on your machine) you should see the `docker_compressor` container come online. You are now all set.
 
-# Functionality
+# PHP MYADMIN
 
-Opening `localhost:80` in a browser should prompt you with a screen to choose whether you want to visit the website or the editing interface. The editing interface must run through `https` because of Google auth. A local functionality is not implemented. However, the editing interface is reachable (still won't be able to log in) on port `419` until we figure something out.
+PHPMYADMIN is available at `localhost:800`.
