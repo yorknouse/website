@@ -2,6 +2,10 @@
 
 Nouse was based on "bCMS" originally, a custom built content management system. There's probably going to always be some debate about whether this was the best idea for Nouse, but it has enabled us to do some really great custom stuff over the years, and overcome crippling performance issues on Wordpress.
 
+## Local Development
+
+Please see `LOCAL.md` for instructions.
+
 ## Repo Structure 
 
 Firstly, an apology. This repo was, in its early life, a 3-year labour of love of over 580 commits just trying to keep up with Nouse as the society grew and its needs developed. There are no tests or migrations and documentation is limited. Code quality and style varies as the project grew alongside its creators skill set. No linting is provided or used.
