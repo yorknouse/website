@@ -373,7 +373,7 @@
                         </div>
                         {% endif %}
                         <div class="author-info">
-                            <a href="{{ CONFIG.ROOTFRONTENDURL }}/author/?a={{ author.users_userid }}"><h4 class="author-name">{{ author.users_name1 }} {{ author.users_name2 }}</h4></a>
+                            <a href="{{ CONFIG.ROOTFRONTENDURL }}/author/?a={{ author.users_userid }}"><h4 class="author-name">{{ author.users_name1 }} {{ author.users_name2 }}<span class="author-pronouns">{{ author.users_pronouns }}</span></h4></a>
                             <p>{{ author.users_bio|replace({"\n":"<br/>"}) }}</p>
                             {% for position in author.POSITIONS %}
                                 {% if date(position.userPositions_end) > date() %}

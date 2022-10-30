@@ -72,6 +72,10 @@
 						<label>Last Name:</label>
 						<input type="text" class="form-control" id="lastname" name="lastname" value="{{USER['users_name2']}}" placeholder="Nouse" />
 					</div>
+					<div class="form-group">
+						<label>Pronouns:</label>
+						<input type="text" class="form-control" id="pronouns" name="pronouns" value="{{USER['users_pronouns']}}" />
+					</div>
 					<hr/>
 					<div class="form-group">
 						<label>York Username</label>
@@ -106,7 +110,7 @@
 						$('#save-account-settings').click(function() {
 							$('#updatesettingsusccess').hide();
 							$.ajax({
-								url: '{{CONFIG.ROOTBACKENDURL}}/api/account/basicDetails.php?userid={{ USER.users_userid }}&forename=' + $('#forename').val() + '&lastname=' + $('#lastname').val() + '&bio=' + $('#bio').val() + '&yorkusername=' + $('#yorkusername').val() + '&nouseusername=' + $('#nouseusername').val(),
+								url: '{{CONFIG.ROOTBACKENDURL}}/api/account/basicDetails.php?userid={{ USER.users_userid }}&forename=' + $('#forename').val() + '&lastname=' + $('#lastname').val() + '&bio=' + $('#bio').val() + '&yorkusername=' + $('#yorkusername').val() + '&nouseusername=' + $('#nouseusername').val() + '&pronouns=' + $('#pronouns').val(),
 								success: function (result) {
 									{% if USER.users_userid != "NEW" %}
 									if (result == '1') {
