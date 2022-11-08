@@ -9,7 +9,6 @@
             this.accordion();
             this.parallax();
             this.stickySidebar();
-            this.socialShare();
         },
 
 // -------------------------------------------------------------------------- //
@@ -165,16 +164,9 @@
 // Sticky Sidebar
 // -------------------------------------------------------------------------- //
         stickySidebar: function () {
-            $('.leftSidebar, .content, .rightSidebar, .stickyshare, .stickydetails').theiaStickySidebar({
+            $('.leftSidebar, .content, .rightSidebar').theiaStickySidebar({
                 additionalMarginTop: 30
             });
-        },
-
-// -------------------------------------------------------------------------- //
-// Social Share
-// -------------------------------------------------------------------------- //
-        socialShare: function () {
-            $('.boxed_icon').simpleSocialShare();
         },
     };
 
