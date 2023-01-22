@@ -1,0 +1,23 @@
+---
+import type { categories } from "@prisma/client";
+import prisma from "../prisma";
+
+let menuItems: categories[] = (await prisma.categories.findMany()).filter(
+  (category) => category.categories_showMenu
+);
+---
+
+<header class="w-full h-28 flex">
+  <img
+    src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-full3.svg"
+    alt="Nouse logo"
+    class="mx-auto my-6"
+  />
+</header>
+<nav class="w-full h-12">
+  {menuItems.map((menuItem) => {
+    return (
+        <p>{menuItem.categories_displayName}</p>
+    )
+  })}
+</nav>
