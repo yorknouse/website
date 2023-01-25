@@ -6,6 +6,5 @@ import tailwind from "@astrojs/tailwind";
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind()],
-  site: 'https://yorknouse.github.io',
-  base: '/website/readers-frontend',
+  site: 'https://yorknouse.github.io'
 });
