@@ -7,5 +7,5 @@ import tailwind from "@astrojs/tailwind";
 export default defineConfig({
   integrations: [tailwind()],
   site: 'https://yorknouse.github.io',
-  base: '/readers-frontend'
+  base: '/website'
 });
