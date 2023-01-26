@@ -17,14 +17,31 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./readers-frontend
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v3
-      - name: Install, build, and upload your site
-        uses: withastro/action@v0
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: npm
+          cache-dependency-path: readers-frontend/package-lock.json
+      - name: Install
+        shell: "bash"
+        run: |
+          cd readers-frontend
+          npm install
+      - name: Build
+        shell: "bash"
+        env:
+          PACKAGE_MANAGER: ${{ steps.lockfile.outputs.PACKAGE_MANAGER }}
+        run: |
+          cd readers-frontend
+          npm run build
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: "readers-frontend/dist/"
         # with:
         #     path: readers-frontend # The root location of your Astro project inside the repository. (optional)
             # node-version: 16 # The specific version of Node that should be used to build your site. Defaults to 16. (optional)
