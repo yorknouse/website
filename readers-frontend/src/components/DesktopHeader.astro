@@ -2,9 +2,29 @@
 import type { categories } from "@prisma/client";
 import prisma from "../prisma";
 
-let menuItems: categories[] = (await prisma.categories.findMany()).filter(
+let menuCategories: categories[] = (await prisma.categories.findMany()).filter(
   (category) => category.categories_showMenu
 );
+
+// No nested elements, hence main items
+let mainDisplayItems = menuCategories.filter(
+  (category) => category.categories_nestUnder === null
+);
+
+// Construct nested items map
+let nestedItems = menuCategories.reduce((accumulator, category, _) => {
+  const parent = category.categories_nestUnder;
+  if (parent !== null) {
+    let subCategories = accumulator.get(parent);
+
+    if (!subCategories) subCategories = [];
+
+    subCategories.push(category);
+
+    accumulator.set(parent, subCategories);
+  }
+  return accumulator;
+}, new Map<number, categories[]>());
 ---
 
 <header class="w-full h-28 flex">
@@ -15,9 +35,20 @@ let menuItems: categories[] = (await prisma.categories.findMany()).filter(
   />
 </header>
 <nav class="w-full h-12">
-  {menuItems.map((menuItem) => {
-    return (
-        <p>{menuItem.categories_displayName}</p>
-    )
-  })}
+  <ul class="flex flex-row">
+    {
+      mainDisplayItems.map((menuItem) => (
+        <li>
+          <a class="peer">{menuItem.categories_displayName}</a>
+          <ul class="invisible peer-hover:visible hover:visible">
+            {nestedItems.get(menuItem.categories_id)?.map((subCategory) => (
+              <li>
+                <a>{subCategory.categories_displayName}</a>
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))
+    }
+  </ul>
 </nav>
