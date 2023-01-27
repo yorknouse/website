@@ -1,54 +1,102 @@
 ---
 import type { categories } from "@prisma/client";
 import prisma from "../prisma";
+import { Icon } from "astro-icon";
+import SearchInterface from "./SearchInterface.astro";
+
+interface Props {
+  active: string;
+}
 
 let menuCategories: categories[] = (await prisma.categories.findMany()).filter(
   (category) => category.categories_showMenu
 );
 
-// No nested elements, hence main items
+// No nested elements, main items. Ignore muse
 let mainDisplayItems = menuCategories.filter(
-  (category) => category.categories_nestUnder === null
+  (category) =>
+    category.categories_nestUnder === null &&
+    category.categories_name !== "muse"
 );
 
-// Construct nested items map
-let nestedItems = menuCategories.reduce((accumulator, category, _) => {
-  const parent = category.categories_nestUnder;
-  if (parent !== null) {
-    let subCategories = accumulator.get(parent);
+// Construct nested items map - saved for later
+// let nestedItems = menuCategories.reduce((accumulator, category, _) => {
+//   const parent = category.categories_nestUnder;
+//   if (parent !== null) {
+//     let subCategories = accumulator.get(parent);
 
-    if (!subCategories) subCategories = [];
+//     if (!subCategories) subCategories = [];
 
-    subCategories.push(category);
+//     subCategories.push(category);
 
-    accumulator.set(parent, subCategories);
-  }
-  return accumulator;
-}, new Map<number, categories[]>());
+//     accumulator.set(parent, subCategories);
+//   }
+//   return accumulator;
+// }, new Map<number, categories[]>());
+
+const { active = "Home" } = Astro.props;
 ---
 
-<header class="w-full h-28 flex">
-  <img
-    src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-full3.svg"
-    alt="Nouse logo"
-    class="mx-auto my-6"
-  />
+<header class="flex h-28 w-full">
+  <a href="/" class="mx-auto h-28">
+    <img
+      id="nouseLogo"
+      src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-full3.svg"
+      alt="Nouse logo"
+      class="my-6 max-h-20"
+    />
+  </a>
 </header>
-<nav class="w-full h-12">
-  <ul class="flex flex-row">
+<nav class="h-12 w-full bg-black text-white md:px-10 lg:px-40 xl:px-80">
+  <ul class="flex h-full w-full flex-row justify-between">
+    <li
+      class={`flex w-full h-full border-b-4 ${
+        active === "Home" ? "border-white" : "border-transparent"
+      }`}
+    >
+      <a class="mx-auto my-auto">Home</a>
+    </li>
     {
       mainDisplayItems.map((menuItem) => (
-        <li>
-          <a class="peer">{menuItem.categories_displayName}</a>
-          <ul class="invisible peer-hover:visible hover:visible">
-            {nestedItems.get(menuItem.categories_id)?.map((subCategory) => (
-              <li>
-                <a>{subCategory.categories_displayName}</a>
-              </li>
-            ))}
-          </ul>
-        </li>
+        <>
+          <span class="h-3/5 self-center border-r-2 border-white" />
+          <li
+            class={`group relative flex h-full w-full border-b-4 ${
+              active === menuItem.categories_name
+                ? "border-white"
+                : "border-transparent"
+            }`}
+          >
+            <a class="mx-auto my-auto" href={`/${menuItem.categories_name}`}>
+              {menuItem.categories_displayName}
+            </a>
+          </li>
+        </>
       ))
     }
+    <span class="h-3/5 self-center border-r-2 border-white"></span>
+    <li class="flex h-full w-min border-b-4 border-b-transparent">
+      <a class="my-auto ml-4 w-16" href="/muse">
+        <img
+          src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
+          class="w-full"
+        />
+      </a>
+    </li>
+    <li class="flex h-full w-full border-b-4 border-b-transparent">
+      <button class="h-full w-10" id="searchBtn">
+        <Icon name="ic:sharp-search" class="py-1 ml-2" />
+      </button>
+    </li>
   </ul>
 </nav>
+<script>
+  const searchBtn = document.getElementById("searchBtn") as HTMLElement;
+  const searchInterface = document.getElementById(
+    "searchInterface"
+  ) as HTMLElement;
+
+  searchBtn.addEventListener("click", () => {
+    searchInterface.classList.remove("invisible", "opacity-0");
+  });
+</script>
