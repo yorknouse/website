@@ -14,26 +14,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout your repository using git
-        uses: actions/checkout@v3
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: npm
-          cache-dependency-path: readers-frontend/package-lock.json
-      - name: Install
-        shell: "bash"
-        run: |
-          cd readers-frontend
-          npm install
-      - name: Build
-        shell: "bash"
-        env:
-          PACKAGE_MANAGER: ${{ steps.lockfile.outputs.PACKAGE_MANAGER }}
-        run: |
-          cd readers-frontend
-          npm run build
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v1
         with:
