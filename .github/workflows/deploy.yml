@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ astro-testing-and-github-pages ]
+    branches: [ astro ]
   workflow_dispatch:
   
 permissions:
@@ -11,6 +11,16 @@ permissions:
   id-token: write
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout your repository using git
+        uses: actions/checkout@v3
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: "readers-frontend/dist/"
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -21,4 +31,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
-        publish_dir: ./readers-frontend/dist
