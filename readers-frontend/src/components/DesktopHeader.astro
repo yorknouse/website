@@ -2,22 +2,40 @@
 import type { categories } from "@prisma/client";
 import prisma from "../prisma";
 import { Icon } from "astro-icon";
-import SearchInterface from "./SearchInterface.astro";
 
 interface Props {
   active: string;
 }
 
-let menuCategories: categories[] = (await prisma.categories.findMany()).filter(
-  (category) => category.categories_showMenu
-);
+let menuCategories: categories[] = await prisma.categories.findMany({
+  where: {
+    categories_showMenu: true,
+    categories_nestUnder: null,
+    NOT: { categories_name: "muse" }, // Added manually because of image layout
+  },
+});
 
-// No nested elements, main items. Ignore muse
-let mainDisplayItems = menuCategories.filter(
-  (category) =>
-    category.categories_nestUnder === null &&
-    category.categories_name !== "muse"
-);
+// Add home as first item - possibly need to adjust values in the future
+menuCategories.unshift({
+  categories_name: "home",
+  categories_id: 0,
+  categories_showHome: true,
+  categories_displayName: "Home",
+  categories_showMenu: true,
+  categories_showPublic: true,
+  categories_showAdmin: true,
+  categories_featured: null,
+  categories_order: null,
+  categories_nestUnder: null,
+  categories_showSub: false,
+  categories_facebook: null,
+  categories_twitter: null,
+  categories_instagram: null,
+  categories_backgroundColor: null,
+  categories_backgroundColorContrast: null,
+  categories_customTheme: null,
+  categories_socialMediaOverlay: null,
+});
 
 // Construct nested items map - saved for later
 // let nestedItems = menuCategories.reduce((accumulator, category, _) => {
@@ -34,7 +52,7 @@ let mainDisplayItems = menuCategories.filter(
 //   return accumulator;
 // }, new Map<number, categories[]>());
 
-const { active = "Home" } = Astro.props;
+const { active = "home" } = Astro.props;
 ---
 
 <header class="flex h-28 w-full">
@@ -49,17 +67,12 @@ const { active = "Home" } = Astro.props;
 </header>
 <nav class="h-12 w-full bg-black text-white md:px-10 lg:px-40 xl:px-80">
   <ul class="flex h-full w-full flex-row justify-between">
-    <li
-      class={`flex w-full h-full border-b-4 ${
-        active === "Home" ? "border-white" : "border-transparent"
-      }`}
-    >
-      <a class="mx-auto my-auto">Home</a>
-    </li>
     {
-      mainDisplayItems.map((menuItem) => (
+      menuCategories.map((menuItem, index) => (
         <>
-          <span class="h-3/5 self-center border-r-2 border-white" />
+          {index !== 0 && ( // No divider before Home
+            <span class="h-3/5 self-center border-r-2 border-white" />
+          )}
           <li
             class={`group relative flex h-full w-full border-b-4 ${
               active === menuItem.categories_name
@@ -67,13 +80,21 @@ const { active = "Home" } = Astro.props;
                 : "border-transparent"
             }`}
           >
-            <a class="mx-auto my-auto" href={`/${menuItem.categories_name}`}>
+            <a
+              class="mx-auto my-auto"
+              href={`/${
+                menuItem.categories_name !== "home"
+                  ? menuItem.categories_name
+                  : "" // Home is just /
+              }`}
+            >
               {menuItem.categories_displayName}
             </a>
           </li>
         </>
       ))
     }
+    {/* Muse */}
     <span class="h-3/5 self-center border-r-2 border-white"></span>
     <li class="flex h-full w-min border-b-4 border-b-transparent">
       <a class="my-auto ml-4 w-16" href="/muse">
@@ -83,6 +104,7 @@ const { active = "Home" } = Astro.props;
         />
       </a>
     </li>
+    {/* Search button */}
     <li class="flex h-full w-full border-b-4 border-b-transparent">
       <button class="h-full w-10" id="searchBtn">
         <Icon name="ic:sharp-search" class="py-1 ml-2" />
