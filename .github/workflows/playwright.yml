@@ -1,0 +1,35 @@
+name: Playwright Tests
+on:
+  push:
+    branches: [ astro, astro-* ]
+  pull_request:
+    branches: [ astro,  astro-* ]
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: npm
+        cache-dependency-path: readers-frontend/package-lock.json
+    - name: Install dependencies
+      run: |
+        cd readers-frontend
+        npm ci
+    - name: Install Playwright Browsers
+      run: |
+        cd readers-frontend
+        npx playwright install --with-deps
+    - name: Run Playwright tests
+      run: |
+        cd readers-frontend
+        npx playwright test
+    - uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: playwright-report
+        path: readers-frontend/playwright-report/
+        retention-days: 30
