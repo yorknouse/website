@@ -10,15 +10,6 @@ permissions:
   pages: write
   id-token: write
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: "readers-frontend/dist/"
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -29,3 +20,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
+        publish_dir: ./readers-frontend/dist
