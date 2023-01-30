@@ -7,11 +7,12 @@ interface Props {
   active: string;
 }
 
+const baseUrl = import.meta.env.BASE_URL;
+
 let menuCategories: categories[] = await prisma.categories.findMany({
   where: {
     categories_showMenu: true,
     categories_nestUnder: null,
-    NOT: { categories_name: "muse" }, // Added manually because of image layout
   },
 });
 
@@ -37,6 +38,14 @@ menuCategories.unshift({
   categories_socialMediaOverlay: null,
 });
 
+// Muse to last
+menuCategories = menuCategories.sort((a, b) => {
+  if (b.categories_name === "muse") return -1;
+  if (a.categories_name === "muse") return 1;
+
+  return 0;
+});
+
 // Construct nested items map - saved for later
 // let nestedItems = menuCategories.reduce((accumulator, category, _) => {
 //   const parent = category.categories_nestUnder;
@@ -55,17 +64,13 @@ menuCategories.unshift({
 const { active = "home" } = Astro.props;
 ---
 
-<header class="flex h-28 w-full">
-  <a href="/" class="mx-auto h-28">
-    <img
-      id="nouseLogo"
-      src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-full3.svg"
-      alt="Nouse logo"
-      class="my-6 max-h-20"
-    />
+<header class="my-1 flex h-24 w-full">
+  <a href={baseUrl} class="mx-auto self-center">
+    {/* This is needed to stretch the svg */}
+    <div class="size h-15 w-81 bg-logo bg-fill"></div>
   </a>
 </header>
-<nav class="lg:px-30 h-12 w-full bg-black text-white md:px-10 xl:px-64">
+<nav class="lg:px-30 h-12 w-full bg-black text-lg text-white md:px-10 xl:px-64">
   <ul class="flex h-full w-full flex-row justify-between">
     {
       menuCategories.map((menuItem, index) => (
@@ -85,25 +90,22 @@ const { active = "home" } = Astro.props;
               href={`/${
                 menuItem.categories_name !== "home"
                   ? menuItem.categories_name
-                  : "" // Home is just /
+                  : baseUrl
               }`}
             >
-              {menuItem.categories_displayName}
+              {menuItem.categories_name !== "muse" ? (
+                menuItem.categories_displayName
+              ) : (
+                <img
+                  src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
+                  class="w-16"
+                />
+              )}
             </a>
           </li>
         </>
       ))
     }
-    {/* Muse */}
-    <span class="h-3/5 self-center border-r-2 border-white"></span>
-    <li class="flex h-full w-min border-b-4 border-b-transparent">
-      <a class="my-auto ml-4 w-16" href="/muse">
-        <img
-          src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
-          class="w-full"
-        />
-      </a>
-    </li>
     {/* Search button */}
     <li class="flex h-full w-full border-b-4 border-b-transparent">
       <button class="h-full w-10" id="searchBtn">
