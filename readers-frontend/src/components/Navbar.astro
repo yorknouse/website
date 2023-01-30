@@ -5,9 +5,15 @@ import { Icon } from "astro-icon";
 
 interface Props {
   active: string;
+  style: "muse" | "nouse";
 }
 
-const baseUrl = import.meta.env.BASE_URL;
+const { active = "home", style = "nouse" } = Astro.props;
+
+const baseUrl =
+  style === "nouse"
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}muse`;
 
 let menuCategories: categories[] = await prisma.categories.findMany({
   where: {
@@ -17,34 +23,66 @@ let menuCategories: categories[] = await prisma.categories.findMany({
 });
 
 // Add home as first item - possibly need to adjust values in the future
-menuCategories.unshift({
-  categories_name: "home",
-  categories_id: 0,
-  categories_showHome: true,
-  categories_displayName: "Home",
-  categories_showMenu: true,
-  categories_showPublic: true,
-  categories_showAdmin: true,
-  categories_featured: null,
-  categories_order: null,
-  categories_nestUnder: null,
-  categories_showSub: false,
-  categories_facebook: null,
-  categories_twitter: null,
-  categories_instagram: null,
-  categories_backgroundColor: null,
-  categories_backgroundColorContrast: null,
-  categories_customTheme: null,
-  categories_socialMediaOverlay: null,
-});
+if (style === "nouse") {
+  menuCategories.unshift({
+    categories_name: "home",
+    categories_id: 0,
+    categories_showHome: true,
+    categories_displayName: "Home",
+    categories_showMenu: true,
+    categories_showPublic: true,
+    categories_showAdmin: true,
+    categories_featured: null,
+    categories_order: null,
+    categories_nestUnder: null,
+    categories_showSub: false,
+    categories_facebook: null,
+    categories_twitter: null,
+    categories_instagram: null,
+    categories_backgroundColor: null,
+    categories_backgroundColorContrast: null,
+    categories_customTheme: null,
+    categories_socialMediaOverlay: null,
+  });
 
-// Muse to last
-menuCategories = menuCategories.sort((a, b) => {
-  if (b.categories_name === "muse") return -1;
-  if (a.categories_name === "muse") return 1;
+  // Muse to last
+  menuCategories = menuCategories.sort((a, b) => {
+    if (b.categories_name === "muse") return -1;
+    if (a.categories_name === "muse") return 1;
 
-  return 0;
-});
+    return 0;
+  });
+} else {
+  // Muse to first
+  menuCategories = menuCategories.sort((a, b) => {
+    if (b.categories_name === "muse") return 1;
+    if (a.categories_name === "muse") return -1;
+
+    return 0;
+  });
+
+  // Link to Nouse home
+  menuCategories.push({
+    categories_name: "nouse",
+    categories_id: 0,
+    categories_showHome: true,
+    categories_displayName: "Nouse",
+    categories_showMenu: true,
+    categories_showPublic: true,
+    categories_showAdmin: true,
+    categories_featured: null,
+    categories_order: null,
+    categories_nestUnder: null,
+    categories_showSub: false,
+    categories_facebook: null,
+    categories_twitter: null,
+    categories_instagram: null,
+    categories_backgroundColor: null,
+    categories_backgroundColorContrast: null,
+    categories_customTheme: null,
+    categories_socialMediaOverlay: null,
+  });
+}
 
 // Construct nested items map - saved for later
 // let nestedItems = menuCategories.reduce((accumulator, category, _) => {
@@ -60,14 +98,21 @@ menuCategories = menuCategories.sort((a, b) => {
 //   }
 //   return accumulator;
 // }, new Map<number, categories[]>());
-
-const { active = "home" } = Astro.props;
 ---
 
-<header class="my-1 flex h-24 w-full">
+<header
+  class={`my-1 flex h-24 w-full ${
+    style === "nouse" ? "bg-transparent" : "bg-black"
+  }`}
+>
   <a href={baseUrl} class="mx-auto self-center">
     {/* This is needed to stretch the svg */}
-    <div class="size h-15 w-81 bg-logo bg-fill"></div>
+    <div
+      class={`bg-fill ${
+        style === "nouse" ? "h-15 w-81 bg-nouse-logo" : "h-17 w-71 bg-muse-logo"
+      }`}
+    >
+    </div>
   </a>
 </header>
 <nav class="lg:px-30 h-12 w-full bg-black text-lg text-white md:px-10 xl:px-64">
@@ -87,11 +132,11 @@ const { active = "home" } = Astro.props;
           >
             <a
               class="mx-auto my-auto"
-              href={`/${
+              href={
                 menuItem.categories_name !== "home"
-                  ? menuItem.categories_name
+                  ? `/${menuItem.categories_name}`
                   : baseUrl
-              }`}
+              }
             >
               {menuItem.categories_name !== "muse" ? (
                 menuItem.categories_displayName

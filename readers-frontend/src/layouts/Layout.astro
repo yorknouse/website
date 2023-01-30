@@ -5,9 +5,10 @@ import SearchInterface from "../components/SearchInterface.astro";
 export interface Props {
   title: string;
   active: string;
+  style: "nouse" | "muse";
 }
 
-const { title, active } = Astro.props;
+const { title, active, style } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -23,7 +24,7 @@ const { title, active } = Astro.props;
   </head>
   <body>
     <SearchInterface />
-    <Navbar active={active} />
+    <Navbar active={active} style={style} />
     <slot />
   </body>
 </html>
