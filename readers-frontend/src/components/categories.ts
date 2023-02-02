@@ -4,15 +4,17 @@ import prisma from "../prisma";
 const getMenuCategories = async (
   style: "nouse" | "muse"
 ): Promise<categories[]> => {
-  let menuCategories: categories[] = await prisma.categories.findMany({
-    where: {
-      categories_showMenu: true,
-      categories_nestUnder: null,
-    },
-  });
+  let menuCategories: categories[];
 
-  // Add home as first item - possibly need to adjust values in the future
   if (style === "nouse") {
+    menuCategories = await prisma.categories.findMany({
+      where: {
+        categories_showMenu: true,
+        categories_nestUnder: null,
+      },
+    });
+
+    // Add home as first item - possibly need to adjust values in the future
     menuCategories.unshift({
       categories_name: "home",
       categories_id: 0,
@@ -42,6 +44,13 @@ const getMenuCategories = async (
       return 0;
     });
   } else {
+    menuCategories = await prisma.categories.findMany({
+      where: {
+        categories_showMenu: true,
+        categories_nestUnder: 4, // Muse
+      },
+    });
+
     // Muse to first
     menuCategories = menuCategories.sort((a, b) => {
       if (b.categories_name === "muse") return 1;
@@ -49,6 +58,10 @@ const getMenuCategories = async (
 
       return 0;
     });
+
+    // Change category name to home for muse
+    menuCategories[0].categories_name = "home";
+    menuCategories[0].categories_displayName = "Home";
 
     // Link to Nouse home
     menuCategories.push({
