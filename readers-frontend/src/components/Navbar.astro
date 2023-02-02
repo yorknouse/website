@@ -60,14 +60,26 @@ const menuCategories = await getMenuCategories(style);
                   : baseUrl
               }
             >
-              {menuItem.categories_name !== "muse" ? (
-                menuItem.categories_displayName
-              ) : (
-                <img
-                  src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
-                  class="w-16"
-                />
-              )}
+              {() => {
+                switch (menuItem.categories_name) {
+                  case "muse":
+                    return (
+                      <img
+                        src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
+                        class="w-16"
+                      />
+                    );
+                  case "nouse":
+                    return (
+                      <img
+                        src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/kingfisher.svg"
+                        class="w-16 fill-white text-white"
+                      />
+                    );
+                  default:
+                    return menuItem.categories_displayName;
+                }
+              }}
             </a>
           </li>
         </>
