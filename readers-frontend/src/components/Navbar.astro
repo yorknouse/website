@@ -31,7 +31,9 @@ const menuCategories = await getMenuCategories(style);
   }
 </header>
 
-<nav class="lg:px-30 h-12 w-full bg-black text-lg text-white md:px-10 xl:px-64">
+<nav
+  class="2xl:text-large h-12 w-full bg-black text-base text-white 2xl:px-[13%]"
+>
   <ul class="flex h-full w-full flex-row justify-between">
     {
       menuCategories.map((menuItem, index) => (
@@ -71,9 +73,10 @@ const menuCategories = await getMenuCategories(style);
         </>
       ))
     }
+    <span class="h-3/5 self-center border-r-2 border-white"></span>
     {/* Search button */}
     <li class="flex h-full w-full border-b-4 border-b-transparent">
-      <button class="h-full w-10" id="searchBtn">
+      <button class="mx-auto h-full w-10" id="searchBtn">
         <Icon name="ic:sharp-search" class="py-1 ml-2" />
       </button>
     </li>
