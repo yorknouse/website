@@ -22,19 +22,21 @@ const menuCategories = await getMenuCategories(style);
 <header
   class={`flex w-full ${style === "nouse" ? "bg-transparent" : "bg-black"}`}
 >
-  {
-    style === "nouse" ? (
-      <NouseLogo baseUrl={baseUrl} />
-    ) : (
-      <MuseLogo baseUrl={baseUrl} />
-    )
-  }
+  <a href={baseUrl} class="mx-auto self-center">
+    <img
+      class="my-4 h-14"
+      src={style === "nouse"
+        ? "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
+        : "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"}
+    />
+  </a>
 </header>
-
 <nav
   class="2xl:text-large h-12 w-full bg-black text-base text-white 2xl:px-[13%]"
 >
-  <ul class="flex h-full w-full flex-row justify-between">
+  <ul
+    class="flex h-full w-full flex-row justify-between border-t-4 border-transparent"
+  >
     {
       menuCategories.map((menuItem, index) => (
         <>

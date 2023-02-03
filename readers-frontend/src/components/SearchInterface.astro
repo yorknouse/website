@@ -19,6 +19,7 @@ import { Icon } from "astro-icon";
         type="text"
         class="w-min border-b-2 border-black bg-whiteish text-3xl outline-none md:text-5xl lg:text-7xl"
         placeholder="What are you looking for?"
+        size="25"
       />
       <button class="w-10 md:w-14 lg:w-20">
         <Icon name="ic:sharp-search" class="text-black" />
@@ -33,12 +34,6 @@ import { Icon } from "astro-icon";
   const searchInterface = document.getElementById(
     "searchInterface"
   ) as HTMLElement;
-  const searchBox = document.getElementById("searchBox") as HTMLInputElement;
-
-  // Adjust searchbox size
-  const placeholder = searchBox.getAttribute("placeholder");
-  if (placeholder)
-    searchBox.setAttribute("size", placeholder.length.toString());
 
   closeBtn.addEventListener("click", () => {
     console.log("click");
