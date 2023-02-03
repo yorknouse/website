@@ -1,5 +1,5 @@
 import type { categories } from "@prisma/client";
-import prisma from "../prisma";
+import prisma from "../../prisma";
 
 const getMenuCategories = async (
   style: "nouse" | "muse"
