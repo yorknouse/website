@@ -1,0 +1,66 @@
+---
+export interface Props {
+	headline: string;
+	excerpt: string | null;
+  author: string;
+  category: string;
+  categoryColor: string | null;
+	imageUrl: string;
+  articleUrl: string;
+  isVertical: boolean; // Defines if the image is ontop or to the left of the text
+  isPortrait: boolean; // Defines if the image is portrait or landscape
+}
+
+const { headline, excerpt, author, category, categoryColor, imageUrl, articleUrl, isVertical } = Astro.props;
+---
+<style define:vars={{ categoryColor }}>
+  .border-color {
+    border-color: var(--categoryColor);
+  }
+  .category-color {
+    color: var(--categoryColor);
+  }
+</style>
+
+<div id="image-landscape" class="h-full text-ellipsis overflow-hidden">
+  {!isVertical && <div class="flex">
+    <img class="w-1/2 h-full aspect-video object-cover rounded-xl" src={imageUrl} alt="Article Thumbnail">
+    <div class="h-full ml-3 border-t-2 border-color">
+      <p class="uppercase category-color">{category}</p>
+      <div class="mb-2">
+          <p class="text-l xl:text-xl 2xl:text-2xl">{headline}</p>
+          <p class="italic text-sm 2xl:text-base"><span class="category-color">By </span>{author}</p>
+      </div>
+      <p class="text-xs xl:text-sm 2xl:text-base">{excerpt}</p>
+    </div>
+  </div>}
+  {isVertical && <div class="flex-col">
+    <img class="w-full aspect-video object-cover rounded-xl mb-5" src={imageUrl} alt="Article Thumbnail">
+    <div class="border-t-2 border-color">
+      <p class="uppercase category-color">{category}</p>
+      <div class="mb-2">
+          <p class="text-l xl:text-xl 2xl:text-2xl">{headline}</p>
+          <p class="italic text-sm 2xl:text-base"><span class="category-color">By </span>{author}</p>
+      </div>
+      <p class="text-xs xl:text-sm 2xl:text-base">{excerpt}</p>
+    </div>
+  </div>}
+</div>
+
+<script define:vars={{ imageUrl }}>
+  function isPortrait(img) {
+    var w = img.naturalWidth || img.width,
+        h = img.naturalHeight || img.height;
+    return h > w;
+  }
+  var img = document.createElement('img');
+  img.onload = function() {
+    if (isPortrait(img)) {
+      document.querySelector('#image-landscape').style.display='none';
+    } else {
+      document.querySelector('#image-landscape').style.display='';
+
+    }
+  }
+  img.src = imageUrl;
+</script>

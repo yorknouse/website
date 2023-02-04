@@ -1,0 +1,164 @@
+---
+import type { articles, categories, featuredHome } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import prisma from "../prisma";
+import Article from './Article.astro';
+
+// Get featured articles ids
+const featuredArticlesIds: featuredHome | null = await prisma.featuredHome.findFirst({
+  orderBy: {
+    featuredHome_timestamp: "desc",
+  },
+});
+
+// Get featured articles
+const articlesWithArticleDrafts = Prisma.validator<Prisma.articlesArgs>()({
+  include: { articlesDrafts: {
+    include: { users: true },
+  } },
+});
+type articlesWithArticleDrafts = Prisma.articlesGetPayload<typeof articlesWithArticleDrafts>
+let featuredArticles: articlesWithArticleDrafts[] = await prisma.articles.findMany({
+  where: {
+    articles_id: {
+      in: (featuredArticlesIds?.featuredHome_articles?.split(',').map(Number)), // Convert string of ids to array of numbers
+    },
+    articles_showInLists: true,
+  },
+  include: {
+    articlesDrafts: { // Get the latest draft for every featured article
+      orderBy: {
+        articlesDrafts_timestamp: "desc",
+      },
+      take: 1,
+      include: {
+        users: true,
+      }
+    },
+  },
+});
+
+// Get the category ids for every featured article
+let featuredArticlesCategories = featuredArticles.map((article) => { 
+  return (article.articles_categories.split(',').map(Number))
+});
+
+// Get the data for every featured article category
+let categoriesData: categories[] = await prisma.categories.findMany({
+  where: {
+    categories_id: {
+      in: featuredArticlesCategories.flat(1),
+    },
+    categories_showHome: true,
+    categories_backgroundColor: {
+      not: null,
+    },
+  },
+});
+featuredArticles.pop(0)
+const mainCategories: categories[] = featuredArticles.map((article) => {
+  const articlesCategories = article.articles_categories.split(',').map(Number)
+  return categoriesData.filter((category) => articlesCategories.includes(category.categories_id))[0]
+})
+const articleImageUrls = ["https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1670340350166-14564662031648645000-lukesnelljpg_medium.jpg"]
+// https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1670340350166-14564662031648645000-lukesnelljpg_medium.jpg
+// console.log(new Date(featuredArticles[0].articles_published).toISOString().substring(0, 10))
+// console.log(featuredArticles[0])
+// console.log("https://nouse.co.uk/" + featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/") + "/" + featuredArticles[0].articles_slug)
+---
+<!-- 4 or more Articles -->
+{featuredArticles.length >= 4 && <div>
+  <div class="flex max-h-52 max-w-full gap-2.5">
+    <div class="w-1/2 border-r-2 pr-2.5 border-gray-300">
+      <Article
+      headline={featuredArticles[0].articlesDrafts[0].articlesDrafts_headline}
+      excerpt={featuredArticles[0].articlesDrafts[0].articlesDrafts_excerpt}
+      author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
+      category={mainCategories[0].categories_name}
+      categoryColor={"#" + mainCategories[0].categories_backgroundColor}
+      imageUrl={"https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1664798074923-59404547372079210000-8178412208df321e8cf1ojpg_large.jpg"}
+      articleUrl={"https://nouse.co.uk/" + featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/") + "/" + featuredArticles[0].articles_slug}
+      isVertical={false}
+      />
+    </div>
+    <div class="w-1/2">
+      <Article 
+      headline={featuredArticles[1].articlesDrafts[0].articlesDrafts_headline}
+      excerpt={featuredArticles[1].articlesDrafts[0].articlesDrafts_excerpt}
+      author={featuredArticles[1].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[1].articlesDrafts[0].users?.users_name2}
+      category={mainCategories[1].categories_name}
+      categoryColor={"#" + mainCategories[1].categories_backgroundColor}
+      imageUrl={"https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1664798074923-59404547372079210000-8178412208df321e8cf1ojpg_large.jpg"}
+      articleUrl={"https://nouse.co.uk/" + featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/") + "/" + featuredArticles[0].articles_slug}
+      isVertical={false}
+      />
+    </div>
+  </div>
+  <hr class="w-full self-center border-2 border-gray-300 my-2.5" />
+  <!-- More than 4 articles -->
+  {featuredArticles.length >4 && <div class="flex max-w-full gap-2.5 justify-center">
+    {featuredArticles.slice(2).map((article, index) => (
+        <d>
+        <div class={`h-full max-w-sm pr-2.5 ${index != featuredArticles.length - 3 ? "border-r-2 border-gray-300" : ""}`}>
+          <Article
+          headline={article.articlesDrafts[0].articlesDrafts_headline}
+          excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
+          author={article.articlesDrafts[0].users?.users_name1 + " " + article.articlesDrafts[0].users?.users_name2}
+          category={mainCategories[index + 2].categories_name}
+          categoryColor={"#" + mainCategories[index + 2].categories_backgroundColor}
+          imageUrl={"https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1664798074923-59404547372079210000-8178412208df321e8cf1ojpg_large.jpg"}
+          articleUrl={"https://nouse.co.uk/" + article.articles_published?.toISOString().substring(0, 10).replaceAll("-","/") + "/" + article.articles_slug}
+          isVertical={true}
+          />
+        </div>
+        </d>
+    ))}
+  </div>}
+  <!-- 4 articles -->
+  {featuredArticles.length == 4 && <div class="flex max-h-52 max-w-full gap-2.5">
+    <div class="w-1/2 border-r-2 pr-2.5 border-gray-300">
+      <Article
+      headline={featuredArticles[2].articlesDrafts[0].articlesDrafts_headline}
+      excerpt={featuredArticles[2].articlesDrafts[0].articlesDrafts_excerpt}
+      author={featuredArticles[2].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[2].articlesDrafts[0].users?.users_name2}
+      category={mainCategories[2].categories_name}
+      categoryColor={"#" + mainCategories[2].categories_backgroundColor}
+      imageUrl={"https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1664798074923-59404547372079210000-8178412208df321e8cf1ojpg_large.jpg"}
+      articleUrl={"https://nouse.co.uk/" + featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/") + "/" + featuredArticles[0].articles_slug}
+      isVertical={false}
+      />
+    </div>
+    <div class="w-1/2">
+      <Article 
+      headline={featuredArticles[3].articlesDrafts[0].articlesDrafts_headline}
+      excerpt={featuredArticles[3].articlesDrafts[0].articlesDrafts_excerpt}
+      author={featuredArticles[3].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[3].articlesDrafts[0].users?.users_name2}
+      category={mainCategories[3].categories_name}
+      categoryColor={"#" + mainCategories[3].categories_backgroundColor}
+      imageUrl={"https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1664798074923-59404547372079210000-8178412208df321e8cf1ojpg_large.jpg"}
+      articleUrl={"https://nouse.co.uk/" + featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/") + "/" + featuredArticles[0].articles_slug}
+      isVertical={false}
+      />
+    </div>
+  </div>}
+</div>}
+
+<!-- 3 articles -->
+
+<script define:vars={{ articleImageUrls }}>
+  function isPortrait(img) {
+    var w = img.naturalWidth || img.width,
+        h = img.naturalHeight || img.height;
+    return h > w;
+  }
+  var img = document.createElement('img');
+  img.onload = function() {
+    if (isPortrait(img)) {
+      document.querySelector('#landscape').style.display='none';
+    } else {
+      document.querySelector('#landscape').style.display='';
+
+    }
+  }
+  img.src = imageUrl;
+</script>
