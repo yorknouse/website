@@ -1,0 +1,48 @@
+---
+import { Icon } from "astro-icon";
+---
+
+<div
+  class="invisible absolute top-0 bottom-0 left-0 right-0 z-50 flex flex-col bg-whiteish opacity-0 transition-opacity duration-500"
+  id="searchInterface"
+>
+  <button
+    id="searchCloseBtn"
+    class="absolute top-0 right-0 w-16 p-2 text-black"
+  >
+    <Icon name="ic:baseline-close" />
+  </button>
+  <div class="mx-auto my-auto p-4">
+    <form id="searchForm" class="flex flex-row items-center">
+      <input
+        id="searchBox"
+        type="text"
+        class="w-min border-b-2 border-black bg-whiteish text-3xl outline-none md:text-5xl lg:text-7xl"
+        placeholder="What are you looking for?"
+        size="25"
+      />
+      <button class="w-10 md:w-14 lg:w-20">
+        <Icon name="ic:sharp-search" class="text-black" />
+      </button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const closeBtn = document.getElementById("searchCloseBtn") as HTMLElement;
+  const form = document.getElementById("searchForm") as HTMLFormElement;
+  const searchInterface = document.getElementById(
+    "searchInterface"
+  ) as HTMLElement;
+
+  closeBtn.addEventListener("click", () => {
+    console.log("click");
+    searchInterface.classList.add("invisible", "opacity-0");
+  });
+  form.addEventListener("submit", (ev) => {
+    ev.preventDefault();
+    const input = document.getElementById("searchBox") as HTMLInputElement;
+
+    // TODO: perform api request with input.value
+  });
+</script>
