@@ -9,7 +9,7 @@ test("has title", async ({ page }) => {
   await expect(page).toHaveTitle("Welcome to Astro.");
 });
 
-test("navbar has correct number of items and correct immage", async ({
+test("navbar has correct number of items and correct image", async ({
   page,
 }) => {
   // await expect(page.locator("nav > ul > li")).toHaveCount(11);
