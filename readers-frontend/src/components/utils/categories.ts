@@ -1,7 +1,7 @@
 import type { categories } from "@prisma/client";
 import prisma from "../../prisma";
 
-const getMenuCategories = async (
+export const getMenuCategories = async (
   style: "nouse" | "muse"
 ): Promise<categories[]> => {
   let menuCategories: categories[];
@@ -89,7 +89,19 @@ const getMenuCategories = async (
   return menuCategories;
 };
 
-export default getMenuCategories;
+export const getMainArticleCategory =async (categoryIds: number[] | undefined): Promise<categories | null> => {
+  return  await prisma.categories.findFirst({
+    where: {
+      categories_id: {
+        in: categoryIds,
+      },
+      categories_showHome: true,
+      categories_backgroundColor: {
+        not: null,
+      },
+    },
+  });
+}
 
 // Construct nested items map - saved for later
 // let nestedItems = menuCategories.reduce((accumulator, category, _) => {
