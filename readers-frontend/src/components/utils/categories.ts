@@ -90,7 +90,7 @@ export const getMenuCategories = async (
 };
 
 export const getMainArticleCategory =async (categoryIds: number[] | undefined): Promise<categories | null> => {
-  return  await prisma.categories.findFirst({
+  return await prisma.categories.findFirst({
     where: {
       categories_id: {
         in: categoryIds,

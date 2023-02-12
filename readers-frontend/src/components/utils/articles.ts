@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../../prisma";
+import { s3URL } from "./s3Url";
 
 const articlesWithArticleDrafts = Prisma.validator<Prisma.articlesArgs>()({
   include: { articlesDrafts: {
@@ -31,4 +32,14 @@ export const getArticles = async (articleIds?: number[]): Promise<articlesWithAr
       },
     },
   });
+}
+
+export const getArticleImage = async (article: articlesWithArticleDrafts, size: "tiny" | "small" | "medium" | "large" | false = "large"): Promise<string> => {
+    if (!article.articles_displayImages) {
+      return import.meta.env.fileStoreUrl + "/nouseSiteAssets/imageArchive-comp.jpg";
+    } else if (Number(article.articles_thumbnail)) {
+      return await s3URL(Number(article.articles_thumbnail), size);
+    }
+    else
+      return import.meta.env.ARCHIVEFILESTOREURL + article.articles_thumbnail;
 }
