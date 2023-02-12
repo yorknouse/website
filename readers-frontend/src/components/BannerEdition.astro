@@ -1,0 +1,49 @@
+---
+import type { s3files } from "@prisma/client";
+import prisma from "../prisma";
+import { fail } from "./utils/fail";
+import { s3URL } from "./utils/s3URL";
+
+const latestEdition = await prisma.editions.findFirst({
+  orderBy: {
+    editions_published: "desc",
+  },
+});
+
+if (latestEdition === null) {
+  fail("Could not fetch latest edition");
+  return;
+}
+
+if (latestEdition.editions_thumbnail === null) {
+  fail("Edition thumbnail is null!");
+  return;
+}
+
+const thumbnail = await s3URL(latestEdition.editions_thumbnail, "medium");
+---
+
+<div class="grid h-72 w-full grid-cols-5 gap-4">
+  {/* Banner */}
+  <div class="col-span-3 bg-blue-500">
+    <img
+      class="my-4 h-14"
+      src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
+    />
+  </div>
+
+  {/* Edition */}
+  <div
+    class="col-span-2 grid grid-cols-2 rounded-md border-4 border-whiteish-200 p-4"
+  >
+    <div class="flex flex-col">
+      <p class="mx-auto mt-12 text-center text-4xl uppercase">
+        Our<br />latest<br />edition
+      </p>
+      <p class="mt-5 text-center">{latestEdition?.editions_name}</p>
+    </div>
+    <a class="h-full" href={`${import.meta.env.BASE_URL}print-edition`}>
+      <img class="h-full" src={thumbnail} />
+    </a>
+  </div>
+</div>

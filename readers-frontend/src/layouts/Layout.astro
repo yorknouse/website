@@ -12,7 +12,7 @@ const { title, active, style } = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="bg-whiteish-100 font-arno font-normal">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -28,20 +28,3 @@ const { title, active, style } = Astro.props;
     <slot />
   </body>
 </html>
-<style is:global>
-  :root {
-    --accent: 124, 58, 237;
-    --accent-gradient: linear-gradient(
-      45deg,
-      rgb(var(--accent)),
-      #da62c4 30%,
-      white 60%
-    );
-  }
-  html {
-    font-family: "arno-pro", serif;
-    font-weight: 400;
-    font-style: normal;
-    @apply bg-whiteish;
-  }
-</style>
