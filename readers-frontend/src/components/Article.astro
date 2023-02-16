@@ -7,11 +7,11 @@ export interface Props {
   categoryColor: string | undefined;
 	imageUrl: string;
   articleUrl: string;
-  isVertical: boolean; // Defines if the image is ontop or to the left of the text
-  // isPortrait: boolean; // Defines if the image is portrait or landscape
+  isVertical?: boolean; // Defines if the image is ontop or to the left of the text
+  isPortrait: boolean; // Defines if the image is portrait or landscape
 }
 
-const { headline, excerpt, author, category, categoryColor, imageUrl, articleUrl, isVertical } = Astro.props;
+const { headline, excerpt, author, category, categoryColor, imageUrl, articleUrl, isVertical, isPortrait } = Astro.props;
 ---
 <style define:vars={{ categoryColor }}>
   .border-color {
@@ -26,8 +26,8 @@ const { headline, excerpt, author, category, categoryColor, imageUrl, articleUrl
     color: var(--categoryColor);
   }
 </style>
-
-<div id="image-landscape" class="h-full text-ellipsis overflow-hidden">
+{!isPortrait && <div class="h-full text-ellipsis overflow-hidden">
+  <>
   <a href={articleUrl}>
     {!isVertical && <div class="flex">
       <img class="w-1/2 h-full aspect-video object-cover rounded-xl" src={imageUrl} alt="Article Thumbnail">
@@ -52,22 +52,23 @@ const { headline, excerpt, author, category, categoryColor, imageUrl, articleUrl
       </div>
     </div>}
   </a>
-</div>
+  </>
+</div>}
 
-<script define:vars={{ imageUrl }}>
-  function isPortrait(img) {
-    var w = img.naturalWidth || img.width,
-        h = img.naturalHeight || img.height;
-    return h > w;
-  }
-  var img = document.createElement('img');
-  img.onload = function() {
-    if (isPortrait(img)) {
-      document.querySelector('#image-landscape').style.display='none';
-    } else {
-      document.querySelector('#image-landscape').style.display='';
-
-    }
-  }
-  img.src = imageUrl;
-</script>
+{isPortrait && <div class="h-full text-ellipsis overflow-hidden">
+  <>
+  <a href={articleUrl}>
+    <div class="flex">
+      <img class="w-1/2 h-full aspect-{9/16} object-cover rounded-xl" src={imageUrl} alt="Article Thumbnail">
+      <div class="h-full ml-3 border-t-2 border-color">
+        <p class="text-l xl:text-xl 2xl:text-2xl uppercase category-text category-color">{category}</p>
+        <div class="mb-2">
+            <p class="text-l xl:text-xl 2xl:text-2xl">{headline}</p>
+            <p class="italic text-sm 2xl:text-base"><span class="category-color">By </span>{author}</p>
+        </div>
+        <p class="text-xs xl:text-sm 2xl:text-base">{excerpt}</p>
+      </div>
+    </div>
+  </a>
+  </>
+</div>}

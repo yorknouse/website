@@ -2,10 +2,19 @@
 import Layout from '../layouts/Layout.astro';
 import Card from '../components/Card.astro';
 import FeaturedArticles from '../components/FeaturedArticles.astro';
+import type { featuredHome } from '@prisma/client';
+import prisma from '../prisma';
+
+// Get featured articles ids
+const featuredArticlesIds: featuredHome | null = await prisma.featuredHome.findFirst({
+  orderBy: {
+    featuredHome_timestamp: "desc",
+  },
+});
 ---
 
 <Layout title="Welcome to Astro." active="home" style="nouse">
 	<main class="pt-8 2xl:px-[13%] px-[0.5%]">
-		<FeaturedArticles />
+		<FeaturedArticles featuredArticlesIds={featuredArticlesIds?.featuredHome_articles?.split(',').map(Number)}/>
 	</main>
 </Layout>
