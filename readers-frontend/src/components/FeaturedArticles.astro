@@ -39,8 +39,9 @@ const hexEncode = function(x: string){
 }
 const mainCategories: (categories | null)[] = await Promise.all(featuredArticles.map(article => getMainArticleCategory(article.articles_categories.split(',').map(Number))))
 ---
-{!hasPortraitArticles &&
-  <!-- 4 or more Articles -->
+{/* Only Landscape Articles */}
+{!hasPortraitArticles && <div>
+  {/* 4 or more Articles */}
   {featuredArticles.length >= 4 && <div>
     <div class="flex max-h-52 max-w-full gap-2.5">
       <div class="w-1/2 border-r-2 pr-2.5 border-gray-300">
@@ -66,14 +67,14 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
         category={mainCategories[1]?.categories_name}
         categoryColor={"#" + mainCategories[1]?.categories_backgroundColor}
         imageUrl={await getArticleImage(featuredArticles[1])}
-        articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+        articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
         isVertical={false}
         isPortrait={false}
         />
       </div>
     </div>
     <hr class="w-full self-center border-[1px] border-gray-300 my-2.5" />
-    <!-- More than 4 articles -->
+    {/* More than 4 articles */}
     {featuredArticles.length > 4 && <div class="flex max-w-full gap-2.5 justify-center">
       {featuredArticles.slice(2).map(async (article, index) => (
         <div class={`h-full w-full max-w-sm pr-2.5 ${index != featuredArticles.length - 3 ? "border-r-2 border-gray-300" : ""}`}>
@@ -85,14 +86,14 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           category={mainCategories[index + 2]?.categories_name}
           categoryColor={"#" + mainCategories[index + 2]?.categories_backgroundColor}
           imageUrl={await getArticleImage(article)}
-          articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+          articleUrl={`/${article.articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${article.articles_slug}`}
           isVertical={true}
           isPortrait={false}
           />
         </div>
       ))}
     </div>}
-    <!-- 4 articles -->
+    {/* 4 articles */}
     {featuredArticles.length == 4 && <div class="flex max-h-52 max-w-full gap-2.5">
       <div class="w-1/2 border-r-2 pr-2.5 border-gray-300">
         <Article
@@ -103,7 +104,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
         category={mainCategories[2]?.categories_name}
         categoryColor={"#" + mainCategories[2]?.categories_backgroundColor}
         imageUrl={await getArticleImage(featuredArticles[2])}
-        articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+        articleUrl={`/${featuredArticles[2].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[2].articles_slug}`}
         isVertical={false}
         isPortrait={false}
         />
@@ -117,15 +118,14 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
         category={mainCategories[3]?.categories_name}
         categoryColor={"#" + mainCategories[3]?.categories_backgroundColor}
         imageUrl={await getArticleImage(featuredArticles[3])}
-        articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+        articleUrl={`/${featuredArticles[3].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[3].articles_slug}`}
         isVertical={false}
         isPortrait={false}
         />
       </div>
     </div>}
   </div>}
-
-  <!-- 3 articles -->
+  {/* 3 articles */}
   {featuredArticles.length == 3 && <div class="flex w-full gap-2.5">
     <div class="flex-col max-w-[60%] border-r-2 pr-2.5 border-gray-300">
       <div class="w-full">
@@ -152,7 +152,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
         category={mainCategories[1]?.categories_name}
         categoryColor={"#" + mainCategories[1]?.categories_backgroundColor}
         imageUrl={await getArticleImage(featuredArticles[1])}
-        articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+        articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
         isVertical={false}
         isPortrait={false}
         />
@@ -167,13 +167,13 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
         category={mainCategories[2]?.categories_name}
         categoryColor={"#" + mainCategories[2]?.categories_backgroundColor}
         imageUrl={await getArticleImage(featuredArticles[2])}
-        articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+        articleUrl={`/${featuredArticles[2].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[2].articles_slug}`}
         isVertical={true}
         isPortrait={false}
         />
       </div>
   </div>}
-  <!-- 2 articles -->
+  {/* 2 articles */}
   {featuredArticles.length == 2 && <div class="flex w-full gap-2.5">
   <div class="max-w-[50%]">
       <Article 
@@ -198,14 +198,13 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
         category={mainCategories[1]?.categories_name}
         categoryColor={"#" + mainCategories[1]?.categories_backgroundColor}
         imageUrl={await getArticleImage(featuredArticles[1])}
-        articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+        articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
         isVertical={true}
         isPortrait={false}
         />
       </div>
   </div>}
-
-  <!-- 1 article -->
+  {/* 1 article */}
   {featuredArticles.length == 1 && <div class="w-full">
     <Article 
     headline={featuredArticles[0].articlesDrafts[0].articlesDrafts_headline}
@@ -220,10 +219,11 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
     isPortrait={false}
     />
   </div>}
-}
+</div>}
 
-{hasPortraitArticles &&
-  <!-- 1 article --> 
+{/* Landscape Articles with one Portrait article */}
+{hasPortraitArticles && <div>
+  {/* More than 1 article */}
   {featuredArticles.length > 1 && 
   <div class="flex w-full gap-2.5">
     <div class="max-w-[50%] border-r-2 pr-2.5 border-gray-300">
@@ -239,7 +239,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
       isPortrait={true}
       />
     </div>
-    <!-- 2 or more Articles -->
+    {/* More than 2 Articles */}
     {featuredArticles.length > 2 && <div class="flex-col max-w-[50%]">
       <div class="w-full">
         <Article
@@ -250,7 +250,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
         category={mainCategories[1]?.categories_name}
         categoryColor={"#" + mainCategories[1]?.categories_backgroundColor}
         imageUrl={await getArticleImage(featuredArticles[1])}
-        articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+        articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
         isVertical={false}
         isPortrait={false}
         />
@@ -265,12 +265,12 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
         category={mainCategories[2]?.categories_name}
         categoryColor={"#" + mainCategories[2]?.categories_backgroundColor}
         imageUrl={await getArticleImage(featuredArticles[2])}
-        articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+        articleUrl={`/${featuredArticles[2].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[2].articles_slug}`}
         isVertical={false}
         isPortrait={false}
         />
       </div>
-      <!-- 4 articles -->
+      {/* 4 articles */}
       {featuredArticles.length == 4 && 
         <hr class="w-full self-center border-[1px] border-gray-300 my-2.5" />
         <div class="w-full">
@@ -282,7 +282,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           category={mainCategories[3]?.categories_name}
           categoryColor={"#" + mainCategories[3]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[3])}
-          articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+          articleUrl={`/${featuredArticles[3].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[3].articles_slug}`}
           isVertical={false}
           isPortrait={false}
           />
@@ -290,7 +290,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
       }
       </div>
     }
-    <!-- 2 articles -->
+    {/* 2 articles */}
     {featuredArticles.length == 2 && <div class="w-1/2">
       <Article
       headline={featuredArticles[1].articlesDrafts[0].articlesDrafts_headline}
@@ -300,13 +300,13 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
       category={mainCategories[1]?.categories_name}
       categoryColor={"#" + mainCategories[1]?.categories_backgroundColor}
       imageUrl={await getArticleImage(featuredArticles[1])}
-      articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+      articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
       isVertical={true}
       isPortrait={false}
       />
     </div>}
   </div>}
-  <!-- 5 articles -->
+  {/* 5 articles */}
   {featuredArticles.length == 5 &&
     <hr class="w-full self-center border-[1px] border-gray-300 my-2.5" />
     <div class="flex max-h-52 max-w-full gap-2.5">
@@ -319,7 +319,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
         category={mainCategories[3]?.categories_name}
         categoryColor={"#" + mainCategories[3]?.categories_backgroundColor}
         imageUrl={await getArticleImage(featuredArticles[3])}
-        articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+        articleUrl={`/${featuredArticles[3].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[3].articles_slug}`}
         isVertical={false}
         isPortrait={false}
         />
@@ -333,14 +333,14 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
         category={mainCategories[4]?.categories_name}
         categoryColor={"#" + mainCategories[4]?.categories_backgroundColor}
         imageUrl={await getArticleImage(featuredArticles[4])}
-        articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+        articleUrl={`/${featuredArticles[4].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[4].articles_slug}`}
         isVertical={false}
         isPortrait={false}
         />
       </div>
     </div>
   }
-  <!-- 6 articles -->
+  {/* 6 articles */}
   {featuredArticles.length == 6 &&
     <hr class="w-full self-center border-[1px] border-gray-300 my-2.5" />
     <div class="flex max-w-full gap-2.5 justify-center">
@@ -354,7 +354,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
             category={mainCategories[index + 2]?.categories_name}
             categoryColor={"#" + mainCategories[index + 2]?.categories_backgroundColor}
             imageUrl={await getArticleImage(article)}
-            articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+            articleUrl={`/${article.articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${article.articles_slug}`}
             isVertical={true}
             isPortrait={false}
             />
@@ -363,7 +363,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
     </div>
   }
 
-  <!-- 1 article -->
+  {/* 1 article */}
   {featuredArticles.length == 1 && <div class="max-w-3xl mx-auto">
     <Article
     headline={featuredArticles[0].articlesDrafts[0].articlesDrafts_headline}
@@ -377,4 +377,4 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
     isPortrait={true}
     />
   </div>}
-}
+</div>}
