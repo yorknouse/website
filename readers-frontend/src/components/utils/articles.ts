@@ -8,6 +8,12 @@ const articlesWithArticleDrafts = Prisma.validator<Prisma.articlesArgs>()({
   } },
 });
 export type articlesWithArticleDrafts = Prisma.articlesGetPayload<typeof articlesWithArticleDrafts>
+
+/**
+ * Retrieves an article with its latest draft and the user who wrote it.
+ * @param {number[]} articleIds The article IDs to retrieve.
+ * @returns {Promise<articlesWithArticleDrafts[]>} Promise object represents the articles.
+ */
 export const getArticles = async (articleIds?: number[]): Promise<articlesWithArticleDrafts[]> => {
   if (articleIds == undefined) {
     return []
@@ -34,6 +40,12 @@ export const getArticles = async (articleIds?: number[]): Promise<articlesWithAr
   });
 }
 
+/**
+ * Retrieves an article image.
+ * @param {articlesWithArticleDrafts} article The article.
+ * @param {"tiny" | "small" | "medium" | "large" | false} [size] File size.
+ * @returns {Promise<string>} Promise object represents the article image url.
+ */
 export const getArticleImage = async (article: articlesWithArticleDrafts, size: "tiny" | "small" | "medium" | "large" | false = "large"): Promise<string> => {
     if (!article.articles_displayImages) {
       return import.meta.env.fileStoreUrl + "/nouseSiteAssets/imageArchive-comp.jpg";
