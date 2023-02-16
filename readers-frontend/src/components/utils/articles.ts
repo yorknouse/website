@@ -1,6 +1,6 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../../prisma";
-import { s3URL } from "./s3Url";
+import { s3URL } from "./s3URL";
 
 const articlesWithArticleDrafts = Prisma.validator<Prisma.articlesArgs>()({
   include: { articlesDrafts: {
