@@ -50,27 +50,29 @@ model adverts {
 }
 
 model articles {
-  articles_id               Int       @id @default(autoincrement())
-  articles_categories       String    @db.VarChar(255)
-  articles_authors          String?   @db.VarChar(500)
-  articles_published        DateTime? @db.Timestamp(0)
-  editions_id               Int?
-  articles_editionPage      String?   @db.VarChar(100)
-  articles_updated          DateTime? @db.Timestamp(0)
-  articles_showInLists      Boolean   @default(false)
-  articles_showInSearch     Boolean   @default(false)
-  articles_showInAdmin      Boolean   @default(true)
-  articles_type             Boolean   @default(true)
-  articles_slug             String?   @db.VarChar(255)
-  articles_extraMetadata    String?   @db.Text
-  articles_thumbnail        String?   @db.VarChar(500)
-  articles_lifetimeViews    Int?      @default(0)
-  articles_archiveFallback  String?   @db.VarChar(255)
-  articles_socialConfig     String    @default("1,0,1,0") @db.VarChar(50)
-  articles_mediaCharterDone Boolean   @default(false)
-  articles_socialExcerpt    String?   @db.VarChar(2000)
-  articles_dropCapital      Boolean   @default(false)
-  articles_displayImages    Boolean?  @default(true)
+  articles_id                  Int              @id @default(autoincrement())
+  articles_categories          String           @db.VarChar(255)
+  articles_authors             String?          @db.VarChar(500)
+  articles_published           DateTime?        @db.Timestamp(0)
+  editions_id                  Int?
+  articles_editionPage         String?          @db.VarChar(100)
+  articles_updated             DateTime?        @db.Timestamp(0)
+  articles_showInLists         Boolean          @default(false)
+  articles_showInSearch        Boolean          @default(false)
+  articles_showInAdmin         Boolean          @default(true)
+  articles_type                Boolean          @default(true)
+  articles_slug                String?          @db.VarChar(255)
+  articles_extraMetadata       String?          @db.Text
+  articles_thumbnail           String?          @db.VarChar(500)
+  articles_lifetimeViews       Int?             @default(0)
+  articles_archiveFallback     String?          @db.VarChar(255)
+  articles_socialConfig        String           @default("1,0,1,0") @db.VarChar(50)
+  articles_mediaCharterDone    Boolean          @default(false)
+  articles_socialExcerpt       String?          @db.VarChar(2000)
+  articles_dropCapital         Boolean          @default(false)
+  articles_displayImages       Boolean?         @default(true)
+  articles_isThumbnailPortrait Boolean          @default(false)
+  articlesDrafts               articlesDrafts[]
 
   @@index([articles_authors], map: "articles_articles_authors_index")
   @@index([articles_categories], map: "articles_articles_categories_index")
@@ -85,18 +87,19 @@ model articles {
 }
 
 model articlesDrafts {
-  articlesDrafts_id              Int      @id @default(autoincrement())
+  articlesDrafts_id              Int       @id @default(autoincrement())
   articles_id                    Int?
-  articlesDrafts_timestamp       DateTime @default(now()) @db.Timestamp(0)
+  articlesDrafts_timestamp       DateTime  @default(now()) @db.Timestamp(0)
   articlesDrafts_userid          Int?
-  articlesDrafts_headline        String   @db.VarChar(500)
-  articlesDrafts_excerpt         String?  @db.VarChar(2000)
-  articlesDrafts_text            String?  @db.LongText
-  articlesDrafts_markdown        String?  @db.LongText
-  articlesDrafts_infoBox         String?  @db.LongText
-  articlesDrafts_thumbnailCredit String?  @db.VarChar(500)
-  articlesDrafts_changelog       String?  @db.Text
-  users                          users?   @relation(fields: [articlesDrafts_userid], references: [users_userid], onDelete: Restrict, onUpdate: Restrict, map: "articlesDrafts_users_users_userid_fk")
+  articlesDrafts_headline        String    @db.VarChar(500)
+  articlesDrafts_excerpt         String?   @db.VarChar(2000)
+  articlesDrafts_text            String?   @db.LongText
+  articlesDrafts_markdown        String?   @db.LongText
+  articlesDrafts_infoBox         String?   @db.LongText
+  articlesDrafts_thumbnailCredit String?   @db.VarChar(500)
+  articlesDrafts_changelog       String?   @db.Text
+  users                          users?    @relation(fields: [articlesDrafts_userid], references: [users_userid], onDelete: Restrict, onUpdate: Restrict, map: "articlesDrafts_users_users_userid_fk")
+  articles                       articles? @relation(fields: [articles_id], references: [articles_id])
 
   @@index([articles_id], map: "articlesDrafts_articles_articles_id_fk")
   @@index([articlesDrafts_userid], map: "articlesDrafts_users_users_userid_fk")
