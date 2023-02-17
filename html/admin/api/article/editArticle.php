@@ -7,6 +7,7 @@ $articleData = [
     "articles_updated" => date("Y-m-d H:i:s"),
     "articles_socialExcerpt" => $bCMS->cleanString(trim($_POST['socialexcerpt'])),
     "articles_displayImages" => $_POST['displayImages'],
+    "articles_isThumbnailPortrait" => $_POST['isThumbnailPortrait'],
     "articles_dropCapital" => $_POST['dropCap'],
 ];
 
