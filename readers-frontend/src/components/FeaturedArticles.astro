@@ -77,7 +77,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
     {/* More than 4 articles */}
     {featuredArticles.length > 4 && <div class="flex max-w-full gap-2.5 justify-center">
       {featuredArticles.slice(2).map(async (article, index) => (
-        <div class={`h-full w-full max-w-sm pr-2.5 ${index != featuredArticles.length - 3 ? "border-r-2 border-gray-300" : ""}`}>
+        <div class={`h-full w-full pr-2.5 ${index != featuredArticles.length - 3 ? "border-r-2 border-gray-300" : ""}`}>
           <Article
           headline={article.articlesDrafts[0].articlesDrafts_headline}
           excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
@@ -345,7 +345,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
     <hr class="w-full self-center border-[1px] border-gray-300 my-2.5" />
     <div class="flex max-w-full gap-2.5 justify-center">
         {featuredArticles.slice(3).map(async (article, index) => (
-          <div class={`h-full w-full max-w-sm pr-2.5 ${index != featuredArticles.length - 4 ? "border-r-2 border-gray-300" : ""}`}>
+          <div class={`h-full w-full pr-2.5 ${index != featuredArticles.length - 4 ? "border-r-2 border-gray-300" : ""}`}>
             <Article
             headline={article.articlesDrafts[0].articlesDrafts_headline}
             excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}

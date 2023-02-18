@@ -4,7 +4,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        whiteish: "#f5efeb",
+        whiteish: { 100: "#F5EFEB", 200: "#D9D9D9" },
+      },
+      fontFamily: {
+        arno: [
+          "arno-pro",
+          "ui-serif",
+          "Georgia",
+          "Cambria",
+          '"Times New Roman"',
+          "Times",
+          "serif",
+        ],
+      },
+      aspectRatio: {
+        edition: 602 / 733,
       },
     },
   },

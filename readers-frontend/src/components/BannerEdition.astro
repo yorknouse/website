@@ -1,0 +1,62 @@
+---
+import prisma from "../prisma";
+import { fail } from "./utils/fail";
+import { s3URL } from "./utils/s3URL";
+
+const latestEdition = await prisma.editions.findFirst({
+  orderBy: {
+    editions_published: "desc",
+  },
+  where: {
+    editions_deleted: false,
+    NOT: {
+      editions_thumbnail: null,
+    },
+  },
+});
+
+if (latestEdition === null) {
+  fail("Could not fetch latest edition");
+  return;
+}
+
+if (latestEdition.editions_thumbnail === null) {
+  fail("Edition thumbnail is null!");
+  return;
+}
+
+const thumbnail = await s3URL(latestEdition.editions_thumbnail, "medium");
+---
+
+<div class="mt-4 flex w-full flex-col gap-2.5 sm:flex-row">
+  {/* Join */}
+  <a
+    id="join_nouse"
+    href={`${import.meta.env.BASE_URL}join`}
+    class="w-full rounded-md border-4 border-whiteish-200 sm:w-3/5"
+  >
+    <img
+      class="h-full w-full"
+      src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/headerImages/join_nouse.png"
+    />
+  </a>
+
+  {/* Edition */}
+  <a
+    id="edition"
+    class="flex w-full flex-row rounded-md border-4 border-whiteish-200 sm:w-2/5"
+    href={`${import.meta.env.BASE_URL}print-edition`}
+  >
+    <div class="flex w-1/2 flex-col gap-2.5 self-center">
+      <p class="text-center uppercase md:text-2xl lg:text-4xl xl:text-5xl">
+        Our<br />latest<br />edition
+      </p>
+      <p
+        class="text-center text-base sm:text-sm md:text-base lg:text-lg xl:text-xl"
+      >
+        {latestEdition?.editions_name}
+      </p>
+    </div>
+    <img class="aspect-edition w-1/2 p-4" src={thumbnail} />
+  </a>
+</div>
