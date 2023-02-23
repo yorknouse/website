@@ -14,9 +14,6 @@
 
     <link rel="shortcut icon" href="{{ CONFIG.FILESTOREURL }}/nouseSiteAssets/icons/favicon.ico">
 
-    <meta name="google-signin-client_id"
-          content="{{ CONFIG["GOOGLE"]["AUTH"]["CLIENT"] }}">
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"
@@ -65,8 +62,10 @@
             text-decoration: inherit; /* no underline */
         }
 
-        #signInButton > div{
-            margin: 0 auto;
+        #signInButton {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     </style>
 </head>
@@ -87,58 +86,36 @@
 
 </div>
 
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
-    function renderButton() {
-        gapi.signin2.render('signInButton', {
-            'scope': 'profile email',
-            'width': 240,
-            'hosted_domain': 'nouse.co.uk',
-            'ux_mode': 'popup',
-            'height': 50,
-            'longtitle': true,
-            'theme': 'dark',
-            'onsuccess': function(googleUser) {
-                var profile = googleUser.getBasicProfile();
-                {% if LOGOUT %}
-                var auth2Logout = gapi.auth2.getAuthInstance();
-                auth2Logout.signOut().then(function () {
-                    console.log('User signed out.');
-                });
-                auth2Logout.disconnect();
-                toastr.success("Logout successful");
-                window.location.href = "{{ CONFIG.ROOTBACKENDURL }}/";
-                {% else %}
-                toastr.success("Hi " + profile.getGivenName() + " - getting you logged in now");
-                var id_token = googleUser.getAuthResponse().id_token;
-                var xhr = new XMLHttpRequest();
-                xhr.open('POST', '{{CONFIG['ROOTBACKENDURL']}}/api/login/loginCallback.php');
-                xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                xhr.onload = function() {
-                    var responseJSON = JSON.parse(xhr.responseText);
-                    if (responseJSON.result) {
-                        //Login success
-                        toastr.success("All set, let's go!");
-                        window.location.href = responseJSON.response.return;
-                    } else {
-                        toastr.warning(responseJSON.error.message);
-                        var auth2 = gapi.auth2.getAuthInstance();
-                        auth2.signOut().then(function () {
-                            console.log('User signed out.');
-                        });
-                    }
-                };
-                xhr.send('idtoken=' + id_token);
-                {% endif %}
-            },
-            'onfailure': function(error) {
-                if (error) {
-                    toastr.error(error);
-                }
+    function handleCredentialResponse(response) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '{{CONFIG['ROOTBACKENDURL']}}/api/login/loginCallback.php');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            var responseJSON = JSON.parse(xhr.responseText);
+            if (responseJSON.result) {
+                //Login success
+                toastr.success("All set, let's go!");
+                window.location.href = responseJSON.response.return;
+            } else {
+                toastr.error(responseJSON.error.message);
             }
-        });
+        };
+        xhr.send('idtoken=' + response.credential);
     }
+    window.onload = function () {
+    google.accounts.id.initialize({
+        client_id: "{{ CONFIG["GOOGLE"]["AUTH"]["CLIENT"] }}",
+        callback: handleCredentialResponse
+    });
+    google.accounts.id.renderButton(
+        document.getElementById("signInButton"),
+        { theme: 'filled_blue', 'width': 240}
+    );
+    google.accounts.id.prompt();
+  };
 </script>
-<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 
 
 
