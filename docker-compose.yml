@@ -51,7 +51,7 @@ services:
       - MYSQL_ROOT_HOST=%
       - MYSQL_USER=prisma
       - MYSQL_PASSWORD=prisma
-      - MYSQL_ROOT_PASSWORD=prisma
+      - MYSQL_ROOT_PASSWORD=${TEST_DB_PASSWORD}
   nouse:
     image: ghcr.io/yorknouse/website/main:latest
     container_name: nouse-container
