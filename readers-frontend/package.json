@@ -8,7 +8,8 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "dotenv -e .env.test -- npx prisma migrate deploy && dotenv -e .env.test -- npx playwright test"
   },
   "dependencies": {
     "@astrojs/image": "^0.14.0",
