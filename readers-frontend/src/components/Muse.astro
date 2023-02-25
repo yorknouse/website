@@ -1,0 +1,36 @@
+---
+import MuseComponent from "./SolidJS/MuseComponent";
+import { getMenuCategories } from "./utils/categories";
+import type MuseComponentArticlesType from "./SolidJS/MuseComponent";
+import { articlesWithArticleDrafts, getArticles } from "./utils/articles";
+
+const categories = (await getMenuCategories("muse")).filter(
+  (currentCategory) =>
+    currentCategory.categories_name !== "nouse" &&
+    currentCategory.categories_name !== "home"
+);
+
+const content = new Map<string, articlesWithArticleDrafts[]>();
+
+for (let i = 0; i < categories.length; i++) {
+  const featuredArticles = categories[i]
+    .categories_featured!.split(",")
+    .map(Number);
+
+  content.set(
+    categories[i].categories_name,
+    await getArticles(featuredArticles)
+  );
+}
+---
+
+<div class="relative mt-4 flex w-full flex-col bg-black">
+  <a href="/muse" class="mx-[42%] my-4 w-[14%]">
+    <img
+      class="w-full"
+      src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
+    />
+  </a>
+
+  <MuseComponent client:load categories={categories} articles={content} />
+</div>
