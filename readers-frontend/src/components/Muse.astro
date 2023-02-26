@@ -2,22 +2,34 @@
 import MuseComponent from "@solidComponents/MuseComponent";
 import { getMenuCategories } from "./utils/categories";
 import { articlesWithArticleDrafts, getArticles } from "./utils/articles";
+import type { MuseNavbarCategory } from "@components/types";
 
-const categories = (await getMenuCategories("muse")).filter(
-  (currentCategory) =>
+const museMenuCategories = await getMenuCategories("muse");
+
+const categories = museMenuCategories.reduce((accumulator, currentCategory) => {
+  if (
     currentCategory.categories_name !== "nouse" &&
-    currentCategory.categories_name !== "home"
-);
+    currentCategory.categories_name != "home"
+  ) {
+    accumulator.push({
+      name: currentCategory.categories_name,
+      displayName: currentCategory.categories_displayName
+        ? currentCategory.categories_displayName
+        : "",
+    });
+  }
+  return accumulator;
+}, [] as MuseNavbarCategory[]);
 
 const content = new Map<string, articlesWithArticleDrafts[]>();
 
 for (let i = 0; i < categories.length; i++) {
-  const featuredArticles = categories[i]
+  const featuredArticles = museMenuCategories[i]
     .categories_featured!.split(",")
     .map(Number);
 
   content.set(
-    categories[i].categories_name,
+    museMenuCategories[i].categories_name,
     await getArticles(featuredArticles)
   );
 }
