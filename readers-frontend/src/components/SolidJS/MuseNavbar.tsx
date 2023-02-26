@@ -1,16 +1,17 @@
+import type { MuseNavbarCategory } from "@components/types";
 import type { categories } from "@prisma/client";
 import { Accessor, Component, For, Setter } from "solid-js";
 
 type MuseNavbarProps = {
   active: Accessor<string>;
   setActive: Setter<string>;
-  categories: categories[];
+  categories: MuseNavbarCategory[];
 };
 
 const MuseNavbar: Component<MuseNavbarProps> = (props) => {
   return (
     <div class="2xl:text-large hidden h-12 w-full text-base text-white sm:block 2xl:px-[13%]">
-      <ul class="flex h-full w-full flex-row justify-between border-transparent border-t-[1px] border-white">
+      <ul class="flex h-full w-full flex-row justify-between border-t-[1px] border-transparent border-white">
         <For each={props.categories}>
           {(category, i) => (
             <>
@@ -19,24 +20,34 @@ const MuseNavbar: Component<MuseNavbarProps> = (props) => {
               )}
               <li
                 class={`group relative flex h-full w-full border-b-4 ${
-                  props.active() === category.categories_name
+                  props.active() === category.name
                     ? "border-white"
                     : "border-transparent"
                 }`}
               >
-                {props.active() === category.categories_name ? (
-                  <a
-                    class="mx-auto my-auto"
-                    href={`/${category.categories_name}`}
-                  >
-                    {category.categories_displayName}
+                {props.active() === category.name ? (
+                  <a class="mx-auto my-auto" href={`/${category.name}`}>
+                    {category.displayName}
                   </a>
                 ) : (
                   <button
                     class="mx-auto my-auto"
-                    onClick={() => props.setActive(category.categories_name)}
+                    onClick={() => {
+                      const previousBlock = document.getElementById(
+                        `muse_${props.active()}`
+                      );
+                      previousBlock?.classList.remove("flex");
+                      previousBlock?.classList.add("hidden");
+                      props.setActive(category.name);
+
+                      const newBlock = document.getElementById(
+                        `muse_${category.name}`
+                      );
+                      newBlock?.classList.remove("hidden");
+                      newBlock?.classList.add("flex");
+                    }}
                   >
-                    {category.categories_displayName}
+                    {category.displayName}
                   </button>
                 )}
               </li>

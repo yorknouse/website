@@ -1,25 +1,51 @@
 ---
 import MuseComponent from "@solidComponents/MuseComponent";
 import { getMenuCategories } from "./utils/categories";
-import { articlesWithArticleDrafts, getArticles } from "./utils/articles";
+import {
+  articlesWithArticleDrafts,
+  getArticleImage,
+  getArticles,
+} from "./utils/articles";
+import type { MuseNavbarCategory } from "./types";
+import Article from "./Article.astro";
 
-const categories = (await getMenuCategories("muse")).filter(
-  (currentCategory) =>
-    currentCategory.categories_name !== "nouse" &&
-    currentCategory.categories_name !== "home"
+type articlesWithArticlesDraftAndLink = articlesWithArticleDrafts & {
+  imageUrl: string;
+};
+
+const museMenuCategories = (await getMenuCategories("muse")).filter(
+  (category) =>
+    category.categories_name !== "nouse" && category.categories_name != "home"
 );
+const categories = museMenuCategories.reduce((accumulator, currentCategory) => {
+  accumulator.push({
+    name: currentCategory.categories_name,
+    displayName: currentCategory.categories_displayName
+      ? currentCategory.categories_displayName
+      : "",
+  });
 
-const content = new Map<string, articlesWithArticleDrafts[]>();
+  return accumulator;
+}, [] as MuseNavbarCategory[]);
 
-for (let i = 0; i < categories.length; i++) {
-  const featuredArticles = categories[i]
+const articles = new Map<string, articlesWithArticlesDraftAndLink[]>();
+
+for (let i = 0; i < museMenuCategories.length; i++) {
+  const featuredArticles = museMenuCategories[i]
     .categories_featured!.split(",")
     .map(Number);
 
-  content.set(
-    categories[i].categories_name,
-    await getArticles(featuredArticles)
+  const articlesList = (await getArticles(featuredArticles)).slice(0, 4);
+  const articlesArray = await Promise.all(
+    articlesList.map(async (article) => {
+      return {
+        ...article,
+        imageUrl: await getArticleImage(article),
+      };
+    })
   );
+
+  articles.set(museMenuCategories[i].categories_name, articlesArray);
 }
 ---
 
@@ -31,5 +57,37 @@ for (let i = 0; i < categories.length; i++) {
     />
   </a>
 
-  <MuseComponent client:load categories={categories} articles={content} />
+  <MuseComponent client:only categories={categories}>
+    {
+      museMenuCategories.map((category, i) => (
+        <div
+          class={`${
+            i === 0 ? "flex" : "hidden"
+          } mt-4 w-full flex-row px-[0.5%] 2xl:px-[13%]`}
+          id={`muse_${category.categories_name}`}
+        >
+          {articles.get(category.categories_name)?.map((article) => (
+            <div class="w-1/4">
+              <Article
+                headline={article.articlesDrafts[0].articlesDrafts_headline}
+                excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
+                author={`${article.articlesDrafts[0].users?.users_name1} ${article.articlesDrafts[0].users?.users_name2}`}
+                authorId={article.articlesDrafts[0].users?.users_userid}
+                category={""}
+                categoryColor={"#FFF"}
+                imageUrl={article.imageUrl}
+                articleUrl={`/${article.articles_published
+                  ?.toISOString()
+                  .substring(0, 10)
+                  .replaceAll("-", "/")}/${article.articles_slug}`}
+                isVertical={true}
+                isPortrait={article.articles_isThumbnailPortrait}
+                isInMuseBanner={true}
+              />
+            </div>
+          ))}
+        </div>
+      ))
+    }
+  </MuseComponent>
 </div>

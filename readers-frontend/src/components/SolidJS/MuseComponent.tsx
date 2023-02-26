@@ -1,17 +1,15 @@
+import type { MuseNavbarCategory } from "@components/types";
 import type { categories } from "@prisma/client";
-import { Component, createSignal } from "solid-js";
-import type { articlesWithArticleDrafts } from "../utils/articles";
+import { Component, createSignal, JSXElement } from "solid-js";
 import MuseNavbar from "./MuseNavbar";
 
 type MuseComponentProps = {
-  categories: categories[];
-  articles: Map<string, articlesWithArticleDrafts[]>;
+  categories: MuseNavbarCategory[];
+  children?: JSXElement;
 };
 
 const MuseComponent: Component<MuseComponentProps> = (props) => {
-  const [active, setActive] = createSignal<string>(
-    props.categories[0].categories_name!
-  );
+  const [active, setActive] = createSignal<string>(props.categories[0].name);
 
   return (
     <div class="flex w-full flex-col">
@@ -20,6 +18,7 @@ const MuseComponent: Component<MuseComponentProps> = (props) => {
         setActive={setActive}
         categories={props.categories}
       />
+      {props.children}
     </div>
   );
 };
