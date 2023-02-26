@@ -1,8 +1,8 @@
 ---
+import type { ArticleContent, MuseNavbarCategory } from "@components/types";
 import MuseComponent from "@solidComponents/MuseComponent";
+import { getArticleImage, getArticles } from "./utils/articles";
 import { getMenuCategories } from "./utils/categories";
-import { articlesWithArticleDrafts, getArticles } from "./utils/articles";
-import type { MuseNavbarCategory } from "@components/types";
 
 const museMenuCategories = await getMenuCategories("muse");
 
@@ -21,17 +21,33 @@ const categories = museMenuCategories.reduce((accumulator, currentCategory) => {
   return accumulator;
 }, [] as MuseNavbarCategory[]);
 
-const content = new Map<string, articlesWithArticleDrafts[]>();
+const content = new Map<string, ArticleContent[]>();
 
 for (let i = 0; i < categories.length; i++) {
   const featuredArticles = museMenuCategories[i]
     .categories_featured!.split(",")
     .map(Number);
 
-  content.set(
-    museMenuCategories[i].categories_name,
-    await getArticles(featuredArticles)
+  // Only 4 articles per category
+  const articles = (await getArticles(featuredArticles)).slice(0, 4);
+  const articlesArray = await Promise.all(
+    articles.map(async (article) => {
+      return {
+        headline: article.articlesDrafts[0].articlesDrafts_headline,
+        excerpt: article.articlesDrafts[0].articlesDrafts_excerpt,
+        author: `${article.articlesDrafts[0].users?.users_name1} ${article.articlesDrafts[0].users?.users_name2}`,
+        authorId: article.articlesDrafts[0].users?.users_userid,
+        imageUrl: await getArticleImage(article),
+        articleUrl: `/${article.articles_published
+          ?.toISOString()
+          .substring(0, 10)
+          .replaceAll("-", "/")}/${article.articles_slug}`,
+        isPortrait: article.articles_isThumbnailPortrait,
+      };
+    })
   );
+
+  content.set(museMenuCategories[i].categories_name, articlesArray);
 }
 ---
 

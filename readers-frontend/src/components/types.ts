@@ -16,4 +16,16 @@ export type ArticleProps = {
   articleUrl: string;
   isVertical?: boolean; // Defines if the image is ontop or to the left of the text
   isPortrait: boolean; // Defines if the image is portrait or landscape
+  isInMuseComponent?: boolean;
+};
+
+/* Article content */
+export type ArticleContent = {
+  headline: string;
+  excerpt: string | null;
+  author: string;
+  authorId: number | undefined;
+  imageUrl: string;
+  articleUrl: string;
+  isPortrait: boolean;
 };
