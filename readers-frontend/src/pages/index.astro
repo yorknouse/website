@@ -16,11 +16,13 @@ const featuredArticlesIds: featuredHome | null =
 
 <Layout title="Welcome to Astro." active="home" style="nouse">
   <main class="px-[0.5%] pt-8 2xl:px-[13%]">
-    <FeaturedArticles
-      featuredArticlesIds={featuredArticlesIds?.featuredHome_articles
-        ?.split(",")
-        .map(Number)}
-    />
+    <div class="featured-articles">
+      <FeaturedArticles
+        featuredArticlesIds={featuredArticlesIds?.featuredHome_articles
+          ?.split(",")
+          .map(Number)}
+      />
+    </div>
     <BannerEdition />
   </main>
 </Layout>

@@ -72,9 +72,9 @@ test.describe("Featured Articles", () => {
           },
         });
         await page.reload();
-        await expect(page.locator(".article")).toHaveCount(
-          landscapeFeaturedArticles.length
-        );
+        await expect(
+          page.locator(".featured-articles >> .article")
+        ).toHaveCount(landscapeFeaturedArticles.length);
       });
 
       test("Display the correct information and have the correct links to articles", async ({
@@ -90,7 +90,7 @@ test.describe("Featured Articles", () => {
         });
         await page.reload();
         for (let i = 0; i < landscapeFeaturedArticles.length; i++) {
-          const article = page.locator(`.article`).nth(i);
+          const article = page.locator(`.featured-articles >> .article`).nth(i);
           const articleImage = article.locator("img");
           const articleLinks = article.locator("a");
 
@@ -119,6 +119,10 @@ test.describe("Featured Articles", () => {
             `/testCategory1`
           );
           await expect(articleLinks.nth(1)).toHaveText("Test");
+          await expect(articleLinks.nth(1)).toHaveCSS(
+            "color",
+            "rgb(237, 179, 33)"
+          ); // Playwright doesn't support hex values for toHaveCSS.
 
           // Checking Headline
           await expect(articleLinks.nth(2)).toHaveAttribute(
@@ -171,9 +175,9 @@ test.describe("Featured Articles", () => {
           },
         });
         await page.reload();
-        await expect(page.locator(".article")).toHaveCount(
-          landscapeFeaturedArticles.length
-        );
+        await expect(
+          page.locator(".featured-articles >> .article")
+        ).toHaveCount(landscapeFeaturedArticles.length);
       });
 
       test("Reorders articles so that the first article is portrait", async ({
@@ -188,7 +192,7 @@ test.describe("Featured Articles", () => {
           },
         });
         await page.reload();
-        const article = page.locator(`.article`).nth(0);
+        const article = page.locator(`.featured-articles >> .article`).nth(0);
         const articleImage = article.locator("img");
         const articleLinks = article.locator("a");
 
@@ -208,6 +212,10 @@ test.describe("Featured Articles", () => {
           `/testCategory1`
         );
         await expect(articleLinks.nth(1)).toHaveText("Test");
+        await expect(articleLinks.nth(1)).toHaveCSS(
+          "color",
+          "rgb(237, 179, 33)"
+        ); // Playwright doesn't support hex values for toHaveCSS.
 
         // Checking Headline
         await expect(articleLinks.nth(2)).toHaveAttribute(
@@ -242,7 +250,9 @@ test.describe("Featured Articles", () => {
           });
           await page.reload();
           for (let i = 1; i < landscapeFeaturedArticles.length; i++) {
-            const article = page.locator(`.article`).nth(i);
+            const article = page
+              .locator(`.featured-articles >> .article`)
+              .nth(i);
             const articleImage = article.locator("img");
             const articleLinks = article.locator("a");
 
@@ -262,6 +272,10 @@ test.describe("Featured Articles", () => {
               `/testCategory1`
             );
             await expect(articleLinks.nth(1)).toHaveText("Test");
+            await expect(articleLinks.nth(1)).toHaveCSS(
+              "color",
+              "rgb(237, 179, 33)"
+            ); // Playwright doesn't support hex values for toHaveCSS.
 
             // Checking Headline
             await expect(articleLinks.nth(2)).toHaveAttribute(
