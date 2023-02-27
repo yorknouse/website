@@ -27,13 +27,13 @@ jobs:
       - name: Set up MySQL
         run: |
           sudo /etc/init.d/mysql start
-          mysql -e 'CREATE DATABASE test;' -uroot -ppassword
+          mysql -e 'CREATE DATABASE test;' -uroot -proot
       - name: Run Playwright tests
         run: |
           cd readers-frontend
           npm run test
         env:
-          DATABASE_URL: "mysql://root:password@localhost:33306/test"
+          DATABASE_URL: "mysql://root:root@localhost:33306/test"
       - uses: actions/upload-artifact@v3
         if: always()
         with:
