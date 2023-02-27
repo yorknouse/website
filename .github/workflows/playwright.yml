@@ -18,7 +18,7 @@ jobs:
           MYSQL_DATABASE: test
         ports:
           - 33306:3306
-        options: --sql-mode="ALLOW_INVALID_DATES" --innodb-thread-concurrency=0 --sort_buffer_size=512K --character-set-server=latin1 --collation-server=latin1_swedish_ci
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - uses: actions/checkout@v3
