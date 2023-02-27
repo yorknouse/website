@@ -28,6 +28,7 @@ jobs:
         run: |
           sudo /etc/init.d/mysql start
           mysql -e 'CREATE DATABASE test;' -uroot -proot
+          mysql -e 'SET GLOBAL SQL_MODE='ALLOW_INVALID_DATES';' -uroot -proot
       - name: Run Playwright tests
         run: |
           cd readers-frontend
