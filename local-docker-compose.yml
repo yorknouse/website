@@ -20,14 +20,14 @@ services:
       - nouseprod-local.env
   testdb:
     image: mysql/mysql-server:8.0
-    command: --default-authentication-plugin=mysql_native_password --innodb-thread-concurrency=0 --sort_buffer_size=512K --character-set-server=latin1 --collation-server=latin1_swedish_ci
+    command: --sql-mode="ALLOW_INVALID_DATES" --innodb-thread-concurrency=0 --sort_buffer_size=512K --character-set-server=latin1 --collation-server=latin1_swedish_ci
     restart: always
     container_name: integration-tests-prisma
     ports:
       - 8084:3306
     environment:
       - MYSQL_DATABASE=tests
-      - MYSQL_ROOT_HOST=127.0.0.1
+      - MYSQL_ROOT_HOST=%
       - MYSQL_USER=prisma
       - MYSQL_PASSWORD=prisma
       - MYSQL_ROOT_PASSWORD=prisma
