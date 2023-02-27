@@ -5,6 +5,10 @@ on:
   pull_request:
     branches: [astro, astro-*]
 jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+
   services:
     mysql:
       # https://hub.docker.com/_/mysql
@@ -16,9 +20,6 @@ jobs:
         - 33306:3306
       options: --sql-mode="ALLOW_INVALID_DATES" --innodb-thread-concurrency=0 --sort_buffer_size=512K --character-set-server=latin1 --collation-server=latin1_swedish_ci
 
-  test:
-    timeout-minutes: 60
-    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
