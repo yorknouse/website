@@ -66,5 +66,5 @@ export const getArticleImage = async (
   } else if (Number(article.articles_thumbnail)) {
     return await s3URL(Number(article.articles_thumbnail), size);
   } else
-    return import.meta.env.ARCHIVEFILESTOREURL + article.articles_thumbnail;
+    return import.meta.env.archiveFileStoreUrl + article.articles_thumbnail;
 };
