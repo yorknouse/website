@@ -1,33 +1,19 @@
 ---
 export interface Props {
-  headline: string;
-  excerpt: string | null;
+	headline: string;
+	excerpt: string | null;
   author: string;
   authorId: number | undefined;
   category: string | undefined;
   categoryColor: string | undefined;
-  imageUrl: string;
+	imageUrl: string;
   articleUrl: string;
   isVertical?: boolean; // Defines if the image is ontop or to the left of the text
   isPortrait: boolean; // Defines if the image is portrait or landscape
-  isInMuseBanner?: boolean;
 }
 
-const {
-  headline,
-  excerpt,
-  author,
-  authorId,
-  category,
-  categoryColor,
-  imageUrl,
-  articleUrl,
-  isVertical,
-  isPortrait,
-  isInMuseBanner,
-} = Astro.props;
+const { headline, excerpt, author, authorId, category, categoryColor, imageUrl, articleUrl, isVertical, isPortrait } = Astro.props;
 ---
-
 <style define:vars={{ categoryColor }}>
   .border-color {
     border-color: var(--categoryColor);
@@ -41,180 +27,80 @@ const {
     color: var(--categoryColor);
   }
 </style>
-{
-  !isPortrait && (
-    <div class="h-full overflow-hidden text-ellipsis">
-      <>
-        {!isVertical && (
-          <div class="flex">
-            <>
-              <a class="h-full w-1/2" href={articleUrl}>
-                <img
-                  class="aspect-video rounded-xl object-cover"
-                  src={imageUrl}
-                  alt="Article Thumbnail"
-                />
-              </a>
-              <div
-                class={`border-color ml-3 h-full w-1/2 ${
-                  !isInMuseBanner && "border-t-2"
-                }`}
-              >
-                {!isInMuseBanner && (
-                  <a href={`/${category}`}>
-                    <p class="text-l category-text category-color uppercase xl:text-xl 2xl:text-2xl">
-                      {category}
-                    </p>
-                  </a>
-                )}
-                <div class="mb-2">
-                  <a href={articleUrl}>
-                    <p
-                      class={`text-l xl:text-xl 2xl:text-2xl ${
-                        isInMuseBanner && "text-white"
-                      }`}
-                    >
-                      {headline}
-                    </p>
-                  </a>
-                  <a href={`/author/${authorId}`}>
-                    <p
-                      class={`text-sm italic 2xl:text-base ${
-                        isInMuseBanner && "text-white"
-                      }`}
-                    >
-                      <span class="category-color">By </span>
-                      {author}
-                    </p>
-                  </a>
-                </div>
-                <a href={articleUrl}>
-                  <p
-                    class={`text-xs xl:text-sm 2xl:text-base ${
-                      isInMuseBanner && "text-white"
-                    }`}
-                  >
-                    {excerpt}
-                  </p>
-                </a>
-              </div>
-            </>
-          </div>
-        )}
-        {isVertical && (
-          <div class="flex-col">
-            <>
-              <a class="w-full" href={articleUrl}>
-                <img
-                  class="mb-5 aspect-video rounded-xl object-cover"
-                  src={imageUrl}
-                  alt="Article Thumbnail"
-                />
-              </a>
-              <div class={`border-color ${!isInMuseBanner && "border-t-2"}`}>
-                {!isInMuseBanner && (
-                  <a href={`/${category}`}>
-                    <p class="text-l category-text category-color uppercase xl:text-xl 2xl:text-2xl">
-                      {category}
-                    </p>
-                  </a>
-                )}
-                <div class="mb-2">
-                  <a href={articleUrl}>
-                    <p
-                      class={`text-l xl:text-xl 2xl:text-2xl ${
-                        isInMuseBanner && "text-white"
-                      }`}
-                    >
-                      {headline}
-                    </p>
-                  </a>
-                  <a href={`/author/${authorId}`}>
-                    <p
-                      class={`text-sm italic 2xl:text-base ${
-                        isInMuseBanner && "text-white"
-                      }`}
-                    >
-                      <span class="category-color">By </span>
-                      {author}
-                    </p>
-                  </a>
-                </div>
-                <a href={articleUrl}>
-                  <p
-                    class={`text-xs xl:text-sm 2xl:text-base ${
-                      isInMuseBanner && "text-white"
-                    }`}
-                  >
-                    {excerpt}
-                  </p>
-                </a>
-              </div>
-            </>
-          </div>
-        )}
-      </>
-    </div>
-  )
-}
+{!isPortrait && <div class="h-full text-ellipsis overflow-hidden">
+  <>
 
-{
-  isPortrait && (
-    <div class="h-full overflow-hidden text-ellipsis">
+    {!isVertical && <div class="flex">
       <>
-        <div class="flex">
-          <a class="h-full w-1/2 " href={articleUrl}>
-            <img
-              class="aspect-{9/16} h-full rounded-xl object-cover"
-              src={imageUrl}
-              alt="Article Thumbnail"
-            />
+      <a class="w-1/2 h-full" href={articleUrl}>
+        <img class="aspect-video object-cover rounded-xl" src={imageUrl} alt="Article Thumbnail">
+      </a>
+      <div class="w-1/2 h-full ml-3 border-t-2 border-color">
+        <a href={`/${category}`}>
+          <p class="text-l xl:text-xl 2xl:text-2xl uppercase category-text category-color">{category}</p>
+        </a>
+        <div class="mb-2">
+          <a href={articleUrl}>
+            <p class="text-l xl:text-xl 2xl:text-2xl">{headline}</p>
           </a>
-          <div
-            class={`border-color ml-3 h-full w-1/2 ${
-              !isInMuseBanner && "border-t-2"
-            }`}
-          >
-            {!isInMuseBanner && (
-              <a href={`/${category}`}>
-                <p class="text-l category-text category-color uppercase xl:text-xl 2xl:text-2xl">
-                  {category}
-                </p>
-              </a>
-            )}
-            <div class="mb-2">
-              <a href={articleUrl}>
-                <p
-                  class={`text-l xl:text-xl 2xl:text-2xl ${
-                    isInMuseBanner && "text-white"
-                  }`}
-                >
-                  {headline}
-                </p>
-              </a>
-              <a href={`/author/${authorId}`}>
-                <p
-                  class={`text-sm italic 2xl:text-base ${
-                    isInMuseBanner && "text-white"
-                  }`}
-                >
-                  <span class="category-color">By </span>
-                  {author}
-                </p>
-              </a>
-            </div>
+          <a href={`/author/${authorId}`}>
+            <p class="italic text-sm 2xl:text-base"><span class="category-color">By </span>{author}</p>
+          </a>
+        </div>
+        <a href={articleUrl}>
+          <p class="text-xs xl:text-sm 2xl:text-base">{excerpt}</p>
+        </a>
+      </div>
+      </>
+    </div>}
+    {isVertical && <div class="flex-col">
+      <>
+        <a class="w-full" href={articleUrl}>
+          <img class="aspect-video object-cover rounded-xl mb-5" src={imageUrl} alt="Article Thumbnail">
+        </a>
+        <div class="border-t-2 border-color">
+          <a href={`/${category}`}>
+            <p class="text-l xl:text-xl 2xl:text-2xl uppercase category-text category-color">{category}</p>
+          </a>
+          <div class="mb-2">
             <a href={articleUrl}>
-              <p
-                class={`text-xs xl:text-sm 2xl:text-base ${
-                  isInMuseBanner && "text-white"
-                }`}
-              >
-                {excerpt}
-              </p>
+              <p class="text-l xl:text-xl 2xl:text-2xl">{headline}</p>
+            </a>
+            <a href={`/author/${authorId}`}>
+              <p class="italic text-sm 2xl:text-base"><span class="category-color">By </span>{author}</p>
             </a>
           </div>
+          <a href={articleUrl}>
+            <p class="text-xs xl:text-sm 2xl:text-base">{excerpt}</p>
+          </a>
         </div>
       </>
+    </div>}
+  </>
+</div>}
+
+{isPortrait && <div class="h-full text-ellipsis overflow-hidden">
+  <>
+    <div class="flex">
+      <a class="w-1/2 h-full " href={articleUrl}>
+        <img class="h-full aspect-{9/16} object-cover rounded-xl" src={imageUrl} alt="Article Thumbnail">
+      </a>
+      <div class="w-1/2 h-full ml-3 border-t-2 border-color">
+        <a href={`/${category}`}>
+          <p class="text-l xl:text-xl 2xl:text-2xl uppercase category-text category-color">{category}</p>
+        </a>
+        <div class="mb-2">
+          <a href={articleUrl}>
+            <p class="text-l xl:text-xl 2xl:text-2xl">{headline}</p>
+          </a>
+          <a href={`/author/${authorId}`}>
+            <p class="italic text-sm 2xl:text-base"><span class="category-color">By </span>{author}</p>
+          </a>
+        </div>
+        <a href={articleUrl}>
+          <p class="text-xs xl:text-sm 2xl:text-base">{excerpt}</p>
+        </a>
+      </div>
     </div>
-  )
-}
+  </>
+</div>}
