@@ -1,4 +1,3 @@
-SET SQL_MODE='ALLOW_INVALID_DATES';
 -- CreateTable
 CREATE TABLE `actions` (
     `actions_id` INTEGER NOT NULL AUTO_INCREMENT,

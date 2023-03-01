@@ -8,7 +8,10 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "npx prisma migrate deploy && npx playwright test",
+    "test-local": "dotenv -e .env.test -- npx prisma migrate deploy && dotenv -e .env.test -- npx playwright test",
+    "test-debug": "dotenv -e .env.test -- npx prisma migrate deploy && dotenv -e .env.test -- npx playwright test --debug"
   },
   "dependencies": {
     "@astrojs/image": "^0.14.0",
@@ -20,6 +23,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.30.0",
+    "dotenv": "^16.0.3",
     "prettier": "^2.8.3",
     "prettier-plugin-tailwindcss": "^0.2.2",
     "prisma": "^4.9.0"
