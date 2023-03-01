@@ -11,6 +11,7 @@ export interface Props {
   articleUrl: string;
   isVertical?: boolean; // Defines if the image is ontop or to the left of the text
   isPortrait: boolean; // Defines if the image is portrait or landscape
+  isInMuseBanner?: boolean;
 }
 
 const {
@@ -25,6 +26,7 @@ const {
   articleUrl,
   isVertical,
   isPortrait,
+  isInMuseBanner,
 } = Astro.props;
 ---
 
@@ -50,31 +52,53 @@ const {
             <>
               <a class="h-full w-1/2" href={articleUrl}>
                 <img
-                  class="aspect-video rounded-xl object-cover"
+                  class="aspect-video w-full rounded-xl object-cover"
                   src={imageUrl}
                   alt="Article Thumbnail"
                 />
               </a>
-              <div class="border-color ml-3 h-full w-1/2 border-t-2">
-                <a
-                  class="text-l category-text category-color uppercase xl:text-xl 2xl:text-2xl"
-                  href={`/${categoryLink}`}
-                >
-                  {category}
-                </a>
+              <div
+                class={`border-color ml-3 h-full w-1/2 ${
+                  !isInMuseBanner && "border-t-2"
+                }`}
+              >
+                {!isInMuseBanner && (
+                  <a
+                    class="text-l category-text category-color uppercase xl:text-xl 2xl:text-2xl"
+                    href={`/${categoryLink}`}
+                  >
+                    {category}
+                  </a>
+                )}
                 <div class="mb-2">
                   <a href={articleUrl}>
-                    <p class="text-l xl:text-xl 2xl:text-2xl">{headline}</p>
+                    <p
+                      class={`text-l xl:text-xl 2xl:text-2xl ${
+                        isInMuseBanner && "text-white"
+                      }`}
+                    >
+                      {headline}
+                    </p>
                   </a>
                   <a href={`/author/${authorId}`}>
-                    <p class="text-sm italic 2xl:text-base">
+                    <p
+                      class={`text-sm italic 2xl:text-base ${
+                        isInMuseBanner && "text-white"
+                      }`}
+                    >
                       <span class="category-color">By </span>
                       {author}
                     </p>
                   </a>
                 </div>
                 <a href={articleUrl}>
-                  <p class="text-xs xl:text-sm 2xl:text-base">{excerpt}</p>
+                  <p
+                    class={`text-xs xl:text-sm 2xl:text-base ${
+                      isInMuseBanner && "text-white"
+                    }`}
+                  >
+                    {excerpt}
+                  </p>
                 </a>
               </div>
             </>
@@ -85,31 +109,49 @@ const {
             <>
               <a class="w-full" href={articleUrl}>
                 <img
-                  class="mb-5 aspect-video rounded-xl object-cover"
+                  class="mb-5 aspect-video w-full rounded-xl object-cover"
                   src={imageUrl}
                   alt="Article Thumbnail"
                 />
               </a>
-              <div class="border-color border-t-2">
-                <a
-                  class="text-l category-text category-color uppercase xl:text-xl 2xl:text-2xl"
-                  href={`/${categoryLink}`}
-                >
-                  {category}
-                </a>
+              <div class={`border-color ${!isInMuseBanner && "border-t-2"}`}>
+                {!isInMuseBanner && (
+                  <a
+                    class="text-l category-text category-color uppercase xl:text-xl 2xl:text-2xl"
+                    href={`/${categoryLink}`}
+                  >
+                    {category}
+                  </a>
+                )}
                 <div class="mb-2">
                   <a href={articleUrl}>
-                    <p class="text-l xl:text-xl 2xl:text-2xl">{headline}</p>
+                    <p
+                      class={`text-l xl:text-xl 2xl:text-2xl ${
+                        isInMuseBanner && "text-white"
+                      }`}
+                    >
+                      {headline}
+                    </p>
                   </a>
                   <a href={`/author/${authorId}`}>
-                    <p class="text-sm italic 2xl:text-base">
+                    <p
+                      class={`text-sm italic 2xl:text-base ${
+                        isInMuseBanner && "text-white"
+                      }`}
+                    >
                       <span class="category-color">By </span>
                       {author}
                     </p>
                   </a>
                 </div>
                 <a href={articleUrl}>
-                  <p class="text-xs xl:text-sm 2xl:text-base">{excerpt}</p>
+                  <p
+                    class={`text-xs xl:text-sm 2xl:text-base ${
+                      isInMuseBanner && "text-white"
+                    }`}
+                  >
+                    {excerpt}
+                  </p>
                 </a>
               </div>
             </>
@@ -132,26 +174,48 @@ const {
               alt="Article Thumbnail"
             />
           </a>
-          <div class="border-color ml-3 h-full w-1/2 border-t-2">
-            <a
-              class="text-l category-text category-color uppercase xl:text-xl 2xl:text-2xl"
-              href={`/${categoryLink}`}
-            >
-              {category}
-            </a>
+          <div
+            class={`border-color ml-3 h-full w-1/2 ${
+              !isInMuseBanner && "border-t-2"
+            }`}
+          >
+            {!isInMuseBanner && (
+              <a
+                class="text-l category-text category-color uppercase xl:text-xl 2xl:text-2xl"
+                href={`/${categoryLink}`}
+              >
+                {category}
+              </a>
+            )}
             <div class="mb-2">
               <a href={articleUrl}>
-                <p class="text-l xl:text-xl 2xl:text-2xl">{headline}</p>
+                <p
+                  class={`text-l xl:text-xl 2xl:text-2xl ${
+                    isInMuseBanner && "text-white"
+                  }`}
+                >
+                  {headline}
+                </p>
               </a>
               <a href={`/author/${authorId}`}>
-                <p class="text-sm italic 2xl:text-base">
+                <p
+                  class={`text-sm italic 2xl:text-base ${
+                    isInMuseBanner && "text-white"
+                  }`}
+                >
                   <span class="category-color">By </span>
                   {author}
                 </p>
               </a>
             </div>
             <a href={articleUrl}>
-              <p class="text-xs xl:text-sm 2xl:text-base">{excerpt}</p>
+              <p
+                class={`text-xs xl:text-sm 2xl:text-base ${
+                  isInMuseBanner && "text-white"
+                }`}
+              >
+                {excerpt}
+              </p>
             </a>
           </div>
         </div>

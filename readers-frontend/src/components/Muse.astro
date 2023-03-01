@@ -63,11 +63,14 @@ for (let i = 0; i < museMenuCategories.length; i++) {
         <div
           class={`${
             i === 0 ? "flex" : "hidden"
-          } mt-4 w-full flex-row px-[0.5%] 2xl:px-[13%]`}
+          }  mt-4 w-full flex-row px-[0.5%] transition-opacity 2xl:px-[13%]`}
           id={`muse_${category.categories_name}`}
         >
-          {articles.get(category.categories_name)?.map((article) => (
-            <div class="w-1/4">
+          {articles.get(category.categories_name)?.map((article, i) => (
+            <div class="flex w-1/4 flex-row">
+              {i !== 0 && (
+                <span class="mx-3 h-full self-center border-r-[1px] border-white" />
+              )}
               <Article
                 headline={article.articlesDrafts[0].articlesDrafts_headline}
                 excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
@@ -83,6 +86,7 @@ for (let i = 0; i < museMenuCategories.length; i++) {
                   .replaceAll("-", "/")}/${article.articles_slug}`}
                 isVertical={true}
                 isPortrait={article.articles_isThumbnailPortrait}
+                isInMuseBanner={true}
               />
             </div>
           ))}
