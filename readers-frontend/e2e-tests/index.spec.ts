@@ -105,7 +105,8 @@ test.describe("Featured Articles", () => {
             // All other articles have the default image
             await expect(articleImage).toHaveAttribute(
               "src",
-              "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg"
+              process.env.fileStoreUrl +
+                "/nouseSiteAssets/imageArchive-comp.jpg"
             );
           }
           await expect(articleLinks.nth(0)).toHaveAttribute(
@@ -258,7 +259,8 @@ test.describe("Featured Articles", () => {
 
             await expect(articleImage).toHaveAttribute(
               "src",
-              "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg"
+              process.env.fileStoreUrl +
+                "/nouseSiteAssets/imageArchive-comp.jpg"
             );
             // }
             await expect(articleLinks.nth(0)).toHaveAttribute(
