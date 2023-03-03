@@ -28,6 +28,8 @@ const {
   isPortrait,
   isInMuseBanner,
 } = Astro.props;
+
+const imagePlaceHolder = '"https://fakeimg.pl/640x360"';
 ---
 
 <style define:vars={{ categoryColor }}>
@@ -55,6 +57,7 @@ const {
                   class="aspect-video w-full rounded-xl object-cover"
                   src={imageUrl}
                   alt="Article Thumbnail"
+                  onerror={`if (this.src !== ${imagePlaceHolder}) this.src = ${imagePlaceHolder}`}
                 />
               </a>
               <div
@@ -112,6 +115,7 @@ const {
                   class="mb-5 aspect-video w-full rounded-xl object-cover"
                   src={imageUrl}
                   alt="Article Thumbnail"
+                  onerror={`if (this.src !== ${imagePlaceHolder}) this.src = ${imagePlaceHolder}`}
                 />
               </a>
               <div class={`border-color ${!isInMuseBanner && "border-t-2"}`}>
@@ -172,6 +176,7 @@ const {
               class="aspect-{9/16} h-full rounded-xl object-cover"
               src={imageUrl}
               alt="Article Thumbnail"
+              onerror={`if (this.src !== ${imagePlaceHolder}) this.src = ${imagePlaceHolder}`}
             />
           </a>
           <div
