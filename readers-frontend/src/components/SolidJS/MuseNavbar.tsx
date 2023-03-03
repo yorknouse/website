@@ -36,15 +36,19 @@ const MuseNavbar: Component<MuseNavbarProps> = (props) => {
                       const previousBlock = document.getElementById(
                         `muse_${props.active()}`
                       );
-                      previousBlock?.classList.remove("flex");
-                      previousBlock?.classList.add("hidden");
+                      previousBlock?.classList.remove(
+                        "opacity-100",
+                        "h-min",
+                        "my-4"
+                      );
+                      previousBlock?.classList.add("opacity-0", "h-0");
                       props.setActive(category.name);
 
                       const newBlock = document.getElementById(
                         `muse_${category.name}`
                       );
-                      newBlock?.classList.remove("hidden");
-                      newBlock?.classList.add("flex");
+                      newBlock?.classList.remove("opacity-0", "h-0");
+                      newBlock?.classList.add("opacity-100", "h-min", "my-4");
                     }}
                   >
                     {category.displayName}

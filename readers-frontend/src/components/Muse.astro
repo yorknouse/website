@@ -62,8 +62,8 @@ for (let i = 0; i < museMenuCategories.length; i++) {
       museMenuCategories.map((category, i) => (
         <div
           class={`${
-            i === 0 ? "flex" : "hidden"
-          }  mt-4 w-full flex-row px-[0.5%] transition-opacity 2xl:px-[13%]`}
+            i === 0 ? "my-4 h-min opacity-100" : "h-0 opacity-0"
+          } flex w-full flex-row px-[0.5%] transition-opacity delay-100 duration-700 2xl:px-[13%]`}
           id={`muse_${category.categories_name}`}
         >
           {articles.get(category.categories_name)?.map((article, i) => (
