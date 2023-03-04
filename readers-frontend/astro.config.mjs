@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 import { loadEnv } from "vite";
 
 // https://astro.build/config
@@ -11,7 +11,7 @@ const environment = loadEnv(import.meta.env.MODE, process.cwd(), "");
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), image(), solidJs()],
-  site: 'https://yorknouse.github.io',
-  base: '/website',
-  environment
+  site: "https://yorknouse.github.io",
+  base: "/website",
+  environment,
 });
