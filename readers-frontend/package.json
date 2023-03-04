@@ -10,7 +10,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "test": "npx prisma migrate deploy && npx playwright test",
-    "test-local": "dotenv -e .env.test -- npx prisma migrate deploy && dotenv -e .env.test -- npx playwright test",
+    "test-local": "dotenv -e .env.test -- npx prisma migrate deploy && dotenv -e .env.test -- npx playwright test --workers 64",
     "test-debug": "dotenv -e .env.test -- npx prisma migrate deploy && dotenv -e .env.test -- npx playwright test --debug"
   },
   "dependencies": {
@@ -20,6 +20,7 @@
     "@prisma/client": "^4.9.0",
     "astro": "^2.0.12",
     "astro-icon": "^0.8.0",
+    "dotenv-cli": "^7.0.0",
     "solid-js": "^1.6.11",
     "tailwindcss": "^3.2.4"
   },
