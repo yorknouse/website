@@ -51,14 +51,6 @@ export const getMenuCategories = async (
       },
     });
 
-    // Muse to first
-    menuCategories = menuCategories.sort((a, b) => {
-      if (b.categories_name === "muse") return 1;
-      if (a.categories_name === "muse") return -1;
-
-      return 0;
-    });
-
     if (menuCategories.length > 0) {
       // Change category name to home for muse
       menuCategories[0].categories_name = "home";
