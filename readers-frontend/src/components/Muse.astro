@@ -14,9 +14,12 @@ type articlesWithArticlesDraftAndLink = articlesWithArticleDrafts & {
 };
 
 const museMenuCategories = (await getMenuCategories("muse")).filter(
-  (category) =>
-    category.categories_name !== "nouse" && category.categories_name != "home"
+  (category) => category.categories_name !== "nouse"
 );
+
+museMenuCategories[0].categories_name = "muse";
+museMenuCategories[0].categories_displayName = "Features";
+
 const categories = museMenuCategories.reduce((accumulator, currentCategory) => {
   accumulator.push({
     name: currentCategory.categories_name,
