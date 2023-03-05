@@ -14,6 +14,7 @@ const MuseComponent: Component<MuseComponentProps> = (props) => {
 
   return (
     <div
+      id="muse-component"
       class="relative flex w-full flex-col"
       onTouchStart={(e) => {
         setStartX(e.changedTouches[0].screenX);

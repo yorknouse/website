@@ -11,7 +11,10 @@ type MuseNavbarProps = {
 const MuseNavbar: Component<MuseNavbarProps> = (props) => {
   return (
     <>
-      <div class="2xl:text-large hidden h-12 w-full text-base text-white sm:block 2xl:px-[13%]">
+      <div
+        class="2xl:text-large hidden h-12 w-full text-base text-white sm:block 2xl:px-[13%]"
+        id="muse-navbar-desktop"
+      >
         <ul class="flex h-full w-full flex-row justify-between border-t-[1px] border-transparent border-white">
           <For each={props.categories}>
             {(category, i) => (

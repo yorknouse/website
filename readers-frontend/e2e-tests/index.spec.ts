@@ -338,3 +338,70 @@ test.describe("Banner and Edition", () => {
     );
   });
 });
+
+test.describe("Muse component", () => {
+  test("Muse logo is a link", async ({ page }) => {
+    const museLogoLink = page.locator("[id='muse-banner'] > a");
+
+    await expect(museLogoLink).toHaveCount(1);
+    await expect(museLogoLink).toHaveAttribute("href", "/muse");
+
+    const museLogo = museLogoLink.locator("img");
+
+    await expect(museLogo).toHaveCount(1);
+    await expect(museLogo).toHaveAttribute(
+      "src",
+      "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
+    );
+  });
+
+  test("Muse Banner lays navbar", async ({ page }) => {
+    const museNavbarItems = page.locator(
+      "[id='muse-navbar-desktop'] > ul > li"
+    );
+
+    await expect(museNavbarItems).toHaveCount(2);
+
+    // First item should always be "Features"
+    await expect(museNavbarItems.first()).toHaveText("Features");
+  });
+
+  test("Button turns to link", async ({ page }) => {
+    const museMenuCategories = await prisma.categories.findMany({
+      where: {
+        categories_showMenu: true,
+        categories_nestUnder: 4, // Muse
+      },
+    });
+
+    const museNavbarSecondItem = (
+      await page.locator("[id='muse-navbar-desktop'] > ul > li").all()
+    )[1];
+
+    const secondItemButton = museNavbarSecondItem.locator("button");
+    const secondItemMissingLink = museNavbarSecondItem.locator("a");
+
+    await expect(secondItemButton).toHaveCount(1);
+    await expect(secondItemMissingLink).toHaveCount(0);
+
+    await expect(secondItemButton).toHaveText(
+      museMenuCategories[1].categories_displayName!
+    );
+
+    // Button should turn insto a tag after click
+    secondItemButton.click();
+
+    const secondItemLink = museNavbarSecondItem.locator("a");
+    const secondItemMissingButton = museNavbarSecondItem.locator("button");
+
+    await expect(secondItemLink).toHaveCount(1);
+    await expect(secondItemLink).toHaveText(
+      museMenuCategories[1].categories_displayName!
+    );
+    await expect(secondItemLink).toHaveAttribute(
+      "href",
+      `/${museMenuCategories[1].categories_name}`
+    );
+    await expect(secondItemMissingButton).toHaveCount(0);
+  });
+});

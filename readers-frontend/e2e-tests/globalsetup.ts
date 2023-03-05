@@ -24,13 +24,33 @@ async function dbGlobalSetup(config: FullConfig) {
         categories_nestUnder: null,
       },
       {
-        categories_id: 3,
+        categories_id: 4,
         categories_name: "muse", // A Category that should appear with Muse picture
         categories_displayName: "Muse",
         categories_showHome: true,
         categories_showMenu: true,
         categories_backgroundColor: null,
         categories_nestUnder: null,
+      },
+      {
+        categories_id: 5,
+        categories_name: "features",
+        categories_displayName: "Features",
+        categories_showHome: true,
+        categories_showMenu: true,
+        categories_backgroundColor: null,
+        categories_nestUnder: 4,
+        categories_featured: "8, 9",
+      },
+      {
+        categories_id: 6,
+        categories_name: "muse-columns",
+        categories_displayName: "Columns",
+        categories_showHome: true,
+        categories_showMenu: true,
+        categories_backgroundColor: null,
+        categories_nestUnder: 4,
+        categories_featured: "10, 11",
       },
     ],
   });
@@ -164,6 +184,46 @@ async function dbGlobalSetup(config: FullConfig) {
         articles_showInLists: true,
         articles_published: new Date("2023-02-24 12:00:00"),
       },
+      {
+        articles_id: 8, // Landscape article with custom thumbnail
+        articles_slug: "test-article-8",
+        articles_categories: "5",
+        articles_isThumbnailPortrait: false,
+        articles_displayImages: true,
+        articles_showInLists: true,
+        articles_thumbnail: "2",
+        articles_published: new Date("2023-02-24 12:00:00"),
+      },
+      {
+        articles_id: 9, // Landscape article with custom thumbnail
+        articles_slug: "test-article-9",
+        articles_categories: "5",
+        articles_isThumbnailPortrait: false,
+        articles_displayImages: true,
+        articles_showInLists: true,
+        articles_thumbnail: "2",
+        articles_published: new Date("2023-02-24 12:00:00"),
+      },
+      {
+        articles_id: 10, // Landscape article with custom thumbnail
+        articles_slug: "test-article-10",
+        articles_categories: "6",
+        articles_isThumbnailPortrait: false,
+        articles_displayImages: true,
+        articles_showInLists: true,
+        articles_thumbnail: "2",
+        articles_published: new Date("2023-02-24 12:00:00"),
+      },
+      {
+        articles_id: 11, // Landscape article with custom thumbnail
+        articles_slug: "test-article-11",
+        articles_categories: "6",
+        articles_isThumbnailPortrait: false,
+        articles_displayImages: true,
+        articles_showInLists: true,
+        articles_thumbnail: "2",
+        articles_published: new Date("2023-02-24 12:00:00"),
+      },
     ],
   });
 
@@ -210,6 +270,30 @@ async function dbGlobalSetup(config: FullConfig) {
         articles_id: 7,
         articlesDrafts_headline: "Article Draft 7",
         articlesDrafts_excerpt: "Article 7 Excerpt",
+        articlesDrafts_userid: 1,
+      },
+      {
+        articles_id: 8,
+        articlesDrafts_headline: "Article Draft 8",
+        articlesDrafts_excerpt: "Article 8 Excerpt",
+        articlesDrafts_userid: 1,
+      },
+      {
+        articles_id: 9,
+        articlesDrafts_headline: "Article Draft 9",
+        articlesDrafts_excerpt: "Article 9 Excerpt",
+        articlesDrafts_userid: 1,
+      },
+      {
+        articles_id: 10,
+        articlesDrafts_headline: "Article Draft 10",
+        articlesDrafts_excerpt: "Article 10 Excerpt",
+        articlesDrafts_userid: 1,
+      },
+      {
+        articles_id: 11,
+        articlesDrafts_headline: "Article Draft 11",
+        articlesDrafts_excerpt: "Article 11 Excerpt",
         articlesDrafts_userid: 1,
       },
     ],
