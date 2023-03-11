@@ -81,9 +81,9 @@ for (let i = 0; i < museMenuCategories.length; i++) {
                   excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
                   author={`${article.articlesDrafts[0].users?.users_name1} ${article.articlesDrafts[0].users?.users_name2}`}
                   authorId={article.articlesDrafts[0].users?.users_userid}
-                  category={""}
+                  category={undefined}
                   categoryColor={"#FFF"}
-                  categoryLink={""}
+                  categoryLink={undefined}
                   imageUrl={article.imageUrl}
                   articleUrl={`/${article.articles_published
                     ?.toISOString()
@@ -91,7 +91,8 @@ for (let i = 0; i < museMenuCategories.length; i++) {
                     .replaceAll("-", "/")}/${article.articles_slug}`}
                   isVertical={true}
                   isPortrait={article.articles_isThumbnailPortrait}
-                  isInMuseBanner={true}
+                  hideCategoryAccent={true}
+                  textColour={"#FFF"}
                 />
               </div>
             ))}
@@ -115,9 +116,9 @@ for (let i = 0; i < museMenuCategories.length; i++) {
                   excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
                   author={`${article.articlesDrafts[0].users?.users_name1} ${article.articlesDrafts[0].users?.users_name2}`}
                   authorId={article.articlesDrafts[0].users?.users_userid}
-                  category={""}
+                  category={undefined}
                   categoryColor={"#FFF"}
-                  categoryLink={""}
+                  categoryLink={undefined}
                   imageUrl={article.imageUrl}
                   articleUrl={`/${article.articles_published
                     ?.toISOString()
@@ -125,7 +126,8 @@ for (let i = 0; i < museMenuCategories.length; i++) {
                     .replaceAll("-", "/")}/${article.articles_slug}`}
                   isVertical={false}
                   isPortrait={article.articles_isThumbnailPortrait}
-                  isInMuseBanner={true}
+                  hideCategoryAccent={true}
+                  textColour={"#FFF"}
                 />
               </div>
             ))}

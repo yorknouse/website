@@ -11,7 +11,8 @@ export interface Props {
   articleUrl: string;
   isVertical?: boolean; // Defines if the image is ontop or to the left of the text
   isPortrait: boolean; // Defines if the image is portrait or landscape
-  isInMuseBanner?: boolean;
+  hideCategoryAccent?: boolean;
+  textColour?: string;
 }
 
 const {
@@ -26,13 +27,14 @@ const {
   articleUrl,
   isVertical,
   isPortrait,
-  isInMuseBanner,
+  hideCategoryAccent,
+  textColour = "#000",
 } = Astro.props;
 
 const imagePlaceHolder = '"https://fakeimg.pl/640x360"';
 ---
 
-<style define:vars={{ categoryColor }}>
+<style define:vars={{ categoryColor, textColour }}>
   .border-color {
     border-color: var(--categoryColor);
   }
@@ -43,6 +45,10 @@ const imagePlaceHolder = '"https://fakeimg.pl/640x360"';
   }
   .category-color {
     color: var(--categoryColor);
+  }
+
+  .text-colour {
+    color: var(--textColour);
   }
 </style>
 {
@@ -62,10 +68,10 @@ const imagePlaceHolder = '"https://fakeimg.pl/640x360"';
               </a>
               <div
                 class={`border-color ml-3 h-full w-1/2 ${
-                  !isInMuseBanner && "border-t-2"
+                  !hideCategoryAccent && "border-t-2"
                 }`}
               >
-                {!isInMuseBanner && (
+                {!hideCategoryAccent && (
                   <a
                     class="text-l category-text category-color uppercase xl:text-xl 2xl:text-2xl"
                     href={`/${categoryLink}`}
@@ -75,31 +81,19 @@ const imagePlaceHolder = '"https://fakeimg.pl/640x360"';
                 )}
                 <div class="mb-2">
                   <a href={articleUrl}>
-                    <p
-                      class={`text-l xl:text-xl 2xl:text-2xl ${
-                        isInMuseBanner && "text-white"
-                      }`}
-                    >
+                    <p class="text-l text-colour xl:text-xl 2xl:text-2xl">
                       {headline}
                     </p>
                   </a>
                   <a href={`/author/${authorId}`}>
-                    <p
-                      class={`text-sm italic 2xl:text-base ${
-                        isInMuseBanner && "text-white"
-                      }`}
-                    >
+                    <p class="text-colour text-sm italic 2xl:text-base">
                       <span class="category-color">By </span>
                       {author}
                     </p>
                   </a>
                 </div>
                 <a href={articleUrl}>
-                  <p
-                    class={`text-xs xl:text-sm 2xl:text-base ${
-                      isInMuseBanner && "text-white"
-                    }`}
-                  >
+                  <p class="text-colour text-xs xl:text-sm 2xl:text-base">
                     {excerpt}
                   </p>
                 </a>
@@ -118,8 +112,10 @@ const imagePlaceHolder = '"https://fakeimg.pl/640x360"';
                   onerror={`if (this.src !== ${imagePlaceHolder}) this.src = ${imagePlaceHolder}`}
                 />
               </a>
-              <div class={`border-color ${!isInMuseBanner && "border-t-2"}`}>
-                {!isInMuseBanner && (
+              <div
+                class={`border-color ${!hideCategoryAccent && "border-t-2"}`}
+              >
+                {!hideCategoryAccent && (
                   <a
                     class="text-l category-text category-color uppercase xl:text-xl 2xl:text-2xl"
                     href={`/${categoryLink}`}
@@ -129,31 +125,19 @@ const imagePlaceHolder = '"https://fakeimg.pl/640x360"';
                 )}
                 <div class="mb-2">
                   <a href={articleUrl}>
-                    <p
-                      class={`text-l xl:text-xl 2xl:text-2xl ${
-                        isInMuseBanner && "text-white"
-                      }`}
-                    >
+                    <p class="text-l text-colour xl:text-xl 2xl:text-2xl">
                       {headline}
                     </p>
                   </a>
                   <a href={`/author/${authorId}`}>
-                    <p
-                      class={`text-sm italic 2xl:text-base ${
-                        isInMuseBanner && "text-white"
-                      }`}
-                    >
+                    <p class="text-colour text-sm italic 2xl:text-base">
                       <span class="category-color">By </span>
                       {author}
                     </p>
                   </a>
                 </div>
                 <a href={articleUrl}>
-                  <p
-                    class={`text-xs xl:text-sm 2xl:text-base ${
-                      isInMuseBanner && "text-white"
-                    }`}
-                  >
+                  <p class="text-colour text-xs xl:text-sm 2xl:text-base">
                     {excerpt}
                   </p>
                 </a>
@@ -181,10 +165,10 @@ const imagePlaceHolder = '"https://fakeimg.pl/640x360"';
           </a>
           <div
             class={`border-color ml-3 h-full w-1/2 ${
-              !isInMuseBanner && "border-t-2"
+              !hideCategoryAccent && "border-t-2"
             }`}
           >
-            {!isInMuseBanner && (
+            {!hideCategoryAccent && (
               <a
                 class="text-l category-text category-color uppercase xl:text-xl 2xl:text-2xl"
                 href={`/${categoryLink}`}
@@ -194,31 +178,19 @@ const imagePlaceHolder = '"https://fakeimg.pl/640x360"';
             )}
             <div class="mb-2">
               <a href={articleUrl}>
-                <p
-                  class={`text-l xl:text-xl 2xl:text-2xl ${
-                    isInMuseBanner && "text-white"
-                  }`}
-                >
+                <p class="text-l text-colour xl:text-xl 2xl:text-2xl">
                   {headline}
                 </p>
               </a>
               <a href={`/author/${authorId}`}>
-                <p
-                  class={`text-sm italic 2xl:text-base ${
-                    isInMuseBanner && "text-white"
-                  }`}
-                >
+                <p class="text-colour text-sm italic 2xl:text-base">
                   <span class="category-color">By </span>
                   {author}
                 </p>
               </a>
             </div>
             <a href={articleUrl}>
-              <p
-                class={`text-xs xl:text-sm 2xl:text-base ${
-                  isInMuseBanner && "text-white"
-                }`}
-              >
+              <p class="text-colour text-xs xl:text-sm 2xl:text-base">
                 {excerpt}
               </p>
             </a>
