@@ -1,12 +1,10 @@
 import { defineConfig } from "astro/config";
 import { loadEnv } from "vite";
 
-// https://astro.build/config
 import tailwind from "@astrojs/tailwind";
 import image from "@astrojs/image";
 import solidJs from "@astrojs/solid-js";
 const environment = loadEnv(import.meta.env.MODE, process.cwd(), "");
-// https://astro.build/config
 
 // https://astro.build/config
 export default defineConfig({

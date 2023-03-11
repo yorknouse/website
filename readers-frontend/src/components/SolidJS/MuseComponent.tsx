@@ -71,8 +71,6 @@ const MuseComponent: Component<MuseComponentProps> = (props) => {
                 `muse_mobile_${array[index - 1].name}`
               );
 
-              console.log(newBlock, previousBlock);
-
               newBlock?.classList.remove("opacity-0", "h-0", "w-0");
               newBlock?.classList.add("opacity-100", "h-min", "my-4", "w-full");
 
