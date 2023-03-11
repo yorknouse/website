@@ -72,28 +72,32 @@ for (let i = 0; i < museMenuCategories.length; i++) {
             id={`muse_${category.categories_name}`}
           >
             {articles.get(category.categories_name)?.map((article, i) => (
-              <div class="flex w-1/4 flex-row">
-                {i !== 0 && (
-                  <span class="mx-3 h-full self-center border-r-[1px] border-white" />
-                )}
-                <Article
-                  headline={article.articlesDrafts[0].articlesDrafts_headline}
-                  excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-                  author={`${article.articlesDrafts[0].users?.users_name1} ${article.articlesDrafts[0].users?.users_name2}`}
-                  authorId={article.articlesDrafts[0].users?.users_userid}
-                  category={undefined}
-                  categoryColor={"#FFF"}
-                  categoryLink={undefined}
-                  imageUrl={article.imageUrl}
-                  articleUrl={`/${article.articles_published
-                    ?.toISOString()
-                    .substring(0, 10)
-                    .replaceAll("-", "/")}/${article.articles_slug}`}
-                  isVertical={true}
-                  isPortrait={article.articles_isThumbnailPortrait}
-                  hideCategoryAccent={true}
-                  textColour={"#FFF"}
-                />
+              <div
+                class={`mr-3 flex w-1/4 flex-row ${
+                  i !== articles.get(category.categories_name)!.length - 1 &&
+                  "border-r-2 border-white"
+                }`}
+              >
+                <div class="pr-3">
+                  <Article
+                    headline={article.articlesDrafts[0].articlesDrafts_headline}
+                    excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
+                    author={`${article.articlesDrafts[0].users?.users_name1} ${article.articlesDrafts[0].users?.users_name2}`}
+                    authorId={article.articlesDrafts[0].users?.users_userid}
+                    category={undefined}
+                    categoryColor={"#FFF"}
+                    categoryLink={undefined}
+                    imageUrl={article.imageUrl}
+                    articleUrl={`/${article.articles_published
+                      ?.toISOString()
+                      .substring(0, 10)
+                      .replaceAll("-", "/")}/${article.articles_slug}`}
+                    isVertical={true}
+                    isPortrait={article.articles_isThumbnailPortrait}
+                    hideCategoryAccent={true}
+                    textColour={"#FFF"}
+                  />
+                </div>
               </div>
             ))}
           </div>
@@ -108,7 +112,6 @@ for (let i = 0; i < museMenuCategories.length; i++) {
             {articles.get(category.categories_name)?.map((article, i) => (
               <div class="flex w-full flex-col">
                 {i !== 0 && (
-                  // <span class="mx-3 w-full self-center border-r-[1px] border-white" />
                   <hr class="my-2.5 w-full self-center border-t-[1px] border-white" />
                 )}
                 <Article
