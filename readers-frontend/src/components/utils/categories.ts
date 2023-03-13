@@ -89,7 +89,9 @@ export const getMenuCategories = async (
   return menuCategories;
 };
 
-export const getMainArticleCategory =async (categoryIds: number[] | undefined): Promise<categories | null> => {
+export const getMainArticleCategory = async (
+  categoryIds: number[] | undefined
+): Promise<categories | null> => {
   return await prisma.categories.findFirst({
     where: {
       categories_id: {
@@ -101,7 +103,20 @@ export const getMainArticleCategory =async (categoryIds: number[] | undefined): 
       },
     },
   });
-}
+};
+
+export const getSectionsCategories = async (): Promise<categories[]> => {
+  return await prisma.categories.findMany({
+    where: {
+      categories_showHome: true,
+      categories_showPublic: true,
+      categories_nestUnder: null,
+      NOT: {
+        categories_name: "muse",
+      },
+    },
+  });
+};
 
 // Construct nested items map - saved for later
 // let nestedItems = menuCategories.reduce((accumulator, category, _) => {
