@@ -28,6 +28,7 @@ if (hasPortraitArticles) {
 // Get the main categories for each article
 const mainCategories: (categories | null)[] = await Promise.all(featuredArticles.map(article => getMainArticleCategory(article.articles_categories.split(',').map(Number))))
 ---
+{/* Desktop */}
 <div class="hidden sm:flex">
   {/* Only Landscape Articles */}
   {!hasPortraitArticles && <div>
@@ -389,7 +390,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
     </div>}
   </div>}
 </div>
-
+{/* Mobile */}
 <div class="block max-w-full justify-center sm:hidden">
   {featuredArticles.map(async (article, index) => (
     <div
