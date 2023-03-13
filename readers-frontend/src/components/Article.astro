@@ -7,7 +7,7 @@ export interface Props {
   category: string | null | undefined;
   categoryLink: string | undefined;
   categoryColor: string | undefined;
-  imageUrl: string;
+  imageUrl?: string;
   articleUrl: string;
   isVertical?: boolean; // Defines if the image is ontop or to the left of the text
   isPortrait: boolean; // Defines if the image is portrait or landscape
@@ -45,7 +45,7 @@ const {
 </style>
 <div class="h-full overflow-hidden text-ellipsis">
   <div class={`flex ${isVertical ? "flex-col" : "flex-row"}`}>
-    <a class={isVertical ? "w-full" : "h-full w-1/2"} href={articleUrl}>
+    {imageUrl !== undefined && <a class={isVertical ? "w-full" : "h-full w-1/2"} href={articleUrl}>
       <img
         class={`${
           isPortrait ? "aspect-{9/16} h-full" : "aspect-video w-full"
@@ -53,9 +53,9 @@ const {
         src={imageUrl}
         alt="Article Thumbnail"
       />
-    </a>
+    </a>}
     <div
-      class={`${isVertical ? "w-full" : "ml-3 h-full w-1/2"} ${
+      class={`${isVertical || imageUrl == undefined ? "w-full" : "ml-3 h-full w-1/2"} ${
         !hideCategoryAccent && "border-color border-t-2"
       }`}
     >
