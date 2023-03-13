@@ -75,38 +75,36 @@ const categoryColor = "#" + category.categories_backgroundColor;
   }
   {/* Mobile */}
   {
-    articles.length > 4 && (
-      <div class="block max-w-full justify-center sm:hidden">
-        {articles.map(async (article, index) => (
-          <div
-            class={`w-full p-2.5 ${
-              index != articles.length - 1 ? "border-b-2 border-gray-300" : ""
-            }`}
-          >
-            <Article
-              headline={article.articlesDrafts[0].articlesDrafts_headline}
-              excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-              author={
-                article.articlesDrafts[0].users?.users_name1 +
-                " " +
-                article.articlesDrafts[0].users?.users_name2
-              }
-              authorId={article.articlesDrafts[0].users?.users_userid}
-              category={category.categories_displayName}
-              categoryLink={category.categories_name}
-              categoryColor={categoryColor}
-              imageUrl={index == 0 ? await getArticleImage(article) : undefined}
-              articleUrl={`/${article.articles_published
-                ?.toISOString()
-                .substring(0, 10)
-                .replaceAll("-", "/")}/${article.articles_slug}`}
-              isVertical={false}
-              isPortrait={article.articles_isThumbnailPortrait}
-              hideCategoryAccent={true}
-            />
-          </div>
-        ))}
-      </div>
-    )
+    <div class="block max-w-full justify-center sm:hidden">
+      {articles.map(async (article, index) => (
+        <div
+          class={`w-full p-2.5 ${
+            index != articles.length - 1 ? "border-b-2 border-gray-300" : ""
+          }`}
+        >
+          <Article
+            headline={article.articlesDrafts[0].articlesDrafts_headline}
+            excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
+            author={
+              article.articlesDrafts[0].users?.users_name1 +
+              " " +
+              article.articlesDrafts[0].users?.users_name2
+            }
+            authorId={article.articlesDrafts[0].users?.users_userid}
+            category={category.categories_displayName}
+            categoryLink={category.categories_name}
+            categoryColor={categoryColor}
+            imageUrl={index == 0 ? await getArticleImage(article) : undefined}
+            articleUrl={`/${article.articles_published
+              ?.toISOString()
+              .substring(0, 10)
+              .replaceAll("-", "/")}/${article.articles_slug}`}
+            isVertical={false}
+            isPortrait={article.articles_isThumbnailPortrait}
+            hideCategoryAccent={true}
+          />
+        </div>
+      ))}
+    </div>
   }
 </div>
