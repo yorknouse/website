@@ -73,7 +73,7 @@ test.describe("Featured Articles", () => {
         });
         await page.reload();
         await expect(
-          page.locator(".featured-articles >> .article")
+          page.locator(".featured-articles >> .article:visible")
         ).toHaveCount(landscapeFeaturedArticles.length);
       });
 
@@ -90,7 +90,7 @@ test.describe("Featured Articles", () => {
         });
         await page.reload();
         for (let i = 0; i < landscapeFeaturedArticles.length; i++) {
-          const article = page.locator(`.featured-articles >> .article`).nth(i);
+          const article = page.locator(`.featured-articles >> .article:visible`).nth(i);
           const articleImage = article.locator("img");
           const articleLinks = article.locator("a");
 
@@ -177,7 +177,7 @@ test.describe("Featured Articles", () => {
         });
         await page.reload();
         await expect(
-          page.locator(".featured-articles >> .article")
+          page.locator(".featured-articles >> .article:visible")
         ).toHaveCount(landscapeFeaturedArticles.length);
       });
 
@@ -193,7 +193,7 @@ test.describe("Featured Articles", () => {
           },
         });
         await page.reload();
-        const article = page.locator(`.featured-articles >> .article`).nth(0);
+        const article = page.locator(`.featured-articles >> .article:visible`).nth(0);
         const articleImage = article.locator("img");
         const articleLinks = article.locator("a");
 
@@ -252,7 +252,7 @@ test.describe("Featured Articles", () => {
           await page.reload();
           for (let i = 1; i < landscapeFeaturedArticles.length; i++) {
             const article = page
-              .locator(`.featured-articles >> .article`)
+              .locator(`.featured-articles >> .article:visible`)
               .nth(i);
             const articleImage = article.locator("img");
             const articleLinks = article.locator("a");
