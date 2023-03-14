@@ -45,7 +45,7 @@ const {
 </style>
 <div class="article h-full overflow-hidden text-ellipsis">
   <div class={`flex ${isVertical ? "flex-col" : "flex-row"}`}>
-    {imageUrl !== undefined && <a class={isVertical ? "w-full" : "h-full w-1/2"} href={articleUrl}>
+    {imageUrl !== undefined && <a class={`image-link ${isVertical ? "w-full" : "h-full w-1/2"}`} href={articleUrl}>
       <img
         class={`${
           isPortrait ? "aspect-{9/16} h-full" : "aspect-video w-full"
@@ -70,17 +70,17 @@ const {
         )
       }
       <div class="mb-2">
-        <a href={articleUrl}>
+        <a class="headline" href={articleUrl}>
           <p class="text-l xl:text-xl 2xl:text-2xl">{headline}</p>
         </a>
-        <a href={`/author/${authorId}`}>
+        <a class="author" href={`/author/${authorId}`}>
           <p class="text-sm italic 2xl:text-base">
             <span class="category-color">By</span>
             {author}
           </p>
         </a>
       </div>
-      <a href={articleUrl}>
+      <a class="excerpt" href={articleUrl}>
         <p class="text-xs xl:text-sm 2xl:text-base">{excerpt}</p>
       </a>
     </div>
