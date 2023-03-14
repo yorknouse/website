@@ -13,7 +13,7 @@ test("has title", async ({ page }) => {
 test.describe("Navbar", () => {
   test("Has the correct number of items and correct image", async ({
     page,
-    isMobile
+    isMobile,
   }) => {
     test.skip(isMobile == true, "Skipping on mobile for now");
     await expect(page.locator("nav > ul > li")).toHaveCount(5);
@@ -82,7 +82,7 @@ test.describe("Featured Articles", () => {
 
       test("Display the correct information and have the correct links to articles", async ({
         page,
-        isMobile
+        isMobile,
       }) => {
         await prisma.featuredHome.update({
           where: {
@@ -94,7 +94,9 @@ test.describe("Featured Articles", () => {
         });
         await page.reload();
         for (let i = 0; i < landscapeFeaturedArticles.length; i++) {
-          const article = page.locator(`.featured-articles >> .article:visible`).nth(i);
+          const article = page
+            .locator(`.featured-articles >> .article:visible`)
+            .nth(i);
 
           // Checking Image
           if (i === 0) {
@@ -103,7 +105,8 @@ test.describe("Featured Articles", () => {
               "src",
               "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1673190924591-33954450307270480000-jullietesspotifywrappedjpg_large.jpg"
             );
-          } else if (!isMobile || (isMobile && i <= 2)) { // in Mobile View, only the first 3 articles have images
+          } else if (!isMobile || (isMobile && i <= 2)) {
+            // in Mobile View, only the first 3 articles have images visible
             // All other articles have the default image
             await expect(article.locator("img")).toHaveAttribute(
               "src",
@@ -111,7 +114,8 @@ test.describe("Featured Articles", () => {
                 "/nouseSiteAssets/imageArchive-comp.jpg"
             );
           }
-          if (isMobile && i <= 2) { // in Mobile View, only the first 3 articles have images
+          if (!isMobile || (isMobile && i <= 2)) {
+            // in Mobile View, only the first 3 articles have images visible
             await expect(article.locator(".image-link")).toHaveAttribute(
               "href",
               `/2023/02/24/test-article-${i + 1}`
@@ -197,7 +201,9 @@ test.describe("Featured Articles", () => {
           },
         });
         await page.reload();
-        const article = page.locator(`.featured-articles >> .article:visible`).nth(0);
+        const article = page
+          .locator(`.featured-articles >> .article:visible`)
+          .nth(0);
 
         // Checking Image
         await expect(article.locator("img")).toHaveAttribute(
@@ -225,10 +231,15 @@ test.describe("Featured Articles", () => {
           "href",
           `/2023/02/24/test-article-7`
         );
-        await expect(article.locator(".headline")).toHaveText(`Article Draft 7`);
+        await expect(article.locator(".headline")).toHaveText(
+          `Article Draft 7`
+        );
 
         // Checking Author
-        await expect(article.locator(".author")).toHaveAttribute("href", `/author/1`);
+        await expect(article.locator(".author")).toHaveAttribute(
+          "href",
+          `/author/1`
+        );
         await expect(article.locator(".author")).toHaveText(`By John Doe`);
 
         // Checking Excerpt
@@ -236,13 +247,15 @@ test.describe("Featured Articles", () => {
           "href",
           `/2023/02/24/test-article-7`
         );
-        await expect(article.locator(".excerpt")).toHaveText(`Article 7 Excerpt`);
+        await expect(article.locator(".excerpt")).toHaveText(
+          `Article 7 Excerpt`
+        );
       });
 
       if (landscapeFeaturedArticles.length > 1) {
         test(`Display the correct information and have the correct links to the landscape articles ${landscapeFeaturedArticles}`, async ({
           page,
-          isMobile
+          isMobile,
         }) => {
           await prisma.featuredHome.update({
             where: {
@@ -257,14 +270,14 @@ test.describe("Featured Articles", () => {
             const article = page
               .locator(`.featured-articles >> .article:visible`)
               .nth(i);
-            
-            if (isMobile && i <= 2) { // in Mobile View, only the first 3 articles have images
+
+            if (!isMobile || (isMobile && i <= 2)) {
+              // in Mobile View, only the first 3 articles have images visible
               await expect(article.locator("img")).toHaveAttribute(
                 "src",
                 process.env.fileStoreUrl +
                   "/nouseSiteAssets/imageArchive-comp.jpg"
               );
-              // }
               await expect(article.locator(".image-link")).toHaveAttribute(
                 "href",
                 `/2023/02/24/test-article-${i + 1}`
@@ -339,5 +352,81 @@ test.describe("Banner and Edition", () => {
       "href",
       "/website/edition/test-edition"
     );
+  });
+});
+
+test.describe("Featured Section", () => {
+  test("Displays one featured section", async ({ page }) => {
+    const featuredSection = page.locator(".featured-section");
+    await expect(featuredSection).toHaveCount(1);
+  });
+  test("Displays the category accent", async ({ page }) => {
+    const categoryAccent = page.locator(".featured-section").first().locator(".category-text");
+    await expect(categoryAccent).toHaveAttribute("href", `/testCategory1`);
+    await expect(categoryAccent).toHaveText("Test");
+    await expect(categoryAccent).toHaveCSS("color", "rgb(237, 179, 33)"); // Playwright doesn't support hex values for toHaveCSS.
+  });
+
+  test("Displays the correct number of articles", async ({ page }) => {
+    const articles = page.locator(".featured-section").first().locator(".article:visible");
+    await expect(articles).toHaveCount(5);
+  });
+
+  test("Displays the correct information and have the correct links to the featured articles", async ({
+    page,
+    isMobile,
+  }) => {
+    const articles = page.locator(".featured-section").first().locator(".article:visible");
+    for (let i = 0; i < 5; i++) {
+      const article = articles.nth(i);
+
+      // Checking Image
+      if (i === 0) {
+        // Article 1 has a custom image
+        await expect(article.locator("img")).toHaveAttribute(
+          "src",
+          "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1673190924591-33954450307270480000-jullietesspotifywrappedjpg_large.jpg"
+        );
+      } else if (!isMobile) {
+        // in Mobile View, only the first article has an image visible
+        // All other articles have the default image
+        await expect(article.locator("img")).toHaveAttribute(
+          "src",
+          process.env.fileStoreUrl + "/nouseSiteAssets/imageArchive-comp.jpg"
+        );
+      }
+      if (!isMobile || (isMobile && i == 0)) {
+        // in Mobile View, only the first 3 articles have images
+        await expect(article.locator(".image-link")).toHaveAttribute(
+          "href",
+          `/2023/02/24/test-article-${i + 1}`
+        );
+      }
+
+      // Checking Headline
+      await expect(article.locator(".headline")).toHaveAttribute(
+        "href",
+        `/2023/02/24/test-article-${i + 1}`
+      );
+      await expect(article.locator(".headline")).toHaveText(
+        `Article Draft ${i + 1}`
+      );
+
+      // Checking Author
+      await expect(article.locator(".author")).toHaveAttribute(
+        "href",
+        `/author/1`
+      );
+      await expect(article.locator(".author")).toHaveText(`By John Doe`);
+
+      // Checking Excerpt
+      await expect(article.locator(".excerpt")).toHaveAttribute(
+        "href",
+        `/2023/02/24/test-article-${i + 1}`
+      );
+      await expect(article.locator(".excerpt")).toHaveText(
+        `Article ${i + 1} Excerpt`
+      );
+    }
   });
 });

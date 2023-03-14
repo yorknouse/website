@@ -114,6 +114,9 @@ export const getSectionsCategories = async (): Promise<categories[]> => {
       NOT: {
         categories_name: "muse",
       },
+      categories_featured: {
+        not: null,
+      },
     },
   });
 };
