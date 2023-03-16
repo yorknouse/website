@@ -5,7 +5,7 @@ import type { featuredHome } from "@prisma/client";
 import prisma from "../prisma";
 import BannerEdition from "../components/BannerEdition.astro";
 import FeaturedSection from "../components/FeaturedSection.astro";
-import { getSectionsCategories } from "../components/utils/categories";
+import { getFeaturedSectionsCategories } from "../components/utils/categories";
 
 // Get featured articles ids
 const featuredArticlesIds: featuredHome | null =
@@ -15,7 +15,7 @@ const featuredArticlesIds: featuredHome | null =
     },
   });
 
-const categories = await getSectionsCategories();
+const categories = await getFeaturedSectionsCategories();
 ---
 
 <Layout title="Welcome to Astro." active="home" style="nouse">

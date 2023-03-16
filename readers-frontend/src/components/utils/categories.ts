@@ -105,7 +105,7 @@ export const getMainArticleCategory = async (
   });
 };
 
-export const getSectionsCategories = async (): Promise<categories[]> => {
+export const getFeaturedSectionsCategories = async (): Promise<categories[]> => {
   return await prisma.categories.findMany({
     where: {
       categories_showHome: true,
