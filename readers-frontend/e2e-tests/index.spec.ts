@@ -360,10 +360,10 @@ test.describe("Muse component", () => {
       "[id='muse-navbar-desktop'] > ul > li"
     );
 
-    await expect(museNavbarItems).toHaveCount(2);
+    await expect(museNavbarItems).toHaveCount(3);
 
-    // First item should always be "Features"
-    await expect(museNavbarItems.first()).toHaveText("Features");
+    // First item should always be "Home"
+    await expect(museNavbarItems.first()).toHaveText("Home");
   });
 
   test("Button turns to link", async ({ page }) => {
@@ -374,9 +374,10 @@ test.describe("Muse component", () => {
       },
     });
 
+    // Index 2 cause 0 is muse Home
     const museNavbarSecondItem = (
       await page.locator("[id='muse-navbar-desktop'] > ul > li").all()
-    )[1];
+    )[2];
 
     const secondItemButton = museNavbarSecondItem.locator("button");
     const secondItemMissingLink = museNavbarSecondItem.locator("a");

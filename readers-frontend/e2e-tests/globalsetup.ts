@@ -32,6 +32,7 @@ async function dbGlobalSetup(config: FullConfig) {
         categories_showMenu: true,
         categories_backgroundColor: null,
         categories_nestUnder: null,
+        categories_featured: "5, 6",
       },
       {
         categories_id: 5,
