@@ -51,10 +51,18 @@ export const getMenuCategories = async (
       },
     });
 
-    if (menuCategories.length > 0) {
-      // Change category name to home for muse
-      menuCategories[0].categories_name = "home";
-      menuCategories[0].categories_displayName = "Home";
+    const muse = await prisma.categories.findFirst({
+      where: {
+        categories_name: "muse",
+      },
+    });
+
+    if (menuCategories.length > 0 && muse) {
+      // Add home as first item - possibly need to adjust values in the future
+      menuCategories.unshift({
+        ...muse,
+        categories_displayName: "Home",
+      });
 
       // Link to Nouse home
       menuCategories.push({

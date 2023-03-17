@@ -87,7 +87,7 @@ const MuseComponent: Component<MuseComponentProps> = (props) => {
         categories={props.categories}
       />
       {props.children}
-      <div class="my-4 flex flex-row self-center sm:hidden">
+      <div class="my-4 flex flex-row self-center md:hidden">
         <For each={props.categories}>
           {(category) => (
             <span

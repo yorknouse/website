@@ -24,6 +24,7 @@ async function dbGlobalSetup(config: FullConfig) {
         categories_nestUnder: null,
       },
       {
+        // Muse has an ID of 4 in production database, replicated here
         categories_id: 4,
         categories_name: "muse", // A Category that should appear with Muse picture
         categories_displayName: "Muse",
