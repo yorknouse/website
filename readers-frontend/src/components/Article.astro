@@ -12,6 +12,7 @@ export interface Props {
   isVertical?: boolean; // Defines if the image is ontop or to the left of the text
   isPortrait: boolean; // Defines if the image is portrait or landscape
   hideCategoryAccent?: boolean;
+  textColour?: string;
 }
 
 const {
@@ -27,10 +28,16 @@ const {
   isVertical,
   isPortrait,
   hideCategoryAccent,
+  textColour = "#000",
 } = Astro.props;
+
+console.log(
+  "TODO: Upload placeholder image to bucket (components/Article.astro)"
+);
+const imagePlaceHolder = '"https://fakeimg.pl/640x360"';
 ---
 
-<style define:vars={{ categoryColor }}>
+<style define:vars={{ categoryColor, textColour }}>
   .border-color {
     border-color: var(--categoryColor);
   }
@@ -42,6 +49,10 @@ const {
   .category-color {
     color: var(--categoryColor);
   }
+
+  .text-colour {
+    color: var(--textColour);
+  }
 </style>
 <div class="article h-full overflow-hidden text-ellipsis">
   <div class={`flex ${isVertical ? "flex-col" : "flex-row"}`}>
@@ -52,6 +63,7 @@ const {
         } rounded-xl object-cover ${isVertical && "mb-5"}`}
         src={imageUrl}
         alt="Article Thumbnail"
+        onerror={`if (this.src !== ${imagePlaceHolder}) this.src = ${imagePlaceHolder}`}
       />
     </a>}
     <div
@@ -71,17 +83,17 @@ const {
       }
       <div class="mb-2">
         <a class="headline" href={articleUrl}>
-          <p class="text-l xl:text-xl 2xl:text-2xl">{headline}</p>
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl">{headline}</p>
         </a>
         <a class="author" href={`/author/${authorId}`}>
-          <p class="text-sm italic 2xl:text-base">
+          <p class="text-sm text-colour italic 2xl:text-base">
             <span class="category-color">By</span>
             {author}
           </p>
         </a>
       </div>
       <a class="excerpt" href={articleUrl}>
-        <p class="text-xs xl:text-sm 2xl:text-base">{excerpt}</p>
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base">{excerpt}</p>
       </a>
     </div>
   </div>

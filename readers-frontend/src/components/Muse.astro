@@ -1,0 +1,139 @@
+---
+import MuseComponent from "@solidComponents/MuseComponent";
+import { getMenuCategories } from "./utils/categories";
+import {
+  articlesWithArticleDrafts,
+  getArticleImage,
+  getArticles,
+} from "./utils/articles";
+import type { MuseNavbarCategory } from "./types";
+import Article from "./Article.astro";
+
+type articlesWithArticlesDraftAndLink = articlesWithArticleDrafts & {
+  imageUrl: string;
+};
+
+const museMenuCategories = (await getMenuCategories("muse")).filter(
+  (category) => category.categories_name !== "nouse"
+);
+
+const categories = museMenuCategories.reduce((accumulator, currentCategory) => {
+  accumulator.push({
+    name: currentCategory.categories_name,
+    displayName: currentCategory.categories_displayName
+      ? currentCategory.categories_displayName
+      : "",
+  });
+
+  return accumulator;
+}, [] as MuseNavbarCategory[]);
+
+const articles = new Map<string, articlesWithArticlesDraftAndLink[]>();
+
+for (let i = 0; i < museMenuCategories.length; i++) {
+  const featuredArticles = museMenuCategories[i]
+    .categories_featured!.split(",")
+    .map(Number);
+
+  const articlesList = (await getArticles(featuredArticles)).slice(0, 4);
+  const articlesArray = await Promise.all(
+    articlesList.map(async (article) => {
+      return {
+        ...article,
+        imageUrl: await getArticleImage(article),
+      };
+    })
+  );
+
+  articles.set(museMenuCategories[i].categories_name, articlesArray);
+}
+---
+
+<div class="relative mt-4 flex w-full flex-col bg-black" id="muse-banner">
+  <a href="/muse" class="flex w-full flex-row">
+    <img
+      class="mx-auto my-4 w-[27%] md:w-[14%]"
+      src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
+    />
+  </a>
+
+  <MuseComponent client:only categories={categories}>
+    {
+      museMenuCategories.map((category, i) => (
+        <>
+          {/* Desktop */}
+          <div
+            class={`${
+              i === 0 ? "my-4 h-min opacity-100" : "h-0 opacity-0"
+            } hidden w-full flex-row px-[0.5%] transition-opacity delay-100 duration-700 md:flex 2xl:px-[13%]`}
+            id={`muse_${category.categories_name}`}
+          >
+            {articles.get(category.categories_name)?.map((article, i) => (
+              <div
+                class={`mr-3 flex w-1/4 flex-row ${
+                  i !== articles.get(category.categories_name)!.length - 1 &&
+                  "border-r-2 border-white"
+                }`}
+              >
+                <div class="pr-3">
+                  <Article
+                    headline={article.articlesDrafts[0].articlesDrafts_headline}
+                    excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
+                    author={`${article.articlesDrafts[0].users?.users_name1} ${article.articlesDrafts[0].users?.users_name2}`}
+                    authorId={article.articlesDrafts[0].users?.users_userid}
+                    category={undefined}
+                    categoryColor={"#FFF"}
+                    categoryLink={undefined}
+                    imageUrl={article.imageUrl}
+                    articleUrl={`/${article.articles_published
+                      ?.toISOString()
+                      .substring(0, 10)
+                      .replaceAll("-", "/")}/${article.articles_slug}`}
+                    isVertical={true}
+                    isPortrait={article.articles_isThumbnailPortrait}
+                    hideCategoryAccent={true}
+                    textColour={"#FFF"}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Mobile */}
+          <div
+            class={`${
+              i === 0 ? "my-4 h-min w-full opacity-100" : "h-0 w-0 opacity-0"
+            } flex flex-col px-4 transition-opacity delay-100 duration-500 md:hidden 2xl:px-[13%]`}
+            id={`muse_mobile_${category.categories_name}`}
+          >
+            {articles.get(category.categories_name)?.map((article, i) => (
+              <div class="flex w-full flex-col">
+                {i !== 0 && (
+                  <hr class="my-2.5 w-full self-center border-t-[1px] border-white" />
+                )}
+                <Article
+                  headline={article.articlesDrafts[0].articlesDrafts_headline}
+                  excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
+                  author={`${article.articlesDrafts[0].users?.users_name1} ${article.articlesDrafts[0].users?.users_name2}`}
+                  authorId={article.articlesDrafts[0].users?.users_userid}
+                  category={undefined}
+                  categoryColor={"#FFF"}
+                  categoryLink={undefined}
+                  imageUrl={article.imageUrl}
+                  articleUrl={`/${article.articles_published
+                    ?.toISOString()
+                    .substring(0, 10)
+                    .replaceAll("-", "/")}/${article.articles_slug}`}
+                  isVertical={false}
+                  isPortrait={article.articles_isThumbnailPortrait}
+                  hideCategoryAccent={true}
+                  textColour={"#FFF"}
+                />
+              </div>
+            ))}
+          </div>
+        </>
+      ))
+    }
+  </MuseComponent>
+</div>

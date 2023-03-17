@@ -51,39 +51,41 @@ export const getMenuCategories = async (
       },
     });
 
-    // Muse to first
-    menuCategories = menuCategories.sort((a, b) => {
-      if (b.categories_name === "muse") return 1;
-      if (a.categories_name === "muse") return -1;
-
-      return 0;
+    const muse = await prisma.categories.findFirst({
+      where: {
+        categories_name: "muse",
+      },
     });
 
-    // Change category name to home for muse
-    menuCategories[0].categories_name = "home";
-    menuCategories[0].categories_displayName = "Home";
+    if (menuCategories.length > 0 && muse) {
+      // Add home as first item - possibly need to adjust values in the future
+      menuCategories.unshift({
+        ...muse,
+        categories_displayName: "Home",
+      });
 
-    // Link to Nouse home
-    menuCategories.push({
-      categories_name: "nouse",
-      categories_id: 0,
-      categories_showHome: true,
-      categories_displayName: "Nouse",
-      categories_showMenu: true,
-      categories_showPublic: true,
-      categories_showAdmin: true,
-      categories_featured: null,
-      categories_order: null,
-      categories_nestUnder: null,
-      categories_showSub: false,
-      categories_facebook: null,
-      categories_twitter: null,
-      categories_instagram: null,
-      categories_backgroundColor: null,
-      categories_backgroundColorContrast: null,
-      categories_customTheme: null,
-      categories_socialMediaOverlay: null,
-    });
+      // Link to Nouse home
+      menuCategories.push({
+        categories_name: "nouse",
+        categories_id: 0,
+        categories_showHome: true,
+        categories_displayName: "Nouse",
+        categories_showMenu: true,
+        categories_showPublic: true,
+        categories_showAdmin: true,
+        categories_featured: null,
+        categories_order: null,
+        categories_nestUnder: null,
+        categories_showSub: false,
+        categories_facebook: null,
+        categories_twitter: null,
+        categories_instagram: null,
+        categories_backgroundColor: null,
+        categories_backgroundColorContrast: null,
+        categories_customTheme: null,
+        categories_socialMediaOverlay: null,
+      });
+    }
   }
 
   return menuCategories;
