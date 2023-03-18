@@ -5,6 +5,8 @@ import type { featuredHome } from "@prisma/client";
 import prisma from "../prisma";
 import BannerEdition from "@components/BannerEdition.astro";
 import Muse from "@components/Muse.astro";
+import FeaturedSection from "@components/FeaturedSection.astro";
+import { getFeaturedSectionsCategories } from "@components/utils/categories";
 
 // Get featured articles ids
 const featuredArticlesIds: featuredHome | null =
@@ -13,11 +15,13 @@ const featuredArticlesIds: featuredHome | null =
       featuredHome_timestamp: "desc",
     },
   });
+
+const categories = await getFeaturedSectionsCategories();
 ---
 
 <Layout title="Welcome to Astro." active="home" style="nouse">
   <main>
-    <div class="px-[0.5%] pt-8 2xl:px-[13%]">
+    <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
       <div class="featured-articles">
         <FeaturedArticles
           featuredArticlesIds={featuredArticlesIds?.featuredHome_articles
@@ -28,5 +32,14 @@ const featuredArticlesIds: featuredHome | null =
       <BannerEdition />
     </div>
     <Muse />
+    <div id="featured-sections" class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
+      {
+        categories.map((category) => (
+          <div id={`${category.categories_name}-section`}>
+            <FeaturedSection category={category} />
+          </div>
+        ))
+      }
+    </div>
   </main>
 </Layout>

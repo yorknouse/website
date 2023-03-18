@@ -107,6 +107,22 @@ export const getMainArticleCategory = async (
   });
 };
 
+export const getFeaturedSectionsCategories = async (): Promise<categories[]> => {
+  return await prisma.categories.findMany({
+    where: {
+      categories_showHome: true,
+      categories_showPublic: true,
+      categories_nestUnder: null,
+      NOT: {
+        categories_name: "muse",
+      },
+      categories_featured: {
+        not: null,
+      },
+    },
+  });
+};
+
 // Construct nested items map - saved for later
 // let nestedItems = menuCategories.reduce((accumulator, category, _) => {
 //   const parent = category.categories_nestUnder;
