@@ -1,0 +1,116 @@
+---
+import type { categories } from "@prisma/client";
+import Article from "./Article.astro";
+import {
+  articlesWithArticleDrafts,
+  getArticleImage,
+  getArticles,
+} from "./utils/articles";
+
+export interface Props {
+  category: categories;
+}
+const { category } = Astro.props;
+const articles: articlesWithArticleDrafts[] = await getArticles(
+  category.categories_featured?.split(",").map(Number)
+);
+const categoryColor = "#" + category.categories_backgroundColor;
+---
+
+<style define:vars={{ categoryColor }}>
+  .border-color {
+    border-color: var(--categoryColor);
+  }
+  .category-text {
+    font-family: "arno-pro-display", serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  .category-color {
+    color: var(--categoryColor);
+  }
+</style>
+{
+  articles.length != 0 && (
+    <>
+      <div class="border-color mt-4 h-full border-t-2">
+        <a
+          class="category-text category-color text-2xl uppercase xl:text-3xl 2xl:text-4xl"
+          href={`/${category.categories_name}`}
+        >
+          {category.categories_displayName}
+        </a>
+        {/* Desktop */}
+        <div class="hidden max-w-full flex-row justify-center gap-2.5 sm:flex">
+          {articles.map(async (article, index) => (
+            <div
+              class={`w-full pr-2.5 ${
+                index != articles.length - 1 ? "border-r-2 border-gray-300" : ""
+              }`}
+            >
+              <Article
+                headline={article.articlesDrafts[0].articlesDrafts_headline}
+                excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
+                author={
+                  article.articlesDrafts[0].users?.users_name1 +
+                  " " +
+                  article.articlesDrafts[0].users?.users_name2
+                }
+                authorId={article.articlesDrafts[0].users?.users_userid}
+                category={category.categories_displayName}
+                categoryLink={category.categories_name}
+                categoryColor={categoryColor}
+                imageUrl={await getArticleImage(article)}
+                articleUrl={`/${article.articles_published
+                  ?.toISOString()
+                  .substring(0, 10)
+                  .replaceAll("-", "/")}/${article.articles_slug}`}
+                isVertical={true}
+                isPortrait={article.articles_isThumbnailPortrait}
+                hideCategoryAccent={true}
+              />
+            </div>
+          ))}
+        </div>
+        {/* Mobile */}
+        {
+          <div class="block max-w-full justify-center sm:hidden">
+            {articles.map(async (article, index) => (
+              <div
+                class={`w-full p-2.5 ${
+                  index != articles.length - 1
+                    ? "border-b-2 border-gray-300"
+                    : ""
+                }`}
+              >
+                <Article
+                  headline={article.articlesDrafts[0].articlesDrafts_headline}
+                  excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
+                  author={
+                    article.articlesDrafts[0].users?.users_name1 +
+                    " " +
+                    article.articlesDrafts[0].users?.users_name2
+                  }
+                  authorId={article.articlesDrafts[0].users?.users_userid}
+                  category={category.categories_displayName}
+                  categoryLink={category.categories_name}
+                  categoryColor={categoryColor}
+                  imageUrl={
+                    index == 0 ? await getArticleImage(article) : undefined
+                  }
+                  articleUrl={`/${article.articles_published
+                    ?.toISOString()
+                    .substring(0, 10)
+                    .replaceAll("-", "/")}/${article.articles_slug}`}
+                  isVertical={false}
+                  isPortrait={article.articles_isThumbnailPortrait}
+                  hideCategoryAccent={true}
+                />
+              </div>
+            ))}
+          </div>
+        }
+      </div>
+    </>
+  )
+}

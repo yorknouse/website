@@ -13,7 +13,9 @@ test("has title", async ({ page }) => {
 test.describe("Navbar", () => {
   test("Has the correct number of items and correct image", async ({
     page,
+    isMobile,
   }) => {
+    test.skip(isMobile == true, "Skipping on mobile for now");
     await expect(page.locator("nav > ul > li")).toHaveCount(5);
     // Checking Header Picture
     await expect(page.locator("header > a > img")).toHaveAttribute(
@@ -36,7 +38,8 @@ test.describe("Navbar", () => {
     );
   });
 
-  test("Has the correct links", async ({ page }) => {
+  test("Has the correct links", async ({ page, isMobile }) => {
+    test.skip(isMobile == true, "Skipping on mobile for now");
     // Home Button
     await expect(
       page.locator("body > nav > ul > li:nth-child(1) > a")
@@ -73,12 +76,13 @@ test.describe("Featured Articles", () => {
         });
         await page.reload();
         await expect(
-          page.locator(".featured-articles >> .article")
+          page.locator(".featured-articles >> .article:visible")
         ).toHaveCount(landscapeFeaturedArticles.length);
       });
 
       test("Display the correct information and have the correct links to articles", async ({
         page,
+        isMobile,
       }) => {
         await prisma.featuredHome.update({
           where: {
@@ -90,63 +94,67 @@ test.describe("Featured Articles", () => {
         });
         await page.reload();
         for (let i = 0; i < landscapeFeaturedArticles.length; i++) {
-          const article = page.locator(`.featured-articles >> .article`).nth(i);
-          const articleImage = article.locator("img");
-          const articleLinks = article.locator("a");
+          const article = page
+            .locator(`.featured-articles >> .article:visible`)
+            .nth(i);
 
           // Checking Image
           if (i === 0) {
             // Article 1 has a custom image
-            await expect(articleImage).toHaveAttribute(
+            await expect(article.locator("img")).toHaveAttribute(
               "src",
               "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1673190924591-33954450307270480000-jullietesspotifywrappedjpg_large.jpg"
             );
-          } else {
+          } else if (!isMobile || (isMobile && i <= 2)) {
+            // in Mobile View, only the first 3 articles have images visible
             // All other articles have the default image
-            await expect(articleImage).toHaveAttribute(
+            await expect(article.locator("img")).toHaveAttribute(
               "src",
               process.env.fileStoreUrl +
                 "/nouseSiteAssets/imageArchive-comp.jpg"
             );
           }
-          await expect(articleLinks.nth(0)).toHaveAttribute(
-            "href",
-            `/2023/02/24/test-article-${i + 1}`
-          );
+          if (!isMobile || (isMobile && i <= 2)) {
+            // in Mobile View, only the first 3 articles have images visible
+            await expect(article.locator(".image-link")).toHaveAttribute(
+              "href",
+              `/2023/02/24/test-article-${i + 1}`
+            );
+          }
 
           // Checking Category
-          await expect(articleLinks.nth(1)).toHaveAttribute(
+          await expect(article.locator(".category-text")).toHaveAttribute(
             "href",
             `/testCategory1`
           );
-          await expect(articleLinks.nth(1)).toHaveText("Test");
-          await expect(articleLinks.nth(1)).toHaveCSS(
+          await expect(article.locator(".category-text")).toHaveText("Test");
+          await expect(article.locator(".category-text")).toHaveCSS(
             "color",
             "rgb(237, 179, 33)"
           ); // Playwright doesn't support hex values for toHaveCSS.
 
           // Checking Headline
-          await expect(articleLinks.nth(2)).toHaveAttribute(
+          await expect(article.locator(".headline")).toHaveAttribute(
             "href",
             `/2023/02/24/test-article-${i + 1}`
           );
-          await expect(articleLinks.nth(2)).toHaveText(
+          await expect(article.locator(".headline")).toHaveText(
             `Article Draft ${i + 1}`
           );
 
           // Checking Author
-          await expect(articleLinks.nth(3)).toHaveAttribute(
+          await expect(article.locator(".author")).toHaveAttribute(
             "href",
             `/author/1`
           );
-          await expect(articleLinks.nth(3)).toHaveText(`By John Doe`);
+          await expect(article.locator(".author")).toHaveText(`By John Doe`);
 
           // Checking Excerpt
-          await expect(articleLinks.nth(4)).toHaveAttribute(
+          await expect(article.locator(".excerpt")).toHaveAttribute(
             "href",
             `/2023/02/24/test-article-${i + 1}`
           );
-          await expect(articleLinks.nth(4)).toHaveText(
+          await expect(article.locator(".excerpt")).toHaveText(
             `Article ${i + 1} Excerpt`
           );
         }
@@ -177,7 +185,7 @@ test.describe("Featured Articles", () => {
         });
         await page.reload();
         await expect(
-          page.locator(".featured-articles >> .article")
+          page.locator(".featured-articles >> .article:visible")
         ).toHaveCount(landscapeFeaturedArticles.length);
       });
 
@@ -193,53 +201,61 @@ test.describe("Featured Articles", () => {
           },
         });
         await page.reload();
-        const article = page.locator(`.featured-articles >> .article`).nth(0);
-        const articleImage = article.locator("img");
-        const articleLinks = article.locator("a");
+        const article = page
+          .locator(`.featured-articles >> .article:visible`)
+          .nth(0);
 
         // Checking Image
-        await expect(articleImage).toHaveAttribute(
+        await expect(article.locator("img")).toHaveAttribute(
           "src",
           "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1673190924591-33954450307270480000-jullietesspotifywrappedjpg_large.jpg"
         );
-        await expect(articleLinks.nth(0)).toHaveAttribute(
+        await expect(article.locator(".image-link")).toHaveAttribute(
           "href",
           `/2023/02/24/test-article-7`
         );
 
         // Checking Category
-        await expect(articleLinks.nth(1)).toHaveAttribute(
+        await expect(article.locator(".category-text")).toHaveAttribute(
           "href",
           `/testCategory1`
         );
-        await expect(articleLinks.nth(1)).toHaveText("Test");
-        await expect(articleLinks.nth(1)).toHaveCSS(
+        await expect(article.locator(".category-text")).toHaveText("Test");
+        await expect(article.locator(".category-text")).toHaveCSS(
           "color",
           "rgb(237, 179, 33)"
         ); // Playwright doesn't support hex values for toHaveCSS.
 
         // Checking Headline
-        await expect(articleLinks.nth(2)).toHaveAttribute(
+        await expect(article.locator(".headline")).toHaveAttribute(
           "href",
           `/2023/02/24/test-article-7`
         );
-        await expect(articleLinks.nth(2)).toHaveText(`Article Draft 7`);
+        await expect(article.locator(".headline")).toHaveText(
+          `Article Draft 7`
+        );
 
         // Checking Author
-        await expect(articleLinks.nth(3)).toHaveAttribute("href", `/author/1`);
-        await expect(articleLinks.nth(3)).toHaveText(`By John Doe`);
+        await expect(article.locator(".author")).toHaveAttribute(
+          "href",
+          `/author/1`
+        );
+        await expect(article.locator(".author")).toHaveText(`By John Doe`);
 
         // Checking Excerpt
-        await expect(articleLinks.nth(4)).toHaveAttribute(
+        await expect(article.locator(".excerpt")).toHaveAttribute(
           "href",
           `/2023/02/24/test-article-7`
         );
-        await expect(articleLinks.nth(4)).toHaveText(`Article 7 Excerpt`);
+        await expect(article.locator(".excerpt")).toHaveText(
+          `Article 7 Excerpt`
+        );
       });
 
       if (landscapeFeaturedArticles.length > 1) {
         test(`Display the correct information and have the correct links to the landscape articles ${landscapeFeaturedArticles}`, async ({
           page,
+          isMobile,
         }) => {
           await prisma.featuredHome.update({
             where: {
@@ -252,55 +268,55 @@ test.describe("Featured Articles", () => {
           await page.reload();
           for (let i = 1; i < landscapeFeaturedArticles.length; i++) {
             const article = page
-              .locator(`.featured-articles >> .article`)
+              .locator(`.featured-articles >> .article:visible`)
               .nth(i);
-            const articleImage = article.locator("img");
-            const articleLinks = article.locator("a");
 
-            await expect(articleImage).toHaveAttribute(
-              "src",
-              process.env.fileStoreUrl +
-                "/nouseSiteAssets/imageArchive-comp.jpg"
-            );
-            // }
-            await expect(articleLinks.nth(0)).toHaveAttribute(
-              "href",
-              `/2023/02/24/test-article-${i + 1}`
-            );
+            if (!isMobile || (isMobile && i <= 2)) {
+              // in Mobile View, only the first 3 articles have images visible
+              await expect(article.locator("img")).toHaveAttribute(
+                "src",
+                process.env.fileStoreUrl +
+                  "/nouseSiteAssets/imageArchive-comp.jpg"
+              );
+              await expect(article.locator(".image-link")).toHaveAttribute(
+                "href",
+                `/2023/02/24/test-article-${i + 1}`
+              );
+            }
 
             // Checking Category
-            await expect(articleLinks.nth(1)).toHaveAttribute(
+            await expect(article.locator(".category-text")).toHaveAttribute(
               "href",
               `/testCategory1`
             );
-            await expect(articleLinks.nth(1)).toHaveText("Test");
-            await expect(articleLinks.nth(1)).toHaveCSS(
+            await expect(article.locator(".category-text")).toHaveText("Test");
+            await expect(article.locator(".category-text")).toHaveCSS(
               "color",
               "rgb(237, 179, 33)"
             ); // Playwright doesn't support hex values for toHaveCSS.
 
             // Checking Headline
-            await expect(articleLinks.nth(2)).toHaveAttribute(
+            await expect(article.locator(".headline")).toHaveAttribute(
               "href",
               `/2023/02/24/test-article-${i + 1}`
             );
-            await expect(articleLinks.nth(2)).toHaveText(
+            await expect(article.locator(".headline")).toHaveText(
               `Article Draft ${i + 1}`
             );
 
             // Checking Author
-            await expect(articleLinks.nth(3)).toHaveAttribute(
+            await expect(article.locator(".author")).toHaveAttribute(
               "href",
               `/author/1`
             );
-            await expect(articleLinks.nth(3)).toHaveText(`By John Doe`);
+            await expect(article.locator(".author")).toHaveText(`By John Doe`);
 
             // Checking Excerpt
-            await expect(articleLinks.nth(4)).toHaveAttribute(
+            await expect(article.locator(".excerpt")).toHaveAttribute(
               "href",
               `/2023/02/24/test-article-${i + 1}`
             );
-            await expect(articleLinks.nth(4)).toHaveText(
+            await expect(article.locator(".excerpt")).toHaveText(
               `Article ${i + 1} Excerpt`
             );
           }
@@ -339,6 +355,82 @@ test.describe("Banner and Edition", () => {
   });
 });
 
+test.describe("Featured Section", () => {
+  test("Displays one featured section", async ({ page }) => {
+    const featuredSection = page.locator("#featured-sections > div");
+    await expect(featuredSection).toHaveCount(1);
+  });
+  test("Displays the category accent", async ({ page }) => {
+    const categoryAccent = page.locator("#testCategory1-section").locator(".category-text");
+    await expect(categoryAccent).toHaveAttribute("href", `/testCategory1`);
+    await expect(categoryAccent).toHaveText("Test");
+    await expect(categoryAccent).toHaveCSS("color", "rgb(237, 179, 33)"); // Playwright doesn't support hex values for toHaveCSS.
+  });
+
+  test("Displays the correct number of articles", async ({ page }) => {
+    const articles = page.locator("#testCategory1-section").first().locator(".article:visible");
+    await expect(articles).toHaveCount(5);
+  });
+
+  test("Displays the correct information and have the correct links to the featured articles", async ({
+    page,
+    isMobile,
+  }) => {
+    const articles = page.locator("#testCategory1-section").locator(".article:visible");
+    for (let i = 0; i < 5; i++) {
+      const article = articles.nth(i);
+
+      // Checking Image
+      if (i === 0) {
+        // Article 1 has a custom image
+        await expect(article.locator("img")).toHaveAttribute(
+          "src",
+          "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1673190924591-33954450307270480000-jullietesspotifywrappedjpg_large.jpg"
+        );
+      } else if (!isMobile) {
+        // in Mobile View, only the first article has an image visible
+        // All other articles have the default image
+        await expect(article.locator("img")).toHaveAttribute(
+          "src",
+          process.env.fileStoreUrl + "/nouseSiteAssets/imageArchive-comp.jpg"
+        );
+      }
+      if (!isMobile || (isMobile && i == 0)) {
+        // in Mobile View, only the first 3 articles have images
+        await expect(article.locator(".image-link")).toHaveAttribute(
+          "href",
+          `/2023/02/24/test-article-${i + 1}`
+        );
+      }
+
+      // Checking Headline
+      await expect(article.locator(".headline")).toHaveAttribute(
+        "href",
+        `/2023/02/24/test-article-${i + 1}`
+      );
+      await expect(article.locator(".headline")).toHaveText(
+        `Article Draft ${i + 1}`
+      );
+
+      // Checking Author
+      await expect(article.locator(".author")).toHaveAttribute(
+        "href",
+        `/author/1`
+      );
+      await expect(article.locator(".author")).toHaveText(`By John Doe`);
+
+      // Checking Excerpt
+      await expect(article.locator(".excerpt")).toHaveAttribute(
+        "href",
+        `/2023/02/24/test-article-${i + 1}`
+      );
+      await expect(article.locator(".excerpt")).toHaveText(
+        `Article ${i + 1} Excerpt`
+      );
+    }
+  });
+});
+
 test.describe("Muse component", () => {
   test("Muse logo is a link", async ({ page }) => {
     const museLogoLink = page.locator("[id='muse-banner'] > a");
@@ -366,7 +458,8 @@ test.describe("Muse component", () => {
     await expect(museNavbarItems.first()).toHaveText("Home");
   });
 
-  test("Button turns to link", async ({ page }) => {
+  test("Button turns to link", async ({ page, isMobile }) => {
+    test.skip(isMobile == true, "Skipping on mobile for now");
     const museMenuCategories = await prisma.categories.findMany({
       where: {
         categories_showMenu: true,

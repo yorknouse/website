@@ -10,15 +10,18 @@ async function dbGlobalSetup(config: FullConfig) {
         categories_name: "testCategory1", // A Category that should appear
         categories_displayName: "Test",
         categories_showHome: true,
+        categories_showPublic: true,
         categories_showMenu: true,
         categories_backgroundColor: "edb321",
         categories_nestUnder: null,
+        categories_featured: "1,2,3,4,5",
       },
       {
         categories_id: 2,
         categories_name: "nouse", // A Category that should appear with Nouse picture
         categories_displayName: "Nouse",
         categories_showHome: true,
+        categories_showPublic: true,
         categories_showMenu: true,
         categories_backgroundColor: null,
         categories_nestUnder: null,
@@ -29,6 +32,7 @@ async function dbGlobalSetup(config: FullConfig) {
         categories_name: "muse", // A Category that should appear with Muse picture
         categories_displayName: "Muse",
         categories_showHome: true,
+        categories_showPublic: true,
         categories_showMenu: true,
         categories_backgroundColor: null,
         categories_nestUnder: null,

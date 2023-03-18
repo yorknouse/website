@@ -48,7 +48,7 @@ const thumbnail = await s3URL(latestEdition.editions_thumbnail, "medium");
     href={`${import.meta.env.BASE_URL}edition/${latestEdition?.editions_slug}`}
   >
     <div class="flex w-1/2 flex-col gap-2.5 self-center">
-      <p class="text-center uppercase md:text-2xl lg:text-4xl xl:text-5xl">
+      <p class="text-center uppercase text-2xl sm:text-base md:text-2xl lg:text-4xl xl:text-5xl">
         Our<br />latest<br />edition
       </p>
       <p
@@ -57,6 +57,6 @@ const thumbnail = await s3URL(latestEdition.editions_thumbnail, "medium");
         {latestEdition?.editions_name}
       </p>
     </div>
-    <img class="aspect-edition w-1/2 p-4" src={thumbnail} />
+    <img class="aspect-edition w-1/2 p-2.5 sm:p-4" src={thumbnail} />
   </a>
 </div>
