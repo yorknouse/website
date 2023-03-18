@@ -23,6 +23,8 @@ const Article: Component<ArticleProps> = (props) => {
   // Default text color to black
   const textColor = props.textColour || "black";
 
+  const border = `border-color-${categoryColor.toUpperCase()} border-t-2`;
+
   return (
     <div class="article h-full overflow-hidden text-ellipsis">
       <div class={`flex ${props.isVertical ? "flex-col" : "flex-row"}`}>
@@ -52,7 +54,7 @@ const Article: Component<ArticleProps> = (props) => {
             props.isVertical || props.imageUrl == undefined
               ? "w-full"
               : "ml-3 h-full w-1/2"
-          } ${!props.hideCategoryAccent && "border-color border-t-2"}`}
+          } ${!props.hideCategoryAccent && border}`}
         >
           {!props.hideCategoryAccent && (
             <a

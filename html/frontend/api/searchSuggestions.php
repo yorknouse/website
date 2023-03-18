@@ -40,6 +40,8 @@ $DBLIB->where(
     WHERE articlesDrafts.articles_id=articles.articles_id
     ORDER BY articlesDrafts_timestamp DESC LIMIT 1)"
 );
+$DBLIB->join("users", "articlesDrafts.articlesDrafts_userid=users.users_userid");
+$DBLIB->join("categories", "articles.articles_categories=categories.categories_id");
 $articles = $DBLIB->get(
     "articles",
     3,
@@ -48,8 +50,15 @@ $articles = $DBLIB->get(
         "articles.articles_published",
         "articles.articles_slug",
         "articles.articles_thumbnail",
+        "articles.articles_isThumbnailPortrait",
         "articlesDrafts.articlesDrafts_headline",
         "articlesDrafts.articlesDrafts_excerpt",
+        "users.users_name1",
+        "users.users_name2",
+        "users.users_userid",
+        "categories.categories_name",
+        "categories.categories_displayName",
+        "categories.categories_backgroundColor",
     ]
 );
 
