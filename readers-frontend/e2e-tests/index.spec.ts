@@ -376,7 +376,7 @@ test.describe("Featured Section", () => {
     page,
     isMobile,
   }) => {
-    const articles = page.locator(".featured-section").first().locator(".article:visible");
+    const articles = page.locator("#testCategory1-section").locator(".article:visible");
     for (let i = 0; i < 5; i++) {
       const article = articles.nth(i);
 
