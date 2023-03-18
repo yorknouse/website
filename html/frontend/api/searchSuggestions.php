@@ -1,30 +1,70 @@
 <?php
 require_once __DIR__ . '/../../common/coreHead.php';
 
-function finish($result = false, $error = ["code" => null, "message"=> null], $response = []) {
+function finish($result = false, $error = ["code" => null, "message" => null], $response = [])
+{
     $dataReturn = ["result" => $result];
-    if ($error and !$result) $dataReturn["error"] = $error;
-    else $dataReturn["response"] = $response;
-
+    if ($error && !$result) {
+        $dataReturn["error"] = $error;
+    } else {
+        $dataReturn["response"] = $response;
+    }
     die(json_encode($dataReturn));
 }
 
 //Log an article as having been read
-if (!isset($_POST['searchterm'])) finish(false, ["code" => "PARAM", "message"=> "No term set"]);
-$term = $bCMS->sanitizeString($_POST['searchterm']);
-if (strlen($term) <1) finish(true, null,null);
+if (!isset($_POST['searchterm'])) {
+    finish(false, ["code" => "PARAM", "message" => "No term set"]);
+}
 
-$DBLIB->where("(articlesDrafts.articlesDrafts_excerpt LIKE '%" . $bCMS->sanitizeString($term) . "%' OR articlesDrafts.articlesDrafts_headline LIKE '%" . $bCMS->sanitizeString($term) . "%')");
+$term = $bCMS->sanitizeString($_POST['searchterm']);
+
+if (strlen($term) < 1) {
+    finish(true, null, null);
+}
+
+$DBLIB->where(
+    "(articlesDrafts.articlesDrafts_excerpt LIKE '%" .
+    $term .
+    "%' OR articlesDrafts.articlesDrafts_headline LIKE '%" .
+    $term . "%')"
+);
 $DBLIB->orderBy("articles_published", "DESC");
 $DBLIB->where("articles_showInSearch", 1);
 $DBLIB->where("articles_published <= '" . date("Y-m-d H:i:s") . "'");
 $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
-$DBLIB->where("articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
-$articles = $DBLIB->get("articles", 3, ["articles.articles_id", "articles.articles_published","articles.articles_slug","articlesDrafts.articlesDrafts_headline","articlesDrafts.articlesDrafts_excerpt"]);
-if (!$articles) finish(true, null, null);
+$DBLIB->where(
+    "articlesDrafts_id =
+    (SELECT articlesDrafts_id
+    FROM articlesDrafts
+    WHERE articlesDrafts.articles_id=articles.articles_id
+    ORDER BY articlesDrafts_timestamp DESC LIMIT 1)"
+);
+$articles = $DBLIB->get(
+    "articles",
+    3,
+    [
+        "articles.articles_id",
+        "articles.articles_published",
+        "articles.articles_slug",
+        "articles.articles_thumbnail",
+        "articlesDrafts.articlesDrafts_headline",
+        "articlesDrafts.articlesDrafts_excerpt",
+    ]
+);
+
+if (!$articles) {
+    finish(true, null, null);
+}
+
 $output = [];
 foreach ($articles as $article) {
-    $article['url'] = $CONFIG['ROOTFRONTENDURL'] . '/' . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'];
+    $article['url'] = $CONFIG['ROOTFRONTENDURL'] .
+        '/' . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'];
+
+    $article['image'] = $bCMS->s3URL($article['articles_thumbnail'], "medium");
+
     $output[] = $article;
 }
+
 finish(true, null, $output);
