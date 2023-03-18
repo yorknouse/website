@@ -32,10 +32,10 @@ const categories = await getFeaturedSectionsCategories();
       <BannerEdition />
     </div>
     <Muse />
-    <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
+    <div id="featured-sections" class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
       {
         categories.map((category) => (
-          <div class="featured-section">
+          <div id={`${category.categories_name}-section`}>
             <FeaturedSection category={category} />
           </div>
         ))

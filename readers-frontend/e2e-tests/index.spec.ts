@@ -357,18 +357,18 @@ test.describe("Banner and Edition", () => {
 
 test.describe("Featured Section", () => {
   test("Displays one featured section", async ({ page }) => {
-    const featuredSection = page.locator(".featured-section");
+    const featuredSection = page.locator("#featured-sections > div");
     await expect(featuredSection).toHaveCount(1);
   });
   test("Displays the category accent", async ({ page }) => {
-    const categoryAccent = page.locator(".featured-section").first().locator(".category-text");
+    const categoryAccent = page.locator("#testCategory1-section").locator(".category-text");
     await expect(categoryAccent).toHaveAttribute("href", `/testCategory1`);
     await expect(categoryAccent).toHaveText("Test");
     await expect(categoryAccent).toHaveCSS("color", "rgb(237, 179, 33)"); // Playwright doesn't support hex values for toHaveCSS.
   });
 
   test("Displays the correct number of articles", async ({ page }) => {
-    const articles = page.locator(".featured-section").first().locator(".article:visible");
+    const articles = page.locator("#testCategory1-section").first().locator(".article:visible");
     await expect(articles).toHaveCount(5);
   });
 
