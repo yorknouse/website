@@ -7,7 +7,7 @@ import {
   getArticles,
 } from "./utils/articles";
 import type { MuseNavbarCategory } from "./types";
-import Article from "./Article.astro";
+import Article from "./SolidJS/Article";
 
 type articlesWithArticlesDraftAndLink = articlesWithArticleDrafts & {
   imageUrl: string;
@@ -82,7 +82,7 @@ for (let i = 0; i < museMenuCategories.length; i++) {
                     author={`${article.articlesDrafts[0].users?.users_name1} ${article.articlesDrafts[0].users?.users_name2}`}
                     authorId={article.articlesDrafts[0].users?.users_userid}
                     category={undefined}
-                    categoryColor={"#FFF"}
+                    categoryColor={"FFFFFF"}
                     categoryLink={undefined}
                     imageUrl={article.imageUrl}
                     articleUrl={`/${article.articles_published
@@ -92,7 +92,7 @@ for (let i = 0; i < museMenuCategories.length; i++) {
                     isVertical={true}
                     isPortrait={article.articles_isThumbnailPortrait}
                     hideCategoryAccent={true}
-                    textColour={"#FFF"}
+                    textColour={"white"}
                   />
                 </div>
               </div>
@@ -117,7 +117,7 @@ for (let i = 0; i < museMenuCategories.length; i++) {
                   author={`${article.articlesDrafts[0].users?.users_name1} ${article.articlesDrafts[0].users?.users_name2}`}
                   authorId={article.articlesDrafts[0].users?.users_userid}
                   category={undefined}
-                  categoryColor={"#FFF"}
+                  categoryColor={"FFFFFF"}
                   categoryLink={undefined}
                   imageUrl={article.imageUrl}
                   articleUrl={`/${article.articles_published
@@ -127,7 +127,7 @@ for (let i = 0; i < museMenuCategories.length; i++) {
                   isVertical={false}
                   isPortrait={article.articles_isThumbnailPortrait}
                   hideCategoryAccent={true}
-                  textColour={"#FFF"}
+                  textColour={"white"}
                 />
               </div>
             ))}

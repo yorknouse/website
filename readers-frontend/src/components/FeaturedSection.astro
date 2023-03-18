@@ -1,6 +1,6 @@
 ---
 import type { categories } from "@prisma/client";
-import Article from "./Article.astro";
+import Article from "./SolidJS/Article";
 import {
   articlesWithArticleDrafts,
   getArticleImage,
@@ -59,7 +59,7 @@ const categoryColor = "#" + category.categories_backgroundColor;
                 authorId={article.articlesDrafts[0].users?.users_userid}
                 category={category.categories_displayName}
                 categoryLink={category.categories_name}
-                categoryColor={categoryColor}
+                categoryColor={category.categories_backgroundColor}
                 imageUrl={await getArticleImage(article)}
                 articleUrl={`/${article.articles_published
                   ?.toISOString()
@@ -94,7 +94,7 @@ const categoryColor = "#" + category.categories_backgroundColor;
                   authorId={article.articlesDrafts[0].users?.users_userid}
                   category={category.categories_displayName}
                   categoryLink={category.categories_name}
-                  categoryColor={categoryColor}
+                  categoryColor={category.categories_backgroundColor}
                   imageUrl={
                     index == 0 ? await getArticleImage(article) : undefined
                   }
