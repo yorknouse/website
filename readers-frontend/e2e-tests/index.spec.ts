@@ -530,6 +530,7 @@ test.describe("Search functionality", () => {
   test("Search provides results", async ({ page, isMobile }) => {
     test.skip(isMobile === true, "Skipping on mobile for now");
 
+    // Mock api
     await page.route("**/searchSuggestions.php", async (route) => {
       const json = apiSearchResponse;
       await route.fulfill({ json });
@@ -548,5 +549,31 @@ test.describe("Search functionality", () => {
     );
 
     await expect(articles).toHaveCount(3);
+  });
+
+  test("Search provides fallback text", async ({ page, isMobile }) => {
+    test.skip(isMobile === true, "Skipping on mobile for now");
+
+    // Mock api, internal server error
+    await page.route("**/searchSuggestions.php", async (route) => {
+      const status = 500;
+      await route.fulfill({status});
+    });
+  
+    const searchButton = page.locator("[id=searchBtn]");
+
+    searchButton.click();
+
+    const searchInput = page.locator("[id=searchBox]");
+    await searchInput.fill("Test");
+    await searchInput.press("Enter");
+
+    const fallBackText = page.locator(
+      "[id=searchInterface] > div > astro-island > div > p"
+    );
+
+    await expect(fallBackText).toHaveText(
+      "Your query did not return any result"
+    );
   });
 });
