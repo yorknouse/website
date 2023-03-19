@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import prisma from "../src/prisma.js";
+import { apiSearchResponse } from "./apiSearchReponse.js";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("./");
@@ -361,14 +362,19 @@ test.describe("Featured Section", () => {
     await expect(featuredSection).toHaveCount(1);
   });
   test("Displays the category accent", async ({ page }) => {
-    const categoryAccent = page.locator("#testCategory1-section").locator(".category-text");
+    const categoryAccent = page
+      .locator("#testCategory1-section")
+      .locator(".category-text");
     await expect(categoryAccent).toHaveAttribute("href", `/testCategory1`);
     await expect(categoryAccent).toHaveText("Test");
     await expect(categoryAccent).toHaveCSS("color", "rgb(237, 179, 33)"); // Playwright doesn't support hex values for toHaveCSS.
   });
 
   test("Displays the correct number of articles", async ({ page }) => {
-    const articles = page.locator("#testCategory1-section").first().locator(".article:visible");
+    const articles = page
+      .locator("#testCategory1-section")
+      .first()
+      .locator(".article:visible");
     await expect(articles).toHaveCount(5);
   });
 
@@ -376,7 +382,9 @@ test.describe("Featured Section", () => {
     page,
     isMobile,
   }) => {
-    const articles = page.locator("#testCategory1-section").locator(".article:visible");
+    const articles = page
+      .locator("#testCategory1-section")
+      .locator(".article:visible");
     for (let i = 0; i < 5; i++) {
       const article = articles.nth(i);
 
@@ -497,5 +505,48 @@ test.describe("Muse component", () => {
       `/${museMenuCategories[1].categories_name}`
     );
     await expect(secondItemMissingButton).toHaveCount(0);
+  });
+});
+
+test.describe("Search functionality", () => {
+  test("Search interface appears on button click", async ({
+    page,
+    isMobile,
+  }) => {
+    test.skip(isMobile === true, "Skipping on mobile for now");
+
+    const searchInterface = page.locator("[id=searchInterface]");
+    const searchButton = page.locator("[id=searchBtn]");
+
+    await expect(searchInterface).toHaveClass(/invisible/);
+    await expect(searchInterface).toHaveClass(/opacity-0/);
+
+    searchButton.click();
+
+    await expect(searchInterface).not.toHaveClass(/invisible/);
+    await expect(searchInterface).not.toHaveClass(/opacity-0/);
+  });
+
+  test("Search provides results", async ({ page, isMobile }) => {
+    test.skip(isMobile === true, "Skipping on mobile for now");
+
+    await page.route("**/searchSuggestions.php", async (route) => {
+      const json = apiSearchResponse;
+      await route.fulfill({ json });
+    });
+
+    const searchButton = page.locator("[id=searchBtn]");
+
+    searchButton.click();
+
+    const searchInput = page.locator("[id=searchBox]");
+    await searchInput.fill("Test");
+    await searchInput.press("Enter");
+
+    const articles = page.locator(
+      "[id=searchInterface] > div > astro-island > div > div"
+    );
+
+    await expect(articles).toHaveCount(3);
   });
 });
