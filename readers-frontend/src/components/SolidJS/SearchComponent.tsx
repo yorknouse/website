@@ -5,6 +5,7 @@ import SearchArticle from "./SearchArticle";
 const SearchComponent: Component = () => {
   const [query, setQuery] = createSignal<string>("");
   const [articles, setArticles] = createSignal<SearchResult[]>([]);
+  const [searching, setSearching] = createSignal<boolean>(false);
   return (
     <>
       <form
@@ -12,6 +13,8 @@ const SearchComponent: Component = () => {
         class="mx-auto mb-10 mt-10 flex flex-row items-center md:mt-0"
         onSubmit={(ev) => {
           ev.preventDefault();
+          setSearching(true);
+
           const formData = new FormData();
           formData.append("searchterm", query());
 
@@ -26,10 +29,13 @@ const SearchComponent: Component = () => {
 
               if (response.result) setArticles(response.response);
               else throw new Error("Bad result from search API");
+
+              setSearching(false);
             })
             .catch((e) => {
               console.error(e);
               setArticles([]);
+              setSearching(false);
             });
         }}
       >
@@ -43,11 +49,15 @@ const SearchComponent: Component = () => {
             setQuery(ev.currentTarget.value);
           }}
         />
-        <button class="w-10 md:w-14 lg:w-20">
-          <span
-            class="iconify h-full w-full text-black"
-            data-icon="ic:sharp-search"
-          ></span>
+        <button class="relative h-10 w-10 md:h-14 md:w-14 lg:w-20 lg:h-20">
+          {searching() ? (
+            <div class="absolute h-full w-full left-2 top-0 animate-spin rounded-full border-t-2 border-l-2 border-black" />
+          ) : (
+            <span
+              class="iconify h-full w-full text-black"
+              data-icon="ic:sharp-search"
+            ></span>
+          )}
         </button>
       </form>
       <div class="flex w-full flex-col md:flex-row">
