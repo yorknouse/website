@@ -41,8 +41,7 @@ const Article: Component<ArticleProps> = (props) => {
               } rounded-xl object-cover ${props.isVertical && "mb-5"}`}
               src={props.imageUrl}
               alt="Article Thumbnail"
-              onerror={({ currentTarget }) => {
-                currentTarget.onerror = null; // Prevents loop
+              onError={({ currentTarget }) => {
                 if (currentTarget.src !== imagePlaceHolder)
                   currentTarget.src = imagePlaceHolder;
               }}

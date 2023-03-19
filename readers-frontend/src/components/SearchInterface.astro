@@ -13,7 +13,7 @@ import SearchComponent from "./SolidJS/SearchComponent";
   >
     <Icon name="ic:baseline-close" />
   </button>
-  <SearchComponent client:only/>
+  <SearchComponent client:idle />
 </div>
 
 <script>
@@ -24,31 +24,6 @@ import SearchComponent from "./SolidJS/SearchComponent";
   ) as HTMLElement;
 
   closeBtn.addEventListener("click", () => {
-    console.log("click");
     searchInterface.classList.add("invisible", "opacity-0");
   });
-  // form.addEventListener("submit", (ev) => {
-  //   ev.preventDefault();
-  //   const input = document.getElementById("searchBox") as HTMLInputElement;
-
-  //   const data = new FormData();
-  //   data.append("searchterm", input.value);
-
-  //   // TODO: perform api request with input.value
-  //   fetch("/api/searchSuggestions.php", {
-  //     method: "POST",
-  //     body: data,
-  //   })
-  //     .then(async (res) => {
-  //       if (res.status === 200) {
-  //         const response = await res.json();
-
-  //         console.log(response);
-  //       } else throw new Error(res.statusText);
-  //     })
-  //     .catch((e) => console.error(e));
-  //   // .then((res) => res.json())
-  //   // .then((response) => console.log(response))
-  //   // .catch((e) => console.error(e));
-  // });
 </script>

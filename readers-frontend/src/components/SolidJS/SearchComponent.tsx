@@ -28,6 +28,7 @@ const SearchComponent: Component = () => {
             .then(async (res) => {
               if (res.status === 200) {
                 const response: SearchResponse = await res.json();
+                console.log(response)
 
                 if (response.result) setSearchResult(response.response);
                 else setSearchResult([]);
