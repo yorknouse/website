@@ -1,9 +1,11 @@
 ---
 import { Icon } from "astro-icon";
+import Article from "./Article.astro";
+import SearchComponent from "./SolidJS/SearchComponent";
 ---
 
 <div
-  class="invisible absolute top-0 bottom-0 left-0 right-0 z-50 flex flex-col bg-whiteish-100 opacity-0 transition-opacity duration-500"
+  class="bg-whiteish-100 invisible fixed top-0 bottom-0 left-0 right-0 z-50 flex flex-col opacity-0 transition-opacity duration-500 overflow-y-scroll md:overflow-hidden"
   id="searchInterface"
 >
   <button
@@ -12,25 +14,13 @@ import { Icon } from "astro-icon";
   >
     <Icon name="ic:baseline-close" />
   </button>
-  <div class="mx-auto my-auto p-4">
-    <form id="searchForm" class="flex flex-row items-center">
-      <input
-        id="searchBox"
-        type="text"
-        class="w-min border-b-2 border-black bg-whiteish-100 outline-none sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl"
-        placeholder="What are you looking for?"
-        size="25"
-      />
-      <button class="w-10 md:w-14 lg:w-20">
-        <Icon name="ic:sharp-search" class="text-black" />
-      </button>
-    </form>
+  <div class="mx-auto my-auto w-full p-4 flex flex-col">
+    <SearchComponent client:idle />
   </div>
 </div>
 
 <script>
   const closeBtn = document.getElementById("searchCloseBtn") as HTMLElement;
-  const form = document.getElementById("searchForm") as HTMLFormElement;
   const searchInterface = document.getElementById(
     "searchInterface"
   ) as HTMLElement;
@@ -39,10 +29,62 @@ import { Icon } from "astro-icon";
     console.log("click");
     searchInterface.classList.add("invisible", "opacity-0");
   });
-  form.addEventListener("submit", (ev) => {
-    ev.preventDefault();
-    const input = document.getElementById("searchBox") as HTMLInputElement;
-
-    // TODO: perform api request with input.value
-  });
 </script>
+
+<style is:global={true}>
+  .category-text {
+    font-family: "arno-pro-display", serif;
+    font-weight: 700;
+    font-style: normal;
+  }
+  /* Article category text colour */
+  .category-color-3B82B8 {
+    color: #3b82b8;
+  }
+  .category-color-E4362D {
+    color: #e4362d;
+  }
+  .category-color-000000 {
+    color: #000000;
+  }
+  .category-color-932E6C {
+    color: #932e6c;
+  }
+  .category-color-EDB321 {
+    color: #edb321;
+  }
+  .category-color-2B4988 {
+    color: #2b4988;
+  }
+  .category-color-019940 {
+    color: #019940;
+  }
+  .category-color-797CAF {
+    color: #797caf;
+  }
+  /* Article border colour */
+  .border-color-3B82B8 {
+    border-color: #3b82b8;
+  }
+  .border-color-E4362D {
+    border-color: #e4362d;
+  }
+  .border-color-000000 {
+    border-color: #000000;
+  }
+  .border-color-932E6C {
+    border-color: #932e6c;
+  }
+  .border-color-EDB321 {
+    border-color: #edb321;
+  }
+  .border-color-2B4988 {
+    border-color: #2b4988;
+  }
+  .border-color-019940 {
+    border-color: #019940;
+  }
+  .border-color-797CAF {
+    border-color: #797caf;
+  }
+</style>

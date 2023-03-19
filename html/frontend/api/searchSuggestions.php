@@ -68,8 +68,7 @@ if (!$articles) {
 
 $output = [];
 foreach ($articles as $article) {
-    $article['url'] = $CONFIG['ROOTFRONTENDURL'] .
-        '/' . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'];
+    $article['url'] = '/' . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'];
 
     $article['image'] = $bCMS->s3URL($article['articles_thumbnail'], "medium");
 
