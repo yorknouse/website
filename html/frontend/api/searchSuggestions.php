@@ -44,7 +44,7 @@ $DBLIB->join("users", "articlesDrafts.articlesDrafts_userid=users.users_userid")
 $DBLIB->join("categories", "articles.articles_categories=categories.categories_id");
 $articles = $DBLIB->get(
     "articles",
-    3,
+    null,
     [
         "articles.articles_id",
         "articles.articles_published",
