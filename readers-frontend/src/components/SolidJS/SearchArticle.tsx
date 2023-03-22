@@ -17,12 +17,11 @@ interface SearchArticleProps {
 }
 
 const SearchArticle: Component<SearchArticleProps> = (props) => {
-  console.log(
-    "TODO: Upload placeholder image to bucket (components/SolidJS/SearchArticle.tsx)"
-  );
   const imagePlaceHolder = '"https://fakeimg.pl/640x360"';
 
-  const categoryColor = props.categoryColor ? props.categoryColor.toUpperCase() : "000000";
+  const categoryColor = props.categoryColor
+    ? props.categoryColor.toUpperCase()
+    : "000000";
 
   const border = `border-color-${categoryColor} border-t-2`;
 
@@ -71,14 +70,14 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
               </p>
             </a>
             <a class="author" href={`/author/${props.authorId}`}>
-              <p class="text-black text-sm italic 2xl:text-base">
+              <p class="text-sm italic text-black 2xl:text-base">
                 <span class={`category-color-${categoryColor}`}>By </span>
                 {props.author}
               </p>
             </a>
           </div>
           <a class="excerpt" href={props.articleUrl}>
-            <p class="text-black text-xs xl:text-sm 2xl:text-base">
+            <p class="text-xs text-black xl:text-sm 2xl:text-base">
               {props.excerpt}
             </p>
           </a>

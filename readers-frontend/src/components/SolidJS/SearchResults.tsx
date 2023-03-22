@@ -80,7 +80,12 @@ const SearchResults: Component = () => {
           </div>
         </div>
         <div class="my-4 w-full">
-          <Paginator page={page} setPage={setPage} pages={pages} />
+          <Paginator
+            page={page}
+            setPage={setPage}
+            pages={pages}
+            pagesPerPage={5}
+          />
         </div>
       </Show>
     </div>

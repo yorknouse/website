@@ -12,11 +12,10 @@ type PaginatorProps = {
   page: Accessor<number>;
   setPage: Setter<number>;
   pages: Accessor<number>;
+  pagesPerPage: number;
 };
 
 const Paginator: Component<PaginatorProps> = (props) => {
-  const maxDisplayPages = 5;
-
   const [firstPage, setFirstPage] = createSignal<number>(0);
 
   createEffect(() => {
@@ -30,7 +29,7 @@ const Paginator: Component<PaginatorProps> = (props) => {
           <button
             class="mx-auto h-16 w-16 rounded-full border-2 border-black bg-transparent"
             onClick={() =>
-              setFirstPage((fp) => Math.max(fp - maxDisplayPages, 0))
+              setFirstPage((fp) => Math.max(fp - props.pagesPerPage, 0))
             }
           >
             <span
@@ -42,7 +41,7 @@ const Paginator: Component<PaginatorProps> = (props) => {
         <For
           each={[...Array(props.pages()).keys()].slice(
             firstPage(),
-            firstPage() + maxDisplayPages
+            firstPage() + props.pagesPerPage
           )}
         >
           {(p) => (
@@ -58,15 +57,15 @@ const Paginator: Component<PaginatorProps> = (props) => {
             </button>
           )}
         </For>
-        <Show when={props.pages() - 1 - (firstPage() + maxDisplayPages) > 0}>
+        <Show when={props.pages() - 1 - (firstPage() + props.pagesPerPage) > 0}>
           <button
             class="mx-auto h-16 w-16 rounded-full border-2 border-black bg-transparent"
             onClick={() =>
               setFirstPage((fp) => {
-                if (fp + maxDisplayPages < props.pages() - 1)
-                  return fp + maxDisplayPages;
+                if (fp + props.pagesPerPage < props.pages() - 1)
+                  return fp + props.pagesPerPage;
 
-                return fp + (fp + maxDisplayPages - props.pages() - 1);
+                return fp + (fp + props.pagesPerPage - props.pages() - 1);
               })
             }
           >
