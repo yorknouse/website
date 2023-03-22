@@ -17,7 +17,7 @@ interface SearchArticleProps {
 }
 
 const SearchArticle: Component<SearchArticleProps> = (props) => {
-  const imagePlaceHolder = '"https://fakeimg.pl/640x360"';
+  const imagePlaceHolder = "https://fakeimg.pl/640x360";
 
   const categoryColor = props.categoryColor
     ? props.categoryColor.toUpperCase()

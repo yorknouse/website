@@ -1,4 +1,5 @@
 import type { SearchResponse, SearchResult } from "@components/types";
+import { createMediaQuery } from "@solid-primitives/media";
 import { Component, createSignal, For, onMount, Show } from "solid-js";
 import Paginator from "./Paginator";
 import SearchArticle from "./SearchArticle";
@@ -10,6 +11,8 @@ const SearchResults: Component = () => {
   const [query, setQuery] = createSignal<string>("");
   const [pages, setPages] = createSignal<number>(0);
   const [page, setPage] = createSignal<number>(0);
+
+  const isDesktop = createMediaQuery("(min-width: 768px)");
 
   onMount(async () => {
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -63,22 +66,50 @@ const SearchResults: Component = () => {
         </div>
       </Show>
       <Show when={articles() !== null && articles().length > 0 && !searching()}>
-        <div class="flex flex-col">
-          <h1 class="mx-auto mb-4 text-lg md:mx-0 md:text-2xl lg:text-4xl">
-            Results for &ldquo;{query()}&rdquo;
-          </h1>
-          <div class="flex w-full flex-col">
-            <For each={[0, 2, 4]}>
-              {(i) => (
-                <SearchResultRow
-                  article1={articles()[page() * 6 + i]}
-                  article2={articles()[page() * 6 + i + 1]}
-                  bottomBorder={i !== 4}
-                />
-              )}
-            </For>
+        <Show
+          when={isDesktop()}
+          fallback={
+            <div class="flex w-full flex-col">
+              <For each={[...articles().slice(page() * 6, page() * 6 + 5)]}>
+                {(article) => (
+                  <div class="my-4">
+                    <SearchArticle
+                      headline={article.articlesDrafts_headline}
+                      excerpt={article.articlesDrafts_excerpt}
+                      author={`${article.users_name1} ${article.users_name2}`}
+                      authorId={article.users_userid}
+                      category={article.categories_name}
+                      categoryColor={article.categories_backgroundColor}
+                      categoryLink={article.categories_name}
+                      imageUrl={article.image}
+                      articleUrl={article.url}
+                      isVertical={false}
+                      isPortrait={article.articles_isThumbnailPortrait}
+                      hideCategoryAccent={false}
+                    />
+                  </div>
+                )}
+              </For>
+            </div>
+          }
+        >
+          <div class="flex flex-col">
+            <h1 class="mx-auto mb-4 text-lg md:mx-0 md:text-2xl lg:text-4xl">
+              Results for &ldquo;{query()}&rdquo;
+            </h1>
+            <div class="flex w-full flex-col">
+              <For each={[0, 2, 4]}>
+                {(i) => (
+                  <SearchResultRow
+                    article1={articles()[page() * 6 + i]}
+                    article2={articles()[page() * 6 + i + 1]}
+                    bottomBorder={i !== 4}
+                  />
+                )}
+              </For>
+            </div>
           </div>
-        </div>
+        </Show>
         <div class="my-4 w-full">
           <Paginator
             page={page}
