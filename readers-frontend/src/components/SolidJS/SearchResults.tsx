@@ -1,5 +1,6 @@
 import type { SearchResponse, SearchResult } from "@components/types";
 import { Component, createSignal, For, onMount, Show } from "solid-js";
+import Paginator from "./Paginator";
 import SearchArticle from "./SearchArticle";
 import SearchResultRow from "./SeartchResultRow";
 
@@ -77,6 +78,9 @@ const SearchResults: Component = () => {
               )}
             </For>
           </div>
+        </div>
+        <div class="my-4 w-full">
+          <Paginator page={page} setPage={setPage} pages={pages} />
         </div>
       </Show>
     </div>
