@@ -21,11 +21,11 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
   const [loadingDone, setLoadingDone] = createSignal<boolean>(false);
   const imagePlaceHolder = "https://fakeimg.pl/640x360";
 
-  const categoryColor = props.categoryColor
+  const categoryColor = () => props.categoryColor
     ? props.categoryColor.toUpperCase()
     : "000000";
 
-  const border = `border-color-${categoryColor} border-t-2`;
+  const border = () => `border-color-${categoryColor()} border-t-2`;
 
   createEffect(on(props.page, () => setLoadingDone(false)));
 
@@ -67,11 +67,11 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
             props.isVertical || props.imageUrl == undefined
               ? "w-full"
               : "ml-3 h-full w-1/2"
-          } ${!props.hideCategoryAccent && border}`}
+          } ${!props.hideCategoryAccent && border()}`}
         >
           {!props.hideCategoryAccent && (
             <a
-              class={`text-l category-text category-color-${categoryColor} uppercase xl:text-xl 2xl:text-2xl`}
+              class={`text-l category-text category-color-${categoryColor()} uppercase xl:text-xl 2xl:text-2xl`}
               href={`/${props.categoryLink}`}
             >
               {props.category}
@@ -85,7 +85,7 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
             </a>
             <a class="author" href={`/author/${props.authorId}`}>
               <p class="text-sm italic text-black 2xl:text-base">
-                <span class={`category-color-${categoryColor}`}>By </span>
+                <span class={`category-color-${categoryColor()}`}>By </span>
                 {props.author}
               </p>
             </a>

@@ -11,8 +11,10 @@ const SearchResults: Component = () => {
   const [query, setQuery] = createSignal<string>("");
   const [pages, setPages] = createSignal<number>(0);
   const [page, setPage] = createSignal<number>(0);
-
   const isDesktop = createMediaQuery("(min-width: 768px)");
+
+  const articlesPerPage = 6;
+  const pagesToDisplay = 5;
 
   onMount(async () => {
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -70,7 +72,7 @@ const SearchResults: Component = () => {
           when={isDesktop()}
           fallback={
             <div class="flex w-full flex-col">
-              <For each={[...articles().slice(page() * 6, page() * 6 + 5)]}>
+              <For each={[...articles().slice(page() * articlesPerPage, page() * articlesPerPage + articlesPerPage)]}>
                 {(article) => (
                   <div class="my-4">
                     <SearchArticle
@@ -102,8 +104,8 @@ const SearchResults: Component = () => {
               <For each={[0, 2, 4]}>
                 {(i) => (
                   <SearchResultRow
-                    article1={articles()[page() * 6 + i]}
-                    article2={articles()[page() * 6 + i + 1]}
+                    article1={articles()[page() * articlesPerPage + i]}
+                    article2={articles()[page() * articlesPerPage + i + 1]}
                     bottomBorder={i !== 4}
                     page={page}
                   />
@@ -117,7 +119,7 @@ const SearchResults: Component = () => {
             page={page}
             setPage={setPage}
             pages={pages}
-            pagesPerPage={5}
+            pagesToDisplay={pagesToDisplay}
           />
         </div>
       </Show>
