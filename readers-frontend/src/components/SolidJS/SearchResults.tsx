@@ -86,6 +86,7 @@ const SearchResults: Component = () => {
                       isVertical={false}
                       isPortrait={article.articles_isThumbnailPortrait}
                       hideCategoryAccent={false}
+                      page={page}
                     />
                   </div>
                 )}
@@ -104,6 +105,7 @@ const SearchResults: Component = () => {
                     article1={articles()[page() * 6 + i]}
                     article2={articles()[page() * 6 + i + 1]}
                     bottomBorder={i !== 4}
+                    page={page}
                   />
                 )}
               </For>

@@ -1,11 +1,12 @@
 import type { SearchResult } from "@components/types";
-import { Component, Show } from "solid-js";
+import { Accessor, Component, Show } from "solid-js";
 import SearchArticle from "./SearchArticle";
 
 type SearchResultRowProps = {
   article1: SearchResult;
   article2: SearchResult;
   bottomBorder: boolean;
+  page: Accessor<number>;
 };
 
 const SearchResultRow: Component<SearchResultRowProps> = (props) => {
@@ -31,13 +32,14 @@ const SearchResultRow: Component<SearchResultRowProps> = (props) => {
               isVertical={false}
               isPortrait={props.article1.articles_isThumbnailPortrait}
               hideCategoryAccent={false}
+              page={props.page}
             />
           </div>
         </Show>
       </div>
       <span class="absolute left-1/2 top-2 bottom-2 -translate-x-1/2 border-[1px] border-gray-300" />
       <div class="w-1/2">
-        <Show when={props.article1}>
+        <Show when={props.article2}>
           <div class="ml-4">
             <SearchArticle
               headline={props.article2.articlesDrafts_headline}
@@ -52,6 +54,7 @@ const SearchResultRow: Component<SearchResultRowProps> = (props) => {
               isVertical={false}
               isPortrait={props.article2.articles_isThumbnailPortrait}
               hideCategoryAccent={false}
+              page={props.page}
             />
           </div>
         </Show>

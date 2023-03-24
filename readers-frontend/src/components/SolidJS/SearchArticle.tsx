@@ -1,4 +1,4 @@
-import type { Component } from "solid-js";
+import { Accessor, Component, createEffect, createSignal, on } from "solid-js";
 
 interface SearchArticleProps {
   headline: string;
@@ -14,9 +14,11 @@ interface SearchArticleProps {
   isPortrait: boolean; // Defines if the image is portrait or landscape
   hideCategoryAccent?: boolean;
   textColour?: string;
+  page: Accessor<number>;
 }
 
 const SearchArticle: Component<SearchArticleProps> = (props) => {
+  const [loadingDone, setLoadingDone] = createSignal<boolean>(false);
   const imagePlaceHolder = "https://fakeimg.pl/640x360";
 
   const categoryColor = props.categoryColor
@@ -25,14 +27,25 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
 
   const border = `border-color-${categoryColor} border-t-2`;
 
+  createEffect(on(props.page, () => setLoadingDone(false)));
+
   return (
     <div class="article h-full overflow-hidden text-ellipsis">
       <div class={`flex ${props.isVertical ? "flex-col" : "flex-row"}`}>
         {props.imageUrl && (
           <a
-            class={`image-link ${props.isVertical ? "w-full" : "h-full w-1/2"}`}
+            class={`image-link relative ${
+              props.isVertical ? "w-full" : "h-full w-1/2"
+            }`}
             href={props.articleUrl}
           >
+            <div
+              class={`absolute flex flex-col top-0 left-0 h-full w-full bg-whiteish-100 ${
+                loadingDone() && "hidden"
+              }`}
+            >
+               <div class="h-10 w-10 animate-spin rounded-full border-t-2 border-l-2 border-black m-auto" />
+            </div>
             <img
               class={`${
                 props.isPortrait
@@ -45,6 +58,7 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
                 if (currentTarget.src !== imagePlaceHolder)
                   currentTarget.src = imagePlaceHolder;
               }}
+              onLoad={() => setLoadingDone(true)}
             />
           </a>
         )}
