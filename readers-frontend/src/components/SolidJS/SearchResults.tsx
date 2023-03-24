@@ -68,11 +68,21 @@ const SearchResults: Component = () => {
         </div>
       </Show>
       <Show when={articles() !== null && articles().length > 0 && !searching()}>
-        <Show
-          when={isDesktop()}
-          fallback={
-            <div class="flex w-full flex-col">
-              <For each={[...articles().slice(page() * articlesPerPage, page() * articlesPerPage + articlesPerPage)]}>
+        <div class="flex  w-full flex-col">
+          <h1 class="mx-auto mb-4 text-lg md:mx-0 md:text-2xl lg:text-4xl">
+            Results for &ldquo;{query()}&rdquo;
+          </h1>
+          <Show
+            when={isDesktop()}
+            fallback={
+              <For
+                each={[
+                  ...articles().slice(
+                    page() * articlesPerPage,
+                    page() * articlesPerPage + articlesPerPage
+                  ),
+                ]}
+              >
                 {(article) => (
                   <div class="my-4">
                     <SearchArticle
@@ -93,27 +103,20 @@ const SearchResults: Component = () => {
                   </div>
                 )}
               </For>
-            </div>
-          }
-        >
-          <div class="flex flex-col">
-            <h1 class="mx-auto mb-4 text-lg md:mx-0 md:text-2xl lg:text-4xl">
-              Results for &ldquo;{query()}&rdquo;
-            </h1>
-            <div class="flex w-full flex-col">
-              <For each={[0, 2, 4]}>
-                {(i) => (
-                  <SearchResultRow
-                    article1={articles()[page() * articlesPerPage + i]}
-                    article2={articles()[page() * articlesPerPage + i + 1]}
-                    bottomBorder={i !== 4}
-                    page={page}
-                  />
-                )}
-              </For>
-            </div>
-          </div>
-        </Show>
+            }
+          >
+            <For each={[0, 2, 4]}>
+              {(i) => (
+                <SearchResultRow
+                  article1={articles()[page() * articlesPerPage + i]}
+                  article2={articles()[page() * articlesPerPage + i + 1]}
+                  bottomBorder={i !== 4}
+                  page={page}
+                />
+              )}
+            </For>
+          </Show>
+        </div>
         <div class="my-4 w-full">
           <Paginator
             page={page}
