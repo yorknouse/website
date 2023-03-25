@@ -7,9 +7,10 @@ import { getMainArticleCategory } from "./utils/categories";
 
 interface Props {
   featuredArticlesIds: number[] | undefined;
+  hideCategoryAccent?: boolean;
 }
 
-const { featuredArticlesIds} = Astro.props;
+const { featuredArticlesIds, hideCategoryAccent} = Astro.props;
 
 // Get featured articles
 const featuredArticles: articlesWithArticleDrafts[] = await getArticles(featuredArticlesIds)
@@ -48,6 +49,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
         <div class="w-1/2">
@@ -63,6 +65,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
       </div>
@@ -83,6 +86,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
             articleUrl={`/${article.articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${article.articles_slug}`}
             isVertical={true}
             isPortrait={false}
+            hideCategoryAccent={hideCategoryAccent}
             />
           </div>
         ))}
@@ -102,6 +106,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           articleUrl={`/${featuredArticles[2].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[2].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
         <div class="w-1/2">
@@ -117,6 +122,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           articleUrl={`/${featuredArticles[3].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[3].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
       </div>}
@@ -137,6 +143,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
         <hr class="w-full self-center border-[1px] border-gray-300 my-2.5" />
@@ -153,6 +160,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
       </div>
@@ -169,6 +177,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           articleUrl={`/${featuredArticles[2].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[2].articles_slug}`}
           isVertical={true}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
     </div>}
@@ -187,6 +196,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
         articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
         isVertical={true}
         isPortrait={false}
+        hideCategoryAccent={hideCategoryAccent}
         />
       </div>
       <div class="max-w-[50%]">
@@ -202,6 +212,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
           isVertical={true}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
     </div>}
@@ -219,6 +230,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
       articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
       isVertical={false}
       isPortrait={false}
+      hideCategoryAccent={hideCategoryAccent}
       />
     </div>}
   </div>}
@@ -240,6 +252,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
         imageUrl={await getArticleImage(featuredArticles[0])}
         articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
         isPortrait={true}
+        hideCategoryAccent={hideCategoryAccent}
         />
       </div>
       {/* More than 2 Articles */}
@@ -257,6 +270,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
         <hr class="w-full self-center border-[1px] border-gray-300 my-2.5" />
@@ -273,6 +287,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           articleUrl={`/${featuredArticles[2].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[2].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
         {/* 4 articles */}
@@ -291,6 +306,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
             articleUrl={`/${featuredArticles[3].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[3].articles_slug}`}
             isVertical={false}
             isPortrait={false}
+            hideCategoryAccent={hideCategoryAccent}
             />
           </div>
         }
@@ -310,6 +326,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
         articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
         isVertical={true}
         isPortrait={false}
+        hideCategoryAccent={hideCategoryAccent}
         />
       </div>}
     </div>}
@@ -330,6 +347,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           articleUrl={`/${featuredArticles[3].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[3].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
         <div class="w-1/2">
@@ -345,6 +363,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           articleUrl={`/${featuredArticles[4].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[4].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
       </div>
@@ -367,6 +386,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
               articleUrl={`/${article.articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${article.articles_slug}`}
               isVertical={true}
               isPortrait={false}
+              hideCategoryAccent={hideCategoryAccent}
               />
             </div>
           ))}
@@ -386,6 +406,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
       imageUrl={await getArticleImage(featuredArticles[0])}
       articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
       isPortrait={true}
+      hideCategoryAccent={hideCategoryAccent}
       />
     </div>}
   </div>}
@@ -417,6 +438,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           .replaceAll("-", "/")}/${article.articles_slug}`}
         isVertical={index == 0}
         isPortrait={article.articles_isThumbnailPortrait}
+        hideCategoryAccent={hideCategoryAccent}
       />
     </div>
   ))}

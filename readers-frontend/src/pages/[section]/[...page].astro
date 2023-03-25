@@ -1,0 +1,173 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import prisma from "../../prisma";
+import FeaturedArticles from "@components/FeaturedArticles.astro";
+import Article from "@components/Article.astro";
+import {
+  articlesWithArticleDrafts,
+  getArticleImage,
+} from "@components/utils/articles";
+
+export async function getStaticPaths({ paginate }: any) {
+  const categories = await prisma.categories.findMany({
+    where: {
+      categories_showPublic: true,
+      categories_nestUnder: null,
+    },
+    include: {
+      articles: {
+        orderBy: [
+          {
+            article: {
+              articles_editionPage: "asc",
+            },
+          },
+          {
+            article: {
+              articles_published: "desc",
+            },
+          }
+        ],
+        include: {
+          article: {
+            include: {
+              articlesDrafts: {
+                orderBy: {
+                  articlesDrafts_timestamp: "desc",
+                },
+                take: 1,
+                include: {
+                  // Get the user who wrote the article
+                  users: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+  return await Promise.all(
+    categories.map(async (category) => {
+      return paginate(
+        category.articles
+          .filter((articles) => !category?.categories_featured?.split(",")
+            .map(Number).includes(articles.article.articles_id))
+          .map((articles) => articles.article)
+          .reduce(
+            (
+              accumulator: articlesWithArticleDrafts[][],
+              currentValue,
+              currentIndex,
+              array: articlesWithArticleDrafts[]
+            ) => {
+              if (currentIndex % 2 === 0) {
+                accumulator.push(array.slice(currentIndex, currentIndex + 2));
+              }
+              return accumulator;
+            },
+            []
+          ),
+        {
+          params: { section: category.categories_name },
+          props: {
+            category: category,
+          },
+          pageSize: 25,
+        }
+      );
+    })
+  );
+}
+const { section } = Astro.params;
+const { page, category } = Astro.props;
+---
+
+<Layout title="Welcome to Astro." active={section} style="nouse">
+  <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
+    <div class="featured-articles">
+      <FeaturedArticles
+        featuredArticlesIds={category.categories_featured
+          ?.split(",")
+          .map(Number)}
+        hideCategoryAccent={true}
+      />
+    </div>
+    <hr class="w-full self-center border-[1px] border-gray-300 my-2.5" />
+    {
+      page.data.map(
+        async (articles: articlesWithArticleDrafts[], index: number) => {
+          return (
+            <div class="flex max-h-52 max-w-full gap-2.5">
+              <div
+                class={`w-1/2 pr-2.5 ${
+                  articles[1] && "border-r-2 border-gray-300"
+                }`}
+              >
+                <Article
+                  headline={
+                    articles[0].articlesDrafts[0].articlesDrafts_headline
+                  }
+                  excerpt={
+                    articles[0].articlesDrafts[0].articlesDrafts_excerpt
+                  }
+                  author={
+                    articles[0].articlesDrafts[0].users?.users_name1 +
+                    " " +
+                    articles[0].articlesDrafts[0].users?.users_name2
+                  }
+                  authorId={articles[0].articlesDrafts[0].users?.users_userid}
+                  category={category?.categories_displayName}
+                  categoryLink={category?.categories_name}
+                  categoryColor={"#" + category?.categories_backgroundColor}
+                  imageUrl={await getArticleImage(articles[0])}
+                  articleUrl={`/${articles[0].articles_published
+                    ?.toISOString()
+                    .substring(0, 10)
+                    .replaceAll("-", "/")}/${articles[0].articles_slug}`}
+                  isVertical={false}
+                  isPortrait={false}
+                  hideCategoryAccent={true}
+                />
+              </div>
+              {articles[1] && (
+                <div class="w-1/2">
+                  <Article
+                    headline={
+                      articles[1].articlesDrafts[0].articlesDrafts_headline
+                    }
+                    excerpt={
+                      articles[1].articlesDrafts[0].articlesDrafts_excerpt
+                    }
+                    author={
+                      articles[1].articlesDrafts[0].users?.users_name1 +
+                      " " +
+                      articles[1].articlesDrafts[0].users?.users_name2
+                    }
+                    authorId={
+                      articles[1].articlesDrafts[0].users?.users_userid
+                    }
+                    category={category?.categories_displayName}
+                    categoryLink={category?.categories_name}
+                    categoryColor={"#" + category?.categories_backgroundColor}
+                    imageUrl={await getArticleImage(articles[1])}
+                    articleUrl={`/${articles[1].articles_published
+                      ?.toISOString()
+                      .substring(0, 10)
+                      .replaceAll("-", "/")}/${articles[1].articles_slug}`}
+                    isVertical={false}
+                    isPortrait={false}
+                    hideCategoryAccent={true}
+                  />
+                </div>
+              )}
+            </div>
+            <>
+              {index != (0 || 24) && <hr class="w-full self-center border-[1px] border-gray-300 my-2.5" />} 
+            </>
+          );
+        }
+      )
+    }
+  </div>
+</Layout>
