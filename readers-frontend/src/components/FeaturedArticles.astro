@@ -8,9 +8,10 @@ import { getMainArticleCategory } from "./utils/categories";
 interface Props {
   featuredArticlesIds: number[] | undefined;
   hideCategoryAccent?: boolean;
+  style: "nouse" | "muse";
 }
 
-const { featuredArticlesIds, hideCategoryAccent} = Astro.props;
+const { featuredArticlesIds, hideCategoryAccent, style} = Astro.props;
 
 // Get featured articles
 const featuredArticles: articlesWithArticleDrafts[] = await getArticles(featuredArticlesIds)
@@ -27,7 +28,7 @@ if (hasPortraitArticles) {
 }
 
 // Get the main categories for each article
-const mainCategories: (categories | null)[] = await Promise.all(featuredArticles.map(article => getMainArticleCategory(article.articles_categories.split(',').map(Number))))
+const mainCategories: (categories | null)[] = await Promise.all(featuredArticles.map(article => getMainArticleCategory(article.articles_categories.split(',').map(Number), style)))
 ---
 {/* Desktop */}
 <div class="hidden sm:flex">
