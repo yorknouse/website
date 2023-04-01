@@ -62,13 +62,16 @@ const SearchResults: Component = () => {
         when={(articles() === null || articles().length === 0) && !searching()}
       >
         <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <p class="text-center font-arno text-lg md:text-2xl lg:text-4xl">
+          <p
+            class="text-center font-arno text-lg md:text-2xl lg:text-4xl"
+            id="searchFallback"
+          >
             We couldn't find anything for &ldquo;{query()}&rdquo;
           </p>
         </div>
       </Show>
       <Show when={articles() !== null && articles().length > 0 && !searching()}>
-        <div class="flex  w-full flex-col">
+        <div class="flex  w-full flex-col" id="searchResults_container">
           <h1 class="mx-auto mb-4 text-lg md:mx-0 md:text-2xl lg:text-4xl">
             Results for &ldquo;{query()}&rdquo;
           </h1>
@@ -83,8 +86,13 @@ const SearchResults: Component = () => {
                   ),
                 ]}
               >
-                {(article) => (
-                  <div class="my-4">
+                {(article, i) => (
+                  <div
+                    class={`mt-4 ${
+                      i() !== articlesPerPage - 1 &&
+                      "border-b-2 border-gray-300"
+                    } pb-4`}
+                  >
                     <SearchArticle
                       headline={article.articlesDrafts_headline}
                       excerpt={article.articlesDrafts_excerpt}
@@ -107,17 +115,19 @@ const SearchResults: Component = () => {
           >
             <For each={[0, 2, 4]}>
               {(i) => (
-                <SearchResultRow
-                  article1={articles()[page() * articlesPerPage + i]}
-                  article2={articles()[page() * articlesPerPage + i + 1]}
-                  bottomBorder={i !== 4}
-                  page={page}
-                />
+                <Show when={articles().length >= page() * articlesPerPage + i}>
+                  <SearchResultRow
+                    article1={articles()[page() * articlesPerPage + i]}
+                    article2={articles()[page() * articlesPerPage + i + 1]}
+                    bottomBorder={i !== 4}
+                    page={page}
+                  />
+                </Show>
               )}
             </For>
           </Show>
         </div>
-        <div class="my-4 w-full">
+        <div class="my-4 w-full" id="paginator_container">
           <Paginator
             page={page}
             setPage={setPage}
