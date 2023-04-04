@@ -19,7 +19,8 @@ interface SearchArticleProps {
 
 const SearchArticle: Component<SearchArticleProps> = (props) => {
   const [loadingDone, setLoadingDone] = createSignal<boolean>(false);
-  const imagePlaceHolder = "https://fakeimg.pl/640x360";
+  const imagePlaceHolder =
+    "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg";
 
   const categoryColor = () =>
     props.categoryColor ? props.categoryColor.toUpperCase() : "000000";
