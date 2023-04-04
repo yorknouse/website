@@ -18,7 +18,8 @@ type SearchResultRowProps = {
 
 const SearchResultRow: Component<SearchResultRowProps> = (props) => {
   const [hasLastArticle, setHasLastArticle] = createSignal<boolean>(false);
-  createRenderEffect(() => { // This runs prior to laying DOM down
+  createRenderEffect(() => {
+    // This runs prior to laying DOM down
     if (props.lastArticle) {
       if (props.article1) {
         if (props.lastArticle.articles_slug === props.article1.articles_slug)
@@ -31,59 +32,63 @@ const SearchResultRow: Component<SearchResultRowProps> = (props) => {
     }
   });
   return (
-    <div
-      class={`relative flex w-full flex-row ${
-        props.bottomBorder && !hasLastArticle() && "border-b-2 border-gray-300"
-      } mt-2 pb-2`}
-    >
-      <div class="w-1/2">
-        <Show when={props.article1} keyed>
-          {(article) => (
-            <div class="mr-4">
-              <SearchArticle
-                headline={article.articlesDrafts_headline}
-                excerpt={article.articlesDrafts_excerpt}
-                author={`${article.users_name1} ${article.users_name2}`}
-                authorId={article.users_userid}
-                category={article.categories_name}
-                categoryColor={article.categories_backgroundColor}
-                categoryLink={article.categories_name}
-                imageUrl={article.image}
-                articleUrl={article.url}
-                isVertical={false}
-                isPortrait={article.articles_isThumbnailPortrait}
-                hideCategoryAccent={false}
-                page={props.page}
-              />
-            </div>
-          )}
-        </Show>
+    <Show when={props.article1 || props.article2}>
+      <div
+        class={`relative flex w-full flex-row ${
+          props.bottomBorder &&
+          !hasLastArticle() &&
+          "border-b-2 border-gray-300"
+        } mt-2 pb-2`}
+      >
+        <div class="w-1/2">
+          <Show when={props.article1} keyed>
+            {(article) => (
+              <div class="mr-4">
+                <SearchArticle
+                  headline={article.articlesDrafts_headline}
+                  excerpt={article.articlesDrafts_excerpt}
+                  author={`${article.users_name1} ${article.users_name2}`}
+                  authorId={article.users_userid}
+                  category={article.categories_name}
+                  categoryColor={article.categories_backgroundColor}
+                  categoryLink={article.categories_name}
+                  imageUrl={article.image}
+                  articleUrl={article.url}
+                  isVertical={false}
+                  isPortrait={article.articles_isThumbnailPortrait}
+                  hideCategoryAccent={false}
+                  page={props.page}
+                />
+              </div>
+            )}
+          </Show>
+        </div>
+        <span class="absolute left-1/2 top-2 bottom-2 -translate-x-1/2 border-[1px] border-gray-300" />
+        <div class="w-1/2">
+          <Show when={props.article2} keyed>
+            {(article) => (
+              <div class="ml-4">
+                <SearchArticle
+                  headline={article.articlesDrafts_headline}
+                  excerpt={article.articlesDrafts_excerpt}
+                  author={`${article.users_name1} ${article.users_name2}`}
+                  authorId={article.users_userid}
+                  category={article.categories_name}
+                  categoryColor={article.categories_backgroundColor}
+                  categoryLink={article.categories_name}
+                  imageUrl={article.image}
+                  articleUrl={article.url}
+                  isVertical={false}
+                  isPortrait={article.articles_isThumbnailPortrait}
+                  hideCategoryAccent={false}
+                  page={props.page}
+                />
+              </div>
+            )}
+          </Show>
+        </div>
       </div>
-      <span class="absolute left-1/2 top-2 bottom-2 -translate-x-1/2 border-[1px] border-gray-300" />
-      <div class="w-1/2">
-        <Show when={props.article2} keyed>
-          {(article) => (
-            <div class="ml-4">
-              <SearchArticle
-                headline={article.articlesDrafts_headline}
-                excerpt={article.articlesDrafts_excerpt}
-                author={`${article.users_name1} ${article.users_name2}`}
-                authorId={article.users_userid}
-                category={article.categories_name}
-                categoryColor={article.categories_backgroundColor}
-                categoryLink={article.categories_name}
-                imageUrl={article.image}
-                articleUrl={article.url}
-                isVertical={false}
-                isPortrait={article.articles_isThumbnailPortrait}
-                hideCategoryAccent={false}
-                page={props.page}
-              />
-            </div>
-          )}
-        </Show>
-      </div>
-    </div>
+    </Show>
   );
 };
 
