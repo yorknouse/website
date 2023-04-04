@@ -19,7 +19,12 @@ const Paginator: Component<PaginatorProps> = (props) => {
   const [firstPage, setFirstPage] = createSignal<number>(0);
 
   createEffect(() => {
-    if (props.page() % 5 !== 0) setFirstPage(props.page() - (props.page() % 5));
+    // This maps the first page so that they are always displayed in groups of
+    // `pagesToDisplay`. Say pagesToDisplay = 5. If you are on page 2
+    // firstPage is gonna be 1. Last page is 5.
+    // If youy are on page 9, first page is 6 and last is 10. And so on.
+    if (props.page() % props.pagesToDisplay !== 0)
+      setFirstPage(props.page() - (props.page() % props.pagesToDisplay));
     else setFirstPage(props.page());
   });
   return (

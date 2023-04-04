@@ -3,10 +3,11 @@ import { createMediaQuery } from "@solid-primitives/media";
 import { Component, createSignal, For, onMount, Show } from "solid-js";
 import Paginator from "./Paginator";
 import SearchArticle from "./SearchArticle";
-import SearchResultRow from "./SeartchResultRow";
+import SearchResultRow from "./SearchResultRow";
 
 const SearchResults: Component = () => {
   const [articles, setArticles] = createSignal<SearchResult[]>([]);
+  const [lastArticle, setLastArticle] = createSignal<SearchResult>();
   const [searching, setSearching] = createSignal<boolean>(true);
   const [query, setQuery] = createSignal<string>("");
   const [pages, setPages] = createSignal<number>(0);
@@ -39,8 +40,9 @@ const SearchResults: Component = () => {
           const response: SearchResponse = await res.json();
 
           if (response.result) {
+            setLastArticle(response.response[response.response.length - 1]);
             setArticles(response.response);
-            setPages(Math.ceil(response.response.length / 6));
+            setPages(Math.ceil(response.response.length / articlesPerPage));
             setPage(0);
           } else throw new Error("Bad result from search API");
         })
@@ -90,6 +92,7 @@ const SearchResults: Component = () => {
                   <div
                     class={`mt-4 ${
                       i() !== articlesPerPage - 1 &&
+                      article.articles_slug !== lastArticle()?.articles_slug &&
                       "border-b-2 border-gray-300"
                     } pb-4`}
                   >
@@ -121,6 +124,7 @@ const SearchResults: Component = () => {
                     article2={articles()[page() * articlesPerPage + i + 1]}
                     bottomBorder={i !== 4}
                     page={page}
+                    lastArticle={lastArticle()}
                   />
                 </Show>
               )}

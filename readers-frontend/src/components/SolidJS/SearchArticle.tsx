@@ -21,9 +21,8 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
   const [loadingDone, setLoadingDone] = createSignal<boolean>(false);
   const imagePlaceHolder = "https://fakeimg.pl/640x360";
 
-  const categoryColor = () => props.categoryColor
-    ? props.categoryColor.toUpperCase()
-    : "000000";
+  const categoryColor = () =>
+    props.categoryColor ? props.categoryColor.toUpperCase() : "000000";
 
   const border = () => `border-color-${categoryColor()} border-t-2`;
 
@@ -32,7 +31,7 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
   return (
     <div class="article h-full overflow-hidden text-ellipsis">
       <div class={`flex ${props.isVertical ? "flex-col" : "flex-row"}`}>
-        {props.imageUrl && (
+        {props.imageUrl ? (
           <a
             class={`image-link relative ${
               props.isVertical ? "w-full" : "h-full w-1/2"
@@ -40,11 +39,11 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
             href={props.articleUrl}
           >
             <div
-              class={`absolute flex flex-col top-0 left-0 h-full w-full bg-whiteish-100 ${
+              class={`absolute top-0 left-0 flex h-full w-full flex-col bg-whiteish-100 ${
                 loadingDone() && "hidden"
               }`}
             >
-               <div class="h-10 w-10 animate-spin rounded-full border-t-2 border-l-2 border-black m-auto" />
+              <div class="m-auto h-10 w-10 animate-spin rounded-full border-t-2 border-l-2 border-black" />
             </div>
             <img
               class={`${
@@ -59,6 +58,23 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
                   currentTarget.src = imagePlaceHolder;
               }}
               onLoad={() => setLoadingDone(true)}
+            />
+          </a>
+        ) : (
+          <a
+            class={`image-link relative ${
+              props.isVertical ? "w-full" : "h-full w-1/2"
+            }`}
+            href={props.articleUrl}
+          >
+            <img
+              class={`${
+                props.isPortrait
+                  ? "aspect-{9/16} h-full"
+                  : "aspect-video w-full"
+              } rounded-xl object-cover ${props.isVertical && "mb-5"}`}
+              src={imagePlaceHolder}
+              alt="Article Thumbnail"
             />
           </a>
         )}
