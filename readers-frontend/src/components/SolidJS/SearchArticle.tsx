@@ -22,10 +22,7 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
   const imagePlaceHolder =
     "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg";
 
-  const categoryColor = () =>
-    props.categoryColor ? props.categoryColor.toUpperCase() : "000000";
-
-  const border = () => `border-color-${categoryColor()} border-t-2`;
+  const border = () => `border-color-${props.category} border-t-2`;
 
   createEffect(on(props.page, () => setLoadingDone(false)));
 
@@ -88,7 +85,7 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
         >
           {!props.hideCategoryAccent && (
             <a
-              class={`text-l category-text category-color-${categoryColor()} uppercase xl:text-xl 2xl:text-2xl`}
+              class={`text-l category-text category-color-${props.category} uppercase xl:text-xl 2xl:text-2xl`}
               href={`/${props.categoryLink}`}
             >
               {props.category}
@@ -102,7 +99,7 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
             </a>
             <a class="author" href={`/author/${props.authorId}`}>
               <p class="text-sm italic text-black 2xl:text-base">
-                <span class={`category-color-${categoryColor()}`}>By </span>
+                <span class={`category-color-${props.category}`}>By </span>
                 {props.author}
               </p>
             </a>
