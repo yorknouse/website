@@ -14,7 +14,7 @@ const { category } = Astro.props;
 const articles: articlesWithArticleDrafts[] = await getArticles(
   category.categories_featured?.split(",").map(Number)
 );
-const categoryColor = "#" + category.categories_backgroundColor;
+const categoryColor = category.categories_backgroundColor;
 ---
 
 <style define:vars={{ categoryColor }}>

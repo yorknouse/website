@@ -10,6 +10,7 @@ export const getMenuCategories = async (
     menuCategories = await prisma.categories.findMany({
       where: {
         categories_showMenu: true,
+        categories_showPublic: true,
         categories_nestUnder: null,
       },
     });
@@ -47,6 +48,7 @@ export const getMenuCategories = async (
     menuCategories = await prisma.categories.findMany({
       where: {
         categories_showMenu: true,
+        categories_showPublic: true,
         categories_nestUnder: 4, // Muse
       },
     });
@@ -92,7 +94,8 @@ export const getMenuCategories = async (
 };
 
 export const getMainArticleCategory = async (
-  categoryIds: number[] | undefined
+  categoryIds: number[] | undefined,
+  style: "nouse" | "muse"
 ): Promise<categories | null> => {
   return await prisma.categories.findFirst({
     where: {
@@ -100,9 +103,11 @@ export const getMainArticleCategory = async (
         in: categoryIds,
       },
       categories_showHome: true,
+      categories_showPublic: true,
       categories_backgroundColor: {
         not: null,
       },
+      categories_nestUnder: style === "nouse" ? null : 4,
     },
   });
 };

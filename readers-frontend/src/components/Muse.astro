@@ -32,7 +32,7 @@ const articles = new Map<string, articlesWithArticlesDraftAndLink[]>();
 
 for (let i = 0; i < museMenuCategories.length; i++) {
   const featuredArticles = museMenuCategories[i]
-    .categories_featured!.split(",")
+    .categories_featured?.split(",")
     .map(Number);
 
   const articlesList = (await getArticles(featuredArticles)).slice(0, 4);
