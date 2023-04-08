@@ -661,6 +661,6 @@ INSERT INTO `categories` (`categories_id`, `categories_showHome`, `categories_di
 ('3623', '0', 'National Sport', '1', 'national-sport', '1', '1', NULL, NULL, '7', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('3624', '0', 'Poetry', '1', 'poetry', '1', '1', NULL, NULL, '3618', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('3625', '0', 'Prose', '1', 'prose', '1', '1', NULL, NULL, '3618', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-('3626', '0', 'Interviews', '1', 'fashion-interviews', '1', '1', NULL, NULL, '168', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+('3626', '0', 'Interviews', '1', 'features-interviews', '1', '1', NULL, NULL, '8', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('3627', '0', 'Eating locally', '1', 'eating-locally', '1', '1', NULL, NULL, '169', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 ('3628', '0', 'Music Interviews', '1', 'music-interviews', '1', '1', NULL, NULL, '24', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
