@@ -12,7 +12,7 @@ const { active, style = "nouse" } = Astro.props;
 const baseUrl =
   style === "nouse"
     ? import.meta.env.BASE_URL
-    : `${import.meta.env.BASE_URL}muse`;
+    : `${import.meta.env.BASE_URL}muse/`;
 
 const menuCategories = await getMenuCategories(style);
 ---
@@ -52,8 +52,8 @@ const menuCategories = await getMenuCategories(style);
               href={
                 menuItem.categories_name !== "home"
                   ? `${
-                      menuItem.categories_name === "nouse"
-                        ? import.meta.env.BASE_URL
+                      menuItem.categories_name === "nouse" || menuItem.categories_name === "muse"
+                        ? baseUrl
                         : `${baseUrl + menuItem.categories_name}`
                     }`
                   : baseUrl
