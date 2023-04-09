@@ -183,16 +183,16 @@ export const getCategories = async (
 
 /**
  * Paginates a category
- * @param {categoriesWithArticles} category The parent or main category to paginate.
- * @param {categoriesWithArticles} subCategory The subcategory to paginate.
- * @param {number} paginationOffset The offset to start at.
- * Note: If subCategory is provided, subCategory is paginated with respect to category being the parent.
+ * @param {categoriesWithArticles} category The main category to paginate.
+ * @param {string} prefix A url prefix to prepend to the category name.
+ * if prefix is not provided, the category param is set to the category name and path param is set to the page number.
+ * if prefix is provided, the category param is set to the prefix and path param is set to the category name and page number.
  * @returns {any} Promise object represents the articles.
  */
 export const paginateCategory = (
   category: categoriesWithArticles,
-  subCategory?: categoriesWithArticles,
-  paginationOffset: number = 0
+  rowCount: number,
+  prefix?: string
 ): any => {
   // Split articles into rows of 2
   const articleRows = category.articles
@@ -219,56 +219,42 @@ export const paginateCategory = (
       []
     );
 
-  const paginatedResult = [];
-  for (let i = 0; i < Math.ceil(articleRows.length / 15); i++) {
-    const start = i * 15;
-    const end = start + 15;
-    const pageNumber = i + paginationOffset + 1;
-    if (subCategory) {
-      // Paginates the subcategory
-      paginatedResult.push({
-        params: {
-          category: category.categories_name,
-          path: `${subCategory.categories_name}${
-            pageNumber == 1 ? "" : `/${pageNumber}`
-          }`,
-        },
-        props: {
-          title: subCategory.categories_displayName,
-          category: subCategory,
-          style: category.categories_nestUnder === 4 ? "muse" : "nouse",
-          page: {
-            data: articleRows.slice(start, end),
-            currentPage: pageNumber,
-          } as Page,
-        },
-      });
-    } else {
-      paginatedResult.push({
-        // Paginates the top level category
-        params: {
-          category: category.categories_name,
-          path: pageNumber == 1 ? undefined : pageNumber,
-        },
-        props: {
-          title: category.categories_displayName,
-          category: category,
-          style:
-            category.categories_nestUnder === 4 ||
-            category.categories_name === "muse"
-              ? "muse"
-              : "nouse",
-          page: {
-            data: articleRows.slice(start, end),
-            currentPage: pageNumber,
-          } as Page,
-        },
-      });
-    }
+  const paginatedResult = []; // Array of objects containing the params and props for each page
+
+  // Muse has a custom landing page where only featured sections are shown
+  // As such, we need to add an additional page to the pagination just for the muse landing page
+  const totalPageCount = category.categories_name === "muse" ? Math.ceil(articleRows.length / rowCount) + 1 : Math.ceil(articleRows.length / 15);
+  for (let i = 0; i < Math.ceil(articleRows.length / rowCount); i++) {
+    const start = i * rowCount;
+    const end = start + rowCount;
+    paginatedResult.push({
+      params: {
+        category: prefix ? prefix : category.categories_name,
+        path: prefix
+          ? `${category.categories_name}${
+              i == 0 ? "" : `/${i + 1}`
+            }`
+          : (i == 0 ? undefined : i + 1),
+      },
+      props: {
+        title: category.categories_displayName,
+        category: category,
+        style:
+          category.categories_nestUnder === 4 ||
+          category.categories_name === "muse"
+            ? "muse"
+            : "nouse",
+        paginatorPrefix: prefix ? `${prefix}/${category.categories_name}` : category.categories_name,
+        page: {
+          data: (category.categories_name === "muse" && i === 0) ? [] : articleRows.slice(start, end),
+          currentPage: i,
+          total: totalPageCount,
+        } as Page,
+      },
+    });
   }
   return paginatedResult;
 };
-
 // Construct nested items map - saved for later
 // let nestedItems = menuCategories.reduce((accumulator, category, _) => {
 //   const parent = category.categories_nestUnder;
