@@ -31,8 +31,8 @@ const {
   textColour = "#000",
 } = Astro.props;
 
-// TODO: Upload placeholder image to bucket (components/Article.astro)
-const imagePlaceHolder = '"https://fakeimg.pl/640x360"';
+const imagePlaceHolder =
+  '"https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg"';
 ---
 
 <style define:vars={{ categoryColor, textColour }}>
@@ -54,20 +54,27 @@ const imagePlaceHolder = '"https://fakeimg.pl/640x360"';
 </style>
 <div class="article h-full overflow-hidden text-ellipsis">
   <div class={`flex ${isVertical ? "flex-col" : "flex-row"}`}>
-    {imageUrl !== undefined && <a class={`image-link ${isVertical ? "w-full" : "h-full w-1/2"}`} href={articleUrl}>
-      <img
-        class={`${
-          isPortrait ? "aspect-{9/16} h-full" : "aspect-video w-full"
-        } rounded-xl object-cover ${isVertical && "mb-5"}`}
-        src={imageUrl}
-        alt="Article Thumbnail"
-        onerror={`if (this.src !== ${imagePlaceHolder}) this.src = ${imagePlaceHolder}`}
-      />
-    </a>}
+    {
+      imageUrl !== undefined && (
+        <a
+          class={`image-link ${isVertical ? "w-full" : "h-full w-1/2"}`}
+          href={articleUrl}
+        >
+          <img
+            class={`${
+              isPortrait ? "aspect-{9/16} h-full" : "aspect-video w-full"
+            } rounded-xl object-cover ${isVertical && "mb-5"}`}
+            src={imageUrl}
+            alt="Article Thumbnail"
+            onerror={`if (this.src !== ${imagePlaceHolder}) this.src = ${imagePlaceHolder}`}
+          />
+        </a>
+      )
+    }
     <div
-      class={`${isVertical || imageUrl == undefined ? "w-full" : "ml-3 h-full w-1/2"} ${
-        !hideCategoryAccent && "border-color border-t-2"
-      }`}
+      class={`${
+        isVertical || imageUrl == undefined ? "w-full" : "ml-3 h-full w-1/2"
+      } ${!hideCategoryAccent && "border-color border-t-2"}`}
     >
       {
         !hideCategoryAccent && (
@@ -84,7 +91,7 @@ const imagePlaceHolder = '"https://fakeimg.pl/640x360"';
           <p class="text-l text-colour xl:text-xl 2xl:text-2xl">{headline}</p>
         </a>
         {authorId && <a class="author" href={`/author/${authorId}`}>
-          <p class="text-sm text-colour italic 2xl:text-base">
+          <p class="text-colour text-sm italic 2xl:text-base">
             <span class="category-color">By</span>
             {author}
           </p>
