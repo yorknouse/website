@@ -12,4 +12,14 @@ export default defineConfig({
   site: "https://yorknouse.github.io",
   base: "/website",
   environment,
+  vite: {
+    server: {
+      proxy: {
+        "/api/searchSuggestions.php": {
+          target: "http://localhost:420/api/searchSuggestions.php",
+          changeOrigin: true,
+        },
+      }
+    }
+  }
 });

@@ -1,12 +1,25 @@
 ---
 import Navbar from "@components/Navbar.astro";
 import SearchInterface from "@components/SearchInterface.astro";
+import prisma from "src/prisma";
 
 export interface Props {
   title: string;
-  active: string;
+  active: string | undefined;
   style: "nouse" | "muse";
 }
+
+const categoriesColours = await prisma.categories.findMany({
+  select: {
+    categories_backgroundColor: true,
+    categories_name: true,
+  },
+  where: {
+    NOT: {
+      categories_backgroundColor: null,
+    },
+  },
+});
 
 const { title, active, style } = Astro.props;
 ---
@@ -21,6 +34,8 @@ const { title, active, style } = Astro.props;
     <title>{title}</title>
     {/* Adobe Fonts */}
     <link rel="stylesheet" href="https://use.typekit.net/ghx5ucu.css" />
+    {/* Iconify icons */}
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
   </head>
   <body>
     <SearchInterface />
@@ -28,3 +43,26 @@ const { title, active, style } = Astro.props;
     <slot />
   </body>
 </html>
+<script define:vars={{ categoriesColours }}>
+  const style = document.createElement("style");
+  document.getElementsByTagName("head")[0].appendChild(style);
+  categoriesColours.forEach((c) => {
+    if (style.sheet && style.sheet.insertRule) {
+      style.sheet.insertRule(
+        `.category-color-${c.categories_name} {color: #${c.categories_backgroundColor};}`
+      );
+      style.sheet.insertRule(
+        `.border-color-${c.categories_name} {border-color: #${c.categories_backgroundColor};}`
+      );
+    } else {
+      (style.styleSheet || style.sheet).addRule(
+        `.category-color-${c.categories_name}`,
+        `color: #${c.categories_backgroundColor};`
+      );
+      (style.styleSheet || style.sheet).addRule(
+        `.border-color-${c.categories_name}`,
+        `border-color: #${c.categories_backgroundColor};`
+      );
+    }
+  });
+</script>

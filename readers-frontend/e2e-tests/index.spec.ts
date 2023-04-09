@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import prisma from "../src/prisma.js";
+import { apiSearchResponse } from "./apiSearchReponse.js";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("./");
@@ -361,14 +362,19 @@ test.describe("Featured Section", () => {
     await expect(featuredSection).toHaveCount(1);
   });
   test("Displays the category accent", async ({ page }) => {
-    const categoryAccent = page.locator("#testCategory1-section").locator(".category-text");
+    const categoryAccent = page
+      .locator("#testCategory1-section")
+      .locator(".category-text");
     await expect(categoryAccent).toHaveAttribute("href", `/testCategory1`);
     await expect(categoryAccent).toHaveText("Test");
     await expect(categoryAccent).toHaveCSS("color", "rgb(237, 179, 33)"); // Playwright doesn't support hex values for toHaveCSS.
   });
 
   test("Displays the correct number of articles", async ({ page }) => {
-    const articles = page.locator("#testCategory1-section").first().locator(".article:visible");
+    const articles = page
+      .locator("#testCategory1-section")
+      .first()
+      .locator(".article:visible");
     await expect(articles).toHaveCount(5);
   });
 
@@ -376,7 +382,9 @@ test.describe("Featured Section", () => {
     page,
     isMobile,
   }) => {
-    const articles = page.locator("#testCategory1-section").locator(".article:visible");
+    const articles = page
+      .locator("#testCategory1-section")
+      .locator(".article:visible");
     for (let i = 0; i < 5; i++) {
       const article = articles.nth(i);
 
