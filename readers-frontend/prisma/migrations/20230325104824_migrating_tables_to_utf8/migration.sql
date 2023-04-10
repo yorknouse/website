@@ -136,7 +136,6 @@ ALTER TABLE `usersOauthCodes` CHANGE `usersOauthCodes_code` `usersOauthCodes_cod
 CHANGE `usersOauthCodes_client` `usersOauthCodes_client` VARCHAR(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
 CHANGE `usersOauthCodes_type` `usersOauthCodes_type` VARCHAR(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL;
 
-ALTER DATABASE nouse CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `actions` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `actionsCategories` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `adverts` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

@@ -66,6 +66,7 @@ export const getMenuCategories = async (
       menuCategories.unshift({
         ...muse,
         categories_displayName: "Home",
+        categories_name: "home",
       });
 
       // Link to Nouse home

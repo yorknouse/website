@@ -52,8 +52,8 @@ const menuCategories = await getMenuCategories(style);
               href={
                 menuItem.categories_name !== "home"
                   ? `${
-                      menuItem.categories_name === "nouse" || menuItem.categories_name === "muse"
-                        ? baseUrl
+                      menuItem.categories_name === "nouse"
+                        ? import.meta.env.BASE_URL
                         : `${baseUrl + menuItem.categories_name}`
                     }`
                   : baseUrl
