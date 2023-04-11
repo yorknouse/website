@@ -1,0 +1,111 @@
+---
+import type { categories } from "@prisma/client";
+import { Icon } from "astro-icon";
+import prisma from "src/prisma";
+
+interface Props {
+  active: string | undefined;
+  style: "muse" | "nouse";
+  menuCategories: categories[];
+  baseUrl: string;
+}
+
+const { active, style, menuCategories, baseUrl } = Astro.props;
+
+const activeCategory = await prisma.categories.findFirst({
+  where: {
+    categories_displayName: active,
+  },
+});
+
+let computedBaseColour = activeCategory
+  ? activeCategory.categories_backgroundColor
+  : "000";
+if (computedBaseColour) computedBaseColour = "#" + computedBaseColour;
+else computedBaseColour = "#000";
+---
+
+<header
+  class={`hidden md:flex md:flex-row w-full ${
+    style === "nouse" ? "bg-transparent" : "bg-black"
+  }`}
+>
+  <a href={baseUrl} class="mx-auto self-center">
+    <img
+      class="my-4 h-14"
+      src={style === "nouse"
+        ? "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
+        : "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"}
+    />
+  </a>
+</header>
+<nav
+  class="2xl:text-large bg-navbar hidden h-12 w-full text-base text-white md:block 2xl:px-[13%]"
+>
+  <ul
+    class="flex h-full w-full flex-row justify-between border-t-4 border-transparent"
+  >
+    {
+      menuCategories.map((menuItem, index) => (
+        <>
+          {index !== 0 && ( // No divider before Home
+            <span class="h-3/5 self-center border-r-2 border-white" />
+          )}
+          <li
+            class={`group relative flex h-full w-full border-b-4 ${
+              active === menuItem.categories_name
+                ? "border-white"
+                : "border-transparent"
+            }`}
+          >
+            <a
+              class="mx-auto my-auto"
+              href={
+                menuItem.categories_name !== "home"
+                  ? `${
+                      menuItem.categories_name === "nouse"
+                        ? import.meta.env.BASE_URL
+                        : `/${menuItem.categories_name}`
+                    }`
+                  : baseUrl
+              }
+            >
+              {() => {
+                switch (menuItem.categories_name) {
+                  case "muse":
+                    return (
+                      <img
+                        src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
+                        class="w-16"
+                      />
+                    );
+                  case "nouse":
+                    return (
+                      <img
+                        src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/kingfisher.svg"
+                        class="w-10 invert"
+                      />
+                    );
+                  default:
+                    return menuItem.categories_displayName;
+                }
+              }}
+            </a>
+          </li>
+        </>
+      ))
+    }
+    <span class="h-3/5 self-center border-r-2 border-white"></span>
+    {/* Search button */}
+    <li class="flex h-full w-full border-b-4 border-b-transparent">
+      <button class="searchBtnClassIdentifier mx-auto h-full w-10">
+        <Icon name="ic:sharp-search" class="py-1 ml-2" />
+      </button>
+    </li>
+  </ul>
+</nav>
+<style define:vars={{ computedBaseColour }}>
+  .bg-navbar {
+    background-color: var(--computedBaseColour);
+  }
+</style>

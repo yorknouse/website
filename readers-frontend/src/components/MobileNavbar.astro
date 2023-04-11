@@ -1,0 +1,64 @@
+---
+import type { categories } from "@prisma/client";
+import { Icon } from "astro-icon";
+import prisma from "src/prisma";
+
+interface Props {
+  active: string | undefined;
+  style: "muse" | "nouse";
+  menuCategories: categories[];
+  baseUrl: string;
+}
+
+const { active, style, menuCategories, baseUrl } = Astro.props;
+
+const activeCategory = await prisma.categories.findFirst({
+  where: {
+    categories_displayName: active,
+  },
+});
+
+// Default is whiteish-100 for nouse, black for muse
+let computedBaseColour = activeCategory
+  ? activeCategory.categories_backgroundColor
+  : style === "muse"
+  ? "000"
+  : "F5EFEB";
+if (computedBaseColour) computedBaseColour = "#" + computedBaseColour;
+else computedBaseColour = "#F5EFEB";
+
+// Whether to invert logo or not.
+// Should be inverted for non-home nouse categories.
+let invert = style === "nouse" && active !== "home";
+
+// Menu and Search icons colours
+let textColour = "text-black";
+if (style === "muse" || active !== "home") {
+  textColour = "text-white";
+}
+---
+
+<header
+  class={`bg-navbar flex w-full flex-row border-b-[1px] border-gray-300 py-5 md:hidden sticky top-0 z-40 ${textColour}`}
+>
+  <button class="my-auto ml-8 h-6 w-6">
+    <Icon name="ic:sharp-menu" class="w-full h-full" />
+  </button>
+  <a href={baseUrl} class="mx-auto my-auto flex w-1/4">
+    <img
+      class={`mx-auto max-h-8 ${invert && "invert"}`}
+      src={style === "nouse"
+        ? "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
+        : "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"}
+    />
+  </a>
+  <button class="searchBtnClassIdentifier my-auto mr-8 h-6 w-6">
+    <Icon name="ic:sharp-search" class="w-full h-full" />
+  </button>
+</header>
+
+<style define:vars={{ computedBaseColour }}>
+  .bg-navbar {
+    background-color: var(--computedBaseColour);
+  }
+</style>
