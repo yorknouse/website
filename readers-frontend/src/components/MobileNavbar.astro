@@ -39,10 +39,15 @@ if (style === "muse" || active !== "home") {
 ---
 
 <header
-  class={`bg-navbar flex w-full flex-row border-b-[1px] border-gray-300 py-5 md:hidden sticky top-0 z-40 ${textColour}`}
+  class={`bg-navbar flex w-full flex-row border-b-[1px] border-gray-300 h-20 md:hidden sticky top-0 z-40 ${textColour}`}
 >
-  <button class="my-auto ml-8 h-6 w-6">
-    <Icon name="ic:sharp-menu" class="w-full h-full" />
+  <button class="my-auto ml-8 h-6 w-6" id="mobileNavMenuTgl">
+    <div class="h-full w-full" id="menuIcn">
+      <Icon name="ic:sharp-menu" class="w-full h-full" />
+    </div>
+    <div class="h-0 w-0" id="closeIcn">
+      <Icon name="ic:sharp-close" class="w-full h-full" />
+    </div>
   </button>
   <a href={baseUrl} class="mx-auto my-auto flex w-1/4">
     <img
@@ -56,9 +61,84 @@ if (style === "muse" || active !== "home") {
     <Icon name="ic:sharp-search" class="w-full h-full" />
   </button>
 </header>
+<nav
+  class="fixed top-20 left-0 right-0 z-50 flex h-[calc(100svh-80px)] -translate-x-full flex-col overflow-y-scroll bg-black transition-transform duration-500 ease-in-out"
+  id="mobileNav"
+>
+  <ul class="mx-auto mb-10 w-5/6 list-none text-2xl text-white">
+    {
+      menuCategories.map((menuItem) => (
+        <li
+          class={`flex w-full flex-row border-b-white py-7 ${
+            active === menuItem.categories_name
+              ? "border-b-[5px]"
+              : "border-b-[1px]"
+          }`}
+        >
+          <a
+            class="mx-auto my-auto"
+            href={
+              menuItem.categories_name !== "home"
+                ? `${
+                    menuItem.categories_name === "nouse"
+                      ? baseUrl
+                      : `${baseUrl}${menuItem.categories_name}`
+                  }`
+                : baseUrl
+            }
+          >
+            {() => {
+              switch (menuItem.categories_name) {
+                case "muse":
+                  return (
+                    <img
+                      src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
+                      class="w-36"
+                    />
+                  );
+                case "nouse":
+                  return (
+                    <img
+                      src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/kingfisher.svg"
+                      class="w-36 invert"
+                    />
+                  );
+                default:
+                  return menuItem.categories_displayName;
+              }
+            }}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
 
 <style define:vars={{ computedBaseColour }}>
   .bg-navbar {
     background-color: var(--computedBaseColour);
   }
 </style>
+
+<script>
+  const mobileNavMenuTgl = document.getElementById(
+    "mobileNavMenuTgl"
+  ) as HTMLButtonElement;
+  const menuIcn = document.getElementById("menuIcn") as HTMLElement;
+  const closeIcn = document.getElementById("closeIcn") as HTMLElement;
+  const mobileNav = document.getElementById("mobileNav") as HTMLElement;
+
+  mobileNavMenuTgl.addEventListener("click", () => {
+    mobileNav.classList.toggle("-translate-x-full");
+
+    menuIcn.classList.toggle("w-full");
+    menuIcn.classList.toggle("w-0");
+    menuIcn.classList.toggle("h-full");
+    menuIcn.classList.toggle("h-0");
+
+    closeIcn.classList.toggle("w-full");
+    closeIcn.classList.toggle("w-0");
+    closeIcn.classList.toggle("h-full");
+    closeIcn.classList.toggle("h-0");
+  });
+</script>
