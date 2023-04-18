@@ -12,11 +12,16 @@ interface Props {
 
 const { active, style, menuCategories, baseUrl } = Astro.props;
 
-const activeCategory = await prisma.categories.findFirst({
-  where: {
-    categories_displayName: active,
-  },
-});
+const activeCategory = active
+  ? await prisma.categories.findFirst({
+      where: {
+        categories_name: active,
+        AND: {
+          categories_nestUnder: style === "muse" ? 4 : null,
+        },
+      },
+    })
+  : undefined;
 
 // Default is whiteish-100 for nouse, black for muse
 let computedBaseColour = activeCategory
@@ -24,16 +29,21 @@ let computedBaseColour = activeCategory
   : style === "muse"
   ? "000"
   : "F5EFEB";
+
 if (computedBaseColour) computedBaseColour = "#" + computedBaseColour;
-else computedBaseColour = "#F5EFEB";
+else computedBaseColour = style === "muse" ? "#000" : "#F5EFEB";
 
 // Whether to invert logo or not.
 // Should be inverted for non-home nouse categories.
-let invert = style === "nouse" && active !== "home";
+let invert =
+  style === "nouse" &&
+  activeCategory &&
+  activeCategory.categories_name !== "home" &&
+  activeCategory.categories_backgroundColor;
 
 // Menu and Search icons colours
 let textColour = "text-black";
-if (style === "muse" || active !== "home") {
+if (style === "muse" || invert) {
   textColour = "text-white";
 }
 ---
@@ -57,15 +67,21 @@ if (style === "muse" || active !== "home") {
         : "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"}
     />
   </a>
-  <button class="searchBtnClassIdentifier my-auto mr-8 h-6 w-6">
+  <button
+    class="searchBtnClassIdentifier my-auto mr-8 h-6 w-6"
+    id="mobileSearchBtn"
+  >
     <Icon name="ic:sharp-search" class="w-full h-full" />
   </button>
 </header>
 <nav
-  class="fixed top-20 left-0 right-0 z-50 flex h-[calc(100svh-80px)] -translate-x-full flex-col overflow-y-scroll bg-black transition-transform duration-500 ease-in-out"
+  class="fixed top-20 left-0 right-0 z-50 flex h-[calc(100dvh-80px)] -translate-x-full flex-col overflow-y-scroll bg-black transition-transform duration-500 ease-in-out"
   id="mobileNav"
 >
-  <ul class="mx-auto mb-10 w-5/6 list-none text-2xl text-white">
+  <ul
+    class="mx-auto mb-10 w-5/6 list-none overflow-scroll text-2xl text-white"
+    id="mobileNavList"
+  >
     {
       menuCategories.map((menuItem) => (
         <li
@@ -82,6 +98,10 @@ if (style === "muse" || active !== "home") {
                 ? `${
                     menuItem.categories_name === "nouse"
                       ? baseUrl
+                      : menuItem.categories_name === "muse"
+                      ? style === "nouse"
+                        ? `${baseUrl}muse`
+                        : baseUrl
                       : `${baseUrl}${menuItem.categories_name}`
                   }`
                 : baseUrl
@@ -99,7 +119,7 @@ if (style === "muse" || active !== "home") {
                 case "nouse":
                   return (
                     <img
-                      src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/kingfisher.svg"
+                      src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
                       class="w-36 invert"
                     />
                   );
@@ -127,8 +147,16 @@ if (style === "muse" || active !== "home") {
   const menuIcn = document.getElementById("menuIcn") as HTMLElement;
   const closeIcn = document.getElementById("closeIcn") as HTMLElement;
   const mobileNav = document.getElementById("mobileNav") as HTMLElement;
+  const mobileNavList = document.getElementById(
+    "mobileNavList"
+  ) as HTMLUListElement;
+  const mobileSearchBtn = document.getElementById(
+    "mobileSearchBtn"
+  ) as HTMLButtonElement;
+  const body = document.body;
 
-  mobileNavMenuTgl.addEventListener("click", () => {
+  const toggleClasses = () => {
+    // Toggle navbar classes
     mobileNav.classList.toggle("-translate-x-full");
 
     menuIcn.classList.toggle("w-full");
@@ -140,5 +168,27 @@ if (style === "muse" || active !== "home") {
     closeIcn.classList.toggle("w-0");
     closeIcn.classList.toggle("h-full");
     closeIcn.classList.toggle("h-0");
+
+    // Toggle body scrolling
+    body.classList.toggle("overflow-hidden");
+  };
+
+  mobileNavMenuTgl.addEventListener("click", () => toggleClasses());
+
+  // Mutation observer for navbar visibility
+  const mutationObserver = new MutationObserver((mutations) => {
+    mutations.forEach((_) => {
+      // Scroll nav to top if visible
+      if (!mobileNav.classList.contains("-translate-x-full"))
+        mobileNavList.scroll(0, 0);
+    });
+  });
+  mutationObserver.observe(mobileNav, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+
+  mobileSearchBtn.addEventListener("click", () => {
+    if (!mobileNav.classList.contains("-translate-x-full")) toggleClasses();
   });
 </script>
