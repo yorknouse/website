@@ -4,7 +4,7 @@ require_once __DIR__ . '/../apiHeadSecure.php';
 if (!isset($_POST['term'])) finish(false, ["code" => "PARAM", "message"=> "No term set"]);
 $term = $bCMS->sanitizeString($_POST['term']);
 if (strlen($term) > 0) $DBLIB->where("(articlesDrafts.articlesDrafts_headline LIKE '%" . $bCMS->sanitizeString($term) . "%')");
-if (isset($_POST['categoryid'])) $DBLIB->where("FIND_IN_SET('" . $bCMS->sanitizeString($_POST['categoryid']) . "',articles_categories)");
+if (isset($_POST['categoryid'])) $DBLIB->where("articles.articles_id IN (SELECT articles_id FROM articlesCategories WHERE categories_id = " . $_POST['categoryid'] . ")");
 $DBLIB->orderBy("articles_published", "DESC");
 $DBLIB->where("articles_showInLists", 1);
 $DBLIB->where("articles_published <= '" . date("Y-m-d H:i:s") . "'");

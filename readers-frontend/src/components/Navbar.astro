@@ -50,25 +50,23 @@ const menuCategories = await getMenuCategories(style);
             <a
               class="mx-auto my-auto text-center"
               href={
-                menuItem.categories_name !== "home"
-                  ? `${
-                      menuItem.categories_name === "nouse"
-                        ? import.meta.env.BASE_URL
-                        : `${baseUrl + menuItem.categories_name}`
-                    }`
-                  : baseUrl
+                menuItem.categories_displayName === "Home"
+                  ? baseUrl
+                  : menuItem.categories_displayName === "Nouse" 
+                    ? import.meta.env.BASE_URL
+                    : `${baseUrl + menuItem.categories_name}`
               }
             >
               {() => {
-                switch (menuItem.categories_name, menuItem.categories_displayName) {
-                  case "muse", "Muse":
+                switch (menuItem.categories_displayName) {
+                  case "Muse":
                     return (
                       <img
                         src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
                         class="w-16"
                       />
                     );
-                  case "nouse", "Nouse":
+                  case "Nouse":
                     return (
                       <img
                         src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/kingfisher.svg"

@@ -66,7 +66,7 @@ if (category.categories_name === "muse") {
 
 <Layout
   title={`${title} - Nouse`}
-  active={category.categories_name === "muse" ? "home" : category.categories_name}
+  active={category.categories_name}
   style={style}
 >
   <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
@@ -84,10 +84,11 @@ if (category.categories_name === "muse") {
       )
     }
     { !(category.categories_name === "muse" && page.currentPage === 0) ?
-      page.data.map(
+      <>
+      <hr class="my-2.5 w-full self-center border-[1px] border-gray-300" />
+      {page.data.map(
         async (articles: articlesWithArticleDrafts[], index: number) => {
           return (
-              <hr class="my-2.5 w-full self-center border-[1px] border-gray-300" />
               <div class="flex max-h-52 max-w-full gap-2.5">
                 <div
                   class={`w-1/2 pr-2.5 ${
@@ -159,7 +160,8 @@ if (category.categories_name === "muse") {
               </>
           );
         }
-      )
+      )}
+      </>
       :
       
         museCategories.map((category) => (

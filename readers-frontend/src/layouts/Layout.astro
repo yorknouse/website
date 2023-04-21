@@ -49,19 +49,19 @@ const { title, active, style } = Astro.props;
   categoriesColours.forEach((c) => {
     if (style.sheet && style.sheet.insertRule) {
       style.sheet.insertRule(
-        `.category-color-${c.categories_name} {color: #${c.categories_backgroundColor};}`
+        `.category-color-${c.categories_name} {color: ${c.categories_backgroundColor};}`
       );
       style.sheet.insertRule(
-        `.border-color-${c.categories_name} {border-color: #${c.categories_backgroundColor};}`
+        `.border-color-${c.categories_name} {border-color: ${c.categories_backgroundColor};}`
       );
     } else {
       (style.styleSheet || style.sheet).addRule(
         `.category-color-${c.categories_name}`,
-        `color: #${c.categories_backgroundColor};`
+        `color: ${c.categories_backgroundColor};`
       );
       (style.styleSheet || style.sheet).addRule(
         `.border-color-${c.categories_name}`,
-        `border-color: #${c.categories_backgroundColor};`
+        `border-color: ${c.categories_backgroundColor};`
       );
     }
   });

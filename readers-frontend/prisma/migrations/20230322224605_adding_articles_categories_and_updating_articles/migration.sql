@@ -590,6 +590,10 @@ UPDATE `categories` SET `categories_showHome` = 1
 WHERE `categories_id` IN (11,3618,168,76,169,2180,24,322);
 
 -- Update the category colours
+-- Muse
+UPDATE `categories` SET `categories_backgroundColor` = '#000000'
+WHERE `categories_id` = 4;
+
 -- News
 UPDATE `categories` SET `categories_backgroundColor` = '#173B88'
 WHERE `categories_id` = 2;
