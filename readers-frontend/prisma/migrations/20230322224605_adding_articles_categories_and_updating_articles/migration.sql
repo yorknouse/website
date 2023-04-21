@@ -583,7 +583,7 @@ UPDATE `categories` SET `categories_displayName` = 'Shoot', `categories_name` = 
 
 -- Updating all deprecated subcategories above to be hidden
 UPDATE `categories` SET `categories_showHome` = 0, `categories_showMenu` = 0, `categories_showPublic` = 0, `categories_showAdmin` = 0
-WHERE `categories_id` IN (15,288,3189,3616,3609,1857,2836,3612,321,244,249,2540,254,1853,250,252,317,251,1782,3608,197,261,316,253,2843,45,3596,3577,271,3131,2908,2917,2242,3145,2916,3132,3133,2218,3613,237,3129,3614,3610,307,10,195,239,1875,3600,3503,306,3394,301,160,241); -- excludes 1873 and 3601
+WHERE `categories_id` IN (15,288,3189,3616,3609,1857,2836,3612,321,244,249,2540,254,1853,250,252,317,251,1782,3608,197,261,316,253,2843,45,3596,3577,271,3131,2908,2917,2242,3145,2916,3132,3133,2218,3613,237,3129,3614,3610,307,10,195,239,1875,3600,3503,306,3394,301,160,241,3275); -- excludes 1873 and 3601
 
 -- Updating all muse subcategories to be show on muse home page
 UPDATE `categories` SET `categories_showHome` = 1

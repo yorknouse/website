@@ -95,25 +95,6 @@ export const getMenuCategories = async (
   return menuCategories;
 };
 
-export const getMainArticleCategory = async (
-  categoryIds: number[] | undefined,
-  style: "nouse" | "muse"
-): Promise<categories | null> => {
-  return await prisma.categories.findFirst({
-    where: {
-      categories_id: {
-        in: categoryIds,
-      },
-      categories_showHome: true,
-      categories_showPublic: true,
-      categories_backgroundColor: {
-        not: null,
-      },
-      categories_nestUnder: style === "nouse" ? null : 4,
-    },
-  });
-};
-
 export const getFeaturedSectionsCategories = async (): Promise<
   categories[]
 > => {
@@ -136,7 +117,14 @@ const categoriesWithArticles = Prisma.validator<Prisma.categoriesArgs>()({
   include: {
     articles: {
       include: {
-        article: { include: { articlesDrafts: { include: { users: true } } } },
+        article: {
+          include: {
+            articlesDrafts: { include: { users: true } },
+            categories: {
+              include: { category: true },
+            },
+          },
+        },
       },
     },
   },
@@ -173,6 +161,7 @@ export const getCategories = async (
                   users: true,
                 },
               },
+              categories: true,
             },
           },
         },
@@ -223,7 +212,10 @@ export const paginateCategory = (
 
   // Muse has a custom landing page where only featured sections are shown
   // As such, we need to add an additional page to the pagination just for the muse landing page
-  const totalPageCount = category.categories_name === "muse" ? Math.ceil(articleRows.length / rowCount) + 1 : Math.ceil(articleRows.length / 15);
+  const totalPageCount =
+    category.categories_name === "muse"
+      ? Math.ceil(articleRows.length / rowCount) + 1
+      : Math.ceil(articleRows.length / 15);
   for (let i = 0; i < Math.ceil(articleRows.length / rowCount); i++) {
     const start = i * rowCount;
     const end = start + rowCount;
@@ -231,10 +223,10 @@ export const paginateCategory = (
       params: {
         category: prefix ? prefix : category.categories_name,
         path: prefix
-          ? `${category.categories_name}${
-              i == 0 ? "" : `/${i + 1}`
-            }`
-          : (i == 0 ? undefined : i + 1),
+          ? `${category.categories_name}${i == 0 ? "" : `/${i + 1}`}`
+          : i == 0
+          ? undefined
+          : i + 1,
       },
       props: {
         title: category.categories_displayName,
@@ -244,9 +236,14 @@ export const paginateCategory = (
           category.categories_name === "muse"
             ? "muse"
             : "nouse",
-        paginatorPrefix: prefix ? `${prefix}/${category.categories_name}` : category.categories_name,
+        paginatorPrefix: prefix
+          ? `${prefix}/${category.categories_name}`
+          : category.categories_name,
         page: {
-          data: (category.categories_name === "muse" && i === 0) ? [] : articleRows.slice(start, end),
+          data:
+            category.categories_name === "muse" && i === 0
+              ? []
+              : articleRows.slice(start, end),
           currentPage: i,
           total: totalPageCount,
         } as Page,
@@ -254,6 +251,17 @@ export const paginateCategory = (
     });
   }
   return paginatedResult;
+};
+
+export const getCategoryLink = (
+  category_name: string,
+  category_nestUnder: number | null
+): string => {
+  if (category_nestUnder === 4) {
+    return `${import.meta.env.BASE_URL}muse/${category_name}`;
+  } else {
+    return `${import.meta.env.BASE_URL}${category_name}`;
+  }
 };
 // Construct nested items map - saved for later
 // let nestedItems = menuCategories.reduce((accumulator, category, _) => {
