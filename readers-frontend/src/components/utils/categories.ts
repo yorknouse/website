@@ -173,15 +173,15 @@ export const getCategories = async (
 /**
  * Paginates a category
  * @param {categoriesWithArticles} category The main category to paginate.
- * @param {string} prefix A url prefix to prepend to the category name.
- * if prefix is not provided, the category param is set to the category name and path param is set to the page number.
- * if prefix is provided, the category param is set to the prefix and path param is set to the category name and page number.
+ * @param {string} topLevelCategory The top level category. for example, news, sport, muse
+ * @param {string} pathPrefix The prefix to add to the path. For example, campus-news, gaming, music/music-news
  * @returns {any} Promise object represents the articles.
  */
 export const paginateCategory = (
   category: categoriesWithArticles,
   rowCount: number,
-  prefix?: string
+  topLevelCategory: string,
+  pathPrefix?: string
 ): any => {
   // Split articles into rows of 2
   const articleRows = category.articles
@@ -221,9 +221,9 @@ export const paginateCategory = (
     const end = start + rowCount;
     paginatedResult.push({
       params: {
-        category: prefix ? prefix : category.categories_name,
-        path: prefix
-          ? `${category.categories_name}${i == 0 ? "" : `/${i + 1}`}`
+        topLevelCategory: topLevelCategory,
+        path: pathPrefix
+          ? `${pathPrefix}${i == 0 ? "" : `/${i + 1}`}`
           : i == 0
           ? undefined
           : i + 1,
@@ -236,9 +236,9 @@ export const paginateCategory = (
           category.categories_name === "muse"
             ? "muse"
             : "nouse",
-        paginatorPrefix: prefix
-          ? `${prefix}/${category.categories_name}`
-          : category.categories_name,
+        paginatorPrefix: pathPrefix
+          ? `${topLevelCategory}/${pathPrefix}`
+          : topLevelCategory,
         page: {
           data:
             category.categories_name === "muse" && i === 0
