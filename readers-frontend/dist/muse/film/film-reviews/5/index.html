@@ -81,36 +81,11 @@
 </nav>
     <style>astro-island,astro-slot{display:contents}</style><script>(self.Astro=self.Astro||{}).only=t=>{(async()=>await(await t())())()},window.dispatchEvent(new Event("astro:only"));var l;{const c={0:t=>t,1:t=>JSON.parse(t,o),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(JSON.parse(t,o)),5:t=>new Set(JSON.parse(t,o)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(JSON.parse(t)),9:t=>new Uint16Array(JSON.parse(t)),10:t=>new Uint32Array(JSON.parse(t))},o=(t,s)=>{if(t===""||!Array.isArray(s))return s;const[e,n]=s;return e in c?c[e](n):void 0};customElements.get("astro-island")||customElements.define("astro-island",(l=class extends HTMLElement{constructor(){super(...arguments);this.hydrate=()=>{if(!this.hydrator||this.parentElement&&this.parentElement.closest("astro-island[ssr]"))return;const s=this.querySelectorAll("astro-slot"),e={},n=this.querySelectorAll("template[data-astro-template]");for(const r of n){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(const r of s){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("name")||"default"]=r.innerHTML)}const a=this.hasAttribute("props")?JSON.parse(this.getAttribute("props"),o):{};this.hydrator(this)(this.Component,a,e,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),window.removeEventListener("astro:hydrate",this.hydrate),window.dispatchEvent(new CustomEvent("astro:hydrate"))}}connectedCallback(){!this.hasAttribute("await-children")||this.firstChild?this.childrenConnectedCallback():new MutationObserver((s,e)=>{e.disconnect(),this.childrenConnectedCallback()}).observe(this,{childList:!0})}async childrenConnectedCallback(){window.addEventListener("astro:hydrate",this.hydrate);let s=this.getAttribute("before-hydration-url");s&&await import(s),this.start()}start(){const s=JSON.parse(this.getAttribute("opts")),e=this.getAttribute("client");if(Astro[e]===void 0){window.addEventListener(`astro:${e}`,()=>this.start(),{once:!0});return}Astro[e](async()=>{const n=this.getAttribute("renderer-url"),[a,{default:r}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),i=this.getAttribute("component-export")||"default";if(!i.includes("."))this.Component=a[i];else{this.Component=a;for(const d of i.split("."))this.Component=this.Component[d]}return this.hydrator=r,this.hydrate},s,this)}attributeChangedCallback(){this.hydrator&&this.hydrate()}},l.observedAttributes=["props"],l))}</script><div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
     
-    <hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/28/review-judy--punch">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/aDHHfVTy368hZ4G%20judy_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2019/11/28/review-judy--punch">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Judy &amp; Punch</p>
-        </a>
-        <a class="author astro-Q7KXOHAS" href="/author/2127">
-          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
-            <span class="category-color astro-Q7KXOHAS">By</span>
-            Malu Rocha
-          </p>
-        </a>
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2019/11/28/review-judy--punch">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Sophia Andrews Gamarra reviews Judy &amp; Punch, a bloody, comic and relentlessly incoherent film inspired by the traditional seaside puppet-show.</p>
-      </a>
-    </div>
-  </div>
-</div>
-                </div>
-                <div class="w-1/2">
-                    
+    <div class="hidden max-w-full flex-col sm:flex">
+            <div>
+                      <div class="flex max-h-52 max-w-full gap-2.5">
+                        <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                          
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/27/review-the-amazing-johnathan">
@@ -135,10 +110,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                        </div>
+                        <div class="w-1/2">
+                            
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/20/review-last-christmas-">
@@ -163,9 +137,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                          </div>
+                      </div>
+
+                      <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                    </div><div>
+                      <div class="flex max-h-52 max-w-full gap-2.5">
+                        <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                          
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/19/review-le-mans-66-">
@@ -190,10 +169,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                        </div>
+                        <div class="w-1/2">
+                            
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/18/retro-review-howls-moving-castle-2004">
@@ -218,9 +196,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                          </div>
+                      </div>
+
+                      <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                    </div><div>
+                      <div class="flex max-h-52 max-w-full gap-2.5">
+                        <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                          
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/16/short-film-review-gina">
@@ -245,10 +228,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                        </div>
+                        <div class="w-1/2">
+                            
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/14/retro-review-spirited-away-">
@@ -273,9 +255,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                          </div>
+                      </div>
+
+                      <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                    </div><div>
+                      <div class="flex max-h-52 max-w-full gap-2.5">
+                        <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                          
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/08/review-a-shaun-the-sheep-movie-farmageddon">
@@ -300,10 +287,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                        </div>
+                        <div class="w-1/2">
+                            
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/05/review-sorry-we-missed-you">
@@ -328,9 +314,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                          </div>
+                      </div>
+
+                      <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                    </div><div>
+                      <div class="flex max-h-52 max-w-full gap-2.5">
+                        <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                          
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/03/review-bait-">
@@ -355,10 +346,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                        </div>
+                        <div class="w-1/2">
+                            
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/01/review-monos">
@@ -383,9 +373,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                          </div>
+                      </div>
+
+                      <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                    </div><div>
+                      <div class="flex max-h-52 max-w-full gap-2.5">
+                        <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                          
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/10/23/review-the-irishman">
@@ -410,10 +405,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                        </div>
+                        <div class="w-1/2">
+                            
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/10/22/review-joker">
@@ -438,9 +432,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                          </div>
+                      </div>
+
+                      <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                    </div><div>
+                      <div class="flex max-h-52 max-w-full gap-2.5">
+                        <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                          
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/10/21/review-the-peanut-butter-falcon">
@@ -465,10 +464,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                        </div>
+                        <div class="w-1/2">
+                            
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/10/16/review-downton-abbey">
@@ -493,9 +491,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                          </div>
+                      </div>
+
+                      <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                    </div><div>
+                      <div class="flex max-h-52 max-w-full gap-2.5">
+                        <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                          
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/10/13/retro-review-sunset-boulevard-1950">
@@ -520,10 +523,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                        </div>
+                        <div class="w-1/2">
+                            
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/09/29/review-the-goldfinch">
@@ -548,9 +550,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                          </div>
+                      </div>
+
+                      <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                    </div><div>
+                      <div class="flex max-h-52 max-w-full gap-2.5">
+                        <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                          
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/08/17/review-blinded-by-the-light">
@@ -575,10 +582,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                        </div>
+                        <div class="w-1/2">
+                            
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/08/15/review-once-upon-a-time...-in-hollywood">
@@ -605,8 +611,837 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
+                          </div>
+                      </div>
+
+                      <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                    </div><div>
+                      <div class="flex max-h-52 max-w-full gap-2.5">
+                        <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                          
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/07/15/is-city-of-god-still-a-worthwhile-brazilian-classic">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/Su8OZcRuquwD81f%20city_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/07/15/is-city-of-god-still-a-worthwhile-brazilian-classic">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Is City of God still a worthwhile Brazilian classic?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/07/15/is-city-of-god-still-a-worthwhile-brazilian-classic">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Malu Rocha reviews the gangster film that has a heart of gold </p>
+      </a>
+    </div>
+  </div>
+</div>
+                        </div>
+                        <div class="w-1/2">
+                            
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/06/07/review-xy-chelsea-the-story-of-trans-woman-soldier-chelsea-manning">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/HtK9oPtOnaFX3UR%20xy_large.jpeg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/06/07/review-xy-chelsea-the-story-of-trans-woman-soldier-chelsea-manning">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: XY Chelsea, the story of trans woman soldier Chelsea Manning</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/06/07/review-xy-chelsea-the-story-of-trans-woman-soldier-chelsea-manning">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">&#39;The documentary paints a sympathetic and intimate picture of Manning but feels rather fractured and incomplete&#39;, says James Hudson. </p>
+      </a>
+    </div>
+  </div>
+</div>
+                          </div>
+                      </div>
+
+                      <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                    </div><div>
+                      <div class="flex max-h-52 max-w-full gap-2.5">
+                        <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                          
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/06/05/review-thunder-road">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/8zDohvHm0bpHXkW%20thunder_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/06/05/review-thunder-road">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Thunder Road</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/06/05/review-thunder-road">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Raquel Bartra gives you her views on Jim Cummings&#39;s feature debut.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                        </div>
+                        <div class="w-1/2">
+                            
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/05/27/review-booksmart-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1FMzg1EEp18ncWa%20Screenshot%202019-05-27%20at%2010.02.39_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/05/27/review-booksmart-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Booksmart </p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/05/27/review-booksmart-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Andrew Young reviews Olivia Wilde&#39;s debut that is nothing short of fantastic; a joyous rite-of-passage film with a strong directorial voice. </p>
+      </a>
+    </div>
+  </div>
+</div>
+                          </div>
+                      </div>
+
+                      <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                    </div><div>
+                      <div class="flex max-h-52 max-w-full gap-2.5">
+                        <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                          
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/05/17/review-long-shot-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/Q75OwU3FEA1Droz%20Screenshot%202019-05-17%20at%2016.15.28_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/05/17/review-long-shot-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Long Shot </p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2001">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Andrew Young
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/05/17/review-long-shot-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Jodie Sheehan gives her views on the latest rom-com that makes you think as much as it makes you laugh</p>
+      </a>
+    </div>
+  </div>
+</div>
+                        </div>
+                        <div class="w-1/2">
+                            
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/05/15/review-amazing-grace-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/Y6hAt8VFnsNOPoN%20amazing%20grace_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/05/15/review-amazing-grace-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Amazing Grace </p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/05/15/review-amazing-grace-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Eddie Kaziro reviews the overdue release of the documentary that  pays homage to the Queen of Soul in one of her most intimate performances</p>
+      </a>
+    </div>
+  </div>
+</div>
+                          </div>
+                      </div>
+
+                      <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                    </div><div>
+                      <div class="flex max-h-52 max-w-full gap-2.5">
+                        <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                          
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/05/08/vintage-sundays-review-cinema-paradiso-1988">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/D1RgovnXpYhFv3D%20Screenshot%202019-05-08%20at%2014.28.38_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/05/08/vintage-sundays-review-cinema-paradiso-1988">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Vintage Sundays Review: Cinema Paradiso (1988)</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/05/08/vintage-sundays-review-cinema-paradiso-1988">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Raquel Bartra reviews the Italian cinematic masterpiece and explores why itâ€™s considered a timeless classic.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                        </div>
+                        <div class="w-1/2">
+                            
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/04/24/review-3-faces">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/rYKeNFz0ddXoyYB%20Screenshot%202019-04-24%20at%2021.20.23_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/04/24/review-3-faces">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: 3 Faces</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/04/24/review-3-faces">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Ciaran Brass reviews the latest film from one of Iranian&#39;s finest filmmakers </p>
+      </a>
+    </div>
+  </div>
+</div>
+                          </div>
+                      </div>
+
+                      <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                    </div><div>
+                      <div class="flex max-h-52 max-w-full gap-2.5">
+                        <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                          
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/04/17/review-dumbo-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/BZemWwkx4zm5qkO%20Screenshot%202019-04-17%20at%2009.13.54_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/04/17/review-dumbo-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Dumbo </p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/04/17/review-dumbo-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Is the film industry running out of ideas? Kirsten Murray shares her views on Tim Burton&#39;s remake of the Disney classic </p>
+      </a>
+    </div>
+  </div>
+</div>
+                        </div>
+                        <div class="w-1/2">
+                            
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/04/09/review-the-keeper-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/cQPVwktNOGQFpyC%20the-keeper_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/04/09/review-the-keeper-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: The Keeper </p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/04/09/review-the-keeper-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Kirsten Murray reviews the inspiring and original post-war story </p>
+      </a>
+    </div>
+  </div>
+</div>
+                          </div>
+                      </div>
+
+                      <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                    </div><div>
+                      <div class="flex max-h-52 max-w-full gap-2.5">
+                        <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                          
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/03/30/review-us">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/ADwCHvVS99nq0kN%20Screenshot%202019-03-30%20at%2015.38.45_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/03/30/review-us">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Us</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/03/30/review-us">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Reviewed by Adam Tye: With his new horror film, â€˜Usâ€™, Jordan Peele stares into the abyss and the abyss fights back.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                        </div>
+                        <div class="w-1/2">
+                            
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/03/15/vintage-sundays-review-the-searchers">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/zzoYvMEh73c3zok%20Screenshot%202019-03-15%20at%2011.37.50_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/03/15/vintage-sundays-review-the-searchers">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Vintage Sundays Review: The Searchers</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/03/15/vintage-sundays-review-the-searchers">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Ciaran Brass reviews and examines the 1956 western classic and its portrayal of one of the finest characters in the American canon. </p>
+      </a>
+    </div>
+  </div>
+</div>
+                          </div>
+                      </div>
+
+                      
+                    </div>
+          </div><div class="block max-w-full justify-center sm:hidden">
+            <div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/27/review-the-amazing-johnathan">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/ZXQUfbHB6db8Xwg%20jjj_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/11/27/review-the-amazing-johnathan">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: The Amazing Johnathan</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/147461">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Hudson
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/11/27/review-the-amazing-johnathan">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">James Hudson reviews The Amazing Johnathan, a meta documentary that borders on being noxiously smug</p>
+      </a>
+    </div>
+  </div>
+</div>
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/20/review-last-christmas-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/sr6bzDuxaogh9v3%20las_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/11/20/review-last-christmas-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Last Christmas </p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/11/20/review-last-christmas-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Paul Feig&#39;s film plays on the success of earlier British rom coms and attempts to revamp the genre for the so-called &#39;Brexit age&#39;</p>
+      </a>
+    </div>
+  </div>
+</div>
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/19/review-le-mans-66-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/KmXg9nr9mqmdUDm%20le_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/11/19/review-le-mans-66-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Le Mans &#39;66 </p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/11/19/review-le-mans-66-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The epic Ford vs. Ferrari battle is a funny and poignant cinematic experience, says Emily Shawcross</p>
+      </a>
+    </div>
+  </div>
+</div>
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/18/retro-review-howls-moving-castle-2004">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/pbGwqeDYG4s81Re%20ggg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/11/18/retro-review-howls-moving-castle-2004">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Retro Review: Howlâ€™s Moving Castle (2004)</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/11/18/retro-review-howls-moving-castle-2004">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Sophia Andrews Gamarra reviews the early-2000s Studio Ghibli classic, whose whimsical fantasy is tempered with strong anti-war themes.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/16/short-film-review-gina">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/nHSwpU1KemyfVRx%20Screen%20Shot%202019-11-02%20at%2020.15.13_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/11/16/short-film-review-gina">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Short Film Review: Gina</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/11/16/short-film-review-gina">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Malu Rocha reviews the stand-up set from comedian Lewis Costello as he recounts the strange-but-true story of being cheated on.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/14/retro-review-spirited-away-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/OrFspq6CmDYeGgq%20Screenshot%202019-11-14%20at%2018.31.01_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/11/14/retro-review-spirited-away-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Retro Review: Spirited Away </p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/11/14/retro-review-spirited-away-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Emily Shawcross looks back on one of Studio Ghibli&#39;s most beloved animations</p>
+      </a>
+    </div>
+  </div>
+</div>
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/08/review-a-shaun-the-sheep-movie-farmageddon">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/fGBmCWX69ao0VKs%20jj_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/11/08/review-a-shaun-the-sheep-movie-farmageddon">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: A Shaun the Sheep Movie: Farmageddon</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/11/08/review-a-shaun-the-sheep-movie-farmageddon">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Raquel Bartra reviews Aardman Studio&#39;s latest stop-motion animation film that reminds us of the power of visual comedy</p>
+      </a>
+    </div>
+  </div>
+</div>
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/05/review-sorry-we-missed-you">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/bphS8H3mP9tmyzG%20sorry_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/11/05/review-sorry-we-missed-you">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Sorry We Missed You</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/11/05/review-sorry-we-missed-you">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Nafsika Hadjichristou comments on Ken Loach&#39;s latest feature and how important these types of films are for establishing a dialogue around social issues</p>
+      </a>
+    </div>
+  </div>
+</div>
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/03/review-bait-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/bc4x1AZ5Bt9udUA%20Bait-image-2_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/11/03/review-bait-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Bait </p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/11/03/review-bait-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Bait successfully captures troubled times in Britain like no other film, says James Hudson</p>
+      </a>
+    </div>
+  </div>
+</div>
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/01/review-monos">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/NR40vbBY5sGB8FH%20monos_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/11/01/review-monos">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Monos</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/11/01/review-monos">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Molly Leeming shares her views on Alejandro Landes&#39;s visually stunning film that is stirring up buzz for the Oscar&#39;s Best International Feature Film</p>
+      </a>
+    </div>
+  </div>
+</div>
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/10/23/review-the-irishman">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/Gbou86a3ecbOY0X%20al_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/10/23/review-the-irishman">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: The Irishman</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/10/23/review-the-irishman">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Ciaran Brass reviews Scorsese&#39;s latest film, a three-and-a-half-hour mob epic starring Robert de Niro and Al Pacino</p>
+      </a>
+    </div>
+  </div>
+</div>
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/10/22/review-joker">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/5fcaahXPEt3Ztnd%20jjjjj_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/10/22/review-joker">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Joker</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/10/22/review-joker">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Sophia Andrews Gamarra reviews Joker, the highly-anticipated psychological thriller depicting the origin of one of the most enduring comic book villains</p>
+      </a>
+    </div>
+  </div>
+</div>
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/10/21/review-the-peanut-butter-falcon">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/4wtamKVvF7o1Ya1%20Screenshot%202019-10-20%20at%2022.13.26_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/10/21/review-the-peanut-butter-falcon">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: The Peanut Butter Falcon</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/10/21/review-the-peanut-butter-falcon">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Kezia Deakin reviews the coming of age that offers a very different take on the classic road trip film</p>
+      </a>
+    </div>
+  </div>
+</div>
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/10/16/review-downton-abbey">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/Y6v71oRnk5V4W58%20malu_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/10/16/review-downton-abbey">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Downton Abbey</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/10/16/review-downton-abbey">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Emily Shawcross shares her views on the classic franchiseâ€™s film which serves as a love letter to the original series, but forces you to leave your cynicism at the door. </p>
+      </a>
+    </div>
+  </div>
+</div>
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/10/13/retro-review-sunset-boulevard-1950">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/RCEuz6c5tBfVQ0C%20Screenshot%202019-10-13%20at%2010.49.25_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/10/13/retro-review-sunset-boulevard-1950">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Retro Review: Sunset Boulevard (1950)</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/10/13/retro-review-sunset-boulevard-1950">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Raquel Bartra reviews the classic 1950 film noir that plays on the ridiculousness that is the Hollywood system</p>
+      </a>
+    </div>
+  </div>
+</div>
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/09/29/review-the-goldfinch">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/nHB4ZHprecQHSF7%20Screenshot%202019-09-29%20at%2011.19.01_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/09/29/review-the-goldfinch">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: The Goldfinch</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/09/29/review-the-goldfinch">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Jasmine Onstad reviews John Crowley&#39;s adaptation of the 2013 Pulitzer Prize winner, which could have been a masterpiece but falls short of expectations</p>
+      </a>
+    </div>
+  </div>
+</div>
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/08/17/review-blinded-by-the-light">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/UcvA1QDm6na8VGO%20MV5BMTczNDE0NjM5Nl5BMl5BanBnXkFtZTgwODUzNzIwODM%40._V1_SY1000_CR0%2C0%2C1333%2C1000_AL__large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/08/17/review-blinded-by-the-light">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Blinded by the Light</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2124">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Lydia Hallsworth
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/08/17/review-blinded-by-the-light">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Lydia Hallsworth evaluates the new film by Gurinder Chadha and the relevance of the racism it tackles</p>
+      </a>
+    </div>
+  </div>
+</div>
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/08/15/review-once-upon-a-time...-in-hollywood">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/dchG9K8SYnT3hNd%20Screenshot%202019-08-15%20at%2013.28.03_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/08/15/review-once-upon-a-time...-in-hollywood">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Once Upon a Time... in Hollywood</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2127">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Malu Rocha
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/08/15/review-once-upon-a-time...-in-hollywood">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Ciaran Brass comments on Tarantino&#39;s latest film - an incredible pairing of Hollywood megastars. 
+
+</p>
+      </a>
+    </div>
+  </div>
+</div>
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
                     
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
@@ -632,10 +1467,8 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/06/07/review-xy-chelsea-the-story-of-trans-woman-soldier-chelsea-manning">
@@ -660,8 +1493,7 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
                     
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
@@ -687,10 +1519,8 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/05/27/review-booksmart-">
@@ -715,8 +1545,7 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
                     
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
@@ -742,10 +1571,8 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/05/15/review-amazing-grace-">
@@ -770,8 +1597,7 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
                     
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
@@ -797,10 +1623,8 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/04/24/review-3-faces">
@@ -825,8 +1649,7 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
                     
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
@@ -852,10 +1675,8 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                    
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/04/09/review-the-keeper-">
@@ -880,8 +1701,7 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
+                  </div><div class="w-full p-2.5 border-b-2 border-gray-300">
                     
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
@@ -907,10 +1727,36 @@
     </div>
   </div>
 </div>
+                  </div><div class="w-full p-2.5 ">
+                    
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/03/15/vintage-sundays-review-the-searchers">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/zzoYvMEh73c3zok%20Screenshot%202019-03-15%20at%2011.37.50_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/03/15/vintage-sundays-review-the-searchers">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Vintage Sundays Review: The Searchers</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/03/15/vintage-sundays-review-the-searchers">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Ciaran Brass reviews and examines the 1956 western classic and its portrayal of one of the finest characters in the American canon. </p>
+      </a>
+    </div>
+  </div>
+</div>
                   </div>
-              </div>
+          </div>
   </div><div class="my-4 w-full" id="paginator_container">
-    <astro-island uid="Z14ljkr" component-url="/website/_astro/Paginator.6c7b6da2.js" component-export="default" renderer-url="/website/_astro/client.f535c890.js" props="{&quot;page&quot;:[0,4],&quot;pages&quot;:[0,20],&quot;pagesToDisplay&quot;:[0,5],&quot;prefix&quot;:[0,&quot;muse/film/film-reviews&quot;]}" ssr="" client="only" opts="{&quot;name&quot;:&quot;Paginator&quot;,&quot;value&quot;:true}"></astro-island>
+    <astro-island uid="Zm8jl4" component-url="/website/_astro/Paginator.6c7b6da2.js" component-export="default" renderer-url="/website/_astro/client.f535c890.js" props="{&quot;page&quot;:[0,4],&quot;pages&quot;:[0,19],&quot;pagesToDisplay&quot;:[0,5],&quot;prefix&quot;:[0,&quot;muse/film/film-reviews&quot;]}" ssr="" client="only" opts="{&quot;name&quot;:&quot;Paginator&quot;,&quot;value&quot;:true}"></astro-island>
   </div>
   <script>(function(){const categoriesColours = [{"categories_backgroundColor":"#173B88","categories_name":"news"},{"categories_backgroundColor":"#E21615","categories_name":"politics"},{"categories_backgroundColor":"#000000","categories_name":"muse"},{"categories_backgroundColor":"#7A1F6E","categories_name":"comment"},{"categories_backgroundColor":"#FDC300","categories_name":"sport"},{"categories_backgroundColor":"#72033F","categories_name":"features"},{"categories_backgroundColor":"#E992B2","categories_name":"arts"},{"categories_backgroundColor":"#D43F30","categories_name":"music"},{"categories_backgroundColor":"#6D6EA7","categories_name":"film"},{"categories_backgroundColor":"#843F71","categories_name":"fashion"},{"categories_backgroundColor":"#7C9464","categories_name":"food-drink"},{"categories_backgroundColor":"2B4988","categories_name":"freshers"},{"categories_backgroundColor":"#E88A20","categories_name":"travel"},{"categories_backgroundColor":"#008E3B","categories_name":"science"},{"categories_backgroundColor":"#008ACC","categories_name":"business"},{"categories_backgroundColor":"#FFF374","categories_name":"shoot"},{"categories_backgroundColor":"#4792BF","categories_name":"gaming"},{"categories_backgroundColor":"#9CD1BE","categories_name":"creative-writing"}];
 

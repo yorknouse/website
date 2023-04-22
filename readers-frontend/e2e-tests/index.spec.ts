@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
 import prisma from "../src/prisma.js";
-import { apiSearchResponse } from "./apiSearchReponse.js";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("./");

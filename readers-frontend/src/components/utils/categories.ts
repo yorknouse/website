@@ -144,6 +144,11 @@ export const getCategories = async (
     },
     include: {
       articles: {
+        where: {
+          article: {
+            articles_showInLists: true,
+          },
+        },
         orderBy: {
           article: {
             articles_published: "desc",
@@ -173,18 +178,19 @@ export const getCategories = async (
 /**
  * Paginates a category
  * @param {categoriesWithArticles} category The main category to paginate.
+ * @param {number} articlesPerPage The number of articles per page.
  * @param {string} topLevelCategory The top level category. for example, news, sport, muse
  * @param {string} pathPrefix The prefix to add to the path. For example, campus-news, gaming, music/music-news
  * @returns {any} Promise object represents the articles.
  */
 export const paginateCategory = (
   category: categoriesWithArticles,
-  rowCount: number,
+  articlesPerPage: number,
   topLevelCategory: string,
   pathPrefix?: string
 ): any => {
   // Split articles into rows of 2
-  const articleRows = category.articles
+  const articles = category.articles
     .filter(
       (article: { article: articlesWithArticleDrafts }) =>
         !category?.categories_featured
@@ -192,21 +198,7 @@ export const paginateCategory = (
           .map(Number)
           .includes(article.article.articles_id)
     )
-    .map((article: { article: articlesWithArticleDrafts }) => article.article)
-    .reduce(
-      (
-        accumulator: articlesWithArticleDrafts[][],
-        currentValue: any,
-        currentIndex: number,
-        array: articlesWithArticleDrafts[]
-      ) => {
-        if (currentIndex % 2 === 0) {
-          accumulator.push(array.slice(currentIndex, currentIndex + 2));
-        }
-        return accumulator;
-      },
-      []
-    );
+    .map((article: { article: articlesWithArticleDrafts }) => article.article);
 
   const paginatedResult = []; // Array of objects containing the params and props for each page
 
@@ -214,11 +206,11 @@ export const paginateCategory = (
   // As such, we need to add an additional page to the pagination just for the muse landing page
   const totalPageCount =
     category.categories_name === "muse"
-      ? Math.ceil(articleRows.length / rowCount) + 1
-      : Math.ceil(articleRows.length / 15);
-  for (let i = 0; i < Math.ceil(articleRows.length / rowCount); i++) {
-    const start = i * rowCount;
-    const end = start + rowCount;
+      ? Math.ceil(articles.length / articlesPerPage) + 1
+      : Math.ceil(articles.length / articlesPerPage);
+  for (let i = 0; i < Math.ceil(articles.length / articlesPerPage); i++) {
+    const start = i * articlesPerPage;
+    const end = start + articlesPerPage;
     paginatedResult.push({
       params: {
         topLevelCategory: topLevelCategory,
@@ -243,9 +235,10 @@ export const paginateCategory = (
           data:
             category.categories_name === "muse" && i === 0
               ? []
-              : articleRows.slice(start, end),
+              : articles.slice(start, end),
           currentPage: i,
           total: totalPageCount,
+          size: articlesPerPage,
         } as Page,
       },
     });
