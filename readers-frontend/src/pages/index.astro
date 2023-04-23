@@ -22,7 +22,7 @@ const categories = await getFeaturedSectionsCategories();
 <Layout title="Nouse" active="home" style="nouse">
   <main>
     <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
-      <div class="featured-articles">
+      <div id="featured-articles">
         <FeaturedArticles
           featuredArticlesIds={featuredArticlesIds?.featuredHome_articles
             ?.split(",")
@@ -33,7 +33,7 @@ const categories = await getFeaturedSectionsCategories();
       <BannerEdition />
     </div>
     <Muse />
-    <div id="featured-sections" class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
+    <div class="featured-sections px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
       {
         categories.map((category) => (
           <div id={`${category.categories_name}-section`}>

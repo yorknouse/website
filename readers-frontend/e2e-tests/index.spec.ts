@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
 import prisma from "../src/prisma.js";
-import { apiSearchResponse } from "./apiSearchReponse.js";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("./");
@@ -77,7 +76,7 @@ test.describe("Featured Articles", () => {
         });
         await page.reload();
         await expect(
-          page.locator(".featured-articles >> .article:visible")
+          page.locator("#featured-articles >> .article:visible")
         ).toHaveCount(landscapeFeaturedArticles.length);
       });
 
@@ -96,7 +95,7 @@ test.describe("Featured Articles", () => {
         await page.reload();
         for (let i = 0; i < landscapeFeaturedArticles.length; i++) {
           const article = page
-            .locator(`.featured-articles >> .article:visible`)
+            .locator(`#featured-articles >> .article:visible`)
             .nth(i);
 
           // Checking Image
@@ -186,7 +185,7 @@ test.describe("Featured Articles", () => {
         });
         await page.reload();
         await expect(
-          page.locator(".featured-articles >> .article:visible")
+          page.locator("#featured-articles >> .article:visible")
         ).toHaveCount(landscapeFeaturedArticles.length);
       });
 
@@ -203,7 +202,7 @@ test.describe("Featured Articles", () => {
         });
         await page.reload();
         const article = page
-          .locator(`.featured-articles >> .article:visible`)
+          .locator(`#featured-articles >> .article:visible`)
           .nth(0);
 
         // Checking Image
@@ -269,7 +268,7 @@ test.describe("Featured Articles", () => {
           await page.reload();
           for (let i = 1; i < landscapeFeaturedArticles.length; i++) {
             const article = page
-              .locator(`.featured-articles >> .article:visible`)
+              .locator(`#featured-articles >> .article:visible`)
               .nth(i);
 
             if (!isMobile || (isMobile && i <= 2)) {
@@ -358,14 +357,17 @@ test.describe("Banner and Edition", () => {
 
 test.describe("Featured Section", () => {
   test("Displays one featured section", async ({ page }) => {
-    const featuredSection = page.locator("#featured-sections > div");
+    const featuredSection = page.locator(".featured-sections > div");
     await expect(featuredSection).toHaveCount(1);
   });
   test("Displays the category accent", async ({ page }) => {
     const categoryAccent = page
       .locator("#testCategory1-section")
       .locator(".category-text");
-    await expect(categoryAccent).toHaveAttribute("href", `/website/testCategory1`);
+    await expect(categoryAccent).toHaveAttribute(
+      "href",
+      `/website/testCategory1`
+    );
     await expect(categoryAccent).toHaveText("Test");
     await expect(categoryAccent).toHaveCSS("color", "rgb(237, 179, 33)"); // Playwright doesn't support hex values for toHaveCSS.
   });

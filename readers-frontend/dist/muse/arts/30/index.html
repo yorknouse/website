@@ -92,11 +92,11 @@
   </ul>
 </nav>
     <style>astro-island,astro-slot{display:contents}</style><script>(self.Astro=self.Astro||{}).only=t=>{(async()=>await(await t())())()},window.dispatchEvent(new Event("astro:only"));var l;{const c={0:t=>t,1:t=>JSON.parse(t,o),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(JSON.parse(t,o)),5:t=>new Set(JSON.parse(t,o)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(JSON.parse(t)),9:t=>new Uint16Array(JSON.parse(t)),10:t=>new Uint32Array(JSON.parse(t))},o=(t,s)=>{if(t===""||!Array.isArray(s))return s;const[e,n]=s;return e in c?c[e](n):void 0};customElements.get("astro-island")||customElements.define("astro-island",(l=class extends HTMLElement{constructor(){super(...arguments);this.hydrate=()=>{if(!this.hydrator||this.parentElement&&this.parentElement.closest("astro-island[ssr]"))return;const s=this.querySelectorAll("astro-slot"),e={},n=this.querySelectorAll("template[data-astro-template]");for(const r of n){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(const r of s){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("name")||"default"]=r.innerHTML)}const a=this.hasAttribute("props")?JSON.parse(this.getAttribute("props"),o):{};this.hydrator(this)(this.Component,a,e,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),window.removeEventListener("astro:hydrate",this.hydrate),window.dispatchEvent(new CustomEvent("astro:hydrate"))}}connectedCallback(){!this.hasAttribute("await-children")||this.firstChild?this.childrenConnectedCallback():new MutationObserver((s,e)=>{e.disconnect(),this.childrenConnectedCallback()}).observe(this,{childList:!0})}async childrenConnectedCallback(){window.addEventListener("astro:hydrate",this.hydrate);let s=this.getAttribute("before-hydration-url");s&&await import(s),this.start()}start(){const s=JSON.parse(this.getAttribute("opts")),e=this.getAttribute("client");if(Astro[e]===void 0){window.addEventListener(`astro:${e}`,()=>this.start(),{once:!0});return}Astro[e](async()=>{const n=this.getAttribute("renderer-url"),[a,{default:r}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),i=this.getAttribute("component-export")||"default";if(!i.includes("."))this.Component=a[i];else{this.Component=a;for(const d of i.split("."))this.Component=this.Component[d]}return this.hydrator=r,this.hydrate},s,this)}attributeChangedCallback(){this.hydrator&&this.hydrate()}},l.observedAttributes=["props"],l))}</script><div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
-    <div class="featured-articles">
+    <div id="featured-articles">
             
 <div class="hidden sm:flex">
   
-  <div>
+  <div class="w-full">
     
     <div>
       <div class="flex max-h-52 max-w-full gap-2.5">
@@ -434,20 +434,24 @@ questions if the world-renowned â€˜Mona Lisaâ€™ is worthy of her popula
 </div>
     </div>
 </div>
-          </div>
-    <hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+          </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+    <div>
+              
+              <div class="hidden max-w-full flex-col sm:flex">
+                <div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/25/review-the-only-way-is-chelseas">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/09/07/fringe-review-beulah">
           <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
         </a>
     <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
       
       <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/25/review-the-only-way-is-chelseas">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: The Only Way is Chelsea&#39;s</p>
+        <a class="headline astro-Q7KXOHAS" href="/2013/09/07/fringe-review-beulah">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review: Beulah </p>
         </a>
         <a class="author astro-Q7KXOHAS" href="/author/1">
           <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
@@ -456,25 +460,25 @@ questions if the world-renowned â€˜Mona Lisaâ€™ is worthy of her popula
           </p>
         </a>
       </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/25/review-the-only-way-is-chelseas">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The Only Way is Chelsea&#39;s has TakeOver Festival in fits.</p>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/09/07/fringe-review-beulah">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Alexander Wright&#39;s new piece, inspired by William Blake, is an Edinburgh Fringe tour de force. Jordan Licht reviews.</p>
       </a>
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/25/review-the-crucible">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/09/06/fringe-review-the-life-and-times-of-victor-biktrakarawitz">
           <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
         </a>
     <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
       
       <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/25/review-the-crucible">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: The Crucible</p>
+        <a class="headline astro-Q7KXOHAS" href="/2013/09/06/fringe-review-the-life-and-times-of-victor-biktrakarawitz">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review: The Life and Times of Victor Biktrakarawitz</p>
         </a>
         <a class="author astro-Q7KXOHAS" href="/author/1">
           <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
@@ -483,48 +487,52 @@ questions if the world-renowned â€˜Mona Lisaâ€™ is worthy of her popula
           </p>
         </a>
       </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/25/review-the-crucible">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Emily Russell urges you to see the Drama Barn&#39;s latest gritty offering</p>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/09/06/fringe-review-the-life-and-times-of-victor-biktrakarawitz">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A father-turned-gimp, a murdering wife, incestuous siblings and a dwarf drug-dealer dressed as a toddler. Jordan Licht reviews a new musical about the traditional family gone horribly wrong.</p>
       </a>
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/23/review-religion-debate-york-union">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/31/portrait-of-an-artist-seamus-heaney">
           <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
         </a>
     <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
       
       <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/23/review-religion-debate-york-union">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Religion debate, York Union</p>
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/31/portrait-of-an-artist-seamus-heaney">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Portrait of an Artist: Seamus Heaney</p>
         </a>
         
       </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/23/review-religion-debate-york-union">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Lucie Parker reviews the York Union&#39;s spectacular first event</p>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/31/portrait-of-an-artist-seamus-heaney">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Georgia Woodroffe looks over the life of Seamus Heaney, acclaimed by many as the best Irish poet since Yeats. </p>
       </a>
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/23/review-champions-of-magic">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/29/review-where-the-white-stops">
           <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
         </a>
     <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
       
       <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/23/review-champions-of-magic">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Champions of Magic</p>
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/29/review-where-the-white-stops">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review: Where the White Stops</p>
         </a>
         <a class="author astro-Q7KXOHAS" href="/author/1">
           <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
@@ -533,26 +541,30 @@ questions if the world-renowned â€˜Mona Lisaâ€™ is worthy of her popula
           </p>
         </a>
       </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/23/review-champions-of-magic">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Georgia reviews Champions of Magic, a muddle of a show, which manages to inspire both love and hate.</p>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/29/review-where-the-white-stops">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Where the White Stops is a balmy relief from the hordes of desperate comics and uncomfortable theatre Fringe is flooded with. Thomas Cox reviews</p>
       </a>
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/22/periods-happen-get-over-it">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/29/review-the-same-deep-water-as-me">
           <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
         </a>
     <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
       
       <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/22/periods-happen-get-over-it">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Periods happen... Get over it!</p>
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/29/review-the-same-deep-water-as-me">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: The Same Deep Water As Me</p>
         </a>
         <a class="author astro-Q7KXOHAS" href="/author/1">
           <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
@@ -561,153 +573,226 @@ questions if the world-renowned â€˜Mona Lisaâ€™ is worthy of her popula
           </p>
         </a>
       </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/22/periods-happen-get-over-it">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Arvida Bystrom discusses feminism, femininity and widening the gender binary, with Amber Benbow-Hart.</p>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/29/review-the-same-deep-water-as-me">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The Same Deep Water As Me is another play to be proud of for York University alumnus Nick Payne. Rosanna O&#39;Donnell reviews 
+</p>
       </a>
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/22/offensive-delight">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/24/fringe-review-scroobius-pip-words">
           <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
         </a>
     <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
       
       <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/22/offensive-delight">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Offensive Delight</p>
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/24/fringe-review-scroobius-pip-words">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review - Scroobius Pip: Words </p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/24/fringe-review-scroobius-pip-words">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The bearded boss of spoken word has a word or two for the Edinburgh Fringe</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/23/fringe-review-the-seer">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/23/fringe-review-the-seer">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review: The Seer</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/23/fringe-review-the-seer">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Hilarious, monstrous, and beautifully poignant. Jordan Licht reviews the play that has Edinburgh under its spell
+</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/18/fringe-review-jamie-macdowell-and-tom-thum">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/18/fringe-review-jamie-macdowell-and-tom-thum">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review: Jamie MacDowell and Tom Thum</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/18/fringe-review-jamie-macdowell-and-tom-thum">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Take one sexy singer-songwriter, and a top-notch beat-boxer and you get a musical duo that are redefining musical parameters</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/16/fringe-review-andrew-maxwell-banana-kingdom">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/16/fringe-review-andrew-maxwell-banana-kingdom">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review: Andrew Maxwell - Banana Kingdom</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/16/fringe-review-andrew-maxwell-banana-kingdom">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Ireland&#39;s stand-up comedy king, Andrew Maxwell is back again for yet another gig at the Edinburgh fringe. But does the show live up to the hype, asks Jordan Licht</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/13/fringe-review-snakes-pretending-to-be-seat-belts">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/13/fringe-review-snakes-pretending-to-be-seat-belts">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review: Snakes Pretending to be Seat Belts</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/13/fringe-review-snakes-pretending-to-be-seat-belts">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A cross between the Mighty Boosh, Alice and Wonderland and Jurassic Park, Australian comedy duo Gravity Boots will make you question your sanity</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/11/fringe-review-wittank-presents-the-school">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/11/fringe-review-wittank-presents-the-school">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review: WitTank Presents The School</p>
         </a>
         
       </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/22/offensive-delight">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Tom Duthie explains why we should laugh with the fat, white, middle-aged controversy of comedian Louis C.K.</p>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/11/fringe-review-wittank-presents-the-school">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">They made us chortle with their mini comedy bites on BBC 3. But can they sustain our laughter with a full-blown live comedy sketch show? Jordan Licht thinks they really, really, definitely can</p>
       </a>
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/22/when-youtube-gets-dark-2">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/10/fringe-review-contractions">
           <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
         </a>
     <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
       
       <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/22/when-youtube-gets-dark-2">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">When YouTube gets dark</p>
-        </a>
-        <a class="author astro-Q7KXOHAS" href="/author/1">
-          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
-            <span class="category-color astro-Q7KXOHAS">By</span>
-            James Bithell
-          </p>
-        </a>
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/22/when-youtube-gets-dark-2">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">It was all fun and games.. Until we got creative</p>
-      </a>
-    </div>
-  </div>
-</div>
-                </div>
-                <div class="w-1/2">
-                    
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/22/naumans-unholy-trinity-2">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/22/naumans-unholy-trinity-2">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Nauman&#39;s Unholy Trinity</p>
-        </a>
-        <a class="author astro-Q7KXOHAS" href="/author/1">
-          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
-            <span class="category-color astro-Q7KXOHAS">By</span>
-            James Bithell
-          </p>
-        </a>
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/22/naumans-unholy-trinity-2">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Sarah Farrington speaks to the assistant curators of Bruce Nauman, York&#39;s latest exhibition imported from the Tate.</p>
-      </a>
-    </div>
-  </div>
-</div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/21/who-says-you-have-to-study-it-to-make-it">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/21/who-says-you-have-to-study-it-to-make-it">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Video: Who says you have to study it to make it?</p>
-        </a>
-        <a class="author astro-Q7KXOHAS" href="/author/1">
-          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
-            <span class="category-color astro-Q7KXOHAS">By</span>
-            James Bithell
-          </p>
-        </a>
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/21/who-says-you-have-to-study-it-to-make-it">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Student art group &#39;In-between Collective&#39; talk to Jordan Licht about their upcoming exhibition and why for them, art is more than just a hobby.</p>
-      </a>
-    </div>
-  </div>
-</div>
-                </div>
-                <div class="w-1/2">
-                    
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/20/video-games-taking-art-to-the-next-level">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/20/video-games-taking-art-to-the-next-level">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Video Games: Taking Art to the Next Level?</p>
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/10/fringe-review-contractions">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review: Contractions</p>
         </a>
         
       </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/20/video-games-taking-art-to-the-next-level">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Sam Bartlett explains why there&#39;s more to video games than meets the eye</p>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/10/fringe-review-contractions">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">As the Edinburgh fringe is catapulted into full-swing, Jordan Licht is glad to see a university drama show amongst those setting the standard for the festival. </p>
       </a>
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/20/review-bed-and-breakfast">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/07/26/review-seasons">
           <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
         </a>
     <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
       
       <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/20/review-bed-and-breakfast">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Bed and Breakfast</p>
+        <a class="headline astro-Q7KXOHAS" href="/2013/07/26/review-seasons">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Seasons</p>
         </a>
         <a class="author astro-Q7KXOHAS" href="/author/1">
           <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
@@ -716,48 +801,25 @@ questions if the world-renowned â€˜Mona Lisaâ€™ is worthy of her popula
           </p>
         </a>
       </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/20/review-bed-and-breakfast">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Humorous, dark... and you get a biscuit. Amber Benbow-Hart reviews</p>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/07/26/review-seasons">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Four strong lead voices go some way to balancing out Season&#39;s weak lyrics and lack of the energy that defines the best of the West End. Rosemary Collins reviews.</p>
       </a>
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/20/review-titus-andronicus">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/07/24/review-mount-holyoke-college-art-museum">
           <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
         </a>
     <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
       
       <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/20/review-titus-andronicus">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Titus Andronicus</p>
-        </a>
-        
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/20/review-titus-andronicus">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The all female cast of Titus Andronicus make a storm at the TakeOver Festival</p>
-      </a>
-    </div>
-  </div>
-</div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/20/im-pretentious-look-at-me-i-wear-fucking-braces">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/20/im-pretentious-look-at-me-i-wear-fucking-braces">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">&#39;I&#39;m pretentious. Look at me, I wear fucking braces&#39;</p>
+        <a class="headline astro-Q7KXOHAS" href="/2013/07/24/review-mount-holyoke-college-art-museum">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Mount Holyoke College Art Museum</p>
         </a>
         <a class="author astro-Q7KXOHAS" href="/author/1">
           <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
@@ -766,25 +828,30 @@ questions if the world-renowned â€˜Mona Lisaâ€™ is worthy of her popula
           </p>
         </a>
       </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/20/im-pretentious-look-at-me-i-wear-fucking-braces">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Siobhan Gordon-Wylie talks to Alan Lane about making theatre accessible to the masses, and why his new show, Blood + Chocolate is taking York by storm.</p>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/07/24/review-mount-holyoke-college-art-museum">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">One of the oldest collegiate galleries in the world leads Sonali Dutta through an expansive collection.</p>
       </a>
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/19/review-that-face">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/07/22/review-beautiful-ruins-jess-walter">
           <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
         </a>
     <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
       
       <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/19/review-that-face">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: That Face</p>
+        <a class="headline astro-Q7KXOHAS" href="/2013/07/22/review-beautiful-ruins-jess-walter">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Beautiful Ruins - Jess Walter</p>
         </a>
         <a class="author astro-Q7KXOHAS" href="/author/1">
           <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
@@ -793,441 +860,1172 @@ questions if the world-renowned â€˜Mona Lisaâ€™ is worthy of her popula
           </p>
         </a>
       </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/19/review-that-face">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A pleasurably uncomfortable drama has Jess Burgess on edge. </p>
-      </a>
-    </div>
-  </div>
-</div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/18/review-campus-a-tale-of-terrors">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/18/review-campus-a-tale-of-terrors">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Campus: A Tale of Terrors</p>
-        </a>
-        <a class="author astro-Q7KXOHAS" href="/author/1">
-          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
-            <span class="category-color astro-Q7KXOHAS">By</span>
-            James Bithell
-          </p>
-        </a>
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/18/review-campus-a-tale-of-terrors">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Laura Stratford reviews YSTVs latest offering, a piece of original writing concerning the supernatural.</p>
-      </a>
-    </div>
-  </div>
-</div>
-                </div>
-                <div class="w-1/2">
-                    
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/18/review-roger-hiorns-untitled">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/18/review-roger-hiorns-untitled">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Roger Hiorns&#39; &quot;Untitled&quot;</p>
-        </a>
-        
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/18/review-roger-hiorns-untitled">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Fire, dereliction and trampling seize the attention in Roger Hiorns&#39; daring exhibition. Sarah Farrington reviews.</p>
-      </a>
-    </div>
-  </div>
-</div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/17/book-review-essential-shakespeare-the-arden-guide-to-text-and-interpretation-review">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/17/book-review-essential-shakespeare-the-arden-guide-to-text-and-interpretation-review">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Book Review: Essential Shakespeare: The Arden Guide to Text and Interpretation Review</p>
-        </a>
-        <a class="author astro-Q7KXOHAS" href="/author/1">
-          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
-            <span class="category-color astro-Q7KXOHAS">By</span>
-            James Bithell
-          </p>
-        </a>
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/17/book-review-essential-shakespeare-the-arden-guide-to-text-and-interpretation-review">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A solid and engaging introduction ideal for avid students. Lydia Brecknell reviews.</p>
-      </a>
-    </div>
-  </div>
-</div>
-                </div>
-                <div class="w-1/2">
-                    
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/16/portrait-of-a-poet-pablo-neruda">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/16/portrait-of-a-poet-pablo-neruda">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Portrait of a Poet: Pablo Neruda</p>
-        </a>
-        <a class="author astro-Q7KXOHAS" href="/author/1">
-          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
-            <span class="category-color astro-Q7KXOHAS">By</span>
-            James Bithell
-          </p>
-        </a>
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/16/portrait-of-a-poet-pablo-neruda">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">40 years after his death, Neruda remains one of the loudest voices in Spanish literature.</p>
-      </a>
-    </div>
-  </div>
-</div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/13/review-summm">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/13/review-summm">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Summm</p>
-        </a>
-        
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/13/review-summm">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The individual&#39;s relationship with the media is framed using photography and film in the Norman Rea&#39;s opening exhibition. Faith Whitehouse reviews.</p>
-      </a>
-    </div>
-  </div>
-</div>
-                </div>
-                <div class="w-1/2">
-                    
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/13/review-hay-fever">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/13/review-hay-fever">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Hay Fever</p>
-        </a>
-        <a class="author astro-Q7KXOHAS" href="/author/1">
-          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
-            <span class="category-color astro-Q7KXOHAS">By</span>
-            James Bithell
-          </p>
-        </a>
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/13/review-hay-fever">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The Drama Barn&#39;s latest offering provides Jess Burgess with unparalleled entertainment.</p>
-      </a>
-    </div>
-  </div>
-</div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/08/review-blood-and-chocolate">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/08/review-blood-and-chocolate">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Blood and Chocolate </p>
-        </a>
-        <a class="author astro-Q7KXOHAS" href="/author/1">
-          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
-            <span class="category-color astro-Q7KXOHAS">By</span>
-            James Bithell
-          </p>
-        </a>
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/08/review-blood-and-chocolate">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Blood and Chocolate&#39;s bittersweet saga takes to York&#39;s streets. Georgia Woodroffe reviews. </p>
-      </a>
-    </div>
-  </div>
-</div>
-                </div>
-                <div class="w-1/2">
-                    
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/07/review-seann-walsh-at-yusu-comedy-night">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/07/review-seann-walsh-at-yusu-comedy-night">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Seann Walsh at YUSU Comedy Night</p>
-        </a>
-        <a class="author astro-Q7KXOHAS" href="/author/1">
-          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
-            <span class="category-color astro-Q7KXOHAS">By</span>
-            James Bithell
-          </p>
-        </a>
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/07/review-seann-walsh-at-yusu-comedy-night">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Diseased lakes, smug ducks, microphone penises and vajazzles made the last night of Freshers&#39; Week a roaring success.</p>
-      </a>
-    </div>
-  </div>
-</div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/01/dont-define-me-by-the-veil-saba-bernard-tells-katy-gregory-how-muslim-women-are-kicking-ass">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/01/dont-define-me-by-the-veil-saba-bernard-tells-katy-gregory-how-muslim-women-are-kicking-ass">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">&#39;Don&#39;t define me by the veil&#39;</p>
-        </a>
-        <a class="author astro-Q7KXOHAS" href="/author/1">
-          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
-            <span class="category-color astro-Q7KXOHAS">By</span>
-            James Bithell
-          </p>
-        </a>
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/01/dont-define-me-by-the-veil-saba-bernard-tells-katy-gregory-how-muslim-women-are-kicking-ass">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Fiery woman artist, Saba Barnard, talks to Katy Gregory about the misrepresentation of Muslim women in the media, &#39;kicking ass&#39;, and differently structured desires.</p>
-      </a>
-    </div>
-  </div>
-</div>
-                </div>
-                <div class="w-1/2">
-                    
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/01/how-well-do-you-know-bond-the-answers">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/01/how-well-do-you-know-bond-the-answers">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Think you know your Bond: The Answers</p>
-        </a>
-        <a class="author astro-Q7KXOHAS" href="/author/1">
-          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
-            <span class="category-color astro-Q7KXOHAS">By</span>
-            James Bithell
-          </p>
-        </a>
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/01/how-well-do-you-know-bond-the-answers">
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/07/22/review-beautiful-ruins-jess-walter">
         <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
       </a>
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/01/think-you-know-your-bond">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/07/17/review-the-royal-academy-summer-exhibition-2013">
           <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
         </a>
     <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
       
       <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/01/think-you-know-your-bond">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Think you know your Bond?</p>
-        </a>
-        <a class="author astro-Q7KXOHAS" href="/author/1">
-          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
-            <span class="category-color astro-Q7KXOHAS">By</span>
-            James Bithell
-          </p>
-        </a>
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/01/think-you-know-your-bond">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Jordan Licht has trawled the archives for these brain-busting Bond questions. How well do you know Bond?</p>
-      </a>
-    </div>
-  </div>
-</div>
-                </div>
-                <div class="w-1/2">
-                    
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/01/the-names-boyd">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/01/the-names-boyd">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: How Boyd&#39;s Bond compares to Fleming&#39;s 007</p>
-        </a>
-        <a class="author astro-Q7KXOHAS" href="/author/1">
-          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
-            <span class="category-color astro-Q7KXOHAS">By</span>
-            James Bithell
-          </p>
-        </a>
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/01/the-names-boyd">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Bond is back, this time on the page in a controversial new novel by self-confessed Fleming geek William Boyd. Emily Rose Ross reviews Solo.</p>
-      </a>
-    </div>
-  </div>
-</div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/01/get-your-fix">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/01/get-your-fix">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Get Your Fix</p>
-        </a>
-        <a class="author astro-Q7KXOHAS" href="/author/1">
-          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
-            <span class="category-color astro-Q7KXOHAS">By</span>
-            James Bithell
-          </p>
-        </a>
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/01/get-your-fix">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
-      </a>
-    </div>
-  </div>
-</div>
-                </div>
-                <div class="w-1/2">
-                    
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/01/the-most-contrived-works-in-art-history">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/01/the-most-contrived-works-in-art-history">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The most contrived works in art history</p>
-        </a>
-        <a class="author astro-Q7KXOHAS" href="/author/1">
-          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
-            <span class="category-color astro-Q7KXOHAS">By</span>
-            James Bithell
-          </p>
-        </a>
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/01/the-most-contrived-works-in-art-history">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Perdy North discovers why  Dutch &#39;genre painting&#39; masterpeices are worth a second look.</p>
-      </a>
-    </div>
-  </div>
-</div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/01/why-dahls-adult-lit-is-under-rated">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/01/why-dahls-adult-lit-is-under-rated">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Why Dahl&#39;s adult lit is under-rated</p>
-        </a>
-        <a class="author astro-Q7KXOHAS" href="/author/1">
-          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
-            <span class="category-color astro-Q7KXOHAS">By</span>
-            James Bithell
-          </p>
-        </a>
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/01/why-dahls-adult-lit-is-under-rated">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Deborah Lam tells us why world-renowned children&#39;s author Roald Dahl should be remembered for his adult literature too.</p>
-      </a>
-    </div>
-  </div>
-</div>
-                </div>
-                <div class="w-1/2">
-                    
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/10/01/the-complete-event-listing-for-york-campus-and-town-to-monday-week-4">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2013/10/01/the-complete-event-listing-for-york-campus-and-town-to-monday-week-4">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The complete event listing for York events weeks 1-3</p>
+        <a class="headline astro-Q7KXOHAS" href="/2013/07/17/review-the-royal-academy-summer-exhibition-2013">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: The Royal Academy Summer Exhibition 2013</p>
         </a>
         
       </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2013/10/01/the-complete-event-listing-for-york-campus-and-town-to-monday-week-4">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Gigs, concerts, club nights, stage, screen, comedy and exhibition listings: 1st-20th October</p>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/07/17/review-the-royal-academy-summer-exhibition-2013">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">You&#39;ve got one month left to see this astoundingly broad ranging and historically influential exhibition at the heart of London. Katy Gregory reviews.</p>
       </a>
     </div>
   </div>
 </div>
-                  </div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/07/08/portrait-of-an-artist-penny-phillips">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/07/08/portrait-of-an-artist-penny-phillips">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Portrait of an Artist: Penny Phillips </p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/07/08/portrait-of-an-artist-penny-phillips">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Local artist Penny Phillips talks to Charlotte Wainwright about her artistic career, ceramic sculptures and sharing a bath in Japan </p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/07/08/review-paper-saatchi-gallery-london">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/07/08/review-paper-saatchi-gallery-london">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Paper, Saatchi Gallery, London</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/07/08/review-paper-saatchi-gallery-london">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The Saatchi Gallery hosts Paper, which addresses important questions over where art and the rest of the world is heading. Katy reviews.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/30/review-a-reading-by-seamus-heaney">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/30/review-a-reading-by-seamus-heaney">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: A Reading by Seamus Heaney</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/30/review-a-reading-by-seamus-heaney">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">York alumnus Seamus Heaney injects his own rich work on North and South to the Festival of Ideas. Georgia Woodroffe reviews.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/29/local-hero-rita-ridgeon-celebrates-40-years-at-york-theatre-royal-2">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/29/local-hero-rita-ridgeon-celebrates-40-years-at-york-theatre-royal-2">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Local Hero: Rita Ridgeon celebrates 40 years at York Theatre Royal</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/29/local-hero-rita-ridgeon-celebrates-40-years-at-york-theatre-royal-2">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Jordan Licht interviews the septuagenarian usher, local celebrity, and occasional performer about forging one of the longest careers in the business</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/23/interview-john-wakefield-trimble-producer">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/23/interview-john-wakefield-trimble-producer">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Interview: John Wakefield, &#39;Trimble&#39; producer.</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/23/interview-john-wakefield-trimble-producer">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Rory Foster speaks to John Wakefield about the upcoming live radio sitcom, &#39;Trimble&#39;.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/22/review-hedda-gabler">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/22/review-hedda-gabler">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Hedda Gabler</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/22/review-hedda-gabler">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The Norwegian classic impresses but fails to fulfill its potential. Sam Hickford reviews.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/18/campus-arts-review-of-the-year">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/18/campus-arts-review-of-the-year">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Campus Arts: Review of the Year</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/18/campus-arts-review-of-the-year">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">York&#39;s Arts scene has grown every year with societies being born, growing and developing to new heights every year. Our reviewers take a look over the year&#39;s best creative endeavours.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/18/surrealism-and-story-telling">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/18/surrealism-and-story-telling">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Surrealism and Story-telling</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/18/surrealism-and-story-telling">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Mancunian surrealist writer, Nicholas Royle, talks inspiration, persistence and niche exploitation with Sam Hickford.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/18/shooting-them-dead-lessons-learnt-from-war-primer-2">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/18/shooting-them-dead-lessons-learnt-from-war-primer-2">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Shooting Them Dead: Lessons learnt from War Primer 2</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/18/shooting-them-dead-lessons-learnt-from-war-primer-2">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Thomas Cox explores war imagery, to find out that the photographer is much more than a passive bystander.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/18/book-review-and-the-mountains-echoed-khaled-hosseini">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/18/book-review-and-the-mountains-echoed-khaled-hosseini">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Book review: And the Mountains Echoed - Khaled Hosseini</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/18/book-review-and-the-mountains-echoed-khaled-hosseini">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Hosseini certainly lives up to his name of &#39;master storyteller&#39; in a novel that explores unspoken feelings and regrets. Heather Stewart reviews.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/16/review-pantomime-redemption">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/16/review-pantomime-redemption">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Pantomime Redemption</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/16/review-pantomime-redemption">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Pantomime Redemption uses all the mighty arsenal of comedy stockpiled by pantomimes to explore the role of that dying art. Sam Hickford reviews. </p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/15/review-little-women-the-musical">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/15/review-little-women-the-musical">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Little Women, the Musical</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/15/review-little-women-the-musical">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A beautiful and uniquely memorable performance of this cracking classic graces York campus. Lucie Parker reviews.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/13/review-norman-rea-summer-exhibition-the-circle">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/13/review-norman-rea-summer-exhibition-the-circle">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Norman Rea Summer Exhibition - &quot;The Circle&quot;</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/13/review-norman-rea-summer-exhibition-the-circle">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The Norman Rea offers &#39;The Circle&#39;, which makes for a fascinating collection of pieces, some with more obvious links to the theme of circles than others, but all nonetheless thought-provoking. Lauren Spence reviews.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/13/review-the-mercy-seat">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/13/review-the-mercy-seat">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: The Mercy Seat</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/13/review-the-mercy-seat">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A cloying claustrophobia seeps through the Mercy Seat as a couple face a difficult decision in front of the backdrop of the great American disaster. Lucie Parker reviews.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          
+                        </div>
               </div>
-  </div><div class="my-4 w-full" id="paginator_container">
-    <astro-island uid="ZnwIBc" component-url="/website/_astro/Paginator.6c7b6da2.js" component-export="default" renderer-url="/website/_astro/client.f535c890.js" props="{&quot;page&quot;:[0,29],&quot;pages&quot;:[0,60],&quot;pagesToDisplay&quot;:[0,5],&quot;prefix&quot;:[0,&quot;muse/arts&quot;]}" ssr="" client="only" opts="{&quot;name&quot;:&quot;Paginator&quot;,&quot;value&quot;:true}"></astro-island>
+              
+              <div class="block max-w-full justify-center sm:hidden">
+                <div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/09/07/fringe-review-beulah">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/09/07/fringe-review-beulah">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review: Beulah </p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/09/07/fringe-review-beulah">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Alexander Wright&#39;s new piece, inspired by William Blake, is an Edinburgh Fringe tour de force. Jordan Licht reviews.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/09/06/fringe-review-the-life-and-times-of-victor-biktrakarawitz">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/09/06/fringe-review-the-life-and-times-of-victor-biktrakarawitz">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review: The Life and Times of Victor Biktrakarawitz</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/09/06/fringe-review-the-life-and-times-of-victor-biktrakarawitz">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A father-turned-gimp, a murdering wife, incestuous siblings and a dwarf drug-dealer dressed as a toddler. Jordan Licht reviews a new musical about the traditional family gone horribly wrong.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/31/portrait-of-an-artist-seamus-heaney">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/31/portrait-of-an-artist-seamus-heaney">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Portrait of an Artist: Seamus Heaney</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/31/portrait-of-an-artist-seamus-heaney">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Georgia Woodroffe looks over the life of Seamus Heaney, acclaimed by many as the best Irish poet since Yeats. </p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/29/review-where-the-white-stops">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/29/review-where-the-white-stops">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review: Where the White Stops</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/29/review-where-the-white-stops">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Where the White Stops is a balmy relief from the hordes of desperate comics and uncomfortable theatre Fringe is flooded with. Thomas Cox reviews</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/29/review-the-same-deep-water-as-me">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/29/review-the-same-deep-water-as-me">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: The Same Deep Water As Me</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/29/review-the-same-deep-water-as-me">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The Same Deep Water As Me is another play to be proud of for York University alumnus Nick Payne. Rosanna O&#39;Donnell reviews 
+</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/24/fringe-review-scroobius-pip-words">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/24/fringe-review-scroobius-pip-words">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review - Scroobius Pip: Words </p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/24/fringe-review-scroobius-pip-words">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The bearded boss of spoken word has a word or two for the Edinburgh Fringe</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/23/fringe-review-the-seer">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/23/fringe-review-the-seer">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review: The Seer</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/23/fringe-review-the-seer">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Hilarious, monstrous, and beautifully poignant. Jordan Licht reviews the play that has Edinburgh under its spell
+</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/18/fringe-review-jamie-macdowell-and-tom-thum">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/18/fringe-review-jamie-macdowell-and-tom-thum">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review: Jamie MacDowell and Tom Thum</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/18/fringe-review-jamie-macdowell-and-tom-thum">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Take one sexy singer-songwriter, and a top-notch beat-boxer and you get a musical duo that are redefining musical parameters</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/16/fringe-review-andrew-maxwell-banana-kingdom">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/16/fringe-review-andrew-maxwell-banana-kingdom">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review: Andrew Maxwell - Banana Kingdom</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/16/fringe-review-andrew-maxwell-banana-kingdom">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Ireland&#39;s stand-up comedy king, Andrew Maxwell is back again for yet another gig at the Edinburgh fringe. But does the show live up to the hype, asks Jordan Licht</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/13/fringe-review-snakes-pretending-to-be-seat-belts">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/13/fringe-review-snakes-pretending-to-be-seat-belts">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review: Snakes Pretending to be Seat Belts</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/13/fringe-review-snakes-pretending-to-be-seat-belts">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A cross between the Mighty Boosh, Alice and Wonderland and Jurassic Park, Australian comedy duo Gravity Boots will make you question your sanity</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/11/fringe-review-wittank-presents-the-school">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/11/fringe-review-wittank-presents-the-school">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review: WitTank Presents The School</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/11/fringe-review-wittank-presents-the-school">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">They made us chortle with their mini comedy bites on BBC 3. But can they sustain our laughter with a full-blown live comedy sketch show? Jordan Licht thinks they really, really, definitely can</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/08/10/fringe-review-contractions">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/08/10/fringe-review-contractions">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fringe Review: Contractions</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/08/10/fringe-review-contractions">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">As the Edinburgh fringe is catapulted into full-swing, Jordan Licht is glad to see a university drama show amongst those setting the standard for the festival. </p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/07/26/review-seasons">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/07/26/review-seasons">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Seasons</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/07/26/review-seasons">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Four strong lead voices go some way to balancing out Season&#39;s weak lyrics and lack of the energy that defines the best of the West End. Rosemary Collins reviews.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/07/24/review-mount-holyoke-college-art-museum">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/07/24/review-mount-holyoke-college-art-museum">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Mount Holyoke College Art Museum</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/07/24/review-mount-holyoke-college-art-museum">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">One of the oldest collegiate galleries in the world leads Sonali Dutta through an expansive collection.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/07/22/review-beautiful-ruins-jess-walter">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/07/22/review-beautiful-ruins-jess-walter">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Beautiful Ruins - Jess Walter</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/07/22/review-beautiful-ruins-jess-walter">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/07/17/review-the-royal-academy-summer-exhibition-2013">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/07/17/review-the-royal-academy-summer-exhibition-2013">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: The Royal Academy Summer Exhibition 2013</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/07/17/review-the-royal-academy-summer-exhibition-2013">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">You&#39;ve got one month left to see this astoundingly broad ranging and historically influential exhibition at the heart of London. Katy Gregory reviews.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/07/08/portrait-of-an-artist-penny-phillips">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/07/08/portrait-of-an-artist-penny-phillips">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Portrait of an Artist: Penny Phillips </p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/07/08/portrait-of-an-artist-penny-phillips">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Local artist Penny Phillips talks to Charlotte Wainwright about her artistic career, ceramic sculptures and sharing a bath in Japan </p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/07/08/review-paper-saatchi-gallery-london">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/07/08/review-paper-saatchi-gallery-london">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Paper, Saatchi Gallery, London</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/07/08/review-paper-saatchi-gallery-london">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The Saatchi Gallery hosts Paper, which addresses important questions over where art and the rest of the world is heading. Katy reviews.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/30/review-a-reading-by-seamus-heaney">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/30/review-a-reading-by-seamus-heaney">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: A Reading by Seamus Heaney</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/30/review-a-reading-by-seamus-heaney">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">York alumnus Seamus Heaney injects his own rich work on North and South to the Festival of Ideas. Georgia Woodroffe reviews.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/29/local-hero-rita-ridgeon-celebrates-40-years-at-york-theatre-royal-2">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/29/local-hero-rita-ridgeon-celebrates-40-years-at-york-theatre-royal-2">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Local Hero: Rita Ridgeon celebrates 40 years at York Theatre Royal</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/29/local-hero-rita-ridgeon-celebrates-40-years-at-york-theatre-royal-2">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Jordan Licht interviews the septuagenarian usher, local celebrity, and occasional performer about forging one of the longest careers in the business</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/23/interview-john-wakefield-trimble-producer">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/23/interview-john-wakefield-trimble-producer">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Interview: John Wakefield, &#39;Trimble&#39; producer.</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/23/interview-john-wakefield-trimble-producer">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Rory Foster speaks to John Wakefield about the upcoming live radio sitcom, &#39;Trimble&#39;.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/22/review-hedda-gabler">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/22/review-hedda-gabler">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Hedda Gabler</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/22/review-hedda-gabler">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The Norwegian classic impresses but fails to fulfill its potential. Sam Hickford reviews.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/18/campus-arts-review-of-the-year">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/18/campus-arts-review-of-the-year">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Campus Arts: Review of the Year</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/18/campus-arts-review-of-the-year">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">York&#39;s Arts scene has grown every year with societies being born, growing and developing to new heights every year. Our reviewers take a look over the year&#39;s best creative endeavours.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/18/surrealism-and-story-telling">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/18/surrealism-and-story-telling">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Surrealism and Story-telling</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/18/surrealism-and-story-telling">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Mancunian surrealist writer, Nicholas Royle, talks inspiration, persistence and niche exploitation with Sam Hickford.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/18/shooting-them-dead-lessons-learnt-from-war-primer-2">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/18/shooting-them-dead-lessons-learnt-from-war-primer-2">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Shooting Them Dead: Lessons learnt from War Primer 2</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/18/shooting-them-dead-lessons-learnt-from-war-primer-2">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Thomas Cox explores war imagery, to find out that the photographer is much more than a passive bystander.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/18/book-review-and-the-mountains-echoed-khaled-hosseini">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/18/book-review-and-the-mountains-echoed-khaled-hosseini">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Book review: And the Mountains Echoed - Khaled Hosseini</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/18/book-review-and-the-mountains-echoed-khaled-hosseini">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Hosseini certainly lives up to his name of &#39;master storyteller&#39; in a novel that explores unspoken feelings and regrets. Heather Stewart reviews.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/16/review-pantomime-redemption">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/16/review-pantomime-redemption">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Pantomime Redemption</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/16/review-pantomime-redemption">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Pantomime Redemption uses all the mighty arsenal of comedy stockpiled by pantomimes to explore the role of that dying art. Sam Hickford reviews. </p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/15/review-little-women-the-musical">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/15/review-little-women-the-musical">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Little Women, the Musical</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/15/review-little-women-the-musical">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A beautiful and uniquely memorable performance of this cracking classic graces York campus. Lucie Parker reviews.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/13/review-norman-rea-summer-exhibition-the-circle">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/13/review-norman-rea-summer-exhibition-the-circle">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Norman Rea Summer Exhibition - &quot;The Circle&quot;</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/13/review-norman-rea-summer-exhibition-the-circle">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The Norman Rea offers &#39;The Circle&#39;, which makes for a fascinating collection of pieces, some with more obvious links to the theme of circles than others, but all nonetheless thought-provoking. Lauren Spence reviews.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 ">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #E992B2;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2013/06/13/review-the-mercy-seat">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2013/06/13/review-the-mercy-seat">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: The Mercy Seat</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2013/06/13/review-the-mercy-seat">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A cloying claustrophobia seeps through the Mercy Seat as a couple face a difficult decision in front of the backdrop of the great American disaster. Lucie Parker reviews.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div>
+              </div>
+            </div>
+  </div><div class="my-4 w-full" id="paginator-container">
+    <astro-island uid="B6ix8" component-url="/website/_astro/Paginator.6c7b6da2.js" component-export="default" renderer-url="/website/_astro/client.f535c890.js" props="{&quot;page&quot;:[0,29],&quot;pages&quot;:[0,59],&quot;pagesToDisplay&quot;:[0,5],&quot;prefix&quot;:[0,&quot;muse/arts&quot;]}" ssr="" client="only" opts="{&quot;name&quot;:&quot;Paginator&quot;,&quot;value&quot;:true}"></astro-island>
   </div>
   <script>(function(){const categoriesColours = [{"categories_backgroundColor":"#173B88","categories_name":"news"},{"categories_backgroundColor":"#E21615","categories_name":"politics"},{"categories_backgroundColor":"#000000","categories_name":"muse"},{"categories_backgroundColor":"#7A1F6E","categories_name":"comment"},{"categories_backgroundColor":"#FDC300","categories_name":"sport"},{"categories_backgroundColor":"#72033F","categories_name":"features"},{"categories_backgroundColor":"#E992B2","categories_name":"arts"},{"categories_backgroundColor":"#D43F30","categories_name":"music"},{"categories_backgroundColor":"#6D6EA7","categories_name":"film"},{"categories_backgroundColor":"#843F71","categories_name":"fashion"},{"categories_backgroundColor":"#7C9464","categories_name":"food-drink"},{"categories_backgroundColor":"2B4988","categories_name":"freshers"},{"categories_backgroundColor":"#E88A20","categories_name":"travel"},{"categories_backgroundColor":"#008E3B","categories_name":"science"},{"categories_backgroundColor":"#008ACC","categories_name":"business"},{"categories_backgroundColor":"#FFF374","categories_name":"shoot"},{"categories_backgroundColor":"#4792BF","categories_name":"gaming"},{"categories_backgroundColor":"#9CD1BE","categories_name":"creative-writing"}];
 

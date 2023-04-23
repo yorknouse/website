@@ -36,7 +36,7 @@ async function dbGlobalSetup(config: FullConfig) {
         categories_showMenu: true,
         categories_backgroundColor: null,
         categories_nestUnder: null,
-        categories_featured: "5, 6",
+        categories_featured: "8, 9",
       },
       {
         categories_id: 5,
@@ -340,7 +340,15 @@ async function dbGlobalSetup(config: FullConfig) {
       },
       {
         articles_id: 8,
+        categories_id: 4,
+      },
+      {
+        articles_id: 8,
         categories_id: 5,
+      },
+      {
+        articles_id: 9,
+        categories_id: 4,
       },
       {
         articles_id: 9,
@@ -348,7 +356,15 @@ async function dbGlobalSetup(config: FullConfig) {
       },
       {
         articles_id: 10,
+        categories_id: 4,
+      },
+      {
+        articles_id: 10,
         categories_id: 6,
+      },
+      {
+        articles_id: 11,
+        categories_id: 4,
       },
       {
         articles_id: 11,

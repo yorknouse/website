@@ -19,7 +19,7 @@ async function dbGlobalTeardown(config: FullConfig) {
     deleteArticles,
     deleteFeaturedHome,
     deleteUsers,
-    deleteCategories
+    deleteCategories,
   ]);
 
   await prisma.$disconnect();

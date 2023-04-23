@@ -92,11 +92,11 @@
   </ul>
 </nav>
     <style>astro-island,astro-slot{display:contents}</style><script>(self.Astro=self.Astro||{}).only=t=>{(async()=>await(await t())())()},window.dispatchEvent(new Event("astro:only"));var l;{const c={0:t=>t,1:t=>JSON.parse(t,o),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(JSON.parse(t,o)),5:t=>new Set(JSON.parse(t,o)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(JSON.parse(t)),9:t=>new Uint16Array(JSON.parse(t)),10:t=>new Uint32Array(JSON.parse(t))},o=(t,s)=>{if(t===""||!Array.isArray(s))return s;const[e,n]=s;return e in c?c[e](n):void 0};customElements.get("astro-island")||customElements.define("astro-island",(l=class extends HTMLElement{constructor(){super(...arguments);this.hydrate=()=>{if(!this.hydrator||this.parentElement&&this.parentElement.closest("astro-island[ssr]"))return;const s=this.querySelectorAll("astro-slot"),e={},n=this.querySelectorAll("template[data-astro-template]");for(const r of n){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(const r of s){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("name")||"default"]=r.innerHTML)}const a=this.hasAttribute("props")?JSON.parse(this.getAttribute("props"),o):{};this.hydrator(this)(this.Component,a,e,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),window.removeEventListener("astro:hydrate",this.hydrate),window.dispatchEvent(new CustomEvent("astro:hydrate"))}}connectedCallback(){!this.hasAttribute("await-children")||this.firstChild?this.childrenConnectedCallback():new MutationObserver((s,e)=>{e.disconnect(),this.childrenConnectedCallback()}).observe(this,{childList:!0})}async childrenConnectedCallback(){window.addEventListener("astro:hydrate",this.hydrate);let s=this.getAttribute("before-hydration-url");s&&await import(s),this.start()}start(){const s=JSON.parse(this.getAttribute("opts")),e=this.getAttribute("client");if(Astro[e]===void 0){window.addEventListener(`astro:${e}`,()=>this.start(),{once:!0});return}Astro[e](async()=>{const n=this.getAttribute("renderer-url"),[a,{default:r}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),i=this.getAttribute("component-export")||"default";if(!i.includes("."))this.Component=a[i];else{this.Component=a;for(const d of i.split("."))this.Component=this.Component[d]}return this.hydrator=r,this.hydrate},s,this)}attributeChangedCallback(){this.hydrator&&this.hydrate()}},l.observedAttributes=["props"],l))}</script><div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
-    <div class="featured-articles">
+    <div id="featured-articles">
             
 <div class="hidden sm:flex">
   
-  <div>
+  <div class="w-full">
     
     <div>
       <div class="flex max-h-52 max-w-full gap-2.5">
@@ -333,37 +333,14 @@
 </div>
     </div>
 </div>
-          </div>
-    <hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
-<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
-  <div class="flex flex-row astro-Q7KXOHAS">
-    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/06/21/adaptation-and-visual-grammar-in-call-me-by-your-name">
-          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1657437063981-66139080436801690000-cmbyncover0jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
-        </a>
-    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
-      
-      <div class="mb-2 astro-Q7KXOHAS">
-        <a class="headline astro-Q7KXOHAS" href="/2022/06/21/adaptation-and-visual-grammar-in-call-me-by-your-name">
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Adaptation and Visual Grammar in Call Me by Your Name</p>
-        </a>
-        <a class="author astro-Q7KXOHAS" href="/author/148446">
-          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
-            <span class="category-color astro-Q7KXOHAS">By</span>
-            Lawrence Mason
-          </p>
-        </a>
-      </div>
-      <a class="excerpt astro-Q7KXOHAS" href="/2022/06/21/adaptation-and-visual-grammar-in-call-me-by-your-name">
-        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Emily Warner questions whether Guadagninoâ€™s 2017 film is a failure or success in its adaptation</p>
-      </a>
-    </div>
-  </div>
-</div>
-                </div>
-                <div class="w-1/2">
-                    
+          </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+    <div>
+              
+              <div class="hidden max-w-full flex-col sm:flex">
+                <div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/06/18/muse-interviews-wordsmith-jelani-blackman">
@@ -388,10 +365,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/06/18/muse-interviews-miles-kane-on-his-latest-solo-project">
@@ -416,9 +392,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/06/17/days-of-heaven-how-music-makes-a-film">
@@ -443,10 +424,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/05/28/review-downton-abbey-a-new-era">
@@ -471,9 +451,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/05/15/suffering-through-767-minutes-of-michael-bays-transformers-so-you-dont-have-to">
@@ -498,10 +483,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/05/07/review-boiling-point-">
@@ -526,9 +510,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/05/01/theatre-review-calendar-girls-the-musical-and-interview-with-cast-member-izzie-norwood">
@@ -553,10 +542,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/04/30/you-have-to-say-goodbye-to-meet-again-a-review-of-hi-bye-mama">
@@ -581,9 +569,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/04/22/anyone-for-a-mocktail-the-changes-in-university-drinking-culture">
@@ -608,10 +601,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/04/21/in-conversation-with-the-tiktok-musician-michael-aldag">
@@ -636,9 +628,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/04/08/yugo-kanno-master-of-the-character-theme">
@@ -663,10 +660,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/04/06/this-is-going-to-hurt-the-indispensable-value-of-the-nhs-">
@@ -691,9 +687,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/04/01/review-pam--tammy">
@@ -718,10 +719,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/03/18/review-encanto">
@@ -746,9 +746,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/03/16/review-inventing-anna-">
@@ -773,10 +778,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/03/14/review-parallel-mothers">
@@ -801,9 +805,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/03/10/review-cyrano">
@@ -828,10 +837,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/03/10/memoria-a-sensory-experience-haunted-by-remembrance">
@@ -856,9 +864,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/03/01/the-parallel-rise-of-scorsese-and-spielberg">
@@ -883,10 +896,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/03/01/love-on-the-spectrum-a-fresh-take-on-reality-dating-tv">
@@ -911,9 +923,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/02/09/review-the-velvet-underground">
@@ -938,10 +955,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/02/08/review-the-kings-man">
@@ -966,9 +982,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/02/06/review-nightmare-alley">
@@ -993,10 +1014,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/02/03/review-cow-">
@@ -1021,9 +1041,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/02/01/film-as-activism-yorktivist-human-rights-film-festival-2022-">
@@ -1048,10 +1073,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/01/27/review-west-side-story-">
@@ -1076,9 +1100,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/01/25/review-la-jete">
@@ -1103,10 +1132,9 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/01/19/review-dont-look-up">
@@ -1131,9 +1159,14 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/01/15/review-the-electrical-life-of-louis-wain">
@@ -1158,10 +1191,826 @@
     </div>
   </div>
 </div>
-                  </div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/01/11/minnal-murali-with-great-power-comes-greater-humility">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1641919622282-70380582052517175000-mv5bmzu3mdm4nzktnjdimc00mwu3lwezmwutmzk1mdqxzmnlyzbhxkeyxkfqcgdeqxvymtezmti1mjk3v1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/01/11/minnal-murali-with-great-power-comes-greater-humility">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Minnal Murali: With Great Power Comes Greater Humility</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/01/11/minnal-murali-with-great-power-comes-greater-humility">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Krishnanunni Padinjassery explores how Basil Joseph grounds the Superhero with the Supernormal in this Malayalam blockbuster</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          
+                        </div>
               </div>
-  </div><div class="my-4 w-full" id="paginator_container">
-    <astro-island uid="Z2o4aHV" component-url="/website/_astro/Paginator.6c7b6da2.js" component-export="default" renderer-url="/website/_astro/client.f535c890.js" props="{&quot;page&quot;:[0,2],&quot;pages&quot;:[0,63],&quot;pagesToDisplay&quot;:[0,5],&quot;prefix&quot;:[0,&quot;muse/film&quot;]}" ssr="" client="only" opts="{&quot;name&quot;:&quot;Paginator&quot;,&quot;value&quot;:true}"></astro-island>
+              
+              <div class="block max-w-full justify-center sm:hidden">
+                <div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/06/18/muse-interviews-wordsmith-jelani-blackman">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1655586059156-42884294386654380000-dsc03288croppedjpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/06/18/muse-interviews-wordsmith-jelani-blackman">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Muse interviews: wordsmith Jelani Blackman</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148389">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Jack Barton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/06/18/muse-interviews-wordsmith-jelani-blackman">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Connor Paterson speaks with the London-based artist about his career</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/06/18/muse-interviews-miles-kane-on-his-latest-solo-project">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1655560281891-76800212531641240000-4050538695991jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/06/18/muse-interviews-miles-kane-on-his-latest-solo-project">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Muse interviews: Miles Kane on his latest solo project</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148389">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Jack Barton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/06/18/muse-interviews-miles-kane-on-his-latest-solo-project">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Ruby Brown and Alex Thompson speak to the northern rocker about the â€˜change the showâ€™ album.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/06/17/days-of-heaven-how-music-makes-a-film">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1655476532405-53555219144139240000-699dfc900b34808d9974989c5b2b2bcejpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/06/17/days-of-heaven-how-music-makes-a-film">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Days of Heaven: How Music Makes a Film</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148323">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Ben Jordan
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/06/17/days-of-heaven-how-music-makes-a-film">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Ben Jordan examines Ennio Morricone&#39;s melancholic music for Malick&#39;s sophomore film</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/05/28/review-downton-abbey-a-new-era">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1653731011729-70200236672814980000-mv5bowfhnzbloditnda4zc00nzazlwi0nzetyzk0yza2ztvjodzlxkeyxkfqcgdeqxvymtg0mju2mjqv1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/05/28/review-downton-abbey-a-new-era">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Downton Abbey: A New Era</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/05/28/review-downton-abbey-a-new-era">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Gracie Daw reviews the ITV drama&#39;s latest trip to the silver screen</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/05/15/suffering-through-767-minutes-of-michael-bays-transformers-so-you-dont-have-to">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1652649137116-69492835692927760000-mv5bzmjlmmu5otktytm3zs00yzmylwiyy2utmzk0mmrjyju4zgvixkeyxkfqcgdeqxvyotc5mdi5njev1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/05/15/suffering-through-767-minutes-of-michael-bays-transformers-so-you-dont-have-to">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Suffering Through 767 Minutes of Transformers (So You Don&#39;t Have To)</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/05/15/suffering-through-767-minutes-of-michael-bays-transformers-so-you-dont-have-to">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Cavan Gilbey examines the series&#39; often problematic elements, as well as Michael Bay&#39;s cinematic style</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/05/07/review-boiling-point-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1651930304864-64211290903876890000-mv5bzty5njk2mjytnjcyyy00odlmltkwnzmtnzqxodc5nmiymtkzxkeyxkfqcgdeqxvymzqwmty2nzkv1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/05/07/review-boiling-point-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Boiling Point</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/05/07/review-boiling-point-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Cavan Gilbey explores the sizzling tensions of Philip Barantini&#39;s &quot;fascinating technical feat&quot;</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/05/01/theatre-review-calendar-girls-the-musical-and-interview-with-cast-member-izzie-norwood">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1651402302312-12674548722855733000-calendargirlsjpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/05/01/theatre-review-calendar-girls-the-musical-and-interview-with-cast-member-izzie-norwood">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Theatre Review: Calendar Girls: The Musical, and interview with cast member Izzie Norwood</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148268">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Cara Lee
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/05/01/theatre-review-calendar-girls-the-musical-and-interview-with-cast-member-izzie-norwood">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Cara Lee reviews Calendar Girls: the Musical and speaks to cast member Izzie Norwood, a student at the University of York.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/04/30/you-have-to-say-goodbye-to-meet-again-a-review-of-hi-bye-mama">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1651327952861-37581884947204410000-hibyemamayurijpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/04/30/you-have-to-say-goodbye-to-meet-again-a-review-of-hi-bye-mama">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">â€œYou have to say goodbye, to meet again.â€: A review of Hi Bye, Mama</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148273">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Zara  Osako
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/04/30/you-have-to-say-goodbye-to-meet-again-a-review-of-hi-bye-mama">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Gretchen Tsai reviews the K-drama that will make you consider the meanings of life in tears</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/04/22/anyone-for-a-mocktail-the-changes-in-university-drinking-culture">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1650644052817-38136461545478504000-pexelsedwardeyer667986jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/04/22/anyone-for-a-mocktail-the-changes-in-university-drinking-culture">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Anyone for a mocktail? The changes in university drinking culture</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148307">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Hannah Carley
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/04/22/anyone-for-a-mocktail-the-changes-in-university-drinking-culture">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Ella Ward discusses the changing attitudes towards alcohol amongst the Uk&#39;s student population.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/04/21/in-conversation-with-the-tiktok-musician-michael-aldag">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1650974565577-67621273641049100000-michaelaldag2021robinclewley1595xlarge2x1619538635jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/04/21/in-conversation-with-the-tiktok-musician-michael-aldag">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">In conversation with the tiktok musician Michael Aldag.</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148389">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Jack Barton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/04/21/in-conversation-with-the-tiktok-musician-michael-aldag">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Jack Barton catches up with rising musician and TikTok star to talk bastille, festivals, and nativity</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/04/08/yugo-kanno-master-of-the-character-theme">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1649414371467-62478208515140714000-mv5bodm3nzaynmyty2e3ms00ownmlwfimjitnjewnmi3ytc1zjfixkeyxkfqcgdeqxvyodmyntm0mjmv1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/04/08/yugo-kanno-master-of-the-character-theme">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Yugo Kanno: Master of the Character Theme</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/04/08/yugo-kanno-master-of-the-character-theme">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Cavan Gilbey discusses the music of the Jojoâ€™s Bizarre Adventure composer</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/04/06/this-is-going-to-hurt-the-indispensable-value-of-the-nhs-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1649250030513-79630185835604620000-mv5boti4zdrmzjctmzk1ns00ymu3ltk0m2utnwe0zdawmzq2njg2xkeyxkfqcgdeqxvyotmyodgwotqv1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/04/06/this-is-going-to-hurt-the-indispensable-value-of-the-nhs-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">This Is Going to Hurt: The Indispensable Value of the NHS</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/04/06/this-is-going-to-hurt-the-indispensable-value-of-the-nhs-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Ed Halford reviews the seven part BBC drama about the challenging life of a labour ward doctor</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/04/01/review-pam--tammy">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1648823420896-72456631504681290000-mv5bn2fimdizyzetmjkync00ymm3ltkznwutzdrlnjgxztmzytiyxkeyxkfqcgdeqxvymjkwotaymduv1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/04/01/review-pam--tammy">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Pam &amp;amp; Tommy</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/04/01/review-pam--tammy">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Abi Ramsay explores issues of consent, autonomy, and representation in Hulu&#39;s wildest mini-series</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/03/18/review-encanto">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1647857283957-34994520563936694000-mv5bmzqznta2zjmtogrini00ztu2lwi3ztgtn2vizmyxmzaznduyxkeyxkfqcgdeqxvymteymjm2ndc2v1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/03/18/review-encanto">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Encanto</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/03/18/review-encanto">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Sophia Andrews Gamarra reviews Encanto - a charming, yet run-of-the-mill addition to the Disney canon</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/03/16/review-inventing-anna-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1647430001798-99719182783485230000-mv5bzgnlndjmyzmtzjmwzi00ntrmltk2odgtoda5mtjkywy5zjlmxkeyxkfqcgdeqxvymjkwotaymduv1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/03/16/review-inventing-anna-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Inventing Anna</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/03/16/review-inventing-anna-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Hannah Boyle reviews Shonda Rhimes&#39; most recent hit show - a &quot;real-life Gossip Girl gone wrong&quot; that doesn&#39;t disappoint</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/03/14/review-parallel-mothers">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1647276837685-54108492376716304000-mv5bnjezmdblztktnddlmi00m2iyltk2mjutnwzjyzqyzjg0mtfixkeyxkfqcgdeqxvymta0mju0ngv1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/03/14/review-parallel-mothers">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Parallel Mothers</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/03/14/review-parallel-mothers">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Fran Rhodes examines Pedro AlmodÃ³var&#39;s moving excavation of Spain&#39;s national trauma</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/03/10/review-cyrano">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1646926370227-25575873700528280000-mv5bztexyjyxmjctndg5ns00ztbmlwizotytzgzlzjqwmjljotljxkeyxkfqcgdeqxvymtkxnjuynqv1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/03/10/review-cyrano">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Cyrano</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/03/10/review-cyrano">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">With another adaptation of Rostand&#39;s 1897 play comes the question: is it warranted? Emily Warner examines the pros and cons of Joe Wright&#39;s 2022 production.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/03/10/memoria-a-sensory-experience-haunted-by-remembrance">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1646863439017-15580071525060411000-memoriapng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/03/10/memoria-a-sensory-experience-haunted-by-remembrance">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Memoria: A Sensory Experience Haunted by Remembrance</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148388">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Martha Pollard
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/03/10/memoria-a-sensory-experience-haunted-by-remembrance">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Sophia Ash explores the meditative introspection of Weerasethakulâ€™s ode to unearthliness.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/03/01/the-parallel-rise-of-scorsese-and-spielberg">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1646148573973-3454362567934008300-mv5bmjiwmdi5ntcynf5bml5banbnxkftztcwmje3njewmwv1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/03/01/the-parallel-rise-of-scorsese-and-spielberg">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The Parallel Rise of Scorsese and Spielberg</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/03/01/the-parallel-rise-of-scorsese-and-spielberg">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Lawrence Mason examines the careers of the two juggernaut directors</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/03/01/love-on-the-spectrum-a-fresh-take-on-reality-dating-tv">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1646135073167-39330751892266934000-mv5bzgvhytrlowqtyzi5mi00nmy4lwjlmdctodexnzvkzmjlmje5xkeyxkfqcgdeqxvyodu2njc3njav1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/03/01/love-on-the-spectrum-a-fresh-take-on-reality-dating-tv">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Love on the Spectrum: a fresh take on reality dating TV</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/03/01/love-on-the-spectrum-a-fresh-take-on-reality-dating-tv">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Marti Stelling looks at the hits and misses of Netflixâ€™s trending show on neurodivergent dating</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/02/09/review-the-velvet-underground">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1644404071560-32018272441512124000-mv5bzgi4zdq0ndgtyjy4nc00n2i2lthmzjmtmtu4y2jjnmm2nge3xkeyxkfqcgdeqxvymtmxoda5nzuwv1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/02/09/review-the-velvet-underground">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: The Velvet Underground</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/02/09/review-the-velvet-underground">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Kyle Boulton explores Todd Haynes&#39; avant-garde documentary on &#39;60s alt-rock pioneers</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/02/08/review-the-kings-man">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1644332956266-61163016291897470000-mv5bmthiyjexzjytywzmzs00zwrilwflmwytodrjzme3zwnjztmxxkeyxkfqcgdeqxvynjg2njqwmdqv1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/02/08/review-the-kings-man">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: The King&#39;s Man</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/02/08/review-the-kings-man">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Tabitha Kaye review this promising prequel that takes its historical revisionism too far</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/02/06/review-nightmare-alley">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1644105494582-79130672373698510000-nightmarealleypng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/02/06/review-nightmare-alley">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Nightmare Alley</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148388">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Martha Pollard
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/02/06/review-nightmare-alley">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Fran Rhodes looks at Guillermo del Toro&#39;s impassioned neo-noir thriller.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/02/03/review-cow-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1643901481225-45142473928763540000-mv5bymu0zdiyogytn2qwoc00owzklwi5ytutodbhn2u1mjk4mdu2xkeyxkfqcgdeqxvymtaymjq3nzq1v1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/02/03/review-cow-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Cow</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/02/03/review-cow-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Marti Stelling offers her thoughts on Andrea Arnold&#39;s powerful documentary on the lives of two cows</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/02/01/film-as-activism-yorktivist-human-rights-film-festival-2022-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1643742429693-66530801537379170000-yorktivistlogohrffpng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/02/01/film-as-activism-yorktivist-human-rights-film-festival-2022-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Film as Activism: Yorktivist Human Rights Film Festival 2022</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148206">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Elizabeth Walsh
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/02/01/film-as-activism-yorktivist-human-rights-film-festival-2022-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Elizabeth Walsh speaks to Yorktivist about their upcoming virtual film festival</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/01/27/review-west-side-story-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1643290531997-42230161320424145000-westsidestoryarticlejpeg_large.jpeg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/01/27/review-west-side-story-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: West Side Story (2021)</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/01/27/review-west-side-story-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Gracie Daw reviews Steven Spielberg&#39;s thrilling remake of the 1961 classic</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/01/25/review-la-jete">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1643110556932-75505933608807960000-lajeteejpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/01/25/review-la-jete">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: La JetÃ©e</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/01/25/review-la-jete">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Cavan Gilbey explores the Orwellian implications of time travel in this unique 1962 short film</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/01/19/review-dont-look-up">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1642593430827-51909807311327720000-mv5bmji5zmy5zditodzlns00mwjiltk4ymutyjg0owi3mge2otljxkeyxkfqcgdeqxvyotc5mdi5njev1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/01/19/review-dont-look-up">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Don&#39;t Look Up</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/01/19/review-dont-look-up">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Lawrence Mason reviews Adam McKay&#39;s star-studded Netflix release, a cautionary tale with the subtlety of a sledgehammer</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/01/15/review-the-electrical-life-of-louis-wain">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1642261518128-75751906662734380000-mv5bmgm1njrkyzqtmtdlms00otfklwixmmitzty3nwi4zgzhodfkxkeyxkfqcgdeqxvymtkxnjuynqv1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/01/15/review-the-electrical-life-of-louis-wain">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: The Electrical Life of Louis Wain</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/01/15/review-the-electrical-life-of-louis-wain">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Emily Warner reviews Will Sharpe&#39;s inventive biopic about the famous cat painter</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 ">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #6D6EA7;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/01/11/minnal-murali-with-great-power-comes-greater-humility">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1641919622282-70380582052517175000-mv5bmzu3mdm4nzktnjdimc00mwu3lwezmwutmzk1mdqxzmnlyzbhxkeyxkfqcgdeqxvymtezmti1mjk3v1jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/01/11/minnal-murali-with-great-power-comes-greater-humility">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Minnal Murali: With Great Power Comes Greater Humility</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148302">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kyle Boulton
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/01/11/minnal-murali-with-great-power-comes-greater-humility">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Krishnanunni Padinjassery explores how Basil Joseph grounds the Superhero with the Supernormal in this Malayalam blockbuster</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div>
+              </div>
+            </div>
+  </div><div class="my-4 w-full" id="paginator-container">
+    <astro-island uid="1lhvP2" component-url="/website/_astro/Paginator.6c7b6da2.js" component-export="default" renderer-url="/website/_astro/client.f535c890.js" props="{&quot;page&quot;:[0,2],&quot;pages&quot;:[0,62],&quot;pagesToDisplay&quot;:[0,5],&quot;prefix&quot;:[0,&quot;muse/film&quot;]}" ssr="" client="only" opts="{&quot;name&quot;:&quot;Paginator&quot;,&quot;value&quot;:true}"></astro-island>
   </div>
   <script>(function(){const categoriesColours = [{"categories_backgroundColor":"#173B88","categories_name":"news"},{"categories_backgroundColor":"#E21615","categories_name":"politics"},{"categories_backgroundColor":"#000000","categories_name":"muse"},{"categories_backgroundColor":"#7A1F6E","categories_name":"comment"},{"categories_backgroundColor":"#FDC300","categories_name":"sport"},{"categories_backgroundColor":"#72033F","categories_name":"features"},{"categories_backgroundColor":"#E992B2","categories_name":"arts"},{"categories_backgroundColor":"#D43F30","categories_name":"music"},{"categories_backgroundColor":"#6D6EA7","categories_name":"film"},{"categories_backgroundColor":"#843F71","categories_name":"fashion"},{"categories_backgroundColor":"#7C9464","categories_name":"food-drink"},{"categories_backgroundColor":"2B4988","categories_name":"freshers"},{"categories_backgroundColor":"#E88A20","categories_name":"travel"},{"categories_backgroundColor":"#008E3B","categories_name":"science"},{"categories_backgroundColor":"#008ACC","categories_name":"business"},{"categories_backgroundColor":"#FFF374","categories_name":"shoot"},{"categories_backgroundColor":"#4792BF","categories_name":"gaming"},{"categories_backgroundColor":"#9CD1BE","categories_name":"creative-writing"}];
 

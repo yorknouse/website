@@ -143,7 +143,7 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
                 ];
                 $DBLIB->insert("articlesCategories", $articleCategory);
             }
-            // $bCMS->cacheClearCategory($category);
+            $bCMS->cacheClearCategory($category);
         }
         finish(true);
     } else finish(false, ["code" => null, "message" => "Insert draft error"]);

@@ -92,11 +92,11 @@
   </ul>
 </nav>
     <style>astro-island,astro-slot{display:contents}</style><script>(self.Astro=self.Astro||{}).only=t=>{(async()=>await(await t())())()},window.dispatchEvent(new Event("astro:only"));var l;{const c={0:t=>t,1:t=>JSON.parse(t,o),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(JSON.parse(t,o)),5:t=>new Set(JSON.parse(t,o)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(JSON.parse(t)),9:t=>new Uint16Array(JSON.parse(t)),10:t=>new Uint32Array(JSON.parse(t))},o=(t,s)=>{if(t===""||!Array.isArray(s))return s;const[e,n]=s;return e in c?c[e](n):void 0};customElements.get("astro-island")||customElements.define("astro-island",(l=class extends HTMLElement{constructor(){super(...arguments);this.hydrate=()=>{if(!this.hydrator||this.parentElement&&this.parentElement.closest("astro-island[ssr]"))return;const s=this.querySelectorAll("astro-slot"),e={},n=this.querySelectorAll("template[data-astro-template]");for(const r of n){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(const r of s){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("name")||"default"]=r.innerHTML)}const a=this.hasAttribute("props")?JSON.parse(this.getAttribute("props"),o):{};this.hydrator(this)(this.Component,a,e,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),window.removeEventListener("astro:hydrate",this.hydrate),window.dispatchEvent(new CustomEvent("astro:hydrate"))}}connectedCallback(){!this.hasAttribute("await-children")||this.firstChild?this.childrenConnectedCallback():new MutationObserver((s,e)=>{e.disconnect(),this.childrenConnectedCallback()}).observe(this,{childList:!0})}async childrenConnectedCallback(){window.addEventListener("astro:hydrate",this.hydrate);let s=this.getAttribute("before-hydration-url");s&&await import(s),this.start()}start(){const s=JSON.parse(this.getAttribute("opts")),e=this.getAttribute("client");if(Astro[e]===void 0){window.addEventListener(`astro:${e}`,()=>this.start(),{once:!0});return}Astro[e](async()=>{const n=this.getAttribute("renderer-url"),[a,{default:r}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),i=this.getAttribute("component-export")||"default";if(!i.includes("."))this.Component=a[i];else{this.Component=a;for(const d of i.split("."))this.Component=this.Component[d]}return this.hydrator=r,this.hydrate},s,this)}attributeChangedCallback(){this.hydrator&&this.hydrate()}},l.observedAttributes=["props"],l))}</script><div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
-    <div class="featured-articles">
+    <div id="featured-articles">
             
 <div class="hidden sm:flex">
   
-  <div>
+  <div class="w-full">
     
     <div>
       <div class="flex max-h-52 max-w-full gap-2.5">
@@ -382,10 +382,14 @@
 </div>
     </div>
 </div>
-          </div>
-    <hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+          </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+    <div>
+              
+              <div class="hidden max-w-full flex-col sm:flex">
+                <div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2023/03/06/awards-season-outfits-review-">
@@ -410,9 +414,9 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2023/02/20/the-world-of-fashion-resale">
@@ -437,10 +441,14 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2023/02/11/making-the-argument-for-intergenerational-fashion">
@@ -465,9 +473,9 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2023/02/11/god-save-the-queen--a-tribute-to-vivienne-westwood-">
@@ -492,10 +500,14 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2023/02/02/new-year-same-style">
@@ -520,9 +532,9 @@
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/12/14/interviewing-joy-montgomery-british-vogues-senior-commerce-writer">
@@ -547,10 +559,14 @@
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/11/23/review-independent-runway-york-fashion-week-2022">
@@ -576,9 +592,9 @@ shares her experience of the Independent Runway Show at York Fashion Week 2022</
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/11/21/romansa-brings-traditional-indonesian-fashion-to-york">
@@ -603,10 +619,14 @@ shares her experience of the Independent Runway Show at York Fashion Week 2022</
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/10/05/rethinking-the-christian-girl-autumn-aesthetic">
@@ -631,9 +651,9 @@ shares her experience of the Independent Runway Show at York Fashion Week 2022</
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/10/05/love-islands-sustainable-fashion-partnerships">
@@ -658,10 +678,14 @@ shares her experience of the Independent Runway Show at York Fashion Week 2022</
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/09/19/freshers-fashion-what-to-wear-and-where">
@@ -686,9 +710,9 @@ shares her experience of the Independent Runway Show at York Fashion Week 2022</
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/06/26/love-island-ditches-fast-fashion-for-ebay-the-reality">
@@ -713,10 +737,14 @@ shares her experience of the Independent Runway Show at York Fashion Week 2022</
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/06/26/met-gala-2022-the-highs-and-lows-of-gilded-glamour">
@@ -741,9 +769,9 @@ shares her experience of the Independent Runway Show at York Fashion Week 2022</
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/05/01/summer-staples-throughout-the-decades-">
@@ -768,10 +796,14 @@ shares her experience of the Independent Runway Show at York Fashion Week 2022</
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/03/15/rihanna-rewrites-the-rulebook-on-maternity-fashion">
@@ -796,9 +828,9 @@ shares her experience of the Independent Runway Show at York Fashion Week 2022</
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/03/15/the-hottest-trends-from-london-fashion-week-2022">
@@ -823,10 +855,14 @@ shares her experience of the Independent Runway Show at York Fashion Week 2022</
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/11/26/how-to-create-the-ultimate-capsule-wardrobe-">
@@ -851,9 +887,9 @@ shares her experience of the Independent Runway Show at York Fashion Week 2022</
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/11/16/dress-to-impress-the-return-of-winter-balls">
@@ -879,10 +915,14 @@ season comeback</p>
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/11/16/how-to-create-the-ultimate-capsule-wardrobe">
@@ -907,9 +947,9 @@ season comeback</p>
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/06/22/bowie-to-billie-gender-fashion-and-the-music-industry">
@@ -934,10 +974,14 @@ season comeback</p>
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/04/14/zara-and-forced-labour-a-consumers-guide-">
@@ -962,9 +1006,9 @@ season comeback</p>
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/03/17/spring-2021-trend-forecast-">
@@ -989,10 +1033,14 @@ season comeback</p>
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/03/09/restyling-the-cast-netflixs-fate-the-winx-saga-">
@@ -1017,9 +1065,9 @@ season comeback</p>
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/03/03/london-fashion-week-roundup-">
@@ -1044,10 +1092,14 @@ season comeback</p>
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/02/24/what-to-expect-from-ss21">
@@ -1072,9 +1124,9 @@ season comeback</p>
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/02/16/corsets-the-journey-from-oppression-to-empowerment">
@@ -1099,10 +1151,14 @@ season comeback</p>
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/02/09/7-iconic-rom-com-date-looks-to-take-inspiration-from-this-valentines-">
@@ -1127,9 +1183,9 @@ season comeback</p>
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/12/01/the-crown-dianas-re-emergence-as-a-style-icon-">
@@ -1154,10 +1210,14 @@ season comeback</p>
     </div>
   </div>
 </div>
-                  </div>
-              </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300"><div class="flex max-h-52 max-w-full gap-2.5">
-                <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
-                  
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/11/23/lockdown-lookbook-">
@@ -1182,9 +1242,9 @@ season comeback</p>
     </div>
   </div>
 </div>
-                </div>
-                <div class="w-1/2">
-                    
+                            </div>
+                            <div class="w-1/2">
+                                
 <div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
   <div class="flex flex-row astro-Q7KXOHAS">
     <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/11/18/shoot">
@@ -1209,9 +1269,800 @@ season comeback</p>
     </div>
   </div>
 </div>
-                  </div>
+                              </div>
+                          </div>
+
+                          
+                        </div>
               </div>
-  </div><div class="my-4 w-full" id="paginator_container">
+              
+              <div class="block max-w-full justify-center sm:hidden">
+                <div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2023/03/06/awards-season-outfits-review-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1678115217785-70011394436793900000-imagepng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/03/06/awards-season-outfits-review-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Awards season outfits review</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148390">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Hannah  Boyle
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/03/06/awards-season-outfits-review-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Kendra Williams walks us through what makes a good red carpet outfit and some of the best of the season.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2023/02/20/the-world-of-fashion-resale">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676896693984-58197709907344245000-screenshot20230220at123801png_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/20/the-world-of-fashion-resale">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The World of Fashion Resale</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148314">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Gracie Daw
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/20/the-world-of-fashion-resale">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Kendra Williams explores the growth of the fashion resale market, and whether itâ€™s an entirely good thing.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2023/02/11/making-the-argument-for-intergenerational-fashion">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676120948412-29357055673811403000-imagepng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/11/making-the-argument-for-intergenerational-fashion">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Making the argument for intergenerational fashion</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148306">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kendra Williams
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/11/making-the-argument-for-intergenerational-fashion">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">James Clay (he/him) reflects on the fashion in his family and explores why we should cherish traditional styles</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2023/02/11/god-save-the-queen--a-tribute-to-vivienne-westwood-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676118852941-83634584819437580000-screenshot20230211at121520png_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/11/god-save-the-queen--a-tribute-to-vivienne-westwood-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">&#39;God Save the Queen&#39; : A Tribute to Vivienne Westwood</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148306">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kendra Williams
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/11/god-save-the-queen--a-tribute-to-vivienne-westwood-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Grace Bannister (she/her) remembers the Queen of British fashion and philanthropic activist, Vivienne Westwood</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2023/02/02/new-year-same-style">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1675354786407-6561276316081224000-imagepng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/02/new-year-same-style">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">New Year, Same Style?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148306">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kendra Williams
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/02/new-year-same-style">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Dhuha Usman explores what the new year means for our wardrobes.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/12/14/interviewing-joy-montgomery-british-vogues-senior-commerce-writer">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1671053513364-31329390653098450000-31936987534082392661221151428763044945699439njpeg_large.jpeg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/12/14/interviewing-joy-montgomery-british-vogues-senior-commerce-writer">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Interviewing Joy Montgomery: British Vogueâ€™s Senior Commerce Writer</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148417">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Charis Horsley
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/12/14/interviewing-joy-montgomery-british-vogues-senior-commerce-writer">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Charis Horsley catches up with Joy to discuss the latest on Vogueâ€™s attitudes to trending and sustainable fashion</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/11/23/review-independent-runway-york-fashion-week-2022">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1669218281369-76149695808252510000-screenshot20221123at154417png_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/11/23/review-independent-runway-york-fashion-week-2022">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Review: Independent runway at York Fashion Week 2022</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148306">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kendra Williams
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/11/23/review-independent-runway-york-fashion-week-2022">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Kendra Williams (she/her)
+shares her experience of the Independent Runway Show at York Fashion Week 2022</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/11/21/romansa-brings-traditional-indonesian-fashion-to-york">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1668894104841-34953826580318530000-img23591jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/11/21/romansa-brings-traditional-indonesian-fashion-to-york">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">ROMANSA Brings Traditional Indonesian Fashion to York</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148528">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Annika Fathma
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/11/21/romansa-brings-traditional-indonesian-fashion-to-york">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Annika Fathma (she/her) reports on the traditional Indonesian fashion and fabric on show at the ROMANSA event</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/10/05/rethinking-the-christian-girl-autumn-aesthetic">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1664995629309-78924575874344580000-screenshot20221005at194602png_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/10/05/rethinking-the-christian-girl-autumn-aesthetic">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Rethinking the Christian Girl Autumn Aesthetic</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148306">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kendra Williams
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/10/05/rethinking-the-christian-girl-autumn-aesthetic">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Kendra Williams takes a look at what â€˜Christian Girl Autumnâ€™ is and whether it has any  place in our wardrobes</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/10/05/love-islands-sustainable-fashion-partnerships">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1664977277289-5905135695611787000-screenshot20221005at144105png_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/10/05/love-islands-sustainable-fashion-partnerships">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Love Island&#39;s Sustainable Fashion Partnerships</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148306">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kendra Williams
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/10/05/love-islands-sustainable-fashion-partnerships">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Amelia Forman considers whether we have entered a new era of love island partnerships after the 2022 series</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/09/19/freshers-fashion-what-to-wear-and-where">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1663616700253-80993195034277890000-creditkindelmediapexelsforjuliettebarlowsarticlejpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/09/19/freshers-fashion-what-to-wear-and-where">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fresherâ€™s fashion: what to wear and where?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148409">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Katy Leverett
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/09/19/freshers-fashion-what-to-wear-and-where">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Not sure what clothes to bring and which to leave at home? Juliette Barlow has you covered</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/06/26/love-island-ditches-fast-fashion-for-ebay-the-reality">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1656256230948-22757242538252720000-matthewpaulargalljpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/06/26/love-island-ditches-fast-fashion-for-ebay-the-reality">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Love Island ditches Fast Fashion for eBay: the Reality</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148409">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Katy Leverett
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/06/26/love-island-ditches-fast-fashion-for-ebay-the-reality">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Abby Buftain explores the truth behind what the latest islanders will showing off on our screens this year</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/06/26/met-gala-2022-the-highs-and-lows-of-gilded-glamour">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1656254517636-42171465172203040000-creditjpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/06/26/met-gala-2022-the-highs-and-lows-of-gilded-glamour">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Met Gala 2022: The Highs and Lows of Gilded Glamour</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148409">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Katy Leverett
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/06/26/met-gala-2022-the-highs-and-lows-of-gilded-glamour">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Kendra Williams talks us through some of the best and worst looks of the biggest annual event in fashion</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/05/01/summer-staples-throughout-the-decades-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1651411621120-87222241014200430000-imagepng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/05/01/summer-staples-throughout-the-decades-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Summer Staples Throughout the Decades</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148219">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Lucy Cooper
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/05/01/summer-staples-throughout-the-decades-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Kendra Williams takes us through some of the hottest summer fashion trends from years gone by</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/03/15/rihanna-rewrites-the-rulebook-on-maternity-fashion">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1650982379082-58918279041842315000-800pxrihannafenty20182png_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/03/15/rihanna-rewrites-the-rulebook-on-maternity-fashion">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Rihanna Rewrites the Rulebook on Maternity Fashion</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148273">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Zara  Osako
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/03/15/rihanna-rewrites-the-rulebook-on-maternity-fashion">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Zara Osako talks us through some of the most inventive and unique looks from the star&#39;s pregnancy so far</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2022/03/15/the-hottest-trends-from-london-fashion-week-2022">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1650981497738-69513951726648290000-screenshot20220426at25727pmpng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2022/03/15/the-hottest-trends-from-london-fashion-week-2022">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The Hottest Trends from London Fashion Week 2022</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148273">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Zara  Osako
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2022/03/15/the-hottest-trends-from-london-fashion-week-2022">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Kendra Williams explores the Autumn Winter 2022 Collections that won the runways at London Fashion Week</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/11/26/how-to-create-the-ultimate-capsule-wardrobe-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1637927685854-70562885630076570000-imagepng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2021/11/26/how-to-create-the-ultimate-capsule-wardrobe-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">How To Create The Ultimate Capsule Wardrobe</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148306">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Kendra Williams
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2021/11/26/how-to-create-the-ultimate-capsule-wardrobe-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Kendra Williams compiles her best tips on curating a capsule wardrobe to help you survive the winter months</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/11/16/dress-to-impress-the-return-of-winter-balls">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1638135442169-99018430884245930000-fullsizeoutput17ajpeg_large.jpeg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2021/11/16/dress-to-impress-the-return-of-winter-balls">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">DRESS TO IMPRESS: THE RETURN OF WINTER BALLS</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148273">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Zara  Osako
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2021/11/16/dress-to-impress-the-return-of-winter-balls">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Zara Osako talks us through her favourite styles for dressing for formals this year to celebrate the party
+season comeback</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/11/16/how-to-create-the-ultimate-capsule-wardrobe">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1638135100699-83784761885566710000-fashion997325960720jpeg_large.jpeg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2021/11/16/how-to-create-the-ultimate-capsule-wardrobe">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">HOW TO CREATE THE ULTIMATE CAPSULE WARDROBE</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148273">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Zara  Osako
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2021/11/16/how-to-create-the-ultimate-capsule-wardrobe">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Kendra Williams complies her best tips on curating a capsule winter wardrobe to help you survive the winter months</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/06/22/bowie-to-billie-gender-fashion-and-the-music-industry">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1624379093937-68851614249000960000-billiejpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2021/06/22/bowie-to-billie-gender-fashion-and-the-music-industry">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Bowie to Billie: Gender, fashion and the music industry</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148211">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Emily Harvie
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2021/06/22/bowie-to-billie-gender-fashion-and-the-music-industry">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Maya Barber and Emily Harvie discuss the blurring of gender in fashion and Billie Eilish&#39;s body positivity journey</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/04/14/zara-and-forced-labour-a-consumers-guide-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1618387458615-46946482078646740000-8fe9d0f724e44cec86d7734a18b1a26djpeg_large.jpeg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2021/04/14/zara-and-forced-labour-a-consumers-guide-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Zara and Forced Labour: A Consumer&#39;s Guide</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148211">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Emily Harvie
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2021/04/14/zara-and-forced-labour-a-consumers-guide-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Neve Iredale takes a closer look into a high street favourite</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/03/17/spring-2021-trend-forecast-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1615973444773-76402129652180600000-fashiompng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2021/03/17/spring-2021-trend-forecast-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Spring 2021 trend forecast</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148211">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Emily Harvie
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2021/03/17/spring-2021-trend-forecast-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Nouse Fashion predicts the upcoming trends for the spring season.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/03/09/restyling-the-cast-netflixs-fate-the-winx-saga-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1615330300757-35778614491854893000-screenshot20210212at150500png_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2021/03/09/restyling-the-cast-netflixs-fate-the-winx-saga-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Restyling the cast of Netflix&#39;s Fate: The Winx Saga</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148211">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Emily Harvie
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2021/03/09/restyling-the-cast-netflixs-fate-the-winx-saga-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Maya Barber takes a look at the styling in Netflix&#39;s Winx Club reboot and offers her own take on the series&#39; fashion choices.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/03/03/london-fashion-week-roundup-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1614766875234-6592499840623533000-ugggoddardss20212712jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2021/03/03/london-fashion-week-roundup-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">London Fashion Week Roundup</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148211">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Emily Harvie
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2021/03/03/london-fashion-week-roundup-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Sarah Gatenby-Howells runs through the highlights of this year&#39;s digital fashion week</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/02/24/what-to-expect-from-ss21">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1614163832611-36960589189318730000-versacess21132jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2021/02/24/what-to-expect-from-ss21">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">What to expect from SS21</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148130">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Jenna Luxon
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2021/02/24/what-to-expect-from-ss21">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Zara Osako takes a look at the top trends to anticipate in 2021.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/02/16/corsets-the-journey-from-oppression-to-empowerment">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1613512738265-58397513067361000000-corset80jpeg_large.jpeg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2021/02/16/corsets-the-journey-from-oppression-to-empowerment">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Corsets: The journey from oppression to empowerment</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148211">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Emily Harvie
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2021/02/16/corsets-the-journey-from-oppression-to-empowerment">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Maya Barber on the reemergence of corsets in contemporary fashion, their historical vs current significance, and some tips on how to style these archetypal garments.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2021/02/09/7-iconic-rom-com-date-looks-to-take-inspiration-from-this-valentines-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1612870350563-59148730357315780000-screenshot20210205at150758png_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2021/02/09/7-iconic-rom-com-date-looks-to-take-inspiration-from-this-valentines-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">7 Rom Com date looks to take inspiration from this Valentines</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148211">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Emily Harvie
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2021/02/09/7-iconic-rom-com-date-looks-to-take-inspiration-from-this-valentines-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Nouse Fashion looks back at some iconic Rom Com outfits, and suggests ways you can incorporate them into your digital date looks.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/12/01/the-crown-dianas-re-emergence-as-a-style-icon-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/cEfF7muC90VR7PT%20diana%20red%20dress_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2020/12/01/the-crown-dianas-re-emergence-as-a-style-icon-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The Crown: Diana&#39;s re-emergence as a style icon</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2020/12/01/the-crown-dianas-re-emergence-as-a-style-icon-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Nouse Fashion take a look at the iconic style of Princess Diana in the recent season of The Crown, and give tips on how you can incorporate this into your own wardrobe.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/11/23/lockdown-lookbook-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/40Z1fEfMQNU5BM6%20EE3FD8B8-E312-4CBF-818F-757B754EF7F3_large.PNG" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2020/11/23/lockdown-lookbook-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Lockdown Lookbook</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148130">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Jenna Luxon
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2020/11/23/lockdown-lookbook-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A collection of York students&#39; favourite fits from lockdown 2.0</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 ">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/11/18/shoot">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/Xm6NPsff4zceX9x%20Liddy%20Beecham_large.JPG" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2020/11/18/shoot">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Made with Love: Student Jewellers</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148130">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Jenna Luxon
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2020/11/18/shoot">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Amy Cope shares the work of three University of York students making and selling handmade jewellery alongside their studies</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div>
+              </div>
+            </div>
+  </div><div class="my-4 w-full" id="paginator-container">
     <astro-island uid="LXkBJ" component-url="/website/_astro/Paginator.6c7b6da2.js" component-export="default" renderer-url="/website/_astro/client.f535c890.js" props="{&quot;page&quot;:[0,0],&quot;pages&quot;:[0,25],&quot;pagesToDisplay&quot;:[0,5],&quot;prefix&quot;:[0,&quot;muse/fashion&quot;]}" ssr="" client="only" opts="{&quot;name&quot;:&quot;Paginator&quot;,&quot;value&quot;:true}"></astro-island>
   </div>
   <script>(function(){const categoriesColours = [{"categories_backgroundColor":"#173B88","categories_name":"news"},{"categories_backgroundColor":"#E21615","categories_name":"politics"},{"categories_backgroundColor":"#000000","categories_name":"muse"},{"categories_backgroundColor":"#7A1F6E","categories_name":"comment"},{"categories_backgroundColor":"#FDC300","categories_name":"sport"},{"categories_backgroundColor":"#72033F","categories_name":"features"},{"categories_backgroundColor":"#E992B2","categories_name":"arts"},{"categories_backgroundColor":"#D43F30","categories_name":"music"},{"categories_backgroundColor":"#6D6EA7","categories_name":"film"},{"categories_backgroundColor":"#843F71","categories_name":"fashion"},{"categories_backgroundColor":"#7C9464","categories_name":"food-drink"},{"categories_backgroundColor":"2B4988","categories_name":"freshers"},{"categories_backgroundColor":"#E88A20","categories_name":"travel"},{"categories_backgroundColor":"#008E3B","categories_name":"science"},{"categories_backgroundColor":"#008ACC","categories_name":"business"},{"categories_backgroundColor":"#FFF374","categories_name":"shoot"},{"categories_backgroundColor":"#4792BF","categories_name":"gaming"},{"categories_backgroundColor":"#9CD1BE","categories_name":"creative-writing"}];

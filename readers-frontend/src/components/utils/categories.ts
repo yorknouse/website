@@ -1,5 +1,12 @@
-import { categories, Prisma } from "@prisma/client";
-import type { Page } from "astro";
+import {
+  articles,
+  articlesCategories,
+  articlesDrafts,
+  categories,
+  Prisma,
+  users,
+} from "@prisma/client";
+import type { Page, PaginateOptions } from "astro";
 import prisma from "../../prisma";
 import type { articlesWithArticleDrafts } from "./articles";
 
@@ -144,6 +151,11 @@ export const getCategories = async (
     },
     include: {
       articles: {
+        where: {
+          article: {
+            articles_showInLists: true,
+          },
+        },
         orderBy: {
           article: {
             articles_published: "desc",
@@ -161,7 +173,9 @@ export const getCategories = async (
                   users: true,
                 },
               },
-              categories: true,
+              categories: {
+                include: { category: true },
+              },
             },
           },
         },
@@ -173,18 +187,19 @@ export const getCategories = async (
 /**
  * Paginates a category
  * @param {categoriesWithArticles} category The main category to paginate.
+ * @param {number} articlesPerPage The number of articles per page.
  * @param {string} topLevelCategory The top level category. for example, news, sport, muse
  * @param {string} pathPrefix The prefix to add to the path. For example, campus-news, gaming, music/music-news
  * @returns {any} Promise object represents the articles.
  */
 export const paginateCategory = (
   category: categoriesWithArticles,
-  rowCount: number,
+  articlesPerPage: number,
   topLevelCategory: string,
   pathPrefix?: string
-): any => {
+): PaginateOptions[] => {
   // Split articles into rows of 2
-  const articleRows = category.articles
+  const articles = category.articles
     .filter(
       (article: { article: articlesWithArticleDrafts }) =>
         !category?.categories_featured
@@ -192,41 +207,23 @@ export const paginateCategory = (
           .map(Number)
           .includes(article.article.articles_id)
     )
-    .map((article: { article: articlesWithArticleDrafts }) => article.article)
-    .reduce(
-      (
-        accumulator: articlesWithArticleDrafts[][],
-        currentValue: any,
-        currentIndex: number,
-        array: articlesWithArticleDrafts[]
-      ) => {
-        if (currentIndex % 2 === 0) {
-          accumulator.push(array.slice(currentIndex, currentIndex + 2));
-        }
-        return accumulator;
-      },
-      []
-    );
+    .map((article: { article: articlesWithArticleDrafts }) => article.article);
 
-  const paginatedResult = []; // Array of objects containing the params and props for each page
+  const paginatedResult: PaginateOptions[] = []; // Array of objects containing the params and props for each page
 
-  // Muse has a custom landing page where only featured sections are shown
-  // As such, we need to add an additional page to the pagination just for the muse landing page
-  const totalPageCount =
-    category.categories_name === "muse"
-      ? Math.ceil(articleRows.length / rowCount) + 1
-      : Math.ceil(articleRows.length / 15);
-  for (let i = 0; i < Math.ceil(articleRows.length / rowCount); i++) {
-    const start = i * rowCount;
-    const end = start + rowCount;
+  /* Muse has a custom landing page where only featured sections are shown
+  As such, we need to add an additional page to the pagination just for the muse landing page.
+  Similarly if there are no articles in a category, we still need to add a page for the category
+  as it might have featured articles */
+  let totalPageCount = Math.ceil(articles.length / articlesPerPage);
+  let hasExtraPage = false;
+  if (totalPageCount === 0 || category.categories_name === "muse") {
+    totalPageCount++;
+    hasExtraPage = true;
     paginatedResult.push({
       params: {
         topLevelCategory: topLevelCategory,
-        path: pathPrefix
-          ? `${pathPrefix}${i == 0 ? "" : `/${i + 1}`}`
-          : i == 0
-          ? undefined
-          : i + 1,
+        path: pathPrefix ? `${pathPrefix}` : undefined,
       },
       props: {
         title: category.categories_displayName,
@@ -240,12 +237,43 @@ export const paginateCategory = (
           ? `${topLevelCategory}/${pathPrefix}`
           : topLevelCategory,
         page: {
-          data:
-            category.categories_name === "muse" && i === 0
-              ? []
-              : articleRows.slice(start, end),
-          currentPage: i,
+          currentPage: 0,
           total: totalPageCount,
+          size: 0,
+        } as Page,
+      },
+    });
+  }
+
+  for (let i = 0; i < Math.ceil(articles.length / articlesPerPage); i++) {
+    const start = i * articlesPerPage;
+    const end = start + articlesPerPage;
+    const currentPage = hasExtraPage ? i + 1 : i;
+    paginatedResult.push({
+      params: {
+        topLevelCategory: topLevelCategory,
+        path: pathPrefix
+          ? `${pathPrefix}${currentPage == 0 ? "" : `/${currentPage + 1}`}`
+          : currentPage == 0
+          ? undefined
+          : `${currentPage + 1}`,
+      },
+      props: {
+        title: category.categories_displayName,
+        category: category,
+        style:
+          category.categories_nestUnder === 4 ||
+          category.categories_name === "muse"
+            ? "muse"
+            : "nouse",
+        paginatorPrefix: pathPrefix
+          ? `${topLevelCategory}/${pathPrefix}`
+          : topLevelCategory,
+        page: {
+          data: articles.slice(start, end),
+          currentPage: currentPage,
+          total: totalPageCount,
+          size: articlesPerPage,
         } as Page,
       },
     });
