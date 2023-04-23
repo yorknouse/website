@@ -136,10 +136,16 @@ const categoriesWithArticles = Prisma.validator<Prisma.categoriesArgs>()({
     },
   },
 });
+
 export type categoriesWithArticles = Prisma.categoriesGetPayload<
   typeof categoriesWithArticles
 >;
 
+/**
+ * Gets all the categories and their articles.
+ * @param {number | null} parentCategory The parent category to get the children of.
+ * @returns {Promise<categoriesWithArticles[]>} Promise object represents the categories and their articles.
+ */
 export const getCategories = async (
   parentCategory?: number | null
 ): Promise<categoriesWithArticles[]> => {
@@ -190,7 +196,7 @@ export const getCategories = async (
  * @param {number} articlesPerPage The number of articles per page.
  * @param {string} topLevelCategory The top level category. for example, news, sport, muse
  * @param {string} pathPrefix The prefix to add to the path. For example, campus-news, gaming, music/music-news
- * @returns {any} Promise object represents the articles.
+ * @returns {PaginateOptions[]} The pagination options for the category.
  */
 export const paginateCategory = (
   category: categoriesWithArticles,
@@ -198,7 +204,7 @@ export const paginateCategory = (
   topLevelCategory: string,
   pathPrefix?: string
 ): PaginateOptions[] => {
-  // Split articles into rows of 2
+  // Get all non-featured articles in the category
   const articles = category.articles
     .filter(
       (article: { article: articlesWithArticleDrafts }) =>
@@ -215,8 +221,8 @@ export const paginateCategory = (
   As such, we need to add an additional page to the pagination just for the muse landing page.
   Similarly if there are no articles in a category, we still need to add a page for the category
   as it might have featured articles */
-  let totalPageCount = Math.ceil(articles.length / articlesPerPage);
-  let hasExtraPage = false;
+  let totalPageCount = Math.ceil(articles.length / articlesPerPage); // Total number of pages
+  let hasExtraPage = false; // Whether or not there is an extra page for example for the muse landing page
   if (totalPageCount === 0 || category.categories_name === "muse") {
     totalPageCount++;
     hasExtraPage = true;
@@ -281,11 +287,17 @@ export const paginateCategory = (
   return paginatedResult;
 };
 
+/**
+ * Gets the link for a category
+ * @param {string} category_name The name of the category.
+ * @param {number | null} parentCategory The parent category to get the children of.
+ * @returns {string} The link for the category.
+ */
 export const getCategoryLink = (
   category_name: string,
-  category_nestUnder: number | null
+  parentCategory: number | null
 ): string => {
-  if (category_nestUnder === 4) {
+  if (parentCategory === 4) {
     return `${import.meta.env.BASE_URL}muse/${category_name}`;
   } else {
     return `${import.meta.env.BASE_URL}${category_name}`;

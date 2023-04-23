@@ -16,9 +16,13 @@ import {
 
 export async function getStaticPaths() {
   const articlePerPage = 30;
+
+  // Getting the nouse top level categories for example: news, politics, etc.
   const nouseTopLevelCategories: categoriesWithArticles[] = await getCategories(
     null
   );
+
+  // Getting the muse top level categories for example: arts, features, etc.
   const museTopLevelCategories: categoriesWithArticles[] = await getCategories(
     4
   );
@@ -28,11 +32,14 @@ export async function getStaticPaths() {
   ];
   const paginatedResults = await Promise.all(
     topLevelCategories.map(async (topLevelCategory) => {
+      // Getting the subcategories for example: campus news, arts features, etc.
       const subCategories: categoriesWithArticles[] = await getCategories(
         topLevelCategory.categories_id
       );
+
       let paginatedTopCategory;
       if (topLevelCategory.categories_nestUnder === 4) {
+        // We want to nest the muse categories under muse
         paginatedTopCategory = paginateCategory(
           topLevelCategory,
           articlePerPage,
@@ -53,9 +60,11 @@ export async function getStaticPaths() {
       ) {
         return paginatedTopCategory;
       }
+
       const paginatedSubCategories = await Promise.all(
         subCategories.map(async (subCategory) => {
           if (topLevelCategory.categories_nestUnder === 4) {
+            // We want to nest the subcategories for the muse categories under muse
             return paginateCategory(
               subCategory,
               articlePerPage,
@@ -79,9 +88,13 @@ export async function getStaticPaths() {
 }
 
 const { page, title, category, style, paginatorPrefix } = Astro.props;
+
+// Getting the featured article ids for
 const featuredArticlesIds = category.categories_featured
   ?.split(",")
   .map(Number);
+
+// Getting the featured section for the muse homepage
 let museCategories: categoriesWithArticles[] = [];
 if (category.categories_name === "muse" && page.currentPage === 0) {
   museCategories = await getCategories(4);
@@ -94,6 +107,14 @@ if (category.categories_name === "muse" && page.currentPage === 0) {
   style={style}
 >
   <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
+    {/* Mobile Header */}
+    {
+      category.categories_name !== "muse" && (
+        <h1 id="mobile-header" class="block text-center text-2xl sm:hidden">
+          {category.categories_displayName}
+        </h1>
+      )
+    }
     {
       featuredArticlesIds !== undefined && (
         <>
@@ -115,7 +136,7 @@ if (category.categories_name === "muse" && page.currentPage === 0) {
       !(category.categories_name === "muse" && page.currentPage === 0) ? (
         <>
           {page.data && (
-            <div>
+            <div id="article-list">
               {/* Desktop */}
               <div class="hidden max-w-full flex-col sm:flex">
                 {page.data
