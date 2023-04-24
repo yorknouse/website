@@ -6,7 +6,7 @@ export interface Props {
   authorId: number | undefined;
   category: string | null | undefined;
   categoryLink: string | undefined;
-  categoryColor: string | undefined;
+  categoryColor: string | null | undefined;
   imageUrl?: string;
   articleUrl: string;
   isVertical?: boolean; // Defines if the image is ontop or to the left of the text
@@ -80,7 +80,7 @@ const imagePlaceHolder =
         !hideCategoryAccent && (
           <a
             class="text-l category-text category-color uppercase xl:text-xl 2xl:text-2xl"
-            href={`/${categoryLink}`}
+            href={`${categoryLink}`}
           >
             {category}
           </a>
@@ -90,12 +90,12 @@ const imagePlaceHolder =
         <a class="headline" href={articleUrl}>
           <p class="text-l text-colour xl:text-xl 2xl:text-2xl">{headline}</p>
         </a>
-        <a class="author" href={`/author/${authorId}`}>
+        {authorId && <a class="author" href={`/author/${authorId}`}>
           <p class="text-colour text-sm italic 2xl:text-base">
             <span class="category-color">By</span>
             {author}
           </p>
-        </a>
+        </a>}
       </div>
       <a class="excerpt" href={articleUrl}>
         <p class="text-colour text-xs xl:text-sm 2xl:text-base">{excerpt}</p>

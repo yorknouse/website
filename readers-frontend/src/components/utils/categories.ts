@@ -1,5 +1,14 @@
-import type { categories } from "@prisma/client";
+import {
+  articles,
+  articlesCategories,
+  articlesDrafts,
+  categories,
+  Prisma,
+  users,
+} from "@prisma/client";
+import type { Page, PaginateOptions } from "astro";
 import prisma from "../../prisma";
+import type { articlesWithArticleDrafts } from "./articles";
 
 export const getMenuCategories = async (
   style: "nouse" | "muse"
@@ -10,6 +19,7 @@ export const getMenuCategories = async (
     menuCategories = await prisma.categories.findMany({
       where: {
         categories_showMenu: true,
+        categories_showPublic: true,
         categories_nestUnder: null,
       },
     });
@@ -47,6 +57,7 @@ export const getMenuCategories = async (
     menuCategories = await prisma.categories.findMany({
       where: {
         categories_showMenu: true,
+        categories_showPublic: true,
         categories_nestUnder: 4, // Muse
       },
     });
@@ -91,23 +102,9 @@ export const getMenuCategories = async (
   return menuCategories;
 };
 
-export const getMainArticleCategory = async (
-  categoryIds: number[] | undefined
-): Promise<categories | null> => {
-  return await prisma.categories.findFirst({
-    where: {
-      categories_id: {
-        in: categoryIds,
-      },
-      categories_showHome: true,
-      categories_backgroundColor: {
-        not: null,
-      },
-    },
-  });
-};
-
-export const getFeaturedSectionsCategories = async (): Promise<categories[]> => {
+export const getFeaturedSectionsCategories = async (): Promise<
+  categories[]
+> => {
   return await prisma.categories.findMany({
     where: {
       categories_showHome: true,
@@ -123,6 +120,189 @@ export const getFeaturedSectionsCategories = async (): Promise<categories[]> => 
   });
 };
 
+const categoriesWithArticles = Prisma.validator<Prisma.categoriesArgs>()({
+  include: {
+    articles: {
+      include: {
+        article: {
+          include: {
+            articlesDrafts: { include: { users: true } },
+            categories: {
+              include: { category: true },
+            },
+          },
+        },
+      },
+    },
+  },
+});
+
+export type categoriesWithArticles = Prisma.categoriesGetPayload<
+  typeof categoriesWithArticles
+>;
+
+/**
+ * Gets all the categories and their articles.
+ * @param {number | null} parentCategory The parent category to get the children of.
+ * @returns {Promise<categoriesWithArticles[]>} Promise object represents the categories and their articles.
+ */
+export const getCategories = async (
+  parentCategory?: number | null
+): Promise<categoriesWithArticles[]> => {
+  return await prisma.categories.findMany({
+    where: {
+      categories_showPublic: true,
+      categories_showMenu: true,
+      categories_nestUnder: parentCategory,
+    },
+    include: {
+      articles: {
+        where: {
+          article: {
+            articles_showInLists: true,
+          },
+        },
+        orderBy: {
+          article: {
+            articles_published: "desc",
+          },
+        },
+        include: {
+          article: {
+            include: {
+              articlesDrafts: {
+                orderBy: {
+                  articlesDrafts_timestamp: "desc",
+                },
+                take: 1,
+                include: {
+                  users: true,
+                },
+              },
+              categories: {
+                include: { category: true },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+};
+
+/**
+ * Paginates a category
+ * @param {categoriesWithArticles} category The main category to paginate.
+ * @param {number} articlesPerPage The number of articles per page.
+ * @param {string} topLevelCategory The top level category. for example, news, sport, muse
+ * @param {string} pathPrefix The prefix to add to the path. For example, campus-news, gaming, music/music-news
+ * @returns {PaginateOptions[]} The pagination options for the category.
+ */
+export const paginateCategory = (
+  category: categoriesWithArticles,
+  articlesPerPage: number,
+  topLevelCategory: string,
+  pathPrefix?: string
+): PaginateOptions[] => {
+  // Get all non-featured articles in the category
+  const articles = category.articles
+    .filter(
+      (article: { article: articlesWithArticleDrafts }) =>
+        !category?.categories_featured
+          ?.split(",")
+          .map(Number)
+          .includes(article.article.articles_id)
+    )
+    .map((article: { article: articlesWithArticleDrafts }) => article.article);
+
+  const paginatedResult: PaginateOptions[] = []; // Array of objects containing the params and props for each page
+
+  /* Muse has a custom landing page where only featured sections are shown
+  As such, we need to add an additional page to the pagination just for the muse landing page.
+  Similarly if there are no articles in a category, we still need to add a page for the category
+  as it might have featured articles */
+  let totalPageCount = Math.ceil(articles.length / articlesPerPage); // Total number of pages
+  let hasExtraPage = false; // Whether or not there is an extra page for example for the muse landing page
+  if (totalPageCount === 0 || category.categories_name === "muse") {
+    totalPageCount++;
+    hasExtraPage = true;
+    paginatedResult.push({
+      params: {
+        topLevelCategory: topLevelCategory,
+        path: pathPrefix ? `${pathPrefix}` : undefined,
+      },
+      props: {
+        title: category.categories_displayName,
+        category: category,
+        style:
+          category.categories_nestUnder === 4 ||
+          category.categories_name === "muse"
+            ? "muse"
+            : "nouse",
+        paginatorPrefix: pathPrefix
+          ? `${topLevelCategory}/${pathPrefix}`
+          : topLevelCategory,
+        page: {
+          currentPage: 0,
+          total: totalPageCount,
+          size: 0,
+        } as Page,
+      },
+    });
+  }
+
+  for (let i = 0; i < Math.ceil(articles.length / articlesPerPage); i++) {
+    const start = i * articlesPerPage;
+    const end = start + articlesPerPage;
+    const currentPage = hasExtraPage ? i + 1 : i;
+    paginatedResult.push({
+      params: {
+        topLevelCategory: topLevelCategory,
+        path: pathPrefix
+          ? `${pathPrefix}${currentPage == 0 ? "" : `/${currentPage + 1}`}`
+          : currentPage == 0
+          ? undefined
+          : `${currentPage + 1}`,
+      },
+      props: {
+        title: category.categories_displayName,
+        category: category,
+        style:
+          category.categories_nestUnder === 4 ||
+          category.categories_name === "muse"
+            ? "muse"
+            : "nouse",
+        paginatorPrefix: pathPrefix
+          ? `${topLevelCategory}/${pathPrefix}`
+          : topLevelCategory,
+        page: {
+          data: articles.slice(start, end),
+          currentPage: currentPage,
+          total: totalPageCount,
+          size: articlesPerPage,
+        } as Page,
+      },
+    });
+  }
+  return paginatedResult;
+};
+
+/**
+ * Gets the link for a category
+ * @param {string} category_name The name of the category.
+ * @param {number | null} parentCategory The parent category to get the children of.
+ * @returns {string} The link for the category.
+ */
+export const getCategoryLink = (
+  category_name: string,
+  parentCategory: number | null
+): string => {
+  if (parentCategory === 4) {
+    return `${import.meta.env.BASE_URL}muse/${category_name}`;
+  } else {
+    return `${import.meta.env.BASE_URL}${category_name}`;
+  }
+};
 // Construct nested items map - saved for later
 // let nestedItems = menuCategories.reduce((accumulator, category, _) => {
 //   const parent = category.categories_nestUnder;

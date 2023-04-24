@@ -40,7 +40,7 @@ else computedBaseColour = "#000";
   </a>
 </header>
 <nav
-  class="2xl:text-large bg-navbar hidden h-12 w-full text-base text-white md:block 2xl:px-[13%]"
+  class="hidden h-12 w-full bg-black text-xs text-white sm:block lg:text-sm 2xl:px-[13%]"
 >
   <ul
     class="flex h-full w-full flex-row justify-between border-t-4 border-transparent"
@@ -59,27 +59,25 @@ else computedBaseColour = "#000";
             }`}
           >
             <a
-              class="mx-auto my-auto"
+              class="mx-auto my-auto text-center"
               href={
-                menuItem.categories_name !== "home"
-                  ? `${
-                      menuItem.categories_name === "nouse"
-                        ? import.meta.env.BASE_URL
-                        : `/${menuItem.categories_name}`
-                    }`
-                  : baseUrl
+                menuItem.categories_displayName === "Home"
+                  ? baseUrl
+                  : menuItem.categories_displayName === "Nouse"
+                  ? import.meta.env.BASE_URL
+                  : `${baseUrl + menuItem.categories_name}`
               }
             >
               {() => {
-                switch (menuItem.categories_name) {
-                  case "muse":
+                switch (menuItem.categories_displayName) {
+                  case "Muse":
                     return (
                       <img
                         src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
                         class="w-16"
                       />
                     );
-                  case "nouse":
+                  case "Nouse":
                     return (
                       <img
                         src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/kingfisher.svg"

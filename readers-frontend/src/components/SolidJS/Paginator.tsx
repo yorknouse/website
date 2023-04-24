@@ -10,15 +10,29 @@ import {
 } from "solid-js";
 
 type PaginatorProps = {
-  page: Accessor<number>;
-  setPage: Setter<number>;
-  pages: Accessor<number>;
+  page: Accessor<number> | number;
+  setPage?: Setter<number>;
+  pages: Accessor<number> | number;
   pagesToDisplay: number;
+  prefix?: string;
 };
 
 const Paginator: Component<PaginatorProps> = (props) => {
   const [firstPage, setFirstPage] = createSignal<number>(0);
   const isDesktop = createMediaQuery("(min-width: 768px)");
+  const getPage = () => {
+    if (typeof props.page === "number") return props.page;
+    else return props.page();
+  };
+  const getPages = () => {
+    if (typeof props.pages === "number") return props.pages;
+    else return props.pages();
+  };
+  const setPage = (page: number) => {
+    if (props.setPage) return props.setPage(page);
+    else if (page == 0) window.location.href = `${import.meta.env.BASE_URL}${props.prefix}`;
+    else window.location.href = `${import.meta.env.BASE_URL}${props.prefix}/${page + 1}`;
+  };
 
   const mobilePagesToDisplay = 5;
   const [allowedPagesToDisplay, setAllowedPagesToDisplay] =
@@ -28,22 +42,21 @@ const Paginator: Component<PaginatorProps> = (props) => {
     if (isDesktop()) setAllowedPagesToDisplay(props.pagesToDisplay);
     else setAllowedPagesToDisplay(mobilePagesToDisplay);
   });
-
   createEffect(() => {
     // This maps the first page so that they are always displayed in groups of
     // `pagesToDisplay`. Say pagesToDisplay = 5. If you are on page 2
     // firstPage is gonna be 1. Last page is 5.
     // If youy are on page 9, first page is 6 and last is 10. And so on.
-    if (props.page() % allowedPagesToDisplay() !== 0)
-      setFirstPage(props.page() - (props.page() % allowedPagesToDisplay()));
-    else setFirstPage(props.page());
+    if (getPage() % allowedPagesToDisplay() !== 0)
+      setFirstPage(getPage() - (getPage() % allowedPagesToDisplay()));
+    else setFirstPage(getPage());
   });
   return (
     <div class="flex w-full flex-row">
-      <div class="flex flex-row mx-auto w-auto">
+      <div class="mx-auto flex w-auto flex-row">
         <Show when={firstPage() !== 0}>
           <button
-            class="h-7 w-7 rounded-full border-2 border-black bg-transparent text-sm mx-2 md:h-16 md:w-16 md:text-base"
+            class="mx-2 h-7 w-7 rounded-full border-2 border-black bg-transparent text-sm md:h-16 md:w-16 md:text-base"
             onClick={() =>
               setFirstPage((fp) => Math.max(fp - allowedPagesToDisplay(), 0))
             }
@@ -55,35 +68,35 @@ const Paginator: Component<PaginatorProps> = (props) => {
           </button>
         </Show>
         <For
-          each={[...Array(props.pages()).keys()].slice(
+          each={[...Array(getPages()).keys()].slice(
             firstPage(),
             firstPage() + allowedPagesToDisplay()
           )}
         >
           {(p) => (
             <button
-              class={`h-7 w-7 rounded-full border-2 border-black mx-2 md:h-16 md:w-16 ${
-                p === props.page()
+              class={`mx-2 h-7 w-7 rounded-full border-2 border-black md:h-16 md:w-16 ${
+                p === getPage()
                   ? "bg-black text-white"
                   : "bg-transparent text-black"
               }`}
-              onClick={() => props.setPage(p)}
+              onClick={() => setPage(p)}
             >
               {p + 1}
             </button>
           )}
         </For>
         <Show
-          when={props.pages() - 1 - (firstPage() + allowedPagesToDisplay()) > 0}
+          when={getPages() - 1 - (firstPage() + allowedPagesToDisplay()) > 0}
         >
           <button
-            class="h-7 w-7 rounded-full border-2 border-black bg-transparent mx-2 md:h-16 md:w-16"
+            class="mx-2 h-7 w-7 rounded-full border-2 border-black bg-transparent md:h-16 md:w-16"
             onClick={() =>
               setFirstPage((fp) => {
-                if (fp + allowedPagesToDisplay() < props.pages() - 1)
+                if (fp + allowedPagesToDisplay() < getPages() - 1)
                   return fp + allowedPagesToDisplay();
 
-                return fp + (fp + allowedPagesToDisplay() - props.pages() - 1);
+                return fp + (fp + allowedPagesToDisplay() - getPages() - 1);
               })
             }
           >

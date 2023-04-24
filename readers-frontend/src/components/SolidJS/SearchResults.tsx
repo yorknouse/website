@@ -131,7 +131,7 @@ const SearchResults: Component = () => {
             </For>
           </Show>
         </div>
-        <div class="my-4 w-full" id="paginator_container">
+        <div class="my-4 w-full" id="paginator-container">
           <Paginator
             page={page}
             setPage={setPage}

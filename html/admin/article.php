@@ -14,8 +14,8 @@ if (isset($_GET['id'])) {
 	$PAGEDATA['article'] = $DBLIB->getone("articles");
 	if (!$PAGEDATA['article']) die("404 File not found");
 	if ($PAGEDATA['article']['articles_authors'] != null) $PAGEDATA['article']['articles_authors'] = explode(",",$PAGEDATA['article']['articles_authors']);
-	if ($PAGEDATA['article']['articles_categories'] != null) $PAGEDATA['article']['articles_categories'] = explode(",",$PAGEDATA['article']['articles_categories']);
-
+	$DBLIB->where("articlesCategories.articles_id", $bCMS->sanitizeString($_GET['id']));
+	$PAGEDATA['article']['articles_categories'] = array_column($DBLIB->get("articlesCategories"), 'categories_id');
 	if ($PAGEDATA['article']['articles_type'] == 2) {
 		$PAGEDATA['article']['galleryImages'] = [];
 		if (strlen($PAGEDATA['article']['articlesDrafts_text']) > 0) {

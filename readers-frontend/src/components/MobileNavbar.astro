@@ -30,8 +30,10 @@ let computedBaseColour = activeCategory
   ? "000"
   : "F5EFEB";
 
-if (computedBaseColour) computedBaseColour = "#" + computedBaseColour;
-else computedBaseColour = style === "muse" ? "#000" : "#F5EFEB";
+if (computedBaseColour) {
+  if (!computedBaseColour.includes("#"))
+    computedBaseColour = "#" + computedBaseColour;
+} else computedBaseColour = style === "muse" ? "#000" : "#F5EFEB";
 
 // Whether to invert logo or not.
 // Should be inverted for non-home nouse categories.
@@ -94,29 +96,23 @@ if (style === "muse" || invert) {
           <a
             class="mx-auto my-auto"
             href={
-              menuItem.categories_name !== "home"
-                ? `${
-                    menuItem.categories_name === "nouse"
-                      ? baseUrl
-                      : menuItem.categories_name === "muse"
-                      ? style === "nouse"
-                        ? `${baseUrl}muse`
-                        : baseUrl
-                      : `${baseUrl}${menuItem.categories_name}`
-                  }`
-                : baseUrl
+              menuItem.categories_displayName === "Home"
+                ? baseUrl
+                : menuItem.categories_displayName === "Nouse"
+                ? import.meta.env.BASE_URL
+                : `${baseUrl + menuItem.categories_name}`
             }
           >
             {() => {
-              switch (menuItem.categories_name) {
-                case "muse":
+              switch (menuItem.categories_displayName) {
+                case "Muse":
                   return (
                     <img
                       src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
                       class="w-36"
                     />
                   );
-                case "nouse":
+                case "Nouse":
                   return (
                     <img
                       src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"

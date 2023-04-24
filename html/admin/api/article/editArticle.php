@@ -11,16 +11,6 @@ $articleData = [
     "articles_dropCapital" => $_POST['dropCap'],
 ];
 
-$articleData["articles_categories"] = [];
-if ($_POST['categories'] != null) {
-    foreach (explode(",", $bCMS->sanitizeString($_POST['categories'])) as $category) {
-        if (is_numeric($category)) {
-            $articleData["articles_categories"][] = $category;
-        }
-    }
-}
-$articleData["articles_categories"] = implode(",", $articleData["articles_categories"]);
-
 $articleData["articles_authors"] = [];
 if ($_POST['authors'] != null) {
     foreach (explode(",", $bCMS->sanitizeString($_POST['authors'])) as $category) {
@@ -139,7 +129,20 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
             if ($edition) $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/editions/" . $edition['editions_slug']);
         }
         //Categories
-        foreach (explode(",", $articleData['articles_categories']) as $category) {
+        $categories = explode(",", $_POST['categories']);
+        $DBLIB->where("categories_id", $categories,"NOT IN");
+        $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
+        $DBLIB->delete("articlesCategories");
+        foreach ($categories as $category) {
+            $DBLIB->where("categories_id", $category);
+            $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
+            if ($DBLIB->getValue("articlesCategories", "COUNT(*)") == 0) {
+                $articleCategory = [
+                    "articles_id" => $bCMS->sanitizeString($_POST['articleid']),
+                    "categories_id" => $category
+                ];
+                $DBLIB->insert("articlesCategories", $articleCategory);
+            }
             $bCMS->cacheClearCategory($category);
         }
         finish(true);
@@ -198,7 +201,12 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
             if ($edition) $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/editions/" . $edition['editions_slug']);
         }
         //Categories
-        foreach (explode(",", $articleData['articles_categories']) as $category) {
+        foreach (explode(",", $_POST['categories']) as $category) {
+            $articleCategory = [
+                "articles_id" => $articleID,
+                "categories_id" => $category
+            ];
+            $DBLIB->insert("articlesCategories", $articleCategory);
             $bCMS->cacheClearCategory($category);
         }
         finish(true, null, ["articleid" => $articleID]);

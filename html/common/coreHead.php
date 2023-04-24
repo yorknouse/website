@@ -347,8 +347,10 @@ class bCMS {
         $DBLIB->where("articles_showInSearch", 1);
         $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
         $DBLIB->where("articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
-        $article = $DBLIB->getone("articles", ["articles.articles_id", "articles_categories", "articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline", "articlesDrafts.articlesDrafts_excerpt"]);
+        $article = $DBLIB->getone("articles", ["articles.articles_id", "articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline", "articlesDrafts.articlesDrafts_excerpt"]);
         if (!$article) return false;
+        $DBLIB->where("articlesCategories.articles_id", $this->sanitizeString($articleid));
+	    $PAGEDATA['article']['articles_categories'] = array_column($DBLIB->get("articlesCategories"), 'categories_id');
 
         //YUSU Notification email html
         $html = "You are receiving this email as a notification of a new article being uploaded to the Nouse.co.uk website in compliance with section 5.3 of the YUSU Media Charter.<br/><br/>";

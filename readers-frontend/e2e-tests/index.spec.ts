@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
 import prisma from "../src/prisma.js";
-import { apiSearchResponse } from "./apiSearchReponse.js";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("./");
@@ -8,7 +7,7 @@ test.beforeEach(async ({ page }) => {
 
 test("has title", async ({ page }) => {
   // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle("Welcome to Astro.");
+  await expect(page).toHaveTitle("Nouse");
 });
 
 test.describe("Navbar", () => {
@@ -48,7 +47,7 @@ test.describe("Navbar", () => {
     // Test category Button
     await expect(
       page.locator("body > nav > ul > li:nth-child(3) > a")
-    ).toHaveAttribute("href", "/testCategory1");
+    ).toHaveAttribute("href", "/website/testCategory1");
     // Nouse Button
     await expect(
       page.locator("body > nav > ul > li:nth-child(5) > a")
@@ -56,7 +55,7 @@ test.describe("Navbar", () => {
     // Muse Button
     await expect(
       page.locator("body > nav > ul > li:nth-child(7) > a")
-    ).toHaveAttribute("href", "/muse");
+    ).toHaveAttribute("href", "/website/muse");
   });
 });
 
@@ -77,7 +76,7 @@ test.describe("Featured Articles", () => {
         });
         await page.reload();
         await expect(
-          page.locator(".featured-articles >> .article:visible")
+          page.locator("#featured-articles >> .article:visible")
         ).toHaveCount(landscapeFeaturedArticles.length);
       });
 
@@ -96,7 +95,7 @@ test.describe("Featured Articles", () => {
         await page.reload();
         for (let i = 0; i < landscapeFeaturedArticles.length; i++) {
           const article = page
-            .locator(`.featured-articles >> .article:visible`)
+            .locator(`#featured-articles >> .article:visible`)
             .nth(i);
 
           // Checking Image
@@ -126,7 +125,7 @@ test.describe("Featured Articles", () => {
           // Checking Category
           await expect(article.locator(".category-text")).toHaveAttribute(
             "href",
-            `/testCategory1`
+            "/website/testCategory1"
           );
           await expect(article.locator(".category-text")).toHaveText("Test");
           await expect(article.locator(".category-text")).toHaveCSS(
@@ -186,7 +185,7 @@ test.describe("Featured Articles", () => {
         });
         await page.reload();
         await expect(
-          page.locator(".featured-articles >> .article:visible")
+          page.locator("#featured-articles >> .article:visible")
         ).toHaveCount(landscapeFeaturedArticles.length);
       });
 
@@ -203,7 +202,7 @@ test.describe("Featured Articles", () => {
         });
         await page.reload();
         const article = page
-          .locator(`.featured-articles >> .article:visible`)
+          .locator(`#featured-articles >> .article:visible`)
           .nth(0);
 
         // Checking Image
@@ -219,7 +218,7 @@ test.describe("Featured Articles", () => {
         // Checking Category
         await expect(article.locator(".category-text")).toHaveAttribute(
           "href",
-          `/testCategory1`
+          "/website/testCategory1"
         );
         await expect(article.locator(".category-text")).toHaveText("Test");
         await expect(article.locator(".category-text")).toHaveCSS(
@@ -269,7 +268,7 @@ test.describe("Featured Articles", () => {
           await page.reload();
           for (let i = 1; i < landscapeFeaturedArticles.length; i++) {
             const article = page
-              .locator(`.featured-articles >> .article:visible`)
+              .locator(`#featured-articles >> .article:visible`)
               .nth(i);
 
             if (!isMobile || (isMobile && i <= 2)) {
@@ -288,7 +287,7 @@ test.describe("Featured Articles", () => {
             // Checking Category
             await expect(article.locator(".category-text")).toHaveAttribute(
               "href",
-              `/testCategory1`
+              `/website/testCategory1`
             );
             await expect(article.locator(".category-text")).toHaveText("Test");
             await expect(article.locator(".category-text")).toHaveCSS(
@@ -358,14 +357,17 @@ test.describe("Banner and Edition", () => {
 
 test.describe("Featured Section", () => {
   test("Displays one featured section", async ({ page }) => {
-    const featuredSection = page.locator("#featured-sections > div");
+    const featuredSection = page.locator(".featured-sections > div");
     await expect(featuredSection).toHaveCount(1);
   });
   test("Displays the category accent", async ({ page }) => {
     const categoryAccent = page
       .locator("#testCategory1-section")
       .locator(".category-text");
-    await expect(categoryAccent).toHaveAttribute("href", `/testCategory1`);
+    await expect(categoryAccent).toHaveAttribute(
+      "href",
+      `/website/testCategory1`
+    );
     await expect(categoryAccent).toHaveText("Test");
     await expect(categoryAccent).toHaveCSS("color", "rgb(237, 179, 33)"); // Playwright doesn't support hex values for toHaveCSS.
   });
@@ -491,7 +493,7 @@ test.describe("Muse component", () => {
     );
 
     // Button should turn insto a tag after click
-    secondItemButton.click();
+    await secondItemButton.click();
 
     const secondItemLink = museNavbarSecondItem.locator("a");
     const secondItemMissingButton = museNavbarSecondItem.locator("button");

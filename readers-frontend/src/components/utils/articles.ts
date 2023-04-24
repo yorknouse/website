@@ -7,6 +7,9 @@ const articlesWithArticleDrafts = Prisma.validator<Prisma.articlesArgs>()({
     articlesDrafts: {
       include: { users: true },
     },
+    categories: {
+      include: { category: true },
+    },
   },
 });
 export type articlesWithArticleDrafts = Prisma.articlesGetPayload<
@@ -43,6 +46,11 @@ export const getArticles = async (
           // Get the user who wrote the article
           users: true,
         },
+      },
+      categories: {
+        include: {
+          category: true,
+        }
       },
     },
   });

@@ -73,7 +73,7 @@ test.describe("Search functionality", () => {
 
     // Paginator buttons
     const paginatorButtons = page.locator(
-      "[id=paginator_container] > div > div > button"
+      "[id=paginator-container] > div > div > button"
     );
 
     // No next page group button as there are only two pages, so count = 2

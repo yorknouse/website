@@ -48,7 +48,6 @@ $DBLIB->where("articles_published <= ?", array(date("Y-m-d H:i:s")));
 // Below only matches if author is 1 and exact match.
 // It should be fine for now as frontend does not support displaying multiple authors regardless
 $DBLIB->join("users", "users.users_userid=articles.articles_authors");
-$DBLIB->join("categories", "articles.articles_categories=categories.categories_id");
 $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
 $DBLIB->where(
     "articlesDrafts_id =
@@ -71,9 +70,6 @@ $articles = $DBLIB->get(
         "users.users_name1",
         "users.users_name2",
         "users.users_userid",
-        "categories.categories_name",
-        "categories.categories_displayName",
-        "categories.categories_backgroundColor",
     ]
 );
 
@@ -83,6 +79,18 @@ if (!$articles) {
 
 $output = [];
 foreach ($articles as $article) {
+    $DBLIB->where("articlesCategories.articles_id", $bCMS->sanitizeString($article['articles_id']));
+	$articleCategories = array_column($DBLIB->get("articlesCategories"), 'categories_id');
+    if (count($articleCategories) > 0) {
+        $DBLIB->where("categories_id", $articleCategories, "IN");
+        $DBLIB->where("categories_nestUnder IS NULL");
+        $category = $DBLIB->getOne("categories");
+        $article['categories_name'] = $category['categories_name'];
+        $article['categories_displayName'] = $category['categories_displayName'];
+        $article['categories_backgroundColor'] = $category['categories_backgroundColor'];
+        $article['test'] = $category;
+    }
+
     $article['url'] = '/' . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'];
 
     $article['image'] = $bCMS->s3URL($article['articles_thumbnail'], "medium");
