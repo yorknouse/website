@@ -12,7 +12,7 @@ async function dbGlobalSetup(config: FullConfig) {
         categories_showHome: true,
         categories_showPublic: true,
         categories_showMenu: true,
-        categories_backgroundColor: "edb321",
+        categories_backgroundColor: "#edb321",
         categories_nestUnder: null,
         categories_featured: "1,2,3,4,5",
       },
@@ -36,13 +36,14 @@ async function dbGlobalSetup(config: FullConfig) {
         categories_showMenu: true,
         categories_backgroundColor: null,
         categories_nestUnder: null,
-        categories_featured: "5, 6",
+        categories_featured: "8, 9",
       },
       {
         categories_id: 5,
         categories_name: "features",
         categories_displayName: "Features",
         categories_showHome: true,
+        categories_showPublic: true,
         categories_showMenu: true,
         categories_backgroundColor: null,
         categories_nestUnder: 4,
@@ -53,6 +54,7 @@ async function dbGlobalSetup(config: FullConfig) {
         categories_name: "muse-columns",
         categories_displayName: "Columns",
         categories_showHome: true,
+        categories_showPublic: true,
         categories_showMenu: true,
         categories_backgroundColor: null,
         categories_nestUnder: 4,
@@ -128,7 +130,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 1, // Landscape article with custom thumbnail
         articles_slug: "test-article-1",
-        articles_categories: "1",
+        articles_categories: "",
         articles_isThumbnailPortrait: false,
         articles_displayImages: true,
         articles_showInLists: true,
@@ -138,7 +140,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 2, // Landscape article with no thumbnail
         articles_slug: "test-article-2",
-        articles_categories: "1",
+        articles_categories: "",
         articles_isThumbnailPortrait: false,
         articles_displayImages: false,
         articles_showInLists: true,
@@ -147,7 +149,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 3,
         articles_slug: "test-article-3",
-        articles_categories: "1",
+        articles_categories: "",
         articles_isThumbnailPortrait: false,
         articles_displayImages: false,
         articles_showInLists: true,
@@ -156,7 +158,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 4,
         articles_slug: "test-article-4",
-        articles_categories: "1",
+        articles_categories: "",
         articles_isThumbnailPortrait: false,
         articles_displayImages: false,
         articles_showInLists: true,
@@ -165,7 +167,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 5,
         articles_slug: "test-article-5",
-        articles_categories: "1",
+        articles_categories: "",
         articles_isThumbnailPortrait: false,
         articles_displayImages: false,
         articles_showInLists: true,
@@ -174,7 +176,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 6,
         articles_slug: "test-article-6",
-        articles_categories: "1",
+        articles_categories: "",
         articles_isThumbnailPortrait: false,
         articles_displayImages: false,
         articles_showInLists: true,
@@ -183,7 +185,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 7, // Portrait article with custom thumbnail
         articles_slug: "test-article-7",
-        articles_categories: "1",
+        articles_categories: "",
         articles_isThumbnailPortrait: true,
         articles_displayImages: true,
         articles_thumbnail: "2",
@@ -193,7 +195,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 8, // Landscape article with custom thumbnail
         articles_slug: "test-article-8",
-        articles_categories: "5",
+        articles_categories: "",
         articles_isThumbnailPortrait: false,
         articles_displayImages: true,
         articles_showInLists: true,
@@ -203,7 +205,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 9, // Landscape article with custom thumbnail
         articles_slug: "test-article-9",
-        articles_categories: "5",
+        articles_categories: "",
         articles_isThumbnailPortrait: false,
         articles_displayImages: true,
         articles_showInLists: true,
@@ -213,7 +215,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 10, // Landscape article with custom thumbnail
         articles_slug: "test-article-10",
-        articles_categories: "6",
+        articles_categories: "",
         articles_isThumbnailPortrait: false,
         articles_displayImages: true,
         articles_showInLists: true,
@@ -223,7 +225,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 11, // Landscape article with custom thumbnail
         articles_slug: "test-article-11",
-        articles_categories: "6",
+        articles_categories: "",
         articles_isThumbnailPortrait: false,
         articles_displayImages: true,
         articles_showInLists: true,
@@ -301,6 +303,72 @@ async function dbGlobalSetup(config: FullConfig) {
         articlesDrafts_headline: "Article Draft 11",
         articlesDrafts_excerpt: "Article 11 Excerpt",
         articlesDrafts_userid: 1,
+      },
+    ],
+  });
+
+  // Creating Article Drafts
+  await prisma.articlesCategories.createMany({
+    data: [
+      {
+        articles_id: 1,
+        categories_id: 1,
+      },
+      {
+        articles_id: 2,
+        categories_id: 1,
+      },
+      {
+        articles_id: 3,
+        categories_id: 1,
+      },
+      {
+        articles_id: 4,
+        categories_id: 1,
+      },
+      {
+        articles_id: 5,
+        categories_id: 1,
+      },
+      {
+        articles_id: 6,
+        categories_id: 1,
+      },
+      {
+        articles_id: 7,
+        categories_id: 1,
+      },
+      {
+        articles_id: 8,
+        categories_id: 4,
+      },
+      {
+        articles_id: 8,
+        categories_id: 5,
+      },
+      {
+        articles_id: 9,
+        categories_id: 4,
+      },
+      {
+        articles_id: 9,
+        categories_id: 5,
+      },
+      {
+        articles_id: 10,
+        categories_id: 4,
+      },
+      {
+        articles_id: 10,
+        categories_id: 6,
+      },
+      {
+        articles_id: 11,
+        categories_id: 4,
+      },
+      {
+        articles_id: 11,
+        categories_id: 6,
       },
     ],
   });

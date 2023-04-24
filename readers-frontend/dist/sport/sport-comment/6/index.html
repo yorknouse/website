@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-whiteish-100 font-arno font-normal">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <meta name="generator" content="Astro v2.0.12">
+    <title>Sport Comment - Nouse</title>
+    
+    <link rel="stylesheet" href="https://use.typekit.net/ghx5ucu.css">
+    
+    
+  <link rel="stylesheet" href="/website/_astro/_...path_.7792e657.css" />
+<link rel="stylesheet" href="/website/_astro/_...path_.8a7f41c5.css" /><script type="module" src="/website/_astro/hoisted.7251f68f.js"></script></head>
+  <body>
+    <div class="bg-whiteish-100 invisible fixed top-0 bottom-0 left-0 right-0 z-50 flex flex-col overflow-y-scroll opacity-0 transition-opacity duration-500 md:overflow-hidden" id="searchInterface">
+  <button id="searchCloseBtn" class="absolute top-0 right-0 w-16 p-2 text-black">
+    <svg viewBox="0 0 24 24" astro-icon="ic:baseline-close"><path fill="currentColor" d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+  </button>
+  <div class="mx-auto my-auto flex w-full flex-col p-4">
+    <form id="searchForm" class="mx-auto mb-10 mt-10 flex flex-row items-center md:mt-0">
+      <input id="searchBox" type="text" class="bg-whiteish-100 w-min border-b-2 border-black outline-none sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl" placeholder="What are you looking for?" size="25">
+      <button class="relative h-10 w-10 md:h-14 md:w-14 lg:h-20 lg:w-20">
+        <svg viewBox="0 0 24 24" class="h-full w-full text-black" astro-icon="ic:sharp-search"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </button>
+    </form>
+  </div>
+</div>
+    <header class="flex w-full bg-transparent">
+  <a href="/website/" class="mx-auto self-center">
+    <img class="my-4 h-14" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg">
+  </a>
+</header>
+<nav class="hidden h-12 w-full bg-black text-xs lg:text-sm text-white sm:block 2xl:px-[13%]">
+  <ul class="flex h-full w-full flex-row justify-between border-t-4 border-transparent">
+    <li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/">
+              Home
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/news">
+              News
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/politics">
+              Politics
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/comment">
+              Comment
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/sport">
+              Sport
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/freshers">
+              Freshers
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/science">
+              Science
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/business">
+              Business
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/muse">
+              <img src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png" class="w-16">
+            </a>
+          </li>
+    <span class="h-3/5 self-center border-r-2 border-white"></span>
+    
+    <li class="flex h-full w-full border-b-4 border-b-transparent">
+      <button class="mx-auto h-full w-10" id="searchBtn">
+        <svg viewBox="0 0 24 24" class="py-1 ml-2" astro-icon="ic:sharp-search"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </button>
+    </li>
+  </ul>
+</nav>
+    <style>astro-island,astro-slot{display:contents}</style><script>(self.Astro=self.Astro||{}).only=t=>{(async()=>await(await t())())()},window.dispatchEvent(new Event("astro:only"));var l;{const c={0:t=>t,1:t=>JSON.parse(t,o),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(JSON.parse(t,o)),5:t=>new Set(JSON.parse(t,o)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(JSON.parse(t)),9:t=>new Uint16Array(JSON.parse(t)),10:t=>new Uint32Array(JSON.parse(t))},o=(t,s)=>{if(t===""||!Array.isArray(s))return s;const[e,n]=s;return e in c?c[e](n):void 0};customElements.get("astro-island")||customElements.define("astro-island",(l=class extends HTMLElement{constructor(){super(...arguments);this.hydrate=()=>{if(!this.hydrator||this.parentElement&&this.parentElement.closest("astro-island[ssr]"))return;const s=this.querySelectorAll("astro-slot"),e={},n=this.querySelectorAll("template[data-astro-template]");for(const r of n){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(const r of s){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("name")||"default"]=r.innerHTML)}const a=this.hasAttribute("props")?JSON.parse(this.getAttribute("props"),o):{};this.hydrator(this)(this.Component,a,e,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),window.removeEventListener("astro:hydrate",this.hydrate),window.dispatchEvent(new CustomEvent("astro:hydrate"))}}connectedCallback(){!this.hasAttribute("await-children")||this.firstChild?this.childrenConnectedCallback():new MutationObserver((s,e)=>{e.disconnect(),this.childrenConnectedCallback()}).observe(this,{childList:!0})}async childrenConnectedCallback(){window.addEventListener("astro:hydrate",this.hydrate);let s=this.getAttribute("before-hydration-url");s&&await import(s),this.start()}start(){const s=JSON.parse(this.getAttribute("opts")),e=this.getAttribute("client");if(Astro[e]===void 0){window.addEventListener(`astro:${e}`,()=>this.start(),{once:!0});return}Astro[e](async()=>{const n=this.getAttribute("renderer-url"),[a,{default:r}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),i=this.getAttribute("component-export")||"default";if(!i.includes("."))this.Component=a[i];else{this.Component=a;for(const d of i.split("."))this.Component=this.Component[d]}return this.hydrator=r,this.hydrate},s,this)}attributeChangedCallback(){this.hydrator&&this.hydrate()}},l.observedAttributes=["props"],l))}</script><div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
+    
+    <h1 id="mobile-header" class="block text-center text-2xl sm:hidden">
+          Sport Comment
+        </h1>
+    
+    <div id="article-list">
+              
+              <div class="hidden max-w-full flex-col sm:flex">
+                <div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/09/16/football-doesnt-wait">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/09/16/football-doesnt-wait">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Football Doesn&#39;t Wait</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/09/16/football-doesnt-wait">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Frank de Boer becomes latest victim of the cruel short-termism of modern football, writes Adam Philpott.
+</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/06/29/british-and-irish-lions-surprisingly-easy-to-tame">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/06/29/british-and-irish-lions-surprisingly-easy-to-tame">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">British and Irish Lions surprisingly easy to tame</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/06/29/british-and-irish-lions-surprisingly-easy-to-tame">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/06/29/university-would-not-be-the-same-without-sport">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/06/29/university-would-not-be-the-same-without-sport">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">University would not be the same without sport</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/06/29/university-would-not-be-the-same-without-sport">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/06/29/mediocre-murray-missing-his-mojo">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/06/29/mediocre-murray-missing-his-mojo">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Mediocre Murray missing his mojo</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/06/29/mediocre-murray-missing-his-mojo">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/06/29/top-35-in-bucs-is-a-pipedream-for-york-sport">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/06/29/top-35-in-bucs-is-a-pipedream-for-york-sport">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Top 35 in BUCS is a pipedream for York Sport</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/06/29/top-35-in-bucs-is-a-pipedream-for-york-sport">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/05/12/lancastrians-upset-with-scoring-at-dance-events">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/05/12/lancastrians-upset-with-scoring-at-dance-events">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Lancastrians upset with scoring at dance events</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/05/12/lancastrians-upset-with-scoring-at-dance-events">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Clean sweeps at the cheerleading and dance for the host University have been met with accusations of judging bias</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/05/12/roses-is-our-olympics-so-where-is-the-athletics">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/05/12/roses-is-our-olympics-so-where-is-the-athletics">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Roses is our Olympics so where is the athletics?</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/05/12/roses-is-our-olympics-so-where-is-the-athletics">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">York has the athletes and the facilities, so why do we not have a dedicated athletics event at Europe&#39;s biggest varsity?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/03/10/nicola-adams-set-for-her-first-professional-fight">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/03/10/nicola-adams-set-for-her-first-professional-fight">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Nicola Adams set for her first professional fight</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/03/10/nicola-adams-set-for-her-first-professional-fight">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/02/28/crouch-down-to-him">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/02/28/crouch-down-to-him">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Crouch down to him</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/02/28/crouch-down-to-him">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Adam Philpott asks why Peter Crouch is not a celebrated treasure as the Stoke City striker reaches his century of Premier League goals </p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/02/22/?p=138830">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/02/22/?p=138830">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Why have the Foxes got the blues?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2098">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Patrick Hook-Willers
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/02/22/?p=138830">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">From champs to chumps, what factors have contributed to Leicester City looking out below so soon after their title triumph?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/02/09/georgia-clambering-for-a-place-among-elite">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/02/09/georgia-clambering-for-a-place-among-elite">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Georgia clambering for a place among elite</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/02/09/georgia-clambering-for-a-place-among-elite">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">There are increasing calls for the Six Nations to admit Georgia. James Voyle thinks it should happen for the good of the sport.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/02/08/springbok-legend-passes-away">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/02/08/springbok-legend-passes-away">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Springbok legend passes away</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/02/08/springbok-legend-passes-away">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Joost van der Westhuizen had 89 caps for South Africa and was a part of the 1995 World Cup winning team</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/01/25/paying-for-payet">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/01/25/paying-for-payet">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Paying for Payet</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/01/25/paying-for-payet">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/01/25/2016-a-memorable-year-for-british-sport">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/01/25/2016-a-memorable-year-for-british-sport">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">2016: A memorable year for British sport</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/01/25/2016-a-memorable-year-for-british-sport">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/01/24/world-cup-set-to-expand">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/01/24/world-cup-set-to-expand">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">World cup set to expand</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/01/24/world-cup-set-to-expand">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/01/24/no-justice-for-victims-of-footballers-star-status">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/01/24/no-justice-for-victims-of-footballers-star-status">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">No justice for victims of footballers&#39; star status</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/01/24/no-justice-for-victims-of-footballers-star-status">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/11/24/the-rocket-arrives-in-york">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/11/24/the-rocket-arrives-in-york">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The Rocket arrives in York</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/11/24/the-rocket-arrives-in-york">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/11/24/fifa-are-wrong-to-ban-the-poppy-heres-why">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/11/24/fifa-are-wrong-to-ban-the-poppy-heres-why">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">FIFA are wrong to ban the poppy, here&#39;s why</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/11/24/fifa-are-wrong-to-ban-the-poppy-heres-why">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/11/06/my-first-and-only-marathon">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/11/06/my-first-and-only-marathon">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">My first and only marathon</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/11/06/my-first-and-only-marathon">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Zac Sheppard talks about completing last month&#39;s Yorkshire Marathon.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/10/25/alistair-cook-the-vintage-modern-cricketer">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/10/25/alistair-cook-the-vintage-modern-cricketer">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Alistair Cook - The vintage modern cricketer</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/10/25/alistair-cook-the-vintage-modern-cricketer">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">In an ever changing world of flamboyant equipment and endless technology, why is it the same tools that were employed a hundred years ago bring so much success to one of England&#39;s greatest?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/05/27/white-rose-trophy-2016">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/05/27/white-rose-trophy-2016">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">White Rose Trophy 2016</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/05/27/white-rose-trophy-2016">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">UYCC&#39;s George Dabby talks to Anna Coughlan about the yearly grudge match between the University of York and York St. John</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/05/15/ransley-gold-is-the-focal-point">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/05/15/ransley-gold-is-the-focal-point">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Ransley: &quot;Gold is the focal point&quot;</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/05/15/ransley-gold-is-the-focal-point">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Former University of York student Tom Ransley tells Tom Harle of his plans to storm the summer Olympics</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/05/15/leicesters-rise-met-with-villas-demise">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/05/15/leicesters-rise-met-with-villas-demise">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Leicester&#39;s rise met with Villa&#39;s demise</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/05/15/leicesters-rise-met-with-villas-demise">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">It&#39;s been a tumultuous season in football with noteworthy results at both the top and the bottom of the table</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/03/28/adam-johnson-how-was-he-allowed-to-carry-on-playing">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/03/28/adam-johnson-how-was-he-allowed-to-carry-on-playing">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Adam Johnson: How was he allowed to carry on playing?</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/03/28/adam-johnson-how-was-he-allowed-to-carry-on-playing">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Allowing Johnson to continue to play brings morality in Sport into question</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/03/28/editors-comment-college-varsity">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/03/28/editors-comment-college-varsity">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Editor&#39;s Comment: College Varsity</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/03/28/editors-comment-college-varsity">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/02/23/editors-comment-englands-six-nations">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/02/23/editors-comment-englands-six-nations">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Editor&#39;s Comment: England&#39;s Six Nations</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/02/23/editors-comment-englands-six-nations">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Anna Coughlan thinks it might be England&#39;s year</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/02/23/the-not-so-super-bowl-why-we-brits-dont-get-it">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/02/23/the-not-so-super-bowl-why-we-brits-dont-get-it">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The not-so-Super Bowl: Why we Brits don&#39;t get it</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/02/23/the-not-so-super-bowl-why-we-brits-dont-get-it">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Will we ever fully embrace the spectacle of American Football?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/01/26/editors-comment-new-year-old-resolutions">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/01/26/editors-comment-new-year-old-resolutions">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Editor&#39;s Comment: New year, old resolutions</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/01/26/editors-comment-new-year-old-resolutions">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Anna Coughlan hopes that you&#39;ll follow through with that fitness kick</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/01/26/is-lad-culture-really-a-bad-thing">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/01/26/is-lad-culture-really-a-bad-thing">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Is lad culture really a bad thing?</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/01/26/is-lad-culture-really-a-bad-thing">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Joe Etheridge and Ben Kendall debate whether &#39;laddish&#39; behaviour is ever really acceptable.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/01/26/ballon-snore-footballs-brightest-prize-is-boring">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/01/26/ballon-snore-footballs-brightest-prize-is-boring">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Ballon Snore: Football&#39;s  brightest prize is boring</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/01/26/ballon-snore-footballs-brightest-prize-is-boring">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The Ballon D&#39;or has become a stand off between Messi and Ronaldo</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          
+                        </div>
+              </div>
+              
+              <div class="block max-w-full justify-center sm:hidden">
+                <div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/09/16/football-doesnt-wait">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/09/16/football-doesnt-wait">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Football Doesn&#39;t Wait</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/09/16/football-doesnt-wait">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Frank de Boer becomes latest victim of the cruel short-termism of modern football, writes Adam Philpott.
+</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/06/29/british-and-irish-lions-surprisingly-easy-to-tame">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/06/29/british-and-irish-lions-surprisingly-easy-to-tame">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">British and Irish Lions surprisingly easy to tame</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/06/29/british-and-irish-lions-surprisingly-easy-to-tame">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/06/29/university-would-not-be-the-same-without-sport">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/06/29/university-would-not-be-the-same-without-sport">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">University would not be the same without sport</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/06/29/university-would-not-be-the-same-without-sport">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/06/29/mediocre-murray-missing-his-mojo">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/06/29/mediocre-murray-missing-his-mojo">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Mediocre Murray missing his mojo</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/06/29/mediocre-murray-missing-his-mojo">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/06/29/top-35-in-bucs-is-a-pipedream-for-york-sport">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/06/29/top-35-in-bucs-is-a-pipedream-for-york-sport">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Top 35 in BUCS is a pipedream for York Sport</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/06/29/top-35-in-bucs-is-a-pipedream-for-york-sport">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/05/12/lancastrians-upset-with-scoring-at-dance-events">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/05/12/lancastrians-upset-with-scoring-at-dance-events">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Lancastrians upset with scoring at dance events</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/05/12/lancastrians-upset-with-scoring-at-dance-events">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Clean sweeps at the cheerleading and dance for the host University have been met with accusations of judging bias</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/05/12/roses-is-our-olympics-so-where-is-the-athletics">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/05/12/roses-is-our-olympics-so-where-is-the-athletics">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Roses is our Olympics so where is the athletics?</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/05/12/roses-is-our-olympics-so-where-is-the-athletics">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">York has the athletes and the facilities, so why do we not have a dedicated athletics event at Europe&#39;s biggest varsity?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/03/10/nicola-adams-set-for-her-first-professional-fight">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/03/10/nicola-adams-set-for-her-first-professional-fight">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Nicola Adams set for her first professional fight</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/03/10/nicola-adams-set-for-her-first-professional-fight">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/02/28/crouch-down-to-him">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/02/28/crouch-down-to-him">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Crouch down to him</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/02/28/crouch-down-to-him">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Adam Philpott asks why Peter Crouch is not a celebrated treasure as the Stoke City striker reaches his century of Premier League goals </p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/02/22/?p=138830">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/02/22/?p=138830">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Why have the Foxes got the blues?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2098">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Patrick Hook-Willers
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/02/22/?p=138830">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">From champs to chumps, what factors have contributed to Leicester City looking out below so soon after their title triumph?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/02/09/georgia-clambering-for-a-place-among-elite">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/02/09/georgia-clambering-for-a-place-among-elite">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Georgia clambering for a place among elite</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/02/09/georgia-clambering-for-a-place-among-elite">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">There are increasing calls for the Six Nations to admit Georgia. James Voyle thinks it should happen for the good of the sport.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/02/08/springbok-legend-passes-away">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/02/08/springbok-legend-passes-away">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Springbok legend passes away</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/02/08/springbok-legend-passes-away">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Joost van der Westhuizen had 89 caps for South Africa and was a part of the 1995 World Cup winning team</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/01/25/paying-for-payet">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/01/25/paying-for-payet">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Paying for Payet</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/01/25/paying-for-payet">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/01/25/2016-a-memorable-year-for-british-sport">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/01/25/2016-a-memorable-year-for-british-sport">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">2016: A memorable year for British sport</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/01/25/2016-a-memorable-year-for-british-sport">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/01/24/world-cup-set-to-expand">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/01/24/world-cup-set-to-expand">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">World cup set to expand</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/01/24/world-cup-set-to-expand">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2017/01/24/no-justice-for-victims-of-footballers-star-status">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2017/01/24/no-justice-for-victims-of-footballers-star-status">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">No justice for victims of footballers&#39; star status</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2017/01/24/no-justice-for-victims-of-footballers-star-status">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/11/24/the-rocket-arrives-in-york">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/11/24/the-rocket-arrives-in-york">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The Rocket arrives in York</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/11/24/the-rocket-arrives-in-york">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/11/24/fifa-are-wrong-to-ban-the-poppy-heres-why">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/11/24/fifa-are-wrong-to-ban-the-poppy-heres-why">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">FIFA are wrong to ban the poppy, here&#39;s why</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/11/24/fifa-are-wrong-to-ban-the-poppy-heres-why">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/11/06/my-first-and-only-marathon">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/11/06/my-first-and-only-marathon">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">My first and only marathon</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/11/06/my-first-and-only-marathon">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Zac Sheppard talks about completing last month&#39;s Yorkshire Marathon.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/10/25/alistair-cook-the-vintage-modern-cricketer">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/10/25/alistair-cook-the-vintage-modern-cricketer">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Alistair Cook - The vintage modern cricketer</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/10/25/alistair-cook-the-vintage-modern-cricketer">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">In an ever changing world of flamboyant equipment and endless technology, why is it the same tools that were employed a hundred years ago bring so much success to one of England&#39;s greatest?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/05/27/white-rose-trophy-2016">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/05/27/white-rose-trophy-2016">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">White Rose Trophy 2016</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/05/27/white-rose-trophy-2016">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">UYCC&#39;s George Dabby talks to Anna Coughlan about the yearly grudge match between the University of York and York St. John</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/05/15/ransley-gold-is-the-focal-point">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/05/15/ransley-gold-is-the-focal-point">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Ransley: &quot;Gold is the focal point&quot;</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/05/15/ransley-gold-is-the-focal-point">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Former University of York student Tom Ransley tells Tom Harle of his plans to storm the summer Olympics</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/05/15/leicesters-rise-met-with-villas-demise">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/05/15/leicesters-rise-met-with-villas-demise">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Leicester&#39;s rise met with Villa&#39;s demise</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/05/15/leicesters-rise-met-with-villas-demise">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">It&#39;s been a tumultuous season in football with noteworthy results at both the top and the bottom of the table</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/03/28/adam-johnson-how-was-he-allowed-to-carry-on-playing">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/03/28/adam-johnson-how-was-he-allowed-to-carry-on-playing">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Adam Johnson: How was he allowed to carry on playing?</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/03/28/adam-johnson-how-was-he-allowed-to-carry-on-playing">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Allowing Johnson to continue to play brings morality in Sport into question</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/03/28/editors-comment-college-varsity">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/03/28/editors-comment-college-varsity">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Editor&#39;s Comment: College Varsity</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/03/28/editors-comment-college-varsity">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/02/23/editors-comment-englands-six-nations">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/02/23/editors-comment-englands-six-nations">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Editor&#39;s Comment: England&#39;s Six Nations</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/02/23/editors-comment-englands-six-nations">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Anna Coughlan thinks it might be England&#39;s year</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/02/23/the-not-so-super-bowl-why-we-brits-dont-get-it">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/02/23/the-not-so-super-bowl-why-we-brits-dont-get-it">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The not-so-Super Bowl: Why we Brits don&#39;t get it</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/02/23/the-not-so-super-bowl-why-we-brits-dont-get-it">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Will we ever fully embrace the spectacle of American Football?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/01/26/editors-comment-new-year-old-resolutions">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/01/26/editors-comment-new-year-old-resolutions">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Editor&#39;s Comment: New year, old resolutions</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/01/26/editors-comment-new-year-old-resolutions">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Anna Coughlan hopes that you&#39;ll follow through with that fitness kick</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/01/26/is-lad-culture-really-a-bad-thing">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/01/26/is-lad-culture-really-a-bad-thing">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Is lad culture really a bad thing?</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/01/26/is-lad-culture-really-a-bad-thing">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Joe Etheridge and Ben Kendall debate whether &#39;laddish&#39; behaviour is ever really acceptable.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 ">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2016/01/26/ballon-snore-footballs-brightest-prize-is-boring">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2016/01/26/ballon-snore-footballs-brightest-prize-is-boring">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Ballon Snore: Football&#39;s  brightest prize is boring</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2016/01/26/ballon-snore-footballs-brightest-prize-is-boring">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The Ballon D&#39;or has become a stand off between Messi and Ronaldo</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div>
+              </div>
+            </div>
+  </div><div class="my-4 w-full" id="paginator-container">
+    <astro-island uid="amfms" component-url="/website/_astro/Paginator.6c7b6da2.js" component-export="default" renderer-url="/website/_astro/client.f535c890.js" props="{&quot;page&quot;:[0,5],&quot;pages&quot;:[0,14],&quot;pagesToDisplay&quot;:[0,5],&quot;prefix&quot;:[0,&quot;sport/sport-comment&quot;]}" ssr="" client="only" opts="{&quot;name&quot;:&quot;Paginator&quot;,&quot;value&quot;:true}"></astro-island>
+  </div>
+  <script>(function(){const categoriesColours = [{"categories_backgroundColor":"#173B88","categories_name":"news"},{"categories_backgroundColor":"#E21615","categories_name":"politics"},{"categories_backgroundColor":"#000000","categories_name":"muse"},{"categories_backgroundColor":"#7A1F6E","categories_name":"comment"},{"categories_backgroundColor":"#FDC300","categories_name":"sport"},{"categories_backgroundColor":"#72033F","categories_name":"features"},{"categories_backgroundColor":"#E992B2","categories_name":"arts"},{"categories_backgroundColor":"#D43F30","categories_name":"music"},{"categories_backgroundColor":"#6D6EA7","categories_name":"film"},{"categories_backgroundColor":"#843F71","categories_name":"fashion"},{"categories_backgroundColor":"#7C9464","categories_name":"food-drink"},{"categories_backgroundColor":"2B4988","categories_name":"freshers"},{"categories_backgroundColor":"#E88A20","categories_name":"travel"},{"categories_backgroundColor":"#008E3B","categories_name":"science"},{"categories_backgroundColor":"#008ACC","categories_name":"business"},{"categories_backgroundColor":"#FFF374","categories_name":"shoot"},{"categories_backgroundColor":"#4792BF","categories_name":"gaming"},{"categories_backgroundColor":"#9CD1BE","categories_name":"creative-writing"}];
+
+  const style = document.createElement("style");
+  document.getElementsByTagName("head")[0].appendChild(style);
+  categoriesColours.forEach((c) => {
+    if (style.sheet && style.sheet.insertRule) {
+      style.sheet.insertRule(
+        `.category-color-${c.categories_name} {color: ${c.categories_backgroundColor};}`
+      );
+      style.sheet.insertRule(
+        `.border-color-${c.categories_name} {border-color: ${c.categories_backgroundColor};}`
+      );
+    } else {
+      (style.styleSheet || style.sheet).addRule(
+        `.category-color-${c.categories_name}`,
+        `color: ${c.categories_backgroundColor};`
+      );
+      (style.styleSheet || style.sheet).addRule(
+        `.border-color-${c.categories_name}`,
+        `border-color: ${c.categories_backgroundColor};`
+      );
+    }
+  });
+})();</script></body></html>

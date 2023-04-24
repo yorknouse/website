@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-whiteish-100 font-arno font-normal">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <meta name="generator" content="Astro v2.0.12">
+    <title>News - Nouse</title>
+    
+    <link rel="stylesheet" href="https://use.typekit.net/ghx5ucu.css">
+    
+    
+  <link rel="stylesheet" href="/website/_astro/_...path_.7792e657.css" />
+<link rel="stylesheet" href="/website/_astro/_...path_.8a7f41c5.css" /><script type="module" src="/website/_astro/hoisted.7251f68f.js"></script></head>
+  <body>
+    <div class="bg-whiteish-100 invisible fixed top-0 bottom-0 left-0 right-0 z-50 flex flex-col overflow-y-scroll opacity-0 transition-opacity duration-500 md:overflow-hidden" id="searchInterface">
+  <button id="searchCloseBtn" class="absolute top-0 right-0 w-16 p-2 text-black">
+    <svg viewBox="0 0 24 24" astro-icon="ic:baseline-close"><path fill="currentColor" d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+  </button>
+  <div class="mx-auto my-auto flex w-full flex-col p-4">
+    <form id="searchForm" class="mx-auto mb-10 mt-10 flex flex-row items-center md:mt-0">
+      <input id="searchBox" type="text" class="bg-whiteish-100 w-min border-b-2 border-black outline-none sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl" placeholder="What are you looking for?" size="25">
+      <button class="relative h-10 w-10 md:h-14 md:w-14 lg:h-20 lg:w-20">
+        <svg viewBox="0 0 24 24" class="h-full w-full text-black" astro-icon="ic:sharp-search"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </button>
+    </form>
+  </div>
+</div>
+    <header class="flex w-full bg-transparent">
+  <a href="/website/" class="mx-auto self-center">
+    <img class="my-4 h-14" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg">
+  </a>
+</header>
+<nav class="hidden h-12 w-full bg-black text-xs lg:text-sm text-white sm:block 2xl:px-[13%]">
+  <ul class="flex h-full w-full flex-row justify-between border-t-4 border-transparent">
+    <li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/">
+              Home
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-white">
+            <a class="mx-auto my-auto text-center" href="/website/news">
+              News
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/politics">
+              Politics
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/comment">
+              Comment
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/sport">
+              Sport
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/freshers">
+              Freshers
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/science">
+              Science
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/business">
+              Business
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/muse">
+              <img src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png" class="w-16">
+            </a>
+          </li>
+    <span class="h-3/5 self-center border-r-2 border-white"></span>
+    
+    <li class="flex h-full w-full border-b-4 border-b-transparent">
+      <button class="mx-auto h-full w-10" id="searchBtn">
+        <svg viewBox="0 0 24 24" class="py-1 ml-2" astro-icon="ic:sharp-search"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </button>
+    </li>
+  </ul>
+</nav>
+    <style>astro-island,astro-slot{display:contents}</style><script>(self.Astro=self.Astro||{}).only=t=>{(async()=>await(await t())())()},window.dispatchEvent(new Event("astro:only"));var l;{const c={0:t=>t,1:t=>JSON.parse(t,o),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(JSON.parse(t,o)),5:t=>new Set(JSON.parse(t,o)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(JSON.parse(t)),9:t=>new Uint16Array(JSON.parse(t)),10:t=>new Uint32Array(JSON.parse(t))},o=(t,s)=>{if(t===""||!Array.isArray(s))return s;const[e,n]=s;return e in c?c[e](n):void 0};customElements.get("astro-island")||customElements.define("astro-island",(l=class extends HTMLElement{constructor(){super(...arguments);this.hydrate=()=>{if(!this.hydrator||this.parentElement&&this.parentElement.closest("astro-island[ssr]"))return;const s=this.querySelectorAll("astro-slot"),e={},n=this.querySelectorAll("template[data-astro-template]");for(const r of n){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(const r of s){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("name")||"default"]=r.innerHTML)}const a=this.hasAttribute("props")?JSON.parse(this.getAttribute("props"),o):{};this.hydrator(this)(this.Component,a,e,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),window.removeEventListener("astro:hydrate",this.hydrate),window.dispatchEvent(new CustomEvent("astro:hydrate"))}}connectedCallback(){!this.hasAttribute("await-children")||this.firstChild?this.childrenConnectedCallback():new MutationObserver((s,e)=>{e.disconnect(),this.childrenConnectedCallback()}).observe(this,{childList:!0})}async childrenConnectedCallback(){window.addEventListener("astro:hydrate",this.hydrate);let s=this.getAttribute("before-hydration-url");s&&await import(s),this.start()}start(){const s=JSON.parse(this.getAttribute("opts")),e=this.getAttribute("client");if(Astro[e]===void 0){window.addEventListener(`astro:${e}`,()=>this.start(),{once:!0});return}Astro[e](async()=>{const n=this.getAttribute("renderer-url"),[a,{default:r}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),i=this.getAttribute("component-export")||"default";if(!i.includes("."))this.Component=a[i];else{this.Component=a;for(const d of i.split("."))this.Component=this.Component[d]}return this.hydrator=r,this.hydrate},s,this)}attributeChangedCallback(){this.hydrator&&this.hydrate()}},l.observedAttributes=["props"],l))}</script><div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
+    
+    <h1 id="mobile-header" class="block text-center text-2xl sm:hidden">
+          News
+        </h1>
+    <div id="featured-articles">
+            
+<div class="hidden sm:flex">
+  
+  <div class="w-full">
+    
+    <div>
+      <div class="flex max-h-52 max-w-full gap-2.5">
+        <div class="w-1/2 border-r-2 pr-2.5 border-gray-300">
+          
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2023/02/11/nouse-interviews-nightclub-photographer-felix-wahlberg">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676128758884-52329373450187800000-img8299jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/11/nouse-interviews-nightclub-photographer-felix-wahlberg">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Nouse interviews nightclub photographer, Felix Wahlberg</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148413">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Clay
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/11/nouse-interviews-nightclub-photographer-felix-wahlberg">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Nouse sits down with nightclub photographer and University of York student Felix Wahlberg.</p>
+      </a>
+    </div>
+  </div>
+</div>
+        </div>
+        <div class="w-1/2">
+          
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2023/02/15/yusu-celebrates-and-recognises-the-voluntary-work-of-students-across-york">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676473299884-70354958848930220000-andrewblackjpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/15/yusu-celebrates-and-recognises-the-voluntary-work-of-students-across-york">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">YUSU celebrates and recognises the voluntary work of students across York</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148413">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Clay
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/15/yusu-celebrates-and-recognises-the-voluntary-work-of-students-across-york">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Student volunteers acknowledged during Student Volunteering Week 2023</p>
+      </a>
+    </div>
+  </div>
+</div>
+        </div>
+      </div>
+      <hr class="w-full self-center border-[1px] border-gray-300 my-2.5">
+      
+      <div class="flex max-w-full gap-2.5 justify-center">
+        <div class="w-full pr-2.5 border-r-2 border-gray-300">
+            
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-col astro-Q7KXOHAS">
+    <a class="image-link w-full astro-Q7KXOHAS" href="/2023/02/16/local-plan-for-york-under-consideration">
+          <img class="aspect-video w-full rounded-xl object-cover mb-5 astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676586844640-38331248802047730000-billywilsonjpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/16/local-plan-for-york-under-consideration">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Local Plan for York under consideration</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148413">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Clay
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/16/local-plan-for-york-under-consideration">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Plans for future investment in housing and infrastructure are being debated by the local council</p>
+      </a>
+    </div>
+  </div>
+</div>
+          </div><div class="w-full pr-2.5 border-r-2 border-gray-300">
+            
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-col astro-Q7KXOHAS">
+    <a class="image-link w-full astro-Q7KXOHAS" href="/2023/02/17/ucu-strikes-stood-down-">
+          <img class="aspect-video w-full rounded-xl object-cover mb-5 astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676662609844-40773184158715240000-strikesjpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/17/ucu-strikes-stood-down-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">UCU strikes stood down</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148314">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Gracie Daw
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/17/ucu-strikes-stood-down-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Action on 21, 22, 23, 27, 28 February and 1 and 2 March will not go ahead</p>
+      </a>
+    </div>
+  </div>
+</div>
+          </div><div class="w-full pr-2.5 ">
+            
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-col astro-Q7KXOHAS">
+    <a class="image-link w-full astro-Q7KXOHAS" href="/2023/02/26/yusu-election-results-2023">
+          <img class="aspect-video w-full rounded-xl object-cover mb-5 astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1677428451260-58868362802742020000-pierrickforpresjpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/26/yusu-election-results-2023">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">YUSU Election Results 2023</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148413">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Clay
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/26/yusu-election-results-2023">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Pierrick Roger re-elected as YUSU President</p>
+      </a>
+    </div>
+  </div>
+</div>
+          </div>
+      </div>
+      
+      
+    </div>
+    
+    
+    
+    
+    
+    
+  </div>
+
+  
+  
+</div>
+
+<div class="block max-w-full justify-center sm:hidden">
+  <div class="w-full p-2.5 border-b-2 border-gray-300">
+      
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-col astro-Q7KXOHAS">
+    <a class="image-link w-full astro-Q7KXOHAS" href="/2023/02/11/nouse-interviews-nightclub-photographer-felix-wahlberg">
+          <img class="aspect-video w-full rounded-xl object-cover mb-5 astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676128758884-52329373450187800000-img8299jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/11/nouse-interviews-nightclub-photographer-felix-wahlberg">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Nouse interviews nightclub photographer, Felix Wahlberg</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148413">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Clay
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/11/nouse-interviews-nightclub-photographer-felix-wahlberg">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Nouse sits down with nightclub photographer and University of York student Felix Wahlberg.</p>
+      </a>
+    </div>
+  </div>
+</div>
+    </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+      
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2023/02/15/yusu-celebrates-and-recognises-the-voluntary-work-of-students-across-york">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676473299884-70354958848930220000-andrewblackjpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/15/yusu-celebrates-and-recognises-the-voluntary-work-of-students-across-york">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">YUSU celebrates and recognises the voluntary work of students across York</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148413">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Clay
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/15/yusu-celebrates-and-recognises-the-voluntary-work-of-students-across-york">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Student volunteers acknowledged during Student Volunteering Week 2023</p>
+      </a>
+    </div>
+  </div>
+</div>
+    </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+      
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2023/02/16/local-plan-for-york-under-consideration">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676586844640-38331248802047730000-billywilsonjpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/16/local-plan-for-york-under-consideration">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Local Plan for York under consideration</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148413">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Clay
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/16/local-plan-for-york-under-consideration">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Plans for future investment in housing and infrastructure are being debated by the local council</p>
+      </a>
+    </div>
+  </div>
+</div>
+    </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+      
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/17/ucu-strikes-stood-down-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">UCU strikes stood down</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148314">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Gracie Daw
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/17/ucu-strikes-stood-down-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Action on 21, 22, 23, 27, 28 February and 1 and 2 March will not go ahead</p>
+      </a>
+    </div>
+  </div>
+</div>
+    </div><div class="w-full p-2.5 ">
+      
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/26/yusu-election-results-2023">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">YUSU Election Results 2023</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148413">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Clay
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/26/yusu-election-results-2023">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Pierrick Roger re-elected as YUSU President</p>
+      </a>
+    </div>
+  </div>
+</div>
+    </div>
+</div>
+          </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+    <div id="article-list">
+              
+              <div class="hidden max-w-full flex-col sm:flex">
+                <div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/university-campaign-promotes-consent-agenda-to-students">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/university-campaign-promotes-consent-agenda-to-students">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">University campaign promotes consent agenda to students</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/university-campaign-promotes-consent-agenda-to-students">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Students informed of the importance of dignity and respect through new campaign </p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/ury-nominated-for-national-awards">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/ury-nominated-for-national-awards">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">URY nominated for national awards</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/ury-nominated-for-national-awards">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">University radio station picks up multiple nominations in the prestigious Student Radio Awards</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/york-student-community-neighbourhood-campaign-begins">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/york-student-community-neighbourhood-campaign-begins">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">York student community neighbourhood campaign begins</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/york-student-community-neighbourhood-campaign-begins">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">YUSU backs campaign to encourage students to meet their neighbours</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/york-is-12th-most-cost-effective-city">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/york-is-12th-most-cost-effective-city">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">York is 12th most cost-effective city</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/york-is-12th-most-cost-effective-city">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The city of York announced as being in the top twenty most cost effective student cities in the country</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/university-criticises-government-proposed-student-loan-rules">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/university-criticises-government-proposed-student-loan-rules">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">University criticises government proposed student loan rules</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/university-criticises-government-proposed-student-loan-rules">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Postgraduate loans to be limited to those under the age of 30</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/petition-launched-to-stop-companies-complicit-in-war-crimes-recruiting-on-campus">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/petition-launched-to-stop-companies-complicit-in-war-crimes-recruiting-on-campus">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Petition launched to stop companies complicit in war crimes recruiting on campus</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/petition-launched-to-stop-companies-complicit-in-war-crimes-recruiting-on-campus">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Campaign aims to stop &#39;unethical companies&#39; attending university careers fairs</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/santander-yucycle-raise-funds-for-more-students">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/santander-yucycle-raise-funds-for-more-students">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Santander YuCycle raise funds for more students</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/santander-yucycle-raise-funds-for-more-students">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Money raised in sponsored cycle to help fund students from low income families</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/pwc-named-top-graduate-employer">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/pwc-named-top-graduate-employer">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">PwC named top graduate employer</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/pwc-named-top-graduate-employer">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Accountancy firm employed 530 graduates in 2014</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/tour-de-yorkshire-returning">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/tour-de-yorkshire-returning">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Tour de Yorkshire returning</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/tour-de-yorkshire-returning">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Six towns selected to host the 2016 Tour de Yorkshire cycle race</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/yusu-sees-a-record-number-of-course-rep-nominations">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/yusu-sees-a-record-number-of-course-rep-nominations">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">YUSU sees a record number of course rep nominations</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/yusu-sees-a-record-number-of-course-rep-nominations">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Fresher&#39;s week campaign leads to over 330 nominations</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/former-owner-of-tokyo-york-fined-76000-for-past-fire-safety-breaches">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/former-owner-of-tokyo-york-fined-76000-for-past-fire-safety-breaches">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Former owner of Tokyo York fined PS76,000 for past fire safety breaches</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/former-owner-of-tokyo-york-fined-76000-for-past-fire-safety-breaches">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Broken fire alarms and poor emergency lighting cited as some of the key health and safety breaches at York nightclub</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/asexual-awareness-week-to-be-held-on-campus">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/asexual-awareness-week-to-be-held-on-campus">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Asexual Awareness Week to be held on campus</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/asexual-awareness-week-to-be-held-on-campus">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Events to take place across campus to raise awareness the asexual spectrum</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/over-two-hundred-students-refused-top-ten-accommodation-preferences">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/over-two-hundred-students-refused-top-ten-accommodation-preferences">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Over two hundred students refused top ten accommodation preferences</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/over-two-hundred-students-refused-top-ten-accommodation-preferences">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Despite indicating ten accommodation preferences, 221 students failed to receive any of their choices</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/university-departments-undergo-talks-about-new-opt-out-lecture-capture">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/university-departments-undergo-talks-about-new-opt-out-lecture-capture">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">University departments undergo talks about new opt-out lecture capture</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/university-departments-undergo-talks-about-new-opt-out-lecture-capture">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">University departments to potentially have lecturers opt-out instead of opt-in of having lectures recorded</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/york-one-of-the-safest-student-cities">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/york-one-of-the-safest-student-cities">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">York one of the safest student cities</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/york-one-of-the-safest-student-cities">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The Times Higher Education have named York as being in the top ten safest Universities in the UK</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/york-student-think-tank-research-reveals-communication-issues-in-halifax-college">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/york-student-think-tank-research-reveals-communication-issues-in-halifax-college">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">York Student Think Tank research reveals communication issues in Halifax College</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/york-student-think-tank-research-reveals-communication-issues-in-halifax-college">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">York Student Think Tank research reveals Halifax students views on college communication</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/university-to-provide-scholarships-to-several-refugees-in-response-to-crisis">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/university-to-provide-scholarships-to-several-refugees-in-response-to-crisis">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">University to provide scholarships to several refugees in response to crisis</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/university-to-provide-scholarships-to-several-refugees-in-response-to-crisis">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The University have announced that they will be offering scholarships to refugees who want to learn at the University </p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/annual-light-festival-set-to-return-to-york">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/annual-light-festival-set-to-return-to-york">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Annual light festival set to return to York</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/annual-light-festival-set-to-return-to-york">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Illuminating York Festival to return to the city for another year</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/study-reveals-spending-habits-of-students">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/study-reveals-spending-habits-of-students">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Study reveals spending habits of students</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/study-reveals-spending-habits-of-students">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Study finds student that on average students spend four times more on alcohol than food</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/new-geek-culture-festival-announced">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/new-geek-culture-festival-announced">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">New &#39;geek culture&#39; festival announced</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/new-geek-culture-festival-announced">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">GeekFest to take place on campus</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/students-team-up-with-police-for-project-on-honour-based-violence">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/students-team-up-with-police-for-project-on-honour-based-violence">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Students team up with police for project on honour based violence</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/students-team-up-with-police-for-project-on-honour-based-violence">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">English Department to work with Cambridgeshire Police on project against violence</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/new-payment-system-trialled-by-yusu">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/new-payment-system-trialled-by-yusu">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">New payment system trialled by YUSU</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/new-payment-system-trialled-by-yusu">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">YUSU set to launch new payment method called YoYo</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/york-climbs-seventeen-places-in-qs-world-university-rankings">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/york-climbs-seventeen-places-in-qs-world-university-rankings">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">York climbs seventeen places in QS World University Rankings</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/york-climbs-seventeen-places-in-qs-world-university-rankings">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">University of York moves up from 120th to 103rd in QS World University Rankings</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/study-finds-a-quarter-of-young-people-cook-two-meals-a-week">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/study-finds-a-quarter-of-young-people-cook-two-meals-a-week">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Study finds a quarter of young people cook two meals a week</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/study-finds-a-quarter-of-young-people-cook-two-meals-a-week">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A recent survey has found over a quarter of 18-25 year olds who have left home only cook two meals per week</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/24/world-bar-billiards-champion-to-attend-charity-event-in-york">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/24/world-bar-billiards-champion-to-attend-charity-event-in-york">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">World bar billiards champion to attend charity tournament</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/24/world-bar-billiards-champion-to-attend-charity-event-in-york">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Billiards charity tournament to take place at the Golden Ball pub</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/20/the-big-top-line-up-2015-announced">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/20/the-big-top-line-up-2015-announced">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The Big Top Line up 2015 announced</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/20/the-big-top-line-up-2015-announced">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Ella Eyre to headline Freshers&#39; event The Big Top</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/18/landlord-awards-open-for-nominations">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/18/landlord-awards-open-for-nominations">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Landlord Awards open for nominations</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/18/landlord-awards-open-for-nominations">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Student tenants are able to celebrate good landlordship through local awards</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/12/yusu-disabled-students-network-shortlisted-for-national-award">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/12/yusu-disabled-students-network-shortlisted-for-national-award">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">YUSU Disabled Students&#39; Network shortlisted for national award</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/12/yusu-disabled-students-network-shortlisted-for-national-award">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">DSN nominated for Health and Wellbeing Network of the Year Award	</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/07/york-nominated-for-times-higher-education-award">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/07/york-nominated-for-times-higher-education-award">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">York nominated for Times Higher Education Award</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/07/york-nominated-for-times-higher-education-award">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">University of York shortlisted for International Collaboration of the Year Award
+</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/05/charity-concert-to-come-to-campus">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/05/charity-concert-to-come-to-campus">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Charity concert to come to campus</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/05/charity-concert-to-come-to-campus">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">University to host concert in aid of sight loss charity</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          
+                        </div>
+              </div>
+              
+              <div class="block max-w-full justify-center sm:hidden">
+                <div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/university-campaign-promotes-consent-agenda-to-students">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/university-campaign-promotes-consent-agenda-to-students">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">University campaign promotes consent agenda to students</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/university-campaign-promotes-consent-agenda-to-students">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Students informed of the importance of dignity and respect through new campaign </p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/ury-nominated-for-national-awards">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/ury-nominated-for-national-awards">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">URY nominated for national awards</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/ury-nominated-for-national-awards">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">University radio station picks up multiple nominations in the prestigious Student Radio Awards</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/york-student-community-neighbourhood-campaign-begins">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/york-student-community-neighbourhood-campaign-begins">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">York student community neighbourhood campaign begins</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/york-student-community-neighbourhood-campaign-begins">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">YUSU backs campaign to encourage students to meet their neighbours</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/york-is-12th-most-cost-effective-city">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/york-is-12th-most-cost-effective-city">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">York is 12th most cost-effective city</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/york-is-12th-most-cost-effective-city">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The city of York announced as being in the top twenty most cost effective student cities in the country</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/university-criticises-government-proposed-student-loan-rules">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/university-criticises-government-proposed-student-loan-rules">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">University criticises government proposed student loan rules</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/university-criticises-government-proposed-student-loan-rules">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Postgraduate loans to be limited to those under the age of 30</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/petition-launched-to-stop-companies-complicit-in-war-crimes-recruiting-on-campus">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/petition-launched-to-stop-companies-complicit-in-war-crimes-recruiting-on-campus">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Petition launched to stop companies complicit in war crimes recruiting on campus</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/petition-launched-to-stop-companies-complicit-in-war-crimes-recruiting-on-campus">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Campaign aims to stop &#39;unethical companies&#39; attending university careers fairs</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/santander-yucycle-raise-funds-for-more-students">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/santander-yucycle-raise-funds-for-more-students">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Santander YuCycle raise funds for more students</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/santander-yucycle-raise-funds-for-more-students">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Money raised in sponsored cycle to help fund students from low income families</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/pwc-named-top-graduate-employer">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/pwc-named-top-graduate-employer">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">PwC named top graduate employer</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/pwc-named-top-graduate-employer">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Accountancy firm employed 530 graduates in 2014</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/tour-de-yorkshire-returning">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/tour-de-yorkshire-returning">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Tour de Yorkshire returning</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/tour-de-yorkshire-returning">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Six towns selected to host the 2016 Tour de Yorkshire cycle race</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/yusu-sees-a-record-number-of-course-rep-nominations">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/yusu-sees-a-record-number-of-course-rep-nominations">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">YUSU sees a record number of course rep nominations</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/yusu-sees-a-record-number-of-course-rep-nominations">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Fresher&#39;s week campaign leads to over 330 nominations</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/former-owner-of-tokyo-york-fined-76000-for-past-fire-safety-breaches">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/former-owner-of-tokyo-york-fined-76000-for-past-fire-safety-breaches">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Former owner of Tokyo York fined PS76,000 for past fire safety breaches</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/former-owner-of-tokyo-york-fined-76000-for-past-fire-safety-breaches">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Broken fire alarms and poor emergency lighting cited as some of the key health and safety breaches at York nightclub</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/10/13/asexual-awareness-week-to-be-held-on-campus">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/10/13/asexual-awareness-week-to-be-held-on-campus">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Asexual Awareness Week to be held on campus</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/10/13/asexual-awareness-week-to-be-held-on-campus">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Events to take place across campus to raise awareness the asexual spectrum</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/over-two-hundred-students-refused-top-ten-accommodation-preferences">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/over-two-hundred-students-refused-top-ten-accommodation-preferences">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Over two hundred students refused top ten accommodation preferences</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/over-two-hundred-students-refused-top-ten-accommodation-preferences">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Despite indicating ten accommodation preferences, 221 students failed to receive any of their choices</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/university-departments-undergo-talks-about-new-opt-out-lecture-capture">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/university-departments-undergo-talks-about-new-opt-out-lecture-capture">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">University departments undergo talks about new opt-out lecture capture</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/university-departments-undergo-talks-about-new-opt-out-lecture-capture">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">University departments to potentially have lecturers opt-out instead of opt-in of having lectures recorded</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/york-one-of-the-safest-student-cities">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/york-one-of-the-safest-student-cities">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">York one of the safest student cities</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/york-one-of-the-safest-student-cities">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The Times Higher Education have named York as being in the top ten safest Universities in the UK</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/york-student-think-tank-research-reveals-communication-issues-in-halifax-college">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/york-student-think-tank-research-reveals-communication-issues-in-halifax-college">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">York Student Think Tank research reveals communication issues in Halifax College</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/york-student-think-tank-research-reveals-communication-issues-in-halifax-college">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">York Student Think Tank research reveals Halifax students views on college communication</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/university-to-provide-scholarships-to-several-refugees-in-response-to-crisis">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/university-to-provide-scholarships-to-several-refugees-in-response-to-crisis">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">University to provide scholarships to several refugees in response to crisis</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/university-to-provide-scholarships-to-several-refugees-in-response-to-crisis">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The University have announced that they will be offering scholarships to refugees who want to learn at the University </p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/annual-light-festival-set-to-return-to-york">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/annual-light-festival-set-to-return-to-york">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Annual light festival set to return to York</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/annual-light-festival-set-to-return-to-york">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Illuminating York Festival to return to the city for another year</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/study-reveals-spending-habits-of-students">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/study-reveals-spending-habits-of-students">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Study reveals spending habits of students</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/study-reveals-spending-habits-of-students">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Study finds student that on average students spend four times more on alcohol than food</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/new-geek-culture-festival-announced">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/new-geek-culture-festival-announced">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">New &#39;geek culture&#39; festival announced</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/new-geek-culture-festival-announced">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">GeekFest to take place on campus</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/students-team-up-with-police-for-project-on-honour-based-violence">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/students-team-up-with-police-for-project-on-honour-based-violence">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Students team up with police for project on honour based violence</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/students-team-up-with-police-for-project-on-honour-based-violence">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">English Department to work with Cambridgeshire Police on project against violence</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/new-payment-system-trialled-by-yusu">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/new-payment-system-trialled-by-yusu">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">New payment system trialled by YUSU</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/new-payment-system-trialled-by-yusu">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">YUSU set to launch new payment method called YoYo</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/york-climbs-seventeen-places-in-qs-world-university-rankings">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/york-climbs-seventeen-places-in-qs-world-university-rankings">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">York climbs seventeen places in QS World University Rankings</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/york-climbs-seventeen-places-in-qs-world-university-rankings">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">University of York moves up from 120th to 103rd in QS World University Rankings</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/29/study-finds-a-quarter-of-young-people-cook-two-meals-a-week">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/29/study-finds-a-quarter-of-young-people-cook-two-meals-a-week">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Study finds a quarter of young people cook two meals a week</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/29/study-finds-a-quarter-of-young-people-cook-two-meals-a-week">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A recent survey has found over a quarter of 18-25 year olds who have left home only cook two meals per week</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/24/world-bar-billiards-champion-to-attend-charity-event-in-york">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/24/world-bar-billiards-champion-to-attend-charity-event-in-york">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">World bar billiards champion to attend charity tournament</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/24/world-bar-billiards-champion-to-attend-charity-event-in-york">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Billiards charity tournament to take place at the Golden Ball pub</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/20/the-big-top-line-up-2015-announced">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/20/the-big-top-line-up-2015-announced">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The Big Top Line up 2015 announced</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/20/the-big-top-line-up-2015-announced">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Ella Eyre to headline Freshers&#39; event The Big Top</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/18/landlord-awards-open-for-nominations">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/18/landlord-awards-open-for-nominations">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Landlord Awards open for nominations</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/18/landlord-awards-open-for-nominations">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Student tenants are able to celebrate good landlordship through local awards</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/12/yusu-disabled-students-network-shortlisted-for-national-award">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/12/yusu-disabled-students-network-shortlisted-for-national-award">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">YUSU Disabled Students&#39; Network shortlisted for national award</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/12/yusu-disabled-students-network-shortlisted-for-national-award">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">DSN nominated for Health and Wellbeing Network of the Year Award	</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/07/york-nominated-for-times-higher-education-award">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/07/york-nominated-for-times-higher-education-award">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">York nominated for Times Higher Education Award</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/07/york-nominated-for-times-higher-education-award">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">University of York shortlisted for International Collaboration of the Year Award
+</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 ">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #173B88;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2015/09/05/charity-concert-to-come-to-campus">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2015/09/05/charity-concert-to-come-to-campus">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Charity concert to come to campus</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2015/09/05/charity-concert-to-come-to-campus">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">University to host concert in aid of sight loss charity</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div>
+              </div>
+            </div>
+  </div><div class="my-4 w-full" id="paginator-container">
+    <astro-island uid="Z1IWhPu" component-url="/website/_astro/Paginator.6c7b6da2.js" component-export="default" renderer-url="/website/_astro/client.f535c890.js" props="{&quot;page&quot;:[0,32],&quot;pages&quot;:[0,111],&quot;pagesToDisplay&quot;:[0,5],&quot;prefix&quot;:[0,&quot;news&quot;]}" ssr="" client="only" opts="{&quot;name&quot;:&quot;Paginator&quot;,&quot;value&quot;:true}"></astro-island>
+  </div>
+  <script>(function(){const categoriesColours = [{"categories_backgroundColor":"#173B88","categories_name":"news"},{"categories_backgroundColor":"#E21615","categories_name":"politics"},{"categories_backgroundColor":"#000000","categories_name":"muse"},{"categories_backgroundColor":"#7A1F6E","categories_name":"comment"},{"categories_backgroundColor":"#FDC300","categories_name":"sport"},{"categories_backgroundColor":"#72033F","categories_name":"features"},{"categories_backgroundColor":"#E992B2","categories_name":"arts"},{"categories_backgroundColor":"#D43F30","categories_name":"music"},{"categories_backgroundColor":"#6D6EA7","categories_name":"film"},{"categories_backgroundColor":"#843F71","categories_name":"fashion"},{"categories_backgroundColor":"#7C9464","categories_name":"food-drink"},{"categories_backgroundColor":"2B4988","categories_name":"freshers"},{"categories_backgroundColor":"#E88A20","categories_name":"travel"},{"categories_backgroundColor":"#008E3B","categories_name":"science"},{"categories_backgroundColor":"#008ACC","categories_name":"business"},{"categories_backgroundColor":"#FFF374","categories_name":"shoot"},{"categories_backgroundColor":"#4792BF","categories_name":"gaming"},{"categories_backgroundColor":"#9CD1BE","categories_name":"creative-writing"}];
+
+  const style = document.createElement("style");
+  document.getElementsByTagName("head")[0].appendChild(style);
+  categoriesColours.forEach((c) => {
+    if (style.sheet && style.sheet.insertRule) {
+      style.sheet.insertRule(
+        `.category-color-${c.categories_name} {color: ${c.categories_backgroundColor};}`
+      );
+      style.sheet.insertRule(
+        `.border-color-${c.categories_name} {border-color: ${c.categories_backgroundColor};}`
+      );
+    } else {
+      (style.styleSheet || style.sheet).addRule(
+        `.category-color-${c.categories_name}`,
+        `color: ${c.categories_backgroundColor};`
+      );
+      (style.styleSheet || style.sheet).addRule(
+        `.border-color-${c.categories_name}`,
+        `border-color: ${c.categories_backgroundColor};`
+      );
+    }
+  });
+})();</script></body></html>

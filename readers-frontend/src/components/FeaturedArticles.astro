@@ -3,13 +3,15 @@ import type { categories } from "@prisma/client";
 import prisma from "../prisma";
 import Article from './Article.astro';
 import { getArticles, articlesWithArticleDrafts, getArticleImage } from "./utils/articles";
-import { getMainArticleCategory } from "./utils/categories";
+import { getCategoryLink } from "./utils/categories";
 
 interface Props {
   featuredArticlesIds: number[] | undefined;
+  hideCategoryAccent?: boolean;
+  style: "nouse" | "muse";
 }
 
-const { featuredArticlesIds} = Astro.props;
+const { featuredArticlesIds, hideCategoryAccent, style} = Astro.props;
 
 // Get featured articles
 const featuredArticles: articlesWithArticleDrafts[] = await getArticles(featuredArticlesIds)
@@ -25,13 +27,18 @@ if (hasPortraitArticles) {
   });
 }
 
-// Get the main categories for each article
-const mainCategories: (categories | null)[] = await Promise.all(featuredArticles.map(article => getMainArticleCategory(article.articles_categories.split(',').map(Number))))
+const mainCategories: categories[] = featuredArticles.flatMap(({categories}) => 
+  categories.filter(({category}) => 
+    category.categories_nestUnder === (style === "nouse" ? null : 4) &&
+    category.categories_showPublic &&
+    category.categories_showHome
+  ).map(({category}) => category)
+)
 ---
 {/* Desktop */}
 <div class="hidden sm:flex">
   {/* Only Landscape Articles */}
-  {!hasPortraitArticles && <div>
+  {!hasPortraitArticles && <div class="w-full">
     {/* 4 or more Articles */}
     {featuredArticles.length >= 4 && <div>
       <div class="flex max-h-52 max-w-full gap-2.5">
@@ -42,12 +49,13 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
           authorId={featuredArticles[0].articlesDrafts[0].users?.users_userid}
           category={mainCategories[0]?.categories_displayName}
-          categoryLink={mainCategories[0]?.categories_name}
-          categoryColor={"#" + mainCategories[0]?.categories_backgroundColor}
+          categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
+          categoryColor={mainCategories[0]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[0])}
           articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
         <div class="w-1/2">
@@ -57,12 +65,13 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           author={featuredArticles[1].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[1].articlesDrafts[0].users?.users_name2}
           authorId={featuredArticles[1].articlesDrafts[0].users?.users_userid}
           category={mainCategories[1]?.categories_displayName}
-          categoryLink={mainCategories[1]?.categories_name}
-          categoryColor={"#" + mainCategories[1]?.categories_backgroundColor}
+          categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
+          categoryColor={mainCategories[1]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[1])}
           articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
       </div>
@@ -77,12 +86,13 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
             author={article.articlesDrafts[0].users?.users_name1 + " " + article.articlesDrafts[0].users?.users_name2}
             authorId={article.articlesDrafts[0].users?.users_userid}
             category={mainCategories[index + 2]?.categories_displayName}
-            categoryLink={mainCategories[index + 2]?.categories_name}
-            categoryColor={"#" + mainCategories[index + 2]?.categories_backgroundColor}
+            categoryLink={getCategoryLink(mainCategories[index + 2]?.categories_name, mainCategories[index + 2]?.categories_nestUnder)}
+            categoryColor={mainCategories[index + 2]?.categories_backgroundColor}
             imageUrl={await getArticleImage(article)}
             articleUrl={`/${article.articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${article.articles_slug}`}
             isVertical={true}
             isPortrait={false}
+            hideCategoryAccent={hideCategoryAccent}
             />
           </div>
         ))}
@@ -96,12 +106,13 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           author={featuredArticles[2].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[2].articlesDrafts[0].users?.users_name2}
           authorId={featuredArticles[2].articlesDrafts[0].users?.users_userid}
           category={mainCategories[2]?.categories_displayName}
-          categoryLink={mainCategories[2]?.categories_name}
-          categoryColor={"#" + mainCategories[2]?.categories_backgroundColor}
+          categoryLink={getCategoryLink(mainCategories[2]?.categories_name, mainCategories[2]?.categories_nestUnder)}
+          categoryColor={mainCategories[2]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[2])}
           articleUrl={`/${featuredArticles[2].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[2].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
         <div class="w-1/2">
@@ -111,12 +122,13 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           author={featuredArticles[3].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[3].articlesDrafts[0].users?.users_name2}
           authorId={featuredArticles[3].articlesDrafts[0].users?.users_userid}
           category={mainCategories[3]?.categories_displayName}
-          categoryLink={mainCategories[3]?.categories_name}
-          categoryColor={"#" + mainCategories[3]?.categories_backgroundColor}
+          categoryLink={getCategoryLink(mainCategories[3]?.categories_name, mainCategories[3]?.categories_nestUnder)}
+          categoryColor={mainCategories[3]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[3])}
           articleUrl={`/${featuredArticles[3].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[3].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
       </div>}
@@ -131,12 +143,13 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
           authorId={featuredArticles[0].articlesDrafts[0].users?.users_userid}
           category={mainCategories[0]?.categories_displayName}
-          categoryLink={mainCategories[0]?.categories_name}
-          categoryColor={"#" + mainCategories[0]?.categories_backgroundColor}
+          categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
+          categoryColor={mainCategories[0]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[0])}
           articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
         <hr class="w-full self-center border-[1px] border-gray-300 my-2.5" />
@@ -147,12 +160,13 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           author={featuredArticles[1].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[1].articlesDrafts[0].users?.users_name2}
           authorId={featuredArticles[1].articlesDrafts[0].users?.users_userid}
           category={mainCategories[1]?.categories_displayName}
-          categoryLink={mainCategories[1]?.categories_name}
-          categoryColor={"#" + mainCategories[1]?.categories_backgroundColor}
+          categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
+          categoryColor={mainCategories[1]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[1])}
           articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
       </div>
@@ -163,45 +177,48 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           author={featuredArticles[2].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[2].articlesDrafts[0].users?.users_name2}
           authorId={featuredArticles[2].articlesDrafts[0].users?.users_userid}
           category={mainCategories[2]?.categories_displayName}
-          categoryLink={mainCategories[2]?.categories_name}
-          categoryColor={"#" + mainCategories[2]?.categories_backgroundColor}
+          categoryLink={getCategoryLink(mainCategories[2]?.categories_name, mainCategories[2]?.categories_nestUnder)}
+          categoryColor={mainCategories[2]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[2])}
           articleUrl={`/${featuredArticles[2].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[2].articles_slug}`}
           isVertical={true}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
     </div>}
     {/* 2 articles */}
     {featuredArticles.length == 2 && <div class="flex w-full gap-2.5">
-    <div class="max-w-[50%]">
+    <div class="w-1/2">
         <Article 
         headline={featuredArticles[0].articlesDrafts[0].articlesDrafts_headline}
         excerpt={featuredArticles[0].articlesDrafts[0].articlesDrafts_excerpt}
         author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
         authorId={featuredArticles[0].articlesDrafts[0].users?.users_userid}
         category={mainCategories[0]?.categories_displayName}
-        categoryLink={mainCategories[0]?.categories_name}
-        categoryColor={"#" + mainCategories[0]?.categories_backgroundColor}
+        categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
+        categoryColor={mainCategories[0]?.categories_backgroundColor}
         imageUrl={await getArticleImage(featuredArticles[0])}
         articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
         isVertical={true}
         isPortrait={false}
+        hideCategoryAccent={hideCategoryAccent}
         />
       </div>
-      <div class="max-w-[50%]">
+      <div class="w-1/2">
           <Article 
           headline={featuredArticles[1].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[1].articlesDrafts[0].articlesDrafts_excerpt}
           author={featuredArticles[1].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[1].articlesDrafts[0].users?.users_name2}
           authorId={featuredArticles[1].articlesDrafts[0].users?.users_userid}
           category={mainCategories[1]?.categories_displayName}
-          categoryLink={mainCategories[1]?.categories_name}
-          categoryColor={"#" + mainCategories[1]?.categories_backgroundColor}
+          categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
+          categoryColor={mainCategories[1]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[1])}
           articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
           isVertical={true}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
     </div>}
@@ -213,12 +230,13 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
       author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
       authorId={featuredArticles[0].articlesDrafts[0].users?.users_userid}
       category={mainCategories[0]?.categories_displayName}
-      categoryLink={mainCategories[0]?.categories_name}
-      categoryColor={"#" + mainCategories[0]?.categories_backgroundColor}
+      categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
+      categoryColor={mainCategories[0]?.categories_backgroundColor}
       imageUrl={await getArticleImage(featuredArticles[0])}
       articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
       isVertical={false}
       isPortrait={false}
+      hideCategoryAccent={hideCategoryAccent}
       />
     </div>}
   </div>}
@@ -235,11 +253,12 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
         author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
         authorId={featuredArticles[0].articlesDrafts[0].users?.users_userid}
         category={mainCategories[0]?.categories_displayName}
-        categoryLink={mainCategories[0]?.categories_name}
-        categoryColor={"#" + mainCategories[0]?.categories_backgroundColor}
+        categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
+        categoryColor={mainCategories[0]?.categories_backgroundColor}
         imageUrl={await getArticleImage(featuredArticles[0])}
         articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
         isPortrait={true}
+        hideCategoryAccent={hideCategoryAccent}
         />
       </div>
       {/* More than 2 Articles */}
@@ -251,12 +270,13 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           author={featuredArticles[1].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
           authorId={featuredArticles[1].articlesDrafts[0].users?.users_userid}
           category={mainCategories[1]?.categories_displayName}
-          categoryLink={mainCategories[1]?.categories_name}
-          categoryColor={"#" + mainCategories[1]?.categories_backgroundColor}
+          categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
+          categoryColor={mainCategories[1]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[1])}
           articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
         <hr class="w-full self-center border-[1px] border-gray-300 my-2.5" />
@@ -267,12 +287,13 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           author={featuredArticles[2].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[2].articlesDrafts[0].users?.users_name2}
           authorId={featuredArticles[2].articlesDrafts[0].users?.users_userid}
           category={mainCategories[2]?.categories_displayName}
-          categoryLink={mainCategories[2]?.categories_name}
-          categoryColor={"#" + mainCategories[2]?.categories_backgroundColor}
+          categoryLink={getCategoryLink(mainCategories[2]?.categories_name, mainCategories[2]?.categories_nestUnder)}
+          categoryColor={mainCategories[2]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[2])}
           articleUrl={`/${featuredArticles[2].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[2].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
         {/* 4 articles */}
@@ -285,12 +306,13 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
             author={featuredArticles[3].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[3].articlesDrafts[0].users?.users_name2}
             authorId={featuredArticles[3].articlesDrafts[0].users?.users_userid}
             category={mainCategories[3]?.categories_displayName}
-            categoryLink={mainCategories[3]?.categories_name}
-            categoryColor={"#" + mainCategories[3]?.categories_backgroundColor}
+            categoryLink={getCategoryLink(mainCategories[3]?.categories_name, mainCategories[3]?.categories_nestUnder)}
+            categoryColor={mainCategories[3]?.categories_backgroundColor}
             imageUrl={await getArticleImage(featuredArticles[3])}
             articleUrl={`/${featuredArticles[3].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[3].articles_slug}`}
             isVertical={false}
             isPortrait={false}
+            hideCategoryAccent={hideCategoryAccent}
             />
           </div>
         }
@@ -304,12 +326,13 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
         author={featuredArticles[1].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[1].articlesDrafts[0].users?.users_name2}
         authorId={featuredArticles[1].articlesDrafts[0].users?.users_userid}
         category={mainCategories[1]?.categories_displayName}
-        categoryLink={mainCategories[1]?.categories_name}
-        categoryColor={"#" + mainCategories[1]?.categories_backgroundColor}
+        categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
+        categoryColor={mainCategories[1]?.categories_backgroundColor}
         imageUrl={await getArticleImage(featuredArticles[1])}
         articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
         isVertical={true}
         isPortrait={false}
+        hideCategoryAccent={hideCategoryAccent}
         />
       </div>}
     </div>}
@@ -324,12 +347,13 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           author={featuredArticles[3].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[3].articlesDrafts[0].users?.users_name2}
           authorId={featuredArticles[3].articlesDrafts[0].users?.users_userid}
           category={mainCategories[3]?.categories_displayName}
-          categoryLink={mainCategories[3]?.categories_name}
-          categoryColor={"#" + mainCategories[3]?.categories_backgroundColor}
+          categoryLink={getCategoryLink(mainCategories[3]?.categories_name, mainCategories[3]?.categories_nestUnder)}
+          categoryColor={mainCategories[3]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[3])}
           articleUrl={`/${featuredArticles[3].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[3].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
         <div class="w-1/2">
@@ -339,12 +363,13 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           author={featuredArticles[4].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[4].articlesDrafts[0].users?.users_name2}
           authorId={featuredArticles[4].articlesDrafts[0].users?.users_userid}
           category={mainCategories[4]?.categories_displayName}
-          categoryLink={mainCategories[4]?.categories_name}
-          categoryColor={"#" + mainCategories[4]?.categories_backgroundColor}
+          categoryLink={getCategoryLink(mainCategories[4]?.categories_name, mainCategories[4]?.categories_nestUnder)}
+          categoryColor={mainCategories[4]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[4])}
           articleUrl={`/${featuredArticles[4].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[4].articles_slug}`}
           isVertical={false}
           isPortrait={false}
+          hideCategoryAccent={hideCategoryAccent}
           />
         </div>
       </div>
@@ -361,12 +386,13 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
               author={article.articlesDrafts[0].users?.users_name1 + " " + article.articlesDrafts[0].users?.users_name2}
               authorId={article.articlesDrafts[0].users?.users_userid}
               category={mainCategories[index + 2]?.categories_displayName}
-              categoryLink={mainCategories[index + 2]?.categories_name}
-              categoryColor={"#" + mainCategories[index + 2]?.categories_backgroundColor}
+              categoryLink={getCategoryLink(mainCategories[index + 2]?.categories_name, mainCategories[index + 2]?.categories_nestUnder)}
+              categoryColor={mainCategories[index + 2]?.categories_backgroundColor}
               imageUrl={await getArticleImage(article)}
               articleUrl={`/${article.articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${article.articles_slug}`}
               isVertical={true}
               isPortrait={false}
+              hideCategoryAccent={hideCategoryAccent}
               />
             </div>
           ))}
@@ -381,11 +407,12 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
       author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
       authorId={featuredArticles[0].articlesDrafts[0].users?.users_userid}
       category={mainCategories[0]?.categories_displayName}
-      categoryLink={mainCategories[0]?.categories_name}
-      categoryColor={"#" + mainCategories[0]?.categories_backgroundColor}
+      categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
+      categoryColor={mainCategories[0]?.categories_backgroundColor}
       imageUrl={await getArticleImage(featuredArticles[0])}
       articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
       isPortrait={true}
+      hideCategoryAccent={hideCategoryAccent}
       />
     </div>}
   </div>}
@@ -408,8 +435,8 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
         }
         authorId={article.articlesDrafts[0].users?.users_userid}
         category={mainCategories[index]?.categories_displayName}
-        categoryLink={mainCategories[index]?.categories_name}
-        categoryColor={"#" + mainCategories[index]?.categories_backgroundColor}
+        categoryLink={getCategoryLink(mainCategories[index]?.categories_name, mainCategories[index]?.categories_nestUnder)}
+        categoryColor={mainCategories[index]?.categories_backgroundColor}
         imageUrl={index <= 2 ? await getArticleImage(article) : undefined}
         articleUrl={`/${article.articles_published
           ?.toISOString()
@@ -417,6 +444,7 @@ const mainCategories: (categories | null)[] = await Promise.all(featuredArticles
           .replaceAll("-", "/")}/${article.articles_slug}`}
         isVertical={index == 0}
         isPortrait={article.articles_isThumbnailPortrait}
+        hideCategoryAccent={hideCategoryAccent}
       />
     </div>
   ))}

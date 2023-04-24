@@ -1,0 +1,2087 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-whiteish-100 font-arno font-normal">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <meta name="generator" content="Astro v2.0.12">
+    <title>Science - Nouse</title>
+    
+    <link rel="stylesheet" href="https://use.typekit.net/ghx5ucu.css">
+    
+    
+  <link rel="stylesheet" href="/website/_astro/_...path_.7792e657.css" />
+<link rel="stylesheet" href="/website/_astro/_...path_.8a7f41c5.css" /><script type="module" src="/website/_astro/hoisted.7251f68f.js"></script></head>
+  <body>
+    <div class="bg-whiteish-100 invisible fixed top-0 bottom-0 left-0 right-0 z-50 flex flex-col overflow-y-scroll opacity-0 transition-opacity duration-500 md:overflow-hidden" id="searchInterface">
+  <button id="searchCloseBtn" class="absolute top-0 right-0 w-16 p-2 text-black">
+    <svg viewBox="0 0 24 24" astro-icon="ic:baseline-close"><path fill="currentColor" d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+  </button>
+  <div class="mx-auto my-auto flex w-full flex-col p-4">
+    <form id="searchForm" class="mx-auto mb-10 mt-10 flex flex-row items-center md:mt-0">
+      <input id="searchBox" type="text" class="bg-whiteish-100 w-min border-b-2 border-black outline-none sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl" placeholder="What are you looking for?" size="25">
+      <button class="relative h-10 w-10 md:h-14 md:w-14 lg:h-20 lg:w-20">
+        <svg viewBox="0 0 24 24" class="h-full w-full text-black" astro-icon="ic:sharp-search"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </button>
+    </form>
+  </div>
+</div>
+    <header class="flex w-full bg-transparent">
+  <a href="/website/" class="mx-auto self-center">
+    <img class="my-4 h-14" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg">
+  </a>
+</header>
+<nav class="hidden h-12 w-full bg-black text-xs lg:text-sm text-white sm:block 2xl:px-[13%]">
+  <ul class="flex h-full w-full flex-row justify-between border-t-4 border-transparent">
+    <li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/">
+              Home
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/news">
+              News
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/politics">
+              Politics
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/comment">
+              Comment
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/sport">
+              Sport
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/freshers">
+              Freshers
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-white">
+            <a class="mx-auto my-auto text-center" href="/website/science">
+              Science
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/business">
+              Business
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white"></span><li class="group relative flex h-full w-full border-b-4 border-transparent">
+            <a class="mx-auto my-auto text-center" href="/website/muse">
+              <img src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png" class="w-16">
+            </a>
+          </li>
+    <span class="h-3/5 self-center border-r-2 border-white"></span>
+    
+    <li class="flex h-full w-full border-b-4 border-b-transparent">
+      <button class="mx-auto h-full w-10" id="searchBtn">
+        <svg viewBox="0 0 24 24" class="py-1 ml-2" astro-icon="ic:sharp-search"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </button>
+    </li>
+  </ul>
+</nav>
+    <style>astro-island,astro-slot{display:contents}</style><script>(self.Astro=self.Astro||{}).only=t=>{(async()=>await(await t())())()},window.dispatchEvent(new Event("astro:only"));var l;{const c={0:t=>t,1:t=>JSON.parse(t,o),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(JSON.parse(t,o)),5:t=>new Set(JSON.parse(t,o)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(JSON.parse(t)),9:t=>new Uint16Array(JSON.parse(t)),10:t=>new Uint32Array(JSON.parse(t))},o=(t,s)=>{if(t===""||!Array.isArray(s))return s;const[e,n]=s;return e in c?c[e](n):void 0};customElements.get("astro-island")||customElements.define("astro-island",(l=class extends HTMLElement{constructor(){super(...arguments);this.hydrate=()=>{if(!this.hydrator||this.parentElement&&this.parentElement.closest("astro-island[ssr]"))return;const s=this.querySelectorAll("astro-slot"),e={},n=this.querySelectorAll("template[data-astro-template]");for(const r of n){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(const r of s){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("name")||"default"]=r.innerHTML)}const a=this.hasAttribute("props")?JSON.parse(this.getAttribute("props"),o):{};this.hydrator(this)(this.Component,a,e,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),window.removeEventListener("astro:hydrate",this.hydrate),window.dispatchEvent(new CustomEvent("astro:hydrate"))}}connectedCallback(){!this.hasAttribute("await-children")||this.firstChild?this.childrenConnectedCallback():new MutationObserver((s,e)=>{e.disconnect(),this.childrenConnectedCallback()}).observe(this,{childList:!0})}async childrenConnectedCallback(){window.addEventListener("astro:hydrate",this.hydrate);let s=this.getAttribute("before-hydration-url");s&&await import(s),this.start()}start(){const s=JSON.parse(this.getAttribute("opts")),e=this.getAttribute("client");if(Astro[e]===void 0){window.addEventListener(`astro:${e}`,()=>this.start(),{once:!0});return}Astro[e](async()=>{const n=this.getAttribute("renderer-url"),[a,{default:r}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),i=this.getAttribute("component-export")||"default";if(!i.includes("."))this.Component=a[i];else{this.Component=a;for(const d of i.split("."))this.Component=this.Component[d]}return this.hydrator=r,this.hydrate},s,this)}attributeChangedCallback(){this.hydrator&&this.hydrate()}},l.observedAttributes=["props"],l))}</script><div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
+    
+    <h1 id="mobile-header" class="block text-center text-2xl sm:hidden">
+          Science
+        </h1>
+    <div id="featured-articles">
+            
+<div class="hidden sm:flex">
+  
+  <div class="w-full">
+    
+    <div>
+      <div class="flex max-h-52 max-w-full gap-2.5">
+        <div class="w-1/2 border-r-2 pr-2.5 border-gray-300">
+          
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2023/02/17/interstellar-uniting-time-gravity-and-love">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676383299802-99666563489910400000-imagepng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/17/interstellar-uniting-time-gravity-and-love">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Interstellar: Uniting time, gravity, and love</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148405">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Ethan Attwood
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/17/interstellar-uniting-time-gravity-and-love">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The 2014 epic brought astrophysics to the big screen in a way that physicists can respect</p>
+      </a>
+    </div>
+  </div>
+</div>
+        </div>
+        <div class="w-1/2">
+          
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2023/02/16/cholera-returns-to-haiti-after-three-years-affecting-children">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676386996681-64314570441562595000-imagepng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/16/cholera-returns-to-haiti-after-three-years-affecting-children">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Cholera returns to Haiti after three years, affecting children</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148405">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Ethan Attwood
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/16/cholera-returns-to-haiti-after-three-years-affecting-children">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">International efforts are coordinating a response to the waterborne pathogen</p>
+      </a>
+    </div>
+  </div>
+</div>
+        </div>
+      </div>
+      <hr class="w-full self-center border-[1px] border-gray-300 my-2.5">
+      
+      <div class="flex max-w-full gap-2.5 justify-center">
+        <div class="w-full pr-2.5 border-r-2 border-gray-300">
+            
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-col astro-Q7KXOHAS">
+    <a class="image-link w-full astro-Q7KXOHAS" href="/2023/02/14/advanced-hydrogels-for-wound-dressings">
+          <img class="aspect-video w-full rounded-xl object-cover mb-5 astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676388422835-94316411397760010000-46223200324bfa3217462kjpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/14/advanced-hydrogels-for-wound-dressings">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Advanced hydrogels for wound dressings?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148405">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Ethan Attwood
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/14/advanced-hydrogels-for-wound-dressings">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Novel bio-materials could form a new class of medical dressing, aiding in recovery</p>
+      </a>
+    </div>
+  </div>
+</div>
+          </div><div class="w-full pr-2.5 border-r-2 border-gray-300">
+            
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-col astro-Q7KXOHAS">
+    <a class="image-link w-full astro-Q7KXOHAS" href="/2023/02/15/shadow-of-1998-wakefield-report-still-looms-over-vaccines">
+          <img class="aspect-video w-full rounded-xl object-cover mb-5 astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676389043523-41211878705554694000-imagepng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/15/shadow-of-1998-wakefield-report-still-looms-over-vaccines">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Shadow of 1998 Wakefield report still looms over vaccines</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148405">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Ethan Attwood
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/15/shadow-of-1998-wakefield-report-still-looms-over-vaccines">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Voice of discredited doctor continues to receive support -- and money -- from conspiracy theorist community</p>
+      </a>
+    </div>
+  </div>
+</div>
+          </div><div class="w-full pr-2.5 border-r-2 border-gray-300">
+            
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-col astro-Q7KXOHAS">
+    <a class="image-link w-full astro-Q7KXOHAS" href="/2023/02/20/the-science-of-sleep">
+          <img class="aspect-video w-full rounded-xl object-cover mb-5 astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676916712930-33285701244890817000-imagepng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/20/the-science-of-sleep">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The Science of Sleep</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148314">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Gracie Daw
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/20/the-science-of-sleep">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Why we spend so much time at rest, and the potentially deadly consequences of missing it</p>
+      </a>
+    </div>
+  </div>
+</div>
+          </div><div class="w-full pr-2.5 ">
+            
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-col astro-Q7KXOHAS">
+    <a class="image-link w-full astro-Q7KXOHAS" href="/2023/03/06/university-of-york-seeks-to-revolutionise-sustainable-farming-methods--from-inside-a-shipping-container">
+          <img class="aspect-video w-full rounded-xl object-cover mb-5 astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1678134278532-76678323999743740000-imagepng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/03/06/university-of-york-seeks-to-revolutionise-sustainable-farming-methods--from-inside-a-shipping-container">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">University of York seeks to revolutionise sustainable farming â€“ from inside a shipping container</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148405">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Ethan Attwood
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/03/06/university-of-york-seeks-to-revolutionise-sustainable-farming-methods--from-inside-a-shipping-container">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Experiments at SPARK:York seek to find the key to feeding the future</p>
+      </a>
+    </div>
+  </div>
+</div>
+          </div>
+      </div>
+      
+      
+    </div>
+    
+    
+    
+    
+    
+    
+  </div>
+
+  
+  
+</div>
+
+<div class="block max-w-full justify-center sm:hidden">
+  <div class="w-full p-2.5 border-b-2 border-gray-300">
+      
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-col astro-Q7KXOHAS">
+    <a class="image-link w-full astro-Q7KXOHAS" href="/2023/02/17/interstellar-uniting-time-gravity-and-love">
+          <img class="aspect-video w-full rounded-xl object-cover mb-5 astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676383299802-99666563489910400000-imagepng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/17/interstellar-uniting-time-gravity-and-love">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Interstellar: Uniting time, gravity, and love</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148405">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Ethan Attwood
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/17/interstellar-uniting-time-gravity-and-love">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The 2014 epic brought astrophysics to the big screen in a way that physicists can respect</p>
+      </a>
+    </div>
+  </div>
+</div>
+    </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+      
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2023/02/16/cholera-returns-to-haiti-after-three-years-affecting-children">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676386996681-64314570441562595000-imagepng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/16/cholera-returns-to-haiti-after-three-years-affecting-children">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Cholera returns to Haiti after three years, affecting children</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148405">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Ethan Attwood
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/16/cholera-returns-to-haiti-after-three-years-affecting-children">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">International efforts are coordinating a response to the waterborne pathogen</p>
+      </a>
+    </div>
+  </div>
+</div>
+    </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+      
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2023/02/14/advanced-hydrogels-for-wound-dressings">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676388422835-94316411397760010000-46223200324bfa3217462kjpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/14/advanced-hydrogels-for-wound-dressings">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Advanced hydrogels for wound dressings?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148405">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Ethan Attwood
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/14/advanced-hydrogels-for-wound-dressings">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Novel bio-materials could form a new class of medical dressing, aiding in recovery</p>
+      </a>
+    </div>
+  </div>
+</div>
+    </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+      
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/15/shadow-of-1998-wakefield-report-still-looms-over-vaccines">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Shadow of 1998 Wakefield report still looms over vaccines</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148405">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Ethan Attwood
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/15/shadow-of-1998-wakefield-report-still-looms-over-vaccines">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Voice of discredited doctor continues to receive support -- and money -- from conspiracy theorist community</p>
+      </a>
+    </div>
+  </div>
+</div>
+    </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+      
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/02/20/the-science-of-sleep">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The Science of Sleep</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148314">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Gracie Daw
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/02/20/the-science-of-sleep">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Why we spend so much time at rest, and the potentially deadly consequences of missing it</p>
+      </a>
+    </div>
+  </div>
+</div>
+    </div><div class="w-full p-2.5 ">
+      
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2023/03/06/university-of-york-seeks-to-revolutionise-sustainable-farming-methods--from-inside-a-shipping-container">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">University of York seeks to revolutionise sustainable farming â€“ from inside a shipping container</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148405">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Ethan Attwood
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2023/03/06/university-of-york-seeks-to-revolutionise-sustainable-farming-methods--from-inside-a-shipping-container">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Experiments at SPARK:York seek to find the key to feeding the future</p>
+      </a>
+    </div>
+  </div>
+</div>
+    </div>
+</div>
+          </div><hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+    <div id="article-list">
+              
+              <div class="hidden max-w-full flex-col sm:flex">
+                <div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/11/10/antibiotic-resistance-why-protecting-food-standards-post-brexit-is-crucial">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/a4XrdAQGdRPHKqX%20cow_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2020/11/10/antibiotic-resistance-why-protecting-food-standards-post-brexit-is-crucial">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Antibiotic resistance: Why protecting food standards post-Brexit is crucial</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148130">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Jenna Luxon
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2020/11/10/antibiotic-resistance-why-protecting-food-standards-post-brexit-is-crucial">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Antibiotic resistance is one of the most critical threats to global public health, and overuse in livestock farming is a leading cause of increasing rates.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/06/17/york-science-update">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/44Ht2TC5c9TEX9v%20IMG_2832_large.JPG" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2020/06/17/york-science-update">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">What&#39;s happening with Science at the University of York?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148206">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Elizabeth Walsh
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2020/06/17/york-science-update">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">See a snapshot of the latest findings from University of York research</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/05/05/university-of-york-takes-the-lead-on-coronavirus-social-research-d5nbs">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/8zk8Vt6m0T7zk20%20Biology_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2020/05/05/university-of-york-takes-the-lead-on-coronavirus-social-research-d5nbs">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">University of York takes the lead on coronavirus social research</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2098">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Patrick Hook-Willers
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2020/05/05/university-of-york-takes-the-lead-on-coronavirus-social-research-d5nbs">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">New projects have been announced tackling the impact of coronavirus on low-income families and the public perception of the restrictions.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/03/03/could-cryonics-make-you-immortal">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/eDC1851dsahbfpR%20960x0_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2020/03/03/could-cryonics-make-you-immortal">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Could cryonics make you immortal?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148220">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Angelos Sofocleous
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2020/03/03/could-cryonics-make-you-immortal">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The science of cryonics promises to bring people back to life after they die, although some consider it to be quackery. </p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/02/13/5g-is-on-its-way-should-we-be-worried">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/3Vu3XTnh2q5uoCt%20accessibility-browsing-5g-business-businessman-choosing-1444337-pxhere.com_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2020/02/13/5g-is-on-its-way-should-we-be-worried">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">5G is on its way: should we be worried?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148220">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Angelos Sofocleous
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2020/02/13/5g-is-on-its-way-should-we-be-worried">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Whereas most scientists and researchers agree that 5G technology does not pose a significant health risk, more quality research is needed before conclusive safety clearance.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/01/21/york-to-establish-35m-research-facility-for-ai-safety">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/oySkud8YhSQYWT6%20uoy_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2020/01/21/york-to-establish-35m-research-facility-for-ai-safety">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">York to establish Â£35m research facility for AI safety</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148220">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Angelos Sofocleous
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2020/01/21/york-to-establish-35m-research-facility-for-ai-safety">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The initiative will allow world-leading experts to address global challenges in assuring the safety of robotics and autonomous systems.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/01/21/could-a-male-contraceptive-pill-be-coming-to-us-soon">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/3qfd6srRG7wWf0O%20condoms_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2020/01/21/could-a-male-contraceptive-pill-be-coming-to-us-soon">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Could a male contraceptive pill be coming to us soon?
+</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148220">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Angelos Sofocleous
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2020/01/21/could-a-male-contraceptive-pill-be-coming-to-us-soon">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Recent scientific experiments have raised hopes that more male contraceptives will soon be available for consumer use.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/12/06/are-crispr-researchers-actually-just-tone-deaf">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/wCt7YpMHcTPo2nC%20dna_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/12/06/are-crispr-researchers-actually-just-tone-deaf">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Are CRISPR researchers actually just tone-deaf?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2105">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Patrick Walker
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/12/06/are-crispr-researchers-actually-just-tone-deaf">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The controverial gene-editing method could save lives, but do the ends justify the risky means?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/20/nuclear-power-a-true-source-of-green-energy">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/6s18X0oyUymQD7W%20nuclear_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/11/20/nuclear-power-a-true-source-of-green-energy">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Nuclear power: a true source of green energy?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148220">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Angelos Sofocleous
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/11/20/nuclear-power-a-true-source-of-green-energy">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Nuclear plants are a safe and efficient way to produce electricity, but are not without their drawbacks.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/19/does-listening-to-mozart-really-make-you-smarter">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/f5ZkySfr8kgzGef%20mozart_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/11/19/does-listening-to-mozart-really-make-you-smarter">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Does listening to Mozart really make you smarter?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148220">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Angelos Sofocleous
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/11/19/does-listening-to-mozart-really-make-you-smarter">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Some studies suggest that listening to Mozart&#39;s music makes one smarter. Is there any truth to this claim?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/10/29/human-mars-landing-so-much-more-than-a-small-step">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/HmMNHN20S7fC6PU%20mars_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/10/29/human-mars-landing-so-much-more-than-a-small-step">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Human Mars landing: so much more than a â€˜small stepâ€™
+</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148220">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Angelos Sofocleous
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/10/29/human-mars-landing-so-much-more-than-a-small-step">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Setting foot on Mars will be a &#39;giant step&#39; in humans&#39; quest to become an interplanetary species.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/10/29/the-research-driving-the-meatless-meat-revolution">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/4MeU2ro3FfFo23h%20Meatless%20Burger_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/10/29/the-research-driving-the-meatless-meat-revolution">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The research driving the meatless meat revolution</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148220">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Angelos Sofocleous
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/10/29/the-research-driving-the-meatless-meat-revolution">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Meatless burgers are already revolutionizing the food industry by providing healthy and tasty meat alternatives.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/06/16/a-look-at-the-science-and-myths-behind-hangovers">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/Am93KayBA36bmYK%20alcohol-2275837_960_720_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/06/16/a-look-at-the-science-and-myths-behind-hangovers">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">A look at the science and myths behind hangovers</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2099">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Jodie Sheehan
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/06/16/a-look-at-the-science-and-myths-behind-hangovers">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">We all have our own dubious remedies, but what is actually happening in our bodies during a hangover?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/06/11/how-your-cells-can-feed-cancer-growth">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/vvHQzCmFD5FPVMf%2026184671492_283bed8675_o_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/06/11/how-your-cells-can-feed-cancer-growth">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">How your cells can feed cancer growth</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2149">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Evelyn Greeves
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/06/11/how-your-cells-can-feed-cancer-growth">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">We think of our immune system as being on our side, and for the most part, it is. But what happens when it works against us?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/06/11/rocking-all-night-to-circadian-rhythms-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/gYgP9Ud5NHABpRX%20sleep_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/06/11/rocking-all-night-to-circadian-rhythms-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Rocking all night to circadian rhythms </p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2141">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Jonathan Wellington
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/06/11/rocking-all-night-to-circadian-rhythms-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Circadian rhythms dictate our day and night motor activity, but how do these cycles interact and operate? </p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/04/30/how-long-will-it-take-for-the-uk-to-meet-its-carbon-neutral-goals">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/temZQ6bEaKhftxY%20800px-Greta_Thunberg_01_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/04/30/how-long-will-it-take-for-the-uk-to-meet-its-carbon-neutral-goals">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">How long will it take for the UK to meet its carbon neutral goals?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2149">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Evelyn Greeves
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/04/30/how-long-will-it-take-for-the-uk-to-meet-its-carbon-neutral-goals">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A combination of old-school frugality and cutting-edge technology is likely the way forward.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/04/30/cosmic-puzzle-the-first-photograph-a-black-hole-taken-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/aTY5KPWocFeYgN7%20600px-Black_hole_-_Messier_87_crop_max_res_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/04/30/cosmic-puzzle-the-first-photograph-a-black-hole-taken-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Cosmic Puzzle: the first photograph a black hole taken </p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2141">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Jonathan Wellington
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/04/30/cosmic-puzzle-the-first-photograph-a-black-hole-taken-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">55 MILLION LIGHT years from Earth, what was previously believed to be â€˜invisibleâ€™, has now been pictured.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/03/05/blood-rain-star-jelly-and-crimson-snow-earths-strange-phenomena.">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/z9hvV4QwaNM3H38%203709360794_209f20f49e_b_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/03/05/blood-rain-star-jelly-and-crimson-snow-earths-strange-phenomena.">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Blood rain, star jelly and crimson snow: Earth&#39;s strange phenomena.</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/03/05/blood-rain-star-jelly-and-crimson-snow-earths-strange-phenomena.">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A look at some of the rarer and unusual conditions on our planet. </p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/02/12/smartphone-supercomputers-have-joined-the-war-on-cancer">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="'https://bbcdn.nouse.co.uk/file/nouseOldImageLibrary/archive/public' // pre 2019 images" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/02/12/smartphone-supercomputers-have-joined-the-war-on-cancer">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Smartphone supercomputers have joined the war on cancer</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/02/12/smartphone-supercomputers-have-joined-the-war-on-cancer">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Time to stop feeling guilty over those naps and start helping to cure cancer!</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/02/12/are-development-and-conservation-truly-compatible">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/Ws9GHvpXUG5rOu7%20yangtze_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/02/12/are-development-and-conservation-truly-compatible">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Are development and conservation truly compatible?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/02/12/are-development-and-conservation-truly-compatible">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">In many instances, development that is designed to help humans imposes on the environment. What should we do?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/01/23/can-mdma-cure-diseases-like-ptsd">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/fWDStf33GnNDFkh%20David_Nutt_in_Karolinska_Institutet_18_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/01/23/can-mdma-cure-diseases-like-ptsd">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Can MDMA cure 
+diseases like PTSD?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/01/23/can-mdma-cure-diseases-like-ptsd">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A look at Professor David Nutt&#39;s work on beneficial drug treatments.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/01/22/nuclear-power-generating-problems-for-the-future">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/RUgUdhBr1wckCf4%20Gundremmingen_Nuclear_Power_Plant_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/01/22/nuclear-power-generating-problems-for-the-future">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Nuclear power: generating 
+problems for the future?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/01/22/nuclear-power-generating-problems-for-the-future">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A look into just how &#39;green&#39; nuclear energy is.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/01/22/the-gene-a-cinematic-chronicle-of-genetic-advances">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/ZHEtcATsfuWMycB%20double%20helix2_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/01/22/the-gene-a-cinematic-chronicle-of-genetic-advances">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The Gene: a cinematic chronicle of genetic advances</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/01/22/the-gene-a-cinematic-chronicle-of-genetic-advances">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">This complicated and sometimes painful subject is explored sensitively and thoroughly through the lens of both historical and contemporary science. </p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/01/22/bacteria-turning-the-tide-on-the-mosquito-menace-t2p5y">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/4vmhGrxzvccqsoq%20aedes-albopictus-asian-tiger-mosquito-close-up-86722_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/01/22/bacteria-turning-the-tide-on-the-mosquito-menace-t2p5y">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Bacteria turning the tide on the mosquito menace</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/01/22/bacteria-turning-the-tide-on-the-mosquito-menace-t2p5y">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Could these bacteria possibly be the magic bullet against mosquitoes which humanity so needs?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2018/12/27/japan-to-resume-commercial-whaling">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2018/12/27/japan-to-resume-commercial-whaling">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Japan to resume commercial whaling</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2018/12/27/japan-to-resume-commercial-whaling">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2018/11/22/revolutionary-biotech-to-combat-deadly-diseases">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2018/11/22/revolutionary-biotech-to-combat-deadly-diseases">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Revolutionary biotech to combat deadly diseases</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2018/11/22/revolutionary-biotech-to-combat-deadly-diseases">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Gene drives based on CRISPR-Cas9 are being used to genetically modify mosquito breeding patterns.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2018/11/20/could-a-snake-have-legs">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2018/11/20/could-a-snake-have-legs">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Could a snake have legs?</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2018/11/20/could-a-snake-have-legs">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Advances in developmental biology are teaching us more about why organisms look the way they do.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2018/11/20/climate-change-is-producing-deadlier-disasters">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2018/11/20/climate-change-is-producing-deadlier-disasters">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Climate change is producing deadlier disasters</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2018/11/20/climate-change-is-producing-deadlier-disasters">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A look at how hurricanes, wildfires and floods are affected by climate change.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          <hr class="my-2.5 w-full self-center border-[1px] border-gray-300">
+                        </div><div>
+                          <div class="flex max-h-52 max-w-full gap-2.5">
+                            <div class="w-1/2 pr-2.5 border-r-2 border-gray-300">
+                              
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2018/11/20/fishing-methods-are-devastating-seas">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2018/11/20/fishing-methods-are-devastating-seas">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fishing methods are devastating seas</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2018/11/20/fishing-methods-are-devastating-seas">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A look at vaquita, the world&#39;s most endangered cetacean.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                            </div>
+                            <div class="w-1/2">
+                                
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2018/10/30/poaching-is-driving-vulnerable-species-to-the-brink">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2018/10/30/poaching-is-driving-vulnerable-species-to-the-brink">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Poaching is driving vulnerable species to the brink</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2018/10/30/poaching-is-driving-vulnerable-species-to-the-brink">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The challenges elephants and rhinos face in Africa.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                              </div>
+                          </div>
+
+                          
+                        </div>
+              </div>
+              
+              <div class="block max-w-full justify-center sm:hidden">
+                <div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/11/10/antibiotic-resistance-why-protecting-food-standards-post-brexit-is-crucial">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/a4XrdAQGdRPHKqX%20cow_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2020/11/10/antibiotic-resistance-why-protecting-food-standards-post-brexit-is-crucial">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Antibiotic resistance: Why protecting food standards post-Brexit is crucial</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148130">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Jenna Luxon
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2020/11/10/antibiotic-resistance-why-protecting-food-standards-post-brexit-is-crucial">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Antibiotic resistance is one of the most critical threats to global public health, and overuse in livestock farming is a leading cause of increasing rates.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/06/17/york-science-update">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/44Ht2TC5c9TEX9v%20IMG_2832_large.JPG" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2020/06/17/york-science-update">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">What&#39;s happening with Science at the University of York?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148206">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Elizabeth Walsh
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2020/06/17/york-science-update">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">See a snapshot of the latest findings from University of York research</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/05/05/university-of-york-takes-the-lead-on-coronavirus-social-research-d5nbs">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/8zk8Vt6m0T7zk20%20Biology_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2020/05/05/university-of-york-takes-the-lead-on-coronavirus-social-research-d5nbs">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">University of York takes the lead on coronavirus social research</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2098">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Patrick Hook-Willers
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2020/05/05/university-of-york-takes-the-lead-on-coronavirus-social-research-d5nbs">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">New projects have been announced tackling the impact of coronavirus on low-income families and the public perception of the restrictions.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/03/03/could-cryonics-make-you-immortal">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/eDC1851dsahbfpR%20960x0_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2020/03/03/could-cryonics-make-you-immortal">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Could cryonics make you immortal?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148220">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Angelos Sofocleous
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2020/03/03/could-cryonics-make-you-immortal">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The science of cryonics promises to bring people back to life after they die, although some consider it to be quackery. </p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/02/13/5g-is-on-its-way-should-we-be-worried">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/3Vu3XTnh2q5uoCt%20accessibility-browsing-5g-business-businessman-choosing-1444337-pxhere.com_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2020/02/13/5g-is-on-its-way-should-we-be-worried">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">5G is on its way: should we be worried?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148220">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Angelos Sofocleous
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2020/02/13/5g-is-on-its-way-should-we-be-worried">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Whereas most scientists and researchers agree that 5G technology does not pose a significant health risk, more quality research is needed before conclusive safety clearance.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/01/21/york-to-establish-35m-research-facility-for-ai-safety">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/oySkud8YhSQYWT6%20uoy_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2020/01/21/york-to-establish-35m-research-facility-for-ai-safety">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">York to establish Â£35m research facility for AI safety</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148220">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Angelos Sofocleous
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2020/01/21/york-to-establish-35m-research-facility-for-ai-safety">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The initiative will allow world-leading experts to address global challenges in assuring the safety of robotics and autonomous systems.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2020/01/21/could-a-male-contraceptive-pill-be-coming-to-us-soon">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/3qfd6srRG7wWf0O%20condoms_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2020/01/21/could-a-male-contraceptive-pill-be-coming-to-us-soon">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Could a male contraceptive pill be coming to us soon?
+</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148220">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Angelos Sofocleous
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2020/01/21/could-a-male-contraceptive-pill-be-coming-to-us-soon">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Recent scientific experiments have raised hopes that more male contraceptives will soon be available for consumer use.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/12/06/are-crispr-researchers-actually-just-tone-deaf">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/wCt7YpMHcTPo2nC%20dna_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/12/06/are-crispr-researchers-actually-just-tone-deaf">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Are CRISPR researchers actually just tone-deaf?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2105">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Patrick Walker
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/12/06/are-crispr-researchers-actually-just-tone-deaf">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The controverial gene-editing method could save lives, but do the ends justify the risky means?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/20/nuclear-power-a-true-source-of-green-energy">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/6s18X0oyUymQD7W%20nuclear_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/11/20/nuclear-power-a-true-source-of-green-energy">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Nuclear power: a true source of green energy?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148220">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Angelos Sofocleous
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/11/20/nuclear-power-a-true-source-of-green-energy">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Nuclear plants are a safe and efficient way to produce electricity, but are not without their drawbacks.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/11/19/does-listening-to-mozart-really-make-you-smarter">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/f5ZkySfr8kgzGef%20mozart_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/11/19/does-listening-to-mozart-really-make-you-smarter">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Does listening to Mozart really make you smarter?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148220">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Angelos Sofocleous
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/11/19/does-listening-to-mozart-really-make-you-smarter">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Some studies suggest that listening to Mozart&#39;s music makes one smarter. Is there any truth to this claim?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/10/29/human-mars-landing-so-much-more-than-a-small-step">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/HmMNHN20S7fC6PU%20mars_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/10/29/human-mars-landing-so-much-more-than-a-small-step">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Human Mars landing: so much more than a â€˜small stepâ€™
+</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148220">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Angelos Sofocleous
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/10/29/human-mars-landing-so-much-more-than-a-small-step">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Setting foot on Mars will be a &#39;giant step&#39; in humans&#39; quest to become an interplanetary species.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/10/29/the-research-driving-the-meatless-meat-revolution">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/4MeU2ro3FfFo23h%20Meatless%20Burger_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/10/29/the-research-driving-the-meatless-meat-revolution">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The research driving the meatless meat revolution</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148220">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Angelos Sofocleous
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/10/29/the-research-driving-the-meatless-meat-revolution">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Meatless burgers are already revolutionizing the food industry by providing healthy and tasty meat alternatives.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/06/16/a-look-at-the-science-and-myths-behind-hangovers">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/Am93KayBA36bmYK%20alcohol-2275837_960_720_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/06/16/a-look-at-the-science-and-myths-behind-hangovers">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">A look at the science and myths behind hangovers</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2099">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Jodie Sheehan
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/06/16/a-look-at-the-science-and-myths-behind-hangovers">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">We all have our own dubious remedies, but what is actually happening in our bodies during a hangover?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/06/11/how-your-cells-can-feed-cancer-growth">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/vvHQzCmFD5FPVMf%2026184671492_283bed8675_o_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/06/11/how-your-cells-can-feed-cancer-growth">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">How your cells can feed cancer growth</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2149">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Evelyn Greeves
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/06/11/how-your-cells-can-feed-cancer-growth">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">We think of our immune system as being on our side, and for the most part, it is. But what happens when it works against us?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/06/11/rocking-all-night-to-circadian-rhythms-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/gYgP9Ud5NHABpRX%20sleep_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/06/11/rocking-all-night-to-circadian-rhythms-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Rocking all night to circadian rhythms </p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2141">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Jonathan Wellington
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/06/11/rocking-all-night-to-circadian-rhythms-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Circadian rhythms dictate our day and night motor activity, but how do these cycles interact and operate? </p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/04/30/how-long-will-it-take-for-the-uk-to-meet-its-carbon-neutral-goals">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/temZQ6bEaKhftxY%20800px-Greta_Thunberg_01_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/04/30/how-long-will-it-take-for-the-uk-to-meet-its-carbon-neutral-goals">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">How long will it take for the UK to meet its carbon neutral goals?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2149">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Evelyn Greeves
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/04/30/how-long-will-it-take-for-the-uk-to-meet-its-carbon-neutral-goals">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A combination of old-school frugality and cutting-edge technology is likely the way forward.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/04/30/cosmic-puzzle-the-first-photograph-a-black-hole-taken-">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/aTY5KPWocFeYgN7%20600px-Black_hole_-_Messier_87_crop_max_res_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/04/30/cosmic-puzzle-the-first-photograph-a-black-hole-taken-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Cosmic Puzzle: the first photograph a black hole taken </p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/2141">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            Jonathan Wellington
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/04/30/cosmic-puzzle-the-first-photograph-a-black-hole-taken-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">55 MILLION LIGHT years from Earth, what was previously believed to be â€˜invisibleâ€™, has now been pictured.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/03/05/blood-rain-star-jelly-and-crimson-snow-earths-strange-phenomena.">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/z9hvV4QwaNM3H38%203709360794_209f20f49e_b_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/03/05/blood-rain-star-jelly-and-crimson-snow-earths-strange-phenomena.">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Blood rain, star jelly and crimson snow: Earth&#39;s strange phenomena.</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/03/05/blood-rain-star-jelly-and-crimson-snow-earths-strange-phenomena.">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A look at some of the rarer and unusual conditions on our planet. </p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/02/12/smartphone-supercomputers-have-joined-the-war-on-cancer">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="'https://bbcdn.nouse.co.uk/file/nouseOldImageLibrary/archive/public' // pre 2019 images" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/02/12/smartphone-supercomputers-have-joined-the-war-on-cancer">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Smartphone supercomputers have joined the war on cancer</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/02/12/smartphone-supercomputers-have-joined-the-war-on-cancer">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Time to stop feeling guilty over those naps and start helping to cure cancer!</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/02/12/are-development-and-conservation-truly-compatible">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/Ws9GHvpXUG5rOu7%20yangtze_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/02/12/are-development-and-conservation-truly-compatible">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Are development and conservation truly compatible?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/02/12/are-development-and-conservation-truly-compatible">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">In many instances, development that is designed to help humans imposes on the environment. What should we do?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/01/23/can-mdma-cure-diseases-like-ptsd">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/fWDStf33GnNDFkh%20David_Nutt_in_Karolinska_Institutet_18_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/01/23/can-mdma-cure-diseases-like-ptsd">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Can MDMA cure 
+diseases like PTSD?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/01/23/can-mdma-cure-diseases-like-ptsd">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A look at Professor David Nutt&#39;s work on beneficial drug treatments.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/01/22/nuclear-power-generating-problems-for-the-future">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/RUgUdhBr1wckCf4%20Gundremmingen_Nuclear_Power_Plant_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/01/22/nuclear-power-generating-problems-for-the-future">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Nuclear power: generating 
+problems for the future?</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/01/22/nuclear-power-generating-problems-for-the-future">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A look into just how &#39;green&#39; nuclear energy is.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/01/22/the-gene-a-cinematic-chronicle-of-genetic-advances">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/ZHEtcATsfuWMycB%20double%20helix2_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/01/22/the-gene-a-cinematic-chronicle-of-genetic-advances">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The Gene: a cinematic chronicle of genetic advances</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/01/22/the-gene-a-cinematic-chronicle-of-genetic-advances">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">This complicated and sometimes painful subject is explored sensitively and thoroughly through the lens of both historical and contemporary science. </p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2019/01/22/bacteria-turning-the-tide-on-the-mosquito-menace-t2p5y">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/4vmhGrxzvccqsoq%20aedes-albopictus-asian-tiger-mosquito-close-up-86722_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2019/01/22/bacteria-turning-the-tide-on-the-mosquito-menace-t2p5y">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Bacteria turning the tide on the mosquito menace</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2019/01/22/bacteria-turning-the-tide-on-the-mosquito-menace-t2p5y">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Could these bacteria possibly be the magic bullet against mosquitoes which humanity so needs?</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2018/12/27/japan-to-resume-commercial-whaling">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2018/12/27/japan-to-resume-commercial-whaling">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Japan to resume commercial whaling</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/1">
+          <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+            <span class="category-color astro-Q7KXOHAS">By</span>
+            James Bithell
+          </p>
+        </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2018/12/27/japan-to-resume-commercial-whaling">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2018/11/22/revolutionary-biotech-to-combat-deadly-diseases">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2018/11/22/revolutionary-biotech-to-combat-deadly-diseases">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Revolutionary biotech to combat deadly diseases</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2018/11/22/revolutionary-biotech-to-combat-deadly-diseases">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Gene drives based on CRISPR-Cas9 are being used to genetically modify mosquito breeding patterns.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2018/11/20/could-a-snake-have-legs">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2018/11/20/could-a-snake-have-legs">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Could a snake have legs?</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2018/11/20/could-a-snake-have-legs">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">Advances in developmental biology are teaching us more about why organisms look the way they do.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2018/11/20/climate-change-is-producing-deadlier-disasters">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2018/11/20/climate-change-is-producing-deadlier-disasters">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Climate change is producing deadlier disasters</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2018/11/20/climate-change-is-producing-deadlier-disasters">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A look at how hurricanes, wildfires and floods are affected by climate change.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 border-b-2 border-gray-300">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2018/11/20/fishing-methods-are-devastating-seas">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2018/11/20/fishing-methods-are-devastating-seas">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Fishing methods are devastating seas</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2018/11/20/fishing-methods-are-devastating-seas">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">A look at vaquita, the world&#39;s most endangered cetacean.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div><div class="w-full p-2.5 ">
+                        
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #008E3B;--textColour: #000;">
+  <div class="flex flex-row astro-Q7KXOHAS">
+    <a class="image-link h-full w-1/2 astro-Q7KXOHAS" href="/2018/10/30/poaching-is-driving-vulnerable-species-to-the-brink">
+          <img class="aspect-video w-full rounded-xl object-cover false astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="ml-3 h-full w-1/2 false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/2018/10/30/poaching-is-driving-vulnerable-species-to-the-brink">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Poaching is driving vulnerable species to the brink</p>
+        </a>
+        
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/2018/10/30/poaching-is-driving-vulnerable-species-to-the-brink">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS">The challenges elephants and rhinos face in Africa.</p>
+      </a>
+    </div>
+  </div>
+</div>
+                      </div>
+              </div>
+            </div>
+  </div><div class="my-4 w-full" id="paginator-container">
+    <astro-island uid="ZPVv2F" component-url="/website/_astro/Paginator.6c7b6da2.js" component-export="default" renderer-url="/website/_astro/client.f535c890.js" props="{&quot;page&quot;:[0,1],&quot;pages&quot;:[0,16],&quot;pagesToDisplay&quot;:[0,5],&quot;prefix&quot;:[0,&quot;science&quot;]}" ssr="" client="only" opts="{&quot;name&quot;:&quot;Paginator&quot;,&quot;value&quot;:true}"></astro-island>
+  </div>
+  <script>(function(){const categoriesColours = [{"categories_backgroundColor":"#173B88","categories_name":"news"},{"categories_backgroundColor":"#E21615","categories_name":"politics"},{"categories_backgroundColor":"#000000","categories_name":"muse"},{"categories_backgroundColor":"#7A1F6E","categories_name":"comment"},{"categories_backgroundColor":"#FDC300","categories_name":"sport"},{"categories_backgroundColor":"#72033F","categories_name":"features"},{"categories_backgroundColor":"#E992B2","categories_name":"arts"},{"categories_backgroundColor":"#D43F30","categories_name":"music"},{"categories_backgroundColor":"#6D6EA7","categories_name":"film"},{"categories_backgroundColor":"#843F71","categories_name":"fashion"},{"categories_backgroundColor":"#7C9464","categories_name":"food-drink"},{"categories_backgroundColor":"2B4988","categories_name":"freshers"},{"categories_backgroundColor":"#E88A20","categories_name":"travel"},{"categories_backgroundColor":"#008E3B","categories_name":"science"},{"categories_backgroundColor":"#008ACC","categories_name":"business"},{"categories_backgroundColor":"#FFF374","categories_name":"shoot"},{"categories_backgroundColor":"#4792BF","categories_name":"gaming"},{"categories_backgroundColor":"#9CD1BE","categories_name":"creative-writing"}];
+
+  const style = document.createElement("style");
+  document.getElementsByTagName("head")[0].appendChild(style);
+  categoriesColours.forEach((c) => {
+    if (style.sheet && style.sheet.insertRule) {
+      style.sheet.insertRule(
+        `.category-color-${c.categories_name} {color: ${c.categories_backgroundColor};}`
+      );
+      style.sheet.insertRule(
+        `.border-color-${c.categories_name} {border-color: ${c.categories_backgroundColor};}`
+      );
+    } else {
+      (style.styleSheet || style.sheet).addRule(
+        `.category-color-${c.categories_name}`,
+        `color: ${c.categories_backgroundColor};`
+      );
+      (style.styleSheet || style.sheet).addRule(
+        `.border-color-${c.categories_name}`,
+        `border-color: ${c.categories_backgroundColor};`
+      );
+    }
+  });
+})();</script></body></html>

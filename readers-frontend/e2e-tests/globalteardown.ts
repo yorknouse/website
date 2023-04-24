@@ -9,15 +9,17 @@ async function dbGlobalTeardown(config: FullConfig) {
   const deleteArticlesDrafts = prisma.articlesDrafts.deleteMany();
   const deleteArticles = prisma.articles.deleteMany();
   const deleteUsers = prisma.users.deleteMany();
+  const deleteArticleCategories = prisma.articlesCategories.deleteMany();
 
   await prisma.$transaction([
-    deleteCategories,
     deleteEditions,
     deleteS3FILES,
+    deleteArticleCategories,
     deleteArticlesDrafts,
     deleteArticles,
     deleteFeaturedHome,
     deleteUsers,
+    deleteCategories,
   ]);
 
   await prisma.$disconnect();
