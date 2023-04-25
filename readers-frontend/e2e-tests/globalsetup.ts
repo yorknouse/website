@@ -60,6 +60,28 @@ async function dbGlobalSetup(config: FullConfig) {
         categories_nestUnder: 4,
         categories_featured: "10, 11",
       },
+      {
+        categories_id: 7,
+        categories_name: "testNestedCategory",
+        categories_displayName: "Nested category",
+        categories_showHome: false,
+        categories_showPublic: true,
+        categories_showMenu: true,
+        categories_backgroundColor: null,
+        categories_nestUnder: 1,
+        categories_featured: null,
+      },
+      {
+        categories_id: 8,
+        categories_name: "testMuseNestedCategory",
+        categories_displayName: "Muse Nested category",
+        categories_showHome: false,
+        categories_showPublic: true,
+        categories_showMenu: true,
+        categories_backgroundColor: null,
+        categories_nestUnder: 5,
+        categories_featured: null,
+      },
     ],
   });
 

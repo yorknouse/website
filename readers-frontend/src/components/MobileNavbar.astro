@@ -25,8 +25,14 @@ const activeCategory = active
 
 // Check for parent category colour
 let parentColour = undefined;
-if (activeCategory && activeCategory.categories_nestUnder) {
-  const parentCategory = await prisma.categories.findFirst({
+let parentCategory: categories | null = null;
+if (
+  activeCategory &&
+  activeCategory.categories_nestUnder &&
+  activeCategory.categories_nestUnder !== 4
+) {
+  // Mask muse out of this as muse categories are nested
+  parentCategory = await prisma.categories.findFirst({
     where: {
       categories_id: activeCategory.categories_nestUnder,
     },
@@ -65,6 +71,7 @@ if (style === "muse" || invert) {
 ---
 
 <header
+  id="mobileHeader"
   class={`bg-navbar flex w-full flex-row border-b-[1px] border-gray-300 h-20 md:hidden sticky top-0 z-40 ${textColour}`}
 >
   <button class="my-auto ml-8 h-6 w-6" id="mobileNavMenuTgl">
@@ -131,7 +138,9 @@ if (style === "muse" || invert) {
                 default:
                   return (
                     <MobileNavbarItem
-                      active={active}
+                      active={
+                        parentCategory ? parentCategory.categories_name : active
+                      }
                       displayName={menuItem.categories_displayName}
                       categoryName={menuItem.categories_name}
                       baseUrl={baseUrl}

@@ -33,7 +33,7 @@ const { active, displayName, categoryName, baseUrl, subMenu } = Astro.props;
                   ? import.meta.env.BASE_URL
                   : `${baseUrl + categoryName}`
               }
-              class="pointer-events-none my-auto mr-2"
+              class="my-auto mr-2"
             >
               {displayName}
             </a>
@@ -80,29 +80,21 @@ const { active, displayName, categoryName, baseUrl, subMenu } = Astro.props;
   }
 </>
 
-<script define:vars={{ active, categoryName }}>
+<script define:vars={{ categoryName }}>
   const btn = document.getElementById(`${categoryName}ListBtn`);
 
   if (btn instanceof HTMLButtonElement) {
     btn.addEventListener("click", () => {
-      const link = document.getElementById(`${categoryName}ListLink`);
       const chevron = document.getElementById(`${categoryName}Chevron`);
       const listContainer = document.getElementById(
         `${categoryName}ListContainer`
       );
 
-      if (link && chevron) {
-        link.classList.toggle("pointer-events-none");
-
+      if (chevron) {
         chevron.classList.toggle("rotate-90");
         chevron.classList.toggle("-rotate-90");
 
         listContainer.classList.toggle("hidden");
-
-        if (active !== categoryName) {
-          btn.classList.toggle("border-b-[5px]");
-          btn.classList.toggle("border-b-[1px]");
-        }
       }
     });
   }
