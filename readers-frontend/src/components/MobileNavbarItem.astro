@@ -3,43 +3,54 @@ import type { categories } from "@prisma/client";
 import { Icon } from "astro-icon";
 
 interface Props {
+  active: string | undefined;
   displayName: string | null;
   categoryName: string;
   baseUrl: string;
   subMenu: categories[] | undefined;
 }
 
-const { displayName, categoryName, baseUrl, subMenu } = Astro.props;
+const { active, displayName, categoryName, baseUrl, subMenu } = Astro.props;
 ---
 
 <>
   {
     subMenu ? (
-      <button id={`${categoryName}ListBtn`} class="flex w-full flex-col">
-        <div class="mx-auto flex flex-row">
-          <a
-            id={`${categoryName}ListLink`}
-            href={
-              displayName === "Home"
-                ? baseUrl
-                : displayName === "Nouse"
-                ? import.meta.env.BASE_URL
-                : `${baseUrl + categoryName}`
-            }
-            class="pointer-events-none mr-2"
-          >
-            {displayName}
-          </a>
-          <Icon
-            id={`${categoryName}Chevron`}
-            name="ic:sharp-chevron-right"
-            class="my-auto h-6 w-6 rotate-90"
-          />
-        </div>
-        <div class="hidden w-full" id={`${categoryName}ListContainer`}>
-          <ul class="flex flex-col">
+      <>
+        <button
+          id={`${categoryName}ListBtn`}
+          class={`flex w-full ${
+            active === categoryName ? "border-b-[5px]" : "border-b-[1px]"
+          }`}
+        >
+          <div class="mx-auto flex flex-row pb-4">
+            <a
+              id={`${categoryName}ListLink`}
+              href={
+                displayName === "Home"
+                  ? baseUrl
+                  : displayName === "Nouse"
+                  ? import.meta.env.BASE_URL
+                  : `${baseUrl + categoryName}`
+              }
+              class="pointer-events-none my-auto mr-2"
+            >
+              {displayName}
+            </a>
+            <Icon
+              id={`${categoryName}Chevron`}
+              name="ic:sharp-chevron-right"
+              class="my-auto h-6 w-6 rotate-90"
+            />
+          </div>
+        </button>
+        <div
+          class="hidden w-full border-b-[1px] border-b-white"
+          id={`${categoryName}ListContainer`}
+        >
+          <ul class="flex w-full flex-col text-center">
             {[...subMenu.entries()].map((entry) => (
-              <li>
+              <li class="my-4">
                 <a
                   href={baseUrl + `${categoryName}/${entry[1].categories_name}`}
                 >
@@ -49,7 +60,7 @@ const { displayName, categoryName, baseUrl, subMenu } = Astro.props;
             ))}
           </ul>
         </div>
-      </button>
+      </>
     ) : (
       <a
         href={
@@ -59,7 +70,9 @@ const { displayName, categoryName, baseUrl, subMenu } = Astro.props;
             ? import.meta.env.BASE_URL
             : `${baseUrl + categoryName}`
         }
-        class="mx-auto"
+        class={`mx-auto w-full pb-4 text-center ${
+          active === categoryName ? "border-b-[5px]" : "border-b-[1px]"
+        }`}
       >
         {displayName}
       </a>
@@ -67,7 +80,7 @@ const { displayName, categoryName, baseUrl, subMenu } = Astro.props;
   }
 </>
 
-<script define:vars={{ categoryName }}>
+<script define:vars={{ active, categoryName }}>
   const btn = document.getElementById(`${categoryName}ListBtn`);
 
   if (btn instanceof HTMLButtonElement) {
@@ -85,6 +98,11 @@ const { displayName, categoryName, baseUrl, subMenu } = Astro.props;
         chevron.classList.toggle("-rotate-90");
 
         listContainer.classList.toggle("hidden");
+
+        if (active !== categoryName) {
+          btn.classList.toggle("border-b-[5px]");
+          btn.classList.toggle("border-b-[1px]");
+        }
       }
     });
   }

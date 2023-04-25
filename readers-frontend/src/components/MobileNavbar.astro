@@ -19,24 +19,35 @@ const activeCategory = active
   ? await prisma.categories.findFirst({
       where: {
         categories_name: active,
-        AND: {
-          categories_nestUnder: style === "muse" ? 4 : null,
-        },
       },
     })
   : undefined;
 
-// Default is whiteish-100 for nouse, black for muse
-let computedBaseColour = activeCategory
-  ? activeCategory.categories_backgroundColor
-  : style === "muse"
-  ? "000"
-  : "F5EFEB";
+// Check for parent category colour
+let parentColour = undefined;
+if (activeCategory && activeCategory.categories_nestUnder) {
+  const parentCategory = await prisma.categories.findFirst({
+    where: {
+      categories_id: activeCategory.categories_nestUnder,
+    },
+  });
+
+  if (parentCategory) parentColour = parentCategory.categories_backgroundColor;
+}
+
+// Default base colour depending on style
+let computedBaseColour = style === "muse" ? "000" : "F5EFEB";
+
+if (activeCategory) {
+  if (activeCategory.categories_backgroundColor)
+    computedBaseColour = activeCategory.categories_backgroundColor;
+  else if (parentColour) computedBaseColour = parentColour;
+}
 
 if (computedBaseColour) {
   if (!computedBaseColour.includes("#"))
     computedBaseColour = "#" + computedBaseColour;
-} else computedBaseColour = style === "muse" ? "#000" : "#F5EFEB";
+}
 
 // Whether to invert logo or not.
 // Should be inverted for non-home nouse categories.
@@ -44,7 +55,7 @@ let invert =
   style === "nouse" &&
   activeCategory &&
   activeCategory.categories_name !== "home" &&
-  activeCategory.categories_backgroundColor;
+  computedBaseColour !== "#F5EFEB";
 
 // Menu and Search icons colours
 let textColour = "text-black";
@@ -89,37 +100,38 @@ if (style === "muse" || invert) {
   >
     {
       menuCategories.map((menuItem) => (
-        <li
-          class={`flex w-full flex-row border-b-white py-7 ${
-            active === menuItem.categories_name
-              ? "border-b-[5px]"
-              : "border-b-[1px]"
-          }`}
-        >
-          <div class="my-auto flex w-full flex-row">
+        <li class="flex w-full flex-row border-b-white pt-4">
+          <div class="my-auto flex w-full flex-col">
             {() => {
               switch (menuItem.categories_displayName) {
                 case "Muse":
                   return (
-                    <a href={import.meta.env.BASE_URL + "muse"} class="mx-auto">
+                    <a
+                      href={import.meta.env.BASE_URL + "muse"}
+                      class="w-full border-b-[1px] pb-4"
+                    >
                       <img
                         src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
-                        class="w-36"
+                        class="mx-auto w-36"
                       />
                     </a>
                   );
                 case "Nouse":
                   return (
-                    <a href={import.meta.env.BASE_URL} class="mx-auto">
+                    <a
+                      href={import.meta.env.BASE_URL}
+                      class="w-full border-b-[1px] pb-4"
+                    >
                       <img
                         src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
-                        class="w-36 invert"
+                        class="mx-auto w-36 invert"
                       />
                     </a>
                   );
                 default:
                   return (
                     <MobileNavbarItem
+                      active={active}
                       displayName={menuItem.categories_displayName}
                       categoryName={menuItem.categories_name}
                       baseUrl={baseUrl}

@@ -102,11 +102,16 @@ export const getMenuCategories = async (
   return menuCategories;
 };
 
+/**
+ * Gets all sub-categories nested under a parent category.
+ * Only retrieves category marked for menu usage (categories_showMenu: true).
+ * @param {number} parentCategory The parent category to get submenus for
+ * @returns {Promise<categories[]>} Promise object represents the subcategories
+ */
 export const getMenuSubcategories = async (parentCategory: number) => {
   return await prisma.categories.findMany({
     where: {
-      categories_showHome: true,
-      categories_showPublic: true,
+      categories_showMenu: true,
       categories_nestUnder: parentCategory,
     },
   });
