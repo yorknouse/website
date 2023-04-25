@@ -1,0 +1,91 @@
+---
+import type { categories } from "@prisma/client";
+import { Icon } from "astro-icon";
+
+interface Props {
+  displayName: string | null;
+  categoryName: string;
+  baseUrl: string;
+  subMenu: categories[] | undefined;
+}
+
+const { displayName, categoryName, baseUrl, subMenu } = Astro.props;
+---
+
+<>
+  {
+    subMenu ? (
+      <button id={`${categoryName}ListBtn`} class="flex w-full flex-col">
+        <div class="mx-auto flex flex-row">
+          <a
+            id={`${categoryName}ListLink`}
+            href={
+              displayName === "Home"
+                ? baseUrl
+                : displayName === "Nouse"
+                ? import.meta.env.BASE_URL
+                : `${baseUrl + categoryName}`
+            }
+            class="pointer-events-none mr-2"
+          >
+            {displayName}
+          </a>
+          <Icon
+            id={`${categoryName}Chevron`}
+            name="ic:sharp-chevron-right"
+            class="my-auto h-6 w-6 rotate-90"
+          />
+        </div>
+        <div class="hidden w-full" id={`${categoryName}ListContainer`}>
+          <ul class="flex flex-col">
+            {[...subMenu.entries()].map((entry) => (
+              <li>
+                <a
+                  href={baseUrl + `${categoryName}/${entry[1].categories_name}`}
+                >
+                  {entry[1].categories_displayName}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </button>
+    ) : (
+      <a
+        href={
+          displayName === "Home"
+            ? baseUrl
+            : displayName === "Nouse"
+            ? import.meta.env.BASE_URL
+            : `${baseUrl + categoryName}`
+        }
+        class="mx-auto"
+      >
+        {displayName}
+      </a>
+    )
+  }
+</>
+
+<script define:vars={{ categoryName }}>
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const link = document.getElementById(`${categoryName}ListLink`);
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (link && chevron) {
+        link.classList.toggle("pointer-events-none");
+
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+</script>

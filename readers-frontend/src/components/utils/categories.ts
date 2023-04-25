@@ -102,6 +102,16 @@ export const getMenuCategories = async (
   return menuCategories;
 };
 
+export const getMenuSubcategories = async (parentCategory: number) => {
+  return await prisma.categories.findMany({
+    where: {
+      categories_showHome: true,
+      categories_showPublic: true,
+      categories_nestUnder: parentCategory,
+    },
+  });
+};
+
 export const getFeaturedSectionsCategories = async (): Promise<
   categories[]
 > => {
@@ -146,7 +156,7 @@ export type categoriesWithArticles = Prisma.categoriesGetPayload<
  * @param {number | null} parentCategory The parent category to get the children of.
  * @returns {Promise<categoriesWithArticles[]>} Promise object represents the categories and their articles.
  */
-export const getCategories = async (
+export const getCategoriesWithArticles = async (
   parentCategory?: number | null
 ): Promise<categoriesWithArticles[]> => {
   return await prisma.categories.findMany({
@@ -236,6 +246,7 @@ export const paginateCategory = (
         category: category,
         style:
           category.categories_nestUnder === 4 ||
+          topLevelCategory === "muse" ||
           category.categories_name === "muse"
             ? "muse"
             : "nouse",
@@ -269,6 +280,7 @@ export const paginateCategory = (
         category: category,
         style:
           category.categories_nestUnder === 4 ||
+          topLevelCategory === "muse" ||
           category.categories_name === "muse"
             ? "muse"
             : "nouse",
