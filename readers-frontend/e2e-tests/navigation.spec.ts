@@ -59,11 +59,13 @@ test.describe("Mobile navbar", () => {
     const hamburgerMenu = page.locator("#mobileNavMenuTgl");
     const mobileNav = page.locator("#mobileNav");
 
-    await expect(mobileNav).toHaveClass(/-translate-x-full/);
+    await expect(mobileNav).toHaveClass(/-translate-y-\[calc\(100%\+80px\)]/);
 
     await hamburgerMenu.click();
 
-    await expect(mobileNav).not.toHaveClass(/-translate-x-full/);
+    await expect(mobileNav).not.toHaveClass(
+      /-translate-y-\[calc\(100%\+80px\)]/
+    );
   });
 
   test("Has the correct links", async ({ page, isMobile }) => {
