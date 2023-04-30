@@ -72,29 +72,29 @@ if (style === "muse" || invert) {
 
 <header
   id="mobileHeader"
-  class={`bg-navbar flex w-full flex-row border-b-[1px] border-gray-300 h-20 md:hidden sticky top-0 z-40 ${textColour}`}
+  class={`bg-navbar flex w-full flex-row border-b-[1px] border-gray-300 h-20 md:hidden sticky top-0 z-40 justify-between ${textColour}`}
 >
-  <button class="my-auto ml-8 h-6 w-6" id="mobileNavMenuTgl">
-    <div class="h-full w-full" id="menuIcn">
+  <button class="my-auto ml-2 h-10 w-10" id="mobileNavMenuTgl">
+    <div class="h-10 w-10" id="menuIcn">
       <Icon name="ic:sharp-menu" class="w-full h-full" />
     </div>
     <div class="h-0 w-0" id="closeIcn">
       <Icon name="ic:sharp-close" class="w-full h-full" />
     </div>
   </button>
-  <a href={baseUrl} class="mx-auto my-auto flex w-1/4">
+  <a href={baseUrl} class="mx-auto my-auto flex w-full">
     <img
-      class={`mx-auto max-h-8 ${invert && "invert"}`}
+      class={`mx-auto  max-h-8 ${invert && "invert"}`}
       src={style === "nouse"
         ? "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
         : "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"}
     />
   </a>
   <button
-    class="searchBtnClassIdentifier my-auto mr-8 h-6 w-6"
+    class="searchBtnClassIdentifier my-auto mr-2 h-10 w-10"
     id="mobileSearchBtn"
   >
-    <Icon name="ic:sharp-search" class="w-full h-full" />
+    <Icon name="ic:sharp-search" class="w-10 h-10" />
   </button>
 </header>
 <nav
@@ -181,14 +181,14 @@ if (style === "muse" || invert) {
     // Toggle navbar classes
     mobileNav.classList.toggle("-translate-x-full");
 
-    menuIcn.classList.toggle("w-full");
+    menuIcn.classList.toggle("w-10");
     menuIcn.classList.toggle("w-0");
-    menuIcn.classList.toggle("h-full");
+    menuIcn.classList.toggle("h-10");
     menuIcn.classList.toggle("h-0");
 
-    closeIcn.classList.toggle("w-full");
+    closeIcn.classList.toggle("w-10");
     closeIcn.classList.toggle("w-0");
-    closeIcn.classList.toggle("h-full");
+    closeIcn.classList.toggle("h-10");
     closeIcn.classList.toggle("h-0");
 
     // Toggle body scrolling
