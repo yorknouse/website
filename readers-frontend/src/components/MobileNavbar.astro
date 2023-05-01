@@ -172,9 +172,7 @@ if (style === "muse" || invert) {
   const mobileNavList = document.getElementById(
     "mobileNavList"
   ) as HTMLUListElement;
-  const mobileSearchBtn = document.getElementById(
-    "mobileSearchBtn"
-  ) as HTMLButtonElement;
+
   const body = document.body;
 
   const toggleClasses = () => {
@@ -201,16 +199,12 @@ if (style === "muse" || invert) {
   const mutationObserver = new MutationObserver((mutations) => {
     mutations.forEach((_) => {
       // Scroll nav to top if visible
-      if (!mobileNav.classList.contains("-translate-x-full"))
+      if (!mobileNav.classList.contains("-translate-y-[calc(100%+80px)]"))
         mobileNavList.scroll(0, 0);
     });
   });
   mutationObserver.observe(mobileNav, {
     attributes: true,
     attributeFilter: ["class"],
-  });
-
-  mobileSearchBtn.addEventListener("click", () => {
-    if (!mobileNav.classList.contains("-translate-x-full")) toggleClasses();
   });
 </script>
