@@ -59,12 +59,12 @@ test.describe("Mobile navbar", () => {
     const hamburgerMenu = page.locator("#mobileNavMenuTgl");
     const mobileNav = page.locator("#mobileNav");
 
-    await expect(mobileNav).toHaveClass(/-translate-y-\[calc\(100%\+80px\)]/);
+    await expect(mobileNav).toHaveClass(/-translate-y-\[calc\(100%\+7rem\)]/);
 
     await hamburgerMenu.click();
 
     await expect(mobileNav).not.toHaveClass(
-      /-translate-y-\[calc\(100%\+80px\)]/
+      /-translate-y-\[calc\(100%\+7rem\)]/
     );
   });
 

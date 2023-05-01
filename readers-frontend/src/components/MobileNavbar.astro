@@ -72,9 +72,9 @@ if (style === "muse" || invert) {
 
 <header
   id="mobileHeader"
-  class={`bg-navbar flex w-full flex-row border-b-[1px] border-gray-300 h-20 md:hidden sticky top-0 z-40 justify-between ${textColour}`}
+  class={`bg-navbar flex w-full flex-row border-b-[1px] border-gray-300 h-28 md:hidden sticky top-0 z-40 justify-between ${textColour}`}
 >
-  <button class="my-auto ml-2 h-10 w-10" id="mobileNavMenuTgl">
+  <button class="my-auto ml-4 h-10 w-10 sm:ml-8" id="mobileNavMenuTgl">
     <div class="h-10 w-10" id="menuIcn">
       <Icon name="ic:sharp-menu" class="w-full h-full" />
     </div>
@@ -82,23 +82,25 @@ if (style === "muse" || invert) {
       <Icon name="ic:sharp-close" class="w-full h-full" />
     </div>
   </button>
-  <a href={baseUrl} class="mx-auto my-auto flex w-full">
+  <a href={baseUrl} class="mx-auto my-auto flex w-3/4 sm:w-full">
     <img
-      class={`mx-auto  max-h-8 ${invert && "invert"}`}
+      class={`mx-auto  ${
+        style === "nouse" ? "max-h-8 sm:max-h-10" : "max-h-12"
+      } ${invert && "invert"}`}
       src={style === "nouse"
         ? "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
         : "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"}
     />
   </a>
   <button
-    class="searchBtnClassIdentifier my-auto mr-2 h-10 w-10"
+    class="searchBtnClassIdentifier my-auto mr-4 h-10 w-10 sm:mr-8"
     id="mobileSearchBtn"
   >
     <Icon name="ic:sharp-search" class="w-10 h-10" />
   </button>
 </header>
 <nav
-  class="fixed top-20 left-0 right-0 z-30 flex h-[calc(100dvh-80px)] -translate-y-[calc(100%+80px)] flex-col overflow-y-scroll bg-black transition-transform duration-500 ease-in-out"
+  class="fixed top-28 left-0 right-0 z-30 flex h-[calc(100dvh-7rem)] -translate-y-[calc(100%+7rem)] flex-col overflow-y-scroll bg-black transition-transform duration-500 ease-in-out"
   id="mobileNav"
 >
   <ul
@@ -177,7 +179,7 @@ if (style === "muse" || invert) {
 
   const toggleClasses = () => {
     // Toggle navbar classes
-    mobileNav.classList.toggle("-translate-y-[calc(100%+80px)]");
+    mobileNav.classList.toggle("-translate-y-[calc(100%+7rem)]");
 
     menuIcn.classList.toggle("w-10");
     menuIcn.classList.toggle("w-0");
@@ -199,7 +201,7 @@ if (style === "muse" || invert) {
   const mutationObserver = new MutationObserver((mutations) => {
     mutations.forEach((_) => {
       // Scroll nav to top if visible
-      if (!mobileNav.classList.contains("-translate-y-[calc(100%+80px)]"))
+      if (!mobileNav.classList.contains("-translate-y-[calc(100%+7rem)]"))
         mobileNavList.scroll(0, 0);
     });
   });
