@@ -5,7 +5,7 @@ import FeaturedSection from "@components/FeaturedSection.astro";
 import Paginator from "@components/SolidJS/Paginator";
 import {
   categoriesWithArticles,
-  getCategories,
+  getCategoriesWithArticles,
   paginateCategory,
 } from "@components/utils/categories";
 import Layout from "src/layouts/Layout.astro";
@@ -18,14 +18,12 @@ export async function getStaticPaths() {
   const articlePerPage = 30;
 
   // Getting the nouse top level categories for example: news, politics, etc.
-  const nouseTopLevelCategories: categoriesWithArticles[] = await getCategories(
-    null
-  );
+  const nouseTopLevelCategories: categoriesWithArticles[] =
+    await getCategoriesWithArticles(null);
 
   // Getting the muse top level categories for example: arts, features, etc.
-  const museTopLevelCategories: categoriesWithArticles[] = await getCategories(
-    4
-  );
+  const museTopLevelCategories: categoriesWithArticles[] =
+    await getCategoriesWithArticles(4);
   const topLevelCategories = [
     ...nouseTopLevelCategories,
     ...museTopLevelCategories,
@@ -33,9 +31,8 @@ export async function getStaticPaths() {
   const paginatedResults = await Promise.all(
     topLevelCategories.map(async (topLevelCategory) => {
       // Getting the subcategories for example: campus news, arts features, etc.
-      const subCategories: categoriesWithArticles[] = await getCategories(
-        topLevelCategory.categories_id
-      );
+      const subCategories: categoriesWithArticles[] =
+        await getCategoriesWithArticles(topLevelCategory.categories_id);
 
       let paginatedTopCategory;
       if (topLevelCategory.categories_nestUnder === 4) {
@@ -97,7 +94,7 @@ const featuredArticlesIds = category.categories_featured
 // Getting the featured section for the muse homepage
 let museCategories: categoriesWithArticles[] = [];
 if (category.categories_name === "muse" && page.currentPage === 0) {
-  museCategories = await getCategories(4);
+  museCategories = await getCategoriesWithArticles(4);
 }
 ---
 

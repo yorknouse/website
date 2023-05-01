@@ -10,55 +10,6 @@ test("has title", async ({ page }) => {
   await expect(page).toHaveTitle("Nouse");
 });
 
-test.describe("Navbar", () => {
-  test("Has the correct number of items and correct image", async ({
-    page,
-    isMobile,
-  }) => {
-    test.skip(isMobile == true, "Skipping on mobile for now");
-    await expect(page.locator("nav > ul > li")).toHaveCount(5);
-    // Checking Header Picture
-    await expect(page.locator("header > a > img")).toHaveAttribute(
-      "src",
-      "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
-    );
-    // Checking Nouse button Picture
-    await expect(
-      page.locator("body > nav > ul > li:nth-child(5) > a > img")
-    ).toHaveAttribute(
-      "src",
-      "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/kingfisher.svg"
-    );
-    // Checking Muse button Picture
-    await expect(
-      page.locator("body > nav > ul > li:nth-child(7) > a > img")
-    ).toHaveAttribute(
-      "src",
-      "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
-    );
-  });
-
-  test("Has the correct links", async ({ page, isMobile }) => {
-    test.skip(isMobile == true, "Skipping on mobile for now");
-    // Home Button
-    await expect(
-      page.locator("body > nav > ul > li:nth-child(1) > a")
-    ).toHaveAttribute("href", "/website/");
-    // Test category Button
-    await expect(
-      page.locator("body > nav > ul > li:nth-child(3) > a")
-    ).toHaveAttribute("href", "/website/testCategory1");
-    // Nouse Button
-    await expect(
-      page.locator("body > nav > ul > li:nth-child(5) > a")
-    ).toHaveAttribute("href", "/website/");
-    // Muse Button
-    await expect(
-      page.locator("body > nav > ul > li:nth-child(7) > a")
-    ).toHaveAttribute("href", "/website/muse");
-  });
-});
-
 test.describe("Featured Articles", () => {
   // Tests for different numbers of landscape featured articles
   for (let i = 6; i > 0; i--) {

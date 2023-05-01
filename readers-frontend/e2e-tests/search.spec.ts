@@ -13,12 +13,14 @@ test.describe("Search functionality", () => {
     test.skip(isMobile === true, "Skipping on mobile for now");
 
     const searchInterface = page.locator("[id=searchInterface]");
-    const searchButton = page.locator("[id=searchBtn]");
+    const searchButton = await page.waitForSelector(
+      ".searchBtnClassIdentifier"
+    );
 
     await expect(searchInterface).toHaveClass(/invisible/);
     await expect(searchInterface).toHaveClass(/opacity-0/);
 
-    searchButton.click();
+    await searchButton.click();
 
     await expect(searchInterface).not.toHaveClass(/invisible/);
     await expect(searchInterface).not.toHaveClass(/opacity-0/);
@@ -41,9 +43,11 @@ test.describe("Search functionality", () => {
       divsInFirstPage = 6;
     } else {
       // Perform search - Start
-      const searchButton = page.locator("[id=searchBtn]");
+      const searchButton = await page.waitForSelector(
+        ".searchBtnClassIdentifier"
+      );
 
-      searchButton.click();
+      await searchButton.click();
 
       const searchInput = page.locator("[id=searchBox]");
       await searchInput.fill("Test");
@@ -105,7 +109,9 @@ test.describe("Search functionality", () => {
       await page.goto("./search?q=Test");
     } else {
       // Perform search - Start
-      const searchButton = page.locator("[id=searchBtn]");
+      const searchButton = await page.waitForSelector(
+        ".searchBtnClassIdentifier"
+      );
 
       searchButton.click();
 

@@ -1,0 +1,212 @@
+---
+import type { categories } from "@prisma/client";
+import { Icon } from "astro-icon";
+import prisma from "src/prisma";
+import MobileNavbarItem from "./MobileNavbarItem.astro";
+
+interface Props {
+  active: string | undefined;
+  style: "muse" | "nouse";
+  menuCategories: categories[];
+  subMenuCategories: Map<string, categories[]>;
+  baseUrl: string;
+}
+
+const { active, style, menuCategories, subMenuCategories, baseUrl } =
+  Astro.props;
+
+const activeCategory = active
+  ? await prisma.categories.findFirst({
+      where: {
+        categories_name: active,
+      },
+    })
+  : undefined;
+
+// Check for parent category colour
+let parentColour = undefined;
+let parentCategory: categories | null = null;
+if (
+  activeCategory &&
+  activeCategory.categories_nestUnder &&
+  activeCategory.categories_nestUnder !== 4
+) {
+  // Mask muse out of this as muse categories are nested
+  parentCategory = await prisma.categories.findFirst({
+    where: {
+      categories_id: activeCategory.categories_nestUnder,
+    },
+  });
+
+  if (parentCategory) parentColour = parentCategory.categories_backgroundColor;
+}
+
+// Default base colour depending on style
+let computedBaseColour = style === "muse" ? "000" : "F5EFEB";
+
+if (activeCategory) {
+  if (activeCategory.categories_backgroundColor)
+    computedBaseColour = activeCategory.categories_backgroundColor;
+  else if (parentColour) computedBaseColour = parentColour;
+}
+
+if (computedBaseColour) {
+  if (!computedBaseColour.includes("#"))
+    computedBaseColour = "#" + computedBaseColour;
+}
+
+// Whether to invert logo or not.
+// Should be inverted for non-home nouse categories.
+let invert =
+  style === "nouse" &&
+  activeCategory &&
+  activeCategory.categories_name !== "home" &&
+  computedBaseColour !== "#F5EFEB";
+
+// Menu and Search icons colours
+let textColour = "text-black";
+if (style === "muse" || invert) {
+  textColour = "text-white";
+}
+---
+
+<header
+  id="mobileHeader"
+  class={`bg-navbar flex w-full flex-row border-b-[1px] border-gray-300 h-28 md:hidden sticky top-0 z-40 justify-between ${textColour}`}
+>
+  <button class="my-auto ml-4 h-10 w-10 sm:ml-8" id="mobileNavMenuTgl">
+    <div class="h-10 w-10" id="menuIcn">
+      <Icon name="ic:sharp-menu" class="w-full h-full" />
+    </div>
+    <div class="h-0 w-0" id="closeIcn">
+      <Icon name="ic:sharp-close" class="w-full h-full" />
+    </div>
+  </button>
+  <a href={baseUrl} class="mx-auto my-auto flex w-3/4 sm:w-full">
+    <img
+      class={`mx-auto  ${
+        style === "nouse" ? "max-h-8 sm:max-h-10" : "max-h-12"
+      } ${invert && "invert"}`}
+      src={style === "nouse"
+        ? "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
+        : "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"}
+    />
+  </a>
+  <button
+    class="searchBtnClassIdentifier my-auto mr-4 h-10 w-10 sm:mr-8"
+    id="mobileSearchBtn"
+  >
+    <Icon name="ic:sharp-search" class="w-10 h-10" />
+  </button>
+</header>
+<nav
+  class="fixed top-28 left-0 right-0 z-30 flex h-[calc(100dvh-7rem)] -translate-y-[calc(100%+7rem)] flex-col overflow-y-scroll bg-black transition-transform duration-500 ease-in-out"
+  id="mobileNav"
+>
+  <ul
+    class="mx-auto mb-10 w-5/6 list-none overflow-scroll text-2xl text-white"
+    id="mobileNavList"
+  >
+    {
+      menuCategories.map((menuItem) => (
+        <li class="flex w-full flex-row border-b-white pt-4">
+          <div class="my-auto flex w-full flex-col">
+            {() => {
+              switch (menuItem.categories_displayName) {
+                case "Muse":
+                  return (
+                    <a
+                      href={import.meta.env.BASE_URL + "muse"}
+                      class="w-full border-b-[1px] pb-4"
+                    >
+                      <img
+                        src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
+                        class="mx-auto w-36"
+                      />
+                    </a>
+                  );
+                case "Nouse":
+                  return (
+                    <a
+                      href={import.meta.env.BASE_URL}
+                      class="w-full border-b-[1px] pb-4"
+                    >
+                      <img
+                        src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
+                        class="mx-auto w-36 invert"
+                      />
+                    </a>
+                  );
+                default:
+                  return (
+                    <MobileNavbarItem
+                      active={
+                        parentCategory ? parentCategory.categories_name : active
+                      }
+                      displayName={menuItem.categories_displayName}
+                      categoryName={menuItem.categories_name}
+                      baseUrl={baseUrl}
+                      subMenu={subMenuCategories.get(menuItem.categories_name)}
+                    />
+                  );
+              }
+            }}
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<style define:vars={{ computedBaseColour }}>
+  .bg-navbar {
+    background-color: var(--computedBaseColour);
+  }
+</style>
+
+<script>
+  const mobileNavMenuTgl = document.getElementById(
+    "mobileNavMenuTgl"
+  ) as HTMLButtonElement;
+  const menuIcn = document.getElementById("menuIcn") as HTMLElement;
+  const closeIcn = document.getElementById("closeIcn") as HTMLElement;
+  const mobileNav = document.getElementById("mobileNav") as HTMLElement;
+  const mobileNavList = document.getElementById(
+    "mobileNavList"
+  ) as HTMLUListElement;
+
+  const body = document.body;
+
+  const toggleClasses = () => {
+    // Toggle navbar classes
+    mobileNav.classList.toggle("-translate-y-[calc(100%+7rem)]");
+
+    menuIcn.classList.toggle("w-10");
+    menuIcn.classList.toggle("w-0");
+    menuIcn.classList.toggle("h-10");
+    menuIcn.classList.toggle("h-0");
+
+    closeIcn.classList.toggle("w-10");
+    closeIcn.classList.toggle("w-0");
+    closeIcn.classList.toggle("h-10");
+    closeIcn.classList.toggle("h-0");
+
+    // Toggle body scrolling
+    body.classList.toggle("overflow-hidden");
+  };
+
+  mobileNavMenuTgl.addEventListener("click", () => toggleClasses());
+
+  // Mutation observer for navbar visibility
+  const mutationObserver = new MutationObserver((mutations) => {
+    mutations.forEach((_) => {
+      // Scroll nav to top if visible
+      if (!mobileNav.classList.contains("-translate-y-[calc(100%+7rem)]"))
+        mobileNavList.scroll(0, 0);
+    });
+  });
+  mutationObserver.observe(mobileNav, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+</script>
