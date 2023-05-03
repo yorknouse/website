@@ -320,6 +320,47 @@ export const getCategoryLink = (
     return `${import.meta.env.BASE_URL}${category_name}`;
   }
 };
+
+// /**
+//  * Gets a category's top parent.
+//  * @param childCategory The category we want to find the top parent of
+//  * @returns "nouse" | "muse"
+//  */
+// export const getTopParentCategory = async (
+//   childCategory: categories
+// ): Promise<"muse" | "nouse"> => {
+//   let nestUnder = childCategory.categories_nestUnder;
+
+//   //console.log(childCategory, nestUnder);
+//   switch (nestUnder) {
+//     case null: // Nouse main
+//       if (childCategory.categories_name === "muse") return "muse";
+//       return "nouse";
+//     case 4: // Muse
+//       return "muse";
+//     default: {
+//       let parentNestUnder: number | null = nestUnder;
+//       while (parentNestUnder !== null || parentNestUnder !== 4) {
+//         parentNestUnder =
+//           (
+//             await prisma.categories.findFirst({
+//               where: {
+//                 categories_id: parentNestUnder || undefined,
+//               },
+//               select: {
+//                 categories_nestUnder: true,
+//               },
+//             })
+//           )?.categories_nestUnder || null;
+//         console.log(parentNestUnder);
+//       }
+
+//       if (parentNestUnder === 4) return "muse";
+//       else return "nouse";
+//     }
+//   }
+// };
+
 // Construct nested items map - saved for later
 // let nestedItems = menuCategories.reduce((accumulator, category, _) => {
 //   const parent = category.categories_nestUnder;

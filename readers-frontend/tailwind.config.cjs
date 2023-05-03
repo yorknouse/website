@@ -19,6 +19,7 @@ module.exports = {
       },
       aspectRatio: {
         edition: 602 / 733,
+        "portrait-video": 9 / 16,
       },
     },
   },

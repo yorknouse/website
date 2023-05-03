@@ -14,15 +14,16 @@ const { active, style, menuCategories, baseUrl } = Astro.props;
 
 const activeCategory = await prisma.categories.findFirst({
   where: {
-    categories_displayName: active,
+    categories_name: active,
   },
 });
 
 let computedBaseColour = activeCategory
   ? activeCategory.categories_backgroundColor
   : "000";
-if (computedBaseColour) computedBaseColour = "#" + computedBaseColour;
-else computedBaseColour = "#000";
+if (!computedBaseColour) computedBaseColour = "#000";
+else if (!computedBaseColour.includes("#"))
+  computedBaseColour = "#" + computedBaseColour;
 ---
 
 <header
@@ -42,7 +43,7 @@ else computedBaseColour = "#000";
 </header>
 <nav
   id="desktopNav"
-  class="hidden h-12 w-full bg-black text-xs text-white md:block lg:text-sm 2xl:px-[13%]"
+  class="bg-navbar hidden h-12 w-full text-xs text-white md:block lg:text-sm 2xl:px-[13%]"
 >
   <ul
     class="flex h-full w-full flex-row justify-between border-t-4 border-transparent"

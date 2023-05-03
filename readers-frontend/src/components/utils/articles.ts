@@ -16,6 +16,21 @@ export type articlesWithArticleDrafts = Prisma.articlesGetPayload<
   typeof articlesWithArticleDrafts
 >;
 
+const articleWithUserAndDraft = Prisma.validator<Prisma.articlesArgs>()({
+  include: {
+    articlesDrafts: {
+      include: { users: { include: { userPositions: true } } },
+    },
+    categories: {
+      include: { category: true },
+    },
+  },
+});
+
+export type articleWithUserAndDraft = Prisma.articlesGetPayload<
+  typeof articleWithUserAndDraft
+>;
+
 /**
  * Retrieves an article with its latest draft and the user who wrote it.
  * @param {number[]} articleIds The article IDs to retrieve.
@@ -58,18 +73,16 @@ export const getArticles = async (
 
 /**
  * Retrieves all articles in the dB.
- * @returns {Promise<articlesWithArticleDrafts[]>} Promise object represents the articles.
+ * @returns {Promise<articleWithUserAndDraft[]>} Promise object represents the articles.
  */
-export const getAllArticles = async (): Promise<
-  articlesWithArticleDrafts[]
-> => {
+export const getAllArticles = async (): Promise<articleWithUserAndDraft[]> => {
   const nArticles = await prisma.articles.count();
 
   // Split retrieval in blocks so that Node does not take
   // too much memory.
   const blockSize = 1000;
 
-  const articles: articlesWithArticleDrafts[] = [];
+  const articles: articleWithUserAndDraft[] = [];
 
   for (let i = 0; i < Math.ceil(nArticles / blockSize); i++) {
     const block = await prisma.articles.findMany({
@@ -84,7 +97,11 @@ export const getAllArticles = async (): Promise<
           take: 1,
           include: {
             // Get the user who wrote the article
-            users: true,
+            users: {
+              include: {
+                userPositions: true,
+              },
+            },
           },
         },
         categories: {

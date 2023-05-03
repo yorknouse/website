@@ -1,6 +1,11 @@
 ---
-import { getAllArticles } from "@components/utils/articles";
-import type { articles, articlesDrafts } from "@prisma/client";
+import {
+  articleWithUserAndDraft,
+  getAllArticles,
+  getArticleImage,
+} from "@components/utils/articles";
+import Layout from "src/layouts/Layout.astro";
+import prisma from "src/prisma";
 
 export async function getStaticPaths() {
   const dateFormatter = new Intl.DateTimeFormat("en-GB", {
@@ -13,7 +18,7 @@ export async function getStaticPaths() {
 
   return articles.map((article) => {
     const date = article.articles_published || new Date(0);
-    // DD-MM-YYYY
+    // DD/MM/YYYY
     const dateParts = dateFormatter.format(date).split("/");
     return {
       params: {
@@ -30,14 +35,89 @@ export async function getStaticPaths() {
 }
 
 interface Props {
-  article: articles & {
-    articlesDrafts: articlesDrafts[];
-  };
+  article: articleWithUserAndDraft;
 }
 
 const { article } = Astro.props;
+const topCategory = article.categories[0].category;
+const parentCategory =
+  article.categories[article.categories.length - 1].category;
+const articleDraft = article.articlesDrafts[0];
+const imageUrl = await getArticleImage(article);
+
+let formattedUser = {
+  name: `${articleDraft.users?.users_name1} ${articleDraft.users?.users_name2}`,
+  positions: `${await articleDraft.users?.userPositions.reduce(
+    async (accumulatorPromise, userPosition) => {
+      let accumulator = await accumulatorPromise;
+      // Only show position if still current
+      if (
+        !userPosition.userPositions_end ||
+        userPosition.userPositions_end.getTime() > new Date().getTime()
+      ) {
+        if (userPosition.positions_id) {
+          const position = await prisma.positions.findFirst({
+            where: {
+              positions_id: userPosition.positions_id,
+            },
+          });
+          accumulator += position?.positions_displayName || "";
+          accumulator += " ";
+        }
+      }
+      return accumulator;
+    },
+    Promise.resolve("")
+  )}`,
+};
 ---
 
-<div>
-  {article.articlesDrafts[0].articlesDrafts_excerpt}
-</div>
+<Layout
+  style={topCategory.categories_id === 4 ? "muse" : "nouse"}
+  active={parentCategory.categories_name}
+  title={article.articlesDrafts[0].articlesDrafts_headline}
+>
+  <main>
+    <div
+      class="flex flex-col px-[3%] pt-8 sm:px-[0.5%] md:flex-row 2xl:px-[13%]"
+    >
+      <div class="flex w-full flex-col gap-3 md:w-5/6">
+        <h1>{article.articlesDrafts[0].articlesDrafts_headline}</h1>
+        {
+          article.articles_published && (
+            <p>{article.articles_published.toLocaleDateString()}</p>
+          )
+        }
+        <h3>{article.articlesDrafts[0].articlesDrafts_excerpt}</h3>
+        {
+          article.articles_isThumbnailPortrait ? (
+            <img
+              class="max-w-1/2 mx-auto aspect-portrait-video rounded-lg object-cover"
+              src={imageUrl}
+            />
+          ) : (
+            <img class="aspect-video rounded-lg object-cover" src={imageUrl} />
+          )
+        }
+        <div class="relative h-5">
+          <div
+            class={`absolute top-0 left-0 border-l-[5px] h-full border-color-${parentCategory.categories_name}`}
+          >
+          </div>
+          <p class={`ml-2 category-color-${parentCategory.categories_name}`}>
+            Image by {article.articlesDrafts[0].articlesDrafts_thumbnailCredit}
+          </p>
+        </div>
+        <p>
+          <span class={`category-color-${parentCategory.categories_name}`}
+            >By
+          </span>{formattedUser.name}{
+            formattedUser.positions.length > 0 &&
+              ` - ${formattedUser.positions}`
+          }
+        </p>
+        <div class="text-justify" set:html={articleDraft.articlesDrafts_text} />
+      </div>
+    </div>
+  </main>
+</Layout>
