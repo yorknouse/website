@@ -1,0 +1,43 @@
+---
+import { getAllArticles } from "@components/utils/articles";
+import type { articles, articlesDrafts } from "@prisma/client";
+
+export async function getStaticPaths() {
+  const dateFormatter = new Intl.DateTimeFormat("en-GB", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+
+  const articles = await getAllArticles();
+
+  return articles.map((article) => {
+    const date = article.articles_published || new Date(0);
+    // DD-MM-YYYY
+    const dateParts = dateFormatter.format(date).split("/");
+    return {
+      params: {
+        year: dateParts[2],
+        month: dateParts[1],
+        day: dateParts[0],
+        slug: article.articles_slug || "err",
+      },
+      props: {
+        article,
+      },
+    };
+  });
+}
+
+interface Props {
+  article: articles & {
+    articlesDrafts: articlesDrafts[];
+  };
+}
+
+const { article } = Astro.props;
+---
+
+<div>
+  {article.articlesDrafts[0].articlesDrafts_excerpt}
+</div>

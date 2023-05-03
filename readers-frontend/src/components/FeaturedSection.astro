@@ -65,7 +65,9 @@ const categoryColor = category.categories_backgroundColor;
                 categoryLink={category.categories_name}
                 categoryColor={categoryColor}
                 imageUrl={await getArticleImage(article)}
-                articleUrl={`/${article.articles_published
+                articleUrl={`${
+                  import.meta.env.BASE_URL
+                }${article.articles_published
                   ?.toISOString()
                   .substring(0, 10)
                   .replaceAll("-", "/")}/${article.articles_slug}`}
@@ -102,7 +104,9 @@ const categoryColor = category.categories_backgroundColor;
                   imageUrl={
                     index == 0 ? await getArticleImage(article) : undefined
                   }
-                  articleUrl={`/${article.articles_published
+                  articleUrl={`${
+                    import.meta.env.BASE_URL
+                  }${article.articles_published
                     ?.toISOString()
                     .substring(0, 10)
                     .replaceAll("-", "/")}/${article.articles_slug}`}
