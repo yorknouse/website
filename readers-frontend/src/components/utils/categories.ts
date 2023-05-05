@@ -112,6 +112,7 @@ export const getMenuSubcategories = async (parentCategory: number) => {
   return await prisma.categories.findMany({
     where: {
       categories_showMenu: true,
+      categories_showPublic: true,
       categories_nestUnder: parentCategory,
     },
   });
