@@ -4,6 +4,7 @@ import {
   getAllArticles,
   getArticleImage,
 } from "@components/utils/articles";
+import { Icon } from "astro-icon";
 import Layout from "src/layouts/Layout.astro";
 import prisma from "src/prisma";
 
@@ -75,49 +76,75 @@ let formattedUser = {
 <Layout
   style={topCategory.categories_id === 4 ? "muse" : "nouse"}
   active={parentCategory.categories_name}
-  title={article.articlesDrafts[0].articlesDrafts_headline}
+  title={`${articleDraft.articlesDrafts_headline} - Nouse`}
 >
   <main>
-    <div
-      class="flex flex-col px-[3%] pt-8 sm:px-[0.5%] md:flex-row 2xl:px-[13%]"
-    >
-      <div class="flex w-full flex-col gap-3 md:w-5/6">
-        <h1>{article.articlesDrafts[0].articlesDrafts_headline}</h1>
-        {
-          article.articles_published && (
-            <p>{article.articles_published.toLocaleDateString()}</p>
-          )
-        }
-        <h3>{article.articlesDrafts[0].articlesDrafts_excerpt}</h3>
-        {
-          article.articles_isThumbnailPortrait ? (
-            <img
-              class="max-w-1/2 mx-auto aspect-portrait-video rounded-lg object-cover"
-              src={imageUrl}
-            />
-          ) : (
-            <img class="aspect-video rounded-lg object-cover" src={imageUrl} />
-          )
-        }
-        <div class="relative h-5">
-          <div
-            class={`absolute top-0 left-0 border-l-[5px] h-full border-color-${parentCategory.categories_name}`}
-          >
-          </div>
-          <p class={`ml-2 category-color-${parentCategory.categories_name}`}>
-            Image by {article.articlesDrafts[0].articlesDrafts_thumbnailCredit}
-          </p>
-        </div>
-        <p>
-          <span class={`category-color-${parentCategory.categories_name}`}
-            >By
-          </span>{formattedUser.name}{
-            formattedUser.positions.length > 0 &&
-              ` - ${formattedUser.positions}`
+    <div class="flex flex-col px-[3%] pt-8 text-base sm:px-[0.5%] 2xl:px-[13%]">
+      <div class="flex flex-col md:flex-row">
+        {/* Article */}
+        <div class="flex w-full flex-col gap-3 md:w-2/3">
+          <h1 class="text-2xl font-bold sm:text-3xl md:text-4xl lg:text-6xl">
+            {article.articlesDrafts[0].articlesDrafts_headline}
+          </h1>
+          {
+            article.articles_published && (
+              <div class="flex flex-row font-semibold">
+                <Icon
+                  name="ic:baseline-access-time-filled"
+                  class="my-auto mr-1 h-4 w-4"
+                />
+                <p class="my-auto">
+                  {article.articles_published.toLocaleDateString()}
+                </p>
+              </div>
+            )
           }
-        </p>
-        <div class="text-justify" set:html={articleDraft.articlesDrafts_text} />
+          <h3>{article.articlesDrafts[0].articlesDrafts_excerpt}</h3>
+          {
+            article.articles_isThumbnailPortrait ? (
+              <img
+                class="max-w-1/2 mx-auto aspect-portrait-video rounded-lg object-cover"
+                src={imageUrl}
+              />
+            ) : (
+              <img
+                class="aspect-video rounded-lg object-cover"
+                src={imageUrl}
+              />
+            )
+          }
+          <div class="relative h-5">
+            <div
+              class={`absolute top-0 left-0 border-l-[5px] h-full border-color-${parentCategory.categories_name}`}
+            >
+            </div>
+            <p class={`ml-2 category-color-${parentCategory.categories_name}`}>
+              Image by {
+                article.articlesDrafts[0].articlesDrafts_thumbnailCredit
+              }
+            </p>
+          </div>
+          <p class="text-xl italic">
+            <span class={`category-color-${parentCategory.categories_name}`}
+              >By
+            </span>{formattedUser.name}{
+              formattedUser.positions.length > 0 &&
+                ` - ${formattedUser.positions}`
+            }
+          </p>
+          <div
+            class="text-justify"
+            set:html={articleDraft.articlesDrafts_text}
+          />
+        </div>
+        {/* Top Articles */}
+        <div class="flex w-full flex-col md:w-1/3"></div>
       </div>
     </div>
   </main>
 </Layout>
+
+<script>
+  const cookies = document.cookie.split(";");
+  const readArticles = [];
+</script>
