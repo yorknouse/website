@@ -71,6 +71,8 @@ let formattedUser = {
     Promise.resolve("")
   )}`,
 };
+
+const articleId = article.articles_id;
 ---
 
 <Layout
@@ -144,7 +146,56 @@ let formattedUser = {
   </main>
 </Layout>
 
-<script>
+<script define:vars={{ articleId }}>
   const cookies = document.cookie.split(";");
+  const cookie = "readArticles=";
+  const expiration = "readArticlesExpires=";
   const readArticles = [];
+
+  // Expires in a month
+  let expires = new Date();
+  expires.setUTCDate(1);
+  expires.setUTCMonth(expires.getUTCMonth() + 1);
+  expires.setUTCMilliseconds(0);
+  expires.setUTCSeconds(0);
+  expires.setUTCMinutes(0);
+  expires.setUTCHours(0);
+
+  for (let i = 0; i < cookies.length; i++) {
+    const item = cookies[i];
+
+    if (item.includes(cookie)) {
+      const articles = item.substring(cookie.length + 1);
+      readArticles.push(
+        ...articles
+          .split(",")
+          .map((article) => parseInt(article))
+          .filter((articleNum) => !isNaN(articleNum))
+      );
+    }
+
+    if (item.includes(expiration))
+      expires = item.substring(expiration.length + 1);
+  }
+
+  if (!readArticles.includes(articleId)) {
+    readArticles.push(articleId);
+
+    // Register read on server
+    const formData = new FormData();
+    formData.append("articleId", articleId);
+
+    fetch("/api/registerRead.php", {
+      method: "POST",
+      body: formData,
+    });
+  }
+
+  expires = expires instanceof Date ? expires.toUTCString() : expires;
+
+  document.cookie = `${cookie}${readArticles.join(
+    ","
+  )};expires=${expires};path=/`;
+
+  document.cookie = `${expiration}${expires};expires=${expires};path=/`;
 </script>

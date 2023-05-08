@@ -19,7 +19,11 @@ export default defineConfig({
           target: "http://localhost:420/api/searchSuggestions.php",
           changeOrigin: true,
         },
-      }
-    }
-  }
+        "/api/registerRead.php": {
+          target: "http://localhost:420/api/registerRead.php",
+          changeOrigin: true,
+        },
+      },
+    },
+  },
 });
