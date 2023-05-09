@@ -13,6 +13,7 @@ import {
   articlesWithArticleDrafts,
   getArticleImage,
 } from "../../components/utils/articles";
+import prisma from "src/prisma";
 
 export async function getStaticPaths() {
   const articlePerPage = 30;
@@ -96,6 +97,14 @@ let museCategories: categoriesWithArticles[] = [];
 if (category.categories_name === "muse" && page.currentPage === 0) {
   museCategories = await getCategoriesWithArticles(4);
 }
+
+// A simplified category list for the script tag
+const scrollCategories = museCategories.map((category) => {
+  return {
+    categories_name: category.categories_name,
+    categories_backgroundColor: category.categories_backgroundColor,
+  };
+});
 ---
 
 <Layout
@@ -324,3 +333,32 @@ if (category.categories_name === "muse" && page.currentPage === 0) {
     />
   </div>
 </Layout>
+
+<script
+  define:vars={{ scrollCategories }}
+>
+  const nav = document.querySelector("nav");
+  window.onscroll = function () {
+    scrollCategories.forEach((category) => {
+      document.getElementById(`${category.categories_name}-section`);
+      if (
+        window.pageYOffset >=
+        document.getElementById(`${category.categories_name}-section`)
+          .offsetTop -
+          50
+      ) {
+        nav.style.setProperty(
+          "--computedBaseColour",
+          category.categories_backgroundColor
+        );
+      } else if (
+        window.pageYOffset <
+        document.querySelector(".featured-sections div:nth-child(1)")
+          .offsetTop -
+          50
+      ) {
+        nav.style.setProperty("--computedBaseColour", "#000");
+      }
+    });
+  };
+</script>

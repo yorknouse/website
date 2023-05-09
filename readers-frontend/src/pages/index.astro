@@ -44,3 +44,17 @@ const categories = await getFeaturedSectionsCategories();
     </div>
   </main>
 </Layout>
+
+<script define:vars={{ categories }}>
+  const nav = document.querySelector("nav");
+  window.onscroll = function () {
+    categories.forEach(category => {
+      document.getElementById(`${category.categories_name}-section`);
+      if (window.pageYOffset >= document.getElementById(`${category.categories_name}-section`).offsetTop - 50) {
+          nav.style.setProperty("--computedBaseColour", category.categories_backgroundColor);
+      } else if (window.pageYOffset < document.querySelector(".featured-sections div:nth-child(1)").offsetTop - 50) {
+          nav.style.setProperty("--computedBaseColour", "#000")
+      }
+    });
+  };
+</script>
