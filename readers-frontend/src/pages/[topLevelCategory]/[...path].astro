@@ -334,20 +334,22 @@ const scrollCategories = museCategories.map((category) => {
   </div>
 </Layout>
 
-<script
-  define:vars={{ scrollCategories }}
->
-  const nav = document.querySelector("nav");
+<script define:vars={{ scrollCategories }}>
+  const desktopNav = document.querySelector("#desktopNav");
+  const mobileHeader = document.querySelector("#mobileHeader");
   window.onscroll = function () {
     scrollCategories.forEach((category) => {
-      document.getElementById(`${category.categories_name}-section`);
       if (
         window.pageYOffset >=
         document.getElementById(`${category.categories_name}-section`)
           .offsetTop -
           50
       ) {
-        nav.style.setProperty(
+        desktopNav.style.setProperty(
+          "--computedBaseColour",
+          category.categories_backgroundColor
+        );
+        mobileHeader.style.setProperty(
           "--computedBaseColour",
           category.categories_backgroundColor
         );
@@ -357,7 +359,8 @@ const scrollCategories = museCategories.map((category) => {
           .offsetTop -
           50
       ) {
-        nav.style.setProperty("--computedBaseColour", "#000");
+        desktopNav.style.setProperty("--computedBaseColour", "#000");
+        mobileHeader.style.setProperty("--computedBaseColour", "#000");
       }
     });
   };
