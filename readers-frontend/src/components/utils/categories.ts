@@ -1,13 +1,6 @@
-import {
-  articles,
-  articlesCategories,
-  articlesDrafts,
-  categories,
-  Prisma,
-  users,
-} from "@prisma/client";
-import type { Page, PaginateOptions } from "astro";
+import { categories, Prisma } from "@prisma/client";
 import prisma from "../../prisma";
+import type { Page, PaginateOptions } from "astro";
 import type { articlesWithArticleDrafts } from "./articles";
 
 export const getMenuCategories = async (
@@ -321,17 +314,3 @@ export const getCategoryLink = (
     return `${import.meta.env.BASE_URL}${category_name}`;
   }
 };
-// Construct nested items map - saved for later
-// let nestedItems = menuCategories.reduce((accumulator, category, _) => {
-//   const parent = category.categories_nestUnder;
-//   if (parent !== null) {
-//     let subCategories = accumulator.get(parent);
-
-//     if (!subCategories) subCategories = [];
-
-//     subCategories.push(category);
-
-//     accumulator.set(parent, subCategories);
-//   }
-//   return accumulator;
-// }, new Map<number, categories[]>());
