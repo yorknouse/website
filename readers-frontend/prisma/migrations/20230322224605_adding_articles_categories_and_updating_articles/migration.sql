@@ -618,6 +618,10 @@ WHERE `categories_id` = 373;
 UPDATE `categories` SET `categories_backgroundColor` = '#FDC300'
 WHERE `categories_id` = 7;
 
+-- Freshers
+UPDATE `categories` SET `categories_backgroundColor` = '#DB7400'
+WHERE `categories_id` = 278;
+
 -- Features
 UPDATE `categories` SET `categories_backgroundColor` = '#72033F'
 WHERE `categories_id` = 8;
@@ -631,7 +635,7 @@ UPDATE `categories` SET `categories_backgroundColor` = '#843F71'
 WHERE `categories_id` = 168;
 
 -- Shoot
-UPDATE `categories` SET `categories_backgroundColor` = '#FFF374'
+UPDATE `categories` SET `categories_backgroundColor` = '#D4AF37'
 WHERE `categories_id` = 1871;
 
 -- Music
