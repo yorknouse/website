@@ -7,6 +7,7 @@ import BannerEdition from "@components/BannerEdition.astro";
 import Muse from "@components/Muse.astro";
 import FeaturedSection from "@components/FeaturedSection.astro";
 import { getFeaturedSectionsCategories } from "@components/utils/categories";
+import NavbarColourSwitcher from "@components/NavbarColourSwitcher.astro";
 
 // Get featured articles ids
 const featuredArticlesIds: featuredHome | null =
@@ -43,43 +44,6 @@ const categories = await getFeaturedSectionsCategories();
       }
     </div>
   </main>
+  <NavbarColourSwitcher featuredCategories={categories} style={"nouse"}/>
 </Layout>
 
-<script define:vars={{ categories }}>
-  const desktopNav = document.querySelector("#desktopNav");
-  const mobileHeader = document.querySelector("#mobileHeader");
-  const mobileNouseLogo = document.querySelector("#mobileHeader img");
-  window.onscroll = function () {
-    categories.forEach((category) => {
-      if (
-        window.pageYOffset >=
-        document.getElementById(`${category.categories_name}-section`)
-          .offsetTop -
-          50
-      ) {
-        desktopNav.style.setProperty(
-          "--computedBaseColour",
-          category.categories_backgroundColor
-        );
-        mobileHeader.style.setProperty(
-          "--computedBaseColour",
-          category.categories_backgroundColor
-        );
-        mobileHeader.classList.remove("text-black");
-        mobileHeader.classList.add("text-white");
-        mobileNouseLogo.classList.add("invert");
-      } else if (
-        window.pageYOffset <
-        document.querySelector(".featured-sections div:nth-child(1)")
-          .offsetTop -
-          50
-      ) {
-        desktopNav.style.setProperty("--computedBaseColour", "#000");
-        mobileHeader.style.setProperty("--computedBaseColour", "#F5EFEB");
-        mobileHeader.classList.remove("text-white");
-        mobileHeader.classList.add("text-black");
-        mobileNouseLogo.classList.remove("invert");
-      }
-    });
-  };
-</script>

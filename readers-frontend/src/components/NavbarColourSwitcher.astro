@@ -1,0 +1,64 @@
+---
+import type { categories } from "@prisma/client";
+
+interface Props {
+  featuredCategories: categories[];
+  style: "muse" | "nouse";
+}
+
+const { featuredCategories, style } = Astro.props;
+
+// A simplified category list for the navbar colour switcher script
+const scrollCategories = featuredCategories.map((category) => {
+  return {
+    categories_name: category.categories_name,
+    categories_backgroundColor: category.categories_backgroundColor,
+  };
+});
+---
+
+<script define:vars={{ scrollCategories, style }}>
+  const desktopNav = document.querySelector("#desktopNav");
+  const mobileHeader = document.querySelector("#mobileHeader");
+  const mobileNouseLogo = document.querySelector("#mobileHeader img");
+  window.addEventListener("scroll", () => {
+    const offset = window.innerWidth >= 768 ? 60 : 120;
+    scrollCategories.forEach((category) => {
+      if (
+        window.pageYOffset >=
+        document.getElementById(`${category.categories_name}-section`)
+          .offsetTop -
+          offset
+      ) {
+        desktopNav.style.setProperty(
+          "--computedBaseColour",
+          category.categories_backgroundColor
+        );
+        mobileHeader.style.setProperty(
+          "--computedBaseColour",
+          category.categories_backgroundColor
+        );
+        if (style === "nouse") {
+          mobileHeader.classList.remove("text-black");
+          mobileHeader.classList.add("text-white");
+          mobileNouseLogo.classList.add("invert");
+        }
+      } else if (
+        window.pageYOffset <
+        document.querySelector(".featured-sections div:nth-child(1)")
+          .offsetTop -
+          offset
+      ) {
+        desktopNav.style.setProperty("--computedBaseColour", "#000");
+        if (style === "nouse") {
+          mobileHeader.classList.remove("text-white");
+          mobileNouseLogo.classList.remove("invert");
+          mobileHeader.classList.add("text-black");
+          mobileHeader.style.setProperty("--computedBaseColour", "#F5EFEB");
+        } else {
+          mobileHeader.style.setProperty("--computedBaseColour", "#000");
+        }
+      }
+    });
+  });
+</script>
