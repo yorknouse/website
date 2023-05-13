@@ -11,7 +11,8 @@ interface Props {
   baseUrl: string;
 }
 
-const { active, style, menuCategories, subMenuCategories, baseUrl } = Astro.props;
+const { active, style, menuCategories, subMenuCategories, baseUrl } =
+  Astro.props;
 const activeCategory = active
   ? await prisma.categories.findFirst({
       where: {
@@ -70,7 +71,7 @@ if (activeCategory?.categories_backgroundColor) {
   class=`hidden ${subMenuItems ? "h-24" : "h-12"} w-full text-xs md:block lg:text-sm sticky top-0 z-40`
 >
   <ul
-    class=`flex ${subMenuItems ? "h-1/2" : "h-full"} w-full flex-row bg-navbar justify-between border-t-4 border-transparent 2xl:px-[13%] text-white`
+    class=`flex ${subMenuItems ? "h-1/2" : "h-full"} w-full flex-row bg-navbar justify-between border-t-4 border-transparent 2xl:px-[13%] text-white transition-colors ease-in-out duration-500`
   >
     {
       menuCategories.map((menuItem, index) => (
@@ -80,7 +81,8 @@ if (activeCategory?.categories_backgroundColor) {
           )}
           <li
             class={`group relative flex h-full w-full border-b-4 ${
-              active === menuItem.categories_name || parentCategory?.categories_name === menuItem.categories_name
+              active === menuItem.categories_name ||
+              parentCategory?.categories_name === menuItem.categories_name
                 ? "border-white"
                 : "border-transparent"
             }`}
@@ -128,33 +130,36 @@ if (activeCategory?.categories_backgroundColor) {
       </button>
     </li>
   </ul>
-  {subMenuItems && <ul
-    class="flex h-1/2 w-full flex-row 2xl:px-[13%] text-white bg-navbar brightness-90"
-  >
-    {
-      subMenuItems?.map((menuItem, index) => (
-        <>
-          {index !== 0 && ( // No divider before Home
-            <span class="h-3/5 self-center border-r-2 border-white" />
-          )}
-          <li
-            class={`group relative flex h-full border-b-4 px-[3%] ${
-              active === menuItem.categories_name
-                ? "border-white"
-                : "border-transparent"
-            }`}
-          >
-            <a
-              class="mx-auto my-auto"
-              href={`${baseUrl + (parentCategory ? parentCategory.categories_name : active)}/${menuItem.categories_name}`}
+  {
+    subMenuItems && (
+      <ul class="bg-navbar flex h-1/2 w-full flex-row text-white brightness-90 2xl:px-[13%]">
+        {subMenuItems?.map((menuItem, index) => (
+          <>
+            {index !== 0 && ( // No divider before Home
+              <span class="h-3/5 self-center border-r-2 border-white" />
+            )}
+            <li
+              class={`group relative flex h-full border-b-4 px-[3%] ${
+                active === menuItem.categories_name
+                  ? "border-white"
+                  : "border-transparent"
+              }`}
             >
-              { menuItem.categories_displayName}
-            </a>
-          </li>
-        </>
-      ))
-    }
-  </ul>}
+              <a
+                class="mx-auto my-auto"
+                href={`${
+                  baseUrl +
+                  (parentCategory ? parentCategory.categories_name : active)
+                }/${menuItem.categories_name}`}
+              >
+                {menuItem.categories_displayName}
+              </a>
+            </li>
+          </>
+        ))}
+      </ul>
+    )
+  }
 </nav>
 <style define:vars={{ computedBaseColour }}>
   .bg-navbar {

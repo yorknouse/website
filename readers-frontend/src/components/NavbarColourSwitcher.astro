@@ -9,56 +9,173 @@ interface Props {
 const { featuredCategories, style } = Astro.props;
 
 // A simplified category list for the navbar colour switcher script
-const scrollCategories = featuredCategories.map((category) => {
-  return {
-    categories_name: category.categories_name,
-    categories_backgroundColor: category.categories_backgroundColor,
-  };
-});
+const scrollCategories = featuredCategories.reduce((accumulator, category) => {
+  accumulator.set(
+    category.categories_name,
+    category.categories_backgroundColor || "#000"
+  );
+  return accumulator;
+}, new Map<string, string>());
+
+const serialisedScrollCategories = JSON.stringify(
+  Array.from(scrollCategories.entries())
+);
 ---
 
-<script define:vars={{ scrollCategories, style }}>
-  const desktopNav = document.querySelector("#desktopNav");
-  const mobileHeader = document.querySelector("#mobileHeader");
-  const mobileNouseLogo = document.querySelector("#mobileHeader img");
-  window.addEventListener("scroll", () => {
-    const offset = window.innerWidth >= 768 ? 60 : 120;
-    scrollCategories.forEach((category) => {
+<navbar-controller
+  data-categories={serialisedScrollCategories}
+  data-style={style}></navbar-controller>
+
+<script>
+  /**
+   * Custom element that controls Navbar colour changes
+   */
+  class NavbarController extends HTMLElement {
+    // Properties
+    scrollCategories: Map<string, string>;
+    assignedStyle: "muse" | "nouse" = "nouse";
+    desktopNav: HTMLElement | undefined;
+    mobileHeader: HTMLElement | undefined;
+    mobileNouseLogo: HTMLElement | undefined;
+    sections: NodeListOf<Element> | undefined;
+    observer: IntersectionObserver | undefined;
+
+    constructor() {
+      super();
+      // Get parameters
+      this.scrollCategories = new Map<string, string>(
+        JSON.parse(this.dataset.categories || "[]")
+      );
+
+      if (this.dataset.style === "muse" || this.dataset.style === "nouse")
+        this.assignedStyle = this.dataset.style;
+
+      // Get document elements
+      this.desktopNav = document.querySelector("#desktopNav") as HTMLElement;
+      this.mobileHeader = document.querySelector(
+        "#mobileHeader"
+      ) as HTMLElement;
+      this.mobileNouseLogo = document.querySelector(
+        "#mobileHeader img"
+      ) as HTMLElement;
+      this.sections = document.querySelectorAll("[id$=section]");
+
+      // Intersection Observer
+      this.observe();
+
+      // Window resize event
+      this.registerResizeListener();
+    }
+
+    /**
+     * Register a resize event listener on the window
+     */
+    registerResizeListener() {
+      // Resize event is needed to switch behaviour
+      // when user shrinks window, or when tablet is rotated
+      window.addEventListener("resize", (_) => {
+        this.observe();
+      });
+    }
+
+    /**
+     * Initialises observing elements to animate navbar colour change
+     */
+    observe() {
+      // Is this a mobile device?
+      const mobile = window.innerWidth <= 768;
+
+      // Get 1 rem size
+      const rem = parseInt(getComputedStyle(document.documentElement).fontSize);
+
+      // Desktop navbar is 3rem
+      const desktopMargin = window.innerHeight - 3 * rem;
+
+      // Mobile navbar header is 7 rem
+      const mobileMargin = window.innerHeight - 7 * rem;
+
+      // Disconnect previous observer if any
+      if (this.observer) this.observer.disconnect();
+
+      // Trigger intersection only when item is in view port
+      // and navbar height away from top of the page.
+      // Whole viewport is default intersection element.
+      const observerOptions = {
+        // top: 0, left: 0, bottom: window - navbarHeight, right: 0
+        rootMargin: `0px 0px -${mobile ? mobileMargin : desktopMargin}px 0px`,
+      };
+
+      // Create Intersection Observer
+      this.observer = new IntersectionObserver(
+        this.changeNavbarColour,
+        observerOptions
+      );
+
+      // Observe each section
+      this.sections!.forEach((section) => {
+        this.observer!.observe(section);
+      });
+
       if (
-        window.pageYOffset >=
-        document.getElementById(`${category.categories_name}-section`)
-          .offsetTop -
-          offset
-      ) {
-        desktopNav.style.setProperty(
-          "--computedBaseColour",
-          category.categories_backgroundColor
+        this.sections![0].parentElement &&
+        this.sections![0].parentElement.previousElementSibling
+      )
+        // Observe first element above sections
+        this.observer.observe(
+          this.sections![0].parentElement.previousElementSibling
         );
-        mobileHeader.style.setProperty(
-          "--computedBaseColour",
-          category.categories_backgroundColor
-        );
-        if (style === "nouse") {
-          mobileHeader.classList.remove("text-black");
-          mobileHeader.classList.add("text-white");
-          mobileNouseLogo.classList.add("invert");
+    }
+
+    /**
+     * Callback executed by Intersection Observer.
+     */
+    changeNavbarColour: IntersectionObserverCallback = (entries, _) => {
+      entries.forEach((entry) => {
+        const id = entry.target.getAttribute("id") || "";
+        if (entry.isIntersecting) {
+          if (id.includes("-section")) {
+            // Intersecting with a section
+            // Change Navbar colour
+            this.desktopNav!.style.setProperty(
+              "--computedBaseColour",
+              this.scrollCategories.get(id.replace("-section", "")) || "#000"
+            );
+            this.mobileHeader!.style.setProperty(
+              "--computedBaseColour",
+              this.scrollCategories.get(id.replace("-section", "")) || "#000"
+            );
+
+            // Nouse logo wants white
+            if (this.assignedStyle === "nouse") {
+              this.mobileHeader!.classList.remove("text-black");
+              this.mobileHeader!.classList.add("text-white");
+              this.mobileNouseLogo!.classList.add("invert");
+            }
+          } else {
+            // Intersecting with element above sections. Restore to default nav
+            this.desktopNav!.style.setProperty("--computedBaseColour", "#000");
+
+            // Nouse wants black text back
+            if (this.assignedStyle === "nouse") {
+              this.mobileHeader!.classList.remove("text-white");
+              this.mobileNouseLogo!.classList.remove("invert");
+              this.mobileHeader!.classList.add("text-black");
+              this.mobileHeader!.style.setProperty(
+                "--computedBaseColour",
+                "#F5EFEB"
+              );
+            } else {
+              this.mobileHeader!.style.setProperty(
+                "--computedBaseColour",
+                "#000"
+              );
+            }
+          }
         }
-      } else if (
-        window.pageYOffset <
-        document.querySelector(".featured-sections div:nth-child(1)")
-          .offsetTop -
-          offset
-      ) {
-        desktopNav.style.setProperty("--computedBaseColour", "#000");
-        if (style === "nouse") {
-          mobileHeader.classList.remove("text-white");
-          mobileNouseLogo.classList.remove("invert");
-          mobileHeader.classList.add("text-black");
-          mobileHeader.style.setProperty("--computedBaseColour", "#F5EFEB");
-        } else {
-          mobileHeader.style.setProperty("--computedBaseColour", "#000");
-        }
-      }
-    });
-  });
+      });
+    };
+  }
+
+  // Define custom navbar-controller element
+  customElements.define("navbar-controller", NavbarController);
 </script>
