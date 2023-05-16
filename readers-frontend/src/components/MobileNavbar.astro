@@ -42,18 +42,11 @@ if (
 }
 
 // Default base colour depending on style
-let computedBaseColour = style === "muse" ? "000" : "F5EFEB";
+let computedBaseColour = style === "muse" ? "#000" : "#F5EFEB";
 
-if (activeCategory) {
-  if (activeCategory.categories_backgroundColor)
-    computedBaseColour = activeCategory.categories_backgroundColor;
-  else if (parentColour) computedBaseColour = parentColour;
-}
-
-if (computedBaseColour) {
-  if (!computedBaseColour.includes("#"))
-    computedBaseColour = "#" + computedBaseColour;
-}
+if (activeCategory?.categories_backgroundColor) {
+  computedBaseColour = activeCategory.categories_backgroundColor;
+} else if (parentColour) computedBaseColour = parentColour;
 
 // Whether to invert logo or not.
 // Should be inverted for non-home nouse categories.
@@ -72,7 +65,7 @@ if (style === "muse" || invert) {
 
 <header
   id="mobileHeader"
-  class={`bg-navbar flex w-full flex-row border-b-[1px] border-gray-300 h-28 md:hidden sticky top-0 z-40 justify-between ${textColour}`}
+  class={`bg-navbar flex w-full flex-row border-b-[1px] border-gray-300 h-28 md:hidden sticky top-0 z-40 justify-between ${textColour} transition-colors ease-in-out duration-500`}
 >
   <button class="my-auto ml-4 h-10 w-10 sm:ml-8" id="mobileNavMenuTgl">
     <div class="h-10 w-10" id="menuIcn">

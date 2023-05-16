@@ -13,6 +13,7 @@ import {
   articlesWithArticleDrafts,
   getArticleImage,
 } from "../../components/utils/articles";
+import NavbarColourSwitcher from "@components/NavbarColourSwitcher.astro";
 
 export async function getStaticPaths() {
   const articlePerPage = 30;
@@ -323,4 +324,5 @@ if (category.categories_name === "muse" && page.currentPage === 0) {
       prefix={paginatorPrefix}
     />
   </div>
+  <NavbarColourSwitcher featuredCategories={museCategories} style={"muse"}/>
 </Layout>
