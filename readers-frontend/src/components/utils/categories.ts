@@ -1,13 +1,6 @@
-import {
-  articles,
-  articlesCategories,
-  articlesDrafts,
-  categories,
-  Prisma,
-  users,
-} from "@prisma/client";
-import type { Page, PaginateOptions } from "astro";
+import { categories, Prisma } from "@prisma/client";
 import prisma from "../../prisma";
+import type { Page, PaginateOptions } from "astro";
 import type { articlesWithArticleDrafts } from "./articles";
 
 export const getMenuCategories = async (
@@ -112,6 +105,7 @@ export const getMenuSubcategories = async (parentCategory: number) => {
   return await prisma.categories.findMany({
     where: {
       categories_showMenu: true,
+      categories_showPublic: true,
       categories_nestUnder: parentCategory,
     },
   });
@@ -320,58 +314,3 @@ export const getCategoryLink = (
     return `${import.meta.env.BASE_URL}${category_name}`;
   }
 };
-
-// /**
-//  * Gets a category's top parent.
-//  * @param childCategory The category we want to find the top parent of
-//  * @returns "nouse" | "muse"
-//  */
-// export const getTopParentCategory = async (
-//   childCategory: categories
-// ): Promise<"muse" | "nouse"> => {
-//   let nestUnder = childCategory.categories_nestUnder;
-
-//   //console.log(childCategory, nestUnder);
-//   switch (nestUnder) {
-//     case null: // Nouse main
-//       if (childCategory.categories_name === "muse") return "muse";
-//       return "nouse";
-//     case 4: // Muse
-//       return "muse";
-//     default: {
-//       let parentNestUnder: number | null = nestUnder;
-//       while (parentNestUnder !== null || parentNestUnder !== 4) {
-//         parentNestUnder =
-//           (
-//             await prisma.categories.findFirst({
-//               where: {
-//                 categories_id: parentNestUnder || undefined,
-//               },
-//               select: {
-//                 categories_nestUnder: true,
-//               },
-//             })
-//           )?.categories_nestUnder || null;
-//         console.log(parentNestUnder);
-//       }
-
-//       if (parentNestUnder === 4) return "muse";
-//       else return "nouse";
-//     }
-//   }
-// };
-
-// Construct nested items map - saved for later
-// let nestedItems = menuCategories.reduce((accumulator, category, _) => {
-//   const parent = category.categories_nestUnder;
-//   if (parent !== null) {
-//     let subCategories = accumulator.get(parent);
-
-//     if (!subCategories) subCategories = [];
-
-//     subCategories.push(category);
-
-//     accumulator.set(parent, subCategories);
-//   }
-//   return accumulator;
-// }, new Map<number, categories[]>());
