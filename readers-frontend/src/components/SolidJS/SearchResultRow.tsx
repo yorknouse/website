@@ -14,6 +14,7 @@ type SearchResultRowProps = {
   bottomBorder: boolean;
   page: Accessor<number>;
   lastArticle: SearchResult | undefined;
+  baseUrl: string;
 };
 
 const SearchResultRow: Component<SearchResultRowProps> = (props) => {
@@ -53,7 +54,7 @@ const SearchResultRow: Component<SearchResultRowProps> = (props) => {
                   categoryColor={article.categories_backgroundColor}
                   categoryLink={article.categories_name}
                   imageUrl={article.image}
-                  articleUrl={article.url}
+                  articleUrl={`${props.baseUrl}${article.url}`}
                   isVertical={false}
                   isPortrait={article.articles_isThumbnailPortrait}
                   hideCategoryAccent={false}
@@ -77,7 +78,7 @@ const SearchResultRow: Component<SearchResultRowProps> = (props) => {
                   categoryColor={article.categories_backgroundColor}
                   categoryLink={article.categories_name}
                   imageUrl={article.image}
-                  articleUrl={article.url}
+                  articleUrl={`${props.baseUrl}${article.url}`}
                   isVertical={false}
                   isPortrait={article.articles_isThumbnailPortrait}
                   hideCategoryAccent={false}

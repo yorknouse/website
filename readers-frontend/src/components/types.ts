@@ -25,3 +25,21 @@ export type SearchResponse = {
   response: SearchResult[];
   result: boolean;
 };
+
+export type TopArticleResult = {
+  articlesDrafts_headline: string;
+  articles_isThumbnailPortrait: boolean;
+  articles_published: string;
+  articles_slug: string;
+  articles_thumbnail: string;
+  image: false | string;
+  url: string;
+  users_name1: string;
+  users_name2: string;
+  users_userid: number;
+}
+
+export type TopArticlesResponse = {
+  response: TopArticleResult[];
+  result: boolean;
+};

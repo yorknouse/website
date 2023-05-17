@@ -4,8 +4,13 @@ import { Component, createSignal, For, onMount, Show } from "solid-js";
 import Paginator from "./Paginator";
 import SearchArticle from "./SearchArticle";
 import SearchResultRow from "./SearchResultRow";
+import Spinner from "./Spinner";
 
-const SearchResults: Component = () => {
+type SearchResultsProps = {
+  baseUrl: string;
+}
+
+const SearchResults: Component<SearchResultsProps> = (props) => {
   const [articles, setArticles] = createSignal<SearchResult[]>([]);
   const [lastArticle, setLastArticle] = createSignal<SearchResult>();
   const [searching, setSearching] = createSignal<boolean>(true);
@@ -55,11 +60,7 @@ const SearchResults: Component = () => {
 
   return (
     <div class="h-full w-full">
-      <Show when={searching()}>
-        <div class="absolute left-1/2 top-1/2 h-10 w-10 -translate-x-1/2 -translate-y-1/2">
-          <div class="h-full w-full animate-spin rounded-full border-t-2 border-l-2 border-black" />
-        </div>
-      </Show>
+      <Spinner showAccessor={searching} />
       <Show
         when={(articles() === null || articles().length === 0) && !searching()}
       >
@@ -105,7 +106,7 @@ const SearchResults: Component = () => {
                       categoryColor={article.categories_backgroundColor}
                       categoryLink={article.categories_name}
                       imageUrl={article.image}
-                      articleUrl={article.url}
+                      articleUrl={`${props.baseUrl}${article.url}`}
                       isVertical={false}
                       isPortrait={article.articles_isThumbnailPortrait}
                       hideCategoryAccent={false}
@@ -124,6 +125,7 @@ const SearchResults: Component = () => {
                     article2={articles()[page() * articlesPerPage + i + 1]}
                     bottomBorder={i !== 4}
                     page={page}
+                    baseUrl={props.baseUrl}
                     lastArticle={lastArticle()}
                   />
                 </Show>

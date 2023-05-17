@@ -14,7 +14,7 @@ interface SearchArticleProps {
   isPortrait: boolean; // Defines if the image is portrait or landscape
   hideCategoryAccent?: boolean;
   textColour?: string;
-  page: Accessor<number>;
+  page?: Accessor<number>;
 }
 
 const SearchArticle: Component<SearchArticleProps> = (props) => {
@@ -24,7 +24,8 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
 
   const border = () => `border-color-${props.category} border-t-2`;
 
-  createEffect(on(props.page, () => setLoadingDone(false)));
+  if (props.page)
+    createEffect(on(props.page, () => setLoadingDone(false)));
 
   return (
     <div class="article h-full overflow-hidden text-ellipsis">

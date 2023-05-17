@@ -1,4 +1,5 @@
 ---
+import TopArticles from "@components/SolidJS/TopArticles";
 import {
   articleWithUserAndDraft,
   getAllArticles,
@@ -73,6 +74,10 @@ let formattedUser = {
 };
 
 const articleId = article.articles_id;
+
+let baseUrl = import.meta.env.BASE_URL;
+
+baseUrl = baseUrl.slice(0, baseUrl.length - 1);
 ---
 
 <Layout
@@ -82,7 +87,7 @@ const articleId = article.articles_id;
 >
   <main>
     <div class="flex flex-col px-[3%] pt-8 text-base sm:px-[0.5%] 2xl:px-[13%]">
-      <div class="flex flex-col md:flex-row">
+      <div class="flex flex-col md:flex-row md:gap-10">
         {/* Article */}
         <div class="flex w-full flex-col gap-3 md:w-2/3">
           <h1 class="text-2xl font-bold sm:text-3xl md:text-4xl lg:text-6xl">
@@ -105,7 +110,7 @@ const articleId = article.articles_id;
           {
             article.articles_isThumbnailPortrait ? (
               <img
-                class="max-w-1/2 mx-auto aspect-portrait-video rounded-lg object-cover"
+                class="max-w-1/2 aspect-portrait-video mx-auto rounded-lg object-cover"
                 src={imageUrl}
               />
             ) : (
@@ -117,17 +122,17 @@ const articleId = article.articles_id;
           }
           <div class="relative h-5">
             <div
-              class={`absolute top-0 left-0 border-l-[5px] h-full border-color-${parentCategory.categories_name}`}
+              class={`absolute top-0 left-0 border-l-[5px] h-full border-color-${topCategory.categories_name}`}
             >
             </div>
-            <p class={`ml-2 category-color-${parentCategory.categories_name}`}>
+            <p class={`ml-2 category-color-${topCategory.categories_name}`}>
               Image by {
                 article.articlesDrafts[0].articlesDrafts_thumbnailCredit
               }
             </p>
           </div>
           <p class="text-xl italic">
-            <span class={`category-color-${parentCategory.categories_name}`}
+            <span class={`category-color-${topCategory.categories_name}`}
               >By
             </span>{formattedUser.name}{
               formattedUser.positions.length > 0 &&
@@ -140,7 +145,13 @@ const articleId = article.articles_id;
           />
         </div>
         {/* Top Articles */}
-        <div class="flex w-full flex-col md:w-1/3"></div>
+        <div class="flex w-full flex-col md:w-1/3">
+          <TopArticles
+            client:only
+            categoryName={topCategory.categories_name}
+            baseUrl={baseUrl}
+          />
+        </div>
       </div>
     </div>
   </main>
