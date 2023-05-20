@@ -4,7 +4,6 @@ import type { TopArticleResult, TopArticlesResponse } from "@components/types";
 import SearchArticle from "./SearchArticle";
 
 type TopArticleProps = {
-  categoryName: string;
   baseUrl: string;
 };
 
@@ -43,7 +42,7 @@ const TopArticles: Component<TopArticleProps> = (props) => {
                       excerpt={null}
                       author={`${article.users_name1} ${article.users_name2}`}
                       authorId={article.users_userid}
-                      category={props.categoryName}
+                      category={article.categories_name}
                       categoryColor={undefined}
                       categoryLink={undefined}
                       imageUrl={article.image}

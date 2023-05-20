@@ -16,7 +16,25 @@ export async function getStaticPaths() {
     day: "2-digit",
   });
 
-  const articles = await getAllArticles();
+  const articles = (await getAllArticles()).filter((article) => {
+    // Ensure article has an articleDraft
+    if (article.articlesDrafts.length === 0) return false;
+
+    // Ensure article has categories
+    if (article.categories.length === 0) return false;
+
+    // Some articles' slug is not formatted properly
+    const slug = article.articles_slug;
+    if (slug)
+      return (
+        !slug.includes("/") &&
+        !slug.includes("\\") &&
+        !slug.includes("#") &&
+        !slug.includes("?")
+      );
+
+    return false;
+  });
 
   return articles.map((article) => {
     const date = article.articles_published || new Date(0);
@@ -27,7 +45,9 @@ export async function getStaticPaths() {
         year: dateParts[2],
         month: dateParts[1],
         day: dateParts[0],
-        slug: article.articles_slug || "err",
+        slug: article.articles_slug
+          ? decodeURIComponent(article.articles_slug)
+          : "err",
       },
       props: {
         article,
@@ -42,12 +62,37 @@ interface Props {
 
 const { article } = Astro.props;
 const topCategory = article.categories[0].category;
+let mNest = topCategory.categories_id;
+
+const relevantCategories = article.categories.filter((articleCategory) => {
+  if (articleCategory.category.categories_nestUnder === mNest) {
+    mNest = articleCategory.category.categories_id;
+    return true;
+  }
+
+  return false;
+});
+
+relevantCategories.unshift(article.categories[0]);
+
+let interimParentCategory = relevantCategories.filter(
+  (articleCategory) =>
+    articleCategory.category.categories_nestUnder === null || // Nouse
+    articleCategory.category.categories_nestUnder === 4 // Muse
+);
+
 const parentCategory =
-  article.categories[article.categories.length - 1].category;
+  interimParentCategory.length > 0 && interimParentCategory[0].category
+    ? interimParentCategory[0].category
+    : topCategory;
+
+const bottomCategory =
+  relevantCategories[relevantCategories.length - 1].category;
+
 const articleDraft = article.articlesDrafts[0];
 const imageUrl = await getArticleImage(article);
 
-let formattedUser = {
+const formattedUser = {
   name: `${articleDraft.users?.users_name1} ${articleDraft.users?.users_name2}`,
   positions: `${await articleDraft.users?.userPositions.reduce(
     async (accumulatorPromise, userPosition) => {
@@ -82,7 +127,7 @@ baseUrl = baseUrl.slice(0, baseUrl.length - 1);
 
 <Layout
   style={topCategory.categories_id === 4 ? "muse" : "nouse"}
-  active={parentCategory.categories_name}
+  active={bottomCategory.categories_name}
   title={`${articleDraft.articlesDrafts_headline} - Nouse`}
 >
   <main>
@@ -122,17 +167,17 @@ baseUrl = baseUrl.slice(0, baseUrl.length - 1);
           }
           <div class="relative h-5">
             <div
-              class={`absolute top-0 left-0 border-l-[5px] h-full border-color-${topCategory.categories_name}`}
+              class={`absolute top-0 left-0 border-l-[5px] h-full border-color-${parentCategory.categories_name}`}
             >
             </div>
-            <p class={`ml-2 category-color-${topCategory.categories_name}`}>
+            <p class={`ml-2 category-color-${parentCategory.categories_name}`}>
               Image by {
                 article.articlesDrafts[0].articlesDrafts_thumbnailCredit
               }
             </p>
           </div>
           <p class="text-xl italic">
-            <span class={`category-color-${topCategory.categories_name}`}
+            <span class={`category-color-${parentCategory.categories_name}`}
               >By
             </span>{formattedUser.name}{
               formattedUser.positions.length > 0 &&
@@ -148,7 +193,6 @@ baseUrl = baseUrl.slice(0, baseUrl.length - 1);
         <div class="flex w-full flex-col md:w-1/3">
           <TopArticles
             client:only
-            categoryName={topCategory.categories_name}
             baseUrl={baseUrl}
           />
         </div>
@@ -163,10 +207,9 @@ baseUrl = baseUrl.slice(0, baseUrl.length - 1);
   const expiration = "readArticlesExpires=";
   const readArticles = [];
 
-  // Expires in a month
+  // Expires in a week
   let expires = new Date();
-  expires.setUTCDate(1);
-  expires.setUTCMonth(expires.getUTCMonth() + 1);
+  expires.setUTCDate(expires.getUTCDate() + 7);
   expires.setUTCMilliseconds(0);
   expires.setUTCSeconds(0);
   expires.setUTCMinutes(0);

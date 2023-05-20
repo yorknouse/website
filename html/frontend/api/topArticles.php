@@ -17,8 +17,8 @@ function finish($result = false, $error = ["code" => null, "message" => null], $
 $readArticlesIds =
     array_column(
         $DBLIB->rawQuery("SELECT articlesReads.articles_id, count(*) as count " .
-            "FROM articlesReads WHERE articlesReads.articlesReads_timestamp BETWEEN DATE_SUB(NOW(), INTERVAL 1 MONTH)" .
-            " AND NOW() GROUP BY articlesReads.articles_id ORDER BY count DESC;"),
+            "FROM articlesReads WHERE articlesReads.articlesReads_timestamp BETWEEN DATE_SUB(NOW(), INTERVAL 1 WEEK)" .
+            " AND NOW() GROUP BY articlesReads.articles_id ORDER BY count DESC LIMIT 4;"),
         "articles_id"
     );
 
@@ -26,12 +26,12 @@ $readArticlesIds =
 $DBLIB->where("articles.articles_id", $readArticlesIds, "IN");
 $DBLIB->join("users", "users.users_userid=articles.articles_authors");
 $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
-//$DBLIB->join("articlesCategories", "articles.articles_id=articlesCategories.articles_id", "LEFT");
 $DBLIB->setQueryOption("DISTINCT");
 $articles = $DBLIB->get(
     "articles",
-    4,
+    null,
     [
+        "articles.articles_id",
         "articles.articles_published",
         "articles.articles_slug",
         "articles.articles_thumbnail",
@@ -49,6 +49,15 @@ if (!$articles) {
 
 $output = [];
 foreach ($articles as $article) {
+    $DBLIB->where("articlesCategories.articles_id", $bCMS->sanitizeString($article['articles_id']));
+	$articleCategories = array_column($DBLIB->get("articlesCategories"), 'categories_id');
+    if (count($articleCategories) > 0) {
+        $DBLIB->where("categories_id", $articleCategories, "IN");
+        $DBLIB->where("categories_nestUnder IS NULL");
+        $category = $DBLIB->getOne("categories");
+        $article['categories_name'] = $category['categories_name'];
+    }
+
     $article['url'] = '/' . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'];
 
     $article['image'] = $bCMS->s3URL($article['articles_thumbnail'], "medium");
