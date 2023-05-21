@@ -13,7 +13,7 @@ function finish($result = false, $error = ["code" => null, "message" => null], $
 }
 
 
-// Get read article IDs in month
+// Get read article IDs in week
 $readArticlesIds =
     array_column(
         $DBLIB->rawQuery("SELECT articlesReads.articles_id, count(*) as count " .
