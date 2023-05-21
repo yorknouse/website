@@ -28,13 +28,13 @@ export const getParentCategory = (categories: ArticleCategories[]) => {
   ).category;
 };
 
-export async function getStaticPaths() {
-  const dateFormatter = new Intl.DateTimeFormat("en-GB", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
+export const dateFormatter = new Intl.DateTimeFormat("en-GB", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
 
+export async function getStaticPaths() {
   const articles = (await getAllArticles()).filter((article) => {
     // Ensure article has an articleDraft
     if (article.articlesDrafts.length === 0) return false;
@@ -190,7 +190,7 @@ const imagePlaceHolder =
                   class="my-auto mr-1 h-4 w-4"
                 />
                 <p class="my-auto" id="article-timestamp">
-                  {article.articles_published.toLocaleDateString()}
+                  {dateFormatter.format(article.articles_published)}
                 </p>
               </div>
             )
