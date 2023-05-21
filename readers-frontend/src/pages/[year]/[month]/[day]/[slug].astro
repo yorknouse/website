@@ -176,7 +176,10 @@ const imagePlaceHolder =
       <div class="flex flex-col md:flex-row md:gap-10">
         {/* Article */}
         <div class="flex w-full flex-col gap-3 md:w-2/3">
-          <h1 class="text-2xl font-bold sm:text-3xl md:text-4xl lg:text-6xl">
+          <h1
+            class="text-2xl font-bold sm:text-3xl md:text-4xl lg:text-6xl"
+            id="article-title"
+          >
             {article.articlesDrafts[0].articlesDrafts_headline}
           </h1>
           {
@@ -186,16 +189,19 @@ const imagePlaceHolder =
                   name="ic:baseline-access-time-filled"
                   class="my-auto mr-1 h-4 w-4"
                 />
-                <p class="my-auto">
+                <p class="my-auto" id="article-timestamp">
                   {article.articles_published.toLocaleDateString()}
                 </p>
               </div>
             )
           }
-          <h3>{article.articlesDrafts[0].articlesDrafts_excerpt}</h3>
+          <h3 id="article-excerpt">
+            {article.articlesDrafts[0].articlesDrafts_excerpt}
+          </h3>
           {
             article.articles_isThumbnailPortrait ? (
               <img
+                id="article-image"
                 class="max-w-1/2 mx-auto aspect-portrait-video rounded-lg object-cover"
                 src={imageUrl}
                 onerror={`if (this.src !== ${imagePlaceHolder}) this.src = ${imagePlaceHolder}`}
@@ -203,6 +209,7 @@ const imagePlaceHolder =
               />
             ) : (
               <img
+                id="article-image"
                 class="aspect-video rounded-lg object-cover"
                 src={imageUrl}
                 onerror={`if (this.src !== ${imagePlaceHolder}) this.src = ${imagePlaceHolder}`}
@@ -215,7 +222,10 @@ const imagePlaceHolder =
               class={`absolute top-0 left-0 border-l-[5px] h-full border-color-${parentCategory.categories_name}`}
             >
             </div>
-            <p class={`ml-2 category-color-${parentCategory.categories_name}`}>
+            <p
+              class={`ml-2 category-color-${parentCategory.categories_name}`}
+              id="article-credits"
+            >
               Image by {
                 article.articlesDrafts[0].articlesDrafts_thumbnailCredit
               }
@@ -230,6 +240,7 @@ const imagePlaceHolder =
             }
           </p>
           <div
+            id="article-content"
             class="text-justify"
             set:html={articleDraft.articlesDrafts_text}
           />
@@ -241,7 +252,10 @@ const imagePlaceHolder =
       </div>
       <div class="mt-10 border-t-2 border-whiteish-200">
         <h3 class="block py-2 text-4xl">Similar Articles</h3>
-        <div class="flex h-min flex-col md:flex-row">
+        <div
+          class="flex h-min flex-col md:flex-row"
+          id="similar-articles-container"
+        >
           {
             similarArticles.map(async (similarArticle, i) => (
               <div
