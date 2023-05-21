@@ -2,6 +2,14 @@ import { expect, test } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("./2023/02/24/test-article-1");
+
+  // Mock api
+  await page.route("**/registerRead.php", async (route) => {
+    await route.fulfill({ status: 200 });
+  });
+  await page.route("**/topArticles.php", async (route) => {
+    await route.fulfill({ status: 200 });
+  });
 });
 
 test("Has correct title", async ({ page }) => {
