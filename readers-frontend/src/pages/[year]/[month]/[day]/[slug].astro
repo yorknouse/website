@@ -1,13 +1,32 @@
 ---
+import Article from "@components/Article.astro";
 import TopArticles from "@components/SolidJS/TopArticles";
 import {
   articleWithUserAndDraft,
+  articlesWithArticleDrafts,
   getAllArticles,
   getArticleImage,
+  getArticles,
 } from "@components/utils/articles";
+import type { articlesCategories, categories } from "@prisma/client";
 import { Icon } from "astro-icon";
 import Layout from "src/layouts/Layout.astro";
 import prisma from "src/prisma";
+
+type ArticleCategories = articlesCategories & {
+  category: categories;
+};
+
+export const getParentCategory = (categories: ArticleCategories[]) => {
+  return (
+    categories.find(
+      ({ category }) =>
+        (category.categories_nestUnder === null && // Nouse
+          category.categories_id !== 4) ||
+        category.categories_nestUnder === 4 // Muse
+    ) || categories[0]
+  ).category;
+};
 
 export async function getStaticPaths() {
   const dateFormatter = new Intl.DateTimeFormat("en-GB", {
@@ -36,6 +55,44 @@ export async function getStaticPaths() {
     return false;
   });
 
+  const similarArticles = await articles.reduce(
+    async (accumulatorPromise, article) => {
+      const accumulator = await accumulatorPromise;
+
+      const parentCategoryId = getParentCategory(
+        article.categories
+      ).categories_id;
+
+      // Get 4 most recent articles in parent category
+      const mSimilarArticlesIds = (
+        await prisma.articles.findMany({
+          where: {
+            articles_categories: {
+              contains: parentCategoryId.toString(),
+            },
+            articles_id: {
+              not: article.articles_id, // Exclude same article
+            },
+          },
+          take: 4,
+          select: {
+            articles_id: true,
+          },
+          orderBy: {
+            articles_published: "desc",
+          },
+        })
+      ).map((similarArticleId) => similarArticleId.articles_id); // Only take IDs
+
+      const mSimilarArticles = await getArticles(mSimilarArticlesIds);
+
+      accumulator.set(article.articles_id, mSimilarArticles);
+
+      return accumulator;
+    },
+    Promise.resolve(new Map<number, articlesWithArticleDrafts[]>())
+  );
+
   return articles.map((article) => {
     const date = article.articles_published || new Date(0);
     // DD/MM/YYYY
@@ -51,6 +108,7 @@ export async function getStaticPaths() {
       },
       props: {
         article,
+        similarArticles: similarArticles.get(article.articles_id),
       },
     };
   });
@@ -58,36 +116,16 @@ export async function getStaticPaths() {
 
 interface Props {
   article: articleWithUserAndDraft;
+  similarArticles: articlesWithArticleDrafts[];
 }
 
-const { article } = Astro.props;
+const { article, similarArticles } = Astro.props;
 const topCategory = article.categories[0].category;
-let mNest = topCategory.categories_id;
 
-const relevantCategories = article.categories.filter((articleCategory) => {
-  if (articleCategory.category.categories_nestUnder === mNest) {
-    mNest = articleCategory.category.categories_id;
-    return true;
-  }
-
-  return false;
-});
-
-relevantCategories.unshift(article.categories[0]);
-
-let interimParentCategory = relevantCategories.filter(
-  (articleCategory) =>
-    articleCategory.category.categories_nestUnder === null || // Nouse
-    articleCategory.category.categories_nestUnder === 4 // Muse
-);
-
-const parentCategory =
-  interimParentCategory.length > 0 && interimParentCategory[0].category
-    ? interimParentCategory[0].category
-    : topCategory;
+const parentCategory = getParentCategory(article.categories);
 
 const bottomCategory =
-  relevantCategories[relevantCategories.length - 1].category;
+  article.categories[article.categories.length - 1].category;
 
 const articleDraft = article.articlesDrafts[0];
 const imageUrl = await getArticleImage(article);
@@ -123,6 +161,9 @@ const articleId = article.articles_id;
 let baseUrl = import.meta.env.BASE_URL;
 
 baseUrl = baseUrl.slice(0, baseUrl.length - 1);
+
+const imagePlaceHolder =
+  '"https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg"';
 ---
 
 <Layout
@@ -155,13 +196,17 @@ baseUrl = baseUrl.slice(0, baseUrl.length - 1);
           {
             article.articles_isThumbnailPortrait ? (
               <img
-                class="max-w-1/2 aspect-portrait-video mx-auto rounded-lg object-cover"
+                class="max-w-1/2 mx-auto aspect-portrait-video rounded-lg object-cover"
                 src={imageUrl}
+                onerror={`if (this.src !== ${imagePlaceHolder}) this.src = ${imagePlaceHolder}`}
+                alt="Article Image"
               />
             ) : (
               <img
                 class="aspect-video rounded-lg object-cover"
                 src={imageUrl}
+                onerror={`if (this.src !== ${imagePlaceHolder}) this.src = ${imagePlaceHolder}`}
+                alt="Article Image"
               />
             )
           }
@@ -191,10 +236,52 @@ baseUrl = baseUrl.slice(0, baseUrl.length - 1);
         </div>
         {/* Top Articles */}
         <div class="flex w-full flex-col md:w-1/3">
-          <TopArticles
-            client:only
-            baseUrl={baseUrl}
-          />
+          <TopArticles client:only baseUrl={baseUrl} />
+        </div>
+      </div>
+      <div class="mt-10 border-t-2 border-whiteish-200">
+        <h3 class="block py-2 text-4xl">Similar Articles</h3>
+        <div class="flex h-min flex-col md:flex-row">
+          {
+            similarArticles.map(async (similarArticle, i) => (
+              <div
+                class={`mt-4 w-full border-b-whiteish-200 border-r-whiteish-200 pb-4 md:mt-0 md:max-w-[25%] md:pb-0 ${
+                  i < similarArticles.length - 1
+                    ? "border-b-2 border-r-0 md:border-b-0 md:border-r-2"
+                    : "border-0"
+                } md:pr-4 ${i > 0 ? "md:ml-4" : "md:ml-0"}`}
+              >
+                <div class="h-min">
+                  <Article
+                    headline={
+                      similarArticle.articlesDrafts[0].articlesDrafts_headline
+                    }
+                    excerpt={null}
+                    author={`${similarArticle.articlesDrafts[0].users?.users_name1} ${similarArticle.articlesDrafts[0].users?.users_name2}`}
+                    authorId={
+                      similarArticle.articlesDrafts[0].users?.users_userid
+                    }
+                    category={undefined}
+                    categoryLink={undefined}
+                    categoryColor={
+                      getParentCategory(similarArticle.categories)
+                        .categories_backgroundColor
+                    }
+                    imageUrl={await getArticleImage(similarArticle)}
+                    articleUrl={`${
+                      import.meta.env.BASE_URL
+                    }${similarArticle.articles_published
+                      ?.toISOString()
+                      .substring(0, 10)
+                      .replaceAll("-", "/")}/${similarArticle.articles_slug}`}
+                    isVertical={true}
+                    isPortrait={similarArticle.articles_isThumbnailPortrait}
+                    hideCategoryAccent={true}
+                  />
+                </div>
+              </div>
+            ))
+          }
         </div>
       </div>
     </div>
