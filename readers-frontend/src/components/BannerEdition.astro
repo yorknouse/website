@@ -8,6 +8,8 @@ const latestEdition = await prisma.editions.findFirst({
     editions_published: "desc",
   },
   where: {
+    editions_show: true,
+    editions_showHome: true,
     editions_deleted: false,
     NOT: {
       editions_thumbnail: null,
