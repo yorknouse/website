@@ -1,5 +1,6 @@
 ---
 import Article from "@components/Article.astro";
+import ArticleCookieManager from "@components/ArticleCookieManager.astro";
 import TopArticles from "@components/SolidJS/TopArticles";
 import {
   articleWithUserAndDraft,
@@ -18,14 +19,35 @@ type ArticleCategories = articlesCategories & {
 };
 
 export const getParentCategory = (categories: ArticleCategories[]) => {
-  return (
-    categories.find(
+  // I think categories commonly come from the backend as:
+  // Top - Middle - Bottom for examples. Where Bottom is nested
+  // under Middle and Top is an "extra category". Hence, the reverse,
+  // trying to find related ones.
+  const interimParentCategory = categories
+    .slice()
+    .reverse()
+    .find(
       ({ category }) =>
         (category.categories_nestUnder === null && // Nouse
           category.categories_id !== 4) ||
         category.categories_nestUnder === 4 // Muse
-    ) || categories[0]
-  ).category;
+    );
+
+  if (interimParentCategory) {
+    if (
+      // This is mainly for Muse articles as they are
+      // always going to have the Muse category listed
+      categories.length < 3 ||
+      categories.find(
+        ({ category }) =>
+          category.categories_nestUnder ===
+          interimParentCategory.category.categories_id
+      )
+    )
+      return interimParentCategory.category;
+  }
+
+  return categories[0].category;
 };
 
 export const dateFormatter = new Intl.DateTimeFormat("en-GB", {
@@ -300,57 +322,5 @@ const imagePlaceHolder =
       </div>
     </div>
   </main>
+  <ArticleCookieManager articleId={articleId} />
 </Layout>
-
-<script define:vars={{ articleId }}>
-  const cookies = document.cookie.split(";");
-  const cookie = "readArticles=";
-  const expiration = "readArticlesExpires=";
-  const readArticles = [];
-
-  // Expires in a week
-  let expires = new Date();
-  expires.setUTCDate(expires.getUTCDate() + 7);
-  expires.setUTCMilliseconds(0);
-  expires.setUTCSeconds(0);
-  expires.setUTCMinutes(0);
-  expires.setUTCHours(0);
-
-  for (let i = 0; i < cookies.length; i++) {
-    const item = cookies[i];
-
-    if (item.includes(cookie)) {
-      const articles = item.substring(cookie.length + 1);
-      readArticles.push(
-        ...articles
-          .split(",")
-          .map((article) => parseInt(article))
-          .filter((articleNum) => !isNaN(articleNum))
-      );
-    }
-
-    if (item.includes(expiration))
-      expires = item.substring(expiration.length + 1);
-  }
-
-  if (!readArticles.includes(articleId)) {
-    readArticles.push(articleId);
-
-    // Register read on server
-    const formData = new FormData();
-    formData.append("articleId", articleId);
-
-    fetch("/api/registerRead.php", {
-      method: "POST",
-      body: formData,
-    });
-  }
-
-  expires = expires instanceof Date ? expires.toUTCString() : expires;
-
-  document.cookie = `${cookie}${readArticles.join(
-    ","
-  )};expires=${expires};path=/`;
-
-  document.cookie = `${expiration}${expires};expires=${expires};path=/`;
-</script>
