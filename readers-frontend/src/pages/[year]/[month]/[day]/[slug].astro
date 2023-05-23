@@ -152,32 +152,6 @@ const bottomCategory =
 const articleDraft = article.articlesDrafts[0];
 const imageUrl = await getArticleImage(article);
 
-const formattedUser = {
-  name: `${articleDraft.users?.users_name1} ${articleDraft.users?.users_name2}`,
-  positions: `${await articleDraft.users?.userPositions.reduce(
-    async (accumulatorPromise, userPosition) => {
-      let accumulator = await accumulatorPromise;
-      // Only show position if still current
-      if (
-        !userPosition.userPositions_end ||
-        userPosition.userPositions_end.getTime() > new Date().getTime()
-      ) {
-        if (userPosition.positions_id) {
-          const position = await prisma.positions.findFirst({
-            where: {
-              positions_id: userPosition.positions_id,
-            },
-          });
-          accumulator += position?.positions_displayName || "";
-          accumulator += " ";
-        }
-      }
-      return accumulator;
-    },
-    Promise.resolve("")
-  )}`,
-};
-
 const articleId = article.articles_id;
 
 let baseUrl = import.meta.env.BASE_URL;
@@ -199,7 +173,7 @@ const imagePlaceHolder =
         {/* Article */}
         <div class="flex w-full flex-col gap-3 md:w-2/3">
           <h1
-            class="text-2xl font-bold sm:text-3xl md:text-4xl lg:text-6xl"
+            class="text-2xl sm:text-3xl md:text-4xl lg:text-6xl"
             id="article-title"
           >
             {article.articlesDrafts[0].articlesDrafts_headline}
@@ -256,10 +230,15 @@ const imagePlaceHolder =
           <p class="text-xl italic">
             <span class={`category-color-${parentCategory.categories_name}`}
               >By
-            </span>{formattedUser.name}{
-              formattedUser.positions.length > 0 &&
-                ` - ${formattedUser.positions}`
-            }
+            </span>
+            <a
+              href={`${import.meta.env.BASE_URL}author/${
+                articleDraft.users?.users_userid
+              }`}
+              >{
+                `${articleDraft.users?.users_name1} ${articleDraft.users?.users_name2}`
+              }
+            </a>
           </p>
           <div
             id="article-content"
@@ -272,6 +251,7 @@ const imagePlaceHolder =
           <TopArticles client:only baseUrl={baseUrl} />
         </div>
       </div>
+      {/* Similar Articles */}
       <div class="mt-10 border-t-2 border-whiteish-200">
         <h3 class="block py-2 text-4xl">Similar Articles</h3>
         <div

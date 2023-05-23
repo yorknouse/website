@@ -86,6 +86,9 @@ export const getAllArticles = async (): Promise<articleWithUserAndDraft[]> => {
 
   for (let i = 0; i < Math.ceil(nArticles / blockSize); i++) {
     const block = await prisma.articles.findMany({
+      where: {
+        articles_showInLists: true,
+      },
       take: blockSize,
       skip: i * blockSize,
       include: {
