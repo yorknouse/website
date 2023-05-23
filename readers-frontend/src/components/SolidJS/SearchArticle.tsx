@@ -24,11 +24,10 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
 
   const border = () => `border-color-${props.category} border-t-2`;
 
-  if (props.page)
-    createEffect(on(props.page, () => setLoadingDone(false)));
+  if (props.page) createEffect(on(props.page, () => setLoadingDone(false)));
 
   return (
-    <div class="article h-full overflow-hidden text-ellipsis">
+    <div class="h-full overflow-hidden text-ellipsis">
       <div class={`flex ${props.isVertical ? "flex-col" : "flex-row"}`}>
         {props.imageUrl ? (
           <a
