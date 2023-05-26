@@ -5,27 +5,11 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("Has correct title", async ({ page }) => {
-  // Mock api
-  await page.route("**/registerRead.php", async (route) => {
-    await route.fulfill({ status: 200 });
-  });
-  await page.route("**/topArticles.php", async (route) => {
-    await route.fulfill({ status: 200 });
-  });
-
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle("Article Draft 1 - Nouse");
 });
 
 test("Article content is correct", async ({ page }) => {
-  // Mock api
-  await page.route("**/registerRead.php", async (route) => {
-    await route.fulfill({ status: 200 });
-  });
-  await page.route("**/topArticles.php", async (route) => {
-    await route.fulfill({ status: 200 });
-  });
-
   // Title is correct
   const title = page.locator("[id=article-title]");
   await expect(title).toHaveText("Article Draft 1");
@@ -55,27 +39,11 @@ test("Article content is correct", async ({ page }) => {
 });
 
 test("Styles are assigned correctly", async ({ page }) => {
-  // Mock api
-  await page.route("**/registerRead.php", async (route) => {
-    await route.fulfill({ status: 200 });
-  });
-  await page.route("**/topArticles.php", async (route) => {
-    await route.fulfill({ status: 200 });
-  });
-
   const credits = page.locator("[id=article-credits]");
   await expect(credits).toHaveClass(/category-color-testCategory1/);
 });
 
 test("Similar articles are correct", async ({ page }) => {
-  // Mock api
-  await page.route("**/registerRead.php", async (route) => {
-    await route.fulfill({ status: 200 });
-  });
-  await page.route("**/topArticles.php", async (route) => {
-    await route.fulfill({ status: 200 });
-  });
-
   const container = page.locator("[id=similar-articles-container]");
   await expect(container).toHaveText(/Article Draft 4/);
   await expect(container).toHaveText(/Article Draft 5/);
