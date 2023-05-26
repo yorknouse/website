@@ -1,0 +1,139 @@
+---
+import ArticleRows from "@components/ArticleRows.astro";
+import {
+  articlesWithArticleDrafts,
+  getArticles,
+  getArticleImage,
+} from "@components/utils/articles";
+import { s3URL } from "@components/utils/s3URL";
+import type { editions } from "@prisma/client";
+import Layout from "src/layouts/Layout.astro";
+import prisma from "src/prisma";
+
+export async function getStaticPaths() {
+  const allEditions = await prisma.editions.findMany({
+    where: {
+      editions_show: true,
+      editions_deleted: false,
+      NOT: {
+        editions_thumbnail: null,
+      },
+    },
+    orderBy: {
+      editions_published: "desc",
+    },
+  });
+
+  return allEditions.map((edition) => {
+    return {
+      params: {
+        slug: edition.editions_slug,
+      },
+      props: {
+        edition,
+      },
+    };
+  });
+}
+
+interface Props {
+  edition: editions;
+}
+
+const { edition } = Astro.props;
+
+const isWebEdition = edition.editions_type === "Web Edition";
+let pdfURL;
+let featuredHighlights: {
+  sections: [
+    {
+      name: string;
+      headerImage: number;
+      customBoxes: [{ type: string; text: string; title: string }];
+      customBoxHeader: { text: string; title: string };
+      articles: string[];
+      articlesData: articlesWithArticleDrafts[];
+    }
+  ];
+} | null = null;
+if (isWebEdition && edition.editions_featuredHighlights) {
+  featuredHighlights = JSON.parse(edition.editions_featuredHighlights);
+  for (const section of featuredHighlights!.sections) {
+    if (section.articles.length !== 0) {
+      const articleIds = section.articles.map((n) => Number.parseInt(n));
+      section.articlesData = await getArticles(articleIds);
+    }
+  }
+} else {
+  pdfURL = edition.editions_pdf
+    ? await s3URL(edition.editions_pdf)
+    : await s3URL(edition.editions_pdfOriginal!);
+}
+---
+
+<Layout
+  title={`Nouse - ${
+    edition.editions_printNumber
+      ? `№${edition.editions_printNumber}`
+      : edition.editions_name
+  }`}
+  active={undefined}
+  style="nouse"
+>
+  <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
+    <h1 class="text-center text-xl md:text-2xl lg:text-4xl">
+      {
+        edition.editions_printNumber
+          ? `№${edition.editions_printNumber}`
+          : edition.editions_name
+      }
+    </h1>
+    {
+      (isWebEdition ||
+        edition.editions_printNumber ||
+        new Date(edition.editions_name).toString() === "Invalid Date") && (
+        <h3 class="text-center text-lg md:text-xl">{`Published on ${edition.editions_published.toLocaleString(
+          "en-gb",
+          { day: "numeric", month: "long", year: "numeric" }
+        )}`}</h3>
+      )
+    }
+    {
+      isWebEdition && featuredHighlights ? (
+        async () => {
+          return (
+            <div class="mt-8">
+              <img
+                class="mb-5 w-full"
+                src={await s3URL(edition.editions_thumbnail!, "medium")}
+              />
+              {featuredHighlights!.sections.map(async (section) => {
+                return (
+                  <div class="mb-8">
+                    {section.headerImage && (
+                      <img
+                        class="mb-5 w-full"
+                        src={await s3URL(section.headerImage, "medium")}
+                      />
+                    )}
+                    {section.articles.length !== 0 && <ArticleRows articles={section.articlesData} style={section.name}></ArticleRows>}
+                  </div>
+                );
+              })}
+            </div>
+          );
+        }
+      ) : (
+        <>
+          <div class="mx-auto mt-8 w-1/2">
+            <iframe src={pdfURL} width="100%" height="850" />
+            <p class="mt-4 text-center text-lg md:text-xl">
+              If you're unable to view the PDF file,
+              <a href={pdfURL}>click here.</a>
+            </p>
+          </div>
+        </>
+      )
+    }
+  </div>
+</Layout>

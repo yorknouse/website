@@ -18,7 +18,7 @@ module.exports = {
         ],
       },
       aspectRatio: {
-        edition: 602 / 733,
+        edition: '19/23',
       },
     },
   },

@@ -46,21 +46,21 @@ allEditions.forEach((edition) => {
 
 <Layout title="Nouse - Our Editions" active={undefined} style="nouse">
   <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
-    <h1 class="mb-4 text-center text-xl md:text-2xl lg:text-4xl">
+    <h1 class="mb-4 text-center text-2xl sm:text-4xl">
       Our Editions
     </h1>
     {Object.entries(yearlyEditions).map(([academicYear, editions]) => (
       <div>
-        <h2 class="text-center text-xl md:text-2xl lg:text-4xl font-bold">{academicYear}</h2>
+        <h2 class="text-center text-2xl sm:text-4xl font-bold">{academicYear}</h2>
         {editions.printEditions.length !== 0 && (
           <>
-            <h2 class="mb-4 text-center text-lg md:text-xl lg:text-2xl">Print Editions and Supplements</h2>
+            <h2 class="mb-4 text-center text-xl sm:text-2xl">Print Editions and Supplements</h2>
             <div class={`flex flex-wrap gap-8 justify-center mb-4`}>
               {editions.printEditions.map(async (edition) => (
-                <div class="w-1/6">
-                  {edition.editions_thumbnail && <img class="mb-4 aspect-[19/23] object-contain" src={await s3URL(edition.editions_thumbnail, "medium")} />}
-                  <h3 class="text-base md:text-lg lg:text-xl category-text text-center">{edition.editions_printNumber ? `№${edition.editions_printNumber}` : edition.editions_name}</h3>
-                </div>
+                <a class="px-[17%] md:w-1/6 md:p-0" href=`editions/${edition.editions_slug}`}>
+                  {edition.editions_thumbnail && <img class="mb-4 aspect-edition object-contain" src={await s3URL(edition.editions_thumbnail, "medium")} />}
+                  <h3 class="text-lg sm:text-xl category-text text-center">{edition.editions_printNumber ? `№${edition.editions_printNumber}` : edition.editions_name}</h3>
+                </a>
               ))}
             </div>
           </>
@@ -70,10 +70,10 @@ allEditions.forEach((edition) => {
             <h2 class="mb-4 text-center text-lg md:text-xl lg:text-2xl">Web Editions and Supplements</h2>
             <div class={`flex flex-wrap gap-8 justify-center mb-4`}>
               {editions.webEditions.map(async (edition) => (
-                <div class="w-1/6">
+                <a class="w-1/6" href=`editions/${edition.editions_slug}`}>
                   {edition.editions_thumbnail && <img class="mb-4 aspect-video object-contain" src={await s3URL(edition.editions_thumbnail, "medium")} />}
                   <h3 class="text-base md:text-lg lg:text-xl category-text text-center">{edition.editions_name}</h3>
-                </div>
+                </a>
               ))}
             </div>
           </>
