@@ -8,47 +8,13 @@ import {
   getAllArticles,
   getArticleImage,
   getArticles,
+  getSimilarArticles,
 } from "@components/utils/articles";
+import { getParentCategory } from "@components/utils/categories";
 import type { articlesCategories, categories } from "@prisma/client";
 import { Icon } from "astro-icon";
 import Layout from "src/layouts/Layout.astro";
 import prisma from "src/prisma";
-
-type ArticleCategories = articlesCategories & {
-  category: categories;
-};
-
-export const getParentCategory = (categories: ArticleCategories[]) => {
-  // I think categories commonly come from the backend as:
-  // Top - Middle - Bottom for examples. Where Bottom is nested
-  // under Middle and Top is an "extra category". Hence, the reverse,
-  // trying to find related ones.
-  const interimParentCategory = categories
-    .slice()
-    .reverse()
-    .find(
-      ({ category }) =>
-        (category.categories_nestUnder === null && // Nouse
-          category.categories_id !== 4) ||
-        category.categories_nestUnder === 4 // Muse
-    );
-
-  if (interimParentCategory) {
-    if (
-      // This is mainly for Muse articles as they are
-      // always going to have the Muse category listed
-      categories.length < 3 ||
-      categories.find(
-        ({ category }) =>
-          category.categories_nestUnder ===
-          interimParentCategory.category.categories_id
-      )
-    )
-      return interimParentCategory.category;
-  }
-
-  return categories[0].category;
-};
 
 export const dateFormatter = new Intl.DateTimeFormat("en-GB", {
   year: "numeric",
@@ -85,31 +51,11 @@ export async function getStaticPaths() {
         article.categories
       ).categories_id;
 
-      // Get 4 most recent articles in parent category
-      const mSimilarArticlesIds = (
-        await prisma.articles.findMany({
-          where: {
-            articles_categories: {
-              contains: parentCategoryId.toString(),
-            },
-            articles_id: {
-              not: article.articles_id, // Exclude same article
-            },
-          },
-          take: 4,
-          select: {
-            articles_id: true,
-          },
-          orderBy: {
-            articles_published: "desc",
-          },
-        })
-      ).map((similarArticleId) => similarArticleId.articles_id); // Only take IDs
+      if (!accumulator.has(parentCategoryId)) {
+        const mSimilarArticles = await getSimilarArticles(parentCategoryId);
 
-      const mSimilarArticles = await getArticles(mSimilarArticlesIds);
-
-      accumulator.set(article.articles_id, mSimilarArticles);
-
+        accumulator.set(parentCategoryId, mSimilarArticles);
+      }
       return accumulator;
     },
     Promise.resolve(new Map<number, articlesWithArticleDrafts[]>())
@@ -130,7 +76,9 @@ export async function getStaticPaths() {
       },
       props: {
         article,
-        similarArticles: similarArticles.get(article.articles_id),
+        similarArticles: similarArticles.get(
+          getParentCategory(article.categories).categories_id
+        ),
       },
     };
   });
@@ -141,7 +89,7 @@ interface Props {
   similarArticles: articlesWithArticleDrafts[];
 }
 
-const { article, similarArticles } = Astro.props;
+const { article, similarArticles: unfilteredSimilarArticles } = Astro.props;
 const topCategory = article.categories[0].category;
 
 const parentCategory = getParentCategory(article.categories);
@@ -153,6 +101,16 @@ const articleDraft = article.articlesDrafts[0];
 const imageUrl = await getArticleImage(article);
 
 const articleId = article.articles_id;
+
+const similarArticles = unfilteredSimilarArticles.filter(
+  (similarArticle) => similarArticle.articles_id !== articleId
+);
+
+// We only want to display 4 similar articles.
+// However, when querying the similar articles we get 5,
+// so that we can filter the same article out as above.
+// If the same article is not in the list, we truncate the list.
+if (similarArticles.length > 4) similarArticles.pop();
 
 let baseUrl = import.meta.env.BASE_URL;
 

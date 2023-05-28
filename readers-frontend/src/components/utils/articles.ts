@@ -121,6 +121,50 @@ export const getAllArticles = async (): Promise<articleWithUserAndDraft[]> => {
 };
 
 /**
+ * Gets 4 article with same parent category as the passed one.
+ * @param {number} parentCategoryId The parent category id.
+ * @returns {Promise<articlesWithArticleDrafts[]>} Promise object represents the articles.
+ */
+export const getSimilarArticles = async (
+  parentCategoryId: number
+): Promise<articlesWithArticleDrafts[]> => {
+  return await prisma.articles.findMany({
+    where: {
+      categories: {
+        some: {
+          categories_id: {
+            equals: parentCategoryId,
+          },
+        },
+      },
+      articles_showInLists: true,
+    },
+    orderBy: {
+      articles_published: "desc",
+    },
+    take: 5,
+    include: {
+      articlesDrafts: {
+        // Get the latest draft for every featured article
+        orderBy: {
+          articlesDrafts_timestamp: "desc",
+        },
+        take: 1,
+        include: {
+          // Get the user who wrote the article
+          users: true,
+        },
+      },
+      categories: {
+        include: {
+          category: true,
+        },
+      },
+    },
+  });
+};
+
+/**
  * Retrieves an article image.
  * @param {articlesWithArticleDrafts} article The article.
  * @param {"tiny" | "small" | "medium" | "large" | false} [size] File size.
