@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-whiteish-100 font-arno font-normal">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <meta name="generator" content="Astro v2.0.12">
+    <title>Premier League Predictions 2015/16 - Nouse</title>
+    
+    <link rel="stylesheet" href="https://use.typekit.net/ghx5ucu.css">
+    
+    
+  <link rel="stylesheet" href="/website/_astro/_...path_.a2fa7163.css" />
+<link rel="stylesheet" href="/website/_astro/_...path_.9a83425d.css" /><script type="module" src="/website/_astro/hoisted.70b5a5aa.js"></script></head>
+  <body>
+    <div class="bg-whiteish-100 invisible fixed top-0 bottom-0 left-0 right-0 z-50 flex flex-col overflow-y-scroll opacity-0 transition-opacity duration-500 md:overflow-hidden" id="searchInterface">
+  <button id="searchCloseBtn" class="absolute top-0 right-0 w-16 p-2 text-black">
+    <svg viewBox="0 0 24 24" astro-icon="ic:baseline-close"><path fill="currentColor" d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+  </button>
+  <div class="mx-auto my-auto flex w-full flex-col p-4">
+    <form id="searchForm" class="mx-auto mb-10 mt-10 flex flex-row items-center md:mt-0">
+      <input id="searchBox" type="text" class="bg-whiteish-100 w-min border-b-2 border-black outline-none sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl" placeholder="What are you looking for?" size="25">
+      <button class="relative h-10 w-10 md:h-14 md:w-14 lg:h-20 lg:w-20">
+        <svg viewBox="0 0 24 24" class="h-full w-full text-black" astro-icon="ic:sharp-search"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </button>
+    </form>
+  </div>
+</div>
+    <header id="desktopHeader" class="hidden md:flex md:flex-row w-full bg-transparent astro-TZIODL3R" style="--computedBaseColour: #FDC300;">
+  <a href="/website/" class="mx-auto self-center astro-TZIODL3R">
+    <img class="my-4 h-14 astro-TZIODL3R" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg">
+  </a>
+</header>
+<nav id="desktopNav" class="hidden h-24 w-full text-xs md:block lg:text-sm sticky top-0 z-40 astro-TZIODL3R" style="--computedBaseColour: #FDC300;">
+  <ul class="flex h-1/2 w-full flex-row bg-navbar justify-between border-t-4 border-transparent 2xl:px-[13%] text-white transition-colors ease-in-out duration-500 astro-TZIODL3R">
+    <li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #FDC300;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/">
+              Home
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #FDC300;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/news">
+              News
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #FDC300;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/politics">
+              Politics
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #FDC300;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/comment">
+              Comment
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-white astro-TZIODL3R" style="--computedBaseColour: #FDC300;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/sport">
+              Sport
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #FDC300;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/freshers">
+              Freshers
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #FDC300;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/science">
+              Science
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #FDC300;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/business">
+              Business
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #FDC300;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/muse">
+              <img src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png" class="w-16 astro-TZIODL3R">
+            </a>
+          </li>
+    <span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span>
+    
+    <li class="flex h-full w-full border-b-4 border-b-transparent astro-TZIODL3R">
+      <button class="searchBtnClassIdentifier mx-auto h-full w-10 astro-TZIODL3R">
+        <svg viewBox="0 0 24 24" class="py-1 ml-2 astro-TZIODL3R" astro-icon="ic:sharp-search"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </button>
+    </li>
+  </ul>
+  <ul class="bg-navbar flex h-1/2 w-full flex-row text-white brightness-90 2xl:px-[13%] astro-TZIODL3R">
+        <li class="group relative flex h-full border-b-4 px-[3%] border-transparent astro-TZIODL3R" style="--computedBaseColour: #FDC300;">
+              <a class="mx-auto my-auto astro-TZIODL3R" href="/website/sport/roses">
+                Roses
+              </a>
+            </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full border-b-4 px-[3%] border-white astro-TZIODL3R" style="--computedBaseColour: #FDC300;">
+              <a class="mx-auto my-auto astro-TZIODL3R" href="/website/sport/sport-comment">
+                Sport Comment
+              </a>
+            </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full border-b-4 px-[3%] border-transparent astro-TZIODL3R" style="--computedBaseColour: #FDC300;">
+              <a class="mx-auto my-auto astro-TZIODL3R" href="/website/sport/college-sport">
+                College Sport
+              </a>
+            </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full border-b-4 px-[3%] border-transparent astro-TZIODL3R" style="--computedBaseColour: #FDC300;">
+              <a class="mx-auto my-auto astro-TZIODL3R" href="/website/sport/university-sport">
+                University Sport
+              </a>
+            </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full border-b-4 px-[3%] border-transparent astro-TZIODL3R" style="--computedBaseColour: #FDC300;">
+              <a class="mx-auto my-auto astro-TZIODL3R" href="/website/sport/national-sport">
+                National Sport
+              </a>
+            </li>
+      </ul>
+</nav>
+
+<header id="mobileHeader" class="bg-navbar flex w-full flex-row border-b-[1px] border-gray-300 h-28 md:hidden sticky top-0 z-40 justify-between text-white transition-colors ease-in-out duration-500 astro-PZKO3RWO" style="--computedBaseColour: #FDC300;">
+  <button class="my-auto ml-4 h-10 w-10 sm:ml-8 astro-PZKO3RWO" id="mobileNavMenuTgl">
+    <div class="h-10 w-10 astro-PZKO3RWO" id="menuIcn">
+      <svg viewBox="0 0 24 24" class="w-full h-full astro-PZKO3RWO" astro-icon="ic:sharp-menu"><path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+    </div>
+    <div class="h-0 w-0 astro-PZKO3RWO" id="closeIcn">
+      <svg viewBox="0 0 24 24" class="w-full h-full astro-PZKO3RWO" astro-icon="ic:sharp-close"><path fill="currentColor" d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+    </div>
+  </button>
+  <a href="/website/" class="mx-auto my-auto flex w-3/4 sm:w-full astro-PZKO3RWO">
+    <img class="mx-auto  max-h-8 sm:max-h-10 invert astro-PZKO3RWO" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg">
+  </a>
+  <button class="searchBtnClassIdentifier my-auto mr-4 h-10 w-10 sm:mr-8 astro-PZKO3RWO" id="mobileSearchBtn">
+    <svg viewBox="0 0 24 24" class="w-10 h-10 astro-PZKO3RWO" astro-icon="ic:sharp-search"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+  </button>
+</header>
+<nav class="fixed top-28 left-0 right-0 z-30 flex h-[calc(100dvh-7rem)] -translate-y-[calc(100%+7rem)] flex-col overflow-y-scroll bg-black transition-transform duration-500 ease-in-out astro-PZKO3RWO" id="mobileNav" style="--computedBaseColour: #FDC300;">
+  <ul class="mx-auto mb-10 w-5/6 list-none overflow-scroll text-2xl text-white astro-PZKO3RWO" id="mobileNavList">
+    <li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <a href="/website/" class="mx-auto w-full pb-4 text-center border-b-[1px]">
+        Home
+      </a>
+
+<script>(function(){const categoryName = "home";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <button id="newsListBtn" class="flex w-full border-b-[1px]">
+          <div class="mx-auto flex flex-row pb-4">
+            <a id="newsListLink" href="/website/news" class="my-auto mr-2">
+              News
+            </a>
+            <svg viewBox="0 0 24 24" id="newsChevron" class="my-auto h-6 w-6 rotate-90" astro-icon="ic:sharp-chevron-right"><path fill="currentColor" d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+          </div>
+        </button><div class="hidden w-full border-b-[1px] border-b-white" id="newsListContainer">
+          <ul class="flex w-full flex-col bg-neutral-900 text-center">
+            <li class="my-4">
+                <a href="/website/news/campus-news">
+                  Campus News
+                </a>
+              </li><li class="my-4">
+                <a href="/website/news/investigation">
+                  Investigation
+                </a>
+              </li><li class="my-4">
+                <a href="/website/news/city-news">
+                  City News
+                </a>
+              </li>
+          </ul>
+        </div>
+
+<script>(function(){const categoryName = "news";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <button id="politicsListBtn" class="flex w-full border-b-[1px]">
+          <div class="mx-auto flex flex-row pb-4">
+            <a id="politicsListLink" href="/website/politics" class="my-auto mr-2">
+              Politics
+            </a>
+            <svg viewBox="0 0 24 24" id="politicsChevron" class="my-auto h-6 w-6 rotate-90" astro-icon="ic:sharp-chevron-right"><path fill="currentColor" d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+          </div>
+        </button><div class="hidden w-full border-b-[1px] border-b-white" id="politicsListContainer">
+          <ul class="flex w-full flex-col bg-neutral-900 text-center">
+            <li class="my-4">
+                <a href="/website/politics/left-wing-right-wing">
+                  Left Wing, Right Wing
+                </a>
+              </li><li class="my-4">
+                <a href="/website/politics/analysis">
+                  Analysis
+                </a>
+              </li><li class="my-4">
+                <a href="/website/politics/european-elections">
+                  Global Politics
+                </a>
+              </li><li class="my-4">
+                <a href="/website/politics/general-elections">
+                  Domestic Politics
+                </a>
+              </li>
+          </ul>
+        </div>
+
+<script>(function(){const categoryName = "politics";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <button id="commentListBtn" class="flex w-full border-b-[1px]">
+          <div class="mx-auto flex flex-row pb-4">
+            <a id="commentListLink" href="/website/comment" class="my-auto mr-2">
+              Comment
+            </a>
+            <svg viewBox="0 0 24 24" id="commentChevron" class="my-auto h-6 w-6 rotate-90" astro-icon="ic:sharp-chevron-right"><path fill="currentColor" d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+          </div>
+        </button><div class="hidden w-full border-b-[1px] border-b-white" id="commentListContainer">
+          <ul class="flex w-full flex-col bg-neutral-900 text-center">
+            <li class="my-4">
+                <a href="/website/comment/editorial">
+                  Editorials
+                </a>
+              </li><li class="my-4">
+                <a href="/website/comment/cartoon">
+                  Cartoons
+                </a>
+              </li><li class="my-4">
+                <a href="/website/comment/comment-campus">
+                  Campus Comment
+                </a>
+              </li><li class="my-4">
+                <a href="/website/comment/comment-national">
+                  National Comment
+                </a>
+              </li>
+          </ul>
+        </div>
+
+<script>(function(){const categoryName = "comment";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <button id="sportListBtn" class="flex w-full border-b-[5px]">
+          <div class="mx-auto flex flex-row pb-4">
+            <a id="sportListLink" href="/website/sport" class="my-auto mr-2">
+              Sport
+            </a>
+            <svg viewBox="0 0 24 24" id="sportChevron" class="my-auto h-6 w-6 rotate-90" astro-icon="ic:sharp-chevron-right"><path fill="currentColor" d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+          </div>
+        </button><div class="hidden w-full border-b-[1px] border-b-white" id="sportListContainer">
+          <ul class="flex w-full flex-col bg-neutral-900 text-center">
+            <li class="my-4">
+                <a href="/website/sport/roses">
+                  Roses
+                </a>
+              </li><li class="my-4">
+                <a href="/website/sport/sport-comment">
+                  Sport Comment
+                </a>
+              </li><li class="my-4">
+                <a href="/website/sport/college-sport">
+                  College Sport
+                </a>
+              </li><li class="my-4">
+                <a href="/website/sport/university-sport">
+                  University Sport
+                </a>
+              </li><li class="my-4">
+                <a href="/website/sport/national-sport">
+                  National Sport
+                </a>
+              </li>
+          </ul>
+        </div>
+
+<script>(function(){const categoryName = "sport";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <a href="/website/freshers" class="mx-auto w-full pb-4 text-center border-b-[1px]">
+        Freshers
+      </a>
+
+<script>(function(){const categoryName = "freshers";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <a href="/website/science" class="mx-auto w-full pb-4 text-center border-b-[1px]">
+        Science
+      </a>
+
+<script>(function(){const categoryName = "science";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <button id="businessListBtn" class="flex w-full border-b-[1px]">
+          <div class="mx-auto flex flex-row pb-4">
+            <a id="businessListLink" href="/website/business" class="my-auto mr-2">
+              Business
+            </a>
+            <svg viewBox="0 0 24 24" id="businessChevron" class="my-auto h-6 w-6 rotate-90" astro-icon="ic:sharp-chevron-right"><path fill="currentColor" d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+          </div>
+        </button><div class="hidden w-full border-b-[1px] border-b-white" id="businessListContainer">
+          <ul class="flex w-full flex-col bg-neutral-900 text-center">
+            <li class="my-4">
+                <a href="/website/business/business-news">
+                  Business News
+                </a>
+              </li><li class="my-4">
+                <a href="/website/business/business-comment">
+                  Business Comment
+                </a>
+              </li><li class="my-4">
+                <a href="/website/business/business-features">
+                  Business Features
+                </a>
+              </li>
+          </ul>
+        </div>
+
+<script>(function(){const categoryName = "business";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <a href="/website/muse" class="w-full border-b-[1px] pb-4 astro-PZKO3RWO">
+                      <img src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png" class="mx-auto w-36 astro-PZKO3RWO">
+                    </a>
+          </div>
+        </li>
+  </ul>
+</nav>
+    <style>astro-island,astro-slot{display:contents}</style><script>(self.Astro=self.Astro||{}).only=t=>{(async()=>await(await t())())()},window.dispatchEvent(new Event("astro:only"));var l;{const c={0:t=>t,1:t=>JSON.parse(t,o),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(JSON.parse(t,o)),5:t=>new Set(JSON.parse(t,o)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(JSON.parse(t)),9:t=>new Uint16Array(JSON.parse(t)),10:t=>new Uint32Array(JSON.parse(t))},o=(t,s)=>{if(t===""||!Array.isArray(s))return s;const[e,n]=s;return e in c?c[e](n):void 0};customElements.get("astro-island")||customElements.define("astro-island",(l=class extends HTMLElement{constructor(){super(...arguments);this.hydrate=()=>{if(!this.hydrator||this.parentElement&&this.parentElement.closest("astro-island[ssr]"))return;const s=this.querySelectorAll("astro-slot"),e={},n=this.querySelectorAll("template[data-astro-template]");for(const r of n){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(const r of s){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("name")||"default"]=r.innerHTML)}const a=this.hasAttribute("props")?JSON.parse(this.getAttribute("props"),o):{};this.hydrator(this)(this.Component,a,e,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),window.removeEventListener("astro:hydrate",this.hydrate),window.dispatchEvent(new CustomEvent("astro:hydrate"))}}connectedCallback(){!this.hasAttribute("await-children")||this.firstChild?this.childrenConnectedCallback():new MutationObserver((s,e)=>{e.disconnect(),this.childrenConnectedCallback()}).observe(this,{childList:!0})}async childrenConnectedCallback(){window.addEventListener("astro:hydrate",this.hydrate);let s=this.getAttribute("before-hydration-url");s&&await import(s),this.start()}start(){const s=JSON.parse(this.getAttribute("opts")),e=this.getAttribute("client");if(Astro[e]===void 0){window.addEventListener(`astro:${e}`,()=>this.start(),{once:!0});return}Astro[e](async()=>{const n=this.getAttribute("renderer-url"),[a,{default:r}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),i=this.getAttribute("component-export")||"default";if(!i.includes("."))this.Component=a[i];else{this.Component=a;for(const d of i.split("."))this.Component=this.Component[d]}return this.hydrator=r,this.hydrate},s,this)}attributeChangedCallback(){this.hydrator&&this.hydrate()}},l.observedAttributes=["props"],l))}</script><main>
+    <div class="flex flex-col px-[3%] pt-8 text-base sm:px-[0.5%] 2xl:px-[13%]">
+      <div class="flex flex-col md:flex-row md:gap-10">
+        
+        <div class="flex w-full flex-col gap-3 md:w-2/3">
+          <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-6xl" id="article-title">
+            Premier League Predictions 2015/16
+          </h1>
+          <div class="flex flex-row font-semibold">
+                <svg viewBox="0 0 24 24" class="my-auto mr-1 h-4 w-4" astro-icon="ic:baseline-access-time-filled"><path fill="currentColor" d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm3.3 14.71L11 12.41V7h2v4.59l3.71 3.71-1.42 1.41z"/></svg>
+                <p class="my-auto" id="article-timestamp">
+                  05/08/2015
+                </p>
+              </div>
+          <h3 id="article-excerpt">
+            The Nouse Sport Team make their predictions for the upcoming Premier League season, which begins this weekend 
+          </h3>
+          <img id="article-image" class="aspect-video rounded-lg object-cover" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/imageArchive-comp.jpg" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;" alt="Article Image">
+          <div class="relative h-5">
+            <div class="absolute top-0 left-0 border-l-[5px] h-full border-color-sport">
+            </div>
+            <p class="ml-2 category-color-sport" id="article-credits">
+              Image by 
+            </p>
+          </div>
+          <p class="text-xl italic">
+            <span class="category-color-sport">By
+            </span>
+            <a href="/website/author/1">James Bithell
+            </a>
+          </p>
+          <div id="article-content" class="text-justify">The Premier League bandwagon rolls into action this weekend. Anticipation is once again at fever pitch, with a far closer title race expected this season. In a series of judgments that are sure to haunt them in the months to come, the <em>Nouse </em>Sport Team alight their respective soapboxes and proclaim their Premier League predictions.
+<h3>Lewis Hill - Editor<a href="[ARCHIVECDNURL]/articleImages/body/2015/08/lewis-hill.jpg"><img class="legacyWordpressImage img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/lewis-hill-300x300.jpg" alt="lewis hill" width="159" height="159" /></a></h3>
+<h4>Champions - Chelsea</h4>
+Jose Mourinho's accusation that his rivals are trying to buy the title may seem a little hypocritical given his past transactions with Chelsea, but there is some truth to his claims. Rivals Manchester United, Manchester City and Liverpool have all spent big, thus far. However, Chelsea remain the team to beat.
+
+<figure class="legacyWordpressFigure"><img class="legacyWordpressImageFigure img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/8066836890_880bc5818f_o-300x169.jpg" alt="Image: Ben Sutherland" width="300" height="169" /><figcaption></a> "I fully expect Chelsea to regain the title, with Eden Hazard finally staking his claim among modern day footballing elites." Image: <a href="http://www.flickr.com/photos/bensutherland/8066836890/">Ben Sutherland</a></figcaption></figure>
+
+Although they may not have spent ludicrous amounts of money, the Blues have done something that will allow them to build a team that will challenge on multiple fronts for the next few years - they have retained their star players. Eden Hazard, Diego Costa, Cesc Fabregas, John Terry, Thibaut Courtois - this is the spine of last season's title winning side. Without Costa's goals, or Fabregas' assists, Courtois' saves or Hazard's brilliance, Chelsea wouldn't have cruised to the title last time round.
+
+With these players still in tow, I fully expect Chelsea to regain the title- and hit new heights in doing so- with the likes of Hazard finally staking his claim among modern day footballing elites. Chelsea may well feel the need to recruit one or two players, John Stones would be a nice, if overpriced addition to the first team, yet even without new recruits, I can see them lifting the Premier League trophy for the second consecutive season.
+<h4>Top Four - Chelsea, Arsenal, Manchester United, Manchester City</h4>
+Behind Chelsea, I can see Arsenal, Manchester United and Manchester City claiming the other three Champions League spots. Arsenal, in case you hadn't already noticed, signed Petr Cech, and in doing so, claimed the world class goalkeeper that they so desperately needed. While I expect them to mount a title challenge of sorts, I still believe that they are a world class striker away from a serious title challenge.
+
+<figure class="legacyWordpressFigure"><img class="legacyWordpressImageFigure img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/2287052014_586fa3ffb6_o-300x222.jpg" alt="Image: Andre Zehetbauer" width="300" height="222" /><figcaption></a> "The signing of World Cup winner, Bastian Schweinsteiger, appears to be a real coup... I can see United challenging." Image: <a href="http://www.flickr.com/photos/az1172/2287052014/">Andre Zehetbauer</a></figcaption></figure>
+
+Manchester United have also bought some good players this summer, as Louis van Gaal continues reshaping the club. The signing of World Cup winner, Bastian Schweinsteiger appears to be a real coup, while the signings of Memphis Depay, Morgan Schneiderlein and Matteo Darmain have seen the club strengthen three other positions. With more signings rumoured to be heading to Old Trafford, I can see the club building on last year's top four finish by securing another one and maybe even challenging for honours.
+
+Manchester City are going through an interesting phase at the moment. While they have signed Raheem Sterling, albeit for PS19 million more than his true value, they still need to refresh their squad and sign replacements for ageing players. Regardless, I can see Manchester City pipping both Liverpool and Tottenham to the fourth and final Champions League spot. They still have immense quality in their line-up, quality that in my opinion is greater than that of Liverpool's and Tottenham's.
+<h4>Relegation - Bournemouth, Norwich City, Watford</h4>
+It doesn't happen very often, but every now and then, there is a season when the three clubs that were previously promoted sink straight back to the Championship. I can't see Watford, Norwich City or Bournemouth surviving this year's campaign.
+
+Watford have signed some good players, signing Etienne Capoue is nothing short of a masterful stroke of genius from manager Quique Flores. However, in my opinion, Watford have made a mistake in signing so many players, ten at the time of writing, at once. The problem with signing so many players at any one time is that it takes a while for them to settle, for the pre-existing squad to become familiar with so many new faces and for players to overcome language barriers and to figure each other out. Watford have signed quality, but I feel that they have signed too much, all at once.
+
+Meanwhile, neither Norwich City nor Bournemouth have enough quality to finish above the bottom three. Norwich City do have a squad that contains Premier League experience, especially with the addition of Hull City's Robbie Brady. This is something that Bournemouth lack desperately, even with the addition of Sylvain Distin. There is a chance that Norwich City could avoid the drop, but as for Bournemouth they have neither the experience, nor the necessary signings to stay up.
+<h4>Top Scorer - Diego Costa</h4>
+<figure class="legacyWordpressFigure"><img class="legacyWordpressImageFigure img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/lewisadapted-300x398.png" alt="lewisadapted" width="300" height="398" /><figcaption></a> Lewis' Best Premier League eleven leans heavily on the champions Chelsea and features Diego Costa, who he predicts will finish top scorer</figcaption></figure>
+
+There are four players who are probably the front runners for this year's Golden Boot - Alexis Sanchez, Harry Kane, Sergio Aguero and finally, Diego Costa. The latter, in my opinion, is most likely to claim the prize.
+
+Costa had a blistering start to last year's campaign; his finishing was exquisite and his fiery attitude left many defenders cautious when marking him. Yet, like so many great strikers, Costa was hampered with injuries last season, so much so that his final tally of 20 goals seems like a measly figure given his early season form.
+
+The ascendancy of Kane was something that no one quite expected and although a case of second season syndrome could well be on the cards for the young English striker, playing a central role at Tottenham will only help him in the long run.
+
+Aguero had an excellent campaign last season and his final tally of 26 goals was impressive. The race for the Golden Boot will ultimately come down to Aguero and Costa, however, I feel that if Costa can remain fit for the vast majority of the season, he will end his campaign as the league's top scorer.
+<h4>Dark Horse - West Ham</h4>
+<figure class="legacyWordpressFigure"><img class="legacyWordpressImageFigure img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/7724397850_f8d66d8f36_o-300x200.jpg" alt="Image: The Department for Culture, Media and Sport" width="300" height="200" /><figcaption></a> "With a new manager, marquee signings and a new stadium, West Ham have set themselves a challenge to become a bigger club." Image: <a href="http://www.flickr.com/photos/thedcms/7724397850/">The Department for Culture, Media and Sport</a></figcaption></figure>
+
+The project that West Ham have started is certainly going to be fascinating. The departure of Sam Allardyce will have left several fans of the "Not Big Sam" Twitter account in a permanent state of mourning (me included). However, one can only presume that his weekly updates will now turn to a scathing analysis of Slaven Bilic. Bilic is the man the board have tasked with leading the club into their final season at the Boleyn Ground and it looks set to be an exciting one.
+
+Bilic has made some big signings in his first season including Angelo Ogbonna from Juventus and Dimitri Payet from Marseille. Furthermore, it appears that there has been a shift in the club's attitude.
+
+With a new manager, marquee signings and a new stadium on the horizon, West Ham have set themselves a challenge, a challenge to become a bigger club. They seem to be on course for a season jam-packed full of drama and tension.
+<h4></h4>
+<h3>Matt Kirkum - Sports Editor<a href="[ARCHIVECDNURL]/articleImages/body/2015/08/matt-kirkum.jpg"><img class="legacyWordpressImage img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/matt-kirkum-300x300.jpg" alt="matt kirkum" width="159" height="159" /></a></h3>
+<h4>Champions - Arsenal</h4>
+Arsenal produced a telling performance in the Community Shield as Arsene Wenger earned his first ever victory over Jose Mourinho. While this may not be a marker for the entirety of the coming season, it nevertheless is a strong statement of intent.
+
+Petr Cech is a fine acquisition, while the sense of momentum from the back end of last season will stand them in good stead come the start of the next. With both Theo Walcott and Santi Cazorla committing to new deals and the possibility of further new signings, Arsenal fans have every reason to expect great things.
+
+<figure class="legacyWordpressFigure"><img class="legacyWordpressImageFigure img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/15692737021_0d53018e7d_o-300x200.jpg" alt="Image: Ronnie Macdonald" width="300" height="200" /><figcaption></a> "Wenger is better placed than ever to reclaim the title that has eluded him for eleven years." Image: <a href="http://www.flickr.com/photos/ronmacphotos/15692737021/">Ronnie Macdonald</a></figcaption></figure>
+
+The question remains as to whether or not they can maintain the form necessary to claim the title having either peaked too early or too late in recent years. However, after FA Cup glory in consecutive seasons, Wenger's side are adding further silverware to their already impressive collection. With Wenger now the longest serving manager in the league, he is better placed than ever to reclaim the title that has eluded him for eleven years.
+<h4>Top Four - Arsenal, Chelsea, Manchester United, Manchester City</h4>
+<figure class="legacyWordpressFigure"><img class="legacyWordpressImageFigure img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/mattkirkumadapted-300x398.png" alt="mattkirkumadapted" width="300" height="398" /><figcaption></a> Morgan Schneiderlin, whose "assured tackling ability will ensure defensive rigidity" for his new side Manchester United, makes Matt's Best eleven</figcaption></figure>
+
+For all Arsenal's merits, I fully expect Chelsea to challenge throughout ensuring an enthralling finish to the season. Chelsea have consistently boasted unrivalled squad depth and this year is no exception. The addition of Asmir Begovic demonstrates the allure of Mourinho's management given that Thibaut Courtois will not be easily displaced from a dominant starting eleven.
+
+Manchester United have been the most active in the transfer window, with their midfield bolstered thanks to new recruits Bastian Schweinsteiger and Morgan Schneiderlin. The former needs no introduction while the latter's combined reading of the game and assured tackling ability will ensure a defensive rigidity that will solve much of United's undoings last season. At present, Louis Van Gaal will require further attacking options in order to replace Robin Van Persie, Radamel Falcao and Angel Di Maria if he wishes to challenge Arsenal and Chelsea for the title.
+
+Their rivals Manchester City, meanwhile, will not pose the same threat as they have done in recent years. While Raheem Sterling will provide a scintillating attacking partnership with Aguero and Silva, defensive frailties remain an issue. Neither Eliaquim Mangala nor Martin Demichellis have found life in the Premier League all that easy and without defensive backbone, their attacking threat is all but nullified.
+<h4>Top Scorer - Alexis Sanchez (Arsenal)</h4>
+<figure class="legacyWordpressFigure"><img class="legacyWordpressImageFigure img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/15362272352_3ae1b300b4_k-300x200.jpg" alt="Image: Ronnie Macdonald" width="300" height="200" /><figcaption></a> "Sanchez's pace, trickey and pinpoint finishing marks him out as a vital component in any world-class side." Image: <a href="http://www.flickr.com/photos/ronmacphotos/15362272352/">Ronnie Macdonald</a></figcaption></figure>
+
+Alexis Sanchez signed off last season in style with a tremendous strike in the FA Cup final which sealed their cup triumph. He struck sixteen times last term and remains Arsenal's most potent attacking threat, feeding off the creativity of Jack Wilshire, Santi Cazorla and Mesut Ozil. Sanchez's pace, trickery and pinpoint finishing marks him out as a vital component in any world class side.
+
+Although Sergio Aguero will be no pushover, the Chilean is hot off the back of Copa America victory and with Golden Boot rival Diego Costa frequenting the physio room all to often, pedigree and consistency suggest Sanchez will be a constant on the scoresheet this season.
+<h4>Relegation - Bournemouth, Watford, Aston Villa</h4>
+Eddie Howe's Bournemouth side have exceeded all expectations in their rise through the leagues. Indeed, I hope they exceed mine and avoid relegation but unfortunately, I am doubtful. Their additions so far have been shrewd, if not exciting, with Tyrone Mings a prospect very much for the future. However, Bournemouth might be a victim of their own success and this will put increased demands and strain on an inexperienced squad.
+
+Watford's transfer policy has focused on quantity and, while squad depth is important, this may be to the expense of a recognised starting eleven. Too much squad rotation and Watford will find themselves languishing at the foot of the table.
+
+<figure class="legacyWordpressFigure"><img class="legacyWordpressImageFigure img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/12889836903_b394897181_o-300x200.jpg" alt="Image: Dubs Wilson" width="300" height="200" /><figcaption></a> "The loss of Delph, added to that of Christian Benteke, means that Tim Sherwood will have to wholly rejuvenate his squad." Image: <a href="http://www.flickr.com/photos/88663532@N08/12889836903/">Dubs Wilson</a></figcaption></figure>
+
+Aston Villa fans may feel hard done by after Fabian Delph's audacious promise to remain at the club before promptly departing to Manchester City six days later. The loss of Delph, added to that of Christian Benteke, will mean manager Tim Sherwood will have to wholly rejuvenate his squad. Idrissa Gueye and Rudy Gestede are encouraging signings but one's which will take time to adjust to the rigours of the Premier League. With such a weight of expectation on new signings, I fear Aston Villa will face the drop.
+<h4>Dark Horse - Crystal Palace</h4>
+Following Alan Pardew's arrival at Selhurst Park, Crystal Palace have undergone a remarkable resurgence.
+
+While Yannick Bolasie delighted last season with his athleticism and unpredictability causing defenders to tremble in his wake, it is the team dynamic that really impresses. This is set to further improve thanks to the recruitment of Yohan Cabaye which, to my mind, stands out as one the most high-profile transfers of the window so far and highlights the direction in which Pardew's side wishes to go.
+
+The loan signing of Patrick Bamford is equally astute given his illustrious season at Middlesbrough last year. Don't be surprised to see Crystal Palace establish themselves as a top ten side this term, while they will most certainly provide a difficult away fixture for those sides already settled in the top six.
+<h4></h4>
+<h3>Tom Harle - Sports Editor<a href="[ARCHIVECDNURL]/articleImages/body/2015/08/tom-harle.jpg"><img class="legacyWordpressImage img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/tom-harle-300x300.jpg" alt="tom harle" width="159" height="159" /></a></h3>
+<h4>Champions - Manchester United</h4>
+The heritage of victory lingers on at Old Trafford. 17 points, the deficit between Manchester United and Chelsea last term, is a yawning gap, but their additions show every possible intent to bridge it. Like a stick of rock, Bastian Schweinsteiger reads 'winner' all the way through and Morgan Schneiderlin is supreme at the breakdown of play. Their midfield is set up to monopolise big games.
+
+<figure class="legacyWordpressFigure"><img class="legacyWordpressImageFigure img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/8736790599_6305ca68a6_k-300x225.jpg" alt="Image: Harry (Howard) Potts" width="300" height="225" /><figcaption></a> "The heritage of victory lingers on at Old Trafford." Image: <a href="http://www.flickr.com/photos/harrypotts/8736790599/">Harry (Howard) Potts</a></figcaption></figure>
+
+I won't give up on the idea of Phil Jones as a top class centre-half until he departs this mortal coil, while Luke Shaw will surely struggle to compile such an elaborate array of injuries this season round. Daley Blind embodies the <em>zeitgeist</em> of this side; versatile, tactically aware and cosmopolitan in approach. To borrow a vogue phrase, David de Gea is the best of the 'human' goalkeepers and his retention will be crucial to the texture of United's season.
+
+Louis van Gaal, steely as ever, took a Dutch side to the World Cup semi-finals with a highly average defence. With the addition of a striker and the use of Javier Hernandez, he will repeat this trick and bring the title back to a familiar home.
+<h4>Top Four - Manchester United, Chelsea, Arsenal, Manchester City</h4>
+At the top of this cutthroat league, it is those who stand still, and forsake evolution, that run the biggest risk. Manchester City have expelled PS210 million inadequately regenerating the nucleus of the side that won them their first title four years ago. Chelsea, in spite of a defence without parallel, have failed to strengthen in this window and cannot pose a compellingly different title contention to last season. As summer surely turns to autumn, Arsenal lack two or three players in central positions to elevate their challenge.
+
+Chelsea will not give his title up without an almighty scrap, and expect Eden Hazard and Nemanja Matic to continue to dominate games. However, given their reliance on the self-same formula as last season, one or two more teams will work out how to stop them.
+
+In their pomp, Arsenal are the most fluent side in the country. It will be interesting to see how the young shoulders of Francis Coquelin bear the burden of a full campaign.
+
+The goals of Sergio Aguero will be enough to secure Manchester City a top four place. This season will feel like mere preparation for the appointment of Pep Guardiola next summer.
+<h4>Relegation - Newcastle United, Leicester City, Bournemouth</h4>
+<figure class="legacyWordpressFigure"><img class="legacyWordpressImageFigure img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/7824065436_cfafec2ac2_o-300x188.jpg" alt="Image: avalaisure" width="300" height="188" /><figcaption></a> "McClaren's mealy-mouthed insincerity will do nothing to galvanise a fragmented club." Image: <a href="http://www.flickr.com/photos/85370606@N05/7824065436/">avalaisure</a></figcaption></figure>
+
+The appointment of arch manipulator Steve McClaren at Newcastle United has all the potential for sweetly elongated disaster. This side has a soft centre, despite their last-gasp surge to safety, and McClaren's mealy-mouthed insincerity will do nothing to galvanise a fragmented club.
+
+During his time in Italy, Jose Mourinho recounted that after three years at Chelsea, Leicester City's new manager Claudio Ranieri still struggled to say 'Good morning' and 'Good afternoon'. He should work on saying 'Goodbye' to the Premier League, as, without Esteban Cambiasso, this season will be one vain struggle to reignite last season's Dunkirque spirit.
+
+I would love nothing more than for Bournemouth to prove me wrong and although they will be part of some entertaining games, they simply do not have the quality to compete at this level.
+<h4>Top Scorer - Harry Kane</h4>
+Although undoubtedly the foremost striker, and perhaps player, in the Premier League is Sergio Aguero, Harry Kane is the sole and guiding goal threat in Tottenham's side and will end the season as top scorer.
+
+<figure class="legacyWordpressFigure"><img class="legacyWordpressImageFigure img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/15850366254_82c57181ef_o-300x200.jpg" alt="Image: Allan Slank" width="300" height="200" /><figcaption></a> "Harry Kane is the sole and guiding goal threat in Tottenham's side and will end the season as top scorer." Image: <a href="http://www.flickr.com/photos/128073822@N04/15850366254/">Allan Slank</a></figcaption></figure>
+
+Kane is that most irresistible of beasts- a natural finisher. He leathers the ball early before goalkeepers have time to set themselves, combining power and placement on the ground as well as in the air. At 22, he has the physical attributes to not just cope, but bully centre-halves as a lone striker in this most competitive of leagues.
+
+Not only did he bag 31 goals in his breakout season last term, but his strikes won Spurs 14 points, the most of any one player in the top flight. Teddy Sheringham, a man who I'm told knows a thing or two about scoring goals, called him the "real deal" this week. This is a judgement that Kane will elucidate with another barnstorming campaign. Plus, it's always nice to back an Englishman.
+<h4>Dark Horse - Swansea City</h4>
+<figure class="legacyWordpressFigure"><img class="legacyWordpressImageFigure img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/tomharleadapted-300x398.png" alt="tomharleadapted" width="300" height="398" /><figcaption></a> Swansea, who Tom predicts could push for a Europa League place, have a player in his best eleven- their captain, Ashley Williams</figcaption></figure>
+
+2014/15's eighth-place finish is the ideal platform for the Swans to build on. Garry Monk is a vibrant young boss whose philosophy of play is developing intriguingly. It is founded on direct wingers, like Jefferson Montero, getting around the outside of their full-back and raiding midfielders, led by the outstanding Gylfi Sigurdsson, making late, third-man runs into dangerous areas. It is a model that endures. At the back, Ashley Williams is one of the most consistent defenders in the division.
+
+Summer signing Andre Ayew possesses all of the raw materials to fit into this system and to flourish in English football. Don't put a Europa League place past this enterprising team.
+<h4></h4>
+<h3>Rob Middleton - Deputy Sports Editor</h3>
+<a href="[ARCHIVECDNURL]/articleImages/body/2015/08/15519369037_53704ca0ee_o.jpg"><img class="legacyWordpressImage img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/15519369037_53704ca0ee_o-300x450.jpg" alt="Image: " width="135" height="203" /></a>
+<h4>Champions - Chelsea</h4>
+Perhaps the boring but undoubtedly the intelligent choice. With a largely unchanged squad from that which won the title at a canter last year, it is hard to bet against Chelsea for a repeat of last year's success.
+
+<figure class="legacyWordpressFigure"><img class="legacyWordpressImageFigure img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/8946063983_0ef1718cbe_o-300x200.jpg" alt="Image: In Mou We Trust" width="300" height="200" /><figcaption></a> "I am banking on Jose Mourinho to make the difference once more. Few managers strike fear into the opposition, and none more so than Mourinho." Image: <a href="http://www.flickr.com/photos/dorothy201305/8946063983/">In Mou We Trust</a></figcaption></figure>
+
+In Asmir Begovic, the Blues have replaced the competition between the sticks the Petr Cech took with him across London which will only serve to improve Thibaut Courtois even further. Chelsea may be pushed slightly harder thanks to some impressive business, especially at Old Trafford, but ultimately, I am banking on Jose Mourinho to make the difference once more. Few managers strike fear into the opposition, and none do so more than Mourinho.
+<h4>Top Four - Chelsea, Manchester United, Manchester City, Liverpool</h4>
+<figure class="legacyWordpressFigure"><img class="legacyWordpressImageFigure img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/robmiddletonadapted-300x398.png" alt="robmiddletonadapted" width="300" height="398" /><figcaption></a> Liverpool, who Rob backs for a top four finish, have two players in his best eleven in the shape of Nathaniel Clyne and Phillipe Coutinho</figcaption></figure>
+
+Those who know me will accuse me of including Liverpool over Arsenal more in hope than expectation. They would also be correct. However, Ian Ayre has not been idle this summer and has brought in some exciting players that, if played in the right system, could give Liverpool the edge over the Gunners.
+
+Predictably, Arsene Wenger appears to be happy with his squad despite its lack of depth being exposed by an unfathomably poor injury record at Arsenal in general. Inactivity in the transfer window will cost Wenger's side their place in the Champions' League, and I'm backing it to be this season.
+
+Manchester will provide two title challengers and, whilst they will likely fall away, the battle for second and third place will be fascinating. Manchester United have brought their squad much closer to their rivals' in terms of quality, however - should the Citizens' apparent mass exodus of forwards continue - both could struggle for depth in attack. The quality of the managers may well be key and United shade in that regard. Van Gaal learnt about the Premier League last season so expect him and the Reds to go from strength to strength and beat Manchester City to second.
+<h4>Relegation - Watford, Bournemouth, Sunderland</h4>
+<figure class="legacyWordpressFigure"><img class="legacyWordpressImageFigure img-responsive" src="[ARCHIVECDNURL]/articleImages/body/2015/08/8168360917_4898128d5f_o-300x201.jpg" alt="Image: Anders Henrikson" width="300" height="201" /><figcaption></a> "Surely this season Sunderland have to go down. Surely." Image: <a href="http://www.flickr.com/photos/anders-h-foto/8168360917/">Anders Henrikson</a></figcaption></figure>
+
+Surely this season Sunderland have to go down. Surely. The Black Cats were out to strengthen their defence after relying on Wes Brown and John O'Shea at the back last season, whose age finally showed. Liverpool's Sebastien Coates and Spurs' Younes Kaboul have been brought in to add stability but doubts remain over Coates' ability and Kaboul's defensive discipline. Sunderland's best chance is new signing Jeremain Lens striking up a partnership with Defoe and outscoring any direct competition.
+
+Watford have not heeded the warnings against a myriad of new faces at once. Liverpool and Tottenham have both faltered the season following a mass influx of players, and Watford will be no different. Unfortunately, they will not have the cushion of mid-table like Tottenham and Liverpool and will be headed straight back down.
+
+Bournemouth play football the right way but that has not served promoted teams well in the past. Burnley last season and Blackpool before them, it would appear the Premier League is not willing to forgive those willing to adapt to survive. Either that or it doesn't like teams beginning with 'B'. Their run-in includes Chelsea, Liverpool, Everton and Manchester United in their last five matches, so clear the fixture setters don't like them either.
+<h4>Top Scorer - Sergio Aguero</h4>
+It just will be. It doesn't matter how injured he gets, he still manages to win the Golden Boot. It'd be infuriating if it weren't so impressive.
+<h4>Dark Horse - Southampton</h4>
+Ronald Koeman's first season was an unqualified success. Many tipped them to struggle, but shrewd signings - especially that of Sadio Mane - propelled Southampton to another top half finish. The loss of Schneiderlin and Clyne will not prove fatal, largely thanks to the acquisition of Jordy Clasie to replace the former for an impressively fair fee in this market. If recruitment continues to be as fruitful at St Mary's, they could find themselves maintaining their top four challenge even further than last season.</div>
+        </div>
+        
+        <div class="flex w-full flex-col md:w-1/3">
+          <astro-island uid="2dOpgo" component-url="/website/_astro/TopArticles.cdcc8332.js" component-export="default" renderer-url="/website/_astro/client.3c59857c.js" props="{&quot;baseUrl&quot;:[0,&quot;/website&quot;]}" ssr="" client="only" opts="{&quot;name&quot;:&quot;TopArticles&quot;,&quot;value&quot;:true}"></astro-island>
+        </div>
+      </div>
+      
+      <div class="mt-10 border-t-2 border-whiteish-200">
+        <h3 class="block py-2 text-4xl">Similar Articles</h3>
+        <div class="flex h-min flex-col md:flex-row" id="similar-articles-container">
+          <div class="mt-4 w-full border-b-whiteish-200 border-r-whiteish-200 pb-4 md:mt-0 md:max-w-[25%] md:pb-0 border-b-2 border-r-0 md:border-b-0 md:border-r-2 md:pr-4 md:ml-0">
+                <div class="h-min">
+                  
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #FDC300;--textColour: #000;">
+  <div class="flex flex-col astro-Q7KXOHAS">
+    <a class="image-link w-full astro-Q7KXOHAS" href="/website/2023/05/11/the-legacy-of-roses-2023">
+          <img class="aspect-video w-full rounded-xl object-cover mb-5 astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1683831400403-50577388924088550000-img2335jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/website/2023/05/11/the-legacy-of-roses-2023">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The Legacy of Roses 2023</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148524">
+              <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+                <span class="category-color astro-Q7KXOHAS">By</span>
+                Orla McAndrew
+              </p>
+            </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/website/2023/05/11/the-legacy-of-roses-2023">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                </div>
+              </div><div class="mt-4 w-full border-b-whiteish-200 border-r-whiteish-200 pb-4 md:mt-0 md:max-w-[25%] md:pb-0 border-b-2 border-r-0 md:border-b-0 md:border-r-2 md:pr-4 md:ml-4">
+                <div class="h-min">
+                  
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #FDC300;--textColour: #000;">
+  <div class="flex flex-col astro-Q7KXOHAS">
+    <a class="image-link w-full astro-Q7KXOHAS" href="/website/2023/05/05/vanbrugh-college-womens-football--the-one-to-watch">
+          <img class="aspect-video w-full rounded-xl object-cover mb-5 astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1683304135604-79765269889007390000-vanbrughcollegefootballjpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/website/2023/05/05/vanbrugh-college-womens-football--the-one-to-watch">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Vanbrugh College Womenâ€™s Football â€“ the one to watchÂ </p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148314">
+              <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+                <span class="category-color astro-Q7KXOHAS">By</span>
+                Gracie Daw
+              </p>
+            </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/website/2023/05/05/vanbrugh-college-womens-football--the-one-to-watch">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                </div>
+              </div><div class="mt-4 w-full border-b-whiteish-200 border-r-whiteish-200 pb-4 md:mt-0 md:max-w-[25%] md:pb-0 border-b-2 border-r-0 md:border-b-0 md:border-r-2 md:pr-4 md:ml-4">
+                <div class="h-min">
+                  
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #FDC300;--textColour: #000;">
+  <div class="flex flex-col astro-Q7KXOHAS">
+    <a class="image-link w-full astro-Q7KXOHAS" href="/website/2023/05/02/lancaster-win-mens-1s-cricket">
+          <img class="aspect-video w-full rounded-xl object-cover mb-5 astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1683034634114-5531167313653080000-menscricketjpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/website/2023/05/02/lancaster-win-mens-1s-cricket">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Lancaster win Men&#39;s 1&#39;s cricket</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148314">
+              <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+                <span class="category-color astro-Q7KXOHAS">By</span>
+                Gracie Daw
+              </p>
+            </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/website/2023/05/02/lancaster-win-mens-1s-cricket">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                </div>
+              </div><div class="mt-4 w-full border-b-whiteish-200 border-r-whiteish-200 pb-4 md:mt-0 md:max-w-[25%] md:pb-0 border-0 md:pr-4 md:ml-4">
+                <div class="h-min">
+                  
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #FDC300;--textColour: #000;">
+  <div class="flex flex-col astro-Q7KXOHAS">
+    <a class="image-link w-full astro-Q7KXOHAS" href="/website/2023/04/30/lancaster-claim-victory-in-roses-2023-at-an-emotional-closing-ceremony">
+          <img class="aspect-video w-full rounded-xl object-cover mb-5 astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1682882257780-85083336238542590000-img2411jpg_large.jpg" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/website/2023/04/30/lancaster-claim-victory-in-roses-2023-at-an-emotional-closing-ceremony">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Lancaster claim victory in Roses 2023 at an emotional closing ceremony</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148485">
+              <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+                <span class="category-color astro-Q7KXOHAS">By</span>
+                Emily Warner
+              </p>
+            </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/website/2023/04/30/lancaster-claim-victory-in-roses-2023-at-an-emotional-closing-ceremony">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+  </main><article-cookie-manager data-article-id="124597"></article-cookie-manager>
+  <script>(function(){const categoriesColours = [{"categories_backgroundColor":"#173B88","categories_name":"news"},{"categories_backgroundColor":"#E21615","categories_name":"politics"},{"categories_backgroundColor":"#000000","categories_name":"muse"},{"categories_backgroundColor":"#7A1F6E","categories_name":"comment"},{"categories_backgroundColor":"#FDC300","categories_name":"sport"},{"categories_backgroundColor":"#72033F","categories_name":"features"},{"categories_backgroundColor":"#E992B2","categories_name":"arts"},{"categories_backgroundColor":"#D43F30","categories_name":"music"},{"categories_backgroundColor":"#6D6EA7","categories_name":"film"},{"categories_backgroundColor":"#843F71","categories_name":"fashion"},{"categories_backgroundColor":"#7C9464","categories_name":"food-drink"},{"categories_backgroundColor":"#DB7400","categories_name":"freshers"},{"categories_backgroundColor":"#E88A20","categories_name":"travel"},{"categories_backgroundColor":"#008E3B","categories_name":"science"},{"categories_backgroundColor":"#008ACC","categories_name":"business"},{"categories_backgroundColor":"#D4AF37","categories_name":"shoot"},{"categories_backgroundColor":"#4792BF","categories_name":"gaming"},{"categories_backgroundColor":"#9CD1BE","categories_name":"creative-writing"}];
+
+  const style = document.createElement("style");
+  document.getElementsByTagName("head")[0].appendChild(style);
+  categoriesColours.forEach((c) => {
+    if (style.sheet && style.sheet.insertRule) {
+      style.sheet.insertRule(
+        `.category-color-${c.categories_name} {color: ${c.categories_backgroundColor};}`
+      );
+      style.sheet.insertRule(
+        `.border-color-${c.categories_name} {border-color: ${c.categories_backgroundColor};}`
+      );
+    } else {
+      (style.styleSheet || style.sheet).addRule(
+        `.category-color-${c.categories_name}`,
+        `color: ${c.categories_backgroundColor};`
+      );
+      (style.styleSheet || style.sheet).addRule(
+        `.border-color-${c.categories_name}`,
+        `border-color: ${c.categories_backgroundColor};`
+      );
+    }
+  });
+})();</script>
+</body></html>
