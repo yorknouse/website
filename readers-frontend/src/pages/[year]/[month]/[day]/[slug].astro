@@ -7,20 +7,12 @@ import {
   articlesWithArticleDrafts,
   getAllArticles,
   getArticleImage,
-  getArticles,
   getSimilarArticles,
 } from "@components/utils/articles";
 import { getParentCategory } from "@components/utils/categories";
-import type { articlesCategories, categories } from "@prisma/client";
+import dateFormatter from "@components/utils/dateFormatter";
 import { Icon } from "astro-icon";
 import Layout from "src/layouts/Layout.astro";
-import prisma from "src/prisma";
-
-export const dateFormatter = new Intl.DateTimeFormat("en-GB", {
-  year: "numeric",
-  month: "2-digit",
-  day: "2-digit",
-});
 
 export async function getStaticPaths() {
   const articles = (await getAllArticles()).filter((article) => {

@@ -8,6 +8,7 @@ import {
 } from "./utils/articles";
 import type { MuseNavbarCategory } from "./types";
 import Article from "./Article.astro";
+import dateFormatter from "./utils/dateFormatter";
 
 type articlesWithArticlesDraftAndLink = articlesWithArticleDrafts & {
   imageUrl: string;
@@ -85,12 +86,11 @@ for (let i = 0; i < museMenuCategories.length; i++) {
                     categoryColor={"#FFF"}
                     categoryLink={undefined}
                     imageUrl={article.imageUrl}
-                    articleUrl={`${
-                      import.meta.env.BASE_URL
-                    }${article.articles_published
-                      ?.toISOString()
-                      .substring(0, 10)
-                      .replaceAll("-", "/")}/${article.articles_slug}`}
+                    articleUrl={`${import.meta.env.BASE_URL}${dateFormatter
+                      .format(article.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+                      .split("/")
+                      .reverse()
+                      .join("/")}/${article.articles_slug}`}
                     isVertical={true}
                     isPortrait={article.articles_isThumbnailPortrait}
                     hideCategoryAccent={true}
@@ -122,12 +122,11 @@ for (let i = 0; i < museMenuCategories.length; i++) {
                   categoryColor={"#FFF"}
                   categoryLink={undefined}
                   imageUrl={article.imageUrl}
-                  articleUrl={`${
-                    import.meta.env.BASE_URL
-                  }${article.articles_published
-                    ?.toISOString()
-                    .substring(0, 10)
-                    .replaceAll("-", "/")}/${article.articles_slug}`}
+                  articleUrl={`${import.meta.env.BASE_URL}${dateFormatter
+                    .format(article.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+                    .split("/")
+                    .reverse()
+                    .join("/")}/${article.articles_slug}`}
                   isVertical={false}
                   isPortrait={article.articles_isThumbnailPortrait}
                   hideCategoryAccent={true}
