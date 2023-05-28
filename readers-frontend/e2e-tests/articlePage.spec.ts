@@ -53,8 +53,7 @@ test("Similar articles are correct", async ({ page }) => {
   const images = await container.locator("img").all();
 
   for (let i = 0; i < images.length; i++) {
-    if (i === images.length - 1)
-      await expect(images[i]).toHaveClass(/aspect-portrait-video/);
+    if (i === 0) await expect(images[i]).toHaveClass(/aspect-portrait-video/);
     else await expect(images[i]).toHaveClass(/aspect-video/);
   }
 });
