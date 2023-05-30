@@ -16,6 +16,21 @@ export type articlesWithArticleDrafts = Prisma.articlesGetPayload<
   typeof articlesWithArticleDrafts
 >;
 
+const articleWithUserAndDraft = Prisma.validator<Prisma.articlesArgs>()({
+  include: {
+    articlesDrafts: {
+      include: { users: { include: { userPositions: true } } },
+    },
+    categories: {
+      include: { category: true },
+    },
+  },
+});
+
+export type articleWithUserAndDraft = Prisma.articlesGetPayload<
+  typeof articleWithUserAndDraft
+>;
+
 /**
  * Retrieves an article with its latest draft and the user who wrote it.
  * @param {number[]} articleIds The article IDs to retrieve.
@@ -50,7 +65,100 @@ export const getArticles = async (
       categories: {
         include: {
           category: true,
-        }
+        },
+      },
+    },
+  });
+};
+
+/**
+ * Retrieves all articles in the dB.
+ * @returns {Promise<articleWithUserAndDraft[]>} Promise object represents the articles.
+ */
+export const getAllArticles = async (): Promise<articleWithUserAndDraft[]> => {
+  const nArticles = await prisma.articles.count();
+
+  // Split retrieval in blocks so that Node does not take
+  // too much memory.
+  const blockSize = 1000;
+
+  const articles: articleWithUserAndDraft[] = [];
+
+  for (let i = 0; i < Math.ceil(nArticles / blockSize); i++) {
+    const block = await prisma.articles.findMany({
+      where: {
+        articles_showInLists: true,
+      },
+      take: blockSize,
+      skip: i * blockSize,
+      include: {
+        articlesDrafts: {
+          // Get the latest draft for every featured article
+          orderBy: {
+            articlesDrafts_timestamp: "desc",
+          },
+          take: 1,
+          include: {
+            // Get the user who wrote the article
+            users: {
+              include: {
+                userPositions: true,
+              },
+            },
+          },
+        },
+        categories: {
+          include: {
+            category: true,
+          },
+        },
+      },
+    });
+    articles.push(...block);
+  }
+
+  return articles;
+};
+
+/**
+ * Gets 4 article with same parent category as the passed one.
+ * @param {number} parentCategoryId The parent category id.
+ * @returns {Promise<articlesWithArticleDrafts[]>} Promise object represents the articles.
+ */
+export const getSimilarArticles = async (
+  parentCategoryId: number
+): Promise<articlesWithArticleDrafts[]> => {
+  return await prisma.articles.findMany({
+    where: {
+      categories: {
+        some: {
+          categories_id: {
+            equals: parentCategoryId,
+          },
+        },
+      },
+      articles_showInLists: true,
+    },
+    orderBy: {
+      articles_published: "desc",
+    },
+    take: 5,
+    include: {
+      articlesDrafts: {
+        // Get the latest draft for every featured article
+        orderBy: {
+          articlesDrafts_timestamp: "desc",
+        },
+        take: 1,
+        include: {
+          // Get the user who wrote the article
+          users: true,
+        },
+      },
+      categories: {
+        include: {
+          category: true,
+        },
       },
     },
   });

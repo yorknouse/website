@@ -14,6 +14,7 @@ import {
   getArticleImage,
 } from "../../components/utils/articles";
 import NavbarColourSwitcher from "@components/NavbarColourSwitcher.astro";
+import dateFormatter from "@components/utils/dateFormatter";
 
 export async function getStaticPaths() {
   const articlePerPage = 30;
@@ -193,12 +194,16 @@ if (category.categories_name === "muse" && page.currentPage === 0) {
                                   category?.categories_backgroundColor
                                 }
                                 imageUrl={await getArticleImage(articles[0])}
-                                articleUrl={`/${articles[0].articles_published
-                                  ?.toISOString()
-                                  .substring(0, 10)
-                                  .replaceAll("-", "/")}/${
-                                  articles[0].articles_slug
-                                }`}
+                                articleUrl={`${
+                                  import.meta.env.BASE_URL
+                                }${dateFormatter
+                                  .format(
+                                    articles[0].articles_published ||
+                                      new Date(0)
+                                  ) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+                                  .split("/")
+                                  .reverse()
+                                  .join("/")}/${articles[0].articles_slug}`}
                                 isVertical={false}
                                 isPortrait={false}
                                 hideCategoryAccent={true}
@@ -232,12 +237,16 @@ if (category.categories_name === "muse" && page.currentPage === 0) {
                                     category?.categories_backgroundColor
                                   }
                                   imageUrl={await getArticleImage(articles[1])}
-                                  articleUrl={`/${articles[1].articles_published
-                                    ?.toISOString()
-                                    .substring(0, 10)
-                                    .replaceAll("-", "/")}/${
-                                    articles[1].articles_slug
-                                  }`}
+                                  articleUrl={`${
+                                    import.meta.env.BASE_URL
+                                  }${dateFormatter
+                                    .format(
+                                      articles[1].articles_published ||
+                                        new Date(0)
+                                    ) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+                                    .split("/")
+                                    .reverse()
+                                    .join("/")}/${articles[1].articles_slug}`}
                                   isVertical={false}
                                   isPortrait={false}
                                   hideCategoryAccent={true}
@@ -286,10 +295,13 @@ if (category.categories_name === "muse" && page.currentPage === 0) {
                           categoryLink={category.categories_name}
                           categoryColor={category.categories_backgroundColor}
                           imageUrl={await getArticleImage(article)}
-                          articleUrl={`/${article.articles_published
-                            ?.toISOString()
-                            .substring(0, 10)
-                            .replaceAll("-", "/")}/${article.articles_slug}`}
+                          articleUrl={`${
+                            import.meta.env.BASE_URL
+                          }${dateFormatter
+                            .format(article.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+                            .split("/")
+                            .reverse()
+                            .join("/")}/${article.articles_slug}`}
                           isVertical={false}
                           isPortrait={article.articles_isThumbnailPortrait}
                           hideCategoryAccent={true}
@@ -324,5 +336,5 @@ if (category.categories_name === "muse" && page.currentPage === 0) {
       prefix={paginatorPrefix}
     />
   </div>
-  <NavbarColourSwitcher featuredCategories={museCategories} style={"muse"}/>
+  <NavbarColourSwitcher featuredCategories={museCategories} style={"muse"} />
 </Layout>

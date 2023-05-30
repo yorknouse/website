@@ -69,7 +69,7 @@ test.describe("Featured Articles", () => {
             // in Mobile View, only the first 3 articles have images visible
             await expect(article.locator(".image-link")).toHaveAttribute(
               "href",
-              `/2023/02/24/test-article-${i + 1}`
+              new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`)
             );
           }
 
@@ -87,7 +87,7 @@ test.describe("Featured Articles", () => {
           // Checking Headline
           await expect(article.locator(".headline")).toHaveAttribute(
             "href",
-            `/2023/02/24/test-article-${i + 1}`
+            new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`)
           );
           await expect(article.locator(".headline")).toHaveText(
             `Article Draft ${i + 1}`
@@ -103,7 +103,7 @@ test.describe("Featured Articles", () => {
           // Checking Excerpt
           await expect(article.locator(".excerpt")).toHaveAttribute(
             "href",
-            `/2023/02/24/test-article-${i + 1}`
+            new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`)
           );
           await expect(article.locator(".excerpt")).toHaveText(
             `Article ${i + 1} Excerpt`
@@ -163,7 +163,7 @@ test.describe("Featured Articles", () => {
         );
         await expect(article.locator(".image-link")).toHaveAttribute(
           "href",
-          `/2023/02/24/test-article-7`
+          /^(.*?)\/2023\/02\/24\/test-article-7/
         );
 
         // Checking Category
@@ -180,7 +180,7 @@ test.describe("Featured Articles", () => {
         // Checking Headline
         await expect(article.locator(".headline")).toHaveAttribute(
           "href",
-          `/2023/02/24/test-article-7`
+          /^(.*?)\/2023\/02\/24\/test-article-7/
         );
         await expect(article.locator(".headline")).toHaveText(
           `Article Draft 7`
@@ -196,7 +196,7 @@ test.describe("Featured Articles", () => {
         // Checking Excerpt
         await expect(article.locator(".excerpt")).toHaveAttribute(
           "href",
-          `/2023/02/24/test-article-7`
+          /^(.*?)\/2023\/02\/24\/test-article-7/
         );
         await expect(article.locator(".excerpt")).toHaveText(
           `Article 7 Excerpt`
@@ -231,7 +231,7 @@ test.describe("Featured Articles", () => {
               );
               await expect(article.locator(".image-link")).toHaveAttribute(
                 "href",
-                `/2023/02/24/test-article-${i + 1}`
+                new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`)
               );
             }
 
@@ -249,7 +249,7 @@ test.describe("Featured Articles", () => {
             // Checking Headline
             await expect(article.locator(".headline")).toHaveAttribute(
               "href",
-              `/2023/02/24/test-article-${i + 1}`
+              new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`)
             );
             await expect(article.locator(".headline")).toHaveText(
               `Article Draft ${i + 1}`
@@ -265,7 +265,7 @@ test.describe("Featured Articles", () => {
             // Checking Excerpt
             await expect(article.locator(".excerpt")).toHaveAttribute(
               "href",
-              `/2023/02/24/test-article-${i + 1}`
+              new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`)
             );
             await expect(article.locator(".excerpt")).toHaveText(
               `Article ${i + 1} Excerpt`
@@ -360,14 +360,14 @@ test.describe("Featured Section", () => {
         // in Mobile View, only the first 3 articles have images
         await expect(article.locator(".image-link")).toHaveAttribute(
           "href",
-          `/2023/02/24/test-article-${i + 1}`
+          new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`)
         );
       }
 
       // Checking Headline
       await expect(article.locator(".headline")).toHaveAttribute(
         "href",
-        `/2023/02/24/test-article-${i + 1}`
+        new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`)
       );
       await expect(article.locator(".headline")).toHaveText(
         `Article Draft ${i + 1}`
@@ -383,7 +383,7 @@ test.describe("Featured Section", () => {
       // Checking Excerpt
       await expect(article.locator(".excerpt")).toHaveAttribute(
         "href",
-        `/2023/02/24/test-article-${i + 1}`
+        new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`)
       );
       await expect(article.locator(".excerpt")).toHaveText(
         `Article ${i + 1} Excerpt`
