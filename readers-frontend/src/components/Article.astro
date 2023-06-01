@@ -39,11 +39,7 @@ const imagePlaceHolder =
   .border-color {
     border-color: var(--categoryColor);
   }
-  .category-text {
-    font-family: "arno-pro-display", serif;
-    font-weight: 700;
-    font-style: normal;
-  }
+
   .category-color {
     color: var(--categoryColor);
   }
@@ -62,7 +58,9 @@ const imagePlaceHolder =
         >
           <img
             class={`${
-              isPortrait ? "aspect-{9/16} h-full" : "aspect-video w-full"
+              isPortrait
+                ? "aspect-portrait-video h-full"
+                : "aspect-video w-full"
             } rounded-xl object-cover ${isVertical && "mb-5"}`}
             src={imageUrl}
             alt="Article Thumbnail"
@@ -90,12 +88,16 @@ const imagePlaceHolder =
         <a class="headline" href={articleUrl}>
           <p class="text-l text-colour xl:text-xl 2xl:text-2xl">{headline}</p>
         </a>
-        {authorId && <a class="author" href={`/author/${authorId}`}>
-          <p class="text-colour text-sm italic 2xl:text-base">
-            <span class="category-color">By</span>
-            {author}
-          </p>
-        </a>}
+        {
+          authorId && (
+            <a class="author" href={`/author/${authorId}`}>
+              <p class="text-colour text-sm italic 2xl:text-base">
+                <span class="category-color">By</span>
+                {author}
+              </p>
+            </a>
+          )
+        }
       </div>
       <a class="excerpt" href={articleUrl}>
         <p class="text-colour text-xs xl:text-sm 2xl:text-base">{excerpt}</p>

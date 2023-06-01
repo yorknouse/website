@@ -1,4 +1,4 @@
-import { categories, Prisma } from "@prisma/client";
+import { articlesCategories, categories, Prisma } from "@prisma/client";
 import prisma from "../../prisma";
 import type { Page, PaginateOptions } from "astro";
 import type { articlesWithArticleDrafts } from "./articles";
@@ -313,4 +313,45 @@ export const getCategoryLink = (
   } else {
     return `${import.meta.env.BASE_URL}${category_name}`;
   }
+};
+
+type ArticleCategories = articlesCategories & {
+  category: categories;
+};
+
+/**
+ * Extrapolates the "parent" category from a list of categories
+ * @param categories
+ * @returns
+ */
+export const getParentCategory = (categories: ArticleCategories[]) => {
+  // I think categories commonly come from the backend as:
+  // Top - Middle - Bottom for examples. Where Bottom is nested
+  // under Middle and Top is an "extra category". Hence, the reverse,
+  // trying to find related ones.
+  const interimParentCategory = categories
+    .slice()
+    .reverse()
+    .find(
+      ({ category }) =>
+        (category.categories_nestUnder === null && // Nouse
+          category.categories_id !== 4) ||
+        category.categories_nestUnder === 4 // Muse
+    );
+
+  if (interimParentCategory) {
+    if (
+      // This is mainly for Muse articles as they are
+      // always going to have the Muse category listed
+      categories.length < 3 ||
+      categories.find(
+        ({ category }) =>
+          category.categories_nestUnder ===
+          interimParentCategory.category.categories_id
+      )
+    )
+      return interimParentCategory.category;
+  }
+
+  return categories[0].category;
 };

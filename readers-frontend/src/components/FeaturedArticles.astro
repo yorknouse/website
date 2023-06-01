@@ -4,6 +4,7 @@ import prisma from "../prisma";
 import Article from './Article.astro';
 import { getArticles, articlesWithArticleDrafts, getArticleImage } from "./utils/articles";
 import { getCategoryLink } from "./utils/categories";
+import dateFormatter from "./utils/dateFormatter";
 
 interface Props {
   featuredArticlesIds: number[] | undefined;
@@ -34,6 +35,17 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
     category.categories_showHome
   ).map(({category}) => category)
 )
+
+const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
+  // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+  accumulator.set(featuredArticle.articles_id, `${import.meta.env.BASE_URL}${dateFormatter
+                  .format(featuredArticle.articles_published || new Date(0))
+                  .split("/")
+                  .reverse()
+                  .join("/")}/${featuredArticle.articles_slug}`)
+
+  return accumulator;
+}, new Map<number, string>());
 ---
 {/* Desktop */}
 <div class="hidden sm:flex">
@@ -52,7 +64,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
           categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
           categoryColor={mainCategories[0]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[0])}
-          articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+          articleUrl={articleLinks.get(featuredArticles[0].articles_id) || import.meta.env.BASE_URL}
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
@@ -68,7 +80,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
           categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
           categoryColor={mainCategories[1]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[1])}
-          articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
+          articleUrl={articleLinks.get(featuredArticles[1].articles_id) || import.meta.env.BASE_URL}
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
@@ -89,7 +101,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
             categoryLink={getCategoryLink(mainCategories[index + 2]?.categories_name, mainCategories[index + 2]?.categories_nestUnder)}
             categoryColor={mainCategories[index + 2]?.categories_backgroundColor}
             imageUrl={await getArticleImage(article)}
-            articleUrl={`/${article.articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${article.articles_slug}`}
+            articleUrl={articleLinks.get(article.articles_id) || import.meta.env.BASE_URL}
             isVertical={true}
             isPortrait={false}
             hideCategoryAccent={hideCategoryAccent}
@@ -109,7 +121,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
           categoryLink={getCategoryLink(mainCategories[2]?.categories_name, mainCategories[2]?.categories_nestUnder)}
           categoryColor={mainCategories[2]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[2])}
-          articleUrl={`/${featuredArticles[2].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[2].articles_slug}`}
+          articleUrl={articleLinks.get(featuredArticles[2].articles_id) || import.meta.env.BASE_URL}
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
@@ -125,7 +137,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
           categoryLink={getCategoryLink(mainCategories[3]?.categories_name, mainCategories[3]?.categories_nestUnder)}
           categoryColor={mainCategories[3]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[3])}
-          articleUrl={`/${featuredArticles[3].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[3].articles_slug}`}
+          articleUrl={articleLinks.get(featuredArticles[3].articles_id) || import.meta.env.BASE_URL}
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
@@ -146,7 +158,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
           categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
           categoryColor={mainCategories[0]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[0])}
-          articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+          articleUrl={articleLinks.get(featuredArticles[0].articles_id) || import.meta.env.BASE_URL}
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
@@ -163,7 +175,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
           categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
           categoryColor={mainCategories[1]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[1])}
-          articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
+          articleUrl={articleLinks.get(featuredArticles[1].articles_id) || import.meta.env.BASE_URL}
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
@@ -180,7 +192,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
           categoryLink={getCategoryLink(mainCategories[2]?.categories_name, mainCategories[2]?.categories_nestUnder)}
           categoryColor={mainCategories[2]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[2])}
-          articleUrl={`/${featuredArticles[2].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[2].articles_slug}`}
+          articleUrl={articleLinks.get(featuredArticles[2].articles_id) || import.meta.env.BASE_URL}
           isVertical={true}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
@@ -199,7 +211,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
         categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
         categoryColor={mainCategories[0]?.categories_backgroundColor}
         imageUrl={await getArticleImage(featuredArticles[0])}
-        articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+        articleUrl={articleLinks.get(featuredArticles[0].articles_id) || import.meta.env.BASE_URL}
         isVertical={true}
         isPortrait={false}
         hideCategoryAccent={hideCategoryAccent}
@@ -215,7 +227,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
           categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
           categoryColor={mainCategories[1]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[1])}
-          articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
+          articleUrl={articleLinks.get(featuredArticles[1].articles_id) || import.meta.env.BASE_URL}
           isVertical={true}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
@@ -233,7 +245,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
       categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
       categoryColor={mainCategories[0]?.categories_backgroundColor}
       imageUrl={await getArticleImage(featuredArticles[0])}
-      articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+      articleUrl={articleLinks.get(featuredArticles[0].articles_id) || import.meta.env.BASE_URL}
       isVertical={false}
       isPortrait={false}
       hideCategoryAccent={hideCategoryAccent}
@@ -256,7 +268,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
         categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
         categoryColor={mainCategories[0]?.categories_backgroundColor}
         imageUrl={await getArticleImage(featuredArticles[0])}
-        articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+        articleUrl={articleLinks.get(featuredArticles[0].articles_id) || import.meta.env.BASE_URL}
         isPortrait={true}
         hideCategoryAccent={hideCategoryAccent}
         />
@@ -273,7 +285,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
           categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
           categoryColor={mainCategories[1]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[1])}
-          articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
+          articleUrl={articleLinks.get(featuredArticles[1].articles_id) || import.meta.env.BASE_URL}
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
@@ -290,7 +302,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
           categoryLink={getCategoryLink(mainCategories[2]?.categories_name, mainCategories[2]?.categories_nestUnder)}
           categoryColor={mainCategories[2]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[2])}
-          articleUrl={`/${featuredArticles[2].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[2].articles_slug}`}
+          articleUrl={articleLinks.get(featuredArticles[2].articles_id) || import.meta.env.BASE_URL}
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
@@ -309,7 +321,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
             categoryLink={getCategoryLink(mainCategories[3]?.categories_name, mainCategories[3]?.categories_nestUnder)}
             categoryColor={mainCategories[3]?.categories_backgroundColor}
             imageUrl={await getArticleImage(featuredArticles[3])}
-            articleUrl={`/${featuredArticles[3].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[3].articles_slug}`}
+            articleUrl={articleLinks.get(featuredArticles[3].articles_id) || import.meta.env.BASE_URL}
             isVertical={false}
             isPortrait={false}
             hideCategoryAccent={hideCategoryAccent}
@@ -329,7 +341,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
         categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
         categoryColor={mainCategories[1]?.categories_backgroundColor}
         imageUrl={await getArticleImage(featuredArticles[1])}
-        articleUrl={`/${featuredArticles[1].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[1].articles_slug}`}
+        articleUrl={articleLinks.get(featuredArticles[1].articles_id) || import.meta.env.BASE_URL}
         isVertical={true}
         isPortrait={false}
         hideCategoryAccent={hideCategoryAccent}
@@ -350,7 +362,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
           categoryLink={getCategoryLink(mainCategories[3]?.categories_name, mainCategories[3]?.categories_nestUnder)}
           categoryColor={mainCategories[3]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[3])}
-          articleUrl={`/${featuredArticles[3].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[3].articles_slug}`}
+          articleUrl={articleLinks.get(featuredArticles[3].articles_id) || import.meta.env.BASE_URL}
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
@@ -366,7 +378,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
           categoryLink={getCategoryLink(mainCategories[4]?.categories_name, mainCategories[4]?.categories_nestUnder)}
           categoryColor={mainCategories[4]?.categories_backgroundColor}
           imageUrl={await getArticleImage(featuredArticles[4])}
-          articleUrl={`/${featuredArticles[4].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[4].articles_slug}`}
+          articleUrl={articleLinks.get(featuredArticles[4].articles_id) || import.meta.env.BASE_URL}
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
@@ -389,7 +401,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
               categoryLink={getCategoryLink(mainCategories[index + 2]?.categories_name, mainCategories[index + 2]?.categories_nestUnder)}
               categoryColor={mainCategories[index + 2]?.categories_backgroundColor}
               imageUrl={await getArticleImage(article)}
-              articleUrl={`/${article.articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${article.articles_slug}`}
+              articleUrl={articleLinks.get(article.articles_id) || import.meta.env.BASE_URL}
               isVertical={true}
               isPortrait={false}
               hideCategoryAccent={hideCategoryAccent}
@@ -410,7 +422,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
       categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
       categoryColor={mainCategories[0]?.categories_backgroundColor}
       imageUrl={await getArticleImage(featuredArticles[0])}
-      articleUrl={`/${featuredArticles[0].articles_published?.toISOString().substring(0, 10).replaceAll("-","/")}/${featuredArticles[0].articles_slug}`}
+      articleUrl={articleLinks.get(featuredArticles[0].articles_id) || import.meta.env.BASE_URL}
       isPortrait={true}
       hideCategoryAccent={hideCategoryAccent}
       />
@@ -438,10 +450,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
         categoryLink={getCategoryLink(mainCategories[index]?.categories_name, mainCategories[index]?.categories_nestUnder)}
         categoryColor={mainCategories[index]?.categories_backgroundColor}
         imageUrl={index <= 2 ? await getArticleImage(article) : undefined}
-        articleUrl={`/${article.articles_published
-          ?.toISOString()
-          .substring(0, 10)
-          .replaceAll("-", "/")}/${article.articles_slug}`}
+        articleUrl={articleLinks.get(article.articles_id) || import.meta.env.BASE_URL}
         isVertical={index == 0}
         isPortrait={article.articles_isThumbnailPortrait}
         hideCategoryAccent={hideCategoryAccent}

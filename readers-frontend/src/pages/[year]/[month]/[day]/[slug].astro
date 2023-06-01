@@ -1,0 +1,256 @@
+---
+import Article from "@components/Article.astro";
+import ArticleCookieManager from "@components/ArticleCookieManager.astro";
+import TopArticles from "@components/SolidJS/TopArticles";
+import {
+  articleWithUserAndDraft,
+  articlesWithArticleDrafts,
+  getAllArticles,
+  getArticleImage,
+  getSimilarArticles,
+} from "@components/utils/articles";
+import { getParentCategory } from "@components/utils/categories";
+import dateFormatter from "@components/utils/dateFormatter";
+import { Icon } from "astro-icon";
+import Layout from "src/layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const articles = (await getAllArticles()).filter((article) => {
+    // Ensure article has an articleDraft
+    if (article.articlesDrafts.length === 0) return false;
+
+    // Ensure article has categories
+    if (article.categories.length === 0) return false;
+
+    // Some articles' slug is not formatted properly
+    const slug = article.articles_slug;
+    if (slug)
+      return (
+        !slug.includes("/") &&
+        !slug.includes("\\") &&
+        !slug.includes("#") &&
+        !slug.includes("?")
+      );
+
+    return false;
+  });
+
+  const similarArticles = await articles.reduce(
+    async (accumulatorPromise, article) => {
+      const accumulator = await accumulatorPromise;
+
+      const parentCategoryId = getParentCategory(
+        article.categories
+      ).categories_id;
+
+      if (!accumulator.has(parentCategoryId)) {
+        const mSimilarArticles = await getSimilarArticles(parentCategoryId);
+
+        accumulator.set(parentCategoryId, mSimilarArticles);
+      }
+      return accumulator;
+    },
+    Promise.resolve(new Map<number, articlesWithArticleDrafts[]>())
+  );
+
+  return articles.map((article) => {
+    const date = article.articles_published || new Date(0);
+    // DD/MM/YYYY
+    const dateParts = dateFormatter.format(date).split("/");
+    return {
+      params: {
+        year: dateParts[2],
+        month: dateParts[1],
+        day: dateParts[0],
+        slug: article.articles_slug
+          ? decodeURIComponent(article.articles_slug)
+          : "err",
+      },
+      props: {
+        article,
+        similarArticles: similarArticles.get(
+          getParentCategory(article.categories).categories_id
+        ),
+      },
+    };
+  });
+}
+
+interface Props {
+  article: articleWithUserAndDraft;
+  similarArticles: articlesWithArticleDrafts[];
+}
+
+const { article, similarArticles: unfilteredSimilarArticles } = Astro.props;
+const topCategory = article.categories[0].category;
+
+const parentCategory = getParentCategory(article.categories);
+
+const bottomCategory =
+  article.categories[article.categories.length - 1].category;
+
+const articleDraft = article.articlesDrafts[0];
+const imageUrl = await getArticleImage(article);
+
+const articleId = article.articles_id;
+
+const similarArticles = unfilteredSimilarArticles.filter(
+  (similarArticle) => similarArticle.articles_id !== articleId
+);
+
+// We only want to display 4 similar articles.
+// However, when querying the similar articles we get 5,
+// so that we can filter the same article out as above.
+// If the same article is not in the list, we truncate the list.
+if (similarArticles.length > 4) similarArticles.pop();
+
+let baseUrl = import.meta.env.BASE_URL;
+
+baseUrl = baseUrl.slice(0, baseUrl.length - 1);
+
+const imagePlaceHolder =
+  '"https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg"';
+---
+
+<Layout
+  style={topCategory.categories_id === 4 ? "muse" : "nouse"}
+  active={bottomCategory.categories_name}
+  title={`${articleDraft.articlesDrafts_headline} - Nouse`}
+>
+  <main>
+    <div class="flex flex-col px-[3%] pt-8 text-base sm:px-[0.5%] 2xl:px-[13%]">
+      <div class="flex flex-col md:flex-row md:gap-10">
+        {/* Article */}
+        <div class="flex w-full flex-col gap-3 md:w-2/3">
+          <h1
+            class="text-2xl sm:text-3xl md:text-4xl lg:text-6xl"
+            id="article-title"
+          >
+            {article.articlesDrafts[0].articlesDrafts_headline}
+          </h1>
+          {
+            article.articles_published && (
+              <div class="flex flex-row font-semibold">
+                <Icon
+                  name="ic:baseline-access-time-filled"
+                  class="my-auto mr-1 h-4 w-4"
+                />
+                <p class="my-auto" id="article-timestamp">
+                  {dateFormatter.format(article.articles_published)}
+                </p>
+              </div>
+            )
+          }
+          <h3 id="article-excerpt">
+            {article.articlesDrafts[0].articlesDrafts_excerpt}
+          </h3>
+          {
+            article.articles_isThumbnailPortrait ? (
+              <img
+                id="article-image"
+                class="max-w-1/2 mx-auto aspect-portrait-video rounded-lg object-cover"
+                src={imageUrl}
+                onerror={`if (this.src !== ${imagePlaceHolder}) this.src = ${imagePlaceHolder}`}
+                alt="Article Image"
+              />
+            ) : (
+              <img
+                id="article-image"
+                class="aspect-video rounded-lg object-cover"
+                src={imageUrl}
+                onerror={`if (this.src !== ${imagePlaceHolder}) this.src = ${imagePlaceHolder}`}
+                alt="Article Image"
+              />
+            )
+          }
+          <div class="relative h-5">
+            <div
+              class={`absolute top-0 left-0 border-l-[5px] h-full border-color-${parentCategory.categories_name}`}
+            >
+            </div>
+            <p
+              class={`ml-2 category-color-${parentCategory.categories_name}`}
+              id="article-credits"
+            >
+              Image by {
+                article.articlesDrafts[0].articlesDrafts_thumbnailCredit
+              }
+            </p>
+          </div>
+          <p class="text-xl italic">
+            <span class={`category-color-${parentCategory.categories_name}`}
+              >By
+            </span>
+            <a
+              href={`${import.meta.env.BASE_URL}author/${
+                articleDraft.users?.users_userid
+              }`}
+              >{
+                `${articleDraft.users?.users_name1} ${articleDraft.users?.users_name2}`
+              }
+            </a>
+          </p>
+          <div
+            id="article-content"
+            class="text-justify"
+            set:html={articleDraft.articlesDrafts_text}
+          />
+        </div>
+        {/* Top Articles */}
+        <div class="flex w-full flex-col md:w-1/3">
+          <TopArticles client:only baseUrl={baseUrl} />
+        </div>
+      </div>
+      {/* Similar Articles */}
+      <div class="mt-10 border-t-2 border-whiteish-200">
+        <h3 class="block py-2 text-4xl">Similar Articles</h3>
+        <div
+          class="flex h-min flex-col md:flex-row"
+          id="similar-articles-container"
+        >
+          {
+            similarArticles.map(async (similarArticle, i) => (
+              <div
+                class={`mt-4 w-full border-b-whiteish-200 border-r-whiteish-200 pb-4 md:mt-0 md:max-w-[25%] md:pb-0 ${
+                  i < similarArticles.length - 1
+                    ? "border-b-2 border-r-0 md:border-b-0 md:border-r-2"
+                    : "border-0"
+                } md:pr-4 ${i > 0 ? "md:ml-4" : "md:ml-0"}`}
+              >
+                <div class="h-min">
+                  <Article
+                    headline={
+                      similarArticle.articlesDrafts[0].articlesDrafts_headline
+                    }
+                    excerpt={null}
+                    author={`${similarArticle.articlesDrafts[0].users?.users_name1} ${similarArticle.articlesDrafts[0].users?.users_name2}`}
+                    authorId={
+                      similarArticle.articlesDrafts[0].users?.users_userid
+                    }
+                    category={undefined}
+                    categoryLink={undefined}
+                    categoryColor={
+                      getParentCategory(similarArticle.categories)
+                        .categories_backgroundColor
+                    }
+                    imageUrl={await getArticleImage(similarArticle)}
+                    articleUrl={`${
+                      import.meta.env.BASE_URL
+                    }${similarArticle.articles_published
+                      ?.toISOString()
+                      .substring(0, 10)
+                      .replaceAll("-", "/")}/${similarArticle.articles_slug}`}
+                    isVertical={true}
+                    isPortrait={similarArticle.articles_isThumbnailPortrait}
+                    hideCategoryAccent={true}
+                  />
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </main>
+  <ArticleCookieManager articleId={articleId} />
+</Layout>

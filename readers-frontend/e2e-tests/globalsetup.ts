@@ -152,7 +152,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 1, // Landscape article with custom thumbnail
         articles_slug: "test-article-1",
-        articles_categories: "",
+        articles_categories: "1",
         articles_isThumbnailPortrait: false,
         articles_displayImages: true,
         articles_showInLists: true,
@@ -162,34 +162,34 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 2, // Landscape article with no thumbnail
         articles_slug: "test-article-2",
-        articles_categories: "",
+        articles_categories: "1",
         articles_isThumbnailPortrait: false,
         articles_displayImages: false,
         articles_showInLists: true,
-        articles_published: new Date("2023-02-24 12:00:00"),
+        articles_published: new Date("2023-02-24 9:00:00"),
       },
       {
         articles_id: 3,
         articles_slug: "test-article-3",
-        articles_categories: "",
+        articles_categories: "1",
         articles_isThumbnailPortrait: false,
         articles_displayImages: false,
         articles_showInLists: true,
-        articles_published: new Date("2023-02-24 12:00:00"),
+        articles_published: new Date("2023-02-24 10:00:00"),
       },
       {
         articles_id: 4,
         articles_slug: "test-article-4",
-        articles_categories: "",
+        articles_categories: "1",
         articles_isThumbnailPortrait: false,
         articles_displayImages: false,
         articles_showInLists: true,
-        articles_published: new Date("2023-02-24 12:00:00"),
+        articles_published: new Date("2023-02-24 11:00:00"),
       },
       {
         articles_id: 5,
         articles_slug: "test-article-5",
-        articles_categories: "",
+        articles_categories: "1",
         articles_isThumbnailPortrait: false,
         articles_displayImages: false,
         articles_showInLists: true,
@@ -198,21 +198,21 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 6,
         articles_slug: "test-article-6",
-        articles_categories: "",
+        articles_categories: "1",
         articles_isThumbnailPortrait: false,
         articles_displayImages: false,
         articles_showInLists: true,
-        articles_published: new Date("2023-02-24 12:00:00"),
+        articles_published: new Date("2023-02-24 13:00:00"),
       },
       {
         articles_id: 7, // Portrait article with custom thumbnail
         articles_slug: "test-article-7",
-        articles_categories: "",
+        articles_categories: "1",
         articles_isThumbnailPortrait: true,
         articles_displayImages: true,
         articles_thumbnail: "2",
         articles_showInLists: true,
-        articles_published: new Date("2023-02-24 12:00:00"),
+        articles_published: new Date("2023-02-24 14:00:00"),
       },
       {
         articles_id: 8, // Landscape article with custom thumbnail
@@ -265,6 +265,8 @@ async function dbGlobalSetup(config: FullConfig) {
         articlesDrafts_headline: "Article Draft 1",
         articlesDrafts_excerpt: "Article 1 Excerpt",
         articlesDrafts_userid: 1,
+        articlesDrafts_text:
+          "<p>This is raw HTML, as it comes from the backend.</p>",
       },
       {
         articles_id: 2,

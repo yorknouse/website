@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-whiteish-100 font-arno font-normal">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <meta name="generator" content="Astro v2.0.12">
+    <title>Spring 2021 trend forecast - Nouse</title>
+    
+    <link rel="stylesheet" href="https://use.typekit.net/ghx5ucu.css">
+    
+    
+  <link rel="stylesheet" href="/website/_astro/_...path_.a2fa7163.css" />
+<link rel="stylesheet" href="/website/_astro/_...path_.9a83425d.css" /><script type="module" src="/website/_astro/hoisted.70b5a5aa.js"></script></head>
+  <body>
+    <div class="bg-whiteish-100 invisible fixed top-0 bottom-0 left-0 right-0 z-50 flex flex-col overflow-y-scroll opacity-0 transition-opacity duration-500 md:overflow-hidden" id="searchInterface">
+  <button id="searchCloseBtn" class="absolute top-0 right-0 w-16 p-2 text-black">
+    <svg viewBox="0 0 24 24" astro-icon="ic:baseline-close"><path fill="currentColor" d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+  </button>
+  <div class="mx-auto my-auto flex w-full flex-col p-4">
+    <form id="searchForm" class="mx-auto mb-10 mt-10 flex flex-row items-center md:mt-0">
+      <input id="searchBox" type="text" class="bg-whiteish-100 w-min border-b-2 border-black outline-none sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl" placeholder="What are you looking for?" size="25">
+      <button class="relative h-10 w-10 md:h-14 md:w-14 lg:h-20 lg:w-20">
+        <svg viewBox="0 0 24 24" class="h-full w-full text-black" astro-icon="ic:sharp-search"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </button>
+    </form>
+  </div>
+</div>
+    <header id="desktopHeader" class="hidden md:flex md:flex-row w-full bg-black astro-TZIODL3R" style="--computedBaseColour: #843F71;">
+  <a href="/website/muse/" class="mx-auto self-center astro-TZIODL3R">
+    <img class="my-4 h-14 astro-TZIODL3R" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png">
+  </a>
+</header>
+<nav id="desktopNav" class="hidden h-24 w-full text-xs md:block lg:text-sm sticky top-0 z-40 astro-TZIODL3R" style="--computedBaseColour: #843F71;">
+  <ul class="flex h-1/2 w-full flex-row bg-navbar justify-between border-t-4 border-transparent 2xl:px-[13%] text-white transition-colors ease-in-out duration-500 astro-TZIODL3R">
+    <li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #843F71;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/muse/">
+              Home
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #843F71;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/muse/features">
+              Features
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #843F71;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/muse/arts">
+              Arts
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #843F71;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/muse/music">
+              Music
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #843F71;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/muse/film">
+              Film &amp; TV
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-white astro-TZIODL3R" style="--computedBaseColour: #843F71;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/muse/fashion">
+              Fashion
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #843F71;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/muse/food-drink">
+              Food &amp; Drink
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #843F71;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/muse/travel">
+              Travel
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #843F71;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/muse/shoot">
+              Shoot
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #843F71;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/muse/gaming">
+              Gaming
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #843F71;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/muse/creative-writing">
+              Creative writing
+            </a>
+          </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full w-full border-b-4 border-transparent astro-TZIODL3R" style="--computedBaseColour: #843F71;">
+            <a class="mx-auto my-auto text-center astro-TZIODL3R" href="/website/">
+              <img src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/kingfisher.svg" class="w-10 invert astro-TZIODL3R">
+            </a>
+          </li>
+    <span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span>
+    
+    <li class="flex h-full w-full border-b-4 border-b-transparent astro-TZIODL3R">
+      <button class="searchBtnClassIdentifier mx-auto h-full w-10 astro-TZIODL3R">
+        <svg viewBox="0 0 24 24" class="py-1 ml-2 astro-TZIODL3R" astro-icon="ic:sharp-search"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      </button>
+    </li>
+  </ul>
+  <ul class="bg-navbar flex h-1/2 w-full flex-row text-white brightness-90 2xl:px-[13%] astro-TZIODL3R">
+        <li class="group relative flex h-full border-b-4 px-[3%] border-transparent astro-TZIODL3R" style="--computedBaseColour: #843F71;">
+              <a class="mx-auto my-auto astro-TZIODL3R" href="/website/muse/fashion/fashion-features">
+                Fashion Features
+              </a>
+            </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full border-b-4 px-[3%] border-transparent astro-TZIODL3R" style="--computedBaseColour: #843F71;">
+              <a class="mx-auto my-auto astro-TZIODL3R" href="/website/muse/fashion/fashion-trends">
+                Fashion Trends
+              </a>
+            </li><span class="h-3/5 self-center border-r-2 border-white astro-TZIODL3R"></span><li class="group relative flex h-full border-b-4 px-[3%] border-transparent astro-TZIODL3R" style="--computedBaseColour: #843F71;">
+              <a class="mx-auto my-auto astro-TZIODL3R" href="/website/muse/fashion/fashion-shows">
+                Shows
+              </a>
+            </li>
+      </ul>
+</nav>
+
+<header id="mobileHeader" class="bg-navbar flex w-full flex-row border-b-[1px] border-gray-300 h-28 md:hidden sticky top-0 z-40 justify-between text-white transition-colors ease-in-out duration-500 astro-PZKO3RWO" style="--computedBaseColour: #843F71;">
+  <button class="my-auto ml-4 h-10 w-10 sm:ml-8 astro-PZKO3RWO" id="mobileNavMenuTgl">
+    <div class="h-10 w-10 astro-PZKO3RWO" id="menuIcn">
+      <svg viewBox="0 0 24 24" class="w-full h-full astro-PZKO3RWO" astro-icon="ic:sharp-menu"><path fill="currentColor" d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+    </div>
+    <div class="h-0 w-0 astro-PZKO3RWO" id="closeIcn">
+      <svg viewBox="0 0 24 24" class="w-full h-full astro-PZKO3RWO" astro-icon="ic:sharp-close"><path fill="currentColor" d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+    </div>
+  </button>
+  <a href="/website/muse/" class="mx-auto my-auto flex w-3/4 sm:w-full astro-PZKO3RWO">
+    <img class="mx-auto  max-h-12 false astro-PZKO3RWO" src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png">
+  </a>
+  <button class="searchBtnClassIdentifier my-auto mr-4 h-10 w-10 sm:mr-8 astro-PZKO3RWO" id="mobileSearchBtn">
+    <svg viewBox="0 0 24 24" class="w-10 h-10 astro-PZKO3RWO" astro-icon="ic:sharp-search"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+  </button>
+</header>
+<nav class="fixed top-28 left-0 right-0 z-30 flex h-[calc(100dvh-7rem)] -translate-y-[calc(100%+7rem)] flex-col overflow-y-scroll bg-black transition-transform duration-500 ease-in-out astro-PZKO3RWO" id="mobileNav" style="--computedBaseColour: #843F71;">
+  <ul class="mx-auto mb-10 w-5/6 list-none overflow-scroll text-2xl text-white astro-PZKO3RWO" id="mobileNavList">
+    <li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <a href="/website/muse/" class="mx-auto w-full pb-4 text-center border-b-[1px]">
+        Home
+      </a>
+
+<script>(function(){const categoryName = "muse";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <button id="featuresListBtn" class="flex w-full border-b-[1px]">
+          <div class="mx-auto flex flex-row pb-4">
+            <a id="featuresListLink" href="/website/muse/features" class="my-auto mr-2">
+              Features
+            </a>
+            <svg viewBox="0 0 24 24" id="featuresChevron" class="my-auto h-6 w-6 rotate-90" astro-icon="ic:sharp-chevron-right"><path fill="currentColor" d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+          </div>
+        </button><div class="hidden w-full border-b-[1px] border-b-white" id="featuresListContainer">
+          <ul class="flex w-full flex-col bg-neutral-900 text-center">
+            <li class="my-4">
+                <a href="/website/muse/features/features-interviews">
+                  Interviews
+                </a>
+              </li>
+          </ul>
+        </div>
+
+<script>(function(){const categoryName = "features";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <button id="artsListBtn" class="flex w-full border-b-[1px]">
+          <div class="mx-auto flex flex-row pb-4">
+            <a id="artsListLink" href="/website/muse/arts" class="my-auto mr-2">
+              Arts
+            </a>
+            <svg viewBox="0 0 24 24" id="artsChevron" class="my-auto h-6 w-6 rotate-90" astro-icon="ic:sharp-chevron-right"><path fill="currentColor" d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+          </div>
+        </button><div class="hidden w-full border-b-[1px] border-b-white" id="artsListContainer">
+          <ul class="flex w-full flex-col bg-neutral-900 text-center">
+            <li class="my-4">
+                <a href="/website/muse/arts/arts-features">
+                  Arts Features
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/arts/arts-reviews">
+                  Arts Reviews
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/arts/arts-books">
+                  Books
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/arts/blmbookclub">
+                  BLM Book Club
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/arts/theatrereviews">
+                  Theatre Reviews
+                </a>
+              </li>
+          </ul>
+        </div>
+
+<script>(function(){const categoryName = "arts";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <button id="musicListBtn" class="flex w-full border-b-[1px]">
+          <div class="mx-auto flex flex-row pb-4">
+            <a id="musicListLink" href="/website/muse/music" class="my-auto mr-2">
+              Music
+            </a>
+            <svg viewBox="0 0 24 24" id="musicChevron" class="my-auto h-6 w-6 rotate-90" astro-icon="ic:sharp-chevron-right"><path fill="currentColor" d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+          </div>
+        </button><div class="hidden w-full border-b-[1px] border-b-white" id="musicListContainer">
+          <ul class="flex w-full flex-col bg-neutral-900 text-center">
+            <li class="my-4">
+                <a href="/website/muse/music/music-features">
+                  Music Features
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/music/music-reviews">
+                  Music Reviews
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/music/music-news">
+                  Music News
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/music/music-interviews">
+                  Music Interviews
+                </a>
+              </li>
+          </ul>
+        </div>
+
+<script>(function(){const categoryName = "music";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <button id="filmListBtn" class="flex w-full border-b-[1px]">
+          <div class="mx-auto flex flex-row pb-4">
+            <a id="filmListLink" href="/website/muse/film" class="my-auto mr-2">
+              Film &amp; TV
+            </a>
+            <svg viewBox="0 0 24 24" id="filmChevron" class="my-auto h-6 w-6 rotate-90" astro-icon="ic:sharp-chevron-right"><path fill="currentColor" d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+          </div>
+        </button><div class="hidden w-full border-b-[1px] border-b-white" id="filmListContainer">
+          <ul class="flex w-full flex-col bg-neutral-900 text-center">
+            <li class="my-4">
+                <a href="/website/muse/film/film-reviews">
+                  Film Reviews
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/film/tv-reviews">
+                  TV
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/film/film-interviews">
+                  Interviews
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/film/film-news">
+                  Film News
+                </a>
+              </li>
+          </ul>
+        </div>
+
+<script>(function(){const categoryName = "film";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <button id="fashionListBtn" class="flex w-full border-b-[5px]">
+          <div class="mx-auto flex flex-row pb-4">
+            <a id="fashionListLink" href="/website/muse/fashion" class="my-auto mr-2">
+              Fashion
+            </a>
+            <svg viewBox="0 0 24 24" id="fashionChevron" class="my-auto h-6 w-6 rotate-90" astro-icon="ic:sharp-chevron-right"><path fill="currentColor" d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+          </div>
+        </button><div class="hidden w-full border-b-[1px] border-b-white" id="fashionListContainer">
+          <ul class="flex w-full flex-col bg-neutral-900 text-center">
+            <li class="my-4">
+                <a href="/website/muse/fashion/fashion-features">
+                  Fashion Features
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/fashion/fashion-trends">
+                  Fashion Trends
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/fashion/fashion-shows">
+                  Shows
+                </a>
+              </li>
+          </ul>
+        </div>
+
+<script>(function(){const categoryName = "fashion";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <button id="food-drinkListBtn" class="flex w-full border-b-[1px]">
+          <div class="mx-auto flex flex-row pb-4">
+            <a id="food-drinkListLink" href="/website/muse/food-drink" class="my-auto mr-2">
+              Food &amp; Drink
+            </a>
+            <svg viewBox="0 0 24 24" id="food-drinkChevron" class="my-auto h-6 w-6 rotate-90" astro-icon="ic:sharp-chevron-right"><path fill="currentColor" d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+          </div>
+        </button><div class="hidden w-full border-b-[1px] border-b-white" id="food-drinkListContainer">
+          <ul class="flex w-full flex-col bg-neutral-900 text-center">
+            <li class="my-4">
+                <a href="/website/muse/food-drink/the-recipe">
+                  The Recipe
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/food-drink/food-drink-features">
+                  Food &amp; Drink Features
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/food-drink/food-drink-reviews">
+                  Restaurant Reviews
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/food-drink/eating-locally">
+                  Eating locally
+                </a>
+              </li>
+          </ul>
+        </div>
+
+<script>(function(){const categoryName = "food-drink";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <button id="travelListBtn" class="flex w-full border-b-[1px]">
+          <div class="mx-auto flex flex-row pb-4">
+            <a id="travelListLink" href="/website/muse/travel" class="my-auto mr-2">
+              Travel
+            </a>
+            <svg viewBox="0 0 24 24" id="travelChevron" class="my-auto h-6 w-6 rotate-90" astro-icon="ic:sharp-chevron-right"><path fill="currentColor" d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+          </div>
+        </button><div class="hidden w-full border-b-[1px] border-b-white" id="travelListContainer">
+          <ul class="flex w-full flex-col bg-neutral-900 text-center">
+            <li class="my-4">
+                <a href="/website/muse/travel/local-travel">
+                  Local Travel
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/travel/international-travel">
+                  International Travel
+                </a>
+              </li>
+          </ul>
+        </div>
+
+<script>(function(){const categoryName = "travel";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <a href="/website/muse/shoot" class="mx-auto w-full pb-4 text-center border-b-[1px]">
+        Shoot
+      </a>
+
+<script>(function(){const categoryName = "shoot";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <button id="gamingListBtn" class="flex w-full border-b-[1px]">
+          <div class="mx-auto flex flex-row pb-4">
+            <a id="gamingListLink" href="/website/muse/gaming" class="my-auto mr-2">
+              Gaming
+            </a>
+            <svg viewBox="0 0 24 24" id="gamingChevron" class="my-auto h-6 w-6 rotate-90" astro-icon="ic:sharp-chevron-right"><path fill="currentColor" d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+          </div>
+        </button><div class="hidden w-full border-b-[1px] border-b-white" id="gamingListContainer">
+          <ul class="flex w-full flex-col bg-neutral-900 text-center">
+            <li class="my-4">
+                <a href="/website/muse/gaming/gaming-reviews">
+                  Gaming Reviews
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/gaming/gaming-features">
+                  Gaming Features
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/gaming/gaming-news">
+                  Gaming News
+                </a>
+              </li>
+          </ul>
+        </div>
+
+<script>(function(){const categoryName = "gaming";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <button id="creative-writingListBtn" class="flex w-full border-b-[1px]">
+          <div class="mx-auto flex flex-row pb-4">
+            <a id="creative-writingListLink" href="/website/muse/creative-writing" class="my-auto mr-2">
+              Creative writing
+            </a>
+            <svg viewBox="0 0 24 24" id="creative-writingChevron" class="my-auto h-6 w-6 rotate-90" astro-icon="ic:sharp-chevron-right"><path fill="currentColor" d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z"/></svg>
+          </div>
+        </button><div class="hidden w-full border-b-[1px] border-b-white" id="creative-writingListContainer">
+          <ul class="flex w-full flex-col bg-neutral-900 text-center">
+            <li class="my-4">
+                <a href="/website/muse/creative-writing/poetry">
+                  Poetry
+                </a>
+              </li><li class="my-4">
+                <a href="/website/muse/creative-writing/prose">
+                  Prose
+                </a>
+              </li>
+          </ul>
+        </div>
+
+<script>(function(){const categoryName = "creative-writing";
+
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+})();</script>
+          </div>
+        </li><li class="flex w-full flex-row border-b-white pt-4 astro-PZKO3RWO">
+          <div class="my-auto flex w-full flex-col astro-PZKO3RWO">
+            <a href="/website/" class="w-full border-b-[1px] pb-4 astro-PZKO3RWO">
+                      <img src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg" class="mx-auto w-36 invert astro-PZKO3RWO">
+                    </a>
+          </div>
+        </li>
+  </ul>
+</nav>
+    <style>astro-island,astro-slot{display:contents}</style><script>(self.Astro=self.Astro||{}).only=t=>{(async()=>await(await t())())()},window.dispatchEvent(new Event("astro:only"));var l;{const c={0:t=>t,1:t=>JSON.parse(t,o),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(JSON.parse(t,o)),5:t=>new Set(JSON.parse(t,o)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(JSON.parse(t)),9:t=>new Uint16Array(JSON.parse(t)),10:t=>new Uint32Array(JSON.parse(t))},o=(t,s)=>{if(t===""||!Array.isArray(s))return s;const[e,n]=s;return e in c?c[e](n):void 0};customElements.get("astro-island")||customElements.define("astro-island",(l=class extends HTMLElement{constructor(){super(...arguments);this.hydrate=()=>{if(!this.hydrator||this.parentElement&&this.parentElement.closest("astro-island[ssr]"))return;const s=this.querySelectorAll("astro-slot"),e={},n=this.querySelectorAll("template[data-astro-template]");for(const r of n){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("data-astro-template")||"default"]=r.innerHTML,r.remove())}for(const r of s){const i=r.closest(this.tagName);!i||!i.isSameNode(this)||(e[r.getAttribute("name")||"default"]=r.innerHTML)}const a=this.hasAttribute("props")?JSON.parse(this.getAttribute("props"),o):{};this.hydrator(this)(this.Component,a,e,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),window.removeEventListener("astro:hydrate",this.hydrate),window.dispatchEvent(new CustomEvent("astro:hydrate"))}}connectedCallback(){!this.hasAttribute("await-children")||this.firstChild?this.childrenConnectedCallback():new MutationObserver((s,e)=>{e.disconnect(),this.childrenConnectedCallback()}).observe(this,{childList:!0})}async childrenConnectedCallback(){window.addEventListener("astro:hydrate",this.hydrate);let s=this.getAttribute("before-hydration-url");s&&await import(s),this.start()}start(){const s=JSON.parse(this.getAttribute("opts")),e=this.getAttribute("client");if(Astro[e]===void 0){window.addEventListener(`astro:${e}`,()=>this.start(),{once:!0});return}Astro[e](async()=>{const n=this.getAttribute("renderer-url"),[a,{default:r}]=await Promise.all([import(this.getAttribute("component-url")),n?import(n):()=>()=>{}]),i=this.getAttribute("component-export")||"default";if(!i.includes("."))this.Component=a[i];else{this.Component=a;for(const d of i.split("."))this.Component=this.Component[d]}return this.hydrator=r,this.hydrate},s,this)}attributeChangedCallback(){this.hydrator&&this.hydrate()}},l.observedAttributes=["props"],l))}</script><main>
+    <div class="flex flex-col px-[3%] pt-8 text-base sm:px-[0.5%] 2xl:px-[13%]">
+      <div class="flex flex-col md:flex-row md:gap-10">
+        
+        <div class="flex w-full flex-col gap-3 md:w-2/3">
+          <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-6xl" id="article-title">
+            Spring 2021 trend forecast
+          </h1>
+          <div class="flex flex-row font-semibold">
+                <svg viewBox="0 0 24 24" class="my-auto mr-1 h-4 w-4" astro-icon="ic:baseline-access-time-filled"><path fill="currentColor" d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm3.3 14.71L11 12.41V7h2v4.59l3.71 3.71-1.42 1.41z"/></svg>
+                <p class="my-auto" id="article-timestamp">
+                  17/03/2021
+                </p>
+              </div>
+          <h3 id="article-excerpt">
+            Nouse Fashion predicts the upcoming trends for the spring season.
+          </h3>
+          <img id="article-image" class="aspect-video rounded-lg object-cover" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1615973444773-76402129652180600000-fashiompng_large.png" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;" alt="Article Image">
+          <div class="relative h-5">
+            <div class="absolute top-0 left-0 border-l-[5px] h-full border-color-fashion">
+            </div>
+            <p class="ml-2 category-color-fashion" id="article-credits">
+              Image by Versace SS21
+            </p>
+          </div>
+          <p class="text-xl italic">
+            <span class="category-color-fashion">By
+            </span>
+            <a href="/website/author/148211">Emily Harvie
+            </a>
+          </p>
+          <div id="article-content" class="text-justify"><p><strong>1. â€˜60s colour/neon</strong></p>
+<p><img src="https://nouse.co.uk/image/?f=5007&amp;s=large&amp;r=true" alt="5007" /><br />
+Versace SS21</p>
+<p>Many people believe that coming out of lockdown will lead to a sort of post-war revival period; a moment of glitz and glamour, and a celebration of fashion and dressing up (I have my fingers crossed). What better way to serve this atmosphere than with the hyper colours of yellow, orange and pink. Neon can be a difficult shade to approach, but trust me, the best way to wear it is with confidence.</p>
+<ul><li>Urban Outfitters <a href="https://www.urbanoutfitters.com/en-gb/shop/uo-tori-tie-dye-ribbed-racer-vest2?category=SEARCHRESULTS&amp;color=066&amp;searchparams=q%3Dpink%2520top&amp;type=REGULAR&amp;quantity=1">Tori Tie-Dye Ribbed Racer VestÂ </a></li>
+<li>Dancing Leopard <a href="https://www.dancingleopard.co.uk/products/olivera-midi-dress-in-silhouette-pink-on-green?variant=31835844706375&amp;gclid=CjwKCAiAhbeCBhBcEiwAkv2cYzfPTsldcIcC3AyrpJVu162RM6VmMe7wPkBkAMeDp07Gero6wbJxChoCUjAQAvD_BwE">Olivera Midi Dress in Pink on GreenÂ </a></li>
+<li>ASOS <a href="https://www.asos.com/vero-moda/vero-moda-all-over-lace-cami-mini-dress-with-tie-straps-in-orange/prd/9368813?colourwayid=15038031&amp;SearchQuery=orange%20dress">Vero Moda all over lace mini dressÂ </a></li>
+<li>ASOS <a href="https://www.asos.com/never-fully-dressed/never-fully-dressed-long-shirred-sleeve-midi-dress-in-contrast-neon-fleck-print/prd/14717801?colourwayid=16638680&amp;SearchQuery=neon%20floral%20print">Never Fully Dressed long shirred sleeve midi dressÂ </a></li>
+</ul><p><strong>2. Wide Leg Trousers</strong></p>
+<p><img src="https://nouse.co.uk/image/?f=5008&amp;s=large&amp;r=true" alt="5008" /><br />
+Chanel Haute Couture SS21</p>
+<p>The abolition of the skinny jean has been a growing movement for quite some time now and, although I would still be hesitant to chuck your favourite skinnies out, with most trends being circular, now is the definitely the time to try this new style out. Although not as figure hugging or sleek as previously beloved styles, wide leg trousers are far more comfortable. The ones linked below from Zara have a slightly slimmer upper leg meaning that you don't lose all shape.</p>
+<ul><li>Nasty Gal <a href="https://www.nastygal.com/gb/wide-awake-high-waisted-wide-leg-trousers/AGG62885-2.html?color=209">wide awake high-waisted leg trousersÂ </a></li>
+<li>Zara <a href="https://www.zara.com/uk/en/wide-leg-full-length-jeans-p06045026.html?v1=97839904&amp;v2=1718739">wide-leg full length jeansÂ </a></li>
+<li>H&amp;M <a href="https://www2.hm.com/en_gb/productpage.0963087005.html?pr_oyster=hnsqtsp6AA&amp;gclid=CjwKCAiAhbeCBhBcEiwAkv2cY1dFysPMTCPHbfODxiRg8p-uRO7mkygLnnRRFcrYWCKHZKsqCsj0yxoCMY4QAvD_BwE">wide twill trousersÂ </a></li>
+<li>River Island black <a href="https://www.riverisland.com/p/black-abstract-print-wide-leg-trousers-788343?gclid=CjwKCAiAhbeCBhBcEiwAkv2cYx5HkXlPjWVzb8potmoFzcKC224XfdOv4Cx5VELQ9Fb9a4nAoSBmSxoCqpYQAvD_BwE&amp;gclsrc=aw.ds">abstract print wide-leg trousersÂ </a></li>
+<li>Urban Outfitters <a href="https://www.urbanoutfitters.com/en-gb/shop/urban-outfitters-archive-puddle-trousers?category=SEARCHRESULTS&amp;color=045&amp;searchparams=q%3Dwide%2520leg%2520trousers&amp;type=REGULAR&amp;quantity=1">Archive Puddle TrouserÂ </a></li>
+</ul><p><strong>3. Low Rise Mini Skirts</strong></p>
+<p><img src="https://nouse.co.uk/image/?f=5009&amp;s=large&amp;r=true" alt="5009" /><br />
+Miu Miu Spring 2021 ready-to-wear</p>
+<p>â€˜90s trends came back in force in the new year, and theyâ€™re not going anywhere for Spring 2021. We have gone from flared jeans to the return of the low rise (insert gasp of horror). This was a trend many people were dreading to reemerge after years of getting comfortable in our high rise bottoms, however theyâ€™re back at here to stay for spring/summer. If youâ€™re wanting to rock this â€˜90s style with confidence, Urban Outfitters have some great everyday options:</p>
+<ul><li><a href="https://www.urbanoutfitters.com/en-gb/shop/bdg-low-rise-distressed-denim-mini-skirt?category=skirts&amp;color=092&amp;type=REGULAR&amp;quantity=1">BDG Low Rise Denim SkirtÂ </a></li>
+<li><a href="https://www.urbanoutfitters.com/en-gb/shop/uo-beige-low-rise-denim-pelmet-skirt?category=skirts&amp;color=024&amp;type=REGULAR&amp;quantity=1">UO Beige Low Rise Denim Skirt</a></li>
+</ul><p><strong>4.</strong>Â <strong>Block colour trousers</strong></p>
+<p><img src="https://nouse.co.uk/image/?f=5010&amp;s=large&amp;r=true" alt="5010" /><br />
+Raf Simons Spring 2021 ready-to-wear</p>
+<p>Autumn and winter of 2020/21 fashion was the season of neutrals. Beige, brown, and cream were the chosen colour palette for most brands. However, Spring 2021 marks the beginning of a colourful new wardrobe. This was shown in many spring collections during London Fashion week, such as Raf Simonsâ€™, block colour trousers, and they are starting to appear in high street fashion. For example, Zara have released a new coloured denim collection for SS21, starring the <a href="https://www.zara.com/uk/en/wide-leg-full-length-coloured-jeans-p06045011.html?v1=93791986&amp;v2=1718780">WIDE-LEG FULL-LENGTH COLOURED JEANS</a>, which are available in bright yellow, green and pink.</p>
+<p><strong>5.Â Abstract patterns</strong></p>
+<p><img src="https://nouse.co.uk/image/?f=5011&amp;s=large&amp;r=true" alt="5011" /><br />
+Raf Simons Spring 2021 ready-to-wear</p>
+<p>Abstract patterns already started to make an appearance in Autumn fashion, especially in the realm of Instagram fashion. Yet again, they seem to be here to stay for Spring 2021. Statement abstract patterns are a great way to inject both colour and uniqueness into any outfit. Insta-famous brand Jaded London are the pioneers of the patterned trend, and so I have linked some of their most well-love pieces below, along with some other, equally as stunning, alternatives:</p>
+<ul><li>Jaded London have many options e.g. <a href="https://jadedldn.com/collections/morpheus/products/abstract-square-print-cold-shoulder-long-sleeve-mesh-top">Abstract Square Mesh Top</a>, <a href="https://jadedldn.com/collections/denim-shop/products/green-blue-printed-slouchy-fit-jeans">Green &amp; Blue Slouchy Fit Jeans</a></li>
+<li>House of Sunny <a href="https://www.houseofsunny.co.uk/product-page/paradise-party-pant">Paradise Party Pant</a> and <a href="https://www.houseofsunny.co.uk/product-page/paradise-party-top">Paradise Party TopÂ </a></li>
+<li>Zara <a href="https://www.zara.com/uk/en/jacquard-mini-skirt-p01198024.html">Jacquard Mini SkirtÂ </a></li>
+</ul><p><strong>6.Â Platform sandals</strong></p>
+<p><img src="https://nouse.co.uk/image/?f=5012&amp;s=large&amp;r=true" alt="5012" /><br />
+Bottega Veneta Spring 2021 ready-to-wear</p>
+<p>Though this next trend may be slightly ambitious for British Spring weather, platform sandals are bound to make an appearance in SS21 fashion. Gucciâ€™s <a href="https://www.gucci.com/uk/en_gb/pr/women/shoes-for-women/slides-thongs-sandals-for-women/womens-rubber-slide-sandal-p-624730J87005815?gclsrc=aw.ds&amp;gclid=Cj0KCQjwi7yCBhDJARIsAMWFScPIzCgCT0b6vI4hhqolsviGPWOmldX0U0X36cZTlpcqLDAFgnLOeFsaAo6VEALw_wcB&amp;gclsrc=aw.ds">rubber slide sandals</a> have already received a lot of attention on social media, resulting in many high street brands, such as Bershka (linked below), taking inspiration from the â€˜70s design. They are a fun and statement addition to any outfit on a warm spring day. Here are some high street options for this season:</p>
+<p>-Â <a href="https://www.asos.com/asos-design/asos-design-target-premium-leather-toe-thong-flatforms-in-white/prd/21949781?colourwayid=60311685&amp;SearchQuery=&amp;cid=13489">ASOS DESIGN leather throng flatforms</a><br />
+-Â <a href="https://www.asos.com/asos-design/asos-design-ferris-chunky-flip-flop-sandals-in-pastel-green/prd/21820988?ctaref=we+recommend+carousel_1&amp;featureref1=we+recommend+pers">ASOS DESIGN chunky flop sandals</a><br />
+-Â <a href="https://www.asos.com/asos-design/asos-design-flori-flatform-sliders-in-baby-pink/prd/22240830?ctaref=we+recommend+carousel_8&amp;featureref1=we+recommend+pers">ASOS DESIGN Flori flatform slidersÂ </a><br />
+-Â <a href="https://www.bershka.com/gb/women/shoes/sandals/shiny-heeled-sandals-c1010205533p102853156.html?colorId=080&amp;stylismId=1">Bershka Shiny heeled sandals</a> (Gucci inspired)<br />
+-Â <a href="https://www.bershka.com/gb/women/shoes/sandals/quilted-platform-sandals-c1010205533p102879023.html?colorId=040&amp;stylismId=1">Bershka Quilted platform sandalsÂ </a><br />
+-Â <a href="https://uk.nakedwolfe.com/collections/heels-2/products/jada-cobalt-blue-leather">Naked Wolfe The JADA Heel</a></p>
+<p><strong>7.Â Jumpsuits</strong></p>
+<p><img src="https://nouse.co.uk/image/?f=5013&amp;s=large&amp;r=true" alt="5013" /><br />
+Saint Laurent Spring 2021 ready-to-wear</p>
+<p>Jumpsuits are making a comeback this spring. They are another fashion trend to go viral on Instagram, with many influencers sporting the new look. What was once an outdated or overly formal outfit choice, jumpsuits have now become a trendy and youthful addition to a spring wardrobe. New jumpsuit designs are not only incredibly flattering, but they also eliminate the hassle of choosing an outfit. It is a one-piece wonder, as you can put it on and have an instantly stylish, spring-ready fit. Here are some favourites linked below:</p>
+<ul><li>Peachy Den <a href="https://www.peachyden.co.uk/shop/emeraldvelvetjumpsuit">The Kernel JumpsuitÂ </a></li>
+<li>UO <a href="https://www.urbanoutfitters.com/en-gb/shop/uo-dark-blue-hello-sunshine-denim-jumpsuit?category=SEARCHRESULTS&amp;color=042&amp;searchparams=_cclid%3DGoogle_Cj0KCQjwi7yCBhDJARIsAMWFScOKzRn9wZs0hgGUalEG0vqgJRr67lIfPGhcvYbKZhOCAwctqShcvC8aAisJEALw_wcB%26gclid%3DCj0KCQjwi7yCBhDJARIsAMWFScOKzRn9wZs0hgGUalEG0vqgJRr67lIfPGhcvYbKZhOCAwctqShcvC8aAisJEALw_wcB%26q%3Djumpsuits%26utm_campaign%3DGenerics%26utm_content%3DCj0KCQjwi7yCBhDJARIsAMWFScOKzRn9wZs0hgGUalEG0vqgJRr67lIfPGhcvYbKZhOCAwctqShcvC8aAisJEALw_wcB&amp;type=REGULAR&amp;quantity=1">Hello Sunshine Denim JumpsuitÂ </a></li>
+<li>UO <a href="https://www.urbanoutfitters.com/en-gb/shop/uo-black-alexa-jumpsuit?category=SEARCHRESULTS&amp;color=001&amp;searchparams=_cclid%3DGoogle_Cj0KCQjwi7yCBhDJARIsAMWFScOKzRn9wZs0hgGUalEG0vqgJRr67lIfPGhcvYbKZhOCAwctqShcvC8aAisJEALw_wcB%26gclid%3DCj0KCQjwi7yCBhDJARIsAMWFScOKzRn9wZs0hgGUalEG0vqgJRr67lIfPGhcvYbKZhOCAwctqShcvC8aAisJEALw_wcB%26q%3Djumpsuits%26utm_campaign%3DGenerics%26utm_content%3DCj0KCQjwi7yCBhDJARIsAMWFScOKzRn9wZs0hgGUalEG0vqgJRr67lIfPGhcvYbKZhOCAwctqShcvC8aAisJEALw_wcB&amp;type=REGULAR&amp;quantity=1">Black Alexa JumpsuitÂ </a><br />
+-Â <a href="https://www.urbanoutfitters.com/en-gb/shop/jaded-blue-embossed-towelling-playsuit?category=SEARCHRESULTS&amp;color=040&amp;searchparams=_cclid%3DGoogle_Cj0KCQjwi7yCBhDJARIsAMWFScOKzRn9wZs0hgGUalEG0vqgJRr67lIfPGhcvYbKZhOCAwctqShcvC8aAisJEALw_wcB%26gclid%3DCj0KCQjwi7yCBhDJARIsAMWFScOKzRn9wZs0hgGUalEG0vqgJRr67lIfPGhcvYbKZhOCAwctqShcvC8aAisJEALw_wcB%26q%3Djumpsuits%26utm_campaign%3DGenerics%26utm_content%3DCj0KCQjwi7yCBhDJARIsAMWFScOKzRn9wZs0hgGUalEG0vqgJRr67lIfPGhcvYbKZhOCAwctqShcvC8aAisJEALw_wcB&amp;type=REGULAR&amp;quantity=1">Jaded Blue PlaysuitÂ </a><br /><strong>8.Â Shirt dresses</strong></li>
+</ul><p><img src="https://nouse.co.uk/image/?f=5014&amp;s=large&amp;r=true" alt="5014" /><br />
+Hugo Boss Spring 2021 ready-to-wear</p>
+<p>The formal shirt dress has been reimagined this Spring. The new jersey material shirt dress is a great cute but casual piece for this season. They can easily be dressed up with a pair of heels or heeled boots, but can also easily be paired with some trainers or flat boots for a stylish everyday look. These dresses are also great for the classic British in-between weather, where it's not quite warm enough for no sleeves but also feels too warm for jeans. Here are some great shirt dress options:</p>
+<p>-Â <a href="https://jadedldn.com/collections/dresses/products/tie-dye-velvet-ruched-shirt-dress">Tie Dye Velvet Ruched Shirt Dress</a> from Jaded London</p>
+<ul><li>Pretty Little Thing <a href="https://www.prettylittlething.com/chartreuse-rib-long-sleeve-ruched-shirt-dress.html?utm_source=google&amp;utm_medium=cpc&amp;utm_campaign=google_shopping&amp;utm_content=uk&amp;utm_term=product_target&amp;sv_campaign_id=2014910586&amp;istCompanyId=3b233929-048d-4b79-a672-b37827e7282d&amp;istFeedId=995a7449-4b91-4f81-8010-f9c5da786479&amp;istItemId=iatpawpmm&amp;istBid=tzww&amp;gclid=Cj0KCQjwi7yCBhDJARIsAMWFScMID_-uLTzhmwj4XGisRCgFvf_PdbdoGaCA1SE-qqI4QISSkqW3zBMaAjqSEALw_wcB&amp;gclsrc=aw.ds">Long Sleeved Ruched Shirt Dress</a></li>
+</ul><p><strong>9. Patterned denim</strong></p>
+<p><img src="https://nouse.co.uk/image/?f=5015&amp;s=large&amp;r=true" alt="5015" /><br />
+Charlotte Knowles Spring 2021 ready-to-wear</p>
+<p>Patterned denim is prominent in many SS21 collections this year. This label encompasses classic jeans with subtle denim detailing, as well as more statement jeans which have been coloured or patterned. These pieces are great to pair with the simpler items in your wardrobe and still create an elevated and interesting look. Here are some of our favourite jeans this season:</p>
+<ul><li>Jaded London <a href="https://jadedldn.com/collections/denim-shop/products/flower-print-retro-flare-jeans">Flower Print Flare Jeans</a></li>
+<li>Jaded London <a href="https://jadedldn.com/collections/denim-shop/products/landscape-print-boyfriend-fit-jeans">Landscape Print Boyfriend jeansÂ Â </a></li>
+<li>The Ragged Priest <a href="https://theraggedpriest.com/collections/womens-jeans/products/rook-jean-blue">Rook Jean Blue</a></li>
+<li>The Ragged Priest <a href="https://theraggedpriest.com/collections/womens-jeans/products/rook-jean-blue">Infringement Jean</a></li>
+</ul><p><strong>10.Â Silk/satin sets</strong></p>
+<p><img src="https://nouse.co.uk/image/?f=5016&amp;s=large&amp;r=true" alt="5016" /><br />
+Burberry SS21</p>
+<p>Silk looking sets are bound to be the perfect addition to your wardrobe for a smooth transition into the real world from the one of pyjamas we have all been living in during lockdown. These silky pyjama-style sets are comfortable, breezy and look ever so chic with a hat and heels. Donâ€™t be afraid to actually buy pyjama sets as they can be a cheaper but still as effective alternative.</p>
+<p>-Â <a href="https://www.zara.com/uk/en/striped-satin-trousers-p08741020.html?v1=85907378">Zara Striped Satin TrousersÂ </a><br />
+-Â <a href="https://www.zara.com/uk/en/satin-trousers-p00264465.html?v1=92869965&amp;v2=1719401">Zara Satin TrousersÂ </a><br />
+-Â <a href="https://www.zara.com/uk/en/satin-full-length-trousers-p07385552.html?v1=98192464">Zara Satin Full-Length TrousersÂ </a><br />
+-Â <a href="https://www.nastygal.com/gb/your-shine-is-now-wide-leg-trouser-co-ord/GAL00203.html">Nasty Gal Your Shine Is Now Wide-Leg TrouserÂ </a></p>
+<p><strong>11.</strong>Â <strong>Bralettes/corsets</strong></p>
+<p><img src="https://nouse.co.uk/image/?f=5017&amp;s=large&amp;r=true" alt="5017" /><br />
+Dior Ready-to-wear SS21</p>
+<p>Bralettes and corsets were seen on all the major catwalks including Dior and Versace, but there has also been an increasing presence of them on social media, with a particular one from Amazon (linked below) going viral on TikTok. If wearing one by itself is still a little scary, then pair it with a floaty dress to give your outfit some structure and definition.</p>
+<ul><li>Amazon <a href="https://www.amazon.co.uk/Grebrafan-Corset-Overbust-Cincher-Bustier/dp/B07PGKXF63/ref=sr_1_5?dchild=1&amp;keywords=corset&amp;qid=1615731725&amp;sr=8-5">Grebrafan Corset Overbust Cincher BustierÂ </a></li>
+<li>ASOS <a href="https://www.asos.com/bershka/bershka-cropped-cami-and-cardi-co-ord-in-blue/grp/34438?colourwayid=60500893#23650510&amp;SearchQuery=bralette">Bershka cropped cami and cardi co-ordÂ </a></li>
+<li>ASOS <a href="https://www.asos.com/topshop/topshop-blurred-floral-satin-bralette-in-multi/prd/22814574?colourwayid=60428362&amp;SearchQuery=bralette">Topshop blurred floral satin braletteÂ </a></li>
+<li>Nasty Gal <a href="https://www.nastygal.com/gb/be-right-square-neck-denim-corset-top/AGG52300-1.html?color=132">Be Right Square Neck Denim Corset TopÂ </a></li>
+</ul><p><strong>12.Â Bohemian maxi dress</strong></p>
+<p><img src="https://nouse.co.uk/image/?f=5018&amp;s=large&amp;r=true" alt="5018" /><br />
+Etro SS21</p>
+<p>Who doesnâ€™t want the excuse to dress up like a princess and run around in a beautiful floaty dress all day? These dresses give you the perfect excuse to do so, with the florals and ruffles adding to the Spring feel. You can also find some that are slightly less feminine, using different patterns such as animal or morrocan print.</p>
+<ul><li>ASOS <a href="https://www.asos.com/topshop/topshop-long-sleeve-maxi-dress-in-black-floral-print/prd/23904064?colourwayid=60522250&amp;SearchQuery=maxi%20dress">Topshop long sleeve maxi dress in black floral printÂ </a></li>
+<li>Boohoo <a href="https://www.boohoo.com/gabriella-bohemian-tie-detail-maxi-dress/DZZ34976-208-24.html?istCompanyId=4bd63293-f970-4d25-8695-422e3c08a364&amp;istFeedId=4213e776-38e9-4fed-89b9-aadfd4011112&amp;istItemId=itpilarql&amp;istBid=t&amp;gclid=CjwKCAiAhbeCBhBcEiwAkv2cY2GHmpBdZOHh6QAqY554ViI1YifsLJdkmU2tjr9LNYGF83d9jIkQKBoC6rYQAvD_BwE&amp;gclsrc=aw.ds">Gabriella bohemian tie detail maxi dressÂ </a></li>
+<li>Urban Outfitters <a href="https://www.urbanoutfitters.com/en-gb/shop/uo-kezia-maxi-skirt?inventoryCountry=GB&amp;currency=GBP&amp;color=061&amp;size=S&amp;utm_campaign=Shopping&amp;utm_term=CSS_Generics&amp;utm_content=CjwKCAiAhbeCBhBcEiwAkv2cY9z0KyQLGxx2NZ02nrVnqMyQpj9XCHlMZ1_Ctc5RYb7mb5gnsIUWaRoCyvQQAvD_BwE&amp;_cclid=Google_CjwKCAiAhbeCBhBcEiwAkv2cY9z0KyQLGxx2NZ02nrVnqMyQpj9XCHlMZ1_Ctc5RYb7mb5gnsIUWaRoCyvQQAvD_BwE&amp;gclid=CjwKCAiAhbeCBhBcEiwAkv2cY9z0KyQLGxx2NZ02nrVnqMyQpj9XCHlMZ1_Ctc5RYb7mb5gnsIUWaRoCyvQQAvD_BwE&amp;type=REGULAR&amp;quantity=1">Kezia maxi shirtÂ </a></li>
+<li>Nasty Gal <a href="https://www.nastygal.com/gb/paisley-floral-maxi-dress/AGG55751-1.html?color=173">Paisley floral maxi dressÂ </a></li>
+<li>Nasty Gal <a href="https://www.nastygal.com/gb/-leopard-stripe-ruffle-maxi-dress-/AGG56218.html">Leopard Stripe Ruffle Maxi DressÂ </a></li>
+</ul><p><strong>13.</strong>Â <strong>Crochet knit tops</strong></p>
+<p>The bohemian feel continues with the return of crochet knit tops. They first made a reappearance in Miu Miuâ€™s SS21 collection, with their <a href="https://www.farfetch.com/uk/shopping/women/miu-miu-floral-motif-crochet-top-item-15133037.aspx?size=18&amp;storeid=12113&amp;utm_source=google&amp;utm_medium=cpc&amp;utm_keywordid=126432738&amp;utm_shoppingproductid=15133037-5156&amp;pid=google_search&amp;af_channel=Search&amp;c=1603618029&amp;af_c_id=1603618029&amp;af_siteid=&amp;af_keywords=pla-416870687995&amp;af_adset_id=66294291732&amp;af_ad_id=305209734659&amp;af_sub1=126432738&amp;af_sub5=15133037-5156&amp;is_retargeting=true&amp;shopping=yes&amp;gclid=Cj0KCQjwi7yCBhDJARIsAMWFScOFvOieJoXsv-HUybKHLH1wojt1ayGgr-DO1vIIuqB-phMm44DCLowaAswqEALw_wcB">floral motif crochet top</a> and <a href="https://www.farfetch.com/uk/shopping/women/miu-miu-crochet-halter-dress-item-15303879.aspx?size=19&amp;storeid=11250&amp;utm_source=google&amp;utm_medium=cpc&amp;utm_keywordid=126432816&amp;utm_shoppingproductid=15303879-5248&amp;pid=google_search&amp;af_channel=Search&amp;c=1603618029&amp;af_c_id=1603618029&amp;af_siteid=&amp;af_keywords=pla-537775412591&amp;af_adset_id=66294291332&amp;af_ad_id=305209734647&amp;af_sub1=126432816&amp;af_sub5=15303879-5248&amp;is_retargeting=true&amp;shopping=yes&amp;gclid=Cj0KCQjwi7yCBhDJARIsAMWFScMKdbFeiAWy60KKezerxeRioDlilyb-uMZCU_1gNWJwFoIGEySmy18aArP4EALw_wcB">crochet halter dress</a>. This high end design has inspired many high street brands, such as Urban Outfitters (linked below), to produce similar items for this Spring/Summer. These cute tops create a relaxed and summery feel, and are a great addition to the Spring wardrobe.</p>
+<p>-Â <a href="https://www.urbanoutfitters.com/en-gb/shop/without-you-uo-exclusive-blue-crochet-top?inventoryCountry=GB&amp;currency=GBP&amp;color=040&amp;size=M&amp;_cclid=Google_Cj0KCQjwi7yCBhDJARIsAMWFScPA-cDM-_GENhP_CYee0g48R76CpC4ltzh8DcjfvVFHX5sp0ecaU58aAkRGEALw_wcB&amp;utm_campaign=Shopping&amp;utm_term=CSS_Generics&amp;utm_content=Cj0KCQjwi7yCBhDJARIsAMWFScPA-cDM-_GENhP_CYee0g48R76CpC4ltzh8DcjfvVFHX5sp0ecaU58aAkRGEALw_wcB&amp;gclid=Cj0KCQjwi7yCBhDJARIsAMWFScPA-cDM-_GENhP_CYee0g48R76CpC4ltzh8DcjfvVFHX5sp0ecaU58aAkRGEALw_wcB&amp;type=REGULAR&amp;quantity=1">Without You UO Blue Crochet TopÂ </a><br />
+-Â <a href="https://www.urbanoutfitters.com/en-gb/shop/without-you-uo-exclusive-cream-halterneck-crochet-top?inventoryCountry=GB&amp;currency=GBP&amp;color=012&amp;size=M&amp;_cclid=Google_Cj0KCQjwi7yCBhDJARIsAMWFScOqxyCJ9PUdpx8wP59Hy3L3NWwGQvUD6ZnPt-voX6r3eY5kZ-RWGcQaAsIHEALw_wcB&amp;utm_campaign=Shopping&amp;utm_term=CSS_Generics&amp;utm_content=Cj0KCQjwi7yCBhDJARIsAMWFScOqxyCJ9PUdpx8wP59Hy3L3NWwGQvUD6ZnPt-voX6r3eY5kZ-RWGcQaAsIHEALw_wcB&amp;gclid=Cj0KCQjwi7yCBhDJARIsAMWFScOqxyCJ9PUdpx8wP59Hy3L3NWwGQvUD6ZnPt-voX6r3eY5kZ-RWGcQaAsIHEALw_wcB&amp;type=REGULAR&amp;quantity=1">Without You UO Halterneck Crochet Top</a></p>
+<p><strong>14.Â Cut outs</strong></p>
+<p><img src="https://nouse.co.uk/image/?f=5019&amp;s=large&amp;r=true" alt="5019" /><br />
+Prada Womenswear SS21</p>
+<p>Cut outs were present on the catwalks of Prada, Victoria Beckham, Michael Kors and Jacquemus to name a few, and have subsequently infiltrated every online shopping website and influencerâ€™s Instagram. The look is reminiscent of holidays, while being covered enough for British spring time. You can also choose from numerous styles, where the cut out falls, whether it be on your top, dress, arm, side,etc, and how many cut outs you want. There is a variety currently on the market, so the choice is all yours.</p>
+<ul><li>Nasty Gal <a href="https://www.nastygal.com/gb/ribbed-cut-out-tie-crop-top/AGG48663-1.html?color=105">Ribbed Cut Out Tie Crop TopÂ </a></li>
+<li>ASOS <a href="https://www.asos.com/river-island/river-island-cut-out-overlay-knit-top-in-brown/prd/23359918?colourwayid=60474700&amp;SearchQuery=cut%20out">River Island cut out overlay knit topÂ </a></li>
+<li>ASOS <a href="https://www.asos.com/na-kd/na-kd-cut-out-detail-top-in-white/prd/22384856?colourwayid=60394534&amp;SearchQuery=cut%20out">Na-kd cut out detail topÂ </a></li>
+<li>Na-kd <a href="https://www.na-kd.com/en/na-kd-trend/cut-out-waist-detail-maxi-dress-black?dfw_tracker=30134-752955&amp;gclid=CjwKCAiAhbeCBhBcEiwAkv2cY7wDw67qwFRQxD85u32sf7CiqOuQ20lPfBZqeZp41Jg0pti2IPyMrhoCFHwQAvD_BwE">cut out waist detail maxi dressÂ </a></li>
+<li>&amp; Other Stories <a href="https://www.stories.com/en_gbp/clothing/knitwear/sweaters/product.fitted-cut-out-crop-top-white.0949573001.html">Fitted Cut Out Crop Top</a></li>
+</ul><p><strong>15. Stripes</strong></p>
+<p><img src="https://nouse.co.uk/image/?f=5020&amp;s=large&amp;r=true" alt="5020" /><br />
+Missoni SS21</p>
+<p>Stripes are getting a new lease of life â€“ the designers want us to re-envision them, with Molly Goddard making them bright and bold, while Dior made them bigger and better. There is definitely no denying that stripes are back; they are perfect for flattering any figure, and are reminiscent of warmer months, the sun and sand.</p>
+<ul><li>Nasty Gal <a href="https://www.nastygal.com/gb/treat-you-stripe-knitted-tank-top/AGG56425.html">Treat You Stripe Knitted Tank TopÂ </a></li>
+<li>Nasty Gal <a href="https://www.nastygal.com/gb/stripe-back-to-bed-knit-shorts-lounge-set/AGG49833.html">Stripe Back to Bed Knit Shorts Lounge SetÂ </a></li>
+<li>ASOS DESIGN <a href="https://www.asos.com/asos-design/asos-design-oversized-fisherman-rib-jumper-with-mixed-stripes/prd/22842163?colourwayid=60430640&amp;SearchQuery=stripes">oversized fisherman rib jumper with mixed stripesÂ </a></li>
+<li>ASOS <a href="https://www.asos.com/won-hundred/won-hundred-jojo-wide-leg-striped-trousers-in-green/prd/22007719?colourwayid=60342712&amp;SearchQuery=stripes">Won Hundred Jojo wide leg striped trousersÂ </a></li>
+<li>Urban Outfitters <a href="https://www.urbanoutfitters.com/en-gb/shop/iets-frans-varsity-stripe-cardigan?category=SEARCHRESULTS&amp;color=000&amp;searchparams=q%3Dstripe&amp;type=REGULAR&amp;quantity=1">iets frans varsity stripe cardiganÂ </a></li>
+</ul></div>
+        </div>
+        
+        <div class="flex w-full flex-col md:w-1/3">
+          <astro-island uid="2dOpgo" component-url="/website/_astro/TopArticles.cdcc8332.js" component-export="default" renderer-url="/website/_astro/client.3c59857c.js" props="{&quot;baseUrl&quot;:[0,&quot;/website&quot;]}" ssr="" client="only" opts="{&quot;name&quot;:&quot;TopArticles&quot;,&quot;value&quot;:true}"></astro-island>
+        </div>
+      </div>
+      
+      <div class="mt-10 border-t-2 border-whiteish-200">
+        <h3 class="block py-2 text-4xl">Similar Articles</h3>
+        <div class="flex h-min flex-col md:flex-row" id="similar-articles-container">
+          <div class="mt-4 w-full border-b-whiteish-200 border-r-whiteish-200 pb-4 md:mt-0 md:max-w-[25%] md:pb-0 border-b-2 border-r-0 md:border-b-0 md:border-r-2 md:pr-4 md:ml-0">
+                <div class="h-min">
+                  
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-col astro-Q7KXOHAS">
+    <a class="image-link w-full astro-Q7KXOHAS" href="/website/2023/03/06/awards-season-outfits-review-">
+          <img class="aspect-video w-full rounded-xl object-cover mb-5 astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1678115217785-70011394436793900000-imagepng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/website/2023/03/06/awards-season-outfits-review-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Awards season outfits review</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148390">
+              <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+                <span class="category-color astro-Q7KXOHAS">By</span>
+                Hannah  Boyle
+              </p>
+            </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/website/2023/03/06/awards-season-outfits-review-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                </div>
+              </div><div class="mt-4 w-full border-b-whiteish-200 border-r-whiteish-200 pb-4 md:mt-0 md:max-w-[25%] md:pb-0 border-b-2 border-r-0 md:border-b-0 md:border-r-2 md:pr-4 md:ml-4">
+                <div class="h-min">
+                  
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-col astro-Q7KXOHAS">
+    <a class="image-link w-full astro-Q7KXOHAS" href="/website/2023/02/20/the-world-of-fashion-resale">
+          <img class="aspect-video w-full rounded-xl object-cover mb-5 astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676896693984-58197709907344245000-screenshot20230220at123801png_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/website/2023/02/20/the-world-of-fashion-resale">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">The World of Fashion Resale</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148314">
+              <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+                <span class="category-color astro-Q7KXOHAS">By</span>
+                Gracie Daw
+              </p>
+            </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/website/2023/02/20/the-world-of-fashion-resale">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                </div>
+              </div><div class="mt-4 w-full border-b-whiteish-200 border-r-whiteish-200 pb-4 md:mt-0 md:max-w-[25%] md:pb-0 border-b-2 border-r-0 md:border-b-0 md:border-r-2 md:pr-4 md:ml-4">
+                <div class="h-min">
+                  
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-col astro-Q7KXOHAS">
+    <a class="image-link w-full astro-Q7KXOHAS" href="/website/2023/02/11/making-the-argument-for-intergenerational-fashion">
+          <img class="aspect-video w-full rounded-xl object-cover mb-5 astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676120948412-29357055673811403000-imagepng_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/website/2023/02/11/making-the-argument-for-intergenerational-fashion">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">Making the argument for intergenerational fashion</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148306">
+              <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+                <span class="category-color astro-Q7KXOHAS">By</span>
+                Kendra Williams
+              </p>
+            </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/website/2023/02/11/making-the-argument-for-intergenerational-fashion">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                </div>
+              </div><div class="mt-4 w-full border-b-whiteish-200 border-r-whiteish-200 pb-4 md:mt-0 md:max-w-[25%] md:pb-0 border-0 md:pr-4 md:ml-4">
+                <div class="h-min">
+                  
+<div class="article h-full overflow-hidden text-ellipsis astro-Q7KXOHAS" style="--categoryColor: #843F71;--textColour: #000;">
+  <div class="flex flex-col astro-Q7KXOHAS">
+    <a class="image-link w-full astro-Q7KXOHAS" href="/website/2023/02/11/god-save-the-queen--a-tribute-to-vivienne-westwood-">
+          <img class="aspect-video w-full rounded-xl object-cover mb-5 astro-Q7KXOHAS" src="https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1676118852941-83634584819437580000-screenshot20230211at121520png_large.png" alt="Article Thumbnail" onerror="if (this.src !== &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;) this.src = &#34;https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg&#34;">
+        </a>
+    <div class="w-full false astro-Q7KXOHAS">
+      
+      <div class="mb-2 astro-Q7KXOHAS">
+        <a class="headline astro-Q7KXOHAS" href="/website/2023/02/11/god-save-the-queen--a-tribute-to-vivienne-westwood-">
+          <p class="text-l text-colour xl:text-xl 2xl:text-2xl astro-Q7KXOHAS">&#39;God Save the Queen&#39; : A Tribute to Vivienne Westwood</p>
+        </a>
+        <a class="author astro-Q7KXOHAS" href="/author/148306">
+              <p class="text-colour text-sm italic 2xl:text-base astro-Q7KXOHAS">
+                <span class="category-color astro-Q7KXOHAS">By</span>
+                Kendra Williams
+              </p>
+            </a>
+      </div>
+      <a class="excerpt astro-Q7KXOHAS" href="/website/2023/02/11/god-save-the-queen--a-tribute-to-vivienne-westwood-">
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base astro-Q7KXOHAS"></p>
+      </a>
+    </div>
+  </div>
+</div>
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+  </main><article-cookie-manager data-article-id="150098"></article-cookie-manager>
+  <script>(function(){const categoriesColours = [{"categories_backgroundColor":"#173B88","categories_name":"news"},{"categories_backgroundColor":"#E21615","categories_name":"politics"},{"categories_backgroundColor":"#000000","categories_name":"muse"},{"categories_backgroundColor":"#7A1F6E","categories_name":"comment"},{"categories_backgroundColor":"#FDC300","categories_name":"sport"},{"categories_backgroundColor":"#72033F","categories_name":"features"},{"categories_backgroundColor":"#E992B2","categories_name":"arts"},{"categories_backgroundColor":"#D43F30","categories_name":"music"},{"categories_backgroundColor":"#6D6EA7","categories_name":"film"},{"categories_backgroundColor":"#843F71","categories_name":"fashion"},{"categories_backgroundColor":"#7C9464","categories_name":"food-drink"},{"categories_backgroundColor":"#DB7400","categories_name":"freshers"},{"categories_backgroundColor":"#E88A20","categories_name":"travel"},{"categories_backgroundColor":"#008E3B","categories_name":"science"},{"categories_backgroundColor":"#008ACC","categories_name":"business"},{"categories_backgroundColor":"#D4AF37","categories_name":"shoot"},{"categories_backgroundColor":"#4792BF","categories_name":"gaming"},{"categories_backgroundColor":"#9CD1BE","categories_name":"creative-writing"}];
+
+  const style = document.createElement("style");
+  document.getElementsByTagName("head")[0].appendChild(style);
+  categoriesColours.forEach((c) => {
+    if (style.sheet && style.sheet.insertRule) {
+      style.sheet.insertRule(
+        `.category-color-${c.categories_name} {color: ${c.categories_backgroundColor};}`
+      );
+      style.sheet.insertRule(
+        `.border-color-${c.categories_name} {border-color: ${c.categories_backgroundColor};}`
+      );
+    } else {
+      (style.styleSheet || style.sheet).addRule(
+        `.category-color-${c.categories_name}`,
+        `color: ${c.categories_backgroundColor};`
+      );
+      (style.styleSheet || style.sheet).addRule(
+        `.border-color-${c.categories_name}`,
+        `border-color: ${c.categories_backgroundColor};`
+      );
+    }
+  });
+})();</script>
+</body></html>
