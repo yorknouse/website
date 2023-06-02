@@ -17,6 +17,7 @@ const allEditions = await prisma.editions.findMany({
   },
 });
 
+// Sorting editions into academic years
 let yearlyEditions: { [academicYear: string]: {printEditions: editions[], webEditions: editions[]} } = {};
 allEditions.forEach((edition) => {
   let academicYear =
@@ -57,7 +58,7 @@ allEditions.forEach((edition) => {
             <h2 class="mb-4 text-center text-lg sm:text-3xl">Print Editions and Supplements</h2>
             <div class={`flex flex-wrap gap-8 justify-center mb-4`}>
               {editions.printEditions.map(async (edition) => (
-                <a class="px-[17%] md:w-1/6 md:p-0" href={`editions/${edition.editions_slug}`}>
+                <a class="px-[17%] md:w-1/6 md:p-0" href={`editions/${decodeURIComponent(edition.editions_slug)}`}>
                   {edition.editions_thumbnail && <img class="mb-4 aspect-auto md:aspect-edition object-contain" src={await s3URL(edition.editions_thumbnail, "medium")} />}
                   <h3 class="text-base sm:text-xl text-center">{edition.editions_printNumber ? `№${edition.editions_printNumber}` : edition.editions_name}</h3>
                 </a>

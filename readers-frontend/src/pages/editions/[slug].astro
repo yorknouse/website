@@ -11,7 +11,7 @@ import { s3URL } from "@components/utils/s3URL";
 import type { editions } from "@prisma/client";
 import Layout from "src/layouts/Layout.astro";
 import prisma from "src/prisma";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
 export async function getStaticPaths() {
   const allEditions = await prisma.editions.findMany({
@@ -30,7 +30,7 @@ export async function getStaticPaths() {
   return allEditions.map((edition) => {
     return {
       params: {
-        slug: edition.editions_slug,
+        slug: decodeURIComponent(edition.editions_slug),
       },
       props: {
         edition,
@@ -44,9 +44,10 @@ interface Props {
 }
 
 const { edition } = Astro.props;
-
 const isWebEdition = edition.editions_type === "Web Edition";
 let pdfURL;
+// Data for web editions is saved as a JSON string in the database
+// This is parsed into an object here
 let featuredHighlights: {
   sections: [
     {
@@ -66,7 +67,9 @@ if (isWebEdition && edition.editions_featuredHighlights) {
       const articleIds = section.articles.map((n) => Number.parseInt(n));
       section.articlesData = await getArticles(articleIds);
     }
-    if (section.customBoxHeader.title !== "") {
+
+    // If there is a custom box header, add it to the start of the custom boxes array
+    if (section.customBoxHeader.title) {
       section.customBoxes.splice(0, 0, section.customBoxHeader);
     }
   }
@@ -131,7 +134,7 @@ if (isWebEdition && edition.editions_featuredHighlights) {
                       class="relative mb-5 flex w-full flex-col bg-black text-white px-[3%] pt-4 sm:px-[0.5%] 2xl:px-[13%]"
                     >
                       <h1 class="text-4xl text-center border-b-[1px] border-white">From Our Editors</h1>
-                        <CustomBoxes client:only id={id} customBoxes={section.customBoxes} >
+                        <CustomBoxes client:idle id={id} customBoxes={section.customBoxes} >
                           {
                             section.customBoxes.map((customBox, index) => {
                               return (

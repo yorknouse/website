@@ -82,12 +82,15 @@ interface Props {
 }
 
 const { article, similarArticles: unfilteredSimilarArticles } = Astro.props;
-const topCategory = article.categories[0].category;
+const visibleCategories = article.categories.filter(
+  (category) => category.category.categories_showPublic
+);
+const topCategory = visibleCategories[0].category;
 
 const parentCategory = getParentCategory(article.categories);
 
 const bottomCategory =
-  article.categories[article.categories.length - 1].category;
+visibleCategories[visibleCategories.length - 1].category;
 
 const articleDraft = article.articlesDrafts[0];
 const imageUrl = await getArticleImage(article);
