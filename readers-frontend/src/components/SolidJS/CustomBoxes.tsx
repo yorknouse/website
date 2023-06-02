@@ -111,7 +111,7 @@ const CustomBoxes: Component<CustomBoxesProps> = (props) => {
       </div>
       <div class="my-4 flex flex-row self-center md:hidden">
         <For each={props.customBoxes}>
-          {(customBox, index) => (
+          {(_, index) => (
             <span
               class={`mr-2 h-4 w-4 rounded-full border-[6px] transition-colors delay-100 duration-700 ${
                 active() === index()
