@@ -135,10 +135,11 @@ const categoriesWithArticles = Prisma.validator<Prisma.categoriesArgs>()({
       include: {
         article: {
           include: {
-            articlesDrafts: { include: { users: true } },
+            articlesDrafts: true,
             categories: {
               include: { category: true },
             },
+            users: { include: { users: true } },
           },
         },
       },
@@ -184,13 +185,11 @@ export const getCategoriesWithArticles = async (
                   articlesDrafts_timestamp: "desc",
                 },
                 take: 1,
-                include: {
-                  users: true,
-                },
               },
               categories: {
                 include: { category: true },
               },
+              users: { include: { users: true } },
             },
           },
         },

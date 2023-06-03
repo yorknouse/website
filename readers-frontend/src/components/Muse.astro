@@ -80,8 +80,7 @@ for (let i = 0; i < museMenuCategories.length; i++) {
                   <Article
                     headline={article.articlesDrafts[0].articlesDrafts_headline}
                     excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-                    author={`${article.articlesDrafts[0].users?.users_name1} ${article.articlesDrafts[0].users?.users_name2}`}
-                    authorId={article.articlesDrafts[0].users?.users_userid}
+                    authors={article.users.map(users => users.users)}
                     category={undefined}
                     categoryColor={"#FFF"}
                     categoryLink={undefined}
@@ -116,8 +115,7 @@ for (let i = 0; i < museMenuCategories.length; i++) {
                 <Article
                   headline={article.articlesDrafts[0].articlesDrafts_headline}
                   excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-                  author={`${article.articlesDrafts[0].users?.users_name1} ${article.articlesDrafts[0].users?.users_name2}`}
-                  authorId={article.articlesDrafts[0].users?.users_userid}
+                  authors={article.users.map(users => users.users)}
                   category={undefined}
                   categoryColor={"#FFF"}
                   categoryLink={undefined}

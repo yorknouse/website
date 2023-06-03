@@ -57,12 +57,7 @@ const categoryColor = category.categories_backgroundColor;
               <Article
                 headline={article.articlesDrafts[0].articlesDrafts_headline}
                 excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-                author={
-                  article.articlesDrafts[0].users?.users_name1 +
-                  " " +
-                  article.articlesDrafts[0].users?.users_name2
-                }
-                authorId={article.articlesDrafts[0].users?.users_userid}
+                authors={article.users.map(users => users.users)}
                 category={category.categories_displayName}
                 categoryLink={category.categories_name}
                 categoryColor={categoryColor}
@@ -93,12 +88,7 @@ const categoryColor = category.categories_backgroundColor;
                 <Article
                   headline={article.articlesDrafts[0].articlesDrafts_headline}
                   excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-                  author={
-                    article.articlesDrafts[0].users?.users_name1 +
-                    " " +
-                    article.articlesDrafts[0].users?.users_name2
-                  }
-                  authorId={article.articlesDrafts[0].users?.users_userid}
+                  authors={article.users.map(users => users.users)}
                   category={category.categories_displayName}
                   categoryLink={category.categories_name}
                   categoryColor={categoryColor}

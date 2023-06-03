@@ -1,9 +1,10 @@
 ---
+import type { users } from '@prisma/client';
+
 export interface Props {
   headline: string;
   excerpt: string | null;
-  author: string;
-  authorId: number | undefined;
+  authors: users[];
   category: string | null | undefined;
   categoryLink: string | undefined;
   categoryColor: string | null | undefined;
@@ -18,8 +19,7 @@ export interface Props {
 const {
   headline,
   excerpt,
-  author,
-  authorId,
+  authors,
   category,
   categoryLink,
   categoryColor,
@@ -89,11 +89,11 @@ const imagePlaceHolder =
           <p class="text-l text-colour xl:text-xl 2xl:text-2xl">{headline}</p>
         </a>
         {
-          authorId && (
-            <a class="author" href={`/author/${authorId}`}>
+          authors.length === 0 && (
+            <a class="author" href={`/author/${authors[0].users_userid}`}>
               <p class="text-colour text-sm italic 2xl:text-base">
                 <span class="category-color">By</span>
-                {author}
+                {authors[0].users_name1} {authors[0].users_name2}
               </p>
             </a>
           )

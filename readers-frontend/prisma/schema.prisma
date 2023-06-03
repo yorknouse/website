@@ -74,6 +74,7 @@ model articles {
   articles_isThumbnailPortrait Boolean              @default(false)
   articlesDrafts               articlesDrafts[]
   categories                   articlesCategories[]
+  users                        articlesAuthors[]
 
   @@index([articles_authors], map: "articles_articles_authors_index")
   @@index([articles_categories], map: "articles_articles_categories_index")
@@ -384,6 +385,7 @@ model users {
   featuredHome                                    featuredHome[]
   passwordResetCodes                              passwordResetCodes[]
   userPositions                                   userPositions[]
+  articles                                        articlesAuthors[]
 
   @@index([users_userid], map: "username_2")
   @@index([users_created], map: "users_users_created_index")
@@ -403,10 +405,19 @@ model usersOauthCodes {
 }
 
 model articlesCategories {
-  article      articles   @relation(fields: [articles_id], references: [articles_id])
+  article       articles   @relation(fields: [articles_id], references: [articles_id])
   articles_id   Int
   categories_id Int
-  category    categories @relation(fields: [categories_id], references: [categories_id])
+  category      categories @relation(fields: [categories_id], references: [categories_id])
 
   @@unique([articles_id, categories_id], map: "articlesCategories_articles_id_categories_id_unique")
+}
+
+model articlesAuthors {
+  article       articles   @relation(fields: [articles_id], references: [articles_id])
+  articles_id   Int
+  users_userid Int
+  users      users @relation(fields: [users_userid], references: [users_userid])
+
+  @@unique([articles_id, users_userid], map: "articlesAuthors_articles_id_users_userid_unique")
 }

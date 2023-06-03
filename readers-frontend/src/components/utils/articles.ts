@@ -4,11 +4,12 @@ import { s3URL } from "./s3URL";
 
 const articlesWithArticleDrafts = Prisma.validator<Prisma.articlesArgs>()({
   include: {
-    articlesDrafts: {
-      include: { users: true },
-    },
+    articlesDrafts: true,
     categories: {
       include: { category: true },
+    },
+    users: {
+      include: { users: true },
     },
   },
 });
@@ -57,15 +58,14 @@ export const getArticles = async (
           articlesDrafts_timestamp: "desc",
         },
         take: 1,
-        include: {
-          // Get the user who wrote the article
-          users: true,
-        },
       },
       categories: {
         include: {
           category: true,
         },
+      },
+      users: {
+        include: { users: true },
       },
     },
   });
@@ -150,15 +150,14 @@ export const getSimilarArticles = async (
           articlesDrafts_timestamp: "desc",
         },
         take: 1,
-        include: {
-          // Get the user who wrote the article
-          users: true,
-        },
       },
       categories: {
         include: {
           category: true,
         },
+      },
+      users: {
+        include: { users: true },
       },
     },
   });
