@@ -333,9 +333,10 @@ export const getParentCategory = (categories: ArticleCategories[]) => {
     .reverse()
     .find(
       ({ category }) =>
-        (category.categories_nestUnder === null && // Nouse
+        category.categories_showPublic &&
+        ((category.categories_nestUnder === null && // Nouse
           category.categories_id !== 4) ||
-        category.categories_nestUnder === 4 // Muse
+        category.categories_nestUnder === 4) // Muse
     );
 
   if (interimParentCategory) {
