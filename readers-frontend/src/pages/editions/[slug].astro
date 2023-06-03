@@ -81,11 +81,11 @@ if (isWebEdition && edition.editions_featuredHighlights) {
 ---
 
 <Layout
-  title={`Nouse - ${
+  title={`${
     edition.editions_printNumber
       ? `№${edition.editions_printNumber}`
       : edition.editions_name
-  }`}
+  } - Nouse`}
   active={undefined}
   style="nouse"
 >
@@ -101,10 +101,10 @@ if (isWebEdition && edition.editions_featuredHighlights) {
       (isWebEdition ||
         edition.editions_printNumber ||
         new Date(edition.editions_name).toString() === "Invalid Date") && (
-        <h3 class="text-center text-lg md:text-xl">{`Published on ${edition.editions_published.toLocaleString(
+        <h4 class="text-center text-lg md:text-xl">{`Published on ${edition.editions_published.toLocaleString(
           "en-gb",
           { day: "numeric", month: "long", year: "numeric" }
-        )}`}</h3>
+        )}`}</h4>
       )
     }
   </div>
@@ -114,15 +114,16 @@ if (isWebEdition && edition.editions_featuredHighlights) {
         return (
           <div class="mt-8">
             <img
+              id="thumbnail"
               class="mb-5 w-full px-[3%] sm:px-[0.5%] 2xl:px-[13%]"
               src={await s3URL(edition.editions_thumbnail!, "medium")}
             />
             {featuredHighlights!.sections.map(async (section) => {
               return (
-                <div class="mb-8">
+                <div class="section mb-8">
                   {section.headerImage && (
                     <img
-                      class="mb-5 w-full px-[3%] sm:px-[0.5%] 2xl:px-[13%]"
+                      class="section-image mb-5 w-full px-[3%] sm:px-[0.5%] 2xl:px-[13%]"
                       src={await s3URL(section.headerImage, "medium")}
                     />
                   )}
@@ -130,17 +131,16 @@ if (isWebEdition && edition.editions_featuredHighlights) {
                     const id = uuidv4();
                     return (
                     <div
-                      id="custom-boxes-container"
-                      class="relative mb-5 flex w-full flex-col bg-black text-white px-[3%] pt-4 sm:px-[0.5%] 2xl:px-[13%]"
+                      class="custom-boxes-container relative mb-5 flex w-full flex-col bg-black text-white px-[3%] pt-4 sm:px-[0.5%] 2xl:px-[13%]"
                     >
-                      <h1 class="text-4xl text-center border-b-[1px] border-white">From Our Editors</h1>
+                      <p class="text-xl md:text-2xl lg:text-4xl text-center border-b-[1px] border-white">From Our Editors</p>
                         <CustomBoxes client:idle id={id} customBoxes={section.customBoxes} >
                           {
                             section.customBoxes.map((customBox, index) => {
                               return (
-                                <div id=`${id}-${index}` class=`flex flex-col items-center justify-start bg-neutral-900 transition-opacity delay-300 duration-500 overflow-hidden ${index == 0 ? "w-full md:w-10/12 opacity-100 p-4" : "w-0 h-0 opacity-0 p-0"}`>
-                                  <h1 class="text-lg md:text-2xl text-center underline">{customBox.title}</h1>
-                                  <p class="text-xs md:text-base text-center">{customBox.text}</p>
+                                <div id=`${id}-${index}` class=`custom-box flex flex-col items-center justify-start bg-neutral-900 transition-opacity delay-300 duration-500 overflow-hidden ${index == 0 ? "w-full md:w-10/12 opacity-100 p-4" : "w-0 h-0 opacity-0 p-0"}`>
+                                  <p class="text-lg md:text-xl lg:text-2xl text-center underline">{customBox.title}</p>
+                                  <p class="text-xs xl:text-sm 2xl:text-base text-center">{customBox.text}</p>
                                 </div>
                               )
                             })

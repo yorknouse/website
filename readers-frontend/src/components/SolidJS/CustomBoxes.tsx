@@ -76,7 +76,7 @@ const CustomBoxes: Component<CustomBoxesProps> = (props) => {
     >
       <div class="py-5 flex w-full flex-row px-4 md:px-0">
         <button
-          class="w-1/12 items-center justify-center hidden md:flex disabled:opacity-30"
+          class="back-button w-1/12 items-center justify-center hidden md:flex disabled:opacity-30"
           onClick={displayPreviousBox}
           disabled={active() === 0}
         >
@@ -93,7 +93,7 @@ const CustomBoxes: Component<CustomBoxesProps> = (props) => {
         </button>
         {props.children}
         <button
-          class="w-1/12 items-center justify-center hidden md:flex disabled:opacity-30"
+          class="forward-button w-1/12 items-center justify-center hidden md:flex disabled:opacity-30"
           onClick={displayNextBox}
           disabled={active() === props.customBoxes.length - 1}
         >
@@ -109,7 +109,7 @@ const CustomBoxes: Component<CustomBoxesProps> = (props) => {
           </svg>
         </button>
       </div>
-      <div class="my-4 flex flex-row self-center md:hidden">
+      <div class="mobile-selection-indicator my-4 flex flex-row self-center md:hidden">
         <For each={props.customBoxes}>
           {(_, index) => (
             <span
