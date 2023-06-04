@@ -23,11 +23,6 @@ const categoryColor = category.categories_backgroundColor;
   .border-color {
     border-color: var(--categoryColor);
   }
-  .category-text {
-    font-family: "arno-pro-display", serif;
-    font-weight: 700;
-    font-style: normal;
-  }
   .category-color {
     color: var(--categoryColor);
   }
@@ -37,7 +32,8 @@ const categoryColor = category.categories_backgroundColor;
     <>
       <div class="border-color mt-4 h-full border-t-2">
         <a
-          class="category-text category-color text-2xl uppercase xl:text-3xl 2xl:text-4xl"
+          id="category-text"
+          class="arno-display category-color text-2xl uppercase xl:text-3xl 2xl:text-4xl"
           href={`${
             category.categories_nestUnder == 4
               ? `${import.meta.env.BASE_URL}muse/`

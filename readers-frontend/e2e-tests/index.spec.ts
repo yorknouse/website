@@ -74,12 +74,12 @@ test.describe("Featured Articles", () => {
           }
 
           // Checking Category
-          await expect(article.locator(".category-text")).toHaveAttribute(
+          await expect(article.locator("#category-text")).toHaveAttribute(
             "href",
             "/website/testCategory1"
           );
-          await expect(article.locator(".category-text")).toHaveText("Test");
-          await expect(article.locator(".category-text")).toHaveCSS(
+          await expect(article.locator("#category-text")).toHaveText("Test");
+          await expect(article.locator("#category-text")).toHaveCSS(
             "color",
             "rgb(237, 179, 33)"
           ); // Playwright doesn't support hex values for toHaveCSS.
@@ -167,12 +167,12 @@ test.describe("Featured Articles", () => {
         );
 
         // Checking Category
-        await expect(article.locator(".category-text")).toHaveAttribute(
+        await expect(article.locator("#category-text")).toHaveAttribute(
           "href",
           "/website/testCategory1"
         );
-        await expect(article.locator(".category-text")).toHaveText("Test");
-        await expect(article.locator(".category-text")).toHaveCSS(
+        await expect(article.locator("#category-text")).toHaveText("Test");
+        await expect(article.locator("#category-text")).toHaveCSS(
           "color",
           "rgb(237, 179, 33)"
         ); // Playwright doesn't support hex values for toHaveCSS.
@@ -236,12 +236,12 @@ test.describe("Featured Articles", () => {
             }
 
             // Checking Category
-            await expect(article.locator(".category-text")).toHaveAttribute(
+            await expect(article.locator("#category-text")).toHaveAttribute(
               "href",
               `/website/testCategory1`
             );
-            await expect(article.locator(".category-text")).toHaveText("Test");
-            await expect(article.locator(".category-text")).toHaveCSS(
+            await expect(article.locator("#category-text")).toHaveText("Test");
+            await expect(article.locator("#category-text")).toHaveCSS(
               "color",
               "rgb(237, 179, 33)"
             ); // Playwright doesn't support hex values for toHaveCSS.
@@ -314,7 +314,7 @@ test.describe("Featured Section", () => {
   test("Displays the category accent", async ({ page }) => {
     const categoryAccent = page
       .locator("#testCategory1-section")
-      .locator(".category-text");
+      .locator("#category-text");
     await expect(categoryAccent).toHaveAttribute(
       "href",
       `/website/testCategory1`

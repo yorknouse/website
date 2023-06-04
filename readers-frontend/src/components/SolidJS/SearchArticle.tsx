@@ -85,7 +85,7 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
         >
           {!props.hideCategoryAccent && (
             <a
-              class={`text-l category-text category-color-${props.category} uppercase xl:text-xl 2xl:text-2xl`}
+              class={`text-l arno-display category-color-${props.category} uppercase xl:text-xl 2xl:text-2xl`}
               href={`/${props.categoryLink}`}
             >
               {props.category}
