@@ -93,7 +93,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
             <Article
             headline={article.articlesDrafts[0].articlesDrafts_headline}
             excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-            authors={featuredArticles[0].users.map(users => users.users)}
+            authors={article.users.map(users => users.users)}
             category={mainCategories[index + 2]?.categories_displayName}
             categoryLink={getCategoryLink(mainCategories[index + 2]?.categories_name, mainCategories[index + 2]?.categories_nestUnder)}
             categoryColor={mainCategories[index + 2]?.categories_backgroundColor}
