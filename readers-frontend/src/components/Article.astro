@@ -1,5 +1,5 @@
 ---
-import type { users } from '@prisma/client';
+import type { users } from "@prisma/client";
 
 export interface Props {
   headline: string;
@@ -77,7 +77,7 @@ const imagePlaceHolder =
       {
         !hideCategoryAccent && (
           <a
-            class="text-lg category-text category-color uppercase xl:text-xl 2xl:text-2xl"
+            class="category-text category-color text-lg uppercase xl:text-xl 2xl:text-2xl"
             href={`${categoryLink}`}
           >
             {category}
@@ -86,16 +86,34 @@ const imagePlaceHolder =
       }
       <div class="mb-2">
         <a class="headline" href={articleUrl}>
-          <p class="text-lg text-colour xl:text-xl 2xl:text-2xl">{headline}</p>
+          <p class="text-colour text-lg xl:text-xl 2xl:text-2xl">{headline}</p>
         </a>
         {
-          authors.length === 0 && (
-            <a class="author" href={`/author/${authors[0].users_userid}`}>
-              <p class="text-colour text-sm italic 2xl:text-base">
-                <span class="category-color">By</span>
-                {authors[0].users_name1} {authors[0].users_name2}
-              </p>
-            </a>
+          authors.length !== 0 && (
+            <p class="authors text-colour text-sm italic 2xl:text-base">
+              <span class="category-color">By</span>
+              {authors.map((author, index) => {
+                if (index === 0) {
+                  return (
+                    <a href={`/author/${author.users_userid}`}>
+                      {`${author.users_name1} ${author.users_name2}`}
+                    </a>
+                  );
+                } else if (index === authors.length - 1) {
+                  return (
+                    <a href={`/author/${author.users_userid}`}>
+                      {` and ${author.users_name1} ${author.users_name2}`}
+                    </a>
+                  );
+                } else {
+                  return (
+                    <a href={`/author/${author.users_userid}`}>
+                      {`, ${author.users_name1} ${author.users_name2}`}
+                    </a>
+                  );
+                }
+              })}
+            </p>
           )
         }
       </div>

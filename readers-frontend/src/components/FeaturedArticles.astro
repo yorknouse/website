@@ -58,8 +58,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           <Article
           headline={featuredArticles[0].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[0].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[0].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[0].users.map(users => users.users)}
           category={mainCategories[0]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
           categoryColor={mainCategories[0]?.categories_backgroundColor}
@@ -74,8 +73,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           <Article 
           headline={featuredArticles[1].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[1].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[1].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[1].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[1].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[1].users.map(users => users.users)}
           category={mainCategories[1]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
           categoryColor={mainCategories[1]?.categories_backgroundColor}
@@ -95,8 +93,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
             <Article
             headline={article.articlesDrafts[0].articlesDrafts_headline}
             excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-            author={article.articlesDrafts[0].users?.users_name1 + " " + article.articlesDrafts[0].users?.users_name2}
-            authorId={article.articlesDrafts[0].users?.users_userid}
+            authors={featuredArticles[0].users.map(users => users.users)}
             category={mainCategories[index + 2]?.categories_displayName}
             categoryLink={getCategoryLink(mainCategories[index + 2]?.categories_name, mainCategories[index + 2]?.categories_nestUnder)}
             categoryColor={mainCategories[index + 2]?.categories_backgroundColor}
@@ -115,8 +112,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           <Article
           headline={featuredArticles[2].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[2].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[2].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[2].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[2].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[2].users.map(users => users.users)}
           category={mainCategories[2]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[2]?.categories_name, mainCategories[2]?.categories_nestUnder)}
           categoryColor={mainCategories[2]?.categories_backgroundColor}
@@ -131,8 +127,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           <Article 
           headline={featuredArticles[3].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[3].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[3].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[3].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[3].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[3].users.map(users => users.users)}
           category={mainCategories[3]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[3]?.categories_name, mainCategories[3]?.categories_nestUnder)}
           categoryColor={mainCategories[3]?.categories_backgroundColor}
@@ -152,8 +147,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           <Article
           headline={featuredArticles[0].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[0].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[0].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[0].users.map(users => users.users)}
           category={mainCategories[0]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
           categoryColor={mainCategories[0]?.categories_backgroundColor}
@@ -169,8 +163,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           <Article 
           headline={featuredArticles[1].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[1].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[1].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[1].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[1].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[1].users.map(users => users.users)}
           category={mainCategories[1]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
           categoryColor={mainCategories[1]?.categories_backgroundColor}
@@ -186,8 +179,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           <Article 
           headline={featuredArticles[2].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[2].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[2].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[2].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[2].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[2].users.map(users => users.users)}
           category={mainCategories[2]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[2]?.categories_name, mainCategories[2]?.categories_nestUnder)}
           categoryColor={mainCategories[2]?.categories_backgroundColor}
@@ -205,8 +197,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
         <Article 
         headline={featuredArticles[0].articlesDrafts[0].articlesDrafts_headline}
         excerpt={featuredArticles[0].articlesDrafts[0].articlesDrafts_excerpt}
-        author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
-        authorId={featuredArticles[0].articlesDrafts[0].users?.users_userid}
+        authors={featuredArticles[0].users.map(users => users.users)}
         category={mainCategories[0]?.categories_displayName}
         categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
         categoryColor={mainCategories[0]?.categories_backgroundColor}
@@ -221,8 +212,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           <Article 
           headline={featuredArticles[1].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[1].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[1].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[1].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[1].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[1].users.map(users => users.users)}
           category={mainCategories[1]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
           categoryColor={mainCategories[1]?.categories_backgroundColor}
@@ -239,8 +229,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
       <Article 
       headline={featuredArticles[0].articlesDrafts[0].articlesDrafts_headline}
       excerpt={featuredArticles[0].articlesDrafts[0].articlesDrafts_excerpt}
-      author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
-      authorId={featuredArticles[0].articlesDrafts[0].users?.users_userid}
+      authors={featuredArticles[0].users.map(users => users.users)}
       category={mainCategories[0]?.categories_displayName}
       categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
       categoryColor={mainCategories[0]?.categories_backgroundColor}
@@ -262,8 +251,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
         <Article
         headline={featuredArticles[0].articlesDrafts[0].articlesDrafts_headline}
         excerpt={featuredArticles[0].articlesDrafts[0].articlesDrafts_excerpt}
-        author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
-        authorId={featuredArticles[0].articlesDrafts[0].users?.users_userid}
+        authors={featuredArticles[0].users.map(users => users.users)}
         category={mainCategories[0]?.categories_displayName}
         categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
         categoryColor={mainCategories[0]?.categories_backgroundColor}
@@ -279,8 +267,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           <Article
           headline={featuredArticles[1].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[1].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[1].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[1].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[1].users.map(users => users.users)}
           category={mainCategories[1]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
           categoryColor={mainCategories[1]?.categories_backgroundColor}
@@ -296,8 +283,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           <Article 
           headline={featuredArticles[2].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[2].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[2].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[2].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[2].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[2].users.map(users => users.users)}
           category={mainCategories[2]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[2]?.categories_name, mainCategories[2]?.categories_nestUnder)}
           categoryColor={mainCategories[2]?.categories_backgroundColor}
@@ -315,8 +301,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
             <Article 
             headline={featuredArticles[3].articlesDrafts[0].articlesDrafts_headline}
             excerpt={featuredArticles[3].articlesDrafts[0].articlesDrafts_excerpt}
-            author={featuredArticles[3].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[3].articlesDrafts[0].users?.users_name2}
-            authorId={featuredArticles[3].articlesDrafts[0].users?.users_userid}
+            authors={featuredArticles[3].users.map(users => users.users)}
             category={mainCategories[3]?.categories_displayName}
             categoryLink={getCategoryLink(mainCategories[3]?.categories_name, mainCategories[3]?.categories_nestUnder)}
             categoryColor={mainCategories[3]?.categories_backgroundColor}
@@ -335,8 +320,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
         <Article
         headline={featuredArticles[1].articlesDrafts[0].articlesDrafts_headline}
         excerpt={featuredArticles[1].articlesDrafts[0].articlesDrafts_excerpt}
-        author={featuredArticles[1].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[1].articlesDrafts[0].users?.users_name2}
-        authorId={featuredArticles[1].articlesDrafts[0].users?.users_userid}
+        authors={featuredArticles[1].users.map(users => users.users)}
         category={mainCategories[1]?.categories_displayName}
         categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
         categoryColor={mainCategories[1]?.categories_backgroundColor}
@@ -356,8 +340,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           <Article
           headline={featuredArticles[3].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[3].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[3].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[3].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[3].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[3].users.map(users => users.users)}
           category={mainCategories[3]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[3]?.categories_name, mainCategories[3]?.categories_nestUnder)}
           categoryColor={mainCategories[3]?.categories_backgroundColor}
@@ -372,8 +355,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           <Article 
           headline={featuredArticles[4].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[4].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[4].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[4].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[4].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[4].users.map(users => users.users)}
           category={mainCategories[4]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[4]?.categories_name, mainCategories[4]?.categories_nestUnder)}
           categoryColor={mainCategories[4]?.categories_backgroundColor}
@@ -395,8 +377,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
               <Article
               headline={article.articlesDrafts[0].articlesDrafts_headline}
               excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-              author={article.articlesDrafts[0].users?.users_name1 + " " + article.articlesDrafts[0].users?.users_name2}
-              authorId={article.articlesDrafts[0].users?.users_userid}
+              authors={article.users.map(users => users.users)}
               category={mainCategories[index + 2]?.categories_displayName}
               categoryLink={getCategoryLink(mainCategories[index + 2]?.categories_name, mainCategories[index + 2]?.categories_nestUnder)}
               categoryColor={mainCategories[index + 2]?.categories_backgroundColor}
@@ -416,8 +397,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
       <Article
       headline={featuredArticles[0].articlesDrafts[0].articlesDrafts_headline}
       excerpt={featuredArticles[0].articlesDrafts[0].articlesDrafts_excerpt}
-      author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
-      authorId={featuredArticles[0].articlesDrafts[0].users?.users_userid}
+      authors={featuredArticles[0].users.map(users => users.users)}
       category={mainCategories[0]?.categories_displayName}
       categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
       categoryColor={mainCategories[0]?.categories_backgroundColor}
@@ -440,12 +420,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
       <Article
         headline={article.articlesDrafts[0].articlesDrafts_headline}
         excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-        author={
-          article.articlesDrafts[0].users?.users_name1 +
-          " " +
-          article.articlesDrafts[0].users?.users_name2
-        }
-        authorId={article.articlesDrafts[0].users?.users_userid}
+        authors={article.users.map(users => users.users)}
         category={mainCategories[index]?.categories_displayName}
         categoryLink={getCategoryLink(mainCategories[index]?.categories_name, mainCategories[index]?.categories_nestUnder)}
         categoryColor={mainCategories[index]?.categories_backgroundColor}

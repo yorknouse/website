@@ -19,11 +19,12 @@ export type articlesWithArticleDrafts = Prisma.articlesGetPayload<
 
 const articleWithUserAndDraft = Prisma.validator<Prisma.articlesArgs>()({
   include: {
-    articlesDrafts: {
-      include: { users: { include: { userPositions: true } } },
-    },
+    articlesDrafts: true,
     categories: {
       include: { category: true },
+    },
+    users: {
+      include: { users: true },
     },
   },
 });
@@ -98,19 +99,14 @@ export const getAllArticles = async (): Promise<articleWithUserAndDraft[]> => {
             articlesDrafts_timestamp: "desc",
           },
           take: 1,
-          include: {
-            // Get the user who wrote the article
-            users: {
-              include: {
-                userPositions: true,
-              },
-            },
-          },
         },
         categories: {
           include: {
             category: true,
           },
+        },
+        users: {
+          include: { users: true },
         },
       },
     });
