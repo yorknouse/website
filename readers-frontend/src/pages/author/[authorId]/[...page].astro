@@ -1,0 +1,149 @@
+---
+import type { articlesWithArticleDrafts } from "@components/utils/articles";
+import { s3URL } from "@components/utils/s3URL";
+import { Prisma } from "@prisma/client";
+import Layout from "src/layouts/Layout.astro";
+import prisma from "src/prisma";
+
+const userWithArticles = Prisma.validator<Prisma.usersArgs>()({
+  include: {
+    articles: {
+      include: {
+        article: {
+          include: {
+            articlesDrafts: true,
+            categories: {
+              include: { category: true },
+            },
+            users: { include: { users: true } },
+          },
+        },
+      },
+    },
+    userPositions: {
+      include: {
+        positions: true,
+      },
+    },
+  },
+});
+type userWithArticles = Prisma.usersGetPayload<typeof userWithArticles>;
+export async function getStaticPaths({ paginate }) {
+  const allAuthors: userWithArticles[] = await prisma.users.findMany({
+    where: {
+      users_userid: 148314,
+      users_deleted: false,
+    },
+    include: {
+      articles: {
+        include: {
+          article: {
+            include: {
+              articlesDrafts: {
+                orderBy: {
+                  articlesDrafts_timestamp: "desc",
+                },
+                take: 1,
+              },
+              categories: {
+                include: { category: true },
+              },
+              users: { include: { users: true } },
+            },
+          },
+        },
+      },
+      userPositions: {
+        where: {
+          userPositions_end: {
+            gte: new Date(),
+          },
+        },
+        orderBy: {
+          userPositions_end: "desc",
+        },
+        include: {
+          positions: true,
+        },
+      },
+    },
+  });
+
+  return await Promise.all(
+    allAuthors
+      .map(async (author) => {
+        const articles = author.articles.map((article) => {
+          return article.article;
+        });
+
+        const featuredArticleIds = author.articles_featured
+          ?.split(",")
+          .map(Number);
+        const authorImage = /^-?\d+$/.test(author.users_thumbnail!)
+          ? await s3URL(Number(author.users_thumbnail))
+          : undefined;
+        return paginate(articles, {
+          params: { authorId: author.users_userid.toString() },
+          props: {
+            author: author,
+            articles: articles,
+            authorImage: authorImage,
+          },
+          pageSize: 10,
+        });
+      })
+      .flat()
+  );
+}
+interface Props {
+  author: userWithArticles;
+  articles: articlesWithArticleDrafts[];
+  authorImage: string;
+}
+
+const { page } = Astro.params;
+const { author, articles, authorImage } = Astro.props;
+console.log(
+  author.userPositions
+    .filter((position) => position.userPositions_show)
+    .map((p) => p.positions!.positions_displayName)
+);
+---
+
+<Layout title="Nouse" active={undefined} style="nouse">
+  <div id="author-mantle" class="mt-8 w-full bg-neutral-900 text-white">
+    <div class="flex flex-row py-16">
+      <img
+        class="mr-20 h-52 w-52 rounded-full border-4 border-[#D76B6B] object-cover"
+        src={authorImage}
+      />
+      <div class="">
+        <h1>
+          <span class="text-4xl">
+            {`${author.users_name1}  ${author.users_name2}`}
+          </span>
+          {
+            author.users_pronouns && (
+              <span class="text-base italic"> ({author.users_pronouns})</span>
+            )
+          }
+        </h1>
+        <p>
+          {
+            author.userPositions
+              .filter(
+                (position) => position.userPositions_show && position.positions
+              )
+              .map(
+                (position, index) =>
+                  `${index === 0 ? "" : ", "}${
+                    position.positions!.positions_displayName
+                  }`
+              )
+          }
+        </p>
+        <p class="text-2xl">{author.users_bio}</p>
+      </div>
+    </div>
+  </div>
+</Layout>
