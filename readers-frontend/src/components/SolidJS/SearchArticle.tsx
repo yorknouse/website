@@ -3,8 +3,7 @@ import { Accessor, Component, createEffect, createSignal, on } from "solid-js";
 interface SearchArticleProps {
   headline: string;
   excerpt: string | null;
-  author: string;
-  authorId: number | undefined;
+  authors: { users_name1: string; users_name2: string; users_userid: number }[];
   category: string | null | undefined;
   categoryLink: string | undefined;
   categoryColor: string | undefined;
@@ -97,12 +96,32 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
                 {props.headline}
               </p>
             </a>
-            <a class="author" href={`/author/${props.authorId}`}>
+            {props.authors.length !== 0 && (
               <p class="text-sm italic text-black 2xl:text-base">
                 <span class={`category-color-${props.category}`}>By </span>
-                {props.author}
+                {props.authors.map((author, index) => {
+                  if (index === 0) {
+                    return (
+                      <a href={`/author/${author.users_userid}`}>
+                        {`${author.users_name1} ${author.users_name2}`}
+                      </a>
+                    );
+                  } else if (index === props.authors.length - 1) {
+                    return (
+                      <a href={`/author/${author.users_userid}`}>
+                        {` and ${author.users_name1} ${author.users_name2}`}
+                      </a>
+                    );
+                  } else {
+                    return (
+                      <a href={`/author/${author.users_userid}`}>
+                        {`, ${author.users_name1} ${author.users_name2}`}
+                      </a>
+                    );
+                  }
+                })}
               </p>
-            </a>
+            )}
           </div>
           <a class="excerpt" href={props.articleUrl}>
             <p class="text-xs text-black xl:text-sm 2xl:text-base">

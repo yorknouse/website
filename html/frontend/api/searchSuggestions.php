@@ -39,15 +39,12 @@ if (is_array(($matchingAuthorsIds)) && (count($matchingAuthorsIds) > 0)) {
 $matchingAuthorsIds = "(" . implode(",", $matchingAuthorsIds) . ")";
 
 $DBLIB->where(
-    "(articlesDrafts.articlesDrafts_excerpt LIKE ? OR articlesDrafts.articlesDrafts_headline LIKE ? OR articles_published LIKE ? OR articles_authors IN " . $matchingAuthorsIds . ")",
+    "(articlesDrafts.articlesDrafts_excerpt LIKE ? OR articlesDrafts.articlesDrafts_headline LIKE ? OR articles_published LIKE ? OR articles.articles_id IN (SELECT articles_id FROM articlesAuthors WHERE articlesAuthors.users_userid IN" . $matchingAuthorsIds . "))",
     array($term, $term, $term)
 );
 $DBLIB->orderBy("articles_published", "DESC");
 $DBLIB->where("articles_showInSearch", 1);
 $DBLIB->where("articles_published <= ?", array(date("Y-m-d H:i:s")));
-// Below only matches if author is 1 and exact match.
-// It should be fine for now as frontend does not support displaying multiple authors regardless
-$DBLIB->join("users", "users.users_userid=articles.articles_authors");
 $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
 $DBLIB->where(
     "articlesDrafts_id =
@@ -67,9 +64,6 @@ $articles = $DBLIB->get(
         "articles.articles_isThumbnailPortrait",
         "articlesDrafts.articlesDrafts_headline",
         "articlesDrafts.articlesDrafts_excerpt",
-        "users.users_name1",
-        "users.users_name2",
-        "users.users_userid",
     ]
 );
 
@@ -80,7 +74,7 @@ if (!$articles) {
 $output = [];
 foreach ($articles as $article) {
     $DBLIB->where("articlesCategories.articles_id", $bCMS->sanitizeString($article['articles_id']));
-	$articleCategories = array_column($DBLIB->get("articlesCategories"), 'categories_id');
+    $articleCategories = array_column($DBLIB->get("articlesCategories"), 'categories_id');
     if (count($articleCategories) > 0) {
         $DBLIB->where("categories_id", $articleCategories, "IN");
         $DBLIB->where("categories_nestUnder IS NULL");
@@ -88,8 +82,12 @@ foreach ($articles as $article) {
         $article['categories_name'] = $category['categories_name'];
         $article['categories_displayName'] = $category['categories_displayName'];
         $article['categories_backgroundColor'] = $category['categories_backgroundColor'];
-        $article['test'] = $category;
     }
+
+    $DBLIB->where("articlesAuthors.articles_id", $bCMS->sanitizeString($article['articles_id']));
+    $DBLIB->join("users", "users.users_userid=articlesAuthors.users_userid", "LEFT");
+    $DBLIB->where("users_deleted", 0);
+    $article['articles_authors'] = $DBLIB->get("articlesAuthors", null, ["users.users_name1", "users.users_name2", "users.users_userid"]);
 
     $article['url'] = '/' . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'];
 

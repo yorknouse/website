@@ -48,8 +48,7 @@ const SearchResultRow: Component<SearchResultRowProps> = (props) => {
                 <SearchArticle
                   headline={article.articlesDrafts_headline}
                   excerpt={article.articlesDrafts_excerpt}
-                  author={`${article.users_name1} ${article.users_name2}`}
-                  authorId={article.users_userid}
+                  authors={article.articles_authors}
                   category={article.categories_name}
                   categoryColor={article.categories_backgroundColor}
                   categoryLink={article.categories_name}
@@ -72,8 +71,7 @@ const SearchResultRow: Component<SearchResultRowProps> = (props) => {
                 <SearchArticle
                   headline={article.articlesDrafts_headline}
                   excerpt={article.articlesDrafts_excerpt}
-                  author={`${article.users_name1} ${article.users_name2}`}
-                  authorId={article.users_userid}
+                  authors={article.articles_authors}
                   category={article.categories_name}
                   categoryColor={article.categories_backgroundColor}
                   categoryLink={article.categories_name}
