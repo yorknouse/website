@@ -45,10 +45,11 @@ const TopArticles: Component<TopArticleProps> = (props) => {
                       categoryColor={undefined}
                       categoryLink={undefined}
                       imageUrl={article.image}
-                      articleUrl={`${props.baseUrl}${article.url}`}
+                      articleUrl={article.url}
                       isVertical={true}
                       isPortrait={article.articles_isThumbnailPortrait}
                       hideCategoryAccent={true}
+                      baseUrl={props.baseUrl}
                     />
                   </div>
                 )}

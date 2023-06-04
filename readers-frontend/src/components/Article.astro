@@ -79,7 +79,7 @@ const imagePlaceHolder =
           <a
             id="category-text"
             class="arno-display category-color text-lg uppercase xl:text-xl 2xl:text-2xl"
-            href={`${categoryLink}`}
+            href={categoryLink}
           >
             {category}
           </a>
@@ -96,19 +96,19 @@ const imagePlaceHolder =
               {authors.map((author, index) => {
                 if (index === 0) {
                   return (
-                    <a href={`/author/${author.users_userid}`}>
+                    <a href={`${import.meta.env.BASE_URL}author/${author.users_userid}`}>
                       {`${author.users_name1} ${author.users_name2}`}
                     </a>
                   );
                 } else if (index === authors.length - 1) {
                   return (
-                    <a href={`/author/${author.users_userid}`}>
+                    <a href={`${import.meta.env.BASE_URL}author/${author.users_userid}`}>
                       {` and ${author.users_name1} ${author.users_name2}`}
                     </a>
                   );
                 } else {
                   return (
-                    <a href={`/author/${author.users_userid}`}>
+                    <a href={`${import.meta.env.BASE_URL}author/${author.users_userid}`}>
                       {`, ${author.users_name1} ${author.users_name2}`}
                     </a>
                   );

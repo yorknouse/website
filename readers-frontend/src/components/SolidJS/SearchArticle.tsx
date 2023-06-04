@@ -13,6 +13,7 @@ interface SearchArticleProps {
   isPortrait: boolean; // Defines if the image is portrait or landscape
   hideCategoryAccent?: boolean;
   textColour?: string;
+  baseUrl: string;
   page?: Accessor<number>;
 }
 
@@ -33,7 +34,7 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
             class={`image-link relative ${
               props.isVertical ? "w-full" : "h-full w-1/2"
             }`}
-            href={props.articleUrl}
+            href={`${props.baseUrl}${props.articleUrl}`}
           >
             <div
               class={`absolute top-0 left-0 flex h-full w-full flex-col bg-whiteish-100 ${
@@ -62,7 +63,7 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
             class={`image-link relative ${
               props.isVertical ? "w-full" : "h-full w-1/2"
             }`}
-            href={props.articleUrl}
+            href={`${props.baseUrl}${props.articleUrl}`}
           >
             <img
               class={`${
@@ -85,13 +86,13 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
           {!props.hideCategoryAccent && (
             <a
               class={`text-l arno-display category-color-${props.category} uppercase xl:text-xl 2xl:text-2xl`}
-              href={`/${props.categoryLink}`}
+              href={`${props.baseUrl}/${props.categoryLink}`}
             >
               {props.category}
             </a>
           )}
           <div class="mb-2">
-            <a class="headline" href={props.articleUrl}>
+            <a class="headline" href={`${props.baseUrl}${props.articleUrl}`}>
               <p class="text-l text-black xl:text-xl 2xl:text-2xl">
                 {props.headline}
               </p>
@@ -102,19 +103,19 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
                 {props.authors.map((author, index) => {
                   if (index === 0) {
                     return (
-                      <a href={`/author/${author.users_userid}`}>
+                      <a href={`${props.baseUrl}/author/${author.users_userid}`}>
                         {`${author.users_name1} ${author.users_name2}`}
                       </a>
                     );
                   } else if (index === props.authors.length - 1) {
                     return (
-                      <a href={`/author/${author.users_userid}`}>
+                      <a href={`${props.baseUrl}/author/${author.users_userid}`}>
                         {` and ${author.users_name1} ${author.users_name2}`}
                       </a>
                     );
                   } else {
                     return (
-                      <a href={`/author/${author.users_userid}`}>
+                      <a href={`${props.baseUrl}/author/${author.users_userid}`}>
                         {`, ${author.users_name1} ${author.users_name2}`}
                       </a>
                     );
@@ -123,7 +124,7 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
               </p>
             )}
           </div>
-          <a class="excerpt" href={props.articleUrl}>
+          <a class="excerpt" href={`${props.baseUrl}${props.articleUrl}`}>
             <p class="text-xs text-black xl:text-sm 2xl:text-base">
               {props.excerpt}
             </p>

@@ -6,7 +6,7 @@ import {
 } from "@components/utils/articles";
 import Article from "@components/Article.astro";
 import dateFormatter from "@components/utils/dateFormatter";
-import { getParentCategory } from "./utils/categories";
+import { getParentCategory, getCategoryLink } from "./utils/categories";
 
 interface Props {
   articles: articlesWithArticleDrafts[];
@@ -71,7 +71,7 @@ const {
                       excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
                       authors={article.users.map(users => users.users)}
                       category={categories[articleIndex].categories_displayName}
-                      categoryLink={categories[articleIndex].categories_name}
+                      categoryLink={getCategoryLink(categories[articleIndex].categories_name, categories[articleIndex].categories_nestUnder)}
                       categoryColor={
                         categories[articleIndex].categories_backgroundColor
                       }
@@ -115,7 +115,7 @@ const {
             excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
             authors={article.users.map(users => users.users)}
             category={category.categories_displayName}
-            categoryLink={category.categories_name}
+            categoryLink={getCategoryLink(category.categories_name, category.categories_nestUnder)}
             categoryColor={category.categories_backgroundColor}
             imageUrl={await getArticleImage(article)}
             articleUrl={`${import.meta.env.BASE_URL}${dateFormatter
