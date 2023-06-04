@@ -105,11 +105,12 @@ const SearchResults: Component<SearchResultsProps> = (props) => {
                       categoryColor={article.categories_backgroundColor}
                       categoryLink={article.categories_name}
                       imageUrl={article.image}
-                      articleUrl={`${props.baseUrl}${article.url}`}
+                      articleUrl={article.url}
                       isVertical={false}
                       isPortrait={article.articles_isThumbnailPortrait}
                       hideCategoryAccent={false}
                       page={page}
+                      baseUrl={props.baseUrl}
                     />
                   </div>
                 )}
