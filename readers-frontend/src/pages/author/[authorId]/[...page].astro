@@ -1,7 +1,11 @@
 ---
+import ArticleRows from "@components/ArticleRows.astro";
+import FeaturedArticles from "@components/FeaturedArticles.astro";
+import Paginator from "@components/SolidJS/Paginator";
 import type { articlesWithArticleDrafts } from "@components/utils/articles";
 import { s3URL } from "@components/utils/s3URL";
 import { Prisma } from "@prisma/client";
+import type { Page } from "astro";
 import Layout from "src/layouts/Layout.astro";
 import prisma from "src/prisma";
 
@@ -28,14 +32,23 @@ const userWithArticles = Prisma.validator<Prisma.usersArgs>()({
   },
 });
 type userWithArticles = Prisma.usersGetPayload<typeof userWithArticles>;
-export async function getStaticPaths({ paginate }) {
+export async function getStaticPaths({ paginate }: any) {
   const allAuthors: userWithArticles[] = await prisma.users.findMany({
     where: {
-      users_userid: 148314,
       users_deleted: false,
     },
     include: {
       articles: {
+        orderBy: {
+          article: {
+            articles_published: "desc",
+          },
+        },
+        where: {
+          article: {
+            articles_showInLists: true,
+          },
+        },
         include: {
           article: {
             include: {
@@ -54,11 +67,6 @@ export async function getStaticPaths({ paginate }) {
         },
       },
       userPositions: {
-        where: {
-          userPositions_end: {
-            gte: new Date(),
-          },
-        },
         orderBy: {
           userPositions_end: "desc",
         },
@@ -72,13 +80,20 @@ export async function getStaticPaths({ paginate }) {
   return await Promise.all(
     allAuthors
       .map(async (author) => {
-        const articles = author.articles.map((article) => {
+        let articles = author.articles.map((article) => {
           return article.article;
         });
 
         const featuredArticleIds = author.articles_featured
           ?.split(",")
           .map(Number);
+
+        if (featuredArticleIds !== undefined) {
+          articles = articles.filter(
+            (article) => !featuredArticleIds.includes(article.articles_id)
+          );
+        }
+
         const authorImage = /^-?\d+$/.test(author.users_thumbnail!)
           ? await s3URL(Number(author.users_thumbnail))
           : undefined;
@@ -86,7 +101,7 @@ export async function getStaticPaths({ paginate }) {
           params: { authorId: author.users_userid.toString() },
           props: {
             author: author,
-            articles: articles,
+            featuredArticleIds: featuredArticleIds,
             authorImage: authorImage,
           },
           pageSize: 10,
@@ -96,29 +111,31 @@ export async function getStaticPaths({ paginate }) {
   );
 }
 interface Props {
+  page: Page;
   author: userWithArticles;
-  articles: articlesWithArticleDrafts[];
-  authorImage: string;
+  featuredArticleIds: number[] | undefined;
+  authorImage: string | undefined;
 }
 
-const { page } = Astro.params;
-const { author, articles, authorImage } = Astro.props;
-console.log(
-  author.userPositions
-    .filter((position) => position.userPositions_show)
-    .map((p) => p.positions!.positions_displayName)
-);
+const { page, author, featuredArticleIds, authorImage } = Astro.props;
 ---
 
 <Layout title="Nouse" active={undefined} style="nouse">
-  <div id="author-mantle" class="mt-8 w-full bg-neutral-900 text-white">
-    <div class="flex flex-row py-16">
-      <img
-        class="mr-20 h-52 w-52 rounded-full border-4 border-[#D76B6B] object-cover"
-        src={authorImage}
-      />
-      <div class="">
-        <h1>
+  <div
+    id="author-mantle"
+    class="mt-8 w-full bg-neutral-900 text-white sm:px-[0.5%] 2xl:px-[13%]"
+  >
+    <div class="flex flex-col md:flex-row items-center md:items-start justify-center py-16">
+      {
+        authorImage && (
+          <img
+            class="mb-4 md:mr-20 h-52 w-52 rounded-full border-4 border-[#D76B6B] object-cover"
+            src={authorImage}
+          />
+        )
+      }
+      <div class="w-full px-8 md:px-0 md:w-7/12">
+        <h1 class="text-center md:text-left">
           <span class="text-4xl">
             {`${author.users_name1}  ${author.users_name2}`}
           </span>
@@ -128,11 +145,14 @@ console.log(
             )
           }
         </h1>
-        <p>
+        <p class="text-center md:text-left text-lg font-bold">
           {
             author.userPositions
               .filter(
-                (position) => position.userPositions_show && position.positions
+                (position) =>
+                  position.userPositions_show &&
+                  position.positions &&
+                  position.userPositions_end! >= new Date()
               )
               .map(
                 (position, index) =>
@@ -142,8 +162,37 @@ console.log(
               )
           }
         </p>
-        <p class="text-2xl">{author.users_bio}</p>
+        {author.users_bio && <p class="mt-5 text-base">{author.users_bio}</p>}
       </div>
+    </div>
+    {
+      featuredArticleIds !== undefined && (
+        <div class="border-t border-gray-300 py-8">
+          <FeaturedArticles
+            featuredArticlesIds={featuredArticleIds}
+            style={"nouse"}
+            textColor={"#FFF"}
+          />
+        </div>
+      )
+    }
+  </div>
+  <div class="pt-8 sm:px-[0.5%] 2xl:px-[13%]">
+    {
+      page.data.length !== 0 && (
+        <div id="article-list">
+          <ArticleRows articles={page.data} style="nouse" />
+        </div>
+      )
+    }
+    <div class="my-4 w-full" id="paginator-container">
+      <Paginator
+        client:only
+        page={page.currentPage - 1}
+        pages={page.lastPage}
+        pagesToDisplay={5}
+        prefix={`author/${author.users_userid}`}
+      />
     </div>
   </div>
 </Layout>
