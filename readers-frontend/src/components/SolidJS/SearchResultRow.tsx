@@ -41,7 +41,7 @@ const SearchResultRow: Component<SearchResultRowProps> = (props) => {
           "border-b border-gray-300"
         } mt-2 pb-2`}
       >
-        <div class="w-1/2">
+        <div class="w-1/2 border-r border-gray-300">
           <Show when={props.article1} keyed>
             {(article) => (
               <div class="mr-4">
@@ -64,7 +64,6 @@ const SearchResultRow: Component<SearchResultRowProps> = (props) => {
             )}
           </Show>
         </div>
-        <span class="absolute left-1/2 top-2 bottom-2 -translate-x-1/2 border border-gray-300" />
         <div class="w-1/2">
           <Show when={props.article2} keyed>
             {(article) => (
