@@ -56,7 +56,7 @@ const Paginator: Component<PaginatorProps> = (props) => {
       <div class="mx-auto flex w-auto flex-row">
         <Show when={firstPage() !== 0}>
           <button
-            class="mx-2 h-7 w-7 rounded-full border-2 border-black bg-transparent text-sm md:h-16 md:w-16 md:text-base"
+            class="mx-2 h-7 w-7 rounded-full border border-black bg-transparent text-sm md:h-16 md:w-16 md:text-base"
             onClick={() =>
               setFirstPage((fp) => Math.max(fp - allowedPagesToDisplay(), 0))
             }
@@ -75,7 +75,7 @@ const Paginator: Component<PaginatorProps> = (props) => {
         >
           {(p) => (
             <button
-              class={`mx-2 h-7 w-7 rounded-full border-2 border-black md:h-16 md:w-16 ${
+              class={`mx-2 h-7 w-7 rounded-full border border-black md:h-16 md:w-16 ${
                 p === getPage()
                   ? "bg-black text-white"
                   : "bg-transparent text-black"
@@ -90,7 +90,7 @@ const Paginator: Component<PaginatorProps> = (props) => {
           when={getPages() - 1 - (firstPage() + allowedPagesToDisplay()) > 0}
         >
           <button
-            class="mx-2 h-7 w-7 rounded-full border-2 border-black bg-transparent md:h-16 md:w-16"
+            class="mx-2 h-7 w-7 rounded-full border border-black bg-transparent md:h-16 md:w-16"
             onClick={() =>
               setFirstPage((fp) => {
                 if (fp + allowedPagesToDisplay() < getPages() - 1)

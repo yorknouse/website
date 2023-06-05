@@ -94,7 +94,7 @@ const SearchResults: Component<SearchResultsProps> = (props) => {
                     class={`mt-4 ${
                       i() !== articlesPerPage - 1 &&
                       article.articles_slug !== lastArticle()?.articles_slug &&
-                      "border-b-2 border-gray-300"
+                      "border-b border-gray-300"
                     } pb-4`}
                   >
                     <SearchArticle

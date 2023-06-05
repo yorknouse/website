@@ -16,12 +16,12 @@ const MuseNavbar: Component<MuseNavbarProps> = (props) => {
         class="2xl:text-large hidden h-12 w-full text-base text-white md:block 2xl:px-[13%]"
         id="muse-navbar-desktop"
       >
-        <ul class="flex h-full w-full flex-row justify-between border-t-[1px] border-transparent border-white text-xs lg:text-base">
+        <ul class="flex h-full w-full flex-row justify-between border-t border-transparent border-white text-xs lg:text-base">
           <For each={props.categories}>
             {(category, i) => (
               <>
                 {i() !== 0 && ( // No divider before Home
-                  <span class="h-3/5 self-center border-r-2 border-white" />
+                  <span class="h-3/5 self-center border-r border-white" />
                 )}
                 <li
                   class={`group relative flex h-full w-full border-b-4 ${

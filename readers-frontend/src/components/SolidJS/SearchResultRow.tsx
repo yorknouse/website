@@ -38,7 +38,7 @@ const SearchResultRow: Component<SearchResultRowProps> = (props) => {
         class={`relative flex w-full flex-row ${
           props.bottomBorder &&
           !hasLastArticle() &&
-          "border-b-2 border-gray-300"
+          "border-b border-gray-300"
         } mt-2 pb-2`}
       >
         <div class="w-1/2">
@@ -64,7 +64,7 @@ const SearchResultRow: Component<SearchResultRowProps> = (props) => {
             )}
           </Show>
         </div>
-        <span class="absolute left-1/2 top-2 bottom-2 -translate-x-1/2 border-[1px] border-gray-300" />
+        <span class="absolute left-1/2 top-2 bottom-2 -translate-x-1/2 border border-gray-300" />
         <div class="w-1/2">
           <Show when={props.article2} keyed>
             {(article) => (
