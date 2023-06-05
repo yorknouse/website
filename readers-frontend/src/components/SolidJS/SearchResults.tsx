@@ -60,7 +60,9 @@ const SearchResults: Component<SearchResultsProps> = (props) => {
 
   return (
     <div class="h-full w-full">
-      <Spinner showAccessor={searching} />
+      <div class={`${!searching() && "hidden"} relative h-[63vh]`}>
+        <Spinner showAccessor={searching} />
+      </div>
       <Show
         when={(articles() === null || articles().length === 0) && !searching()}
       >
@@ -133,7 +135,7 @@ const SearchResults: Component<SearchResultsProps> = (props) => {
             </For>
           </Show>
         </div>
-        <div class="my-4 w-full" id="paginator-container">
+        <div class="w-full" id="paginator-container">
           <Paginator
             page={page}
             setPage={setPage}
