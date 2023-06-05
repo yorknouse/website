@@ -9,15 +9,11 @@ import {
   paginateCategory,
 } from "@components/utils/categories";
 import Layout from "src/layouts/Layout.astro";
-import {
-  articlesWithArticleDrafts,
-  getArticleImage,
-} from "../../components/utils/articles";
 import NavbarColourSwitcher from "@components/NavbarColourSwitcher.astro";
 import ArticleRows from "@components/ArticleRows.astro";
 
 export async function getStaticPaths() {
-  const articlePerPage = 30;
+  const articlesPerPage = 30;
 
   // Getting the nouse top level categories for example: news, politics, etc.
   const nouseTopLevelCategories: categoriesWithArticles[] =
@@ -41,14 +37,14 @@ export async function getStaticPaths() {
         // We want to nest the muse categories under muse
         paginatedTopCategory = paginateCategory(
           topLevelCategory,
-          articlePerPage,
+          articlesPerPage,
           "muse",
           topLevelCategory.categories_name
         );
       } else {
         paginatedTopCategory = paginateCategory(
           topLevelCategory,
-          articlePerPage,
+          articlesPerPage,
           topLevelCategory.categories_name
         );
       }
@@ -66,14 +62,14 @@ export async function getStaticPaths() {
             // We want to nest the subcategories for the muse categories under muse
             return paginateCategory(
               subCategory,
-              articlePerPage,
+              articlesPerPage,
               `muse`,
               `${topLevelCategory.categories_name}/${subCategory.categories_name}`
             );
           } else {
             return paginateCategory(
               subCategory,
-              articlePerPage,
+              articlesPerPage,
               topLevelCategory.categories_name,
               subCategory.categories_name
             );
