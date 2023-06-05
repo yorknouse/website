@@ -31,6 +31,10 @@ const {
   textColour = "#000",
 } = Astro.props;
 
+let overrideCategoryColor = false; 
+if (category) {
+  overrideCategoryColor = category.toLowerCase() === "muse" && textColour.toLowerCase() === "#fff";
+}
 const imagePlaceHolder =
   '"https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg"';
 ---
@@ -72,13 +76,13 @@ const imagePlaceHolder =
     <div
       class={`${
         isVertical || imageUrl == undefined ? "w-full" : "ml-3 h-full w-1/2"
-      } ${!hideCategoryAccent && "border-color border-t-2"}`}
+      } ${!hideCategoryAccent && `${overrideCategoryColor ? "text-white" : "border-color"} border-t-2`}`}
     >
       {
         !hideCategoryAccent && (
           <a
             id="category-text"
-            class="arno-display category-color text-lg uppercase xl:text-xl 2xl:text-2xl"
+            class={`arno-display text-lg uppercase xl:text-xl 2xl:text-2xl ${overrideCategoryColor ? "text-white" : "category-color"}`}
             href={categoryLink}
           >
             {category}
@@ -92,7 +96,7 @@ const imagePlaceHolder =
         {
           authors.length !== 0 && (
             <p class="authors text-colour text-sm italic 2xl:text-base">
-              <span class="category-color">By</span>
+              <span class={`${overrideCategoryColor ? "text-white" : "category-color"}`}>By</span>
               {authors.map((author, index) => {
                 if (index === 0) {
                   return (
