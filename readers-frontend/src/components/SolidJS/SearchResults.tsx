@@ -135,7 +135,7 @@ const SearchResults: Component<SearchResultsProps> = (props) => {
             </For>
           </Show>
         </div>
-        <div class="w-full" id="paginator-container">
+        <div class="w-full mt-4" id="paginator-container">
           <Paginator
             page={page}
             setPage={setPage}

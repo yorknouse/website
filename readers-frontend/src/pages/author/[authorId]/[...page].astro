@@ -162,6 +162,23 @@ const { page, author, featuredArticleIds, authorImage } = Astro.props;
               )
           }
         </p>
+        <p class="text-center md:text-left text-lg font-bold">
+          {
+            author.userPositions
+              .filter(
+                (position) =>
+                  position.userPositions_show &&
+                  position.positions &&
+                  position.userPositions_end! < new Date()
+              )
+              .map(
+                (position, index) =>
+                  `${index === 0 ? "Previously Held Positions: " : ", "}${
+                    position.positions!.positions_displayName
+                  } (${position.userPositions_start.getFullYear()}-${position.userPositions_end!.getFullYear()})`
+              )
+          }
+        </p>
         {author.users_bio && <p class="mt-5 text-base">{author.users_bio}</p>}
       </div>
     </div>
@@ -185,7 +202,7 @@ const { page, author, featuredArticleIds, authorImage } = Astro.props;
         </div>
       )
     }
-    <div class="w-full" id="paginator-container">
+    <div class="w-full mt-4" id="paginator-container">
       <Paginator
         client:only
         page={page.currentPage - 1}
