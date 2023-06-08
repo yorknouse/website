@@ -11,13 +11,18 @@ test.describe("Author Page", () => {
 
   test("Author Mantle Shows Correct Details and Featured Articles", async ({ page }) => {
     const authorMantle = page.locator("#author-mantle");
+
+    // Checking author profile picture
     await expect(authorMantle.locator("#author-image")).toHaveAttribute(
       "src",
       "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1673190924591-33954450307270480000-jullietesspotifywrappedjpg_large.jpg"
     );
+
+    // Checking number of featured articles
     await expect(authorMantle.locator(".article:visible")).toHaveCount(2);
     
     const authorDetails = authorMantle.locator("#author-details");
+    // Checking personal information
     await expect(authorDetails.locator("h1")).toHaveText("John Doe (he/him)");
     await expect(authorDetails.locator("p").first()).toHaveText("Editor");
     await expect(authorDetails.locator("p").nth(1)).toHaveText("Previously Held Positions: Deputy Editor (2022-2023)");
