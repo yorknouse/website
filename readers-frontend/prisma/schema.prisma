@@ -276,6 +276,7 @@ model positions {
   positions_displayName     String          @db.VarChar(255)
   positions_positionsGroups String?         @db.VarChar(500)
   positions_rank            Int             @default(254) @db.UnsignedTinyInt
+  positions_teamPageGroup   Int             @default(4)
   userPositions             userPositions[]
 
   @@index([positions_id], map: "positions_positions_id_index")
