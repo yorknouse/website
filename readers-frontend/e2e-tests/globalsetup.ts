@@ -117,7 +117,8 @@ async function dbGlobalSetup(config: FullConfig) {
         editions_show: true,
         editions_type: "Web Edition",
         editions_published: new Date("2023-01-01 12:00:00"),
-        editions_featuredHighlights: '{ "sections": [ { "name": "Nouse", "articles": [ "1", "2", "3" ], "headerImage": false, "customBoxes": [ { "type": "text", "text": "Custom Box Text 1", "title": "Custom Box 1" }, { "type": "text", "text": "Custom Box Text 2", "title": "Custom Box 2" } ], "customBoxHeader": { "title": "", "text": "" } }, { "name": "Muse", "articles": ["8", "9"], "headerImage": 2, "customBoxes": [], "customBoxHeader": { "type": "text", "text": "Custom Box Text", "title": "Custom Box Header" } } ] }',
+        editions_featuredHighlights:
+          '{ "sections": [ { "name": "Nouse", "articles": [ "1", "2", "3" ], "headerImage": false, "customBoxes": [ { "type": "text", "text": "Custom Box Text 1", "title": "Custom Box 1" }, { "type": "text", "text": "Custom Box Text 2", "title": "Custom Box 2" } ], "customBoxHeader": { "title": "", "text": "" } }, { "name": "Muse", "articles": ["8", "9"], "headerImage": 2, "customBoxes": [], "customBoxHeader": { "type": "text", "text": "Custom Box Text", "title": "Custom Box Header" } } ] }',
       },
     ],
   });
@@ -189,7 +190,8 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         s3files_id: 6,
         s3files_path: "db/webUploads/public/EDITION-THUMBNAIL",
-        s3files_filename: "1677873768325-93595571150116960000-nouseinbrief2jpeg",
+        s3files_filename:
+          "1677873768325-93595571150116960000-nouseinbrief2jpeg",
         s3files_extension: "jpeg",
         s3files_region: "eu-central-003",
         s3files_endpoint: "s3.eu-central-003.backblazeb2.com",
@@ -202,12 +204,28 @@ async function dbGlobalSetup(config: FullConfig) {
   });
 
   // Creating a User
-  await prisma.users.create({
-    data: {
-      users_userid: 1,
-      users_name1: "John",
-      users_name2: "Doe",
-    },
+  await prisma.users.createMany({
+    data: [
+      {
+        users_userid: 1,
+        users_name1: "John",
+        users_name2: "Doe",
+        users_thumbnail: "2",
+        articles_featured: "1,2",
+        users_bio: "Hi there. Hope you like my articles",
+        users_pronouns: "he/him",
+        users_googleAppsUsernameNouse: "john.doe",
+      },
+      {
+        users_userid: 2,
+        users_name1: "Jane",
+        users_name2: "Doe",
+        users_thumbnail: "2",
+        users_bio: "Hi there. Hope you like my articles",
+        users_pronouns: "she/her",
+        users_googleAppsUsernameNouse: "jane.doe",
+      },
+    ],
   });
 
   // Creating Featured Articles
@@ -468,6 +486,111 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 11,
         categories_id: 6,
+      },
+    ],
+  });
+
+  await prisma.articlesAuthors.createMany({
+    data: [
+      {
+        articles_id: 1,
+        users_userid: 1,
+      },
+      {
+        articles_id: 1,
+        users_userid: 2,
+      },
+      {
+        articles_id: 2,
+        users_userid: 1,
+      },
+      {
+        articles_id: 3,
+        users_userid: 1,
+      },
+      {
+        articles_id: 4,
+        users_userid: 1,
+      },
+      {
+        articles_id: 5,
+        users_userid: 1,
+      },
+      {
+        articles_id: 6,
+        users_userid: 1,
+      },
+      {
+        articles_id: 7,
+        users_userid: 1,
+      },
+      {
+        articles_id: 8,
+        users_userid: 1,
+      },
+      {
+        articles_id: 9,
+        users_userid: 1,
+      },
+      {
+        articles_id: 10,
+        users_userid: 1,
+      },
+      {
+        articles_id: 11,
+        users_userid: 1,
+      },
+    ],
+  });
+
+  await prisma.positions.createMany({
+    data: [
+      {
+        positions_id: 1,
+        positions_displayName: "Editor",
+        positions_rank: 1,
+        positions_teamPageGroup: 1,
+      },
+      {
+        positions_id: 2,
+        positions_displayName: "Deputy Editor",
+        positions_rank: 2,
+        positions_teamPageGroup: 1,
+      },
+      {
+        positions_id: 3,
+        positions_displayName: "News Editor",
+        positions_rank: 7,
+        positions_teamPageGroup: 2,
+      },
+    ],
+  });
+
+  await prisma.userPositions.createMany({
+    data: [
+      {
+        userPositions_id: 1,
+        userPositions_start: new Date("2023-02-24 12:00:00"),
+        userPositions_end: new Date("2033-02-24 12:00:00"),
+        userPositions_show: true,
+        positions_id: 1,
+        users_userid: 1,
+      },
+      {
+        userPositions_id: 2,
+        userPositions_start: new Date("2022-02-24 12:00:00"),
+        userPositions_end: new Date("2023-02-24 12:00:00"),
+        userPositions_show: true,
+        positions_id: 2,
+        users_userid: 1,
+      },
+      {
+        userPositions_id: 3,
+        userPositions_start: new Date("2022-02-24 12:00:00"),
+        userPositions_end: new Date("2033-02-24 12:00:00"),
+        userPositions_show: true,
+        positions_id: 3,
+        users_userid: 2,
       },
     ],
   });

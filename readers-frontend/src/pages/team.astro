@@ -9,6 +9,7 @@ const positions = await prisma.positions.findMany({
         userPositions_end: {
           gte: new Date(),
         },
+        userPositions_show: true,
       },
     },
   },
@@ -21,6 +22,7 @@ const positions = await prisma.positions.findMany({
         userPositions_end: {
           gte: new Date(),
         },
+        userPositions_show: true,
       },
       include: {
         users: true,
@@ -39,26 +41,26 @@ const positions = await prisma.positions.findMany({
   />
   <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
     <h1 class="mb-4 text-2xl sm:text-4xl">Meet The Team</h1>
-    <div class="mb-4">
+    <div id="senior-team" class="mb-4">
       <p class="mb-2 text-xl font-bold sm:text-2xl">Senior Team</p>
-      <div class="grid md:grid-cols-2 flex-wrap text-sm xl:text-base 2xl:text-lg">
+      <div
+        class="grid flex-wrap text-sm md:grid-cols-2 xl:text-base 2xl:text-lg"
+      >
         {
           positions
             .filter((position) => position.positions_teamPageGroup === 1)
             .flatMap((position) =>
               position.userPositions.flatMap(({ users }) => (
-                <p>
+                <p class="user">
                   <span class="font-bold">
-                    {`${position.positions_displayName} -`}
+                    {`${position.positions_displayName} - `}
                   </span>
                   <a
                     href={`${import.meta.env.BASE_URL}author/${
                       users?.users_userid
                     }`}
-                  >
-                    {`${users?.users_name1} ${users?.users_name2}`}
-                  </a>
-                  /
+                  >{`${users?.users_name1} ${users?.users_name2}`}</a>
+                  <span> / </span>
                   <a
                     href={`mailto:${users?.users_googleAppsUsernameNouse}@nouse.co.uk`}
                   >{`${users?.users_googleAppsUsernameNouse}@nouse.co.uk`}</a>
@@ -68,26 +70,26 @@ const positions = await prisma.positions.findMany({
         }
       </div>
     </div>
-    <div class="mb-4">
+    <div id="nouse" class="mb-4">
       <p class="mb-2 text-xl font-bold sm:text-2xl">Nouse</p>
-      <div class="grid md:grid-cols-2 flex-wrap text-sm xl:text-base 2xl:text-lg">
+      <div
+        class="grid flex-wrap text-sm md:grid-cols-2 xl:text-base 2xl:text-lg"
+      >
         {
           positions
             .filter((position) => position.positions_teamPageGroup === 2)
             .flatMap((position) =>
               position.userPositions.flatMap(({ users }) => (
-                <p>
+                <p class="user">
                   <span class="font-bold">
-                    {`${position.positions_displayName} -`}
+                    {`${position.positions_displayName} - `}
                   </span>
                   <a
                     href={`${import.meta.env.BASE_URL}author/${
                       users?.users_userid
                     }`}
-                  >
-                    {`${users?.users_name1} ${users?.users_name2}`}
-                  </a>
-                  /
+                  >{`${users?.users_name1} ${users?.users_name2}`}</a>
+                  <span> / </span>
                   <a
                     href={`mailto:${users?.users_googleAppsUsernameNouse}@nouse.co.uk`}
                   >{`${users?.users_googleAppsUsernameNouse}@nouse.co.uk`}</a>
@@ -97,26 +99,26 @@ const positions = await prisma.positions.findMany({
         }
       </div>
     </div>
-    <div class="mb-4">
+    <div id="muse" class="mb-4">
       <p class="mb-2 text-xl font-bold sm:text-2xl">MUSE</p>
-      <div class="grid md:grid-cols-2 flex-wrap text-sm xl:text-base 2xl:text-lg">
+      <div
+        class="grid flex-wrap text-sm md:grid-cols-2 xl:text-base 2xl:text-lg"
+      >
         {
           positions
             .filter((position) => position.positions_teamPageGroup === 3)
             .flatMap((position) =>
               position.userPositions.flatMap(({ users }) => (
-                <p>
+                <p class="user">
                   <span class="font-bold">
-                    {`${position.positions_displayName} -`}
+                    {`${position.positions_displayName} - `}
                   </span>
                   <a
                     href={`${import.meta.env.BASE_URL}author/${
                       users?.users_userid
                     }`}
-                  >
-                    {`${users?.users_name1} ${users?.users_name2}`}
-                  </a>
-                  /
+                  >{`${users?.users_name1} ${users?.users_name2}`}</a>
+                  <span> / </span>
                   <a
                     href={`mailto:${users?.users_googleAppsUsernameNouse}@nouse.co.uk`}
                   >{`${users?.users_googleAppsUsernameNouse}@nouse.co.uk`}</a>
@@ -127,25 +129,27 @@ const positions = await prisma.positions.findMany({
       </div>
     </div>
     <div class="mb-4">
-      <p class="mb-2 text-xl font-bold sm:text-2xl">Behind The Scenes</p>
-      <div class="grid md:grid-cols-2 flex-wrap text-sm xl:text-base 2xl:text-lg">
+      <p id="behind-the-scenes" class="mb-2 text-xl font-bold sm:text-2xl">
+        Behind The Scenes
+      </p>
+      <div
+        class="grid flex-wrap text-sm md:grid-cols-2 xl:text-base 2xl:text-lg"
+      >
         {
           positions
             .filter((position) => position.positions_teamPageGroup === 4)
             .flatMap((position) =>
               position.userPositions.flatMap(({ users }) => (
-                <p>
+                <p class="user">
                   <span class="font-bold">
-                    {`${position.positions_displayName} -`}
+                    {`${position.positions_displayName} - `}
                   </span>
                   <a
                     href={`${import.meta.env.BASE_URL}author/${
                       users?.users_userid
                     }`}
-                  >
-                    {`${users?.users_name1} ${users?.users_name2}`}
-                  </a>
-                  /
+                  >{`${users?.users_name1} ${users?.users_name2}`}</a>
+                  <span> / </span>
                   <a
                     href={`mailto:${users?.users_googleAppsUsernameNouse}@nouse.co.uk`}
                   >{`${users?.users_googleAppsUsernameNouse}@nouse.co.uk`}</a>
