@@ -1,3 +1,16 @@
+FROM node:16 AS readers-frontend
+#ENV NODE_ENV=production
+ENV DATABASE_URL=mysql://userDocker:passDocker@host.docker.internal:3306/nouse?connect_timeout=300&pool_timeout=20
+ENV archiveFileStoreUrl=https://bbcdn.nouse.co.uk/file/nouseOldImageLibrary/archive/public
+ENV fileStoreUrl=https://bbcdn.nouse.co.uk/file
+
+WORKDIR /readers-frontend/
+ADD readers-frontend ./
+RUN npm i
+RUN npx prisma generate
+RUN npm run build
+
+
 FROM php:7.4-apache
 RUN apt-get update
 COPY docker/php.ini /var/www/php.ini
@@ -53,6 +66,8 @@ RUN composer install
 
 COPY docker/start.sh /var/www/start.sh
 RUN dos2unix /var/www/start.sh
+
+COPY --from=readers-frontend /readers-frontend/dist/* ./html/frontend/
 
 # To get in container - docker exec -t -i nouse-container /bin/bash
 
