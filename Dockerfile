@@ -1,3 +1,14 @@
+FROM node:18 AS readers-frontend
+ENV NODE_ENV=production
+ENV archiveFileStoreUrl=https://bbcdn.nouse.co.uk/file/nouseOldImageLibrary/archive/public
+ENV fileStoreUrl=https://bbcdn.nouse.co.uk/file
+
+WORKDIR /readers-frontend/
+ADD readers-frontend ./
+RUN npm i
+RUN npx prisma generate
+RUN DATABASE_URL=$(cat /run/secrets/DATABASE_URL) npm run build -- --config astro.config.prod.mjs
+
 FROM php:7.4-apache
 RUN apt-get update
 COPY docker/php.ini /var/www/php.ini
@@ -15,21 +26,21 @@ COPY docker/apache/001default-apache2.conf /etc/apache2/sites-available/001defau
 RUN a2ensite 001default-apache2.conf
 
 RUN apt-get install -y -qq \
-        software-properties-common \
-		libfreetype6-dev \
-		libjpeg62-turbo-dev \
-		libpng-dev \
-		libjpeg-dev \
-		libzip-dev \
-		libonig-dev \
-		zlib1g-dev \
-		libicu-dev \
-		unzip \
-		git \
-		nano \
-		cron \
-		dos2unix \
-		&& apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+	software-properties-common \
+	libfreetype6-dev \
+	libjpeg62-turbo-dev \
+	libpng-dev \
+	libjpeg-dev \
+	libzip-dev \
+	libonig-dev \
+	zlib1g-dev \
+	libicu-dev \
+	unzip \
+	git \
+	nano \
+	cron \
+	dos2unix \
+	&& apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --enable-gd
 RUN docker-php-ext-install -j$(nproc) gd zip mbstring mysqli intl
 
@@ -52,6 +63,8 @@ RUN composer install
 
 COPY docker/start.sh /var/www/start.sh
 RUN dos2unix /var/www/start.sh
+
+COPY --from=readers-frontend /readers-frontend/dist/ ./html/frontend/
 
 # To get in container - docker exec -t -i nouse-container /bin/bash
 
