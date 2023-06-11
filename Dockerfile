@@ -7,7 +7,7 @@ WORKDIR /readers-frontend/
 ADD readers-frontend ./
 RUN npm i
 RUN npx prisma generate
-RUN DATABASE_URL=$(cat /run/secrets/DATABASE_URL) npm run build -- --config astro.config.prod.mjs
+RUN --mount=type=secret,id=DATABASE_URL DATABASE_URL=$(cat /run/secrets/DATABASE_URL) npm run build -- --config astro.config.prod.mjs
 
 FROM php:7.4-apache
 RUN apt-get update
