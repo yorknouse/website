@@ -322,7 +322,7 @@ test.describe("Banner and Edition", () => {
 
     await expect(page.locator("[id='edition']")).toHaveAttribute(
       "href",
-      "/website/edition/test-edition"
+      "/website/editions/test-edition"
     );
   });
 });
