@@ -1,9 +1,10 @@
 ---
+import type { users } from "@prisma/client";
+
 export interface Props {
   headline: string;
   excerpt: string | null;
-  author: string;
-  authorId: number | undefined;
+  authors: users[];
   category: string | null | undefined;
   categoryLink: string | undefined;
   categoryColor: string | null | undefined;
@@ -18,8 +19,7 @@ export interface Props {
 const {
   headline,
   excerpt,
-  author,
-  authorId,
+  authors,
   category,
   categoryLink,
   categoryColor,
@@ -31,6 +31,10 @@ const {
   textColour = "#000",
 } = Astro.props;
 
+let overrideCategoryColor = false; 
+if (category) {
+  overrideCategoryColor = category.toLowerCase() === "muse" && textColour.toLowerCase() === "#fff";
+}
 const imagePlaceHolder =
   '"https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg"';
 ---
@@ -72,13 +76,14 @@ const imagePlaceHolder =
     <div
       class={`${
         isVertical || imageUrl == undefined ? "w-full" : "ml-3 h-full w-1/2"
-      } ${!hideCategoryAccent && "border-color border-t-2"}`}
+      } ${!hideCategoryAccent && `${overrideCategoryColor ? "text-white" : "border-color"} border-t-2`}`}
     >
       {
         !hideCategoryAccent && (
           <a
-            class="text-l category-text category-color uppercase xl:text-xl 2xl:text-2xl"
-            href={`${categoryLink}`}
+            id="category-text"
+            class={`arno-display text-lg uppercase xl:text-xl 2xl:text-2xl ${overrideCategoryColor ? "text-white" : "category-color"}`}
+            href={categoryLink}
           >
             {category}
           </a>
@@ -86,16 +91,36 @@ const imagePlaceHolder =
       }
       <div class="mb-2">
         <a class="headline" href={articleUrl}>
-          <p class="text-l text-colour xl:text-xl 2xl:text-2xl">{headline}</p>
+          <p class="text-colour text-lg xl:text-xl 2xl:text-2xl">{headline}</p>
         </a>
         {
-          authorId && (
-            <a class="author" href={`/author/${authorId}`}>
-              <p class="text-colour text-sm italic 2xl:text-base">
-                <span class="category-color">By</span>
-                {author}
-              </p>
-            </a>
+          authors.length !== 0 && (
+            <p class="authors text-colour text-sm italic 2xl:text-base">
+              <span class={`${overrideCategoryColor ? "text-white" : "category-color"}`}>By</span>
+              {authors.map((author, index) => {
+                if (index === 0) {
+                  return (
+                    <a href={`${import.meta.env.BASE_URL}author/${author.users_userid}`}>
+                      {`${author.users_name1} ${author.users_name2}`}
+                    </a>
+                  );
+                } else if (index === authors.length - 1) {
+                  return (
+                    <span> and </span>
+                    <a href={`${import.meta.env.BASE_URL}author/${author.users_userid}`}>
+                      {`${author.users_name1} ${author.users_name2}`}
+                    </a>
+                  );
+                } else {
+                  return (
+                  <span>, </span>
+                    <a href={`${import.meta.env.BASE_URL}author/${author.users_userid}`}>
+                      {`${author.users_name1} ${author.users_name2}`}
+                    </a>
+                  );
+                }
+              })}
+            </p>
           )
         }
       </div>

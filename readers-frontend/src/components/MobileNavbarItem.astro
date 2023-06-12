@@ -20,7 +20,7 @@ const { active, displayName, categoryName, baseUrl, subMenu } = Astro.props;
         <button
           id={`${categoryName}ListBtn`}
           class={`flex w-full ${
-            active === categoryName ? "border-b-[5px]" : "border-b-[1px]"
+            active === categoryName ? "border-b-[5px]" : "border-b"
           }`}
         >
           <div class="mx-auto flex flex-row pb-4">
@@ -45,7 +45,7 @@ const { active, displayName, categoryName, baseUrl, subMenu } = Astro.props;
           </div>
         </button>
         <div
-          class="hidden w-full border-b-[1px] border-b-white"
+          class="hidden w-full border-b border-b-white"
           id={`${categoryName}ListContainer`}
         >
           <ul class="flex w-full flex-col bg-neutral-900 text-center">
@@ -71,7 +71,7 @@ const { active, displayName, categoryName, baseUrl, subMenu } = Astro.props;
             : `${baseUrl + categoryName}`
         }
         class={`mx-auto w-full pb-4 text-center ${
-          active === categoryName ? "border-b-[5px]" : "border-b-[1px]"
+          active === categoryName ? "border-b-[5px]" : "border-b"
         }`}
       >
         {displayName}

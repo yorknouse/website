@@ -24,7 +24,6 @@ $readArticlesIds =
 
 // Get articles
 $DBLIB->where("articles.articles_id", $readArticlesIds, "IN");
-$DBLIB->join("users", "users.users_userid=articles.articles_authors");
 $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
 $DBLIB->setQueryOption("DISTINCT");
 $articles = $DBLIB->get(
@@ -37,9 +36,6 @@ $articles = $DBLIB->get(
         "articles.articles_thumbnail",
         "articles.articles_isThumbnailPortrait",
         "articlesDrafts.articlesDrafts_headline",
-        "users.users_name1",
-        "users.users_name2",
-        "users.users_userid",
     ]
 );
 
@@ -57,6 +53,11 @@ foreach ($articles as $article) {
         $category = $DBLIB->getOne("categories");
         $article['categories_name'] = $category['categories_name'];
     }
+
+    $DBLIB->where("articlesAuthors.articles_id", $bCMS->sanitizeString($article['articles_id']));
+    $DBLIB->join("users", "users.users_userid=articlesAuthors.users_userid", "LEFT");
+    $DBLIB->where("users_deleted", 0);
+    $article['articles_authors'] = $DBLIB->get("articlesAuthors", null, ["users.users_name1", "users.users_name2", "users.users_userid"]);
 
     $article['url'] = '/' . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'];
 

@@ -2,6 +2,7 @@
 import Navbar from "@components/Navbar.astro";
 import SearchInterface from "@components/SearchInterface.astro";
 import prisma from "src/prisma";
+import { Icon } from "astro-icon";
 
 export interface Props {
   title: string | undefined;
@@ -29,7 +30,7 @@ const { title, active, style } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/icons/favicon-32x32.png" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     {/* Adobe Fonts */}
@@ -42,6 +43,44 @@ const { title, active, style } = Astro.props;
     <Navbar active={active} style={style} />
     <slot />
   </body>
+  <footer
+    class="mt-4 flex flex-col bg-black py-8 px-[3%] pt-8 sm:px-[5%] 2xl:px-[13%]"
+  >
+    <img
+      class="mb-6 h-10 w-min invert"
+      src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
+    />
+    <div
+      class="flex flex-row justify-between border-t border-white pt-5 text-xs text-lg text-white lg:text-sm"
+    >
+      <div class="flex grow flex-row flex-wrap gap-3 pr-2 2xl:gap-7">
+        <a href={`${import.meta.env.BASE_URL}about-us`}>About Us</a>
+        <a href={`${import.meta.env.BASE_URL}team`}>Our Team</a>
+        <a href={`${import.meta.env.BASE_URL}editions`}>Previous Editions</a>
+        <a href={`${import.meta.env.BASE_URL}website-credits`}
+          >Website Credits</a
+        >
+        <a href={`${import.meta.env.BASE_URL}archives`}>Archives</a>
+        <a href={`${import.meta.env.BASE_URL}website-policies`}>Website Policies</a>
+        <a href={`${import.meta.env.BASE_URL}advertising`}>Advertising</a>
+        <a href={`${import.meta.env.BASE_URL}contact-us`}>Contact Us</a>
+      </div>
+      <div
+        class="flex flex-row gap-3 border-l border-white pl-2 md:border-l-0 2xl:gap-7"
+      >
+        <a href="https://www.facebook.com/yorknouse">
+          <Icon name="ri:facebook-fill" class="h-4 lg:h-5" />
+        </a>
+        <a href="https://twitter.com/yorknouse">
+          <Icon name="ri:twitter-fill" class="h-4 lg:h-5" />
+        </a>
+        <a href="https://www.instagram.com/yorknouse/">
+          <Icon name="ri:instagram-line" class="h-4 lg:h-5" />
+        </a>
+        <p class="opacity-50">@yorknouse</p>
+      </div>
+    </div>
+  </footer>
 </html>
 <script define:vars={{ categoriesColours }}>
   const style = document.createElement("style");
@@ -67,7 +106,7 @@ const { title, active, style } = Astro.props;
   });
 </script>
 <style is:global>
-  .category-text {
+  .arno-display {
     font-family: "arno-pro-display", serif;
     font-weight: 700;
     font-style: normal;

@@ -3,8 +3,7 @@ import { Accessor, Component, createEffect, createSignal, on } from "solid-js";
 interface SearchArticleProps {
   headline: string;
   excerpt: string | null;
-  author: string;
-  authorId: number | undefined;
+  authors: { users_name1: string; users_name2: string; users_userid: number }[];
   category: string | null | undefined;
   categoryLink: string | undefined;
   categoryColor: string | undefined;
@@ -14,6 +13,7 @@ interface SearchArticleProps {
   isPortrait: boolean; // Defines if the image is portrait or landscape
   hideCategoryAccent?: boolean;
   textColour?: string;
+  baseUrl: string;
   page?: Accessor<number>;
 }
 
@@ -34,7 +34,7 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
             class={`image-link relative ${
               props.isVertical ? "w-full" : "h-full w-1/2"
             }`}
-            href={props.articleUrl}
+            href={`${props.baseUrl}${props.articleUrl}`}
           >
             <div
               class={`absolute top-0 left-0 flex h-full w-full flex-col bg-whiteish-100 ${
@@ -63,7 +63,7 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
             class={`image-link relative ${
               props.isVertical ? "w-full" : "h-full w-1/2"
             }`}
-            href={props.articleUrl}
+            href={`${props.baseUrl}${props.articleUrl}`}
           >
             <img
               class={`${
@@ -85,26 +85,46 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
         >
           {!props.hideCategoryAccent && (
             <a
-              class={`text-l category-text category-color-${props.category} uppercase xl:text-xl 2xl:text-2xl`}
-              href={`/${props.categoryLink}`}
+              class={`text-l arno-display category-color-${props.category} uppercase xl:text-xl 2xl:text-2xl`}
+              href={`${props.baseUrl}/${props.categoryLink}`}
             >
               {props.category}
             </a>
           )}
           <div class="mb-2">
-            <a class="headline" href={props.articleUrl}>
+            <a class="headline" href={`${props.baseUrl}${props.articleUrl}`}>
               <p class="text-l text-black xl:text-xl 2xl:text-2xl">
                 {props.headline}
               </p>
             </a>
-            <a class="author" href={`/author/${props.authorId}`}>
+            {props.authors.length !== 0 && (
               <p class="text-sm italic text-black 2xl:text-base">
                 <span class={`category-color-${props.category}`}>By </span>
-                {props.author}
+                {props.authors.map((author, index) => {
+                  if (index === 0) {
+                    return (
+                      <a href={`${props.baseUrl}/author/${author.users_userid}`}>
+                        {`${author.users_name1} ${author.users_name2}`}
+                      </a>
+                    );
+                  } else if (index === props.authors.length - 1) {
+                    return (
+                      <a href={`${props.baseUrl}/author/${author.users_userid}`}>
+                        {` and ${author.users_name1} ${author.users_name2}`}
+                      </a>
+                    );
+                  } else {
+                    return (
+                      <a href={`${props.baseUrl}/author/${author.users_userid}`}>
+                        {`, ${author.users_name1} ${author.users_name2}`}
+                      </a>
+                    );
+                  }
+                })}
               </p>
-            </a>
+            )}
           </div>
-          <a class="excerpt" href={props.articleUrl}>
+          <a class="excerpt" href={`${props.baseUrl}${props.articleUrl}`}>
             <p class="text-xs text-black xl:text-sm 2xl:text-base">
               {props.excerpt}
             </p>

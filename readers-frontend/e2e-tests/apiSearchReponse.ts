@@ -10,9 +10,13 @@ export const apiSearchResponse = {
       articlesDrafts_headline: "Do Revenge: Coming of Rage",
       articlesDrafts_excerpt:
         "Camila Hernández looks at how Netflix's latest chick flick compares to it's 90s predecessors",
-      users_name1: "Lawrence",
-      users_name2: "Mason",
-      users_userid: 148446,
+      articles_authors: [
+        {
+          users_name1: "Lawrence",
+          users_name2: "Mason",
+          users_userid: 148446,
+        },
+      ],
       categories_name: "muse",
       categories_displayName: "Muse",
       categories_backgroundColor: "000000",
@@ -29,9 +33,13 @@ export const apiSearchResponse = {
       articlesDrafts_headline: "Reviewing Sin at York Art Gallery",
       articlesDrafts_excerpt:
         "Emily Warner reviews the latest exhibition at York Art Gallery and discusses how art presents 'sin' through history.",
-      users_name1: "Emily",
-      users_name2: "Warner",
-      users_userid: 148485,
+      articles_authors: [
+        {
+          users_name1: "Emily",
+          users_name2: "Warner",
+          users_userid: 148485,
+        },
+      ],
       categories_name: "muse",
       categories_displayName: "Muse",
       categories_backgroundColor: "000000",
@@ -49,9 +57,13 @@ export const apiSearchResponse = {
         "Uni of York Rugby player selected as OddBalls ambassador",
       articlesDrafts_excerpt:
         "University of York Rugby player, Ollie Pick, has been selected as a student ambassador for testicular cancer charity, OddBalls",
-      users_name1: "Jack",
-      users_name2: "Bleksley",
-      users_userid: 148410,
+      articles_authors: [
+        {
+          users_name1: "Jack",
+          users_name2: "Bleksley",
+          users_userid: 148410,
+        },
+      ],
       categories_name: "sport",
       categories_displayName: "Sport",
       categories_backgroundColor: "edb321",
@@ -69,9 +81,13 @@ export const apiSearchResponse = {
         "Is Britain sufficiently prepared for nuclear war?",
       articlesDrafts_excerpt:
         "It has been 70 years since Britain first tested nuclear weapons, yet our trajectory today appears very different",
-      users_name1: "Josh",
-      users_name2: "Rutland",
-      users_userid: 148424,
+      articles_authors: [
+        {
+          users_name1: "Josh",
+          users_name2: "Rutland",
+          users_userid: 148424,
+        },
+      ],
       categories_name: "politics",
       categories_displayName: "Politics",
       categories_backgroundColor: "E4362D",
@@ -90,9 +106,13 @@ export const apiSearchResponse = {
         "Recruitment fears amid latest public sector pay increases",
       articlesDrafts_excerpt:
         "As inflation outstrips recent remuneration awards, there are concerns public services will struggle to retain and recruit staff",
-      users_name1: "Josh",
-      users_name2: "Rutland",
-      users_userid: 148424,
+      articles_authors: [
+        {
+          users_name1: "Josh",
+          users_name2: "Rutland",
+          users_userid: 148424,
+        },
+      ],
       categories_name: "politics",
       categories_displayName: "Politics",
       categories_backgroundColor: "E4362D",
@@ -109,9 +129,13 @@ export const apiSearchResponse = {
       articlesDrafts_headline: "Review: Crimes of the Future",
       articlesDrafts_excerpt:
         "Cavan Gilbey reviews Cronenberg's latest foray into body horror",
-      users_name1: "Lawrence",
-      users_name2: "Mason",
-      users_userid: 148446,
+      articles_authors: [
+        {
+          users_name1: "Lawrence",
+          users_name2: "Mason",
+          users_userid: 148446,
+        },
+      ],
       categories_name: "muse",
       categories_displayName: "Muse",
       categories_backgroundColor: "000000",
@@ -128,9 +152,13 @@ export const apiSearchResponse = {
       articlesDrafts_headline: "The Slippery Slope of BeReal",
       articlesDrafts_excerpt:
         "Charis Horsley questions the success of the latest social media craze, BeReal",
-      users_name1: "Katy",
-      users_name2: "Leverett",
-      users_userid: 148409,
+      articles_authors: [
+        {
+          users_name1: "Katy",
+          users_name2: "Leverett",
+          users_userid: 148409,
+        },
+      ],
       categories_name: "comment",
       categories_displayName: "Comment",
       categories_backgroundColor: "932E6C",

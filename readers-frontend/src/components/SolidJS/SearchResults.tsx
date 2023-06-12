@@ -60,7 +60,9 @@ const SearchResults: Component<SearchResultsProps> = (props) => {
 
   return (
     <div class="h-full w-full">
-      <Spinner showAccessor={searching} />
+      <div class={`${!searching() && "hidden"} relative h-[63vh]`}>
+        <Spinner showAccessor={searching} />
+      </div>
       <Show
         when={(articles() === null || articles().length === 0) && !searching()}
       >
@@ -94,23 +96,23 @@ const SearchResults: Component<SearchResultsProps> = (props) => {
                     class={`mt-4 ${
                       i() !== articlesPerPage - 1 &&
                       article.articles_slug !== lastArticle()?.articles_slug &&
-                      "border-b-2 border-gray-300"
+                      "border-b border-gray-300"
                     } pb-4`}
                   >
                     <SearchArticle
                       headline={article.articlesDrafts_headline}
                       excerpt={article.articlesDrafts_excerpt}
-                      author={`${article.users_name1} ${article.users_name2}`}
-                      authorId={article.users_userid}
+                      authors={article.articles_authors}
                       category={article.categories_name}
                       categoryColor={article.categories_backgroundColor}
                       categoryLink={article.categories_name}
                       imageUrl={article.image}
-                      articleUrl={`${props.baseUrl}${article.url}`}
+                      articleUrl={article.url}
                       isVertical={false}
                       isPortrait={article.articles_isThumbnailPortrait}
                       hideCategoryAccent={false}
                       page={page}
+                      baseUrl={props.baseUrl}
                     />
                   </div>
                 )}
@@ -133,7 +135,7 @@ const SearchResults: Component<SearchResultsProps> = (props) => {
             </For>
           </Show>
         </div>
-        <div class="my-4 w-full" id="paginator-container">
+        <div class="w-full mt-4" id="paginator-container">
           <Paginator
             page={page}
             setPage={setPage}

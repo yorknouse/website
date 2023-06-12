@@ -1,0 +1,181 @@
+---
+import ArticleRows from "@components/ArticleRows.astro";
+import CustomBoxes from "@components/SolidJS/CustomBoxes";
+import type { FeaturedHighlights } from "@components/types";
+import {
+  articlesWithArticleDrafts,
+  getArticles,
+} from "@components/utils/articles";
+import { s3URL } from "@components/utils/s3URL";
+import type { editions } from "@prisma/client";
+import Layout from "src/layouts/Layout.astro";
+import prisma from "src/prisma";
+import { v4 as uuidv4 } from "uuid";
+
+export async function getStaticPaths() {
+  const allEditions = await prisma.editions.findMany({
+    where: {
+      editions_show: true,
+      editions_deleted: false,
+      NOT: {
+        editions_thumbnail: null,
+      },
+    },
+    orderBy: {
+      editions_published: "desc",
+    },
+  });
+
+  return allEditions.map((edition) => {
+    return {
+      params: {
+        slug: decodeURIComponent(edition.editions_slug),
+      },
+      props: {
+        edition,
+      },
+    };
+  });
+}
+
+interface Props {
+  edition: editions;
+}
+
+const { edition } = Astro.props;
+const isWebEdition = edition.editions_type === "Web Edition";
+let pdfURL;
+// Data for web editions is saved as a JSON string in the database
+// This is parsed into an object here
+let featuredHighlights: FeaturedHighlights = null;
+if (isWebEdition && edition.editions_featuredHighlights) {
+  featuredHighlights = JSON.parse(edition.editions_featuredHighlights);
+  if (featuredHighlights) {
+    for (const section of featuredHighlights.sections) {
+      if (section.articles.length !== 0) {
+        const articleIds = section.articles.map((n) => Number.parseInt(n));
+        section.articlesData = await getArticles(articleIds);
+      }
+      // If there is a custom box header, add it to the start of the custom boxes array
+      if (section.customBoxHeader.title) {
+        section.customBoxes.splice(0, 0, section.customBoxHeader);
+      }
+    }
+  }
+} else {
+  pdfURL = edition.editions_pdf
+    ? await s3URL(edition.editions_pdf)
+    : await s3URL(edition.editions_pdfOriginal!);
+}
+---
+
+<Layout
+  title={`${
+    edition.editions_printNumber
+      ? `№${edition.editions_printNumber}`
+      : edition.editions_name
+  } - Nouse`}
+  active={undefined}
+  style="nouse"
+>
+  <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
+    <h1 class="text-center text-xl md:text-2xl lg:text-4xl">
+      {
+        edition.editions_printNumber
+          ? `№${edition.editions_printNumber}`
+          : edition.editions_name
+      }
+    </h1>
+    {
+      (isWebEdition ||
+        edition.editions_printNumber ||
+        new Date(edition.editions_name).toString() === "Invalid Date") && (
+        <h4 class="text-center text-lg md:text-xl">{`Published on ${edition.editions_published.toLocaleString(
+          "en-gb",
+          { day: "numeric", month: "long", year: "numeric" }
+        )}`}</h4>
+      )
+    }
+  </div>
+  {
+    isWebEdition && featuredHighlights ? (
+      async () => {
+        return (
+          <div class="mt-8">
+            <img
+              id="thumbnail"
+              class="mb-5 w-full px-[3%] sm:px-[0.5%] 2xl:px-[13%]"
+              src={await s3URL(edition.editions_thumbnail!, "medium")}
+            />
+            {featuredHighlights!.sections.map(async (section) => {
+              return (
+                <div class="section mb-8">
+                  {section.headerImage && (
+                    <img
+                      class="section-image mb-5 w-full px-[3%] sm:px-[0.5%] 2xl:px-[13%]"
+                      src={await s3URL(section.headerImage, "medium")}
+                    />
+                  )}
+                  {section.customBoxes.length !== 0 &&
+                    (() => {
+                      const id = uuidv4();
+                      return (
+                        <div class="custom-boxes-container relative mb-5 flex w-full flex-col bg-black text-white px-[3%] pt-4 sm:px-[0.5%] 2xl:px-[13%]">
+                          <p class="text-xl md:text-2xl lg:text-4xl text-center border-b border-white">
+                            From Our Editors
+                          </p>
+                          <CustomBoxes
+                            client:idle
+                            id={id}
+                            customBoxes={section.customBoxes}
+                          >
+                            {section.customBoxes.map((customBox, index) => {
+                              return (
+                                <div
+                                  id={`${id}-${index}`}
+                                  class={`custom-box flex flex-col items-center justify-start bg-neutral-900 transition-opacity delay-300 duration-500 overflow-hidden ${
+                                    index == 0
+                                      ? "w-full md:w-10/12 opacity-100 p-4"
+                                      : "w-0 h-0 opacity-0 p-0"
+                                  }`}
+                                >
+                                  <p class="text-lg md:text-xl lg:text-2xl text-center underline">
+                                    {customBox.title}
+                                  </p>
+                                  <p class="text-xs xl:text-sm 2xl:text-base text-center">
+                                    {customBox.text}
+                                  </p>
+                                </div>
+                              );
+                            })}
+                          </CustomBoxes>
+                        </div>
+                      );
+                    })}
+                  {section.articles.length !== 0 && (
+                    <div class="px-[3%] sm:px-[0.5%] 2xl:px-[13%]">
+                      <ArticleRows
+                        articles={section.articlesData}
+                        style={section.name}
+                      />
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        );
+      }
+    ) : (
+      <>
+        <div class="mx-auto w-1/2 pt-8">
+          <iframe src={pdfURL} width="100%" height="1170" />
+          <p class="mt-4 text-center text-lg md:text-xl">
+            If you're unable to view the PDF file,
+            <a href={pdfURL}>click here.</a>
+          </p>
+        </div>
+      </>
+    )
+  }
+</Layout>

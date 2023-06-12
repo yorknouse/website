@@ -1,3 +1,5 @@
+import type { articlesWithArticleDrafts } from "./utils/articles";
+
 export type MuseNavbarCategory = {
   displayName: string;
   name: string;
@@ -16,9 +18,11 @@ export type SearchResult = {
   categories_name: string;
   image: false | string;
   url: string;
-  users_name1: string;
-  users_name2: string;
-  users_userid: number;
+  articles_authors: {
+    users_name1: string;
+    users_name2: string;
+    users_userid: number;
+  }[];
 };
 
 export type SearchResponse = {
@@ -36,12 +40,27 @@ export type TopArticleResult = {
   categories_name: string;
   image: false | string;
   url: string;
-  users_name1: string;
-  users_name2: string;
-  users_userid: number;
-}
+  articles_authors: {
+    users_name1: string;
+    users_name2: string;
+    users_userid: number;
+  }[];
+};
 
 export type TopArticlesResponse = {
   response: TopArticleResult[];
   result: boolean;
+};
+
+export type FeaturedHighlights = {
+  sections: FeaturedHighlightsSection[];
+} | null;
+
+export type FeaturedHighlightsSection = {
+  name: string;
+  headerImage: number;
+  customBoxes: { type?: string; text: string; title: string }[];
+  customBoxHeader: { type?: string; text: string; title: string };
+  articles: string[];
+  articlesData: articlesWithArticleDrafts[];
 };

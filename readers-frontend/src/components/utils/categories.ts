@@ -135,10 +135,11 @@ const categoriesWithArticles = Prisma.validator<Prisma.categoriesArgs>()({
       include: {
         article: {
           include: {
-            articlesDrafts: { include: { users: true } },
+            articlesDrafts: true,
             categories: {
               include: { category: true },
             },
+            users: { include: { users: true } },
           },
         },
       },
@@ -184,13 +185,11 @@ export const getCategoriesWithArticles = async (
                   articlesDrafts_timestamp: "desc",
                 },
                 take: 1,
-                include: {
-                  users: true,
-                },
               },
               categories: {
                 include: { category: true },
               },
+              users: { include: { users: true } },
             },
           },
         },
@@ -334,9 +333,10 @@ export const getParentCategory = (categories: ArticleCategories[]) => {
     .reverse()
     .find(
       ({ category }) =>
-        (category.categories_nestUnder === null && // Nouse
+        category.categories_showPublic &&
+        ((category.categories_nestUnder === null && // Nouse
           category.categories_id !== 4) ||
-        category.categories_nestUnder === 4 // Muse
+        category.categories_nestUnder === 4) // Muse
     );
 
   if (interimParentCategory) {

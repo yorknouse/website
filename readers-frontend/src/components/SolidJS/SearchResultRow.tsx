@@ -38,33 +38,32 @@ const SearchResultRow: Component<SearchResultRowProps> = (props) => {
         class={`relative flex w-full flex-row ${
           props.bottomBorder &&
           !hasLastArticle() &&
-          "border-b-2 border-gray-300"
+          "border-b border-gray-300"
         } mt-2 pb-2`}
       >
-        <div class="w-1/2">
+        <div class="w-1/2 border-r border-gray-300">
           <Show when={props.article1} keyed>
             {(article) => (
               <div class="mr-4">
                 <SearchArticle
                   headline={article.articlesDrafts_headline}
                   excerpt={article.articlesDrafts_excerpt}
-                  author={`${article.users_name1} ${article.users_name2}`}
-                  authorId={article.users_userid}
+                  authors={article.articles_authors}
                   category={article.categories_name}
                   categoryColor={article.categories_backgroundColor}
                   categoryLink={article.categories_name}
                   imageUrl={article.image}
-                  articleUrl={`${props.baseUrl}${article.url}`}
+                  articleUrl={article.url}
                   isVertical={false}
                   isPortrait={article.articles_isThumbnailPortrait}
                   hideCategoryAccent={false}
                   page={props.page}
+                  baseUrl={props.baseUrl}
                 />
               </div>
             )}
           </Show>
         </div>
-        <span class="absolute left-1/2 top-2 bottom-2 -translate-x-1/2 border-[1px] border-gray-300" />
         <div class="w-1/2">
           <Show when={props.article2} keyed>
             {(article) => (
@@ -72,17 +71,17 @@ const SearchResultRow: Component<SearchResultRowProps> = (props) => {
                 <SearchArticle
                   headline={article.articlesDrafts_headline}
                   excerpt={article.articlesDrafts_excerpt}
-                  author={`${article.users_name1} ${article.users_name2}`}
-                  authorId={article.users_userid}
+                  authors={article.articles_authors}
                   category={article.categories_name}
                   categoryColor={article.categories_backgroundColor}
                   categoryLink={article.categories_name}
                   imageUrl={article.image}
-                  articleUrl={`${props.baseUrl}${article.url}`}
+                  articleUrl={article.url}
                   isVertical={false}
                   isPortrait={article.articles_isThumbnailPortrait}
                   hideCategoryAccent={false}
                   page={props.page}
+                  baseUrl={props.baseUrl}
                 />
               </div>
             )}

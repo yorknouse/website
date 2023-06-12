@@ -10,9 +10,10 @@ interface Props {
   featuredArticlesIds: number[] | undefined;
   hideCategoryAccent?: boolean;
   style: "nouse" | "muse";
+  textColor?: string;
 }
 
-const { featuredArticlesIds, hideCategoryAccent, style} = Astro.props;
+const { featuredArticlesIds, hideCategoryAccent, style, textColor} = Astro.props;
 
 // Get featured articles
 const featuredArticles: articlesWithArticleDrafts[] = await getArticles(featuredArticlesIds)
@@ -48,18 +49,17 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
 }, new Map<number, string>());
 ---
 {/* Desktop */}
-<div class="hidden sm:flex">
+<div class="hidden md:flex">
   {/* Only Landscape Articles */}
   {!hasPortraitArticles && <div class="w-full">
     {/* 4 or more Articles */}
     {featuredArticles.length >= 4 && <div>
       <div class="flex max-h-52 max-w-full gap-2.5">
-        <div class="w-1/2 border-r-2 pr-2.5 border-gray-300">
+        <div class="w-1/2 border-r pr-2.5 border-gray-300">
           <Article
           headline={featuredArticles[0].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[0].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[0].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[0].users.map(users => users.users)}
           category={mainCategories[0]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
           categoryColor={mainCategories[0]?.categories_backgroundColor}
@@ -68,14 +68,14 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
+          textColour={textColor}
           />
         </div>
         <div class="w-1/2">
           <Article 
           headline={featuredArticles[1].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[1].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[1].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[1].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[1].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[1].users.map(users => users.users)}
           category={mainCategories[1]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
           categoryColor={mainCategories[1]?.categories_backgroundColor}
@@ -84,19 +84,19 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
+          textColour={textColor}
           />
         </div>
       </div>
-      <hr class="w-full self-center border-[1px] border-gray-300 my-2.5" />
+      <hr class="w-full self-center border-gray-300 my-2.5" />
       {/* More than 4 articles */}
       {featuredArticles.length > 4 && <div class="flex max-w-full gap-2.5 justify-center">
         {featuredArticles.slice(2).map(async (article, index) => (
-          <div class={`w-full pr-2.5 ${index != featuredArticles.length - 3 ? "border-r-2 border-gray-300" : ""}`}>
+          <div class={`w-full pr-2.5 ${index != featuredArticles.length - 3 ? "border-r border-gray-300" : ""}`}>
             <Article
             headline={article.articlesDrafts[0].articlesDrafts_headline}
             excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-            author={article.articlesDrafts[0].users?.users_name1 + " " + article.articlesDrafts[0].users?.users_name2}
-            authorId={article.articlesDrafts[0].users?.users_userid}
+            authors={article.users.map(users => users.users)}
             category={mainCategories[index + 2]?.categories_displayName}
             categoryLink={getCategoryLink(mainCategories[index + 2]?.categories_name, mainCategories[index + 2]?.categories_nestUnder)}
             categoryColor={mainCategories[index + 2]?.categories_backgroundColor}
@@ -105,18 +105,18 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
             isVertical={true}
             isPortrait={false}
             hideCategoryAccent={hideCategoryAccent}
+            textColour={textColor}
             />
           </div>
         ))}
       </div>}
       {/* 4 articles */}
       {featuredArticles.length == 4 && <div class="flex max-h-52 max-w-full gap-2.5">
-        <div class="w-1/2 border-r-2 pr-2.5 border-gray-300">
+        <div class="w-1/2 border-r pr-2.5 border-gray-300">
           <Article
           headline={featuredArticles[2].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[2].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[2].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[2].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[2].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[2].users.map(users => users.users)}
           category={mainCategories[2]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[2]?.categories_name, mainCategories[2]?.categories_nestUnder)}
           categoryColor={mainCategories[2]?.categories_backgroundColor}
@@ -125,14 +125,14 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
+          textColour={textColor}
           />
         </div>
         <div class="w-1/2">
           <Article 
           headline={featuredArticles[3].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[3].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[3].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[3].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[3].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[3].users.map(users => users.users)}
           category={mainCategories[3]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[3]?.categories_name, mainCategories[3]?.categories_nestUnder)}
           categoryColor={mainCategories[3]?.categories_backgroundColor}
@@ -141,19 +141,19 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
+          textColour={textColor}
           />
         </div>
       </div>}
     </div>}
     {/* 3 articles */}
     {featuredArticles.length == 3 && <div class="flex w-full gap-2.5">
-      <div class="flex-col max-w-[60%] border-r-2 pr-2.5 border-gray-300">
+      <div class="flex-col max-w-[60%] border-r pr-2.5 border-gray-300">
         <div class="w-full">
           <Article
           headline={featuredArticles[0].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[0].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[0].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[0].users.map(users => users.users)}
           category={mainCategories[0]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
           categoryColor={mainCategories[0]?.categories_backgroundColor}
@@ -162,15 +162,15 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
+          textColour={textColor}
           />
         </div>
-        <hr class="w-full self-center border-[1px] border-gray-300 my-2.5" />
+        <hr class="w-full self-center border-gray-300 my-2.5" />
         <div class="w-full">
           <Article 
           headline={featuredArticles[1].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[1].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[1].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[1].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[1].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[1].users.map(users => users.users)}
           category={mainCategories[1]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
           categoryColor={mainCategories[1]?.categories_backgroundColor}
@@ -179,6 +179,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
+          textColour={textColor}
           />
         </div>
       </div>
@@ -186,8 +187,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           <Article 
           headline={featuredArticles[2].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[2].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[2].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[2].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[2].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[2].users.map(users => users.users)}
           category={mainCategories[2]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[2]?.categories_name, mainCategories[2]?.categories_nestUnder)}
           categoryColor={mainCategories[2]?.categories_backgroundColor}
@@ -196,6 +196,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           isVertical={true}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
+          textColour={textColor}
           />
         </div>
     </div>}
@@ -205,8 +206,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
         <Article 
         headline={featuredArticles[0].articlesDrafts[0].articlesDrafts_headline}
         excerpt={featuredArticles[0].articlesDrafts[0].articlesDrafts_excerpt}
-        author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
-        authorId={featuredArticles[0].articlesDrafts[0].users?.users_userid}
+        authors={featuredArticles[0].users.map(users => users.users)}
         category={mainCategories[0]?.categories_displayName}
         categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
         categoryColor={mainCategories[0]?.categories_backgroundColor}
@@ -215,14 +215,14 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
         isVertical={true}
         isPortrait={false}
         hideCategoryAccent={hideCategoryAccent}
+        textColour={textColor}
         />
       </div>
       <div class="w-1/2">
           <Article 
           headline={featuredArticles[1].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[1].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[1].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[1].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[1].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[1].users.map(users => users.users)}
           category={mainCategories[1]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
           categoryColor={mainCategories[1]?.categories_backgroundColor}
@@ -231,6 +231,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           isVertical={true}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
+          textColour={textColor}
           />
         </div>
     </div>}
@@ -239,8 +240,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
       <Article 
       headline={featuredArticles[0].articlesDrafts[0].articlesDrafts_headline}
       excerpt={featuredArticles[0].articlesDrafts[0].articlesDrafts_excerpt}
-      author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
-      authorId={featuredArticles[0].articlesDrafts[0].users?.users_userid}
+      authors={featuredArticles[0].users.map(users => users.users)}
       category={mainCategories[0]?.categories_displayName}
       categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
       categoryColor={mainCategories[0]?.categories_backgroundColor}
@@ -249,6 +249,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
       isVertical={false}
       isPortrait={false}
       hideCategoryAccent={hideCategoryAccent}
+      textColour={textColor}
       />
     </div>}
   </div>}
@@ -258,12 +259,11 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
     {/* More than 1 article */}
     {featuredArticles.length > 1 && 
     <div class="flex w-full gap-2.5">
-      <div class="max-w-[50%] border-r-2 pr-2.5 border-gray-300">
+      <div class="max-w-[50%] border-r pr-2.5 border-gray-300">
         <Article
         headline={featuredArticles[0].articlesDrafts[0].articlesDrafts_headline}
         excerpt={featuredArticles[0].articlesDrafts[0].articlesDrafts_excerpt}
-        author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
-        authorId={featuredArticles[0].articlesDrafts[0].users?.users_userid}
+        authors={featuredArticles[0].users.map(users => users.users)}
         category={mainCategories[0]?.categories_displayName}
         categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
         categoryColor={mainCategories[0]?.categories_backgroundColor}
@@ -271,6 +271,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
         articleUrl={articleLinks.get(featuredArticles[0].articles_id) || import.meta.env.BASE_URL}
         isPortrait={true}
         hideCategoryAccent={hideCategoryAccent}
+        textColour={textColor}
         />
       </div>
       {/* More than 2 Articles */}
@@ -279,8 +280,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           <Article
           headline={featuredArticles[1].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[1].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[1].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[1].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[1].users.map(users => users.users)}
           category={mainCategories[1]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
           categoryColor={mainCategories[1]?.categories_backgroundColor}
@@ -289,15 +289,15 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
+          textColour={textColor}
           />
         </div>
-        <hr class="w-full self-center border-[1px] border-gray-300 my-2.5" />
+        <hr class="w-full self-center border-gray-300 my-2.5" />
         <div class="w-full">
           <Article 
           headline={featuredArticles[2].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[2].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[2].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[2].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[2].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[2].users.map(users => users.users)}
           category={mainCategories[2]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[2]?.categories_name, mainCategories[2]?.categories_nestUnder)}
           categoryColor={mainCategories[2]?.categories_backgroundColor}
@@ -306,17 +306,17 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
+          textColour={textColor}
           />
         </div>
         {/* 4 articles */}
         {featuredArticles.length == 4 && 
-          <hr class="w-full self-center border-[1px] border-gray-300 my-2.5" />
+          <hr class="w-full self-center border-gray-300 my-2.5" />
           <div class="w-full">
             <Article 
             headline={featuredArticles[3].articlesDrafts[0].articlesDrafts_headline}
             excerpt={featuredArticles[3].articlesDrafts[0].articlesDrafts_excerpt}
-            author={featuredArticles[3].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[3].articlesDrafts[0].users?.users_name2}
-            authorId={featuredArticles[3].articlesDrafts[0].users?.users_userid}
+            authors={featuredArticles[3].users.map(users => users.users)}
             category={mainCategories[3]?.categories_displayName}
             categoryLink={getCategoryLink(mainCategories[3]?.categories_name, mainCategories[3]?.categories_nestUnder)}
             categoryColor={mainCategories[3]?.categories_backgroundColor}
@@ -325,6 +325,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
             isVertical={false}
             isPortrait={false}
             hideCategoryAccent={hideCategoryAccent}
+            textColour={textColor}
             />
           </div>
         }
@@ -335,8 +336,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
         <Article
         headline={featuredArticles[1].articlesDrafts[0].articlesDrafts_headline}
         excerpt={featuredArticles[1].articlesDrafts[0].articlesDrafts_excerpt}
-        author={featuredArticles[1].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[1].articlesDrafts[0].users?.users_name2}
-        authorId={featuredArticles[1].articlesDrafts[0].users?.users_userid}
+        authors={featuredArticles[1].users.map(users => users.users)}
         category={mainCategories[1]?.categories_displayName}
         categoryLink={getCategoryLink(mainCategories[1]?.categories_name, mainCategories[1]?.categories_nestUnder)}
         categoryColor={mainCategories[1]?.categories_backgroundColor}
@@ -345,19 +345,19 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
         isVertical={true}
         isPortrait={false}
         hideCategoryAccent={hideCategoryAccent}
+        textColour={textColor}
         />
       </div>}
     </div>}
     {/* 5 articles */}
     {featuredArticles.length == 5 &&
-      <hr class="w-full self-center border-[1px] border-gray-300 my-2.5" />
+      <hr class="w-full self-center border-gray-300 my-2.5" />
       <div class="flex max-h-52 max-w-full gap-2.5">
-        <div class="w-1/2 border-r-2 pr-2.5 border-gray-300">
+        <div class="w-1/2 border-r pr-2.5 border-gray-300">
           <Article
           headline={featuredArticles[3].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[3].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[3].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[3].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[3].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[3].users.map(users => users.users)}
           category={mainCategories[3]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[3]?.categories_name, mainCategories[3]?.categories_nestUnder)}
           categoryColor={mainCategories[3]?.categories_backgroundColor}
@@ -366,14 +366,14 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
+          textColour={textColor}
           />
         </div>
         <div class="w-1/2">
           <Article 
           headline={featuredArticles[4].articlesDrafts[0].articlesDrafts_headline}
           excerpt={featuredArticles[4].articlesDrafts[0].articlesDrafts_excerpt}
-          author={featuredArticles[4].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[4].articlesDrafts[0].users?.users_name2}
-          authorId={featuredArticles[4].articlesDrafts[0].users?.users_userid}
+          authors={featuredArticles[4].users.map(users => users.users)}
           category={mainCategories[4]?.categories_displayName}
           categoryLink={getCategoryLink(mainCategories[4]?.categories_name, mainCategories[4]?.categories_nestUnder)}
           categoryColor={mainCategories[4]?.categories_backgroundColor}
@@ -382,21 +382,21 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
           isVertical={false}
           isPortrait={false}
           hideCategoryAccent={hideCategoryAccent}
+          textColour={textColor}
           />
         </div>
       </div>
     }
     {/* 6 articles */}
     {featuredArticles.length == 6 &&
-      <hr class="w-full self-center border-[1px] border-gray-300 my-2.5" />
+      <hr class="w-full self-center border-gray-300 my-2.5" />
       <div class="flex max-w-full gap-2.5 justify-center">
           {featuredArticles.slice(3).map(async (article, index) => (
-            <div class={`w-full pr-2.5 ${index != featuredArticles.length - 4 ? "border-r-2 border-gray-300" : ""}`}>
+            <div class={`w-full pr-2.5 ${index != featuredArticles.length - 4 ? "border-r border-gray-300" : ""}`}>
               <Article
               headline={article.articlesDrafts[0].articlesDrafts_headline}
               excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-              author={article.articlesDrafts[0].users?.users_name1 + " " + article.articlesDrafts[0].users?.users_name2}
-              authorId={article.articlesDrafts[0].users?.users_userid}
+              authors={article.users.map(users => users.users)}
               category={mainCategories[index + 2]?.categories_displayName}
               categoryLink={getCategoryLink(mainCategories[index + 2]?.categories_name, mainCategories[index + 2]?.categories_nestUnder)}
               categoryColor={mainCategories[index + 2]?.categories_backgroundColor}
@@ -405,6 +405,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
               isVertical={true}
               isPortrait={false}
               hideCategoryAccent={hideCategoryAccent}
+              textColour={textColor}
               />
             </div>
           ))}
@@ -416,8 +417,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
       <Article
       headline={featuredArticles[0].articlesDrafts[0].articlesDrafts_headline}
       excerpt={featuredArticles[0].articlesDrafts[0].articlesDrafts_excerpt}
-      author={featuredArticles[0].articlesDrafts[0].users?.users_name1 + " " + featuredArticles[0].articlesDrafts[0].users?.users_name2}
-      authorId={featuredArticles[0].articlesDrafts[0].users?.users_userid}
+      authors={featuredArticles[0].users.map(users => users.users)}
       category={mainCategories[0]?.categories_displayName}
       categoryLink={getCategoryLink(mainCategories[0]?.categories_name, mainCategories[0]?.categories_nestUnder)}
       categoryColor={mainCategories[0]?.categories_backgroundColor}
@@ -425,27 +425,23 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
       articleUrl={articleLinks.get(featuredArticles[0].articles_id) || import.meta.env.BASE_URL}
       isPortrait={true}
       hideCategoryAccent={hideCategoryAccent}
+      textColour={textColor}
       />
     </div>}
   </div>}
 </div>
 {/* Mobile */}
-<div class="block max-w-full justify-center sm:hidden">
+<div class="block max-w-full justify-center md:hidden">
   {featuredArticles.map(async (article, index) => (
     <div
       class={`w-full p-2.5 ${
-        index != featuredArticles.length - 1 ? "border-b-2 border-gray-300" : ""
+        index != featuredArticles.length - 1 ? "border-b border-gray-300" : ""
       }`}
     >
       <Article
         headline={article.articlesDrafts[0].articlesDrafts_headline}
         excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-        author={
-          article.articlesDrafts[0].users?.users_name1 +
-          " " +
-          article.articlesDrafts[0].users?.users_name2
-        }
-        authorId={article.articlesDrafts[0].users?.users_userid}
+        authors={article.users.map(users => users.users)}
         category={mainCategories[index]?.categories_displayName}
         categoryLink={getCategoryLink(mainCategories[index]?.categories_name, mainCategories[index]?.categories_nestUnder)}
         categoryColor={mainCategories[index]?.categories_backgroundColor}
@@ -454,6 +450,7 @@ const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
         isVertical={index == 0}
         isPortrait={article.articles_isThumbnailPortrait}
         hideCategoryAccent={hideCategoryAccent}
+        textColour={textColor}
       />
     </div>
   ))}

@@ -40,16 +40,16 @@ const TopArticles: Component<TopArticleProps> = (props) => {
                     <SearchArticle
                       headline={article.articlesDrafts_headline}
                       excerpt={null}
-                      author={`${article.users_name1} ${article.users_name2}`}
-                      authorId={article.users_userid}
+                      authors={article.articles_authors}
                       category={article.categories_name}
                       categoryColor={undefined}
                       categoryLink={undefined}
                       imageUrl={article.image}
-                      articleUrl={`${props.baseUrl}${article.url}`}
+                      articleUrl={article.url}
                       isVertical={true}
                       isPortrait={article.articles_isThumbnailPortrait}
                       hideCategoryAccent={true}
+                      baseUrl={props.baseUrl}
                     />
                   </div>
                 )}

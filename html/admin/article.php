@@ -13,7 +13,8 @@ if (isset($_GET['id'])) {
 	$DBLIB->where("articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
 	$PAGEDATA['article'] = $DBLIB->getone("articles");
 	if (!$PAGEDATA['article']) die("404 File not found");
-	if ($PAGEDATA['article']['articles_authors'] != null) $PAGEDATA['article']['articles_authors'] = explode(",",$PAGEDATA['article']['articles_authors']);
+	$DBLIB->where("articlesAuthors.articles_id", $bCMS->sanitizeString($_GET['id']));
+	$PAGEDATA['article']['articles_authors'] = array_column($DBLIB->get("articlesAuthors"), 'users_userid');
 	$DBLIB->where("articlesCategories.articles_id", $bCMS->sanitizeString($_GET['id']));
 	$PAGEDATA['article']['articles_categories'] = array_column($DBLIB->get("articlesCategories"), 'categories_id');
 	if ($PAGEDATA['article']['articles_type'] == 2) {

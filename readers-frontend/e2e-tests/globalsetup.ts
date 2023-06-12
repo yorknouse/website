@@ -86,13 +86,41 @@ async function dbGlobalSetup(config: FullConfig) {
   });
 
   // Adding an Edition
-  await prisma.editions.create({
-    data: {
-      editions_name: "Test Edition",
-      editions_slug: "test-edition",
-      editions_deleted: false,
-      editions_thumbnail: 1,
-    },
+  await prisma.editions.createMany({
+    data: [
+      {
+        editions_name: "Test Edition", // A print edition with a print number
+        editions_slug: "test-edition",
+        editions_deleted: false,
+        editions_thumbnail: 1,
+        editions_printNumber: 1,
+        editions_show: true,
+        editions_type: "Print Edition",
+        editions_published: new Date("2023-02-24 12:00:00"),
+        editions_pdf: 3,
+      },
+      {
+        editions_name: "3 January 2023", // A print edition with the date as the name and no print number
+        editions_slug: "test-edition-2",
+        editions_deleted: false,
+        editions_thumbnail: 4,
+        editions_show: true,
+        editions_type: "Print Edition",
+        editions_published: new Date("2023-01-03 12:00:00"),
+        editions_pdfOriginal: 5,
+      },
+      {
+        editions_name: "Test Web Edition", // A web edition
+        editions_slug: "test-web-edition",
+        editions_deleted: false,
+        editions_thumbnail: 6,
+        editions_show: true,
+        editions_type: "Web Edition",
+        editions_published: new Date("2023-01-01 12:00:00"),
+        editions_featuredHighlights:
+          '{ "sections": [ { "name": "Nouse", "articles": [ "1", "2", "3" ], "headerImage": false, "customBoxes": [ { "type": "text", "text": "Custom Box Text 1", "title": "Custom Box 1" }, { "type": "text", "text": "Custom Box Text 2", "title": "Custom Box 2" } ], "customBoxHeader": { "title": "", "text": "" } }, { "name": "Muse", "articles": ["8", "9"], "headerImage": 2, "customBoxes": [], "customBoxHeader": { "type": "text", "text": "Custom Box Text", "title": "Custom Box Header" } } ] }',
+      },
+    ],
   });
 
   // Adding Images
@@ -123,16 +151,81 @@ async function dbGlobalSetup(config: FullConfig) {
         s3files_bucket: "nousePublicBackendUploads",
         s3files_meta_size: 32848,
       },
+      {
+        s3files_id: 3,
+        s3files_path: "db/webUploads/public/EDITION-PDF",
+        s3files_filename: "1676036977957-53461650533729990000-nouse503pdf",
+        s3files_extension: "pdf",
+        s3files_region: "eu-central-003",
+        s3files_endpoint: "s3.eu-central-003.backblazeb2.com",
+        s3files_cdn_endpoint:
+          "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads",
+        s3files_bucket: "nousePublicBackendUploads",
+        s3files_meta_size: 6541998,
+      },
+      {
+        s3files_id: 4,
+        s3files_path: "db/webUploads/public/EDITION-THUMBNAIL",
+        s3files_filename: "1668680604820-51650241314374140000-502jpg",
+        s3files_extension: "jpg",
+        s3files_region: "eu-central-003",
+        s3files_endpoint: "s3.eu-central-003.backblazeb2.com",
+        s3files_cdn_endpoint:
+          "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads",
+        s3files_bucket: "nousePublicBackendUploads",
+        s3files_meta_size: 155311,
+      },
+      {
+        s3files_id: 5,
+        s3files_path: "db/webUploads/public/EDITION-PDF",
+        s3files_filename: "1668680182051-68589577660991020000-502pdf",
+        s3files_extension: "pdf",
+        s3files_region: "eu-central-003",
+        s3files_endpoint: "s3.eu-central-003.backblazeb2.com",
+        s3files_cdn_endpoint:
+          "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads",
+        s3files_bucket: "nousePublicBackendUploads",
+        s3files_meta_size: 5819475,
+      },
+      {
+        s3files_id: 6,
+        s3files_path: "db/webUploads/public/EDITION-THUMBNAIL",
+        s3files_filename:
+          "1677873768325-93595571150116960000-nouseinbrief2jpeg",
+        s3files_extension: "jpeg",
+        s3files_region: "eu-central-003",
+        s3files_endpoint: "s3.eu-central-003.backblazeb2.com",
+        s3files_cdn_endpoint:
+          "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads",
+        s3files_bucket: "nousePublicBackendUploads",
+        s3files_meta_size: 789043,
+      },
     ],
   });
 
   // Creating a User
-  await prisma.users.create({
-    data: {
-      users_userid: 1,
-      users_name1: "John",
-      users_name2: "Doe",
-    },
+  await prisma.users.createMany({
+    data: [
+      {
+        users_userid: 1,
+        users_name1: "John",
+        users_name2: "Doe",
+        users_thumbnail: "2",
+        articles_featured: "1,2",
+        users_bio: "Hi there. Hope you like my articles",
+        users_pronouns: "he/him",
+        users_googleAppsUsernameNouse: "john.doe",
+      },
+      {
+        users_userid: 2,
+        users_name1: "Jane",
+        users_name2: "Doe",
+        users_thumbnail: "2",
+        users_bio: "Hi there. Hope you like my articles",
+        users_pronouns: "she/her",
+        users_googleAppsUsernameNouse: "jane.doe",
+      },
+    ],
   });
 
   // Creating Featured Articles
@@ -331,7 +424,7 @@ async function dbGlobalSetup(config: FullConfig) {
     ],
   });
 
-  // Creating Article Drafts
+  // Creating Article Categories
   await prisma.articlesCategories.createMany({
     data: [
       {
@@ -393,6 +486,111 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 11,
         categories_id: 6,
+      },
+    ],
+  });
+
+  await prisma.articlesAuthors.createMany({
+    data: [
+      {
+        articles_id: 1,
+        users_userid: 1,
+      },
+      {
+        articles_id: 1,
+        users_userid: 2,
+      },
+      {
+        articles_id: 2,
+        users_userid: 1,
+      },
+      {
+        articles_id: 3,
+        users_userid: 1,
+      },
+      {
+        articles_id: 4,
+        users_userid: 1,
+      },
+      {
+        articles_id: 5,
+        users_userid: 1,
+      },
+      {
+        articles_id: 6,
+        users_userid: 1,
+      },
+      {
+        articles_id: 7,
+        users_userid: 1,
+      },
+      {
+        articles_id: 8,
+        users_userid: 1,
+      },
+      {
+        articles_id: 9,
+        users_userid: 1,
+      },
+      {
+        articles_id: 10,
+        users_userid: 1,
+      },
+      {
+        articles_id: 11,
+        users_userid: 1,
+      },
+    ],
+  });
+
+  await prisma.positions.createMany({
+    data: [
+      {
+        positions_id: 1,
+        positions_displayName: "Editor",
+        positions_rank: 1,
+        positions_teamPageGroup: 1,
+      },
+      {
+        positions_id: 2,
+        positions_displayName: "Deputy Editor",
+        positions_rank: 2,
+        positions_teamPageGroup: 1,
+      },
+      {
+        positions_id: 3,
+        positions_displayName: "News Editor",
+        positions_rank: 7,
+        positions_teamPageGroup: 2,
+      },
+    ],
+  });
+
+  await prisma.userPositions.createMany({
+    data: [
+      {
+        userPositions_id: 1,
+        userPositions_start: new Date("2023-02-24 12:00:00"),
+        userPositions_end: new Date("2033-02-24 12:00:00"),
+        userPositions_show: true,
+        positions_id: 1,
+        users_userid: 1,
+      },
+      {
+        userPositions_id: 2,
+        userPositions_start: new Date("2022-02-24 12:00:00"),
+        userPositions_end: new Date("2023-02-24 12:00:00"),
+        userPositions_show: true,
+        positions_id: 2,
+        users_userid: 1,
+      },
+      {
+        userPositions_id: 3,
+        userPositions_start: new Date("2022-02-24 12:00:00"),
+        userPositions_end: new Date("2033-02-24 12:00:00"),
+        userPositions_show: true,
+        positions_id: 3,
+        users_userid: 2,
       },
     ],
   });

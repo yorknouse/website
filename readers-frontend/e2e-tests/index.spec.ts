@@ -74,12 +74,12 @@ test.describe("Featured Articles", () => {
           }
 
           // Checking Category
-          await expect(article.locator(".category-text")).toHaveAttribute(
+          await expect(article.locator("#category-text")).toHaveAttribute(
             "href",
             "/website/testCategory1"
           );
-          await expect(article.locator(".category-text")).toHaveText("Test");
-          await expect(article.locator(".category-text")).toHaveCSS(
+          await expect(article.locator("#category-text")).toHaveText("Test");
+          await expect(article.locator("#category-text")).toHaveCSS(
             "color",
             "rgb(237, 179, 33)"
           ); // Playwright doesn't support hex values for toHaveCSS.
@@ -93,12 +93,29 @@ test.describe("Featured Articles", () => {
             `Article Draft ${i + 1}`
           );
 
-          // Checking Author
-          await expect(article.locator(".author")).toHaveAttribute(
-            "href",
-            `/author/1`
-          );
-          await expect(article.locator(".author")).toHaveText(`By John Doe`);
+          // Checking Authors
+          const authorLinks = article.locator(".authors >> a");
+          if (i === 0) {
+            // Article 1 has two authors
+            await expect(authorLinks).toHaveCount(2);
+            await expect(authorLinks.nth(0)).toHaveText("John Doe");
+            await expect(authorLinks.nth(0)).toHaveAttribute(
+              "href",
+              `/website/author/1`
+            );
+            await expect(authorLinks.nth(1)).toHaveText("Jane Doe");
+            await expect(authorLinks.nth(1)).toHaveAttribute(
+              "href",
+              `/website/author/2`
+            );
+          } else {
+            await expect(authorLinks).toHaveCount(1);
+            await expect(authorLinks.nth(0)).toHaveText("John Doe");
+            await expect(authorLinks.nth(0)).toHaveAttribute(
+              "href",
+              `/website/author/1`
+            );
+          }
 
           // Checking Excerpt
           await expect(article.locator(".excerpt")).toHaveAttribute(
@@ -167,12 +184,12 @@ test.describe("Featured Articles", () => {
         );
 
         // Checking Category
-        await expect(article.locator(".category-text")).toHaveAttribute(
+        await expect(article.locator("#category-text")).toHaveAttribute(
           "href",
           "/website/testCategory1"
         );
-        await expect(article.locator(".category-text")).toHaveText("Test");
-        await expect(article.locator(".category-text")).toHaveCSS(
+        await expect(article.locator("#category-text")).toHaveText("Test");
+        await expect(article.locator("#category-text")).toHaveCSS(
           "color",
           "rgb(237, 179, 33)"
         ); // Playwright doesn't support hex values for toHaveCSS.
@@ -186,12 +203,14 @@ test.describe("Featured Articles", () => {
           `Article Draft 7`
         );
 
-        // Checking Author
-        await expect(article.locator(".author")).toHaveAttribute(
+        // Checking Authors
+        const authorLinks = article.locator(".authors >> a");
+        await expect(authorLinks).toHaveCount(1);
+        await expect(authorLinks.nth(0)).toHaveText("John Doe");
+        await expect(authorLinks.nth(0)).toHaveAttribute(
           "href",
-          `/author/1`
+          `/website/author/1`
         );
-        await expect(article.locator(".author")).toHaveText(`By John Doe`);
 
         // Checking Excerpt
         await expect(article.locator(".excerpt")).toHaveAttribute(
@@ -236,12 +255,12 @@ test.describe("Featured Articles", () => {
             }
 
             // Checking Category
-            await expect(article.locator(".category-text")).toHaveAttribute(
+            await expect(article.locator("#category-text")).toHaveAttribute(
               "href",
               `/website/testCategory1`
             );
-            await expect(article.locator(".category-text")).toHaveText("Test");
-            await expect(article.locator(".category-text")).toHaveCSS(
+            await expect(article.locator("#category-text")).toHaveText("Test");
+            await expect(article.locator("#category-text")).toHaveCSS(
               "color",
               "rgb(237, 179, 33)"
             ); // Playwright doesn't support hex values for toHaveCSS.
@@ -255,12 +274,14 @@ test.describe("Featured Articles", () => {
               `Article Draft ${i + 1}`
             );
 
-            // Checking Author
-            await expect(article.locator(".author")).toHaveAttribute(
+            // Checking Authors
+            const authorLinks = article.locator(".authors >> a");
+            await expect(authorLinks).toHaveCount(1);
+            await expect(authorLinks.nth(0)).toHaveText("John Doe");
+            await expect(authorLinks.nth(0)).toHaveAttribute(
               "href",
-              `/author/1`
+              `/website/author/1`
             );
-            await expect(article.locator(".author")).toHaveText(`By John Doe`);
 
             // Checking Excerpt
             await expect(article.locator(".excerpt")).toHaveAttribute(
@@ -301,7 +322,7 @@ test.describe("Banner and Edition", () => {
 
     await expect(page.locator("[id='edition']")).toHaveAttribute(
       "href",
-      "/website/edition/test-edition"
+      "/website/editions/test-edition"
     );
   });
 });
@@ -314,7 +335,7 @@ test.describe("Featured Section", () => {
   test("Displays the category accent", async ({ page }) => {
     const categoryAccent = page
       .locator("#testCategory1-section")
-      .locator(".category-text");
+      .locator("#category-text");
     await expect(categoryAccent).toHaveAttribute(
       "href",
       `/website/testCategory1`
@@ -373,12 +394,29 @@ test.describe("Featured Section", () => {
         `Article Draft ${i + 1}`
       );
 
-      // Checking Author
-      await expect(article.locator(".author")).toHaveAttribute(
-        "href",
-        `/author/1`
-      );
-      await expect(article.locator(".author")).toHaveText(`By John Doe`);
+      // Checking Authors
+      const authorLinks = article.locator(".authors >> a");
+      if (i === 0) {
+        // Article 1 has two authors
+        await expect(authorLinks).toHaveCount(2);
+        await expect(authorLinks.nth(0)).toHaveText("John Doe");
+        await expect(authorLinks.nth(0)).toHaveAttribute(
+          "href",
+          `/website/author/1`
+        );
+        await expect(authorLinks.nth(1)).toHaveText("Jane Doe");
+        await expect(authorLinks.nth(1)).toHaveAttribute(
+          "href",
+          `/website/author/2`
+        );
+      } else {
+        await expect(authorLinks).toHaveCount(1);
+        await expect(authorLinks.nth(0)).toHaveText("John Doe");
+        await expect(authorLinks.nth(0)).toHaveAttribute(
+          "href",
+          `/website/author/1`
+        );
+      }
 
       // Checking Excerpt
       await expect(article.locator(".excerpt")).toHaveAttribute(
