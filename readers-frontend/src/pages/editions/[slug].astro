@@ -1,7 +1,7 @@
 ---
 import ArticleRows from "@components/ArticleRows.astro";
 import CustomBoxes from "@components/SolidJS/CustomBoxes";
-import type { FeaturedHighlights } from "@components/types";
+import type { FeaturedHighlights, FeaturedHighlightsSection } from "@components/types";
 import {
   articlesWithArticleDrafts,
   getArticles,
@@ -51,8 +51,8 @@ let featuredHighlights: FeaturedHighlights = null;
 if (isWebEdition && edition.editions_featuredHighlights) {
   featuredHighlights = JSON.parse(edition.editions_featuredHighlights);
   if (featuredHighlights) {
-    await Promise.all(
-      featuredHighlights.sections.map(async (section) => {
+    featuredHighlights.sections = await Promise.all(
+      featuredHighlights.sections.map(async (section: FeaturedHighlightsSection) => {
         if (section.articles.length !== 0) {
           section.articlesData = await getArticles(
             section.articles.map((n) => Number.parseInt(n))
