@@ -1,7 +1,7 @@
 ---
 import ArticleRows from "@components/ArticleRows.astro";
 import CustomBoxes from "@components/SolidJS/CustomBoxes";
-import type { FeaturedHighlights, FeaturedHighlightsSection } from "@components/types";
+import type { FeaturedHighlights } from "@components/types";
 import {
   articlesWithArticleDrafts,
   getArticles,
@@ -51,21 +51,16 @@ let featuredHighlights: FeaturedHighlights = null;
 if (isWebEdition && edition.editions_featuredHighlights) {
   featuredHighlights = JSON.parse(edition.editions_featuredHighlights);
   if (featuredHighlights) {
-    featuredHighlights.sections = await Promise.all(
-      featuredHighlights.sections.map(async (section: FeaturedHighlightsSection) => {
-        if (section.articles.length !== 0) {
-          section.articlesData = await getArticles(
-            section.articles.map((n) => Number.parseInt(n))
-          );
-        }
-
-        // If there is a custom box header, add it to the start of the custom boxes array
-        if (section.customBoxHeader.title) {
-          section.customBoxes.splice(0, 0, section.customBoxHeader);
-        }
-        return section;
-      })
-    );
+    for (const section of featuredHighlights.sections) {
+      if (section.articles.length !== 0) {
+        const articleIds = section.articles.map((n) => Number.parseInt(n));
+        section.articlesData = await getArticles(articleIds);
+      }
+      // If there is a custom box header, add it to the start of the custom boxes array
+      if (section.customBoxHeader.title) {
+        section.customBoxes.splice(0, 0, section.customBoxHeader);
+      }
+    }
   }
 } else {
   pdfURL = edition.editions_pdf
