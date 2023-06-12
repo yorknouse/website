@@ -53,14 +53,14 @@ export type TopArticlesResponse = {
 };
 
 export type FeaturedHighlights = {
-  sections: [
-    {
-      name: string;
-      headerImage: number;
-      customBoxes: { type?: string; text: string; title: string }[];
-      customBoxHeader: { type?: string; text: string; title: string };
-      articles: string[];
-      articlesData: articlesWithArticleDrafts[];
-    }
-  ];
+  sections: FeaturedHighlightsSection[];
 } | null;
+
+export type FeaturedHighlightsSection = {
+  name: string;
+  headerImage: number;
+  customBoxes: { type?: string; text: string; title: string }[];
+  customBoxHeader: { type?: string; text: string; title: string };
+  articles: string[];
+  articlesData: articlesWithArticleDrafts[];
+};
