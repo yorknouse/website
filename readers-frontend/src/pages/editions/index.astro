@@ -43,6 +43,8 @@ allEditions.forEach((edition) => {
   }
 });
 
+// Static render this page
+export const prerender = true;
 ---
 
 <Layout title="Our Editions - Nouse" active={undefined} style="nouse">
@@ -58,7 +60,7 @@ allEditions.forEach((edition) => {
             <h3 class="mb-4 text-center text-lg sm:text-3xl">Print Editions and Supplements</h3>
             <div class={`print-editions flex flex-wrap gap-8 justify-center mb-4`}>
               {editions.printEditions.map(async (edition) => (
-                <a class="edition px-[17%] md:w-1/6 md:p-0" href={`editions/${decodeURIComponent(edition.editions_slug)}`}>
+                <a class="edition px-[17%] md:w-1/6 md:p-0" href={`/editions/${decodeURIComponent(edition.editions_slug)}`}>
                   {edition.editions_thumbnail && <img class="mb-4 aspect-auto md:aspect-edition object-contain" src={await s3URL(edition.editions_thumbnail, "medium")} />}
                   <h4 class="text-base sm:text-xl text-center">{edition.editions_printNumber ? `№${edition.editions_printNumber}` : edition.editions_name}</h4>
                 </a>
@@ -71,7 +73,7 @@ allEditions.forEach((edition) => {
             <h3 class="mb-4 text-center text-lg md:text-xl lg:text-3xl">Web Editions and Supplements</h3>
             <div class={`web-editions flex flex-wrap gap-8 justify-center mb-4`}>
               {editions.webEditions.map(async (edition) => (
-                <a class="edition px-[17%] md:w-1/6 md:p-0" href={`editions/${edition.editions_slug}`}>
+                <a class="edition px-[17%] md:w-1/6 md:p-0" href={`/editions/${edition.editions_slug}`}>
                   {edition.editions_thumbnail && <img class="mb-4 aspect-auto md:aspect-video object-contain" src={await s3URL(edition.editions_thumbnail, "medium")} />}
                   <h4 class="text-base sm:text-xl text-center">{edition.editions_name}</h4>
                 </a>

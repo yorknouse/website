@@ -5,6 +5,9 @@ import Layout from "src/layouts/Layout.astro";
 let baseUrl = import.meta.env.BASE_URL;
 
 baseUrl = baseUrl.slice(0, baseUrl.length - 1);
+
+// Static render this page
+export const prerender = true;
 ---
 
 <Layout title="Welcome to Astro." active={undefined} style="nouse">

@@ -12,37 +12,26 @@ import Layout from "src/layouts/Layout.astro";
 import prisma from "src/prisma";
 import { v4 as uuidv4 } from "uuid";
 
-export async function getStaticPaths() {
-  const allEditions = await prisma.editions.findMany({
-    where: {
-      editions_show: true,
-      editions_deleted: false,
-      NOT: {
-        editions_thumbnail: null,
-      },
+const { slug } = Astro.params;
+
+const cleanSlug = decodeURIComponent(slug || "");
+
+const edition = await prisma.editions.findFirst({
+  where: {
+    editions_slug: cleanSlug,
+    editions_show: true,
+    editions_deleted: false,
+    NOT: {
+      editions_thumbnail: null,
     },
-    orderBy: {
-      editions_published: "desc",
-    },
-  });
+  },
+  orderBy: {
+    editions_published: "desc",
+  },
+});
 
-  return allEditions.map((edition) => {
-    return {
-      params: {
-        slug: decodeURIComponent(edition.editions_slug),
-      },
-      props: {
-        edition,
-      },
-    };
-  });
-}
+if (!edition) return Astro.redirect("/404");
 
-interface Props {
-  edition: editions;
-}
-
-const { edition } = Astro.props;
 const isWebEdition = edition.editions_type === "Web Edition";
 let pdfURL;
 // Data for web editions is saved as a JSON string in the database

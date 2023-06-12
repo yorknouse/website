@@ -3,9 +3,6 @@ import Article from "@components/Article.astro";
 import ArticleCookieManager from "@components/ArticleCookieManager.astro";
 import TopArticles from "@components/SolidJS/TopArticles";
 import {
-  articleWithUserAndDraft,
-  articlesWithArticleDrafts,
-  getAllArticles,
   getArticleImage,
   getSimilarArticles,
 } from "@components/utils/articles";
@@ -13,90 +10,54 @@ import { getParentCategory } from "@components/utils/categories";
 import dateFormatter from "@components/utils/dateFormatter";
 import { Icon } from "astro-icon";
 import Layout from "src/layouts/Layout.astro";
+import prisma from "src/prisma";
 
-export async function getStaticPaths() {
-  const articles = (await getAllArticles()).filter((article) => {
-    // Ensure article has an articleDraft
-    if (article.articlesDrafts.length === 0) return false;
+const { year, month, day, slug } = Astro.params;
 
-    // Ensure article has categories
-    if (article.categories.length === 0) return false;
+const cleanSlug = decodeURIComponent(slug || "");
 
-    // Some articles' slug is not formatted properly
-    const slug = article.articles_slug;
-    if (slug)
-      return (
-        !slug.includes("/") &&
-        !slug.includes("\\") &&
-        !slug.includes("#") &&
-        !slug.includes("?")
-      );
-
-    return false;
-  });
-
-  const similarArticles = await articles.reduce(
-    async (accumulatorPromise, article) => {
-      const accumulator = await accumulatorPromise;
-
-      const parentCategoryId = getParentCategory(
-        article.categories
-      ).categories_id;
-
-      if (!accumulator.has(parentCategoryId)) {
-        const mSimilarArticles = await getSimilarArticles(parentCategoryId);
-
-        accumulator.set(parentCategoryId, mSimilarArticles);
-      }
-      return accumulator;
+const article = await prisma.articles.findFirst({
+  where: {
+    articles_showInLists: true,
+    articles_slug: cleanSlug,
+  },
+  include: {
+    articlesDrafts: {
+      // Get the latest draft for every featured article
+      orderBy: {
+        articlesDrafts_timestamp: "desc",
+      },
+      take: 1,
     },
-    Promise.resolve(new Map<number, articlesWithArticleDrafts[]>())
-  );
-
-  return articles.map((article) => {
-    const date = article.articles_published || new Date(0);
-    // DD/MM/YYYY
-    const dateParts = dateFormatter.format(date).split("/");
-    return {
-      params: {
-        year: dateParts[2],
-        month: dateParts[1],
-        day: dateParts[0],
-        slug: article.articles_slug
-          ? decodeURIComponent(article.articles_slug)
-          : "err",
+    categories: {
+      include: {
+        category: true,
       },
-      props: {
-        article,
-        similarArticles: similarArticles.get(
-          getParentCategory(article.categories).categories_id
-        ),
-      },
-    };
-  });
-}
+    },
+    users: {
+      include: { users: true },
+    },
+  },
+});
 
-interface Props {
-  article: articleWithUserAndDraft;
-  similarArticles: articlesWithArticleDrafts[];
-}
+if (!article) return Astro.redirect("/404");
 
-const { article, similarArticles: unfilteredSimilarArticles } = Astro.props;
+const parentCategory = getParentCategory(article.categories);
+const parentCategoryId = parentCategory.categories_id;
+
 const visibleCategories = article.categories.filter(
   (category) => category.category.categories_showPublic
 );
 const topCategory = visibleCategories[0].category;
 
-const parentCategory = getParentCategory(article.categories);
-
-const bottomCategory =
-visibleCategories[visibleCategories.length - 1].category;
+const bottomCategory = visibleCategories[visibleCategories.length - 1].category;
 
 const articleDraft = article.articlesDrafts[0];
 const imageUrl = await getArticleImage(article);
 
 const articleId = article.articles_id;
 
+const unfilteredSimilarArticles = await getSimilarArticles(parentCategoryId);
 const similarArticles = unfilteredSimilarArticles.filter(
   (similarArticle) => similarArticle.articles_id !== articleId
 );
@@ -184,27 +145,31 @@ const imagePlaceHolder =
             <span class={`category-color-${parentCategory.categories_name}`}
               >By
             </span>
-            {article.users.map(users => users.users).map((author, index) => {
-              if (index === 0) {
-                return (
-                  <a href={`/author/${author.users_userid}`}>
-                    {`${author.users_name1} ${author.users_name2}`}
-                  </a>
-                );
-              } else if (index === article.users.length - 1) {
-                return (
-                  <a href={`/author/${author.users_userid}`}>
-                    {` and ${author.users_name1} ${author.users_name2}`}
-                  </a>
-                );
-              } else {
-                return (
-                  <a href={`/author/${author.users_userid}`}>
-                    {`, ${author.users_name1} ${author.users_name2}`}
-                  </a>
-                );
-              }
-            })}
+            {
+              article.users
+                .map((users) => users.users)
+                .map((author, index) => {
+                  if (index === 0) {
+                    return (
+                      <a href={`/author/${author.users_userid}`}>
+                        {`${author.users_name1} ${author.users_name2}`}
+                      </a>
+                    );
+                  } else if (index === article.users.length - 1) {
+                    return (
+                      <a href={`/author/${author.users_userid}`}>
+                        {` and ${author.users_name1} ${author.users_name2}`}
+                      </a>
+                    );
+                  } else {
+                    return (
+                      <a href={`/author/${author.users_userid}`}>
+                        {`, ${author.users_name1} ${author.users_name2}`}
+                      </a>
+                    );
+                  }
+                })
+            }
           </p>
           <div
             id="article-content"
