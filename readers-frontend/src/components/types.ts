@@ -1,3 +1,5 @@
+import type { articlesWithArticleDrafts } from "./utils/articles";
+
 export type MuseNavbarCategory = {
   displayName: string;
   name: string;
@@ -49,3 +51,16 @@ export type TopArticlesResponse = {
   response: TopArticleResult[];
   result: boolean;
 };
+
+export type FeaturedHighlights = {
+  sections: [
+    {
+      name: string;
+      headerImage: number;
+      customBoxes: { type?: string; text: string; title: string }[];
+      customBoxHeader: { type?: string; text: string; title: string };
+      articles: string[];
+      articlesData: articlesWithArticleDrafts[];
+    }
+  ];
+} | null;

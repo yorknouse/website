@@ -1,6 +1,7 @@
 ---
 import ArticleRows from "@components/ArticleRows.astro";
 import CustomBoxes from "@components/SolidJS/CustomBoxes";
+import type { FeaturedHighlights } from "@components/types";
 import {
   articlesWithArticleDrafts,
   getArticles,
@@ -46,30 +47,25 @@ const isWebEdition = edition.editions_type === "Web Edition";
 let pdfURL;
 // Data for web editions is saved as a JSON string in the database
 // This is parsed into an object here
-let featuredHighlights: {
-  sections: [
-    {
-      name: string;
-      headerImage: number;
-      customBoxes: { type?: string; text: string; title: string }[];
-      customBoxHeader: { type?: string; text: string; title: string };
-      articles: string[];
-      articlesData: articlesWithArticleDrafts[];
-    }
-  ];
-} | null = null;
+let featuredHighlights: FeaturedHighlights = null;
 if (isWebEdition && edition.editions_featuredHighlights) {
   featuredHighlights = JSON.parse(edition.editions_featuredHighlights);
-  for (const section of featuredHighlights!.sections) {
-    if (section.articles.length !== 0) {
-      const articleIds = section.articles.map((n) => Number.parseInt(n));
-      section.articlesData = await getArticles(articleIds);
-    }
+  if (featuredHighlights) {
+    await Promise.all(
+      featuredHighlights.sections.map(async (section) => {
+        if (section.articles.length !== 0) {
+          section.articlesData = await getArticles(
+            section.articles.map((n) => Number.parseInt(n))
+          );
+        }
 
-    // If there is a custom box header, add it to the start of the custom boxes array
-    if (section.customBoxHeader.title) {
-      section.customBoxes.splice(0, 0, section.customBoxHeader);
-    }
+        // If there is a custom box header, add it to the start of the custom boxes array
+        if (section.customBoxHeader.title) {
+          section.customBoxes.splice(0, 0, section.customBoxHeader);
+        }
+        return section;
+      })
+    );
   }
 } else {
   pdfURL = edition.editions_pdf
@@ -125,27 +121,42 @@ if (isWebEdition && edition.editions_featuredHighlights) {
                       src={await s3URL(section.headerImage, "medium")}
                     />
                   )}
-                  {section.customBoxes.length !== 0 && (() => {
-                    const id = uuidv4();
-                    return (
-                    <div
-                      class="custom-boxes-container relative mb-5 flex w-full flex-col bg-black text-white px-[3%] pt-4 sm:px-[0.5%] 2xl:px-[13%]"
-                    >
-                      <p class="text-xl md:text-2xl lg:text-4xl text-center border-b border-white">From Our Editors</p>
-                        <CustomBoxes client:idle id={id} customBoxes={section.customBoxes} >
-                          {
-                            section.customBoxes.map((customBox, index) => {
+                  {section.customBoxes.length !== 0 &&
+                    (() => {
+                      const id = uuidv4();
+                      return (
+                        <div class="custom-boxes-container relative mb-5 flex w-full flex-col bg-black text-white px-[3%] pt-4 sm:px-[0.5%] 2xl:px-[13%]">
+                          <p class="text-xl md:text-2xl lg:text-4xl text-center border-b border-white">
+                            From Our Editors
+                          </p>
+                          <CustomBoxes
+                            client:idle
+                            id={id}
+                            customBoxes={section.customBoxes}
+                          >
+                            {section.customBoxes.map((customBox, index) => {
                               return (
-                                <div id={`${id}-${index}`} class={`custom-box flex flex-col items-center justify-start bg-neutral-900 transition-opacity delay-300 duration-500 overflow-hidden ${index == 0 ? "w-full md:w-10/12 opacity-100 p-4" : "w-0 h-0 opacity-0 p-0"}`}>
-                                  <p class="text-lg md:text-xl lg:text-2xl text-center underline">{customBox.title}</p>
-                                  <p class="text-xs xl:text-sm 2xl:text-base text-center">{customBox.text}</p>
+                                <div
+                                  id={`${id}-${index}`}
+                                  class={`custom-box flex flex-col items-center justify-start bg-neutral-900 transition-opacity delay-300 duration-500 overflow-hidden ${
+                                    index == 0
+                                      ? "w-full md:w-10/12 opacity-100 p-4"
+                                      : "w-0 h-0 opacity-0 p-0"
+                                  }`}
+                                >
+                                  <p class="text-lg md:text-xl lg:text-2xl text-center underline">
+                                    {customBox.title}
+                                  </p>
+                                  <p class="text-xs xl:text-sm 2xl:text-base text-center">
+                                    {customBox.text}
+                                  </p>
                                 </div>
-                              )
-                            })
-                          }
-                        </CustomBoxes>
-                    </div>
-                  )})}
+                              );
+                            })}
+                          </CustomBoxes>
+                        </div>
+                      );
+                    })}
                   {section.articles.length !== 0 && (
                     <div class="px-[3%] sm:px-[0.5%] 2xl:px-[13%]">
                       <ArticleRows
