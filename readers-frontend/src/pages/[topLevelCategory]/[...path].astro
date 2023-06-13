@@ -1,0 +1,203 @@
+---
+import Article from "@components/Article.astro";
+import FeaturedArticles from "@components/FeaturedArticles.astro";
+import FeaturedSection from "@components/FeaturedSection.astro";
+import Paginator from "@components/SolidJS/Paginator";
+import {
+  categoriesWithArticles,
+  getCategoriesWithArticles,
+} from "@components/utils/categories";
+import Layout from "src/layouts/Layout.astro";
+import NavbarColourSwitcher from "@components/NavbarColourSwitcher.astro";
+import ArticleRows from "@components/ArticleRows.astro";
+import prisma from "src/prisma";
+
+const { topLevelCategory, path } = Astro.params;
+const cleanPath = path ? decodeURIComponent(path) : undefined;
+
+// Getting the category name and page number
+let categoryName: string | undefined;
+let pageNumber: number = 0;
+let paginatorPrefix: string | undefined;
+if (cleanPath === undefined) {
+  categoryName = topLevelCategory;
+  paginatorPrefix = topLevelCategory;
+} else {
+  const pathComponents = cleanPath.split("/");
+  // If the last component is a number for example, then it's a page number
+  // Otherwise, it's a category name
+  if (
+    !Number.isNaN(Number.parseInt(pathComponents[pathComponents.length - 1]))
+  ) {
+    // If there's only one component, then it's the category is the topLevelCategory
+    // For example, /news/2. Otherwise, it's the second to last component
+    if (pathComponents.length === 1) {
+      categoryName = topLevelCategory;
+      paginatorPrefix = topLevelCategory;
+    } else {
+      categoryName = pathComponents[pathComponents.length - 2];
+      paginatorPrefix = `${topLevelCategory}/${pathComponents
+        .slice(0, pathComponents.length - 1)
+        .join("/")}`;
+    }
+    pageNumber = Number.parseInt(pathComponents[pathComponents.length - 1]);
+  } else {
+    categoryName = pathComponents[pathComponents.length - 1];
+    paginatorPrefix = `${topLevelCategory}/${pathComponents.join("/")}`;
+  }
+}
+
+// Redirecting to 404 if the page number is 1 as we paginate from 0
+if (pageNumber === 1 || categoryName === undefined) {
+  return Astro.redirect("/404");
+} else if (pageNumber > 1) {
+  pageNumber -= 1;
+}
+
+const articlesPerPage = 30;
+const isMuseLandingPage = categoryName === "muse" && pageNumber === 0;
+const category = await prisma.categories.findFirst({
+  where: {
+    categories_name: categoryName,
+    categories_showPublic: true,
+    categories_showMenu: true,
+  },
+  include: {
+    articles: {
+      take: isMuseLandingPage ? 0 : articlesPerPage,
+      skip: isMuseLandingPage ? 0 : pageNumber * articlesPerPage,
+      where: {
+        article: {
+          articles_showInLists: true,
+        },
+      },
+      orderBy: {
+        article: {
+          articles_published: "desc",
+        },
+      },
+      include: {
+        article: {
+          include: {
+            articlesDrafts: {
+              orderBy: {
+                articlesDrafts_timestamp: "desc",
+              },
+              take: 1,
+            },
+            categories: {
+              include: { category: true },
+            },
+            users: { include: { users: true } },
+          },
+        },
+      },
+    },
+  },
+});
+
+// Redirecting to 404 if the category doesn't exist or if it's empty
+if (!category || (category.articles.length === 0 && !isMuseLandingPage))
+  return Astro.redirect("/404");
+
+// Getting the number of articles in the category
+const articlesCount = await prisma.articles.count({
+  where: {
+    articles_showInLists: true,
+    categories: {
+      some: {
+        category: {
+          categories_name: categoryName,
+        },
+      },
+    },
+  },
+});
+
+// Getting the style for the page
+const style =
+  category.categories_nestUnder === 4 ||
+  topLevelCategory === "muse" ||
+  category.categories_name === "muse"
+    ? "muse"
+    : "nouse";
+
+// Getting the featured article ids for
+const featuredArticlesIds =
+  category.categories_featured && category.categories_featured !== ""
+    ? category.categories_featured?.split(",").map(Number)
+    : undefined;
+
+// Getting the featured section for the muse homepage
+let museCategories: categoriesWithArticles[] = [];
+if (isMuseLandingPage) {
+  museCategories = await getCategoriesWithArticles(4);
+}
+---
+
+<Layout
+  title={`${category.categories_displayName} - Nouse`}
+  active={category.categories_name}
+  style={style}
+>
+  <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
+    {/* Mobile Header */}
+    {
+      category.categories_name !== "muse" && (
+        <h1 id="mobile-header" class="block text-center text-2xl sm:hidden">
+          {category.categories_displayName}
+        </h1>
+      )
+    }
+    {
+      featuredArticlesIds !== undefined && (
+        <>
+          <div id="featured-articles">
+            <FeaturedArticles
+              featuredArticlesIds={featuredArticlesIds}
+              hideCategoryAccent={category.categories_name !== "muse"}
+              style={style}
+            />
+          </div>
+          {!isMuseLandingPage && (
+            <hr class="my-2.5 w-full self-center border-gray-300" />
+          )}
+        </>
+      )
+    }
+    {
+      !isMuseLandingPage ? (
+        <>
+          <div id="article-list">
+            <ArticleRows
+              articles={category.articles.map((article) => article.article)}
+              parentCategory={category}
+              style="nouse"
+              hideCategoryAccent={true}
+            />
+          </div>
+        </>
+      ) : (
+        <>
+          <div class="featured-sections">
+            {museCategories.map((category) => (
+              <div id={`${category.categories_name}-section`}>
+                <FeaturedSection category={category} />
+              </div>
+            ))}
+          </div>
+        </>
+      )
+    }
+  </div>
+  <div class="w-full mt-4" id="paginator-container">
+    <Paginator
+      client:only
+      page={pageNumber}
+      pages={Math.ceil(articlesCount / articlesPerPage)}
+      pagesToDisplay={5}
+      prefix={paginatorPrefix}
+    />
+  </div>
+  <NavbarColourSwitcher featuredCategories={museCategories} style={"muse"} />
+</Layout>

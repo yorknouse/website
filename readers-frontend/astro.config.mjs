@@ -6,7 +6,6 @@ import solidJs from "@astrojs/solid-js";
 import node from "@astrojs/node";
 const environment = loadEnv(import.meta.env.MODE, process.cwd(), "");
 
-
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), image(), solidJs()],
@@ -19,20 +18,20 @@ export default defineConfig({
       proxy: {
         "/api/searchSuggestions.php": {
           target: "http://localhost:420/api/searchSuggestions.php",
-          changeOrigin: true
+          changeOrigin: true,
         },
         "/api/registerRead.php": {
           target: "http://localhost:420/api/registerRead.php",
-          changeOrigin: true
+          changeOrigin: true,
         },
         "/api/topArticles.php": {
           target: "http://localhost:420/api/topArticles.php",
-          changeOrigin: true
-        }
-      }
-    }
+          changeOrigin: true,
+        },
+      },
+    },
   },
   adapter: node({
-    mode: "standalone"
-  })
+    mode: "standalone",
+  }),
 });
