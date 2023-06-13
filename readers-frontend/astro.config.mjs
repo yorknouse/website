@@ -8,6 +8,7 @@ const environment = loadEnv(import.meta.env.MODE, process.cwd(), "");
 
 // https://astro.build/config
 export default defineConfig({
+  output: 'server',
   integrations: [tailwind(), image(), solidJs()],
   site: "https://yorknouse.github.io",
   base: "/website",
