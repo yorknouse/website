@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("./2023/02/24/test-article-1");
+  await page.goto("./articles/2023/02/24/test-article-1");
 });
 
 test("Has correct title", async ({ page }) => {

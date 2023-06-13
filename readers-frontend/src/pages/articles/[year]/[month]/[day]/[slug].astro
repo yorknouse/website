@@ -151,13 +151,21 @@ const imagePlaceHolder =
                 .map((author, index) => {
                   if (index === 0) {
                     return (
-                      <a href={`/author/${author.users_userid}`}>
+                      <a
+                        href={`${import.meta.env.BASE_URL}author/${
+                          author.users_userid
+                        }`}
+                      >
                         {`${author.users_name1} ${author.users_name2}`}
                       </a>
                     );
                   } else if (index === article.users.length - 1) {
                     return (
-                      <a href={`/author/${author.users_userid}`}>
+                      <a
+                        href={`${import.meta.env.BASE_URL}author/${
+                          author.users_userid
+                        }`}
+                      >
                         {` and ${author.users_name1} ${author.users_name2}`}
                       </a>
                     );
@@ -214,7 +222,7 @@ const imagePlaceHolder =
                     imageUrl={await getArticleImage(similarArticle)}
                     articleUrl={`${
                       import.meta.env.BASE_URL
-                    }${similarArticle.articles_published
+                    }articles/${similarArticle.articles_published
                       ?.toISOString()
                       .substring(0, 10)
                       .replaceAll("-", "/")}/${similarArticle.articles_slug}`}
