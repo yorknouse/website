@@ -1,13 +1,9 @@
 ---
-import ArticleRows from "@components/ArticleRows.astro";
+import AuthorArticles from "@components/AuthorArticles.astro";
 import FeaturedArticles from "@components/FeaturedArticles.astro";
-import Paginator from "@components/SolidJS/Paginator";
 import { s3URL } from "@components/utils/s3URL";
-import { Prisma } from "@prisma/client";
-import type { Page } from "astro";
 import Layout from "src/layouts/Layout.astro";
 import prisma from "src/prisma";
-import type { articleWithUserAndDraft } from "@components/utils/articles";
 
 const { authorId, page } = Astro.params;
 
@@ -42,49 +38,6 @@ const authorImage = /^-?\d+$/.test(author.users_thumbnail!)
 const featuredArticleIds = author.articles_featured?.split(",").map(Number);
 
 const articlesPerPage = 10;
-
-const authorArticles = await prisma.articlesAuthors.findMany({
-    where: {
-        users_userid: authorIdNumber,
-    },
-});
-
-let articles: articleWithUserAndDraft[];
-let pages: number;
-
-if (!authorArticles) {
-    articles = [];
-    pages = 0;
-} else {
-    pages = Math.ceil(authorArticles.length / articlesPerPage);
-    const articlesIds = authorArticles.reduce((accumulator, authorArticle) => {
-        accumulator.push(authorArticle.articles_id);
-
-        return accumulator;
-    }, [] as number[]);
-
-    articles = await prisma.articles.findMany({
-        where: {
-            articles_id: {
-                in: articlesIds,
-            },
-        },
-        take: articlesPerPage,
-        skip: pageNumber ? (pageNumber - 1) * articlesPerPage : 0,
-        include: {
-            articlesDrafts: {
-                orderBy: {
-                    articlesDrafts_timestamp: "desc",
-                },
-                take: 1,
-            },
-            categories: {
-                include: { category: true },
-            },
-            users: { include: { users: true } },
-        },
-    });
-}
 ---
 
 <Layout
@@ -181,22 +134,9 @@ if (!authorArticles) {
             )
         }
     </div>
-    <div class="pt-8 sm:px-[0.5%] 2xl:px-[13%]">
-        {
-            articles.length !== 0 && (
-                <div id="article-list">
-                    <ArticleRows articles={articles} style="nouse" />
-                </div>
-            )
-        }
-        <div class="w-full mt-4" id="paginator-container">
-            <Paginator
-                client:only
-                page={pageNumber === 0 ? pageNumber : pageNumber - 1}
-                pages={pages}
-                pagesToDisplay={5}
-                prefix={`author/${author.users_userid}`}
-            />
-        </div>
-    </div>
+    <AuthorArticles
+        articlesPerPage={articlesPerPage}
+        authorId={authorIdNumber}
+        pageNumber={pageNumber}
+    />
 </Layout>
