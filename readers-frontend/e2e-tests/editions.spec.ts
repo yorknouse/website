@@ -34,7 +34,7 @@ test.describe("Editions Page", () => {
     // Checking the first print edition is correct
     await expect(
       printEditionsSection.locator(".edition").nth(0)
-    ).toHaveAttribute("href", "editions/test-edition");
+    ).toHaveAttribute("href", "/website/editions/test-edition");
     await expect(
       printEditionsSection.locator(".edition").nth(0).locator("img")
     ).toHaveAttribute(
@@ -48,7 +48,7 @@ test.describe("Editions Page", () => {
     // Checking the second print edition is correct
     await expect(
       printEditionsSection.locator(".edition").nth(1)
-    ).toHaveAttribute("href", "editions/test-edition-2");
+    ).toHaveAttribute("href", "/website/editions/test-edition-2");
     await expect(
       printEditionsSection.locator(".edition").nth(1).locator("img")
     ).toHaveAttribute(
@@ -65,7 +65,7 @@ test.describe("Editions Page", () => {
 
     await expect(webEditionsSection.locator(".edition")).toHaveAttribute(
       "href",
-      "editions/test-web-edition"
+      "/website/editions/test-web-edition"
     );
     await expect(
       webEditionsSection.locator(".edition").locator("img")
