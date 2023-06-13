@@ -1,0 +1,214 @@
+---
+import ArticleRows from "@components/ArticleRows.astro";
+import FeaturedArticles from "@components/FeaturedArticles.astro";
+import Paginator from "@components/SolidJS/Paginator";
+import { s3URL } from "@components/utils/s3URL";
+import { Prisma } from "@prisma/client";
+import type { Page } from "astro";
+import Layout from "src/layouts/Layout.astro";
+import prisma from "src/prisma";
+import type { articleWithUserAndDraft } from "@components/utils/articles";
+
+const { authorId, page } = Astro.params;
+
+if (!authorId) return Astro.redirect("/404");
+
+const authorIdNumber = parseInt(authorId);
+const pageNumber = parseInt(page || "") || 0;
+
+const author = await prisma.users.findFirst({
+    where: {
+        users_userid: authorIdNumber,
+        users_deleted: false,
+    },
+    include: {
+        articles: {
+            orderBy: {
+                article: {
+                    articles_published: "desc",
+                },
+            },
+            where: {
+                article: {
+                    articles_showInLists: true,
+                },
+            },
+        },
+        userPositions: {
+            orderBy: {
+                userPositions_end: "desc",
+            },
+            include: {
+                positions: true,
+            },
+        },
+    },
+});
+
+if (!author) return Astro.redirect("/404");
+
+const authorImage = /^-?\d+$/.test(author.users_thumbnail!)
+    ? await s3URL(Number(author.users_thumbnail), "large")
+    : undefined;
+
+const featuredArticleIds = author.articles_featured?.split(",").map(Number);
+
+const articlesPerPage = 10;
+
+const authorArticles = await prisma.articlesAuthors.findMany({
+    where: {
+        users_userid: authorIdNumber,
+    },
+});
+
+let articles: articleWithUserAndDraft[];
+let pages: number;
+
+if (!authorArticles) {
+    articles = [];
+    pages = 0;
+} else {
+    pages = Math.ceil(authorArticles.length / articlesPerPage);
+    const articlesIds = authorArticles.reduce((accumulator, authorArticle) => {
+        accumulator.push(authorArticle.articles_id);
+
+        return accumulator;
+    }, [] as number[]);
+
+    articles = await prisma.articles.findMany({
+        where: {
+            articles_id: {
+                in: articlesIds,
+            },
+        },
+        take: articlesPerPage,
+        skip: pageNumber ? (pageNumber - 1) * articlesPerPage : 0,
+        include: {
+            articlesDrafts: {
+                orderBy: {
+                    articlesDrafts_timestamp: "desc",
+                },
+                take: 1,
+            },
+            categories: {
+                include: { category: true },
+            },
+            users: { include: { users: true } },
+        },
+    });
+}
+---
+
+<Layout
+    title={`${author.users_name1} ${author.users_name2} - Nouse`}
+    active={undefined}
+    style="nouse"
+>
+    <div
+        id="author-mantle"
+        class="mt-8 w-full bg-neutral-900 text-white sm:px-[0.5%] 2xl:px-[13%]"
+    >
+        <div
+            class="flex flex-col md:flex-row items-center md:items-start justify-center py-16"
+        >
+            {
+                authorImage && (
+                    <img
+                        id="author-image"
+                        class="mb-4 md:mr-20 h-52 w-52 rounded-full border-4 border-[#D76B6B] object-cover"
+                        src={authorImage}
+                    />
+                )
+            }
+            <div id="author-details" class="w-full px-8 md:px-0 md:w-7/12">
+                <h1 class="text-center md:text-left">
+                    <span class="text-4xl">
+                        {`${author.users_name1}  ${author.users_name2}`}
+                    </span>
+                    {
+                        author.users_pronouns && (
+                            <span class="text-base italic">
+                                {" "}
+                                ({author.users_pronouns})
+                            </span>
+                        )
+                    }
+                </h1>
+                <p class="text-center md:text-left text-lg font-bold">
+                    {
+                        author.userPositions
+                            .filter(
+                                (position) =>
+                                    position.userPositions_show &&
+                                    position.positions &&
+                                    position.userPositions_end! >= new Date()
+                            )
+                            .map(
+                                (position, index) =>
+                                    `${index === 0 ? "" : ", "}${
+                                        position.positions!
+                                            .positions_displayName
+                                    }`
+                            )
+                    }
+                </p>
+                <p class="text-center md:text-left text-lg font-bold">
+                    {
+                        author.userPositions
+                            .filter(
+                                (position) =>
+                                    position.userPositions_show &&
+                                    position.positions &&
+                                    position.userPositions_end! < new Date()
+                            )
+                            .map(
+                                (position, index) =>
+                                    `${
+                                        index === 0
+                                            ? "Previously Held Positions: "
+                                            : ", "
+                                    }${
+                                        position.positions!
+                                            .positions_displayName
+                                    } (${position.userPositions_start.getFullYear()}-${position.userPositions_end!.getFullYear()})`
+                            )
+                    }
+                </p>
+                {
+                    author.users_bio && (
+                        <p class="mt-5 text-base">{author.users_bio}</p>
+                    )
+                }
+            </div>
+        </div>
+        {
+            featuredArticleIds !== undefined && (
+                <div class="border-t border-gray-300 py-8">
+                    <FeaturedArticles
+                        featuredArticlesIds={featuredArticleIds}
+                        style={"nouse"}
+                        textColor={"#FFF"}
+                    />
+                </div>
+            )
+        }
+    </div>
+    <div class="pt-8 sm:px-[0.5%] 2xl:px-[13%]">
+        {
+            articles.length !== 0 && (
+                <div id="article-list">
+                    <ArticleRows articles={articles} style="nouse" />
+                </div>
+            )
+        }
+        <div class="w-full mt-4" id="paginator-container">
+            <Paginator
+                client:only
+                page={pageNumber === 0 ? pageNumber : pageNumber - 1}
+                pages={pages}
+                pagesToDisplay={5}
+                prefix={`author/${author.users_userid}`}
+            />
+        </div>
+    </div>
+</Layout>
