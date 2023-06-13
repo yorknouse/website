@@ -22,18 +22,6 @@ const author = await prisma.users.findFirst({
         users_deleted: false,
     },
     include: {
-        articles: {
-            orderBy: {
-                article: {
-                    articles_published: "desc",
-                },
-            },
-            where: {
-                article: {
-                    articles_showInLists: true,
-                },
-            },
-        },
         userPositions: {
             orderBy: {
                 userPositions_end: "desc",
