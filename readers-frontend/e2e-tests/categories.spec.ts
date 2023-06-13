@@ -1,5 +1,4 @@
 import { test, expect } from "@playwright/test";
-import prisma from "../src/prisma.js";
 
 test.describe("Muse", () => {
   test("has Muse as title", async ({ page }) => {

@@ -19,18 +19,19 @@ const cleanPath = path ? decodeURIComponent(path) : undefined;
 let categoryName: string | undefined;
 let pageNumber: number = 0;
 let paginatorPrefix: string | undefined;
+// if the path is undefined, then the category is the top level category for example /news
 if (cleanPath === undefined) {
   categoryName = topLevelCategory;
   paginatorPrefix = topLevelCategory;
 } else {
   const pathComponents = cleanPath.split("/");
   // If the last component is a number for example, then it's a page number
-  // Otherwise, it's a category name
+  // For example /news/2 or /news/campus-news/2 Otherwise, it's a category name for example /news/campus-news
   if (
     !Number.isNaN(Number.parseInt(pathComponents[pathComponents.length - 1]))
   ) {
     // If there's only one component, then it's the category is the topLevelCategory
-    // For example, /news/2. Otherwise, it's the second to last component
+    // For example, /news/2. Otherwise, it's the second to last component for example /news/campus-news/2
     if (pathComponents.length === 1) {
       categoryName = topLevelCategory;
       paginatorPrefix = topLevelCategory;
@@ -54,8 +55,56 @@ if (pageNumber === 1 || categoryName === undefined) {
   pageNumber -= 1;
 }
 
-const articlesPerPage = 30;
-const isMuseLandingPage = categoryName === "muse" && pageNumber === 0;
+const articlesPerPage = 30; // Number of articles per page
+const isMuseLandingPage = categoryName === "muse" && pageNumber === 0; // Whether the page is the muse landing page
+const articlesSkipped = isMuseLandingPage // Number of articles to skip
+  ? 0
+  : categoryName === "muse"
+  ? (pageNumber - 1) * articlesPerPage
+  : pageNumber * articlesPerPage;
+
+// Getting the number of articles in the category and the ids of featured articles
+const categoryFeaturedAndCount = await prisma.categories.findFirst({
+  where: {
+    categories_name: categoryName,
+    categories_showPublic: true,
+    categories_showMenu: true,
+  },
+  select: {
+    categories_featured: true,
+    _count: {
+      select: {
+        articles: {
+          where: {
+            article: {
+              articles_showInLists: true,
+            },
+          },
+        },
+      },
+    },
+  },
+});
+
+// Getting the featured article ids
+const featuredArticlesIds =
+  categoryFeaturedAndCount?.categories_featured &&
+  categoryFeaturedAndCount.categories_featured !== ""
+    ? categoryFeaturedAndCount.categories_featured.split(",").map(Number)
+    : [];
+
+// Redirecting to 404 if the category doesn't exist
+// Or if there are no articles to display and the page number isn't 0
+// Note: the second condition allows us to show landing pages for categories with no articles
+if (
+  !categoryFeaturedAndCount ||
+  (categoryFeaturedAndCount._count.articles -
+    (articlesSkipped + featuredArticlesIds.length) <=
+    0 &&
+    pageNumber !== 0)
+)
+  return Astro.redirect("/404");
+
 const category = await prisma.categories.findFirst({
   where: {
     categories_name: categoryName,
@@ -65,10 +114,15 @@ const category = await prisma.categories.findFirst({
   include: {
     articles: {
       take: isMuseLandingPage ? 0 : articlesPerPage,
-      skip: isMuseLandingPage ? 0 : pageNumber * articlesPerPage,
+      skip: articlesSkipped,
       where: {
         article: {
           articles_showInLists: true,
+          NOT: {
+            articles_id: {
+              in: featuredArticlesIds,
+            },
+          },
         },
       },
       orderBy: {
@@ -96,37 +150,16 @@ const category = await prisma.categories.findFirst({
   },
 });
 
-// Redirecting to 404 if the category doesn't exist or if it's empty
-if (!category || (category.articles.length === 0 && !isMuseLandingPage))
-  return Astro.redirect("/404");
+// Redirecting to 404 if the category doesn't exist or if there are no articles to show
+if (!category) return Astro.redirect("/404");
 
-// Getting the number of articles in the category
-const articlesCount = await prisma.articles.count({
-  where: {
-    articles_showInLists: true,
-    categories: {
-      some: {
-        category: {
-          categories_name: categoryName,
-        },
-      },
-    },
-  },
-});
-
-// Getting the style for the page
+// Getting the style for the category
 const style =
   category.categories_nestUnder === 4 ||
   topLevelCategory === "muse" ||
   category.categories_name === "muse"
     ? "muse"
     : "nouse";
-
-// Getting the featured article ids for
-const featuredArticlesIds =
-  category.categories_featured && category.categories_featured !== ""
-    ? category.categories_featured?.split(",").map(Number)
-    : undefined;
 
 // Getting the featured section for the muse homepage
 let museCategories: categoriesWithArticles[] = [];
@@ -150,7 +183,7 @@ if (isMuseLandingPage) {
       )
     }
     {
-      featuredArticlesIds !== undefined && (
+      featuredArticlesIds.length !== 0 && (
         <>
           <div id="featured-articles">
             <FeaturedArticles
@@ -194,7 +227,18 @@ if (isMuseLandingPage) {
     <Paginator
       client:only
       page={pageNumber}
-      pages={Math.ceil(articlesCount / articlesPerPage)}
+      pages={category.categories_name === "muse"
+        ? Math.ceil(
+            (categoryFeaturedAndCount._count.articles -
+              featuredArticlesIds.length) /
+              articlesPerPage
+          ) + 1
+        : Math.max(
+            1,
+            Math.ceil(
+              categoryFeaturedAndCount._count.articles / articlesPerPage
+            )
+          )}
       pagesToDisplay={5}
       prefix={paginatorPrefix}
     />
