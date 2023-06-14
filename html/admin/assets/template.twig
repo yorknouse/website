@@ -339,6 +339,11 @@
                         <i class="fa fa-book"></i> <span>Docs</span>
                     </a>
                 </li>
+                <li>
+                    <button style="all: unset; color: #b8c7ce; padding: 12px 5px 12px 15px; border-left: 3px solid transparent;" id="rebuildBtn">
+                        <i class="fa fa-gear"></i> <span>Rebuild website</span>
+                    </button>
+                </li>
             </ul>
         </section>
         <!-- /.sidebar -->
@@ -442,6 +447,19 @@
 
     gtag('js', new Date());
     gtag('config', '{{ CONFIG.ANALYTICS.BACKENDTRACKINGID }}');
+</script>
+<script>
+window.addEventListener('load', () => {
+    rebuildBtn.addEventListener('click', () => {
+        fetch("http://host.docker.internal:9000/rebuild-webhook")
+            .then(() => {
+                alert("The website is being rebuilt.")
+                })
+            .catch(() => {
+                alert("Could not trigger website rebuild.")
+                })
+        });
+})
 </script>
 </body>
 {% endif %}

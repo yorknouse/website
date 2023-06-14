@@ -39,6 +39,34 @@ The whole stack runs off one docker-compose file which makes this all a lot simp
 1. Create `nouseprod.env` based on the example file, and fill out the details (do this with `nano nouseprod.env`)
 1. Run `docker-compose up -d` to get the site running
 
+## Deploy web hook
+
+Some pages in the website are statically built, nominally the home page. To rebuild them, the host vm needs a webhook that can be triggered from the admin panel and causes the docker images to be rebuilt.
+
+Setting up:
+```shell
+sudo apt-get install webhook
+```
+
+In the `/root` directory, create a `rebuild-webhook.json` file with the following content:
+```json
+[
+  {
+    "id": "rebuild-webhook",
+    "execute-command": "/root/rebuild.sh",
+    "command-working-directory": "/root/website"
+  }
+]
+```
+
+Still  in the `/root` folder, create the `rebuild.sh` file with the following content:
+```sh
+#!/bin/sh
+git pull && docker-compose -f local-docker-compose.yml up -d --build
+```
+
+
+
 ## Updating
 
 Watchtower does the updating for you anytime you push a new tag (which triggers a docker build) but if you update the docker compose file or the config you'll need to run `git pull && docker-compose up -d` (in the Nouse directory)
