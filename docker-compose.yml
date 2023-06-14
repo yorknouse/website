@@ -52,6 +52,8 @@ services:
       - MYSQL_PASSWORD=passDocker
     env_file:
       - nouseprod.env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.1
     container_name: phpmyadmin
