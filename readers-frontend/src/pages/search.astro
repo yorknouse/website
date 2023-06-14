@@ -6,12 +6,17 @@ let baseUrl = import.meta.env.BASE_URL;
 
 baseUrl = baseUrl.slice(0, baseUrl.length - 1);
 
+const apiAddress =
+  import.meta.env.MODE === "production"
+    ? "http://localhost:80/api/searchSuggestions.php"
+    : "/api/searchSuggestions.php";
+
 // Static render this page
 export const prerender = true;
 ---
 
 <Layout title="Welcome to Astro." active={undefined} style="nouse">
   <main class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
-    <SearchResults client:only baseUrl={baseUrl} />
+    <SearchResults client:only baseUrl={baseUrl} apiAddress={apiAddress} />
   </main>
 </Layout>
