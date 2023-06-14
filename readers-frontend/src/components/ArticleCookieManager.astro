@@ -7,7 +7,9 @@ const { articleId } = Astro.props;
 
 const apiAddress =
   import.meta.env.MODE === "production"
-    ? "http://localhost:80/api/registerRead.php"
+    ? process.env.LOCAL_DOCKER === "true"
+      ? "http://localhost:420/api/registerRead.php"
+      : "http://localhost:80/api/registerRead.php"
     : "/api/registerRead.php";
 ---
 

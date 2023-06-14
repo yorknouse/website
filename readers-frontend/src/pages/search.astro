@@ -8,7 +8,9 @@ baseUrl = baseUrl.slice(0, baseUrl.length - 1);
 
 const apiAddress =
   import.meta.env.MODE === "production"
-    ? "http://localhost:80/api/searchSuggestions.php"
+    ? process.env.LOCAL_DOCKER === "true"
+      ? "http://localhost:420/api/searchSuggestions.php"
+      : "http://localhost:80/api/searchSuggestions.php"
     : "/api/searchSuggestions.php";
 
 // Static render this page

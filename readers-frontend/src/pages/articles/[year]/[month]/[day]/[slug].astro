@@ -74,7 +74,9 @@ baseUrl = baseUrl.slice(0, baseUrl.length - 1);
 
 const apiAddress =
   import.meta.env.MODE === "production"
-    ? "http://localhost:80/api/topArticles.php"
+    ? process.env.LOCAL_DOCKER === "true"
+      ? "http://localhost:420/api/topArticles.php"
+      : "http://localhost:80/api/topArticles.php"
     : "/api/topArticles.php";
 
 const imagePlaceHolder =
