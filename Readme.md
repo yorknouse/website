@@ -76,7 +76,7 @@ Description=Webhook Rebuild Service
 After=network.target
 
 [Service]
-ExecStart=/usr/bin/webhook -hooks=/root/rebuild-webhook.json -hotreload=false -port=9000 -secure=false -verbose=true -debug=false -nopanic
+ExecStart=/usr/bin/webhook -hooks=/root/rebuild-webhook.json -hotreload=false -port=9000 -secure=false -verbose=true -nopanic
 KillMode=process
 Restart=on-failure
 
