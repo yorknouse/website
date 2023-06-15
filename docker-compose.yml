@@ -39,6 +39,8 @@ services:
       - MYSQL_ROOT_PASSWORD=rootPass
     env_file:
       - nouseprod.env
+    ports:
+      - 3306:3306
   nouse:
     image: ghcr.io/yorknouse/website/main:latest
     container_name: nouse-container
@@ -52,6 +54,8 @@ services:
       - MYSQL_PASSWORD=passDocker
     env_file:
       - nouseprod.env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.1
     container_name: phpmyadmin

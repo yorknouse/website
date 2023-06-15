@@ -18,6 +18,9 @@ const featuredArticlesIds: featuredHome | null =
   });
 
 const categories = await getFeaturedSectionsCategories();
+
+// Static render this page
+export const prerender = true;
 ---
 
 <Layout title="Nouse" active="home" style="nouse">
@@ -44,6 +47,5 @@ const categories = await getFeaturedSectionsCategories();
       }
     </div>
   </main>
-  <NavbarColourSwitcher featuredCategories={categories} style={"nouse"}/>
+  <NavbarColourSwitcher featuredCategories={categories} style={"nouse"} />
 </Layout>
-

@@ -26,7 +26,17 @@
 
     encode gzip
 }
-www.nouse.co.uk nouse.co.uk edit.nouse.co.uk {
+www.nouse.co.uk nouse.co.uk {
+    tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
+        client_auth {
+            mode require_and_verify
+            trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
+        }
+    }
+    reverse_proxy nouse:3000
+    encode gzip
+}
+edit.nouse.co.uk {
     tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
         client_auth {
             mode require_and_verify

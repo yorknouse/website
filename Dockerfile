@@ -6,6 +6,7 @@ RUN mv "/var/www/php.ini" "$PHP_INI_DIR/php.ini"
 RUN a2dissite 000-default.conf
 RUN a2dismod autoindex -f
 RUN a2enmod rewrite
+RUN a2enmod headers
 
 COPY docker/apache/apache2site.conf /etc/apache2/sites-available/apache2site.conf
 RUN a2ensite apache2site.conf
@@ -29,6 +30,7 @@ RUN apt-get install -y -qq \
 		nano \
 		cron \
 		dos2unix \
+		libcurl4-gnutls-dev \
 		&& apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --enable-gd
 RUN docker-php-ext-install -j$(nproc) gd zip mbstring mysqli intl
@@ -52,6 +54,25 @@ RUN composer install
 
 COPY docker/start.sh /var/www/start.sh
 RUN dos2unix /var/www/start.sh
+
+# Readers frontend
+ENV NODE_ENV=production
+ENV DATABASE_URL=mysql://userDocker:passDocker@host.docker.internal:3306/nouse
+ENV archiveFileStoreUrl=https://bbcdn.nouse.co.uk/file/nouseOldImageLibrary/archive/public
+ENV fileStoreUrl=https://bbcdn.nouse.co.uk/file
+ENV LOCAL_DOCKER=false
+
+WORKDIR /tmp
+# Install nodejs
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+	apt-get install -y nodejs
+
+# Build
+WORKDIR /var/www/readers-frontend
+RUN rm -rf dist/
+RUN npm i
+RUN npx prisma generate
+RUN npm run build -- --config astro.config.prod.mjs
 
 # To get in container - docker exec -t -i nouse-container /bin/bash
 

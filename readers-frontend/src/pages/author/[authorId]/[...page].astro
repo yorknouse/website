@@ -1,215 +1,142 @@
 ---
-import ArticleRows from "@components/ArticleRows.astro";
+import AuthorArticles from "@components/AuthorArticles.astro";
 import FeaturedArticles from "@components/FeaturedArticles.astro";
-import Paginator from "@components/SolidJS/Paginator";
 import { s3URL } from "@components/utils/s3URL";
-import { Prisma } from "@prisma/client";
-import type { Page } from "astro";
 import Layout from "src/layouts/Layout.astro";
 import prisma from "src/prisma";
 
-const userWithArticles = Prisma.validator<Prisma.usersArgs>()({
-  include: {
-    articles: {
-      include: {
-        article: {
-          include: {
-            articlesDrafts: true,
-            categories: {
-              include: { category: true },
-            },
-            users: { include: { users: true } },
-          },
-        },
-      },
-    },
-    userPositions: {
-      include: {
-        positions: true,
-      },
-    },
-  },
-});
-type userWithArticles = Prisma.usersGetPayload<typeof userWithArticles>;
-export async function getStaticPaths({ paginate }: any) {
-  const allAuthors: userWithArticles[] = await prisma.users.findMany({
+const { authorId, page } = Astro.params;
+
+if (!authorId) return Astro.redirect("/404");
+
+const authorIdNumber = parseInt(authorId);
+const pageNumber = parseInt(page || "") || 0;
+
+const author = await prisma.users.findFirst({
     where: {
-      users_deleted: false,
+        users_userid: authorIdNumber,
+        users_deleted: false,
     },
     include: {
-      articles: {
-        orderBy: {
-          article: {
-            articles_published: "desc",
-          },
-        },
-        where: {
-          article: {
-            articles_showInLists: true,
-          },
-        },
-        include: {
-          article: {
-            include: {
-              articlesDrafts: {
-                orderBy: {
-                  articlesDrafts_timestamp: "desc",
-                },
-                take: 1,
-              },
-              categories: {
-                include: { category: true },
-              },
-              users: { include: { users: true } },
+        userPositions: {
+            orderBy: {
+                userPositions_end: "desc",
             },
-          },
+            include: {
+                positions: true,
+            },
         },
-      },
-      userPositions: {
-        orderBy: {
-          userPositions_end: "desc",
-        },
-        include: {
-          positions: true,
-        },
-      },
     },
-  });
+});
 
-  return await Promise.all(
-    allAuthors
-      .map(async (author) => {
-        let articles = author.articles.map((article) => {
-          return article.article;
-        });
+if (!author) return Astro.redirect("/404");
 
-        const featuredArticleIds = author.articles_featured
-          ?.split(",")
-          .map(Number);
+const authorImage = /^-?\d+$/.test(author.users_thumbnail!)
+    ? await s3URL(Number(author.users_thumbnail), "large")
+    : undefined;
 
-        if (featuredArticleIds !== undefined) {
-          articles = articles.filter(
-            (article) => !featuredArticleIds.includes(article.articles_id)
-          );
-        }
+const featuredArticleIds = author.articles_featured?.split(",").map(Number);
 
-        const authorImage = /^-?\d+$/.test(author.users_thumbnail!)
-          ? await s3URL(Number(author.users_thumbnail), "large")
-          : undefined;
-        return paginate(articles, {
-          params: { authorId: author.users_userid.toString() },
-          props: {
-            author: author,
-            featuredArticleIds: featuredArticleIds,
-            authorImage: authorImage,
-          },
-          pageSize: 10,
-        });
-      })
-      .flat()
-  );
-}
-interface Props {
-  page: Page;
-  author: userWithArticles;
-  featuredArticleIds: number[] | undefined;
-  authorImage: string | undefined;
-}
-
-const { page, author, featuredArticleIds, authorImage } = Astro.props;
+const articlesPerPage = 10;
 ---
 
-<Layout title={`${author.users_name1} ${author.users_name2} - Nouse`} active={undefined} style="nouse">
-  <div
-    id="author-mantle"
-    class="mt-8 w-full bg-neutral-900 text-white sm:px-[0.5%] 2xl:px-[13%]"
-  >
-    <div class="flex flex-col md:flex-row items-center md:items-start justify-center py-16">
-      {
-        authorImage && (
-          <img
-            id="author-image"
-            class="mb-4 md:mr-20 h-52 w-52 rounded-full border-4 border-[#D76B6B] object-cover"
-            src={authorImage}
-          />
-        )
-      }
-      <div id="author-details" class="w-full px-8 md:px-0 md:w-7/12">
-        <h1 class="text-center md:text-left">
-          <span class="text-4xl">
-            {`${author.users_name1}  ${author.users_name2}`}
-          </span>
-          {
-            author.users_pronouns && (
-              <span class="text-base italic"> ({author.users_pronouns})</span>
+<Layout
+    title={`${author.users_name1} ${author.users_name2} - Nouse`}
+    active={undefined}
+    style="nouse"
+>
+    <div
+        id="author-mantle"
+        class="mt-8 w-full bg-neutral-900 text-white sm:px-[0.5%] 2xl:px-[13%]"
+    >
+        <div
+            class="flex flex-col md:flex-row items-center md:items-start justify-center py-16"
+        >
+            {
+                authorImage && (
+                    <img
+                        id="author-image"
+                        class="mb-4 md:mr-20 h-52 w-52 rounded-full border-4 border-[#D76B6B] object-cover"
+                        src={authorImage}
+                    />
+                )
+            }
+            <div id="author-details" class="w-full px-8 md:px-0 md:w-7/12">
+                <h1 class="text-center md:text-left">
+                    <span class="text-4xl">
+                        {`${author.users_name1}  ${author.users_name2}`}
+                    </span>
+                    {
+                        author.users_pronouns && (
+                            <span class="text-base italic">
+                                {" "}
+                                ({author.users_pronouns})
+                            </span>
+                        )
+                    }
+                </h1>
+                <p class="text-center md:text-left text-lg font-bold">
+                    {
+                        author.userPositions
+                            .filter(
+                                (position) =>
+                                    position.userPositions_show &&
+                                    position.positions &&
+                                    position.userPositions_end! >= new Date()
+                            )
+                            .map(
+                                (position, index) =>
+                                    `${index === 0 ? "" : ", "}${
+                                        position.positions!
+                                            .positions_displayName
+                                    }`
+                            )
+                    }
+                </p>
+                <p class="text-center md:text-left text-lg font-bold">
+                    {
+                        author.userPositions
+                            .filter(
+                                (position) =>
+                                    position.userPositions_show &&
+                                    position.positions &&
+                                    position.userPositions_end! < new Date()
+                            )
+                            .map(
+                                (position, index) =>
+                                    `${
+                                        index === 0
+                                            ? "Previously Held Positions: "
+                                            : ", "
+                                    }${
+                                        position.positions!
+                                            .positions_displayName
+                                    } (${position.userPositions_start.getFullYear()}-${position.userPositions_end!.getFullYear()})`
+                            )
+                    }
+                </p>
+                {
+                    author.users_bio && (
+                        <p class="mt-5 text-base">{author.users_bio}</p>
+                    )
+                }
+            </div>
+        </div>
+        {
+            featuredArticleIds !== undefined && (
+                <div class="border-t border-gray-300 py-8">
+                    <FeaturedArticles
+                        featuredArticlesIds={featuredArticleIds}
+                        style={"nouse"}
+                        textColor={"#FFF"}
+                    />
+                </div>
             )
-          }
-        </h1>
-        <p class="text-center md:text-left text-lg font-bold">
-          {
-            author.userPositions
-              .filter(
-                (position) =>
-                  position.userPositions_show &&
-                  position.positions &&
-                  position.userPositions_end! >= new Date()
-              )
-              .map(
-                (position, index) =>
-                  `${index === 0 ? "" : ", "}${
-                    position.positions!.positions_displayName
-                  }`
-              )
-          }
-        </p>
-        <p class="text-center md:text-left text-lg font-bold">
-          {
-            author.userPositions
-              .filter(
-                (position) =>
-                  position.userPositions_show &&
-                  position.positions &&
-                  position.userPositions_end! < new Date()
-              )
-              .map(
-                (position, index) =>
-                  `${index === 0 ? "Previously Held Positions: " : ", "}${
-                    position.positions!.positions_displayName
-                  } (${position.userPositions_start.getFullYear()}-${position.userPositions_end!.getFullYear()})`
-              )
-          }
-        </p>
-        {author.users_bio && <p class="mt-5 text-base">{author.users_bio}</p>}
-      </div>
+        }
     </div>
-    {
-      featuredArticleIds !== undefined && (
-        <div class="border-t border-gray-300 py-8">
-          <FeaturedArticles
-            featuredArticlesIds={featuredArticleIds}
-            style={"nouse"}
-            textColor={"#FFF"}
-          />
-        </div>
-      )
-    }
-  </div>
-  <div class="pt-8 sm:px-[0.5%] 2xl:px-[13%]">
-    {
-      page.data.length !== 0 && (
-        <div id="article-list">
-          <ArticleRows articles={page.data} style="nouse" />
-        </div>
-      )
-    }
-    <div class="w-full mt-4" id="paginator-container">
-      <Paginator
-        client:only
-        page={page.currentPage - 1}
-        pages={page.lastPage}
-        pagesToDisplay={5}
-        prefix={`author/${author.users_userid}`}
-      />
-    </div>
-  </div>
+    <AuthorArticles
+        articlesPerPage={articlesPerPage}
+        authorId={authorIdNumber}
+        pageNumber={pageNumber}
+    />
 </Layout>

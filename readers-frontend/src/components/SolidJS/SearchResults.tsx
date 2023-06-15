@@ -8,7 +8,8 @@ import Spinner from "./Spinner";
 
 type SearchResultsProps = {
   baseUrl: string;
-}
+  apiAddress: string;
+};
 
 const SearchResults: Component<SearchResultsProps> = (props) => {
   const [articles, setArticles] = createSignal<SearchResult[]>([]);
@@ -35,7 +36,7 @@ const SearchResults: Component<SearchResultsProps> = (props) => {
       const formData = new FormData();
       formData.append("searchterm", humanQuery);
 
-      fetch("/api/searchSuggestions.php", {
+      fetch(props.apiAddress, {
         method: "POST",
         body: formData,
       })
@@ -135,7 +136,7 @@ const SearchResults: Component<SearchResultsProps> = (props) => {
             </For>
           </Show>
         </div>
-        <div class="w-full mt-4" id="paginator-container">
+        <div class="mt-4 w-full" id="paginator-container">
           <Paginator
             page={page}
             setPage={setPage}

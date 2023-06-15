@@ -6,98 +6,170 @@ import Paginator from "@components/SolidJS/Paginator";
 import {
   categoriesWithArticles,
   getCategoriesWithArticles,
-  paginateCategory,
 } from "@components/utils/categories";
 import Layout from "src/layouts/Layout.astro";
 import NavbarColourSwitcher from "@components/NavbarColourSwitcher.astro";
 import ArticleRows from "@components/ArticleRows.astro";
+import prisma from "src/prisma";
 
-export async function getStaticPaths() {
-  const articlesPerPage = 30;
+const { topLevelCategory, path } = Astro.params;
+const cleanPath = path ? decodeURIComponent(path) : undefined;
 
-  // Getting the nouse top level categories for example: news, politics, etc.
-  const nouseTopLevelCategories: categoriesWithArticles[] =
-    await getCategoriesWithArticles(null);
-
-  // Getting the muse top level categories for example: arts, features, etc.
-  const museTopLevelCategories: categoriesWithArticles[] =
-    await getCategoriesWithArticles(4);
-  const topLevelCategories = [
-    ...nouseTopLevelCategories,
-    ...museTopLevelCategories,
-  ];
-  const paginatedResults = await Promise.all(
-    topLevelCategories.map(async (topLevelCategory) => {
-      // Getting the subcategories for example: campus news, arts features, etc.
-      const subCategories: categoriesWithArticles[] =
-        await getCategoriesWithArticles(topLevelCategory.categories_id);
-
-      let paginatedTopCategory;
-      if (topLevelCategory.categories_nestUnder === 4) {
-        // We want to nest the muse categories under muse
-        paginatedTopCategory = paginateCategory(
-          topLevelCategory,
-          articlesPerPage,
-          "muse",
-          topLevelCategory.categories_name
-        );
-      } else {
-        paginatedTopCategory = paginateCategory(
-          topLevelCategory,
-          articlesPerPage,
-          topLevelCategory.categories_name
-        );
-      }
-      // We don't want to paginate the muse sub categories as they will be paginated using museTopLevelCategories
-      if (
-        subCategories.length === 0 ||
-        topLevelCategory.categories_name === "muse"
-      ) {
-        return paginatedTopCategory;
-      }
-
-      const paginatedSubCategories = await Promise.all(
-        subCategories.map(async (subCategory) => {
-          if (topLevelCategory.categories_nestUnder === 4) {
-            // We want to nest the subcategories for the muse categories under muse
-            return paginateCategory(
-              subCategory,
-              articlesPerPage,
-              `muse`,
-              `${topLevelCategory.categories_name}/${subCategory.categories_name}`
-            );
-          } else {
-            return paginateCategory(
-              subCategory,
-              articlesPerPage,
-              topLevelCategory.categories_name,
-              subCategory.categories_name
-            );
-          }
-        })
-      );
-      return [...paginatedTopCategory.flat(), ...paginatedSubCategories.flat()];
-    })
-  );
-  return paginatedResults.flat();
+// Getting the category name and page number
+let categoryName: string | undefined;
+let pageNumber: number = 0;
+let paginatorPrefix: string | undefined;
+// if the path is undefined, then the category is the top level category for example /news
+if (cleanPath === undefined) {
+  categoryName = topLevelCategory;
+  paginatorPrefix = topLevelCategory;
+} else {
+  const pathComponents = cleanPath.split("/");
+  // If the last component is a number for example, then it's a page number
+  // For example /news/2 or /news/campus-news/2 Otherwise, it's a category name for example /news/campus-news
+  if (
+    !Number.isNaN(Number.parseInt(pathComponents[pathComponents.length - 1]))
+  ) {
+    // If there's only one component, then it's the category is the topLevelCategory
+    // For example, /news/2. Otherwise, it's the second to last component for example /news/campus-news/2
+    if (pathComponents.length === 1) {
+      categoryName = topLevelCategory;
+      paginatorPrefix = topLevelCategory;
+    } else {
+      categoryName = pathComponents[pathComponents.length - 2];
+      paginatorPrefix = `${topLevelCategory}/${pathComponents
+        .slice(0, pathComponents.length - 1)
+        .join("/")}`;
+    }
+    pageNumber = Number.parseInt(pathComponents[pathComponents.length - 1]);
+  } else {
+    categoryName = pathComponents[pathComponents.length - 1];
+    paginatorPrefix = `${topLevelCategory}/${pathComponents.join("/")}`;
+  }
 }
 
-const { page, title, category, style, paginatorPrefix } = Astro.props;
+// Redirecting to 404 if the page number is 1 as we paginate from 0
+if (pageNumber === 1 || categoryName === undefined) {
+  return Astro.redirect("/404");
+} else if (pageNumber > 1) {
+  pageNumber -= 1;
+}
 
-// Getting the featured article ids for
-const featuredArticlesIds = category.categories_featured
-  ?.split(",")
-  .map(Number);
+const articlesPerPage = 30; // Number of articles per page
+const isMuseLandingPage = categoryName === "muse" && pageNumber === 0; // Whether the page is the muse landing page
+const articlesSkipped = isMuseLandingPage // Number of articles to skip
+  ? 0
+  : categoryName === "muse"
+  ? (pageNumber - 1) * articlesPerPage
+  : pageNumber * articlesPerPage;
+
+// Getting the number of articles in the category and the ids of featured articles
+const categoryFeaturedAndCount = await prisma.categories.findFirst({
+  where: {
+    categories_name: categoryName,
+    categories_showPublic: true,
+    categories_showMenu: true,
+  },
+  select: {
+    categories_featured: true,
+    _count: {
+      select: {
+        articles: {
+          where: {
+            article: {
+              articles_showInLists: true,
+            },
+          },
+        },
+      },
+    },
+  },
+});
+
+// Getting the featured article ids
+const featuredArticlesIds =
+  categoryFeaturedAndCount?.categories_featured &&
+  categoryFeaturedAndCount.categories_featured !== ""
+    ? categoryFeaturedAndCount.categories_featured.split(",").map(Number)
+    : [];
+
+// Redirecting to 404 if the category doesn't exist
+// Or if there are no articles to display and the page number isn't 0
+// Note: the second condition allows us to show landing pages for categories with no articles
+if (
+  !categoryFeaturedAndCount ||
+  (categoryFeaturedAndCount._count.articles -
+    (articlesSkipped + featuredArticlesIds.length) <=
+    0 &&
+    pageNumber !== 0)
+)
+  return Astro.redirect("/404");
+
+const category = await prisma.categories.findFirst({
+  where: {
+    categories_name: categoryName,
+    categories_showPublic: true,
+    categories_showMenu: true,
+  },
+  include: {
+    articles: {
+      take: isMuseLandingPage ? 0 : articlesPerPage,
+      skip: articlesSkipped,
+      where: {
+        article: {
+          articles_showInLists: true,
+          NOT: {
+            articles_id: {
+              in: featuredArticlesIds,
+            },
+          },
+        },
+      },
+      orderBy: {
+        article: {
+          articles_published: "desc",
+        },
+      },
+      include: {
+        article: {
+          include: {
+            articlesDrafts: {
+              orderBy: {
+                articlesDrafts_timestamp: "desc",
+              },
+              take: 1,
+            },
+            categories: {
+              include: { category: true },
+            },
+            users: { include: { users: true } },
+          },
+        },
+      },
+    },
+  },
+});
+
+// Redirecting to 404 if the category doesn't exist or if there are no articles to show
+if (!category) return Astro.redirect("/404");
+
+// Getting the style for the category
+const style =
+  category.categories_nestUnder === 4 ||
+  topLevelCategory === "muse" ||
+  category.categories_name === "muse"
+    ? "muse"
+    : "nouse";
 
 // Getting the featured section for the muse homepage
 let museCategories: categoriesWithArticles[] = [];
-if (category.categories_name === "muse" && page.currentPage === 0) {
+if (isMuseLandingPage) {
   museCategories = await getCategoriesWithArticles(4);
 }
 ---
 
 <Layout
-  title={`${title} - Nouse`}
+  title={`${category.categories_displayName} - Nouse`}
   active={category.categories_name}
   style={style}
 >
@@ -111,7 +183,7 @@ if (category.categories_name === "muse" && page.currentPage === 0) {
       )
     }
     {
-      featuredArticlesIds !== undefined && (
+      featuredArticlesIds.length !== 0 && (
         <>
           <div id="featured-articles">
             <FeaturedArticles
@@ -120,21 +192,23 @@ if (category.categories_name === "muse" && page.currentPage === 0) {
               style={style}
             />
           </div>
-          {!(category.categories_name === "muse" && page.currentPage === 0) &&
-            page.data && (
-              <hr class="my-2.5 w-full self-center border-gray-300" />
-            )}
+          {!isMuseLandingPage && (
+            <hr class="my-2.5 w-full self-center border-gray-300" />
+          )}
         </>
       )
     }
     {
-      !(category.categories_name === "muse" && page.currentPage === 0) ? (
+      !isMuseLandingPage ? (
         <>
-          {page.data && (
-            <div id="article-list">
-              <ArticleRows articles={page.data} parentCategory={category} style="nouse" hideCategoryAccent={true}></ArticleRows>
-            </div>
-          )}
+          <div id="article-list">
+            <ArticleRows
+              articles={category.articles.map((article) => article.article)}
+              parentCategory={category}
+              style="nouse"
+              hideCategoryAccent={true}
+            />
+          </div>
         </>
       ) : (
         <>
@@ -152,8 +226,19 @@ if (category.categories_name === "muse" && page.currentPage === 0) {
   <div class="w-full mt-4" id="paginator-container">
     <Paginator
       client:only
-      page={page.currentPage}
-      pages={page.total}
+      page={pageNumber}
+      pages={category.categories_name === "muse"
+        ? Math.ceil(
+            (categoryFeaturedAndCount._count.articles -
+              featuredArticlesIds.length) /
+              articlesPerPage
+          ) + 1
+        : Math.max(
+            1,
+            Math.ceil(
+              categoryFeaturedAndCount._count.articles / articlesPerPage
+            )
+          )}
       pagesToDisplay={5}
       prefix={paginatorPrefix}
     />

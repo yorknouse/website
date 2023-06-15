@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["filteredRelationCount"]
 }
 
 datasource db {
@@ -51,8 +52,6 @@ model adverts {
 
 model articles {
   articles_id                  Int                  @id @default(autoincrement())
-  articles_categories          String               @db.VarChar(255)
-  articles_authors             String?              @db.VarChar(500)
   articles_published           DateTime?            @db.Timestamp(0)
   editions_id                  Int?
   articles_editionPage         String?              @db.VarChar(100)
@@ -76,8 +75,6 @@ model articles {
   categories                   articlesCategories[]
   users                        articlesAuthors[]
 
-  @@index([articles_authors], map: "articles_articles_authors_index")
-  @@index([articles_categories], map: "articles_articles_categories_index")
   @@index([articles_id], map: "articles_articles_id_index")
   @@index([articles_lifetimeViews], map: "articles_articles_lifetimeViews_index")
   @@index([articles_archiveFallback], map: "articles_articles_pdfFallback_index")

@@ -30,7 +30,7 @@ test.describe("Author Page", () => {
   });
 
   test("Shows correct number of non featured articles",async ({ page }) => {
-    await expect(page.locator("#article-list >> .article:visible")).toHaveCount(9);
-    await expect(page.locator("#paginator-container >> button")).toHaveCount(1);
+    await expect(page.locator("#article-list >> .article:visible")).toHaveCount(10);
+    await expect(page.locator("#paginator-container >> button")).toHaveCount(2);
   });
 });

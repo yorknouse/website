@@ -1,0 +1,80 @@
+---
+import prisma from "src/prisma";
+import ArticleRows from "./ArticleRows.astro";
+import Paginator from "./SolidJS/Paginator";
+import type { articleWithUserAndDraft } from "./utils/articles";
+
+interface Props {
+    articlesPerPage: number;
+    pageNumber: number;
+    authorId: number;
+}
+
+const { articlesPerPage, pageNumber, authorId } = Astro.props;
+
+const authorArticles = await prisma.articlesAuthors.findMany({
+    where: {
+        users_userid: authorId,
+    },
+});
+
+let articles: articleWithUserAndDraft[];
+let pages: number;
+
+if (!authorArticles) {
+    articles = [];
+    pages = 0;
+} else {
+    pages = Math.ceil(authorArticles.length / articlesPerPage);
+    const articlesIds = authorArticles.reduce((accumulator, authorArticle) => {
+        accumulator.push(authorArticle.articles_id);
+
+        return accumulator;
+    }, [] as number[]);
+
+    articles = await prisma.articles.findMany({
+        where: {
+            articles_id: {
+                in: articlesIds,
+            },
+            articles_showInLists: true,
+        },
+        orderBy: {
+            articles_published: "desc",
+        },
+        take: articlesPerPage,
+        skip: pageNumber ? (pageNumber - 1) * articlesPerPage : 0,
+        include: {
+            articlesDrafts: {
+                orderBy: {
+                    articlesDrafts_timestamp: "desc",
+                },
+                take: 1,
+            },
+            categories: {
+                include: { category: true },
+            },
+            users: { include: { users: true } },
+        },
+    });
+}
+---
+
+<div class="pt-8 sm:px-[0.5%] 2xl:px-[13%]">
+    {
+        articles.length !== 0 && (
+            <div id="article-list">
+                <ArticleRows articles={articles} style="nouse" />
+            </div>
+        )
+    }
+    <div class="w-full mt-4" id="paginator-container">
+        <Paginator
+            client:only
+            page={pageNumber === 0 ? pageNumber : pageNumber - 1}
+            pages={pages}
+            pagesToDisplay={5}
+            prefix={`author/${authorId}`}
+        />
+    </div>
+</div>
