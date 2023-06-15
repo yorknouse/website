@@ -57,7 +57,7 @@ RUN dos2unix /var/www/start.sh
 
 # Readers frontend
 ENV NODE_ENV=production
-ENV DATABASE_URL=mysql://userDocker:passDocker@host.docker.internal:3306/nouse
+ENV DATABASE_URL=mysql://userDocker:passDocker@172.17.0.1:3306/nouse
 ENV archiveFileStoreUrl=https://bbcdn.nouse.co.uk/file/nouseOldImageLibrary/archive/public
 ENV fileStoreUrl=https://bbcdn.nouse.co.uk/file
 ENV LOCAL_DOCKER=false

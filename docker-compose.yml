@@ -42,7 +42,9 @@ services:
     ports:
       - 3306:3306
   nouse:
-    image: ghcr.io/yorknouse/website/main:latest
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     container_name: nouse-container
     restart: always
     depends_on:
