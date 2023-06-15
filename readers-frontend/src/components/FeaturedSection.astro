@@ -1,0 +1,111 @@
+---
+import type { categories } from "@prisma/client";
+import Article from "./Article.astro";
+import {
+  articlesWithArticleDrafts,
+  getArticleImage,
+  getArticles,
+} from "./utils/articles";
+import dateFormatter from "./utils/dateFormatter";
+import { getCategoryLink } from "./utils/categories";
+
+export interface Props {
+  category: categories;
+}
+const { category } = Astro.props;
+const articles: articlesWithArticleDrafts[] = await getArticles(
+  category.categories_featured?.split(",").map(Number)
+);
+
+const categoryColor = category.categories_backgroundColor;
+---
+
+<style define:vars={{ categoryColor }}>
+  .border-color {
+    border-color: var(--categoryColor);
+  }
+  .category-color {
+    color: var(--categoryColor);
+  }
+</style>
+{
+  articles.length != 0 && (
+    <>
+      <div class="border-color mt-4 h-full border-t-2">
+        <a
+          id="category-text"
+          class="arno-display category-color text-2xl uppercase xl:text-3xl 2xl:text-4xl"
+          href={`${
+            category.categories_nestUnder == 4
+              ? `${import.meta.env.BASE_URL}muse/`
+              : import.meta.env.BASE_URL
+          }${category.categories_name}`}
+        >
+          {category.categories_displayName}
+        </a>
+        {/* Desktop */}
+        <div class="hidden max-w-full flex-row justify-center gap-2.5 md:flex">
+          {articles.map(async (article, index) => (
+            <div
+              class={`w-full pr-2.5 ${
+                index != articles.length - 1 ? "border-r border-gray-300" : ""
+              }`}
+            >
+              <Article
+                headline={article.articlesDrafts[0].articlesDrafts_headline}
+                excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
+                authors={article.users.map(users => users.users)}
+                category={category.categories_displayName}
+                categoryLink={getCategoryLink(category.categories_name, category.categories_nestUnder)}
+                categoryColor={categoryColor}
+                imageUrl={await getArticleImage(article)}
+                articleUrl={`${import.meta.env.BASE_URL}articles/${dateFormatter
+                  .format(article.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+                  .split("/")
+                  .reverse()
+                  .join("/")}/${article.articles_slug}`}
+                isVertical={true}
+                isPortrait={article.articles_isThumbnailPortrait}
+                hideCategoryAccent={true}
+              />
+            </div>
+          ))}
+        </div>
+        {/* Mobile */}
+        {
+          <div class="block max-w-full justify-center md:hidden">
+            {articles.map(async (article, index) => (
+              <div
+                class={`w-full p-2.5 ${
+                  index != articles.length - 1
+                    ? "border-b border-gray-300"
+                    : ""
+                }`}
+              >
+                <Article
+                  headline={article.articlesDrafts[0].articlesDrafts_headline}
+                  excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
+                  authors={article.users.map(users => users.users)}
+                  category={category.categories_displayName}
+                  categoryLink={getCategoryLink(category.categories_name, category.categories_nestUnder)}
+                  categoryColor={categoryColor}
+                  imageUrl={
+                    index == 0 ? await getArticleImage(article) : undefined
+                  }
+                  articleUrl={`${import.meta.env.BASE_URL}articles/${dateFormatter
+                    .format(article.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+                    .split("/")
+                    .reverse()
+                    .join("/")}/${article.articles_slug}`}
+                  isVertical={false}
+                  isPortrait={article.articles_isThumbnailPortrait}
+                  hideCategoryAccent={true}
+                />
+              </div>
+            ))}
+          </div>
+        }
+      </div>
+    </>
+  )
+}

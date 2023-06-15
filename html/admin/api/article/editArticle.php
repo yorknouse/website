@@ -7,29 +7,9 @@ $articleData = [
     "articles_updated" => date("Y-m-d H:i:s"),
     "articles_socialExcerpt" => $bCMS->cleanString(trim($_POST['socialexcerpt'])),
     "articles_displayImages" => $_POST['displayImages'],
+    "articles_isThumbnailPortrait" => $_POST['isThumbnailPortrait'],
     "articles_dropCapital" => $_POST['dropCap'],
 ];
-
-$articleData["articles_categories"] = [];
-if ($_POST['categories'] != null) {
-    foreach (explode(",", $bCMS->sanitizeString($_POST['categories'])) as $category) {
-        if (is_numeric($category)) {
-            $articleData["articles_categories"][] = $category;
-        }
-    }
-}
-$articleData["articles_categories"] = implode(",", $articleData["articles_categories"]);
-
-$articleData["articles_authors"] = [];
-if ($_POST['authors'] != null) {
-    foreach (explode(",", $bCMS->sanitizeString($_POST['authors'])) as $category) {
-        if (is_numeric($category)) {
-            $articleData["articles_authors"][] = $category;
-        }
-    }
-}
-$articleData["articles_authors"] = implode(",", $articleData["articles_authors"]);
-
 
 if ($_POST['thumbnail'] != null) {
     $articleData["articles_thumbnail"] = $bCMS->sanitizeString($_POST['thumbnail']);
@@ -138,8 +118,37 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
             if ($edition) $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/editions/" . $edition['editions_slug']);
         }
         //Categories
-        foreach (explode(",", $articleData['articles_categories']) as $category) {
+        $categories = explode(",", $_POST['categories']);
+        $DBLIB->where("categories_id", $categories,"NOT IN");
+        $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
+        $DBLIB->delete("articlesCategories");
+        foreach ($categories as $category) {
+            $DBLIB->where("categories_id", $category);
+            $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
+            if ($DBLIB->getValue("articlesCategories", "COUNT(*)") == 0) {
+                $articleCategory = [
+                    "articles_id" => $bCMS->sanitizeString($_POST['articleid']),
+                    "categories_id" => $category
+                ];
+                $DBLIB->insert("articlesCategories", $articleCategory);
+            }
             $bCMS->cacheClearCategory($category);
+        }
+        //Authors
+        $authors = explode(",", $bCMS->sanitizeString($_POST['authors']));
+        $DBLIB->where("users_userid", $authors,"NOT IN");
+        $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
+        $DBLIB->delete("articlesAuthors");
+        foreach ($authors as $author) {
+            $DBLIB->where("users_userid", $author);
+            $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
+            if ($DBLIB->getValue("articlesAuthors", "COUNT(*)") == 0) {
+                $articlesAuthor = [
+                    "articles_id" => $bCMS->sanitizeString($_POST['articleid']),
+                    "users_userid" => $author
+                ];
+                $DBLIB->insert("articlesAuthors", $articlesAuthor);
+            }
         }
         finish(true);
     } else finish(false, ["code" => null, "message" => "Insert draft error"]);
@@ -197,8 +206,21 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
             if ($edition) $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/editions/" . $edition['editions_slug']);
         }
         //Categories
-        foreach (explode(",", $articleData['articles_categories']) as $category) {
+        foreach (explode(",", $_POST['categories']) as $category) {
+            $articleCategory = [
+                "articles_id" => $articleID,
+                "categories_id" => $category
+            ];
+            $DBLIB->insert("articlesCategories", $articleCategory);
             $bCMS->cacheClearCategory($category);
+        }
+        //Authors
+        foreach (explode(",", $bCMS->sanitizeString($_POST['authors'])) as $author) {
+            $articlesAuthor = [
+                "articles_id" => $articleID,
+                "users_userid" => $author
+            ];
+            $DBLIB->insert("articlesAuthors", $articlesAuthor);
         }
         finish(true, null, ["articleid" => $articleID]);
     } else finish(false, ["code" => null, "message" => "Insert draft error"]);

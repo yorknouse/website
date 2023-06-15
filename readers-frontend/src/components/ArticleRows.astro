@@ -1,0 +1,134 @@
+---
+import type { categories } from "@prisma/client";
+import {
+  articlesWithArticleDrafts,
+  getArticleImage,
+} from "@components/utils/articles";
+import Article from "@components/Article.astro";
+import dateFormatter from "@components/utils/dateFormatter";
+import { getParentCategory, getCategoryLink } from "./utils/categories";
+
+interface Props {
+  articles: articlesWithArticleDrafts[];
+  style: string;
+  articlesPerRow?: number;
+  parentCategory?: categories;
+  hideCategoryAccent?: boolean;
+}
+
+const {
+  articles,
+  style,
+  articlesPerRow = 2,
+  parentCategory,
+  hideCategoryAccent = false,
+} = Astro.props;
+---
+
+<div class="hidden max-w-full flex-col md:flex">
+  {
+    articles
+      .reduce(
+        (
+          accumulator: articlesWithArticleDrafts[][],
+          currentValue: any,
+          currentIndex: number,
+          array: articlesWithArticleDrafts[]
+        ) => {
+          if (currentIndex % articlesPerRow === 0) {
+            accumulator.push(
+              array.slice(currentIndex, currentIndex + articlesPerRow)
+            );
+          }
+          return accumulator;
+        },
+        []
+      )
+      .map(async (articleRow: articlesWithArticleDrafts[], index: number) => {
+        const categories = articleRow.map((article) =>
+          parentCategory ? parentCategory : getParentCategory(article.categories)
+        );
+        return (
+          <div>
+            <div class="flex max-h-52 max-w-full gap-2.5">
+              {articleRow.map(
+                async (
+                  article: articlesWithArticleDrafts,
+                  articleIndex: number
+                ) => (
+                  <div
+                    class={`${
+                      articlesPerRow == 1 ? "w-full" : `w-1/${articlesPerRow}`
+                    } pr-2.5 ${
+                      articleIndex < articleRow.length - 1 &&
+                      "border-r border-gray-300"
+                    }`}
+                  >
+                    <Article
+                      headline={
+                        article.articlesDrafts[0].articlesDrafts_headline
+                      }
+                      excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
+                      authors={article.users.map(users => users.users)}
+                      category={categories[articleIndex].categories_displayName}
+                      categoryLink={getCategoryLink(categories[articleIndex].categories_name, categories[articleIndex].categories_nestUnder)}
+                      categoryColor={
+                        categories[articleIndex].categories_backgroundColor
+                      }
+                      imageUrl={await getArticleImage(article)}
+                      articleUrl={`${import.meta.env.BASE_URL}articles/${dateFormatter
+                        .format(article.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+                        .split("/")
+                        .reverse()
+                        .join("/")}/${article.articles_slug}`}
+                      isVertical={false}
+                      isPortrait={false}
+                      hideCategoryAccent={hideCategoryAccent}
+                    />
+                  </div>
+                )
+              )}
+            </div>
+            {index !=
+              (0 || Math.ceil(articles.length / articlesPerRow) - 1) && (
+              <hr class="my-2.5 w-full self-center border-gray-300" />
+            )}
+          </div>
+        );
+      })
+  }
+</div>
+<div class="block max-w-full justify-center md:hidden">
+  {
+    articles.map(async (article: articlesWithArticleDrafts, index: number) => {
+      const category = parentCategory
+        ? parentCategory
+        : getParentCategory(article.categories);
+      return (
+        <div
+          class={`w-full p-2.5 ${
+            index != articles.length - 1 ? "border-b border-gray-300" : ""
+          }`}
+        >
+          <Article
+            headline={article.articlesDrafts[0].articlesDrafts_headline}
+            excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
+            authors={article.users.map(users => users.users)}
+            category={category.categories_displayName}
+            categoryLink={getCategoryLink(category.categories_name, category.categories_nestUnder)}
+            categoryColor={category.categories_backgroundColor}
+            imageUrl={await getArticleImage(article)}
+            articleUrl={`${import.meta.env.BASE_URL}articles/${dateFormatter
+              .format(article.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+              .split("/")
+              .reverse()
+              .join("/")}/${article.articles_slug}`}
+            isVertical={false}
+            isPortrait={article.articles_isThumbnailPortrait}
+            hideCategoryAccent={hideCategoryAccent}
+          />
+        </div>
+      );
+    })
+  }
+</div>

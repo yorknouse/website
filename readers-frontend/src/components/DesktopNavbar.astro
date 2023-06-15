@@ -1,0 +1,172 @@
+---
+import type { categories } from "@prisma/client";
+import { Icon } from "astro-icon";
+import prisma from "src/prisma";
+
+interface Props {
+  active: string | undefined;
+  style: "muse" | "nouse";
+  menuCategories: categories[];
+  subMenuCategories: Map<string, categories[]>;
+  baseUrl: string;
+}
+
+const { active, style, menuCategories, subMenuCategories, baseUrl } =
+  Astro.props;
+const activeCategory = active
+  ? await prisma.categories.findFirst({
+      where: {
+        categories_name: active,
+      },
+    })
+  : undefined;
+
+// Check for parent category colour
+let parentColour = undefined;
+let parentCategory: categories | null = null;
+let subMenuItems = active ? subMenuCategories.get(active) : undefined;
+if (
+  activeCategory &&
+  activeCategory.categories_nestUnder &&
+  activeCategory.categories_nestUnder !== 4
+) {
+  // Mask muse out of this as muse categories are nested
+  parentCategory = await prisma.categories.findFirst({
+    where: {
+      categories_id: activeCategory.categories_nestUnder,
+    },
+  });
+
+  if (parentCategory) {
+    parentColour = parentCategory.categories_backgroundColor;
+    subMenuItems = subMenuCategories.get(parentCategory.categories_name);
+  }
+}
+
+// Default base colour depending on style
+let computedBaseColour = "#000";
+
+if (activeCategory?.categories_backgroundColor) {
+  computedBaseColour = activeCategory.categories_backgroundColor;
+} else if (parentColour) computedBaseColour = parentColour;
+---
+
+<header
+  id="desktopHeader"
+  class={`hidden md:flex md:flex-row w-full ${
+    style === "nouse" ? "bg-transparent" : "bg-black"
+  }`}
+>
+  <a href={baseUrl} class="mx-auto self-center">
+    <img
+      class="my-4 h-14"
+      src={style === "nouse"
+        ? "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
+        : "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"}
+    />
+  </a>
+</header>
+<nav
+  id="desktopNav"
+  class={`hidden ${
+    subMenuItems ? "h-24" : "h-12"
+  } w-full text-xs md:block lg:text-sm sticky top-0 z-40 bg-navbar`}
+>
+  <ul
+    class={`flex ${
+      subMenuItems ? "h-1/2" : "h-full"
+    } w-full flex-row justify-between border-t-4 border-transparent 2xl:px-[13%] text-white transition-colors ease-in-out duration-500`}
+  >
+    {
+      menuCategories.map((menuItem, index) => (
+        <>
+          {index !== 0 && ( // No divider before Home
+            <span class="h-3/5 self-center border-r border-white" />
+          )}
+          <li
+            class={`group relative flex h-full w-full border-b-4 ${
+              active === menuItem.categories_name ||
+              parentCategory?.categories_name === menuItem.categories_name
+                ? "border-white"
+                : "border-transparent"
+            }`}
+          >
+            <a
+              class="mx-auto my-auto text-center"
+              href={
+                menuItem.categories_displayName === "Home"
+                  ? baseUrl
+                  : menuItem.categories_displayName === "Nouse"
+                  ? import.meta.env.BASE_URL
+                  : `${baseUrl + menuItem.categories_name}`
+              }
+            >
+              {() => {
+                switch (menuItem.categories_displayName) {
+                  case "Muse":
+                    return (
+                      <img
+                        src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
+                        class="w-16"
+                      />
+                    );
+                  case "Nouse":
+                    return (
+                      <img
+                        src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/kingfisher.svg"
+                        class="w-10 invert"
+                      />
+                    );
+                  default:
+                    return menuItem.categories_displayName;
+                }
+              }}
+            </a>
+          </li>
+        </>
+      ))
+    }
+    <span class="h-3/5 self-center border-r border-white"></span>
+    {/* Search button */}
+    <li class="flex h-full w-full border-b-4 border-b-transparent">
+      <button class="searchBtnClassIdentifier mx-auto h-full w-10">
+        <Icon name="ic:sharp-search" class="py-1 ml-2" />
+      </button>
+    </li>
+  </ul>
+  {
+    subMenuItems && (
+      <ul class="bg-navbar flex h-1/2 w-full flex-row text-white brightness-90 2xl:px-[13%]">
+        {subMenuItems?.map((menuItem, index) => (
+          <>
+            {index !== 0 && ( // No divider before Home
+              <span class="h-3/5 self-center border-r border-white" />
+            )}
+            <li
+              class={`group relative flex h-full border-b-4 px-[3%] ${
+                active === menuItem.categories_name
+                  ? "border-white"
+                  : "border-transparent"
+              }`}
+            >
+              <a
+                class="mx-auto my-auto"
+                href={`${
+                  baseUrl +
+                  (parentCategory ? parentCategory.categories_name : active)
+                }/${menuItem.categories_name}`}
+              >
+                {menuItem.categories_displayName}
+              </a>
+            </li>
+          </>
+        ))}
+      </ul>
+    )
+  }
+</nav>
+<style define:vars={{ computedBaseColour }}>
+  .bg-navbar {
+    background-color: var(--computedBaseColour);
+  }
+</style>

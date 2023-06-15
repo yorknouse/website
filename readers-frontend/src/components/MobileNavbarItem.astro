@@ -1,0 +1,101 @@
+---
+import type { categories } from "@prisma/client";
+import { Icon } from "astro-icon";
+
+interface Props {
+  active: string | undefined;
+  displayName: string | null;
+  categoryName: string;
+  baseUrl: string;
+  subMenu: categories[] | undefined;
+}
+
+const { active, displayName, categoryName, baseUrl, subMenu } = Astro.props;
+---
+
+<>
+  {
+    subMenu ? (
+      <>
+        <button
+          id={`${categoryName}ListBtn`}
+          class={`flex w-full ${
+            active === categoryName ? "border-b-[5px]" : "border-b"
+          }`}
+        >
+          <div class="mx-auto flex flex-row pb-4">
+            <a
+              id={`${categoryName}ListLink`}
+              href={
+                displayName === "Home"
+                  ? baseUrl
+                  : displayName === "Nouse"
+                  ? import.meta.env.BASE_URL
+                  : `${baseUrl + categoryName}`
+              }
+              class="my-auto mr-2"
+            >
+              {displayName}
+            </a>
+            <Icon
+              id={`${categoryName}Chevron`}
+              name="ic:sharp-chevron-right"
+              class="my-auto h-6 w-6 rotate-90"
+            />
+          </div>
+        </button>
+        <div
+          class="hidden w-full border-b border-b-white"
+          id={`${categoryName}ListContainer`}
+        >
+          <ul class="flex w-full flex-col bg-neutral-900 text-center">
+            {[...subMenu.entries()].map((entry) => (
+              <li class="my-4">
+                <a
+                  href={baseUrl + `${categoryName}/${entry[1].categories_name}`}
+                >
+                  {entry[1].categories_displayName}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </>
+    ) : (
+      <a
+        href={
+          displayName === "Home"
+            ? baseUrl
+            : displayName === "Nouse"
+            ? import.meta.env.BASE_URL
+            : `${baseUrl + categoryName}`
+        }
+        class={`mx-auto w-full pb-4 text-center ${
+          active === categoryName ? "border-b-[5px]" : "border-b"
+        }`}
+      >
+        {displayName}
+      </a>
+    )
+  }
+</>
+
+<script define:vars={{ categoryName }}>
+  const btn = document.getElementById(`${categoryName}ListBtn`);
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.addEventListener("click", () => {
+      const chevron = document.getElementById(`${categoryName}Chevron`);
+      const listContainer = document.getElementById(
+        `${categoryName}ListContainer`
+      );
+
+      if (chevron) {
+        chevron.classList.toggle("rotate-90");
+        chevron.classList.toggle("-rotate-90");
+
+        listContainer.classList.toggle("hidden");
+      }
+    });
+  }
+</script>

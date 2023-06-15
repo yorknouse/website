@@ -1,0 +1,87 @@
+---
+import { s3URL } from "@components/utils/s3URL";
+import type { editions } from "@prisma/client";
+import Layout from "src/layouts/Layout.astro";
+import prisma from "src/prisma";
+
+const allEditions = await prisma.editions.findMany({
+  where: {
+    editions_show: true,
+    editions_deleted: false,
+    NOT: {
+      editions_thumbnail: null,
+    },
+  },
+  orderBy: {
+    editions_published: "desc",
+  },
+});
+
+// Sorting editions into academic years
+let yearlyEditions: { [academicYear: string]: {printEditions: editions[], webEditions: editions[]} } = {};
+allEditions.forEach((edition) => {
+  let academicYear =
+    edition.editions_published.getMonth() + 1 >= 9
+      ? `${edition.editions_published.getFullYear()}-${
+          edition.editions_published.getFullYear() + 1
+        }`
+      : `${
+          edition.editions_published.getFullYear() - 1
+        }-${edition.editions_published.getFullYear()}`;
+  if (yearlyEditions[academicYear]) {
+    if (edition.editions_type !== "Web Edition") {
+      yearlyEditions[academicYear].printEditions.push(edition);
+    } else {
+      yearlyEditions[academicYear].webEditions.push(edition);
+    }
+  } else {
+    if (edition.editions_type !== "Web Edition") {
+      yearlyEditions[academicYear] = { printEditions: [edition], webEditions: [] };
+    } else {
+      yearlyEditions[academicYear] = { printEditions: [], webEditions: [edition] };
+    }
+  }
+});
+
+// Static render this page
+export const prerender = true;
+---
+
+<Layout title="Our Editions - Nouse" active={undefined} style="nouse">
+  <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
+    <h1 class="mb-4 text-center text-2xl sm:text-4xl">
+      Our Editions
+    </h1>
+    {Object.entries(yearlyEditions).map(([academicYear, editions]) => (
+      <div class="academic-year">
+        <h2 class="text-center text-2xl sm:text-4xl arno-display">{academicYear}</h2>
+        {editions.printEditions.length !== 0 && (
+          <>
+            <h3 class="mb-4 text-center text-lg sm:text-3xl">Print Editions and Supplements</h3>
+            <div class={`print-editions flex flex-wrap gap-8 justify-center mb-4`}>
+              {editions.printEditions.map(async (edition) => (
+                <a class="edition px-[17%] md:w-1/6 md:p-0" href={`${import.meta.env.BASE_URL}editions/${decodeURIComponent(edition.editions_slug)}`}>
+                  {edition.editions_thumbnail && <img class="mb-4 aspect-auto md:aspect-edition object-contain" src={await s3URL(edition.editions_thumbnail, "medium")} />}
+                  <h4 class="text-base sm:text-xl text-center">{edition.editions_printNumber ? `№${edition.editions_printNumber}` : edition.editions_name}</h4>
+                </a>
+              ))}
+            </div>
+          </>
+        )}
+        {editions.webEditions.length !== 0 && (
+          <>
+            <h3 class="mb-4 text-center text-lg md:text-xl lg:text-3xl">Web Editions and Supplements</h3>
+            <div class={`web-editions flex flex-wrap gap-8 justify-center mb-4`}>
+              {editions.webEditions.map(async (edition) => (
+                <a class="edition px-[17%] md:w-1/6 md:p-0" href={`${import.meta.env.BASE_URL}editions/${edition.editions_slug}`}>
+                  {edition.editions_thumbnail && <img class="mb-4 aspect-auto md:aspect-video object-contain" src={await s3URL(edition.editions_thumbnail, "medium")} />}
+                  <h4 class="text-base sm:text-xl text-center">{edition.editions_name}</h4>
+                </a>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+    ))}
+  </div>
+</Layout>

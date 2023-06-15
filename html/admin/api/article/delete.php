@@ -7,10 +7,12 @@ if (!$AUTH->permissionCheck(33) or !isset($_GET['articleid']) or !is_numeric($_G
 $bCMS->auditLog("DELETE", "articles", $bCMS->sanitizeString($_GET['articleid']), $AUTH->data['users_userid']);
 
 $DBLIB->where ('articles_id', $bCMS->sanitizeString($_GET['articleid']));
-$article = $DBLIB->getOne("articles", ["articles_id", "articles_published", "articles_slug","articles_categories"]);
+$article = $DBLIB->getOne("articles", ["articles_id", "articles_published", "articles_slug"]);
 
 $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug']);
-foreach (explode(",", $article['articles_categories']) as $category) {
+$DBLIB->where("articlesCategories.articles_id", $bCMS->sanitizeString($_GET['articleid']));
+$article['articles_categories'] = array_column($DBLIB->get("articlesCategories"), 'categories_id');
+foreach ($article['articles_categories'] as $category) {
     $bCMS->cacheClearCategory($category);
 }
 

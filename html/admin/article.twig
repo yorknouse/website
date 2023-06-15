@@ -142,6 +142,11 @@
                         <label class="form-check-label">Display Images in the Article</label>
                         <p style="font-style: italic;">Uncheck this for articles where the legal basis for using the images is uncertain. <a href="https://nouse.co.uk/imageRemoval" target="_blank">Learn more</a></p>
                     </div>
+                    <div class="form-check">
+                        <input type="checkbox" id="isThumbnailPortrait" class="form-check-input" {{ article.articles_isThumbnailPortrait == 1 ? 'checked':'' }}>
+                        <label class="form-check-label">Is the thumbnail image in portrait orientation?</label>
+                        <p style="font-style: italic;">Leave this unchecked if the article has no thumbnail</p>
+                    </div>
                 </div>
                 <hr/>
                 <div class="form-group">
@@ -818,6 +823,7 @@
                     "postToTwitter": ($("#postToTwitter").is(':checked') ? 1 : 0),
                     "postToFacebook": ($("#postToFacebook").is(':checked') ? 1 : 0),
                     "displayImages": ($("#displayImages").is(':checked') ? 1 : 0),
+                    "isThumbnailPortrait": ($("#isThumbnailPortrait").is(':checked') ? 1 : 0),
                     "socialexcerpt": $("#socialexcerpt").val(),
                     "thumbCredit": $("#thumbnailCredit").val(),
                     "dropCap": ($("#dropCap").is(':checked') ? 1 : 0),

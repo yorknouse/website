@@ -1,0 +1,421 @@
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["filteredRelationCount"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model actions {
+  actions_id           Int               @id @default(autoincrement())
+  actions_name         String            @db.VarChar(255)
+  actionsCategories_id Int
+  actions_dependent    String?           @db.VarChar(500)
+  actions_incompatible String?           @db.VarChar(500)
+  actionsCategories    actionsCategories @relation(fields: [actionsCategories_id], references: [actionsCategories_id], onUpdate: Restrict, map: "actions_actionsCategories_actionsCategories_id_fk")
+
+  @@index([actionsCategories_id], map: "actions_actionsCategories_id_index")
+}
+
+model actionsCategories {
+  actionsCategories_id    Int       @id @default(autoincrement())
+  actionsCategories_name  String    @db.VarChar(500)
+  actionsCategories_order Int?      @default(0)
+  actions                 actions[]
+
+  @@index([actionsCategories_id], map: "actionsCategories_actionsCategories_id_index")
+  @@index([actionsCategories_order], map: "actionsCategories_actionsCategories_order_index")
+}
+
+model adverts {
+  adverts_id                                      Int       @id @default(autoincrement())
+  adverts_name                                    String    @db.VarChar(500)
+  adverts_notes                                   String?   @db.Text
+  adverts_default                                 Boolean   @default(false)
+  adverts_bannerImage                             Int?
+  adverts_bannerImageMob                          Int?
+  adverts_impressions                             Int?      @default(0)
+  adverts_clicks                                  Int?      @default(0)
+  adverts_enabled                                 Boolean   @default(true)
+  adverts_deleted                                 Boolean   @default(false)
+  adverts_start                                   DateTime? @db.Timestamp(0)
+  adverts_end                                     DateTime? @db.Timestamp(0)
+  adverts_link                                    String?   @db.VarChar(500)
+  s3files_adverts_adverts_bannerImageTos3files    s3files?  @relation("adverts_adverts_bannerImageTos3files", fields: [adverts_bannerImage], references: [s3files_id], map: "adverts_s3files_s3files_id_fk")
+  s3files_adverts_adverts_bannerImageMobTos3files s3files?  @relation("adverts_adverts_bannerImageMobTos3files", fields: [adverts_bannerImageMob], references: [s3files_id], map: "adverts_s3files_s3files_id_fk_2")
+
+  @@index([adverts_bannerImage], map: "adverts_s3files_s3files_id_fk")
+  @@index([adverts_bannerImageMob], map: "adverts_s3files_s3files_id_fk_2")
+}
+
+model articles {
+  articles_id                  Int                  @id @default(autoincrement())
+  articles_published           DateTime?            @db.Timestamp(0)
+  editions_id                  Int?
+  articles_editionPage         String?              @db.VarChar(100)
+  articles_updated             DateTime?            @db.Timestamp(0)
+  articles_showInLists         Boolean              @default(false)
+  articles_showInSearch        Boolean              @default(false)
+  articles_showInAdmin         Boolean              @default(true)
+  articles_type                Boolean              @default(true)
+  articles_slug                String?              @db.VarChar(255)
+  articles_extraMetadata       String?              @db.Text
+  articles_thumbnail           String?              @db.VarChar(500)
+  articles_lifetimeViews       Int?                 @default(0)
+  articles_archiveFallback     String?              @db.VarChar(255)
+  articles_socialConfig        String               @default("1,0,1,0") @db.VarChar(50)
+  articles_mediaCharterDone    Boolean              @default(false)
+  articles_socialExcerpt       String?              @db.VarChar(2000)
+  articles_dropCapital         Boolean              @default(false)
+  articles_displayImages       Boolean?             @default(true)
+  articles_isThumbnailPortrait Boolean              @default(false)
+  articlesDrafts               articlesDrafts[]
+  categories                   articlesCategories[]
+  users                        articlesAuthors[]
+
+  @@index([articles_id], map: "articles_articles_id_index")
+  @@index([articles_lifetimeViews], map: "articles_articles_lifetimeViews_index")
+  @@index([articles_archiveFallback], map: "articles_articles_pdfFallback_index")
+  @@index([articles_published], map: "articles_articles_published_index")
+  @@index([articles_showInAdmin], map: "articles_articles_showInAdmin_index")
+  @@index([articles_showInLists], map: "articles_articles_showInLists_index")
+  @@index([articles_showInSearch], map: "articles_articles_showInSearch_index")
+  @@index([articles_slug], map: "articles_articles_slug_index")
+}
+
+model articlesDrafts {
+  articlesDrafts_id              Int       @id @default(autoincrement())
+  articles_id                    Int?
+  articlesDrafts_timestamp       DateTime  @default(now()) @db.Timestamp(0)
+  articlesDrafts_userid          Int?
+  articlesDrafts_headline        String    @db.VarChar(500)
+  articlesDrafts_excerpt         String?   @db.VarChar(2000)
+  articlesDrafts_text            String?   @db.LongText
+  articlesDrafts_markdown        String?   @db.LongText
+  articlesDrafts_infoBox         String?   @db.LongText
+  articlesDrafts_thumbnailCredit String?   @db.VarChar(500)
+  articlesDrafts_changelog       String?   @db.Text
+  users                          users?    @relation(fields: [articlesDrafts_userid], references: [users_userid], onDelete: Restrict, onUpdate: Restrict, map: "articlesDrafts_users_users_userid_fk")
+  articles                       articles? @relation(fields: [articles_id], references: [articles_id])
+
+  @@index([articles_id], map: "articlesDrafts_articles_articles_id_fk")
+  @@index([articlesDrafts_userid], map: "articlesDrafts_users_users_userid_fk")
+}
+
+model articlesReads {
+  articles_id             Int
+  articlesReads_id        Int      @id @default(autoincrement())
+  articlesReads_timestamp DateTime @default(now()) @db.Timestamp(0)
+
+  @@index([articles_id], map: "articlesReads_articles_articles_id_fk")
+}
+
+model auditLog {
+  auditLog_id                                 Int      @id @default(autoincrement())
+  auditLog_actionType                         String?  @db.VarChar(500)
+  auditLog_actionTable                        String?  @db.VarChar(500)
+  auditLog_actionData                         String?  @db.VarChar(500)
+  auditLog_timestamp                          DateTime @default(now()) @db.Timestamp(0)
+  users_userid                                Int?
+  auditLog_actionUserid                       Int?
+  users_auditLog_users_useridTousers          users?   @relation("auditLog_users_useridTousers", fields: [users_userid], references: [users_userid], onDelete: Restrict, onUpdate: Restrict, map: "auditLog_users_users_userid_fk")
+  users_auditLog_auditLog_actionUseridTousers users?   @relation("auditLog_auditLog_actionUseridTousers", fields: [auditLog_actionUserid], references: [users_userid], onDelete: Restrict, onUpdate: Restrict, map: "auditLog_users_users_userid_fk_2")
+
+  @@index([users_userid], map: "auditLog_users_users_userid_fk")
+  @@index([auditLog_actionUserid], map: "auditLog_users_users_userid_fk_2")
+}
+
+model authTokens {
+  authTokens_id                              Int      @id @default(autoincrement())
+  authTokens_token                           String   @unique(map: "token") @db.VarChar(500)
+  authTokens_created                         DateTime @default(now()) @db.Timestamp(0)
+  authTokens_ipAddress                       String?  @db.VarChar(500)
+  users_userid                               Int
+  authTokens_valid                           Boolean  @default(true)
+  authTokens_adminId                         Int?
+  users_authTokens_users_useridTousers       users    @relation("authTokens_users_useridTousers", fields: [users_userid], references: [users_userid], onUpdate: Restrict, map: "authTokens_users_users_userid_fk")
+  users_authTokens_authTokens_adminIdTousers users?   @relation("authTokens_authTokens_adminIdTousers", fields: [authTokens_adminId], references: [users_userid], onDelete: Restrict, onUpdate: Restrict, map: "authTokens_users_users_userid_fk_2")
+
+  @@index([users_userid], map: "authTokens_users_users_userid_fk")
+  @@index([authTokens_adminId], map: "authTokens_users_users_userid_fk_2")
+}
+
+model categories {
+  categories_id                      Int                  @id @default(autoincrement())
+  categories_showHome                Boolean              @default(true)
+  categories_displayName             String?              @db.VarChar(255)
+  categories_showMenu                Boolean              @default(true)
+  categories_name                    String               @db.VarChar(255)
+  categories_showPublic              Boolean              @default(false)
+  categories_showAdmin               Boolean              @default(true)
+  categories_featured                String?              @db.VarChar(500)
+  categories_order                   Boolean?
+  categories_nestUnder               Int?
+  categories_showSub                 Boolean              @default(true)
+  categories_facebook                String?              @db.VarChar(200)
+  categories_twitter                 String?              @db.VarChar(200)
+  categories_instagram               String?              @db.VarChar(200)
+  categories_backgroundColor         String?              @db.VarChar(20)
+  categories_backgroundColorContrast String?              @db.VarChar(20)
+  categories_customTheme             String?              @db.VarChar(200)
+  categories_socialMediaOverlay      String?              @db.VarChar(200)
+  articles                           articlesCategories[]
+
+  @@index([categories_name], map: "categories_categories_name_index")
+  @@index([categories_nestUnder], map: "categories_categories_nestUnder_index")
+  @@index([categories_order], map: "categories_categories_order_index")
+  @@index([categories_showMenu], map: "categories_categories_showMenu_index")
+  @@index([categories_showPublic, categories_showAdmin], map: "categories_show_index")
+}
+
+model comments {
+  articles_id                 Int?
+  comments_id                 Int       @id @default(autoincrement())
+  comments_authorName         String?   @db.VarChar(500)
+  comments_authorEmail        String?   @db.VarChar(500)
+  comments_authorURL          String?   @db.VarChar(500)
+  comments_authorIP           String?   @db.VarChar(500)
+  comments_created            DateTime? @db.Timestamp(0)
+  comments_text               String?   @db.Text
+  comments_show               Boolean   @default(true)
+  comments_approved           Boolean   @default(false)
+  comments_approved_userid    Int?
+  comments_approved_timestamp DateTime? @db.Timestamp(0)
+  comments_notes              String?   @db.VarChar(1000)
+  comments_nestUnder          Int?
+  users_userid                Int?
+  comments_upvotes            Int?      @default(0)
+  comments_downvotes          Int?      @default(0)
+  comments_metadata           String?   @db.Text
+  comments_recaptcha          Boolean   @default(true)
+  comments_recaptchaScore     Float?    @db.Float
+
+  @@index([articles_id], map: "comments_articles_articles_id_fk")
+  @@index([comments_approved], map: "comments_comments_approved_index")
+  @@index([comments_created], map: "comments_comments_created_index")
+  @@index([comments_show], map: "comments_comments_show_index")
+  @@index([comments_upvotes, comments_downvotes], map: "comments_comments_upvotes_comments_downvotes_index")
+}
+
+model editions {
+  editions_id                 Int      @id @default(autoincrement())
+  editions_name               String   @db.VarChar(500)
+  editions_excerpt            String?  @db.VarChar(500)
+  editions_slug               String   @unique(map: "editions_slug") @db.VarChar(200)
+  editions_printNumber        Int?
+  editions_deleted            Boolean  @default(false)
+  editions_published          DateTime @default(now()) @db.Timestamp(0)
+  editions_show               Boolean  @default(true)
+  editions_showHome           Boolean  @default(true)
+  editions_thumbnail          Int?
+  editions_headerImage        Int?
+  editions_pdf                Int?
+  editions_pdfOriginal        Int?
+  editions_featuredHighlights String?  @db.LongText
+  editions_type               String?  @db.VarChar(100)
+}
+
+model emailSent {
+  emailSent_id        Int      @id @default(autoincrement())
+  users_userid        Int?
+  emailSent_html      String   @db.LongText
+  emailSent_subject   String   @db.VarChar(255)
+  emailSent_sent      DateTime @default(now()) @db.Timestamp(0)
+  emailSent_fromEmail String   @db.VarChar(200)
+  emailSent_fromName  String   @db.VarChar(200)
+  emailSent_toName    String   @db.VarChar(200)
+  emailSent_toEmail   String   @db.VarChar(200)
+  users               users?   @relation(fields: [users_userid], references: [users_userid], onDelete: Restrict, onUpdate: Restrict, map: "emailSent_users_users_userid_fk")
+
+  @@index([users_userid], map: "emailSent_users_users_userid_fk")
+}
+
+model emailVerificationCodes {
+  emailVerificationCodes_id        Int      @id @default(autoincrement())
+  emailVerificationCodes_code      String   @db.VarChar(1000)
+  emailVerificationCodes_used      Boolean  @default(false)
+  emailVerificationCodes_timestamp DateTime @default(now()) @db.Timestamp(0)
+  emailVerificationCodes_valid     Int      @default(1)
+  users_userid                     Int
+  users                            users    @relation(fields: [users_userid], references: [users_userid], onUpdate: Restrict, map: "emailVerificationCodes_users_users_userid_fk")
+
+  @@index([users_userid], map: "emailVerificationCodes_users_users_userid_fk")
+}
+
+model featuredHome {
+  featuredHome_id        Int      @id @default(autoincrement())
+  featuredHome_articles  String?  @db.VarChar(200)
+  featuredHome_timestamp DateTime @default(now()) @db.Timestamp(0)
+  users_userid           Int?
+  users                  users?   @relation(fields: [users_userid], references: [users_userid], onDelete: Restrict, onUpdate: Restrict, map: "featuredHome_users_users_userid_fk")
+
+  @@index([featuredHome_articles], map: "featuredHome_featuredHome_articles_index")
+  @@index([featuredHome_timestamp], map: "featuredHome_featuredHome_timestamp_index")
+  @@index([users_userid], map: "featuredHome_users_users_userid_fk")
+}
+
+model passwordResetCodes {
+  passwordResetCodes_id        Int      @id @default(autoincrement())
+  passwordResetCodes_code      String   @db.VarChar(1000)
+  passwordResetCodes_used      Boolean  @default(false)
+  passwordResetCodes_timestamp DateTime @default(now()) @db.Timestamp(0)
+  passwordResetCodes_valid     Int      @default(1)
+  users_userid                 Int
+  users                        users    @relation(fields: [users_userid], references: [users_userid], onUpdate: Restrict, map: "passwordResetCodes_users_users_userid_fk")
+
+  @@index([users_userid], map: "passwordResetCodes_users_users_userid_fk")
+}
+
+model positions {
+  positions_id              Int             @id @default(autoincrement())
+  positions_displayName     String          @db.VarChar(255)
+  positions_positionsGroups String?         @db.VarChar(500)
+  positions_rank            Int             @default(254) @db.UnsignedTinyInt
+  positions_teamPageGroup   Int             @default(4)
+  userPositions             userPositions[]
+
+  @@index([positions_id], map: "positions_positions_id_index")
+  @@index([positions_positionsGroups], map: "positions_positions_positionsGroups_index")
+  @@index([positions_rank], map: "positions_positions_rank_index")
+}
+
+model positionsGroups {
+  positionsGroups_id      Int     @id @default(autoincrement())
+  positionsGroups_name    String  @db.VarChar(255)
+  positionsGroups_actions String? @db.VarChar(1000)
+
+  @@index([positionsGroups_id], map: "positionsGroups_positionsGroups_id_index")
+}
+
+model quickLinks {
+  quickLinks_id        Int      @id @default(autoincrement())
+  quickLinks_string    String   @db.VarChar(100)
+  quickLinks_pointsTo  String   @db.VarChar(500)
+  quickLinks_deleted   Boolean  @default(false)
+  quickLinks_deletable Boolean  @default(true)
+  quickLinks_created   DateTime @default(now()) @db.Timestamp(0)
+  users_userid         Int
+  quickLinks_notes     String?  @db.Text
+
+  @@index([quickLinks_created], map: "quickLinks_quickLinks_created_index")
+  @@index([quickLinks_deleted], map: "quickLinks_quickLinks_deleted_index")
+  @@index([quickLinks_string], map: "quickLinks_quickLinks_string_index")
+}
+
+model s3files {
+  s3files_id                                      Int       @id @default(autoincrement())
+  s3files_path                                    String?   @db.VarChar(255)
+  s3files_filename                                String    @db.VarChar(255)
+  s3files_extension                               String    @db.VarChar(255)
+  s3files_original_name                           String?   @db.VarChar(500)
+  s3files_region                                  String    @db.VarChar(255)
+  s3files_endpoint                                String    @db.VarChar(255)
+  s3files_cdn_endpoint                            String    @db.VarChar(255)
+  s3files_bucket                                  String    @db.VarChar(255)
+  s3files_compressed                              Boolean   @default(false)
+  s3files_meta_size                               BigInt
+  s3files_meta_public                             Boolean   @default(false)
+  s3files_meta_type                               Int       @default(0) @db.TinyInt
+  s3files_meta_subType                            Int?
+  s3files_meta_uploaded                           DateTime  @default(now()) @db.Timestamp(0)
+  users_userid                                    Int?
+  s3files_meta_deleteOn                           DateTime? @db.Date
+  s3files_meta_physicallyStored                   Boolean   @default(true)
+  s3files_meta_caption                            String?   @db.VarChar(500)
+  adverts_adverts_adverts_bannerImageTos3files    adverts[] @relation("adverts_adverts_bannerImageTos3files")
+  adverts_adverts_adverts_bannerImageMobTos3files adverts[] @relation("adverts_adverts_bannerImageMobTos3files")
+
+  @@index([s3files_id], map: "s3files_s3files_id_index")
+  @@index([s3files_meta_physicallyStored], map: "s3files_s3files_meta_physicallyStored_index")
+  @@index([s3files_meta_public], map: "s3files_s3files_meta_public_index")
+  @@index([s3files_meta_uploaded], map: "s3files_s3files_meta_uploaded_index")
+}
+
+model userPositions {
+  userPositions_id               Int        @id @default(autoincrement())
+  users_userid                   Int?
+  userPositions_start            DateTime   @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
+  userPositions_end              DateTime?  @db.Timestamp(0)
+  positions_id                   Int?
+  userPositions_displayName      String?    @db.VarChar(255)
+  userPositions_extraPermissions String?    @db.VarChar(500)
+  userPositions_show             Boolean    @default(true)
+  positions                      positions? @relation(fields: [positions_id], references: [positions_id], onDelete: Restrict, onUpdate: Restrict, map: "userPositions_positions_positions_id_fk")
+  users                          users?     @relation(fields: [users_userid], references: [users_userid], onDelete: Restrict, onUpdate: Restrict, map: "userPositions_users_users_userid_fk")
+
+  @@index([positions_id], map: "userPositions_positions_positions_id_fk")
+  @@index([userPositions_show], map: "userPositions_userPositions_show_index")
+  @@index([userPositions_start, userPositions_end], map: "userPositions_userPositions_start_userPositions_end_index")
+  @@index([users_userid], map: "userPositions_users_users_userid_fk")
+}
+
+model users {
+  users_googleAppsUsernameYork                    String?                  @db.VarChar(200)
+  users_googleAppsUsernameNouse                   String?                  @db.VarChar(200)
+  users_name1                                     String?                  @db.VarChar(100)
+  users_name2                                     String?                  @db.VarChar(100)
+  users_userid                                    Int                      @id @default(autoincrement())
+  users_created                                   DateTime?                @default(now()) @db.Timestamp(0)
+  users_notes                                     String?                  @db.Text
+  users_thumbnail                                 String?                  @db.VarChar(200)
+  users_changepass                                Boolean                  @default(false)
+  users_deleted                                   Boolean?                 @default(false)
+  users_suspended                                 Boolean                  @default(false)
+  users_social_facebook                           String?                  @db.VarChar(100)
+  users_social_twitter                            String?                  @db.VarChar(100)
+  users_social_instagram                          String?                  @db.VarChar(100)
+  users_social_linkedin                           String?                  @db.VarChar(100)
+  users_social_snapchat                           String?                  @db.VarChar(100)
+  users_bio                                       String?                  @db.Text
+  users_archive_username                          String?                  @db.VarChar(200)
+  users_archive_email                             String?                  @db.VarChar(257)
+  articles_featured                               String?                  @db.VarChar(1000)
+  users_pronouns                                  String?                  @db.Text
+  articlesDrafts                                  articlesDrafts[]
+  auditLog_auditLog_users_useridTousers           auditLog[]               @relation("auditLog_users_useridTousers")
+  auditLog_auditLog_auditLog_actionUseridTousers  auditLog[]               @relation("auditLog_auditLog_actionUseridTousers")
+  authTokens_authTokens_users_useridTousers       authTokens[]             @relation("authTokens_users_useridTousers")
+  authTokens_authTokens_authTokens_adminIdTousers authTokens[]             @relation("authTokens_authTokens_adminIdTousers")
+  emailSent                                       emailSent[]
+  emailVerificationCodes                          emailVerificationCodes[]
+  featuredHome                                    featuredHome[]
+  passwordResetCodes                              passwordResetCodes[]
+  userPositions                                   userPositions[]
+  articles                                        articlesAuthors[]
+
+  @@index([users_userid], map: "username_2")
+  @@index([users_created], map: "users_users_created_index")
+  @@index([users_googleAppsUsernameNouse], map: "users_users_googleAppsUsernameNouse_index")
+  @@index([users_googleAppsUsernameYork], map: "users_users_googleAppsUsernameYork_index")
+  @@index([users_suspended], map: "users_users_suspended_index")
+}
+
+model usersOauthCodes {
+  usersOauthCodes_id     Int      @id @default(autoincrement())
+  usersOauthCodes_code   String   @db.VarChar(250)
+  usersOauthCodes_valid  Int      @db.TinyInt
+  usersOauthCodes_expiry DateTime @db.Timestamp(0)
+  usersOauthCodes_client String   @db.VarChar(200)
+  usersOauthCodes_type   String?  @db.VarChar(200)
+  users_userid           Int
+}
+
+model articlesCategories {
+  article       articles   @relation(fields: [articles_id], references: [articles_id])
+  articles_id   Int
+  categories_id Int
+  category      categories @relation(fields: [categories_id], references: [categories_id])
+
+  @@unique([articles_id, categories_id], map: "articlesCategories_articles_id_categories_id_unique")
+}
+
+model articlesAuthors {
+  article       articles   @relation(fields: [articles_id], references: [articles_id])
+  articles_id   Int
+  users_userid Int
+  users      users @relation(fields: [users_userid], references: [users_userid])
+
+  @@unique([articles_id, users_userid], map: "articlesAuthors_articles_id_users_userid_unique")
+}

@@ -15,7 +15,8 @@ if (!$update) finish(false, ["code" => null, "message" => "Could not update comm
 $DBLIB->where("articles_id", $comment['articles_id']);
 $article = $DBLIB->getone("articles", ["articles_id","articles_authors","articles_published","articles_slug"]);
 //Send an email notification
-$article['articles_authors_array'] = explode(",", $article['articles_authors']);
+$DBLIB->where("articlesAuthors.articles_id", $comment['articles_id']);
+$article['articles_authors_array'] = array_column($DBLIB->get("articlesAuthors"), 'users_userid');
 if (count($article['articles_authors_array']) > 0) {
     foreach ($article['articles_authors_array'] as $author) {
         $html = "<b>Name: </b>" . $comment['comments_authorName'] . "<br/>";

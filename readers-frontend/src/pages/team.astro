@@ -1,0 +1,174 @@
+---
+import Layout from "src/layouts/Layout.astro";
+import prisma from "src/prisma";
+
+const positions = await prisma.positions.findMany({
+  where: {
+    userPositions: {
+      some: {
+        userPositions_end: {
+          gte: new Date(),
+        },
+        userPositions_show: true,
+      },
+    },
+  },
+  orderBy: {
+    positions_rank: "asc",
+  },
+  include: {
+    userPositions: {
+      where: {
+        userPositions_end: {
+          gte: new Date(),
+        },
+        userPositions_show: true,
+      },
+      include: {
+        users: true,
+      },
+    },
+  },
+});
+
+// Static render this page
+export const prerender = true;
+---
+
+<Layout title="Nouse" active="home" style="nouse">
+  <img
+    class="mt-8 h-80 w-full object-cover"
+    src={`${
+      import.meta.env.fileStoreUrl
+    }/nouseSiteAssets/teamPhotos/202223Team.jpg`}
+  />
+  <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
+    <h1 class="mb-4 text-2xl sm:text-4xl">Meet The Team</h1>
+    <div id="senior-team" class="mb-4">
+      <p class="mb-2 text-xl font-bold sm:text-2xl">Senior Team</p>
+      <div
+        class="grid flex-wrap text-sm md:grid-cols-2 xl:text-base 2xl:text-lg"
+      >
+        {
+          positions
+            .filter((position) => position.positions_teamPageGroup === 1)
+            .flatMap((position) =>
+              position.userPositions.flatMap(({ users }) => (
+                <p class="user">
+                  <span class="font-bold">
+                    {`${position.positions_displayName} - `}
+                  </span>
+                  <a
+                    href={`${import.meta.env.BASE_URL}author/${
+                      users?.users_userid
+                    }`}
+                    class="text-blue-900 hover:underline"
+                  >{`${users?.users_name1} ${users?.users_name2}`}</a>
+                  <span> / </span>
+                  <a
+                    href={`mailto:${users?.users_googleAppsUsernameNouse}@nouse.co.uk`}
+                    class="text-blue-900 hover:underline"
+                  >{`${users?.users_googleAppsUsernameNouse}@nouse.co.uk`}</a>
+                </p>
+              ))
+            )
+        }
+      </div>
+    </div>
+    <div id="nouse" class="mb-4">
+      <p class="mb-2 text-xl font-bold sm:text-2xl">Nouse</p>
+      <div
+        class="grid flex-wrap text-sm md:grid-cols-2 xl:text-base 2xl:text-lg"
+      >
+        {
+          positions
+            .filter((position) => position.positions_teamPageGroup === 2)
+            .flatMap((position) =>
+              position.userPositions.flatMap(({ users }) => (
+                <p class="user">
+                  <span class="font-bold">
+                    {`${position.positions_displayName} - `}
+                  </span>
+                  <a
+                    href={`${import.meta.env.BASE_URL}author/${
+                      users?.users_userid
+                    }`}
+                    class="text-blue-900 hover:underline"
+                  >{`${users?.users_name1} ${users?.users_name2}`}</a>
+                  <span> / </span>
+                  <a
+                    href={`mailto:${users?.users_googleAppsUsernameNouse}@nouse.co.uk`}
+                    class="text-blue-900 hover:underline"
+                  >{`${users?.users_googleAppsUsernameNouse}@nouse.co.uk`}</a>
+                </p>
+              ))
+            )
+        }
+      </div>
+    </div>
+    <div id="muse" class="mb-4">
+      <p class="mb-2 text-xl font-bold sm:text-2xl">MUSE</p>
+      <div
+        class="grid flex-wrap text-sm md:grid-cols-2 xl:text-base 2xl:text-lg"
+      >
+        {
+          positions
+            .filter((position) => position.positions_teamPageGroup === 3)
+            .flatMap((position) =>
+              position.userPositions.flatMap(({ users }) => (
+                <p class="user">
+                  <span class="font-bold">
+                    {`${position.positions_displayName} - `}
+                  </span>
+                  <a
+                    href={`${import.meta.env.BASE_URL}author/${
+                      users?.users_userid
+                    }`}
+                    class="text-blue-900 hover:underline"
+                  >{`${users?.users_name1} ${users?.users_name2}`}</a>
+                  <span> / </span>
+                  <a
+                    href={`mailto:${users?.users_googleAppsUsernameNouse}@nouse.co.uk`}
+                    class="text-blue-900 hover:underline"
+                  >{`${users?.users_googleAppsUsernameNouse}@nouse.co.uk`}</a>
+                </p>
+              ))
+            )
+        }
+      </div>
+    </div>
+    <div class="mb-4">
+      <p id="behind-the-scenes" class="mb-2 text-xl font-bold sm:text-2xl">
+        Behind The Scenes
+      </p>
+      <div
+        class="grid flex-wrap text-sm md:grid-cols-2 xl:text-base 2xl:text-lg"
+      >
+        {
+          positions
+            .filter((position) => position.positions_teamPageGroup === 4)
+            .flatMap((position) =>
+              position.userPositions.flatMap(({ users }) => (
+                <p class="user">
+                  <span class="font-bold">
+                    {`${position.positions_displayName} - `}
+                  </span>
+                  <a
+                    href={`${import.meta.env.BASE_URL}author/${
+                      users?.users_userid
+                    }`}
+                    class="text-blue-900 hover:underline"
+                  >{`${users?.users_name1} ${users?.users_name2}`}</a>
+                  <span> / </span>
+                  <a
+                    href={`mailto:${users?.users_googleAppsUsernameNouse}@nouse.co.uk`}
+                    class="text-blue-900 hover:underline"
+                  >{`${users?.users_googleAppsUsernameNouse}@nouse.co.uk`}</a>
+                </p>
+              ))
+            )
+        }
+      </div>
+    </div>
+  </div>
+</Layout>

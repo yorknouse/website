@@ -1,0 +1,132 @@
+---
+import type { users } from "@prisma/client";
+
+export interface Props {
+  headline: string;
+  excerpt: string | null;
+  authors: users[];
+  category: string | null | undefined;
+  categoryLink: string | undefined;
+  categoryColor: string | null | undefined;
+  imageUrl?: string;
+  articleUrl: string;
+  isVertical?: boolean; // Defines if the image is ontop or to the left of the text
+  isPortrait: boolean; // Defines if the image is portrait or landscape
+  hideCategoryAccent?: boolean;
+  textColour?: string;
+}
+
+const {
+  headline,
+  excerpt,
+  authors,
+  category,
+  categoryLink,
+  categoryColor,
+  imageUrl,
+  articleUrl,
+  isVertical,
+  isPortrait,
+  hideCategoryAccent,
+  textColour = "#000",
+} = Astro.props;
+
+let overrideCategoryColor = false; 
+if (category) {
+  overrideCategoryColor = category.toLowerCase() === "muse" && textColour.toLowerCase() === "#fff";
+}
+const imagePlaceHolder =
+  '"https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg"';
+---
+
+<style define:vars={{ categoryColor, textColour }}>
+  .border-color {
+    border-color: var(--categoryColor);
+  }
+
+  .category-color {
+    color: var(--categoryColor);
+  }
+
+  .text-colour {
+    color: var(--textColour);
+  }
+</style>
+<div class="article h-full overflow-hidden text-ellipsis">
+  <div class={`flex ${isVertical ? "flex-col" : "flex-row"}`}>
+    {
+      imageUrl !== undefined && (
+        <a
+          class={`image-link ${isVertical ? "w-full" : "h-full w-1/2"}`}
+          href={articleUrl}
+        >
+          <img
+            class={`${
+              isPortrait
+                ? "aspect-portrait-video h-full"
+                : "aspect-video w-full"
+            } rounded-xl object-cover ${isVertical && "mb-5"}`}
+            src={imageUrl}
+            alt="Article Thumbnail"
+            onerror={`if (this.src !== ${imagePlaceHolder}) this.src = ${imagePlaceHolder}`}
+          />
+        </a>
+      )
+    }
+    <div
+      class={`${
+        isVertical || imageUrl == undefined ? "w-full" : "ml-3 h-full w-1/2"
+      } ${!hideCategoryAccent && `${overrideCategoryColor ? "text-white" : "border-color"} border-t-2`}`}
+    >
+      {
+        !hideCategoryAccent && (
+          <a
+            id="category-text"
+            class={`arno-display text-lg uppercase xl:text-xl 2xl:text-2xl ${overrideCategoryColor ? "text-white" : "category-color"}`}
+            href={categoryLink}
+          >
+            {category}
+          </a>
+        )
+      }
+      <div class="mb-2">
+        <a class="headline" href={articleUrl}>
+          <p class="text-colour text-lg xl:text-xl 2xl:text-2xl">{headline}</p>
+        </a>
+        {
+          authors.length !== 0 && (
+            <p class="authors text-colour text-sm italic 2xl:text-base">
+              <span class={`${overrideCategoryColor ? "text-white" : "category-color"}`}>By</span>
+              {authors.map((author, index) => {
+                if (index === 0) {
+                  return (
+                    <a href={`${import.meta.env.BASE_URL}author/${author.users_userid}`}>
+                      {`${author.users_name1} ${author.users_name2}`}
+                    </a>
+                  );
+                } else if (index === authors.length - 1) {
+                  return (
+                    <span> and </span>
+                    <a href={`${import.meta.env.BASE_URL}author/${author.users_userid}`}>
+                      {`${author.users_name1} ${author.users_name2}`}
+                    </a>
+                  );
+                } else {
+                  return (
+                  <span>, </span>
+                    <a href={`${import.meta.env.BASE_URL}author/${author.users_userid}`}>
+                      {`${author.users_name1} ${author.users_name2}`}
+                    </a>
+                  );
+                }
+              })}
+            </p>
+          )
+        }
+      </div>
+      <a class="excerpt" href={articleUrl}>
+        <p class="text-colour text-xs xl:text-sm 2xl:text-base">{excerpt}</p>
+      </a>
+    </div>
+  </div>
+</div>

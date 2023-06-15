@@ -1,0 +1,72 @@
+---
+import Layout from "src/layouts/Layout.astro";
+
+// Static render this page
+export const prerender = true;
+---
+
+<Layout active={undefined} style={"nouse"} title={"Contact Us - Nouse"}>
+  <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
+    <h1 class="mb-4 text-center text-2xl sm:text-4xl">Contact Us</h1>
+    <div class="mb-4">
+      <h3 class="text-md sm:text-lg">
+        Article ideas? Questions? Something you would like us to follow up?
+        Don't hesitate to get in touch via the following methods:
+      </h3>
+      <div class="my-2">
+        <h4 class="text-lg sm:text-xl">Email</h4>
+        <div class="text-xs xl:text-sm 2xl:text-base">
+          <a
+            href="mailto:editor@nouse.co.uk"
+            class="text-blue-900 hover:underline">editor@nouse.co.uk</a
+          >
+          <br />
+          <a
+            href="mailto:support@nouse.co.uk"
+            class="text-blue-900 hover:underline">support@nouse.co.uk</a
+          >
+        </div>
+      </div>
+      <div>
+        <h4 class="text-lg sm:text-xl">Address</h4>
+        <p class="text-xs xl:text-sm 2xl:text-base">
+          Nouse, Eric Milner White Court, Newton Way, Heslington, York, YO10 5DE
+        </p>
+        <iframe
+          class="mt-2"
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2348.167759625181!2d-1.055896!3d53.946528!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487930348a9f945f%3A0x393ecb844c74e3ff!2sEric%20Milner-White%20Court!5e0!3m2!1sen!2sus!4v1686154904435!5m2!1sen!2sus"
+          width="100%"
+          height="450"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+    <div class="mb-4">
+      <p class="text-xl sm:text-2xl">Write for us</p>
+      <p class="text-xs xl:text-sm 2xl:text-base">
+        We're always looking for more input. Contact the <a
+          href={`${import.meta.env.BASE_URL}team`}
+          class="text-blue-900 hover:underline">editorial team</a
+        > if you want to pitch an article or ask how to get involved.
+      </p>
+    </div>
+    <div class="mb-4">
+      <p class="text-xl sm:text-2xl">Advertise with us</p>
+      <p class="text-xs xl:text-sm 2xl:text-base">
+        See the <a
+          href={`${import.meta.env.BASE_URL}advertising`}
+          class="text-blue-900 hover:underline">Advertising page</a
+        > for details or email us on <a
+          href="mailto:advertising@nouse.co.uk"
+          class="text-blue-900 hover:underline">advertising@nouse.co.uk</a
+        >.
+      </p>
+    </div>
+    <div>
+      <p class="text-xl sm:text-2xl">Complaints</p>
+      <p class="text-xs xl:text-sm 2xl:text-base">
+        Please address any complaints to the editor, contact details as above.
+      </p>
+    </div>
+  </div>
+</Layout>
