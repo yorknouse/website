@@ -30,6 +30,7 @@ RUN apt-get install -y -qq \
 		nano \
 		cron \
 		dos2unix \
+		libcurl4-gnutls-dev \
 		&& apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --enable-gd
 RUN docker-php-ext-install -j$(nproc) gd zip mbstring mysqli intl
@@ -72,6 +73,7 @@ RUN rm -rf dist/
 RUN npm i
 RUN npx prisma generate
 RUN npm run build -- --config astro.config.prod.mjs
+
 # To get in container - docker exec -t -i nouse-container /bin/bash
 
 CMD ["bash","/var/www/start.sh"]
