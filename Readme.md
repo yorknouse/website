@@ -6,7 +6,7 @@ Nouse was based on "bCMS" originally, a custom built content management system. 
 
 Please see `LOCAL.md` for instructions.
 
-## Repo Structure 
+## Repo Structure
 
 Firstly, an apology. This repo was, in its early life, a 3-year labour of love of over 580 commits just trying to keep up with Nouse as the society grew and its needs developed. There are no tests or migrations and documentation is limited. Code quality and style varies as the project grew alongside its creators skill set. No linting is provided or used.
 
@@ -18,11 +18,11 @@ frontend - "Public Site" nouse.co.uk
 
 ### Ajax?....
 
-To improve user performance & error handling the backend site is not based around a conventional laravel-esque form structure for user interaction. Instead, most data from the database is returned to the user through a normal dynamically loaded page, generating html from a twig template. 
+To improve user performance & error handling the backend site is not based around a conventional laravel-esque form structure for user interaction. Instead, most data from the database is returned to the user through a normal dynamically loaded page, generating html from a twig template.
 
-When a user interacts with the page, such as pressing a button, this triggers a JQuery function (all defined in that pages' twig template) which makes an "api call" to a php script within the `admin/api/` folder and executes the change (such as an insert/delete/update). Once this completes successfully two things can happen. The first, a legacy behaviour, is that the page reloads to reflect the changes in the page itself. The second option is that the page calls a function to update what's displayed, without needing a page re-load. There are quite a few endpoints in `admin/api` that provide access to retrieving data as well, as this is how the mobile app downloads its data which it then displays. 
+When a user interacts with the page, such as pressing a button, this triggers a JQuery function (all defined in that pages' twig template) which makes an "api call" to a php script within the `admin/api/` folder and executes the change (such as an insert/delete/update). Once this completes successfully two things can happen. The first, a legacy behaviour, is that the page reloads to reflect the changes in the page itself. The second option is that the page calls a function to update what's displayed, without needing a page re-load. There are quite a few endpoints in `admin/api` that provide access to retrieving data as well, as this is how the mobile app downloads its data which it then displays.
 
-With hindsight this was not a great way to do this. 
+With hindsight this was not a great way to do this.
 
 # Server Setup
 
@@ -35,20 +35,22 @@ The whole stack runs off one docker-compose file which makes this all a lot simp
 1. `systemctl enable docker` to ensure docker boots on startup
 1. Clone the repo `git clone git@github.com:yorknouse/website.git`
 1. `cd website` to get into it
-1. Download the Cloudflare Origin Certificate - place the certificate (`.crt` file) in the `ssl` directory, with the `ssl.key` file  
+1. Download the Cloudflare Origin Certificate - place the certificate (`.crt` file) in the `ssl` directory, with the `ssl.key` file
 1. Create `nouseprod.env` based on the example file, and fill out the details (do this with `nano nouseprod.env`)
 1. Run `docker-compose up -d` to get the site running
 
-## Deploy web hook
+## Deploy webhook
 
 Some pages in the website are statically built, nominally the home page. To rebuild them, the host vm needs a webhook that can be triggered from the admin panel and causes the docker images to be rebuilt.
 
 Setting up:
-```shell
+
+```sh
 sudo apt-get install webhook
 ```
 
 In the `/root` directory, create a `rebuild-webhook.json` file with the following content:
+
 ```json
 [
   {
@@ -59,13 +61,34 @@ In the `/root` directory, create a `rebuild-webhook.json` file with the followin
 ]
 ```
 
-Still  in the `/root` folder, create the `rebuild.sh` file with the following content:
+Still in the `/root` folder, create the `rebuild.sh` file with the following content:
+
 ```sh
 #!/bin/sh
 git pull && docker-compose -f local-docker-compose.yml up -d --build
 ```
 
+Now we need a service to start webhook on boot. Create the `/etc/systemd/system/rebuild.service` file with the following content:
 
+```sh
+[Unit]
+Description=Webhook Rebuild Service
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/webhook -hooks=/root/rebuild-webhook.json -hotreload=false -port=9000 -secure=false -verbose=true -debug=false -nopanic
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Finally, reload the systemd daemon, disable the default webhook service and enable ours:
+
+```sh
+systemctl daemon-reload && systemctl disable webhook.service && systemctl enable rebuild.service
+```
 
 ## Updating
 
@@ -86,6 +109,7 @@ First download and authenticate the AWS Cli (using your Backblaze credentials), 
 ## MySQL Setup
 
 To transfer a MySQL dump file (named `nouseBackup.sql`) run:
+
 ```
 cat nouseBackup.sql | docker exec -i db /usr/bin/mysql -u root --password=rootPass nouse
 ```
@@ -106,10 +130,9 @@ netdata is accessible at http://yusunouse01.york.ac.uk/tools/netdata, with login
 
 # Grafana
 
-Grafana (stats.nouse.co.uk) runs as an instance inside the MySQL server. It has full root access to the database due to Docker limitations so as such no users have edit permissions. Instead, set up your queries and graphs in the text files under `"`docker/grafana/dashboards`. You can also generate these locally by running grafana and using the UI to export JSON files. 
+Grafana (stats.nouse.co.uk) runs as an instance inside the MySQL server. It has full root access to the database due to Docker limitations so as such no users have edit permissions. Instead, set up your queries and graphs in the text files under `"`docker/grafana/dashboards`. You can also generate these locally by running grafana and using the UI to export JSON files.
 
-Grafana security is managed by an oauth hook from the main admin site. 
-
+Grafana security is managed by an oauth hook from the main admin site.
 
 ## Licence
 
@@ -121,8 +144,8 @@ the Free Software Foundation, version 3 of the License
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <https://www.gnu.org/licenses/>.
+along with this program. If not, see <https://www.gnu.org/licenses/>.
