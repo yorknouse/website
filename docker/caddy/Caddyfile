@@ -33,10 +33,9 @@ www.nouse.co.uk nouse.co.uk {
             trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
         }
     }
-    handle_path /api* {
-        root * /api
-		reverse_proxy nouse:80
-	}
+    handle /api/* {
+        reverse_proxy nouse:80
+    }
     reverse_proxy nouse:3000
     encode gzip
 }
