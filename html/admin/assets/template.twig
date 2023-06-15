@@ -340,7 +340,7 @@
                     </a>
                 </li>
                 <li>
-                    <button style="all: unset; color: #b8c7ce; padding: 12px 5px 12px 15px; border-left: 3px solid transparent;" id="rebuildBtn">
+                    <button class="rebuild-btn" id="rebuildBtn">
                         <i class="fa fa-gear"></i> <span>Rebuild website</span>
                     </button>
                 </li>
@@ -451,16 +451,37 @@
 <script>
 window.addEventListener('load', () => {
     rebuildBtn.addEventListener('click', () => {
-        fetch("http://host.docker.internal:9000/rebuild-webhook")
-            .then(() => {
+        fetch("/api/rebuild.php", {
+            method: "POST",
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error("Rebuild: HTTP status " + response.status);
+                }
                 alert("The website is being rebuilt.")
-                })
+            })
             .catch(() => {
                 alert("Could not trigger website rebuild.")
-                })
+            })
         });
 })
 </script>
+<style>
+    .rebuild-btn {
+        all: unset;
+        color: #b8c7ce;
+        padding: 12px 5px 12px 15px;
+        border-left: 3px solid transparent;
+    }
+    .rebuild-btn:hover {
+        color: #fff;
+        background: #1e282c;
+        cursor: pointer;
+    }
+    .rebuild-btn > i {
+        width: 20px;
+    }
+</style>
 </body>
 {% endif %}
 </html>

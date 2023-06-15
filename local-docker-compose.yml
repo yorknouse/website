@@ -18,6 +18,8 @@ services:
       - MYSQL_ROOT_PASSWORD=rootPass
     env_file:
       - nouseprod-local.env
+    ports:
+      - 3306:3306
   nouse:
     build:
       context: .
