@@ -65,7 +65,13 @@ Still in the `/root` folder, create the `rebuild.sh` file with the following con
 
 ```sh
 #!/bin/sh
-git pull && docker-compose -f local-docker-compose.yml up -d --build
+git pull && docker-compose -f docker-compose.yml up -d --build
+```
+
+And make the script executable:
+
+```bash
+chmod +x /root/rebuild.sh
 ```
 
 Now we need a service to start webhook on boot. Create the `/etc/systemd/system/rebuild.service` file with the following content:
