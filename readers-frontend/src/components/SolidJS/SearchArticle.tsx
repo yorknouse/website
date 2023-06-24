@@ -35,7 +35,7 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
             class={`image-link relative ${
               props.isVertical ? "w-full" : "h-full w-1/2"
             }`}
-            href={`${props.baseUrl}articles${props.articleUrl}`}
+            href={`${baseUrl}articles${props.articleUrl}`}
           >
             <div
               class={`absolute top-0 left-0 flex h-full w-full flex-col bg-whiteish-100 ${
