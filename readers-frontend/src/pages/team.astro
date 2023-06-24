@@ -7,7 +7,7 @@ const positions = await prisma.positions.findMany({
     userPositions: {
       some: {
         userPositions_end: {
-          gte: new Date(),
+          gt: new Date(),
         },
         userPositions_show: true,
       },
