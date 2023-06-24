@@ -23,18 +23,19 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
     "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg";
 
   const border = () => `border-color-${props.category} border-t-2`;
+  const baseUrl = props.baseUrl.length > 0 ? props.baseUrl : "/";
 
   if (props.page) createEffect(on(props.page, () => setLoadingDone(false)));
 
   return (
-    <div class="h-full overflow-hidden text-ellipsis">
+    <div class="h-full overflow-hidden text-ellipsis font-arno">
       <div class={`flex ${props.isVertical ? "flex-col" : "flex-row"}`}>
         {props.imageUrl ? (
           <a
             class={`image-link relative ${
               props.isVertical ? "w-full" : "h-full w-1/2"
             }`}
-            href={`${props.baseUrl}articles/${props.articleUrl}`}
+            href={`${props.baseUrl}articles${props.articleUrl}`}
           >
             <div
               class={`absolute top-0 left-0 flex h-full w-full flex-col bg-whiteish-100 ${
@@ -63,7 +64,7 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
             class={`image-link relative ${
               props.isVertical ? "w-full" : "h-full w-1/2"
             }`}
-            href={`${props.baseUrl}${props.articleUrl}`}
+            href={`${baseUrl}articles${props.articleUrl}`}
           >
             <img
               class={`${
@@ -86,13 +87,13 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
           {!props.hideCategoryAccent && (
             <a
               class={`text-l arno-display category-color-${props.category} uppercase xl:text-xl 2xl:text-2xl`}
-              href={`${props.baseUrl}/${props.categoryLink}`}
+              href={`${baseUrl}${props.categoryLink}`}
             >
               {props.category}
             </a>
           )}
           <div class="mb-2">
-            <a class="headline" href={`${props.baseUrl}${props.articleUrl}`}>
+            <a class="headline" href={`${baseUrl}articles${props.articleUrl}`}>
               <p class="text-l text-black xl:text-xl 2xl:text-2xl">
                 {props.headline}
               </p>
@@ -103,19 +104,19 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
                 {props.authors.map((author, index) => {
                   if (index === 0) {
                     return (
-                      <a href={`${props.baseUrl}/author/${author.users_userid}`}>
+                      <a href={`${baseUrl}author/${author.users_userid}`}>
                         {`${author.users_name1} ${author.users_name2}`}
                       </a>
                     );
                   } else if (index === props.authors.length - 1) {
                     return (
-                      <a href={`${props.baseUrl}/author/${author.users_userid}`}>
+                      <a href={`${baseUrl}author/${author.users_userid}`}>
                         {` and ${author.users_name1} ${author.users_name2}`}
                       </a>
                     );
                   } else {
                     return (
-                      <a href={`${props.baseUrl}/author/${author.users_userid}`}>
+                      <a href={`${baseUrl}author/${author.users_userid}`}>
                         {`, ${author.users_name1} ${author.users_name2}`}
                       </a>
                     );
@@ -124,7 +125,7 @@ const SearchArticle: Component<SearchArticleProps> = (props) => {
               </p>
             )}
           </div>
-          <a class="excerpt" href={`${props.baseUrl}${props.articleUrl}`}>
+          <a class="excerpt" href={`${baseUrl}articles${props.articleUrl}`}>
             <p class="text-xs text-black xl:text-sm 2xl:text-base">
               {props.excerpt}
             </p>
