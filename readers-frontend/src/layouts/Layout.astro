@@ -30,7 +30,11 @@ const { title, active, style } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/png" href="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/icons/favicon-32x32.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/icons/favicon-32x32.png"
+    />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     {/* Adobe Fonts */}
@@ -61,9 +65,14 @@ const { title, active, style } = Astro.props;
           >Website Credits</a
         >
         <a href={`${import.meta.env.BASE_URL}archives`}>Archives</a>
-        <a href={`${import.meta.env.BASE_URL}website-policies`}>Website Policies</a>
+        <a href={`${import.meta.env.BASE_URL}website-policies`}
+          >Website Policies</a
+        >
         <a href={`${import.meta.env.BASE_URL}advertising`}>Advertising</a>
         <a href={`${import.meta.env.BASE_URL}contact-us`}>Contact Us</a>
+        <a href="https://edit.nouse.co.uk" target="_blank" rel="”noreferrer”"
+          >Editor Login</a
+        >
       </div>
       <div
         class="flex flex-row gap-3 border-l border-white pl-2 md:border-l-0 2xl:gap-7"
@@ -83,27 +92,27 @@ const { title, active, style } = Astro.props;
   </footer>
 </html>
 <script define:vars={{ categoriesColours }}>
-  const style = document.createElement("style");
-  document.getElementsByTagName("head")[0].appendChild(style);
-  categoriesColours.forEach((c) => {
-    if (style.sheet && style.sheet.insertRule) {
-      style.sheet.insertRule(
-        `.category-color-${c.categories_name} {color: ${c.categories_backgroundColor};}`
-      );
-      style.sheet.insertRule(
-        `.border-color-${c.categories_name} {border-color: ${c.categories_backgroundColor};}`
-      );
-    } else {
-      (style.styleSheet || style.sheet).addRule(
-        `.category-color-${c.categories_name}`,
-        `color: ${c.categories_backgroundColor};`
-      );
-      (style.styleSheet || style.sheet).addRule(
-        `.border-color-${c.categories_name}`,
-        `border-color: ${c.categories_backgroundColor};`
-      );
-    }
-  });
+const style = document.createElement("style");
+document.getElementsByTagName("head")[0].appendChild(style);
+categoriesColours.forEach((c) => {
+  if (style.sheet && style.sheet.insertRule) {
+    style.sheet.insertRule(
+      `.category-color-${c.categories_name} {color: ${c.categories_backgroundColor};}`
+    );
+    style.sheet.insertRule(
+      `.border-color-${c.categories_name} {border-color: ${c.categories_backgroundColor};}`
+    );
+  } else {
+    (style.styleSheet || style.sheet).addRule(
+      `.category-color-${c.categories_name}`,
+      `color: ${c.categories_backgroundColor};`
+    );
+    (style.styleSheet || style.sheet).addRule(
+      `.border-color-${c.categories_name}`,
+      `border-color: ${c.categories_backgroundColor};`
+    );
+  }
+});
 </script>
 <style is:global>
   .arno-display {
