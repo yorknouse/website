@@ -7,7 +7,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
       - /etc/localtime:/etc/localtime:ro
-      - ./docker/mysql:/etc/mysql/conf.d
+      - ./docker/mysql/mysql.conf:/etc/mysql/my.cnf
       - ./docker/mysql/readonly.sql:/docker-entrypoint-initdb.d/readonly.sql
     restart: always
     environment:
