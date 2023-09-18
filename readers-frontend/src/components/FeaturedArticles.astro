@@ -1,10 +1,8 @@
 ---
 import type { categories } from "@prisma/client";
-import prisma from "../prisma";
 import Article from './Article.astro';
-import { getArticles, articlesWithArticleDrafts, getArticleImage } from "./utils/articles";
+import { articlesWithArticleDrafts, getArticleImage, getArticleLink, getArticles } from "./utils/articles";
 import { getCategoryLink } from "./utils/categories";
-import dateFormatter from "./utils/dateFormatter";
 
 interface Props {
   featuredArticlesIds: number[] | undefined;
@@ -38,12 +36,7 @@ const mainCategories: categories[] = featuredArticles.flatMap(({categories}) =>
 )
 
 const articleLinks = featuredArticles.reduce((accumulator, featuredArticle) => {
-  // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
-  accumulator.set(featuredArticle.articles_id, `${import.meta.env.BASE_URL}articles/${dateFormatter
-                  .format(featuredArticle.articles_published || new Date(0))
-                  .split("/")
-                  .reverse()
-                  .join("/")}/${featuredArticle.articles_slug}`)
+  accumulator.set(featuredArticle.articles_id, getArticleLink(featuredArticle))
 
   return accumulator;
 }, new Map<number, string>());

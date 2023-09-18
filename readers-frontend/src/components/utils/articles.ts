@@ -1,6 +1,7 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, articles } from "@prisma/client";
 import prisma from "../../prisma";
 import { s3URL } from "./s3URL";
+import dateFormatter from "./dateFormatter";
 
 const articlesWithArticleDrafts = Prisma.validator<Prisma.articlesArgs>()({
   include: {
@@ -178,4 +179,19 @@ export const getArticleImage = async (
     return await s3URL(Number(article.articles_thumbnail), size);
   } else
     return import.meta.env.archiveFileStoreUrl + article.articles_thumbnail;
+};
+
+/**
+ * Returns string url to article.
+ * @param article The article.
+ * @param base Optional base url to use. MUST include trailing slash.
+ * @returns The string url.
+ */
+export const getArticleLink = (article: articles, base?: string) => {
+  // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+  return `${base ?? import.meta.env.BASE_URL}articles/${dateFormatter
+    .format(article.articles_published || new Date(0))
+    .split("/")
+    .reverse()
+    .join("/")}/${article.articles_slug}`;
 };

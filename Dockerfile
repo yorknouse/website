@@ -76,7 +76,7 @@ WORKDIR /var/www/readers-frontend
 RUN rm -rf dist/
 RUN npm i
 RUN npx prisma generate
-RUN npm run build -- --config astro.config.prod.mjs
+RUN npm run build -- --config astro.config.prod.ts
 
 # To get in container - docker exec -t -i nouse-container /bin/bash
 

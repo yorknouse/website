@@ -4,14 +4,26 @@ import tailwind from "@astrojs/tailwind";
 import image from "@astrojs/image";
 import solidJs from "@astrojs/solid-js";
 import node from "@astrojs/node";
+import sitemap from "@astrojs/sitemap";
+import getCategoriesLinks from "./build-utils/getCategoriesLinks";
+import getArticlesLinks from "./build-utils/getArticlesLinks";
 const environment = loadEnv(import.meta.env.MODE, process.cwd(), "");
+
+const articlesLinks = await getArticlesLinks();
+const categoriesLinks = await getCategoriesLinks();
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [tailwind(), image(), solidJs()],
+  integrations: [
+    tailwind(),
+    image(),
+    solidJs(),
+    sitemap({ customPages: [...articlesLinks, ...categoriesLinks] }),
+  ],
   site: "https://yorknouse.github.io",
   base: "/website",
   output: "server",
+  // @ts-ignore
   environment,
   vite: {
     server: {
