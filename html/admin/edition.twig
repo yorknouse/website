@@ -22,10 +22,10 @@
 
                         <div class="box-tools pull-right">
                             {% if edition.editions_show == 1 and date(edition.editions_published) < date() %}
-                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/edition/{{ edition.editions_slug }}"
+                                <a href="{{ CONFIG.ROOTFRONTENDURL }}/editions/{{ edition.editions_slug }}"
                                    type="button" title="View on website" class="btn btn-default btn-sm" target="_blank">View on site</a>
                                 {% else %}
-                                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/edition/{{ edition.editions_slug }}?preview&edition={{ edition.editions_id }}&key={{ edition.editions_id|md5 }}"
+                                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/editions/{{ edition.editions_slug }}?preview&edition={{ edition.editions_id }}&key={{ edition.editions_id|md5 }}"
                                        type="button" title="View on website" class="btn btn-default btn-sm" target="_blank">Preview on site</a>
                             {% endif %}
                             {% if 51|permissions %}
@@ -365,7 +365,7 @@
                                             </td>
                                             <td>
                                                 {% if article.articles_showInSearch == 1 and date(article.articles_published) < date() %}
-                                                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}"
+                                                    <a href="{{ CONFIG.ROOTFRONTENDURL }}/articles/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}"
                                                        type="button" title="View on website" class="btn btn-default" target="_blank"><i
                                                                 class="fa fa-eye"></i></a>
                                                 {% endif %}

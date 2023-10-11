@@ -11,15 +11,21 @@ import type { editions } from "@prisma/client";
 import Layout from "src/layouts/Layout.astro";
 import prisma from "src/prisma";
 import { v4 as uuidv4 } from "uuid";
+import crypto from "crypto";
 
 const { slug } = Astro.params;
 
 const cleanSlug = decodeURIComponent(slug || "");
 
+const preview = Astro.url.searchParams.get("preview") != null;
+const previewEditionId = Astro.url.searchParams.get("edition");
+const previewEditionHash = Astro.url.searchParams.get("key");
+const isPreview = preview && previewEditionId && previewEditionHash;
+
 const edition = await prisma.editions.findFirst({
   where: {
     editions_slug: cleanSlug,
-    editions_show: true,
+    editions_show: isPreview ? false : true,
     editions_deleted: false,
     NOT: {
       editions_thumbnail: null,
@@ -31,6 +37,13 @@ const edition = await prisma.editions.findFirst({
 });
 
 if (!edition) return Astro.redirect("/404");
+if (isPreview) {
+  const expectedHash = crypto
+    .createHash("md5")
+    .update(edition.editions_id.toString())
+    .digest("hex");
+  if (expectedHash !== previewEditionHash) return Astro.redirect("/404");
+}
 
 const isWebEdition = edition.editions_type === "Web Edition";
 let pdfURL;
@@ -109,8 +122,8 @@ if (isWebEdition && edition.editions_featuredHighlights) {
                     (() => {
                       const id = uuidv4();
                       return (
-                        <div class="custom-boxes-container relative mb-5 flex w-full flex-col bg-black text-white px-[3%] pt-4 sm:px-[0.5%] 2xl:px-[13%]">
-                          <p class="text-xl md:text-2xl lg:text-4xl text-center border-b border-white">
+                        <div class="custom-boxes-container relative mb-5 flex w-full flex-col bg-black px-[3%] pt-4 text-white sm:px-[0.5%] 2xl:px-[13%]">
+                          <p class="border-b border-white text-center text-xl md:text-2xl lg:text-4xl">
                             From Our Editors
                           </p>
                           <CustomBoxes
@@ -122,16 +135,16 @@ if (isWebEdition && edition.editions_featuredHighlights) {
                               return (
                                 <div
                                   id={`${id}-${index}`}
-                                  class={`custom-box flex flex-col items-center justify-start bg-neutral-900 transition-opacity delay-300 duration-500 overflow-hidden ${
+                                  class={`custom-box flex flex-col items-center justify-start overflow-hidden bg-neutral-900 transition-opacity delay-300 duration-500 ${
                                     index == 0
-                                      ? "w-full md:w-10/12 opacity-100 p-4"
-                                      : "w-0 h-0 opacity-0 p-0"
+                                      ? "w-full p-4 opacity-100 md:w-10/12"
+                                      : "h-0 w-0 p-0 opacity-0"
                                   }`}
                                 >
-                                  <p class="text-lg md:text-xl lg:text-2xl text-center underline">
+                                  <p class="text-center text-lg underline md:text-xl lg:text-2xl">
                                     {customBox.title}
                                   </p>
-                                  <p class="text-xs xl:text-sm 2xl:text-base text-center">
+                                  <p class="text-center text-xs xl:text-sm 2xl:text-base">
                                     {customBox.text}
                                   </p>
                                 </div>

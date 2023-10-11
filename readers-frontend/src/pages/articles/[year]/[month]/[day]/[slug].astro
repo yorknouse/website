@@ -11,14 +11,20 @@ import dateFormatter from "@components/utils/dateFormatter";
 import { Icon } from "astro-icon";
 import Layout from "src/layouts/Layout.astro";
 import prisma from "src/prisma";
+import crypto from "crypto";
 
 const { year, month, day, slug } = Astro.params;
 
 const cleanSlug = decodeURIComponent(slug || "");
 
+const preview = Astro.url.searchParams.get("preview") != null;
+const previewPostId = Astro.url.searchParams.get("post");
+const previewPostHash = Astro.url.searchParams.get("key");
+const isPreview = preview && previewPostId && previewPostHash;
+
 const article = await prisma.articles.findFirst({
   where: {
-    articles_showInLists: true,
+    articles_showInLists: isPreview ? false : true,
     articles_slug: cleanSlug,
   },
   include: {
@@ -41,6 +47,13 @@ const article = await prisma.articles.findFirst({
 });
 
 if (!article) return Astro.redirect("/404");
+if (isPreview) {
+  const expectedHash = crypto
+    .createHash("md5")
+    .update(article.articles_id.toString())
+    .digest("hex");
+  if (expectedHash !== previewPostHash) return Astro.redirect("/404");
+}
 
 const parentCategory = getParentCategory(article.categories);
 const parentCategoryId = parentCategory.categories_id;
@@ -188,7 +201,7 @@ const imagePlaceHolder =
           </p>
           <div
             id="article-content"
-            class="text-justify whitespace-pre-wrap"
+            class="whitespace-pre-wrap text-justify"
             set:html={articleDraft.articlesDrafts_text}
           />
         </div>
