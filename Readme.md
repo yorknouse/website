@@ -65,7 +65,7 @@ Still in the `/root` folder, create the `rebuild.sh` file with the following con
 
 ```sh
 #!/bin/sh
-git pull && docker-compose -f docker-compose.yml up -d --build
+git pull && docker-compose -f docker-compose.yml build --no-cache nouse && docker-compose -f docker-compose.yml up -d
 ```
 
 And make the script executable:
