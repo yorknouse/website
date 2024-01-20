@@ -7,6 +7,8 @@ import node from "@astrojs/node";
 import sitemap from "@astrojs/sitemap";
 import getCategoriesLinks from "./build-utils/getCategoriesLinks";
 import getArticlesLinks from "./build-utils/getArticlesLinks";
+import computedStyles from "./computed-styles-integration/register";
+
 const environment = loadEnv(import.meta.env.MODE, process.cwd(), "");
 
 const articlesLinks = await getArticlesLinks();
@@ -19,6 +21,7 @@ export default defineConfig({
     image(),
     solidJs(),
     sitemap({ customPages: [...articlesLinks, ...categoriesLinks] }),
+    computedStyles(),
   ],
   site: "https://yorknouse.github.io",
   base: "/website",

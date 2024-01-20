@@ -1,6 +1,5 @@
 import { defineConfig } from "astro/config";
 import { loadEnv } from "vite";
-
 import tailwind from "@astrojs/tailwind";
 import image from "@astrojs/image";
 import solidJs from "@astrojs/solid-js";
@@ -8,6 +7,8 @@ import node from "@astrojs/node";
 import sitemap from "@astrojs/sitemap";
 import getArticlesLinks from "./build-utils/getArticlesLinks";
 import getCategoriesLinks from "./build-utils/getCategoriesLinks";
+import computedStyles from "./computed-styles-integration/register";
+
 const environment = loadEnv(import.meta.env.MODE, process.cwd(), "");
 
 const articlesLinks = await getArticlesLinks();
@@ -22,6 +23,7 @@ export default defineConfig({
     sitemap({
       customPages: [...articlesLinks, ...categoriesLinks],
     }),
+    computedStyles(),
   ],
   site: "https://nouse.co.uk",
   output: "server",
