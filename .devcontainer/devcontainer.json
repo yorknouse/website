@@ -1,0 +1,66 @@
+{
+  "name": "nouse_website",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "nouse",
+  "workspaceFolder": "/workspace",
+
+  // Configure tool-specific properties.
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      "settings": {
+        "php.validate.executablePath": "/usr/local/bin/php",
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": true,
+        "editor.formatOnSaveMode": "modificationsIfAvailable",
+        "[php]": {
+          "editor.defaultFormatter": "bmewburn.vscode-intelephense-client",
+          "editor.formatOnSave": true
+        },
+        "[twig]": {
+          "editor.defaultFormatter": null,
+          "editor.formatOnSave": false,
+          "editor.formatOnPaste": false
+        },
+        "emmet.includeLanguages": {
+          "twig": "html"
+        }
+      },
+      "extensions": [
+        "xdebug.php-debug",
+        "bmewburn.vscode-intelephense-client",
+        "mrmlnc.vscode-apache",
+        "esbenp.prettier-vscode",
+        "mblode.twig-language-2",
+        "github.vscode-github-actions"
+      ]
+    }
+  },
+
+  "shutdownAction": "stopCompose",
+
+  "forwardPorts": [8080, 8081, "db:3306", "phpmyadmin:800"],
+
+  "postCreateCommand": "composer install && cd readers-frontend && npm ci && npx prisma generate && npm run build",
+
+  "remoteUser": "vscode",
+  "portsAttributes": {
+    "8080": {
+      "label": "PHP Web Server",
+      "onAutoForward": "ignore",
+      "protocol": "http"
+    },
+    "8081": {
+      "label": "PHP Web Server Secure",
+      "onAutoForward": "ignore",
+      "protocol": "https"
+    },
+    "800": {
+      "label": "phpMyAdmin",
+      "protocol": "https"
+    },
+    "3306": {
+      "label": "MySQL"
+    }
+  }
+}
