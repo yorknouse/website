@@ -41,6 +41,9 @@ services:
       - nouseprod-local.env
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    volumes:
+      - ./html:/var/www/html
+      - ./composer:/var/www/composer
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.1
     container_name: phpmyadmin
