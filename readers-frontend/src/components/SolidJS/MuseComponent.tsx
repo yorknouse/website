@@ -8,7 +8,9 @@ type MuseComponentProps = {
 };
 
 const MuseComponent: Component<MuseComponentProps> = (props) => {
-  const [active, setActive] = createSignal<string>(props.categories[0].name);
+  const [active, setActive] = createSignal<string>(
+    props.categories[0]?.name ?? ""
+  );
   const [startX, setStartX] = createSignal<number>(0);
 
   return (
