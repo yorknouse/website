@@ -12,15 +12,16 @@ function finish($result = false, $error = ["code" => null, "message" => null], $
     die(json_encode($dataReturn));
 }
 
+// Get top 4 read article IDs from summary table
+$readArticlesIds = array_column(
+    $DBLIB->rawQuery("SELECT articles_id FROM articleReadsSummary ORDER BY read_count DESC LIMIT 4"),
+    "articles_id"
+);
 
-// Get read article IDs in week
-$readArticlesIds =
-    array_column(
-        $DBLIB->rawQuery("SELECT articlesReads.articles_id, count(*) as count " .
-            "FROM articlesReads WHERE articlesReads.articlesReads_timestamp BETWEEN DATE_SUB(NOW(), INTERVAL 1 WEEK)" .
-            " AND NOW() GROUP BY articlesReads.articles_id ORDER BY count DESC LIMIT 4;"),
-        "articles_id"
-    );
+// If nothing found, exit early
+if (empty($readArticlesIds)) {
+    finish(true, null, []);
+}
 
 // Get articles
 $DBLIB->where("articles.articles_id", $readArticlesIds, "IN");
@@ -40,24 +41,29 @@ $articles = $DBLIB->get(
 );
 
 if (!$articles) {
-    finish(true, null, null);
+    finish(true, null, []);
 }
 
 $output = [];
 foreach ($articles as $article) {
+    // Get categories
     $DBLIB->where("articlesCategories.articles_id", $bCMS->sanitizeString($article['articles_id']));
-	$articleCategories = array_column($DBLIB->get("articlesCategories"), 'categories_id');
-    if (count($articleCategories) > 0) {
+    $articleCategories = array_column($DBLIB->get("articlesCategories"), 'categories_id');
+    if (!empty($articleCategories)) {
         $DBLIB->where("categories_id", $articleCategories, "IN");
         $DBLIB->where("categories_nestUnder IS NULL");
         $category = $DBLIB->getOne("categories");
-        $article['categories_name'] = $category['categories_name'];
+        $article['categories_name'] = $category['categories_name'] ?? null;
     }
 
     $DBLIB->where("articlesAuthors.articles_id", $bCMS->sanitizeString($article['articles_id']));
     $DBLIB->join("users", "users.users_userid=articlesAuthors.users_userid", "LEFT");
     $DBLIB->where("users_deleted", 0);
-    $article['articles_authors'] = $DBLIB->get("articlesAuthors", null, ["users.users_name1", "users.users_name2", "users.users_userid"]);
+    $article['articles_authors'] = $DBLIB->get(
+        "articlesAuthors",
+        null,
+        ["users.users_name1", "users.users_name2", "users.users_userid"]
+    );
 
     $article['url'] = '/' . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'];
 
