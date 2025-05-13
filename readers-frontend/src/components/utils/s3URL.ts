@@ -34,7 +34,7 @@ const s3URL = async (
         }
 
         reject(new Error("Could not fetch s3 file: " + fileId));
-      })
+      });
   });
 };
 

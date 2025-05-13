@@ -13,27 +13,27 @@ const authorIdNumber = parseInt(authorId);
 const pageNumber = parseInt(page || "") || 0;
 
 const author = await prisma.users.findFirst({
-    where: {
-        users_userid: authorIdNumber,
-        users_deleted: false,
+  where: {
+    users_userid: authorIdNumber,
+    users_deleted: false,
+  },
+  include: {
+    userPositions: {
+      orderBy: {
+        userPositions_end: "desc",
+      },
+      include: {
+        positions: true,
+      },
     },
-    include: {
-        userPositions: {
-            orderBy: {
-                userPositions_end: "desc",
-            },
-            include: {
-                positions: true,
-            },
-        },
-    },
+  },
 });
 
 if (!author) return Astro.redirect("/404");
 
 const authorImage = /^-?\d+$/.test(author.users_thumbnail!)
-    ? await s3URL(Number(author.users_thumbnail), "large")
-    : undefined;
+  ? await s3URL(Number(author.users_thumbnail), "large")
+  : undefined;
 
 const featuredArticleIds = author.articles_featured?.split(",").map(Number);
 
@@ -41,102 +41,89 @@ const articlesPerPage = 10;
 ---
 
 <Layout
-    title={`${author.users_name1} ${author.users_name2} - Nouse`}
-    active={undefined}
-    style="nouse"
+  title={`${author.users_name1} ${author.users_name2} - Nouse`}
+  active={undefined}
+  style="nouse"
 >
+  <div
+    id="author-mantle"
+    class="mt-8 w-full bg-neutral-900 text-white sm:px-[0.5%] 2xl:px-[13%]"
+  >
     <div
-        id="author-mantle"
-        class="mt-8 w-full bg-neutral-900 text-white sm:px-[0.5%] 2xl:px-[13%]"
+      class="flex flex-col items-center justify-center py-16 md:flex-row md:items-start"
     >
-        <div
-            class="flex flex-col md:flex-row items-center md:items-start justify-center py-16"
-        >
-            {
-                authorImage && (
-                    <img
-                        id="author-image"
-                        class="mb-4 md:mr-20 h-52 w-52 rounded-full border-4 border-[#D76B6B] object-cover"
-                        src={authorImage}
-                    />
-                )
-            }
-            <div id="author-details" class="w-full px-8 md:px-0 md:w-7/12">
-                <h1 class="text-center md:text-left">
-                    <span class="text-4xl">
-                        {`${author.users_name1}  ${author.users_name2}`}
-                    </span>
-                    {
-                        author.users_pronouns && (
-                            <span class="text-base italic">
-                                {" "}
-                                ({author.users_pronouns})
-                            </span>
-                        )
-                    }
-                </h1>
-                <p class="text-center md:text-left text-lg font-bold">
-                    {
-                        author.userPositions
-                            .filter(
-                                (position) =>
-                                    position.userPositions_show &&
-                                    position.positions &&
-                                    position.userPositions_end! >= new Date()
-                            )
-                            .map(
-                                (position, index) =>
-                                    `${index === 0 ? "" : ", "}${
-                                        position.positions!
-                                            .positions_displayName
-                                    }`
-                            )
-                    }
-                </p>
-                <p class="text-center md:text-left text-lg font-bold">
-                    {
-                        author.userPositions
-                            .filter(
-                                (position) =>
-                                    position.userPositions_show &&
-                                    position.positions &&
-                                    position.userPositions_end! < new Date()
-                            )
-                            .map(
-                                (position, index) =>
-                                    `${
-                                        index === 0
-                                            ? "Previously Held Positions: "
-                                            : ", "
-                                    }${
-                                        position.positions!
-                                            .positions_displayName
-                                    } (${position.userPositions_start.getFullYear()}-${position.userPositions_end!.getFullYear()})`
-                            )
-                    }
-                </p>
-                {
-                    author.users_bio && (
-                        <p class="mt-5 text-base">{author.users_bio}</p>
-                    )
-                }
-            </div>
-        </div>
-        {
-            featuredArticleIds !== undefined && (
-                <div class="border-t border-gray-300 py-8">
-                    <FeaturedArticles
-                        featuredArticlesIds={featuredArticleIds}
-                        style={"nouse"}
-                        textColor={"#FFF"}
-                    />
-                </div>
+      {
+        authorImage && (
+          <img
+            id="author-image"
+            class="mb-4 h-52 w-52 rounded-full border-4 border-[#D76B6B] object-cover md:mr-20"
+            src={authorImage}
+          />
+        )
+      }
+      <div id="author-details" class="w-full px-8 md:w-7/12 md:px-0">
+        <h1 class="text-center md:text-left">
+          <span class="text-4xl">
+            {`${author.users_name1}  ${author.users_name2}`}
+          </span>
+          {
+            author.users_pronouns && (
+              <span class="text-base italic"> ({author.users_pronouns})</span>
             )
-        }
+          }
+        </h1>
+        <p class="text-center text-lg font-bold md:text-left">
+          {
+            author.userPositions
+              .filter(
+                (position) =>
+                  position.userPositions_show &&
+                  position.positions &&
+                  position.userPositions_end! >= new Date()
+              )
+              .map(
+                (position, index) =>
+                  `${index === 0 ? "" : ", "}${
+                    position.positions!.positions_displayName
+                  }`
+              )
+          }
+        </p>
+        <p class="text-center text-lg font-bold md:text-left">
+          {
+            author.userPositions
+              .filter(
+                (position) =>
+                  position.userPositions_show &&
+                  position.positions &&
+                  position.userPositions_end! < new Date()
+              )
+              .map(
+                (position, index) =>
+                  `${index === 0 ? "Previously Held Positions: " : ", "}${
+                    position.positions!.positions_displayName
+                  } (${position.userPositions_start.getFullYear()}-${position.userPositions_end!.getFullYear()})`
+              )
+          }
+        </p>
+        {author.users_bio && <p class="mt-5 text-base">{author.users_bio}</p>}
+      </div>
     </div>
-    <AuthorArticles
-        articlesPerPage={articlesPerPage}
-        authorId={authorIdNumber}
-        pageNumber={pageNumber}
-    />
+    {
+      featuredArticleIds !== undefined && (
+        <div class="border-t border-gray-300 py-8">
+          <FeaturedArticles
+            featuredArticlesIds={featuredArticleIds}
+            style={"nouse"}
+            textColor={"#FFF"}
+          />
+        </div>
+      )
+    }
+  </div>
+  <AuthorArticles
+    articlesPerPage={articlesPerPage}
+    authorId={authorIdNumber}
+    pageNumber={pageNumber}
+  />
 </Layout>

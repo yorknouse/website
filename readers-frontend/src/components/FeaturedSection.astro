@@ -56,7 +56,10 @@ const categoryColor = category.categories_backgroundColor;
                 excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
                 authors={article.users.map(users => users.users)}
                 category={category.categories_displayName}
-                categoryLink={getCategoryLink(category.categories_name, category.categories_nestUnder)}
+                categoryLink={getCategoryLink(
+                  category.categories_name,
+                  category.categories_nestUnder
+                )}
                 categoryColor={categoryColor}
                 imageUrl={await getArticleImage(article)}
                 articleUrl={`${import.meta.env.BASE_URL}articles/${dateFormatter
@@ -87,12 +90,17 @@ const categoryColor = category.categories_backgroundColor;
                   excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
                   authors={article.users.map(users => users.users)}
                   category={category.categories_displayName}
-                  categoryLink={getCategoryLink(category.categories_name, category.categories_nestUnder)}
+                  categoryLink={getCategoryLink(
+                    category.categories_name,
+                    category.categories_nestUnder
+                  )}
                   categoryColor={categoryColor}
                   imageUrl={
                     index == 0 ? await getArticleImage(article) : undefined
                   }
-                  articleUrl={`${import.meta.env.BASE_URL}articles/${dateFormatter
+                  articleUrl={`${
+                    import.meta.env.BASE_URL
+                  }articles/${dateFormatter
                     .format(article.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
                     .split("/")
                     .reverse()

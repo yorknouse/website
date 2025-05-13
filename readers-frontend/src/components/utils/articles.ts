@@ -46,7 +46,7 @@ export const getArticles = async (
     return [];
   }
 
-  return await prisma.articles.findMany({
+  return prisma.articles.findMany({
     where: {
       articles_id: {
         in: articleIds,
@@ -125,7 +125,7 @@ export const getAllArticles = async (): Promise<articleWithUserAndDraft[]> => {
 export const getSimilarArticles = async (
   parentCategoryId: number
 ): Promise<articlesWithArticleDrafts[]> => {
-  return await prisma.articles.findMany({
+  return prisma.articles.findMany({
     where: {
       categories: {
         some: {

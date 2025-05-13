@@ -1,7 +1,5 @@
 import { articlesCategories, categories, Prisma } from "@prisma/client";
 import prisma from "../../prisma";
-import type { Page, PaginateOptions } from "astro";
-import type { articlesWithArticleDrafts } from "./articles";
 
 export const getMenuCategories = async (
   style: "nouse" | "muse"
@@ -102,7 +100,7 @@ export const getMenuCategories = async (
  * @returns {Promise<categories[]>} Promise object represents the subcategories
  */
 export const getMenuSubcategories = async (parentCategory: number) => {
-  return await prisma.categories.findMany({
+  return prisma.categories.findMany({
     where: {
       categories_showMenu: true,
       categories_showPublic: true,
@@ -114,7 +112,7 @@ export const getMenuSubcategories = async (parentCategory: number) => {
 export const getFeaturedSectionsCategories = async (): Promise<
   categories[]
 > => {
-  return await prisma.categories.findMany({
+  return prisma.categories.findMany({
     where: {
       categories_showHome: true,
       categories_showPublic: true,
@@ -159,7 +157,7 @@ export type categoriesWithArticles = Prisma.categoriesGetPayload<
 export const getCategoriesWithArticles = async (
   parentCategory?: number | null
 ): Promise<categoriesWithArticles[]> => {
-  return await prisma.categories.findMany({
+  return prisma.categories.findMany({
     where: {
       categories_showPublic: true,
       categories_showMenu: true,

@@ -24,7 +24,7 @@ const isPreview = preview && previewPostId && previewPostHash;
 
 const article = await prisma.articles.findFirst({
   where: {
-    articles_showInLists: isPreview ? false : true,
+    articles_showInLists: !isPreview,
     articles_slug: cleanSlug,
   },
   include: {

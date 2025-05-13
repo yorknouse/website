@@ -32,7 +32,9 @@ test.describe("Desktop Navbar", () => {
     );
     // Checking Test category page shows nested category
     await page.goto("./testCategory1");
-    await expect(page.locator("#desktopNav > ul").nth(1).locator("li")).toHaveCount(1);
+    await expect(
+      page.locator("#desktopNav > ul").nth(1).locator("li")
+    ).toHaveCount(1);
   });
 
   test("Has the correct links", async ({ page, isMobile }) => {
@@ -55,7 +57,9 @@ test.describe("Desktop Navbar", () => {
     ).toHaveAttribute("href", "/website/muse");
     // Checking Test category page has correct nested category button
     await page.goto("./testCategory1");
-    await expect(page.locator("#desktopNav > ul").nth(1).locator("li:nth-child(1) > a")).toHaveAttribute("href", "/website/testCategory1/testNestedCategory");
+    await expect(
+      page.locator("#desktopNav > ul").nth(1).locator("li:nth-child(1) > a")
+    ).toHaveAttribute("href", "/website/testCategory1/testNestedCategory");
   });
 });
 

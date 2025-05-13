@@ -46,7 +46,9 @@ const {
       )
       .map(async (articleRow: articlesWithArticleDrafts[], index: number) => {
         const categories = articleRow.map((article) =>
-          parentCategory ? parentCategory : getParentCategory(article.categories)
+          parentCategory
+            ? parentCategory
+            : getParentCategory(article.categories)
         );
         return (
           <div>
@@ -69,14 +71,19 @@ const {
                         article.articlesDrafts[0].articlesDrafts_headline
                       }
                       excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-                      authors={article.users.map(users => users.users)}
+                      authors={article.users.map((users) => users.users)}
                       category={categories[articleIndex].categories_displayName}
-                      categoryLink={getCategoryLink(categories[articleIndex].categories_name, categories[articleIndex].categories_nestUnder)}
+                      categoryLink={getCategoryLink(
+                        categories[articleIndex].categories_name,
+                        categories[articleIndex].categories_nestUnder
+                      )}
                       categoryColor={
                         categories[articleIndex].categories_backgroundColor
                       }
                       imageUrl={await getArticleImage(article)}
-                      articleUrl={`${import.meta.env.BASE_URL}articles/${dateFormatter
+                      articleUrl={`${
+                        import.meta.env.BASE_URL
+                      }articles/${dateFormatter
                         .format(article.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
                         .split("/")
                         .reverse()
@@ -113,9 +120,12 @@ const {
           <Article
             headline={article.articlesDrafts[0].articlesDrafts_headline}
             excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-            authors={article.users.map(users => users.users)}
+            authors={article.users.map((users) => users.users)}
             category={category.categories_displayName}
-            categoryLink={getCategoryLink(category.categories_name, category.categories_nestUnder)}
+            categoryLink={getCategoryLink(
+              category.categories_name,
+              category.categories_nestUnder
+            )}
             categoryColor={category.categories_backgroundColor}
             imageUrl={await getArticleImage(article)}
             articleUrl={`${import.meta.env.BASE_URL}articles/${dateFormatter

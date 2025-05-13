@@ -212,13 +212,25 @@ test.describe("Web Edition Page", () => {
         await expect(
           firstCustomBoxContainer.locator(".mobile-selection-indicator > span")
         ).toHaveCount(2);
-        await expect(firstCustomBoxContainer.locator(".mobile-selection-indicator > span").nth(0)).toHaveClass(/border-white/);
-        await expect(firstCustomBoxContainer.locator(".mobile-selection-indicator > span").nth(1)).toHaveClass(/border-gray-500/);
+        await expect(
+          firstCustomBoxContainer
+            .locator(".mobile-selection-indicator > span")
+            .nth(0)
+        ).toHaveClass(/border-white/);
+        await expect(
+          firstCustomBoxContainer
+            .locator(".mobile-selection-indicator > span")
+            .nth(1)
+        ).toHaveClass(/border-gray-500/);
         await expect(
           secondCustomBoxContainer.locator(".mobile-selection-indicator > span")
         ).toHaveCount(1);
-        await expect(secondCustomBoxContainer.locator(".mobile-selection-indicator > span").nth(0)).toHaveClass(/border-white/);
-        
+        await expect(
+          secondCustomBoxContainer
+            .locator(".mobile-selection-indicator > span")
+            .nth(0)
+        ).toHaveClass(/border-white/);
+
         // TODO: Add a test for the swipe functionality
         // Note: This is not currently possible with Playwright
       } else {
