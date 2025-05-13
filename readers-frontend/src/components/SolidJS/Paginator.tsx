@@ -30,8 +30,12 @@ const Paginator: Component<PaginatorProps> = (props) => {
   };
   const setPage = (page: number) => {
     if (props.setPage) return props.setPage(page);
-    else if (page == 0) window.location.href = `${import.meta.env.BASE_URL}${props.prefix}`;
-    else window.location.href = `${import.meta.env.BASE_URL}${props.prefix}/${page + 1}`;
+    else if (page == 0)
+      window.location.href = `${import.meta.env.BASE_URL}${props.prefix}`;
+    else
+      window.location.href = `${import.meta.env.BASE_URL}${props.prefix}/${
+        page + 1
+      }`;
   };
 
   const mobilePagesToDisplay = 5;
