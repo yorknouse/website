@@ -349,7 +349,7 @@ CREATE TABLE `s3files` (
 CREATE TABLE `userPositions` (
     `userPositions_id` INTEGER NOT NULL AUTO_INCREMENT,
     `users_userid` INTEGER NULL,
-    `userPositions_start` TIMESTAMP(0) NOT NULL DEFAULT '0000-00-00 00:00:00',
+    `userPositions_start` TIMESTAMP(0) NOT NULL DEFAULT '2000-01-01 00:00:00',
     `userPositions_end` TIMESTAMP(0) NULL,
     `positions_id` INTEGER NULL,
     `userPositions_displayName` VARCHAR(255) NULL,

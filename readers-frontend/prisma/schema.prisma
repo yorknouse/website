@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["filteredRelationCount"]
 }
 
@@ -110,6 +110,15 @@ model articlesReads {
   articlesReads_timestamp DateTime @default(now()) @db.Timestamp(0)
 
   @@index([articles_id], map: "articlesReads_articles_articles_id_fk")
+  @@index([articlesReads_timestamp, articles_id], name: "idx_reads_timestamp_id")
+}
+
+model articleReadsSummary {
+  articles_id Int      @id
+  read_count  Int
+  updated_at  DateTime @default(now()) @updatedAt
+
+  @@index([articles_id], map: "articlesReadsSummary_articles_articles_id_fk")
 }
 
 model auditLog {
@@ -336,7 +345,7 @@ model s3files {
 model userPositions {
   userPositions_id               Int        @id @default(autoincrement())
   users_userid                   Int?
-  userPositions_start            DateTime   @default(dbgenerated("'0000-00-00 00:00:00'")) @db.Timestamp(0)
+  userPositions_start            DateTime   @default(dbgenerated("'2000-01-01 00:00:00'")) @db.Timestamp(0)
   userPositions_end              DateTime?  @db.Timestamp(0)
   positions_id                   Int?
   userPositions_displayName      String?    @db.VarChar(255)
@@ -412,10 +421,10 @@ model articlesCategories {
 }
 
 model articlesAuthors {
-  article       articles   @relation(fields: [articles_id], references: [articles_id])
-  articles_id   Int
+  article      articles @relation(fields: [articles_id], references: [articles_id])
+  articles_id  Int
   users_userid Int
-  users      users @relation(fields: [users_userid], references: [users_userid])
+  users        users    @relation(fields: [users_userid], references: [users_userid])
 
   @@unique([articles_id, users_userid], map: "articlesAuthors_articles_id_users_userid_unique")
 }
