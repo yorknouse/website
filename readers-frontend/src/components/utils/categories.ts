@@ -1,4 +1,8 @@
-import { articlesCategories, categories, Prisma } from "@prisma/client";
+import {
+  type articlesCategories,
+  type categories,
+  Prisma,
+} from "@prisma/client";
 import prisma from "../../prisma";
 
 export const getMenuCategories = async (
@@ -235,7 +239,7 @@ export const getParentCategory = (categories: ArticleCategories[]) => {
         category.categories_showPublic &&
         ((category.categories_nestUnder === null && // Nouse
           category.categories_id !== 4) ||
-        category.categories_nestUnder === 4) // Muse
+          category.categories_nestUnder === 4) // Muse
     );
 
   if (interimParentCategory) {

@@ -1,4 +1,4 @@
-import { Prisma, articles } from "@prisma/client";
+import { Prisma, type articles } from "@prisma/client";
 import prisma from "../../prisma";
 import { s3URL } from "./s3URL";
 import dateFormatter from "./dateFormatter";

@@ -1,5 +1,4 @@
 import type { MuseNavbarCategory } from "@components/types";
-import type { categories } from "@prisma/client";
 import { Accessor, Component, For, Setter } from "solid-js";
 
 type MuseNavbarProps = {
