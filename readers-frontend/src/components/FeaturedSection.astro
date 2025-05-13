@@ -52,9 +52,17 @@ const categoryColor = category.categories_backgroundColor;
               }`}
             >
               <Article
-                headline={article.articlesDrafts[0].articlesDrafts_headline}
-                excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-                authors={article.users.map(users => users.users)}
+                headline={
+                  article.articlesDrafts.length != 0
+                    ? article.articlesDrafts[0].articlesDrafts_headline
+                    : "Unknown"
+                }
+                excerpt={
+                  article.articlesDrafts.length != 0
+                    ? article.articlesDrafts[0].articlesDrafts_excerpt
+                    : "Unknown"
+                }
+                authors={article.users.map((users) => users.users)}
                 category={category.categories_displayName}
                 categoryLink={getCategoryLink(
                   category.categories_name,
@@ -80,15 +88,21 @@ const categoryColor = category.categories_backgroundColor;
             {articles.map(async (article, index) => (
               <div
                 class={`w-full p-2.5 ${
-                  index != articles.length - 1
-                    ? "border-b border-gray-300"
-                    : ""
+                  index != articles.length - 1 ? "border-b border-gray-300" : ""
                 }`}
               >
                 <Article
-                  headline={article.articlesDrafts[0].articlesDrafts_headline}
-                  excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-                  authors={article.users.map(users => users.users)}
+                  headline={
+                    article.articlesDrafts.length != 0
+                      ? article.articlesDrafts[0].articlesDrafts_headline
+                      : "Unknown"
+                  }
+                  excerpt={
+                    article.articlesDrafts.length != 0
+                      ? article.articlesDrafts[0].articlesDrafts_excerpt
+                      : "Unknown"
+                  }
+                  authors={article.users.map((users) => users.users)}
                   category={category.categories_displayName}
                   categoryLink={getCategoryLink(
                     category.categories_name,

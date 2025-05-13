@@ -68,9 +68,15 @@ const {
                   >
                     <Article
                       headline={
-                        article.articlesDrafts[0].articlesDrafts_headline
+                          article.articlesDrafts.length != 0
+                              ? article.articlesDrafts[0].articlesDrafts_headline
+                              : "Unknown"
                       }
-                      excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
+                      excerpt={
+                          article.articlesDrafts.length != 0
+                              ? article.articlesDrafts[0].articlesDrafts_excerpt
+                              : "Unknown"
+                      }
                       authors={article.users.map((users) => users.users)}
                       category={categories[articleIndex].categories_displayName}
                       categoryLink={getCategoryLink(
@@ -118,8 +124,16 @@ const {
           }`}
         >
           <Article
-            headline={article.articlesDrafts[0].articlesDrafts_headline}
-            excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
+            headline={
+                article.articlesDrafts.length != 0
+                    ? article.articlesDrafts[0].articlesDrafts_headline
+                    : "Unknown"
+            }
+            excerpt={
+                article.articlesDrafts.length != 0
+                    ? article.articlesDrafts[0].articlesDrafts_excerpt
+                    : "Unknown"
+            }
             authors={article.users.map((users) => users.users)}
             category={category.categories_displayName}
             categoryLink={getCategoryLink(

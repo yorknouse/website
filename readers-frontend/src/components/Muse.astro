@@ -78,9 +78,17 @@ for (let i = 0; i < museMenuCategories.length; i++) {
               >
                 <div class="pr-3">
                   <Article
-                    headline={article.articlesDrafts[0].articlesDrafts_headline}
-                    excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-                    authors={article.users.map(users => users.users)}
+                    headline={
+                      article.articlesDrafts.length != 0
+                        ? article.articlesDrafts[0].articlesDrafts_headline
+                        : "Unknown"
+                    }
+                    excerpt={
+                      article.articlesDrafts.length != 0
+                        ? article.articlesDrafts[0].articlesDrafts_excerpt
+                        : "Unknown"
+                    }
+                    authors={article.users.map((users) => users.users)}
                     category={undefined}
                     categoryColor={"#FFF"}
                     categoryLink={undefined}
@@ -115,9 +123,17 @@ for (let i = 0; i < museMenuCategories.length; i++) {
                   <hr class="my-2.5 w-full self-center border-white" />
                 )}
                 <Article
-                  headline={article.articlesDrafts[0].articlesDrafts_headline}
-                  excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-                  authors={article.users.map(users => users.users)}
+                  headline={
+                    article.articlesDrafts.length != 0
+                      ? article.articlesDrafts[0].articlesDrafts_headline
+                      : "Unknown"
+                  }
+                  excerpt={
+                    article.articlesDrafts.length != 0
+                      ? article.articlesDrafts[0].articlesDrafts_excerpt
+                      : "Unknown"
+                  }
+                  authors={article.users.map((users) => users.users)}
                   category={undefined}
                   categoryColor={"#FFF"}
                   categoryLink={undefined}

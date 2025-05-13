@@ -228,9 +228,11 @@ const imagePlaceHolder =
               >
                 <div class="h-min">
                   <Article
-                    headline={
-                      similarArticle.articlesDrafts[0].articlesDrafts_headline
-                    }
+                      headline={
+                        similarArticle.articlesDrafts.length != 0
+                            ? similarArticle.articlesDrafts[0].articlesDrafts_headline
+                            : "Unknown"
+                      }
                     excerpt={null}
                     authors={similarArticle.users.map((user) => user.users)}
                     category={undefined}
