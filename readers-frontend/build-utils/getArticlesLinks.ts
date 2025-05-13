@@ -1,4 +1,4 @@
-import { getArticleLink } from "@components/utils/articles";
+import { getArticleLink } from "../src/components/utils/articles";
 import type { articles } from "@prisma/client";
 import prisma from "../src/prisma";
 import baseUrl from "./baseUrl";
