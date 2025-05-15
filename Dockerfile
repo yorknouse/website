@@ -49,6 +49,8 @@ RUN chmod 0777 /var/log/cron.log
 
 COPY . /var/www/
 
+RUN chown -R www-data:www-data /var/www
+
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 WORKDIR /var/www
 RUN composer install
