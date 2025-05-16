@@ -3,12 +3,12 @@ import MuseComponent from "@solidComponents/MuseComponent";
 import { getMenuCategories } from "./utils/categories";
 import {
   articlesWithArticleDrafts,
-  getArticleImage,
   getArticles,
 } from "./utils/articles";
 import type { MuseNavbarCategory } from "./types";
 import Article from "./Article.astro";
 import dateFormatter from "./utils/dateFormatter";
+import prisma from "../prisma";
 
 type articlesWithArticlesDraftAndLink = articlesWithArticleDrafts & {
   imageUrl: string;
@@ -31,22 +31,52 @@ const categories = museMenuCategories.reduce((accumulator, currentCategory) => {
 
 const articles = new Map<string, articlesWithArticlesDraftAndLink[]>();
 
-for (let i = 0; i < museMenuCategories.length; i++) {
-  const featuredArticles = museMenuCategories[i].categories_featured
-    ?.split(",")
-    .map(Number);
+// 1. Extract all article IDs from all categories
+const allFeaturedArticleIds = museMenuCategories
+    .flatMap(c => c.categories_featured?.split(',').map(Number) ?? []);
 
-  const articlesList = (await getArticles(featuredArticles)).slice(0, 4);
-  const articlesArray = await Promise.all(
-    articlesList.map(async (article) => {
-      return {
-        ...article,
-        imageUrl: await getArticleImage(article),
-      };
-    })
-  );
+// 2. Get all articles at once
+const allArticles = await getArticles(allFeaturedArticleIds);
 
-  articles.set(museMenuCategories[i].categories_name, articlesArray);
+// 3. Get all S3 files at once
+const neededFileIds = allArticles
+    .map(a => Number(a.articles_thumbnail))
+    .filter(id => !isNaN(id));
+const s3files = await prisma.s3files.findMany({
+  where: { s3files_id: { in: neededFileIds } },
+});
+const s3FileMap = new Map(s3files.map(f => [f.s3files_id, f]));
+
+// 4. Build article-to-image mapping
+const getImageUrl = (article: articlesWithArticleDrafts) => {
+  const s3File = s3FileMap.get(Number(article.articles_thumbnail))
+  if (s3File === undefined) {
+    return ""
+  }
+
+  let fileUrl = `${s3File.s3files_cdn_endpoint}/${
+      s3File.s3files_path
+  }/${encodeURIComponent(s3File.s3files_filename)}`;
+
+  fileUrl += `_large`;
+
+  fileUrl += `.${s3File.s3files_extension}`;
+
+  return fileUrl
+};
+
+// 5. Organize by category
+for (const category of museMenuCategories) {
+  const featuredIds = category.categories_featured?.split(',').map(Number) ?? [];
+  const categoryArticles = allArticles
+      .filter(a => featuredIds.includes(a.articles_id))
+      .slice(0, 4)
+      .map(a => ({
+        ...a,
+        imageUrl: getImageUrl(a),
+      }));
+
+  articles.set(category.categories_name, categoryArticles);
 }
 ---
 
