@@ -49,8 +49,6 @@ RUN chmod 0777 /var/log/cron.log
 
 COPY . /var/www/
 
-RUN chown -R www-data:www-data /var/www
-
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 WORKDIR /var/www
 RUN composer install
@@ -79,6 +77,8 @@ RUN rm -rf dist/
 RUN npm i
 RUN npx prisma generate
 RUN npm run build -- --config astro.config.prod.ts
+
+RUN chown -R www-data:www-data /var/www
 
 # To get in container - docker exec -t -i nouse-container /bin/bash
 
