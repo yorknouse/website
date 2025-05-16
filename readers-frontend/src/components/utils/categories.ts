@@ -131,7 +131,7 @@ export const getFeaturedSectionsCategories = async (): Promise<
   });
 };
 
-const categoriesWithArticles = Prisma.validator<Prisma.categoriesArgs>()({
+const categoriesWithArticles = Prisma.validator()({
   include: {
     articles: {
       include: {

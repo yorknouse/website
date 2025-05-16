@@ -3,7 +3,7 @@ import prisma from "../../prisma";
 import { s3URL } from "./s3URL";
 import dateFormatter from "./dateFormatter";
 
-const articlesWithArticleDrafts = Prisma.validator<Prisma.articlesArgs>()({
+const articlesWithArticleDrafts = Prisma.validator()({
   include: {
     articlesDrafts: true,
     categories: {
@@ -18,7 +18,7 @@ export type articlesWithArticleDrafts = Prisma.articlesGetPayload<
   typeof articlesWithArticleDrafts
 >;
 
-const articleWithUserAndDraft = Prisma.validator<Prisma.articlesArgs>()({
+const articleWithUserAndDraft = Prisma.validator()({
   include: {
     articlesDrafts: true,
     categories: {
