@@ -156,10 +156,12 @@ export type categoriesWithArticles = Prisma.categoriesGetPayload<
 /**
  * Gets all the categories and their articles.
  * @param {number | null} parentCategory The parent category to get the children of.
+ * @param articlesLimit indicates the limit for how many articles are gathered
  * @returns {Promise<categoriesWithArticles[]>} Promise object represents the categories and their articles.
  */
 export const getCategoriesWithArticles = async (
-  parentCategory?: number | null
+  parentCategory?: number | null,
+  articlesLimit: number = 10
 ): Promise<categoriesWithArticles[]> => {
   return prisma.categories.findMany({
     where: {
@@ -169,6 +171,7 @@ export const getCategoriesWithArticles = async (
     },
     include: {
       articles: {
+        take: articlesLimit,
         where: {
           article: {
             articles_showInLists: true,
