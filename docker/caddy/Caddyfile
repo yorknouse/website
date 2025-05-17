@@ -39,6 +39,14 @@ www.nouse.co.uk nouse.co.uk {
     reverse_proxy nouse:3000
     encode gzip
 }
+# This is a temporary measure due to using YSTV monitoring infrastructure
+internal.nouse.co.uk {
+    handle /api/* {
+        reverse_proxy nouse:80
+    }
+    reverse_proxy nouse:3000
+    encode gzip
+}
 edit.nouse.co.uk {
     tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
         client_auth {
