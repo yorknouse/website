@@ -23,22 +23,30 @@ if (empty($readArticlesIds)) {
     finish(true, null, []);
 }
 
-// Get articles
+// Step 1: Build a subquery that gets the latest draft per article
+$latestDraftsSubquery = "
+    SELECT t1.*
+    FROM articlesDrafts t1
+    INNER JOIN (
+        SELECT articles_id, MAX(articlesDrafts_timestamp) AS max_ts
+        FROM articlesDrafts
+        GROUP BY articles_id
+    ) t2 ON t1.articles_id = t2.articles_id AND t1.articlesDrafts_timestamp = t2.max_ts
+";
+
+// Step 2: Prepare the query
 $DBLIB->where("articles.articles_id", $readArticlesIds, "IN");
-$DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
+$DBLIB->join("( $latestDraftsSubquery ) ad", "articles.articles_id = ad.articles_id", "LEFT");
 $DBLIB->setQueryOption("DISTINCT");
-$articles = $DBLIB->get(
-    "articles",
-    null,
-    [
-        "articles.articles_id",
-        "articles.articles_published",
-        "articles.articles_slug",
-        "articles.articles_thumbnail",
-        "articles.articles_isThumbnailPortrait",
-        "articlesDrafts.articlesDrafts_headline",
-    ]
-);
+
+$articles = $DBLIB->get("articles", null, [
+    "articles.articles_id",
+    "articles.articles_published",
+    "articles.articles_slug",
+    "articles.articles_thumbnail",
+    "articles.articles_isThumbnailPortrait",
+    "ad.articlesDrafts_headline"
+]);
 
 if (!$articles) {
     finish(true, null, []);
