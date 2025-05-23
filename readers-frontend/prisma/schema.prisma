@@ -124,6 +124,7 @@ model articlesReadsSummary {
   updated_at  DateTime @default(now()) @updatedAt
 
   @@index([articles_id], map: "articlesReadsSummary_articles_articles_id_fk")
+  @@index([read_count(sort: Desc)], map: "idx_articlesReadsSummary_readcount_desc")
 }
 
 model auditLog {
