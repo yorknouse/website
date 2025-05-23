@@ -9,4 +9,3 @@ $PAGEDATA['advert'] = $DBLIB->getOne("adverts");
 $PAGEDATA['pageConfig'] = ["TITLE" => "Edit Advert " . $PAGEDATA['advert']['adverts_name'], "BREADCRUMB" => false];
 
 echo $TWIG->render('advert.twig', $PAGEDATA);
-?>

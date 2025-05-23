@@ -37,4 +37,3 @@ foreach ($adverts as $advert) {
 }
 
 echo $TWIG->render('adverts.twig', $PAGEDATA);
-?>

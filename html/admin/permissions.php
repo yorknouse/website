@@ -37,4 +37,3 @@ foreach ($actualPositions as $position) {
 }
 
 echo $TWIG->render('permissions.twig', $PAGEDATA);
-?>

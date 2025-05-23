@@ -30,4 +30,3 @@ $PAGEDATA['allTimeYourModerated'] = $DBLIB->getValue("comments", "COUNT(*)");
 
 
 echo $TWIG->render('commentsManager.twig', $PAGEDATA);
-?>

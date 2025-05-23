@@ -35,4 +35,3 @@ foreach ($quickLinks as $link) {
 }
 
 echo $TWIG->render('quicklinks.twig', $PAGEDATA);
-?>

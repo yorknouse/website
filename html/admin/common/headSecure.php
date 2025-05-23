@@ -11,4 +11,4 @@ if (!$GLOBALS['AUTH']->login) {
 $PAGEDATA['USERDATA'] = $GLOBALS['AUTH']->data;
 
 $USERDATA = $PAGEDATA['USERDATA'];
-?>
+

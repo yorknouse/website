@@ -53,4 +53,3 @@ foreach ($users as $user) {
 }
 
 echo $TWIG->render('users.twig', $PAGEDATA);
-?>

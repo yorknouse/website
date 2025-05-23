@@ -42,6 +42,4 @@ foreach ($items as $item) {
 	$PAGEDATA['items'][] = $item;
 }
 
-
 echo $TWIG->render('auditLog.twig', $PAGEDATA);
-?>

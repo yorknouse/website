@@ -46,4 +46,3 @@ if (isset($_GET['id'])) {
 } else die("404 File not found");
 
 echo $TWIG->render('edition.twig', $PAGEDATA);
-?>

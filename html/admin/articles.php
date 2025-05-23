@@ -55,4 +55,3 @@ $PAGEDATA['CATEGORIES'] = $DBLIB->get("categories",null, ["categories_id","categ
 
 
 echo $TWIG->render('articles.twig', $PAGEDATA);
-?>

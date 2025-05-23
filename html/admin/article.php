@@ -35,8 +35,6 @@ if (isset($_GET['id'])) {
 	else $PAGEDATA['article']['articles_type'] = 1;
 }
 
-
-
 //              CATEGORIES
 //		Here only have 2 levels of nesting
 $DBLIB->where("categories_showPublic",1);
@@ -63,8 +61,6 @@ foreach ($DBLIB->get("categories") as $category) {
 	$PAGEDATA['CATEGORIES'][] = $category;
 }
 
-
-
 //              Authors
 $DBLIB->orderBy("users.users_name1", "ASC");
 $DBLIB->orderBy("users.users_name2", "ASC");
@@ -78,4 +74,3 @@ $DBLIB->where("editions_deleted", 0); //ie those that can actually be shown
 $PAGEDATA['EDITIONS'] = $DBLIB->get("editions", null, ["editions.editions_id", "editions.editions_name", "editions.editions_printNumber"]);
 
 echo $TWIG->render('article.twig', $PAGEDATA);
-?>

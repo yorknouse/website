@@ -46,9 +46,7 @@ if (isset($_GET['new']) and $AUTH->permissionCheck(4)) {
         $PAGEDATA['USER']['articles_featured'] = null;
     }
 
-
     $PAGEDATA['pageConfig']['TITLE'] = "Account Settings for " . $PAGEDATA['USER']['users_name1'] . " " . $PAGEDATA['USER']['users_name2'];
 }
 
 echo $TWIG->render('account.twig', $PAGEDATA);
-?>

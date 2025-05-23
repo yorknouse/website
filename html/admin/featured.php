@@ -32,7 +32,6 @@ foreach ($DBLIB->get("categories",null, ["categories.categories_id", "categories
     $PAGEDATA['CATEGORIES'][] = $category;
 }
 
-
 // Homepage featured
 $DBLIB->orderBy("featuredHome_timestamp", "DESC");
 $featuredHomeArticles = $DBLIB->getone("featuredHome");
@@ -49,4 +48,3 @@ if ($featuredHomeArticles) {
 
 
 echo $TWIG->render('featured.twig', $PAGEDATA);
-?>

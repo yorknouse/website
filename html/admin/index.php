@@ -26,4 +26,3 @@ $PAGEDATA['recentlyEditedArticles'] = $DBLIB->get("articlesDrafts",10,["articles
 $PAGEDATA['recentlyEditedArticles'] = [];
 
 echo $TWIG->render('index.twig', $PAGEDATA);
-?>

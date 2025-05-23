@@ -14,7 +14,3 @@ if (isset($_GET['q']) and isset($_GET['id']) and (strlen($_GET['id']) > 0 or str
 } else {
 	echo $TWIG->render('commentsSearch.twig', $PAGEDATA);
 }
-
-
-
-?>

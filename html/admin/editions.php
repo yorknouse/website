@@ -34,4 +34,3 @@ foreach ($editions as $edition) {
 
 
 echo $TWIG->render('editions.twig', $PAGEDATA);
-?>

@@ -12,4 +12,3 @@ $DBLIB->groupBy ("comments_authorEmail");
 $PAGEDATA['list'] = $DBLIB->get("comments",null, ["COUNT(*)","comments_authorEmail"]);
 
 echo $TWIG->render('commentersBanned.twig', $PAGEDATA);
-?>
