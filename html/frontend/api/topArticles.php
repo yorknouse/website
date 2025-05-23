@@ -14,7 +14,7 @@ function finish($result = false, $error = ["code" => null, "message" => null], $
 
 // Get top 4 read article IDs from summary table
 $readArticlesIds = array_column(
-    $DBLIB->rawQuery("SELECT articles_id FROM articleReadsSummary ORDER BY read_count DESC LIMIT 4"),
+    $DBLIB->rawQuery("SELECT articles_id FROM articlesReadsSummary ORDER BY read_count DESC LIMIT 4"),
     "articles_id"
 );
 
