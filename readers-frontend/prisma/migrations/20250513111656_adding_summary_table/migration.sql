@@ -8,7 +8,7 @@ ALTER TABLE `positions` MODIFY `positions_teamPageGroup` INTEGER NOT NULL DEFAUL
 ALTER TABLE `userPositions` MODIFY `userPositions_start` TIMESTAMP(0) NOT NULL DEFAULT '2000-01-01 00:00:00';
 
 -- CreateTable
-CREATE TABLE `articlesReadsSummary` (
+CREATE TABLE `articleReadsSummary` (
     `articles_id` INTEGER NOT NULL,
     `read_count` INTEGER NOT NULL,
     `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
