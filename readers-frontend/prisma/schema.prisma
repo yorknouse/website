@@ -83,6 +83,9 @@ model articles {
   @@index([articles_showInLists], map: "articles_articles_showInLists_index")
   @@index([articles_showInSearch], map: "articles_articles_showInSearch_index")
   @@index([articles_slug], map: "articles_articles_slug_index")
+  @@index([editions_id, articles_showInAdmin], map: "idx_articles_editions_admin")
+  @@index([articles_showInAdmin, articles_published(sort: Desc)], map: "idx_articles_admin_published")
+  @@fulltext([articles_slug])
 }
 
 model articlesDrafts {
@@ -102,6 +105,8 @@ model articlesDrafts {
 
   @@index([articles_id], map: "articlesDrafts_articles_articles_id_fk")
   @@index([articlesDrafts_userid], map: "articlesDrafts_users_users_userid_fk")
+  @@index([articles_id, articlesDrafts_timestamp(sort: Desc)], map: "idx_articlesDrafts_article_timestamp")
+  @@fulltext([articlesDrafts_headline, articlesDrafts_excerpt])
 }
 
 model articlesReads {
@@ -177,6 +182,7 @@ model categories {
   @@index([categories_order], map: "categories_categories_order_index")
   @@index([categories_showMenu], map: "categories_categories_showMenu_index")
   @@index([categories_showPublic, categories_showAdmin], map: "categories_show_index")
+  @@index([categories_nestUnder, categories_order, categories_displayName], map: "idx_categories_sort")
 }
 
 model comments {
@@ -224,6 +230,8 @@ model editions {
   editions_pdfOriginal        Int?
   editions_featuredHighlights String?  @db.LongText
   editions_type               String?  @db.VarChar(100)
+
+  @@index([editions_deleted, editions_published(desc)], map: "idx_editions_deleted_published")
 }
 
 model emailSent {
@@ -399,6 +407,7 @@ model users {
   @@index([users_googleAppsUsernameNouse], map: "users_users_googleAppsUsernameNouse_index")
   @@index([users_googleAppsUsernameYork], map: "users_users_googleAppsUsernameYork_index")
   @@index([users_suspended], map: "users_users_suspended_index")
+  @@index([users_userid, users_deleted], map: "idx_users_userid_deleted")
 }
 
 model usersOauthCodes {
