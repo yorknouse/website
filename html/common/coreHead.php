@@ -7,8 +7,7 @@ use Aws\S3\Exception\S3Exception;
 use voku\helper\HtmlDomParser;
 
 //GLOBALS STUFF - DON'T CHANGE
-function errorHandler()
-{
+function errorHandler() {
     if (error_get_last() and error_get_last()['type'] == '1') {
         global $CONFIG;
         die('Sorry we hit an error. Our tech team have been automatically notified but please contact support@nouse.co.uk for help resolving this error for your device <p style="display:none;">' . "\n\n\n" . error_get_last()['message'] . "\n\n\n" . '</p>');
@@ -80,8 +79,7 @@ class bCMS {
         return $randomString;
     }
 
-    function cleanString($var)
-    {
+    function cleanString($var) {
         //HTML Purification - user comments are run through this so it's pretty important we strip out all bad HTML.
         $config = HTMLPurifier_Config::createDefault();
         $config->set('Cache.DefinitionImpl', null);
@@ -91,8 +89,7 @@ class bCMS {
         return $clean_html; //NOTE THAT THIS REQUIRES THE USE OF PREPARED STATEMENTS AS IT'S NOT ESCAPED
     }
 
-    function formatSize($bytes)
-    {
+    function formatSize($bytes) {
         if ($bytes >= 1073741824) {
             $bytes = number_format($bytes / 1073741824, 1) . ' GB';
         } elseif ($bytes >= 100000) {
@@ -109,8 +106,7 @@ class bCMS {
         return $bytes;
     }
 
-    function modifyGet($array)
-    {
+    function modifyGet($array) {
         //Used to setup links that don't affect search terms etc.
         foreach ($array as $key => $value) {
             $_GET[$key] = $value;
@@ -118,8 +114,7 @@ class bCMS {
         return $_GET;
     }
 
-    public function articleThumbnail($article, $size = "large", $overrideImageDisplay = false)
-    {
+    public function articleThumbnail($article, $size = "large", $overrideImageDisplay = false) {
         global $DBLIB, $CONFIG;
         if ($article == null) return false;
         $DBLIB->where("articles_id", $this->sanitizeString($article));
@@ -237,8 +232,7 @@ class bCMS {
         else return $presignedUrl;
     }
 
-    public function cacheClearCategory($categoryid)
-    {
+    public function cacheClearCategory($categoryid) {
         global $DBLIB, $CONFIG;
         if (!$categoryid) return false;
 
@@ -260,8 +254,7 @@ class bCMS {
         return $this->cacheClear($url . "/");
     }
 
-    public function cacheClear($URL, $all = false)
-    {
+    public function cacheClear($URL, $all = false) {
         global $AUTH;
 
         if (!$this->cloudflare) $this->cloudflareInit();
@@ -293,8 +286,7 @@ class bCMS {
         }
     }
 
-    private function cloudflareInit()
-    {
+    private function cloudflareInit() {
         global $CONFIG;
         $this->cloudflare = [];
         $this->cloudflare['key'] = new Cloudflare\API\Auth\APIKey($CONFIG['CLOUDFLARE']['EMAIL'], $CONFIG['CLOUDFLARE']['KEY']);
@@ -306,8 +298,8 @@ class bCMS {
         //$this->cloudflare['user'] = new Cloudflare\API\Endpoints\User($this->cloudflare['adapter']);
     }
 
-    function auditLog($actionType = null, $table = null, $revelantData = null, $userid = null, $useridTo = null)
-    { //Keep an audit trail of actions - $userid is this user, and $useridTo is who this action was done to if it was at all
+    function auditLog($actionType = null, $table = null, $revelantData = null, $userid = null, $useridTo = null) {
+        //Keep an audit trail of actions - $userid is this user, and $useridTo is who this action was done to if it was at all
         global $DBLIB;
         $data = [
             "auditLog_actionType" => $this->sanitizeString($actionType),
@@ -339,8 +331,7 @@ class bCMS {
         return $category["categories_name"] . "/" . $url;
     }
 
-    public function yusuNotify($articleid)
-    {
+    public function yusuNotify($articleid) {
         global $DBLIB, $CONFIG;
         $DBLIB->where("articles.articles_id", $this->sanitizeString($articleid));
         $DBLIB->where("articles_mediaCharterDone", 0);
@@ -375,8 +366,7 @@ class bCMS {
 
     }
 
-    public function postSocial($articleid, $postToFacebook = true, $postToTwitter = true)
-    {
+    public function postSocial($articleid, $postToFacebook = true, $postToTwitter = true) {
         global $DBLIB, $CONFIG;
         $DBLIB->where("articles.articles_id", $this->sanitizeString($articleid));
         $DBLIB->where("articles.articles_showInSearch", 1); //ie those that can actually be shown - no point tweeting a dud link

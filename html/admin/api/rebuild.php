@@ -16,10 +16,10 @@ $out = curl_exec($ch);
 $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
-if ($code == 200) {
-    http_response_code(200);
-    exit;
-} else {
+if ($code !== 200) {
     http_response_code(500);
     exit;
 }
+
+http_response_code(200);
+exit;

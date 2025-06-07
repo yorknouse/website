@@ -27,7 +27,7 @@ $contentType = $body->contentType;
 // Prepare a PutObject command.
 $command = $s3->getCommand('putObject', [
     'Bucket' => $bucket,
-    'Key' => "{$filename}",
+    'Key' => "$filename",
     'ContentType' => $contentType,
     'Body' => '',
 ]);

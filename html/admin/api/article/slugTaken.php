@@ -6,4 +6,5 @@ if (!$AUTH->permissionCheck(31) or !$AUTH->permissionCheck(32) or !isset($_GET['
 
 $DBLIB->where ('articles_slug', $bCMS->sanitizeString($_GET['slug']));
 if ($DBLIB->getValue("articles", "COUNT(*)") > 0) die("TAKEN");
-else die("1");
+
+die("1");

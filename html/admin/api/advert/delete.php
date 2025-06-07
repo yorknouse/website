@@ -11,5 +11,7 @@ if (!$select) die("404");
 $bCMS->auditLog("DELETE", "adverts", $select['adverts_id'], $AUTH->data['users_userid']);
 
 $DBLIB->where ('adverts_id', $select['adverts_id']);
-if ($DBLIB->update ('adverts', ["adverts_deleted" => 1],1)) die('1');
-else die('2');
+if (!$DBLIB->update ('adverts', ["adverts_deleted" => 1],1))
+    die('2');
+
+die('1');

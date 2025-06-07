@@ -14,5 +14,7 @@ $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/edition/" . $edition['editions_
 $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL']);
 
 $DBLIB->where ('editions_id', $edition['editions_id']);
-if ($DBLIB->update ('editions', ["editions_deleted" => 1])) die('1');
-else die('2');
+if (!$DBLIB->update ('editions', ["editions_deleted" => 1]))
+    die('2');
+
+die('1');

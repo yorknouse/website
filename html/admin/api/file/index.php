@@ -12,9 +12,9 @@ require_once __DIR__ . '/../apiHeadSecure.php';
 
 $file = $bCMS->s3URL($_GET['f'], (isset($_GET['s']) ? $_GET['s'] : null), (isset($_GET['d'])),(isset($_GET['e']) ? $_GET['e'] : null));
 if (!$file) die("404 file not found");
-else {
-    if (isset($_GET['r'])) {
-        header("Location: " . $file);
-        die();
-    } else die($file);
-}
+
+if (!isset($_GET['r']))
+    die($file);
+
+header("Location: " . $file);
+die();

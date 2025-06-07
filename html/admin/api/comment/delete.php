@@ -5,6 +5,7 @@ if (!$AUTH->permissionCheck(41) or !isset($_GET['id'])) finish(false, ["code" =>
 
 $DBLIB->where ('comments_id', $bCMS->sanitizeString($_GET['id']));
 if ($DBLIB->update ('comments', ["comments_show" => 0])) {
-    $bCMS->auditLog("DELETE", "comments", $bCMS->sanitizeString($_GET['id']), $AUTH->data['users_userid']);finish(true);
+    $bCMS->auditLog("DELETE", "comments", $bCMS->sanitizeString($_GET['id']), $AUTH->data['users_userid']);
+    finish(true);
 }
-else finish(false, ["code" => null, "message" => "DB Errir"]);
+else finish(false, ["code" => null, "message" => "DB Error"]);

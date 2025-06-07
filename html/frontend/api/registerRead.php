@@ -14,8 +14,8 @@ $readData = array(
 
 $id = $DBLIB->insert('articlesReads', $readData);
 
-if ($id) {
-    die();
-} else {
+if (!$id) {
     die(1);
 }
+
+die();

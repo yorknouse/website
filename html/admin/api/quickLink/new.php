@@ -17,5 +17,7 @@ $data = [
 ];
 $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/" . $bCMS->sanitizeString($_GET['string']));
 $bCMS->auditLog("CREATE", "quickLink", "", $AUTH->data['users_userid']);
-if ($DBLIB->insert("quickLinks", $data)) die("1");
-else die("404");
+if (!$DBLIB->insert("quickLinks", $data))
+    die("404");
+
+die("1");

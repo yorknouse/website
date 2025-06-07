@@ -13,9 +13,10 @@ $summaryQuery = "
 // Run the query
 $result = $DBLIB->rawQuery($summaryQuery);
 
-if ($result === false) {
+if (!$result) {
     error_log("Failed to update articlesReadSummary: " . $DBLIB->getLastError());
     echo "Failed to update summary.\n";
-} else {
-    echo "articlesReadSummary updated successfully.\n";
+    return;
 }
+
+echo "articlesReadSummary updated successfully.\n";

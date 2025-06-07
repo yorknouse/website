@@ -20,7 +20,8 @@ $newData["adverts_bannerImageMob"] = ($_POST["adverts_bannerImageMob"] != null ?
 $newData["adverts_bannerImage"] = ($_POST["adverts_bannerImage"] != null ? $_POST["adverts_bannerImage"] : null);
 
 $DBLIB->where ('adverts_id', $advert['adverts_id']);
-if ($DBLIB->update ('adverts', $newData)) {
-    $bCMS->auditLog("EDIT", "advert", json_encode(["adverts_id" => $advert['adverts_id'], "newData" => $newData]), $AUTH->data['users_userid']);
-    finish(true);
-} else finish(false, ["code" => null, "message" => "Edit error"]);
+if ($DBLIB->update ('adverts', $newData))
+    finish(false, ["code" => null, "message" => "Edit error"]);
+
+$bCMS->auditLog("EDIT", "advert", json_encode(["adverts_id" => $advert['adverts_id'], "newData" => $newData]), $AUTH->data['users_userid']);
+finish(true);

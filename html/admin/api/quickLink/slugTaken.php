@@ -6,5 +6,7 @@ if (!isset($_GET['slug'])) die("404");
 
 $DBLIB->where ('quickLinks_string', strtolower($bCMS->sanitizeString($_GET['slug'])));
 $DBLIB->where ('quickLinks_deleted', 0);
-if ($DBLIB->getValue("quickLinks", "COUNT(*)") > 0) die("TAKEN");
-else die("1");
+if ($DBLIB->getValue("quickLinks", "COUNT(*)") > 0)
+    die("TAKEN");
+
+die("1");

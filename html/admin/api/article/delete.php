@@ -17,5 +17,7 @@ foreach ($article['articles_categories'] as $category) {
 }
 
 $DBLIB->where ('articles_id', $article['articles_id']);
-if ($DBLIB->update ('articles', ["articles_showInAdmin" => 0, "articles_showInSearch" => 0, "articles_showInLists" => 0])) die('1');
-else die('2');
+if (!$DBLIB->update ('articles', ["articles_showInAdmin" => 0, "articles_showInSearch" => 0, "articles_showInLists" => 0]))
+    die('2');
+
+die('1');

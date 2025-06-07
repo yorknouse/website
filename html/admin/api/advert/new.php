@@ -10,10 +10,10 @@ $result = $DBLIB->insert("adverts", [
     "adverts_enabled" => 0,
     "adverts_default" => 0
 ]);
-if ($result) {
-    $bCMS->auditLog("INSERT", "adverts", $result, $AUTH->data['users_userid']);
-    finish(true, null, ["id" => $result]);
-} else {
+if (!$result) {
     echo $DBLIB->getLastError();
     finish(false, ["code" => null, "message" => "Insert error"]);
 }
+
+$bCMS->auditLog("INSERT", "adverts", $result, $AUTH->data['users_userid']);
+finish(true, null, ["id" => $result]);
