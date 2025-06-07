@@ -39,7 +39,7 @@ if (isset($_GET['id'])) {
 
 			$DBLIB->where("articlesCategories.articles_id", $bCMS->sanitizeString($article['articles_id']));
 			$article['articles_categories'] = array_column($DBLIB->get("articlesCategories"), 'categories_id');
-			array_push($PAGEDATA['articlesIDs'],$article['articles_id']);
+			$PAGEDATA['articlesIDs'][] = $article['articles_id'];
 			$PAGEDATA['articles'][] = $article;
 		}
 	}
