@@ -17,4 +17,3 @@ if ($result) {
     echo $DBLIB->getLastError();
     finish(false, ["code" => null, "message" => "Insert error"]);
 }
-?>

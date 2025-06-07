@@ -24,4 +24,3 @@ if ($DBLIB->update ('positionsGroups', ['positionsGroups_actions' => implode(","
 	die('1');
 }
 else die('2');
-?>

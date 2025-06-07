@@ -185,4 +185,3 @@ class bID
         else return false;
     }
 }
-?>

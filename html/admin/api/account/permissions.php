@@ -46,5 +46,3 @@ if ($_POST['action'] == "DELETE") {
     $bCMS->auditLog("ENDALL", "userPositions", $bCMS->sanitizeString($_POST["userPositions_id"]), $AUTH->data['users_userid'],$bCMS->sanitizeString($_POST["users_userid"]));
     finish(true);
 } else finish(false, ["code" => null, "message"=> "Attribute action error"]);
-
-?>

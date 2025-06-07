@@ -43,4 +43,3 @@ if (isset($_GET['forename'])) {
         }
     }
 } else die('3');
-?>

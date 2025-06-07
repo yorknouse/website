@@ -12,4 +12,3 @@ if (isset($_GET['logout'])) {
 	$GLOBALS['AUTH']->logout();
 }
 echo $TWIG->render('login/login.twig', $PAGEDATA);
-?>

@@ -225,5 +225,3 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
         finish(true, null, ["articleid" => $articleID]);
     } else finish(false, ["code" => null, "message" => "Insert draft error"]);
 } else finish(false, ["code" => null, "message" => "No data specified"]);
-
-?>

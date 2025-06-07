@@ -35,5 +35,4 @@ if (!$AUTH->permissionCheck(6)) die("Sorry you don't have access to this");
 		<div class="pagebreak"> </div>';
 	}
 
-	echo $output;
-?>
+echo $output;
