@@ -79,6 +79,12 @@ RUN npx prisma generate
 RUN npm run build -- --config astro.config.prod.ts
 
 RUN chown -R www-data:www-data /var/www
+RUN git config --global --add safe.directory /var/www
+
+RUN mkdir -p /tmp/admin/43
+RUN chown -R www-data:www-data /tmp/admin
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # To get in container - docker exec -t -i nouse-container /bin/bash
 
