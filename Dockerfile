@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM php:8.4-apache
 RUN apt-get update
 COPY docker/php.ini /var/www/php.ini
 RUN mv "/var/www/php.ini" "$PHP_INI_DIR/php.ini"

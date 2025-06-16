@@ -58,7 +58,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:5.1
+    image: phpmyadmin/phpmyadmin:5.2
     container_name: phpmyadmin
     environment:
       - PMA_HOST=db
@@ -105,7 +105,7 @@ services:
      volumes:
        - /etc/localtime:/etc/localtime:ro
   grafana:
-    image: grafana/grafana:8.1.7-ubuntu
+    image: grafana/grafana:8.5.27-ubuntu
     container_name: grafana
     restart: unless-stopped
     volumes:
