@@ -51,6 +51,7 @@ COPY . /var/www/
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 WORKDIR /var/www
+RUN composer update
 RUN composer install
 
 COPY docker/start.sh /var/www/start.sh
