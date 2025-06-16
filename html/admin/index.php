@@ -1,4 +1,5 @@
 <?php
+global $DBLIB, $TWIG;
 require_once __DIR__ . '/common/headSecure.php';
 
 $PAGEDATA['pageConfig'] = ["TITLE" => "Home", "BREADCRUMB" => false];

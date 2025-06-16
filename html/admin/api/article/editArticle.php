@@ -1,4 +1,5 @@
 <?php
+global $bCMS, $AUTH, $DBLIB, $CONFIG;
 require_once __DIR__ . '/../apiHeadSecure.php';
 header("Content-Type: text/json");
 

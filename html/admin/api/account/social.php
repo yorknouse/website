@@ -1,4 +1,5 @@
 <?php
+global $bCMS, $USERDATA, $AUTH, $DBLIB;
 require_once __DIR__ . '/../apiHeadSecure.php';
 header('Content-Type:text/plain');
 

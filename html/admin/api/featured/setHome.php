@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $DBLIB, $bCMS, $CONFIG;
 require_once __DIR__ . '/../apiHeadSecure.php';
 
 if (!isset($_POST['selection']) or !$AUTH->permissionCheck(22)) finish(false, ["code" => "PARAM", "message"=> "Parameter error"]);

@@ -8,14 +8,15 @@ $CLIENTS = [
         "name" => "Grafana"
     ]
 ];
-function base64UrlEncode($text)
-{
+
+function base64UrlEncode($text) {
     return str_replace(
         ['+', '/', '='],
         ['-', '_', ''],
         base64_encode($text)
     );
 }
+
 function generateJWT($payload, $secret) {
     $header = json_encode([
         'typ' => 'JWT',
@@ -32,7 +33,5 @@ function generateJWT($payload, $secret) {
 
     $base64UrlSignature = base64UrlEncode($signature);
 
-    $jwt = $base64UrlHeader . "." . $base64UrlPayload . "." . $base64UrlSignature;
-
-    return $jwt;
+    return $base64UrlHeader . "." . $base64UrlPayload . "." . $base64UrlSignature;
 }

@@ -1,5 +1,7 @@
 <?php
 
+global $CONFIG;
+
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
@@ -93,4 +95,5 @@ $TWIG->addFilter(new TwigFilter('articleThumbnail', function ($article,$size = f
 $TWIG->addFilter(new TwigFilter('md5', function ($string) {
     return md5($string);
 }));
+/** @var bID $AUTH */
 $GLOBALS['AUTH'] = new bID;

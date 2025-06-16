@@ -7,6 +7,7 @@ class bID {
     private $debug;
     private $tokenCheckResult;
     private $permissions;
+    private $token;
     function __construct() {
         global $DBLIB,$CONFIG;
         if (!isset($_SESSION['token'])) {
@@ -53,7 +54,7 @@ class bID {
             $this->login = false;
             return;
         }
-        $this->token = $this->tokenCheckResult;
+//        $this->token = $this->tokenCheckResult;
         if ($this->tokenCheckResult["authTokens_adminId"] != null) { //Admin "view site as" functionality
             $DBLIB->where("users_userid", $this->tokenCheckResult["authTokens_adminId"]);
             $this->data['viewSiteAs'] = $DBLIB->getOne("users");

@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $bCMS, $TWIG, $DBLIB;
 require_once __DIR__ . '/common/headSecure.php';
 
 $PAGEDATA['pageConfig'] = ["TITLE" => "Articles", "BREADCRUMB" => false];

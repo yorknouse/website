@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $DBLIB, $bCMS;
 require_once __DIR__ . '/../apiHeadSecure.php';
 
 header('Content-type: application/json');

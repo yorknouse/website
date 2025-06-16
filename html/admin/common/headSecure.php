@@ -1,4 +1,5 @@
 <?php
+global $CONFIG;
 require_once __DIR__ . '/head.php';
 require_once __DIR__ . '/../common/authLib.php';
 

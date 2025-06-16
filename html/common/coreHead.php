@@ -1,4 +1,5 @@
 <?php
+global $CONFIG;
 require_once __DIR__ . '/config.php';
 
 use Aws\S3\S3Client;
@@ -15,7 +16,7 @@ function errorHandler() {
 }
 
 //set_error_handler('errorHandler');
-if ($CONFIG['DEV'] != true) {
+if (!$CONFIG['DEV']) {
     Sentry\init([
         'dsn' => $CONFIG['ERRORS']['SENTRY'],
         'traces_sample_rate' => 0.1, //Capture 10% of pageloads for perforamnce monitoring
@@ -420,4 +421,5 @@ class bCMS {
     }
 }
 
+/** @var bCMS $bCMS */
 $GLOBALS['bCMS'] = new bCMS;

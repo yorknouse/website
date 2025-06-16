@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $bCMS, $CONFIG;
 require_once __DIR__ . '/../apiHeadSecure.php';
 
 if (!$AUTH->permissionCheck(10)) die("Sorry - you can't access this page");

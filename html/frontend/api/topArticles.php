@@ -1,4 +1,5 @@
 <?php
+global $DBLIB, $bCMS;
 require_once __DIR__ . '/../../common/coreHead.php';
 
 function finish($result = false, $error = ["code" => null, "message" => null], $response = []) {

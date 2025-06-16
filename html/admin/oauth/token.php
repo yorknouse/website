@@ -1,4 +1,5 @@
 <?php
+global $CLIENTS, $DBLIB;
 require_once 'oauthHead.php';
 if (!isset($_POST['grant_type']) or $_POST['grant_type'] !== "authorization_code")
     return;

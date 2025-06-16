@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $DBLIB, $bCMS;
 require_once __DIR__ . '/../apiHeadSecure.php';
 
 if (!$AUTH->permissionCheck(42) or !isset($_GET['id'])) finish(false, ["code" => null, "message" => "No data specified or auth fail"]);

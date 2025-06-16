@@ -1,4 +1,5 @@
 <?php
+global $CONFIG, $AUTH, $DBLIB, $bCMS;
 require_once __DIR__ . '/../apiHeadSecure.php';
 
 if (!$CONFIG['AWS']['UPLOAD']) die("Uploads disabled");

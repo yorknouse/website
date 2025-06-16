@@ -1,8 +1,8 @@
 <?php
+global $AUTH, $DBLIB, $CONFIG, $bCMS;
 require_once __DIR__ . '/../../apiHeadSecure.php';
 
 if (!$AUTH->permissionCheck(54) or !isset($_POST['commentid'])) finish(false, ["code" => null, "message" => "Auth fail"]);
-
 
 $DBLIB->where("comments_id", $_POST['commentid']);
 $comment = $DBLIB->getone("comments", ["comments_id", "articles_id","comments_text",'comments_authorName']);

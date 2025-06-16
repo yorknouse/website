@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $DBLIB, $TWIG;
 require_once __DIR__ . '/common/headSecure.php';
 if (!$AUTH->permissionCheck(58) or !isset($_GET['id'])) die("Sorry - you can't access this page");
 

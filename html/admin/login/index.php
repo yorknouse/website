@@ -1,4 +1,5 @@
 <?php
+global $TWIG;
 require_once __DIR__ . '/../common/head.php';
 
 $PAGEDATA['pageConfig'] = ["TITLE" => "Login", "LOGOUT" => false];

@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $DBLIB, $bCMS, $CONFIG;
 require_once __DIR__ . '/../apiHeadSecure.php';
 header("Content-Type: text/plain");
 
@@ -13,7 +14,7 @@ if (!$link)
     die("404");
 
 $DBLIB->where ('quickLinks_id', $link['quickLinks_id']);
-if (!$DBLIB->update ('quickLinks', ["quickLinks_deleted" => 1]))
+if (!$DBLIB->update('quickLinks', ["quickLinks_deleted" => 1]))
     die("2");
 
 $bCMS->auditLog("DELETE", "quickLinks", $bCMS->sanitizeString($_GET['id']), $AUTH->data['users_userid']);

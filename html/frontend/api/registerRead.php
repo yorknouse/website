@@ -1,4 +1,5 @@
 <?php
+global $bCMS, $DBLIB;
 require_once __DIR__ . '/../../common/coreHead.php';
 
 if (!isset($_POST['articleId'])) {

@@ -1,4 +1,5 @@
 <?php
+global $DBLIB;
 require_once __DIR__ . '/../common/coreHead.php'; // Adjust to your DB bootstrap
 
 // Build the summary query

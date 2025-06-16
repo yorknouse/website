@@ -1,10 +1,11 @@
 <?php
+global $AUTH, $DBLIB, $bCMS, $CONFIG;
 require_once __DIR__ . '/../apiHeadSecure.php';
 header("Content-Type: text/json");
 
 if (!$AUTH->permissionCheck(51) or !isset($_POST['editionid']) or !is_numeric($_POST['editionid'])) die("404");
 
-$DBLIB->where ('editions_id', $bCMS->sanitizeString($_POST['editionid']));
+$DBLIB->where('editions_id', $bCMS->sanitizeString($_POST['editionid']));
 $edition = $DBLIB->getOne("editions");
 if (!$edition) die("404");
 

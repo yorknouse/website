@@ -1,4 +1,5 @@
 <?php
+global $CONFIG;
 require_once __DIR__ . '/../apiHeadSecure.php';
 
 if (!$CONFIG['AWS']['UPLOAD']) die("Uploads disabled");

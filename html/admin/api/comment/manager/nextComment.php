@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $DBLIB;
 require_once __DIR__ . '/../../apiHeadSecure.php';
 
 if (!$AUTH->permissionCheck(54)) finish(false, ["code" => null, "message" => "Auth fail"]);

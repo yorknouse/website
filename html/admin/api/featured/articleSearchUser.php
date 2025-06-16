@@ -1,4 +1,5 @@
 <?php
+global $bCMS, $DBLIB;
 require_once __DIR__ . '/../apiHeadSecure.php';
 
 if (!isset($_GET['userid'])) finish(false, ["code" => "PARAM", "message"=> "No term set"]);

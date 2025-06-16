@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $DBLIB, $bCMS, $TWIG;
 require_once __DIR__ . '/common/headSecure.php';
 
 $PAGEDATA['pageConfig'] = ["TITLE" => "Edition Editor", "BREADCRUMB" => false];

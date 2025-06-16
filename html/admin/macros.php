@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $TWIG;
 require_once __DIR__ . '/common/headSecure.php';
 
 $PAGEDATA['pageConfig'] = ["TITLE" => "Macros", "BREADCRUMB" => true];

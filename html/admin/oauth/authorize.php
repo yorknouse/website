@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $DBLIB, $TWIG;
 require_once 'oauthHeadSecure.php';
 
 if (!isset($_GET['redirect_uri']) or !isset($_GET['scope']))
