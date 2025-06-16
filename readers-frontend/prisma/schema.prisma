@@ -66,7 +66,7 @@ model articles {
   articles_lifetimeViews       Int?                 @default(0)
   articles_archiveFallback     String?              @db.VarChar(255)
   articles_socialConfig        String               @default("1,0,1,0") @db.VarChar(50)
-  articles_mediaCharterDone    Boolean              @default(false)
+  articles_mediaCharterDone    Int                  @default(0) @db.TinyInt()
   articles_socialExcerpt       String?              @db.VarChar(2000)
   articles_dropCapital         Boolean              @default(false)
   articles_displayImages       Boolean?             @default(true)
@@ -86,6 +86,24 @@ model articles {
   @@index([editions_id, articles_showInAdmin], map: "idx_articles_editions_admin")
   @@index([articles_showInAdmin, articles_published(sort: Desc)], map: "idx_articles_admin_published")
   @@fulltext([articles_slug])
+}
+
+model articlesAuthors {
+  article      articles @relation(fields: [articles_id], references: [articles_id])
+  articles_id  Int
+  users_userid Int
+  users        users    @relation(fields: [users_userid], references: [users_userid])
+
+  @@unique([articles_id, users_userid], map: "articlesAuthors_articles_id_users_userid_unique")
+}
+
+model articlesCategories {
+  article       articles   @relation(fields: [articles_id], references: [articles_id])
+  articles_id   Int
+  categories_id Int
+  category      categories @relation(fields: [categories_id], references: [categories_id])
+
+  @@unique([articles_id, categories_id], map: "articlesCategories_articles_id_categories_id_unique")
 }
 
 model articlesDrafts {
@@ -193,7 +211,7 @@ model comments {
   comments_authorEmail        String?   @db.VarChar(500)
   comments_authorURL          String?   @db.VarChar(500)
   comments_authorIP           String?   @db.VarChar(500)
-  comments_created            DateTime? @db.Timestamp(0)
+  comments_created            DateTime? @default(now()) @db.Timestamp(0)
   comments_text               String?   @db.Text
   comments_show               Boolean   @default(true)
   comments_approved           Boolean   @default(false)
@@ -335,7 +353,7 @@ model s3files {
   s3files_compressed                              Boolean   @default(false)
   s3files_meta_size                               BigInt
   s3files_meta_public                             Boolean   @default(false)
-  s3files_meta_type                               Int       @default(0) @db.TinyInt
+  s3files_meta_type                               Int       @default(0) @db.TinyInt()
   s3files_meta_subType                            Int?
   s3files_meta_uploaded                           DateTime  @default(now()) @db.Timestamp(0)
   users_userid                                    Int?
@@ -419,22 +437,4 @@ model usersOauthCodes {
   usersOauthCodes_client String   @db.VarChar(200)
   usersOauthCodes_type   String?  @db.VarChar(200)
   users_userid           Int
-}
-
-model articlesCategories {
-  article       articles   @relation(fields: [articles_id], references: [articles_id])
-  articles_id   Int
-  categories_id Int
-  category      categories @relation(fields: [categories_id], references: [categories_id])
-
-  @@unique([articles_id, categories_id], map: "articlesCategories_articles_id_categories_id_unique")
-}
-
-model articlesAuthors {
-  article      articles @relation(fields: [articles_id], references: [articles_id])
-  articles_id  Int
-  users_userid Int
-  users        users    @relation(fields: [users_userid], references: [users_userid])
-
-  @@unique([articles_id, users_userid], map: "articlesAuthors_articles_id_users_userid_unique")
 }
