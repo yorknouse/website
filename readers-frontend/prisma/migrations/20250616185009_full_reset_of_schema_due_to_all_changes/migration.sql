@@ -45,8 +45,6 @@ CREATE TABLE `adverts` (
 -- CreateTable
 CREATE TABLE `articles` (
     `articles_id` INTEGER NOT NULL AUTO_INCREMENT,
-    `articles_categories` VARCHAR(255) NOT NULL,
-    `articles_authors` VARCHAR(500) NULL,
     `articles_published` TIMESTAMP(0) NULL,
     `editions_id` INTEGER NULL,
     `articles_editionPage` VARCHAR(100) NULL,
@@ -54,20 +52,19 @@ CREATE TABLE `articles` (
     `articles_showInLists` BOOLEAN NOT NULL DEFAULT false,
     `articles_showInSearch` BOOLEAN NOT NULL DEFAULT false,
     `articles_showInAdmin` BOOLEAN NOT NULL DEFAULT true,
-    `articles_type` BOOLEAN NOT NULL DEFAULT true,
+    `articles_type` INTEGER NOT NULL DEFAULT 1,
     `articles_slug` VARCHAR(255) NULL,
     `articles_extraMetadata` TEXT NULL,
     `articles_thumbnail` VARCHAR(500) NULL,
     `articles_lifetimeViews` INTEGER NULL DEFAULT 0,
     `articles_archiveFallback` VARCHAR(255) NULL,
     `articles_socialConfig` VARCHAR(50) NOT NULL DEFAULT '1,0,1,0',
-    `articles_mediaCharterDone` BOOLEAN NOT NULL DEFAULT false,
+    `articles_mediaCharterDone` TINYINT NOT NULL DEFAULT 0,
     `articles_socialExcerpt` VARCHAR(2000) NULL,
     `articles_dropCapital` BOOLEAN NOT NULL DEFAULT false,
     `articles_displayImages` BOOLEAN NULL DEFAULT true,
+    `articles_isThumbnailPortrait` BOOLEAN NOT NULL DEFAULT false,
 
-    INDEX `articles_articles_authors_index`(`articles_authors`),
-    INDEX `articles_articles_categories_index`(`articles_categories`),
     INDEX `articles_articles_id_index`(`articles_id`),
     INDEX `articles_articles_lifetimeViews_index`(`articles_lifetimeViews`),
     INDEX `articles_articles_pdfFallback_index`(`articles_archiveFallback`),
@@ -76,7 +73,26 @@ CREATE TABLE `articles` (
     INDEX `articles_articles_showInLists_index`(`articles_showInLists`),
     INDEX `articles_articles_showInSearch_index`(`articles_showInSearch`),
     INDEX `articles_articles_slug_index`(`articles_slug`),
+    INDEX `idx_articles_editions_admin`(`editions_id`, `articles_showInAdmin`),
+    INDEX `idx_articles_admin_published`(`articles_showInAdmin`, `articles_published` DESC),
+    FULLTEXT INDEX `articles_articles_slug_idx`(`articles_slug`),
     PRIMARY KEY (`articles_id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `articlesAuthors` (
+    `articles_id` INTEGER NOT NULL,
+    `users_userid` INTEGER NOT NULL,
+
+    UNIQUE INDEX `articlesAuthors_articles_id_users_userid_unique`(`articles_id`, `users_userid`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `articlesCategories` (
+    `articles_id` INTEGER NOT NULL,
+    `categories_id` INTEGER NOT NULL,
+
+    UNIQUE INDEX `articlesCategories_articles_id_categories_id_unique`(`articles_id`, `categories_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -95,6 +111,8 @@ CREATE TABLE `articlesDrafts` (
 
     INDEX `articlesDrafts_articles_articles_id_fk`(`articles_id`),
     INDEX `articlesDrafts_users_users_userid_fk`(`articlesDrafts_userid`),
+    INDEX `idx_articlesDrafts_article_timestamp`(`articles_id`, `articlesDrafts_timestamp` DESC),
+    FULLTEXT INDEX `articlesDrafts_articlesDrafts_headline_articlesDrafts_excerp_idx`(`articlesDrafts_headline`, `articlesDrafts_excerpt`),
     PRIMARY KEY (`articlesDrafts_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -105,7 +123,19 @@ CREATE TABLE `articlesReads` (
     `articlesReads_timestamp` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
 
     INDEX `articlesReads_articles_articles_id_fk`(`articles_id`),
+    INDEX `idx_reads_timestamp_id`(`articlesReads_timestamp`, `articles_id`),
     PRIMARY KEY (`articlesReads_id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `articlesReadsSummary` (
+    `articles_id` INTEGER NOT NULL,
+    `read_count` INTEGER NOT NULL,
+    `updated_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    INDEX `articlesReadsSummary_articles_articles_id_fk`(`articles_id`),
+    INDEX `idx_articlesReadsSummary_readcount_desc`(`read_count` DESC),
+    PRIMARY KEY (`articles_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -165,6 +195,7 @@ CREATE TABLE `categories` (
     INDEX `categories_categories_order_index`(`categories_order`),
     INDEX `categories_categories_showMenu_index`(`categories_showMenu`),
     INDEX `categories_show_index`(`categories_showPublic`, `categories_showAdmin`),
+    INDEX `idx_categories_sort`(`categories_nestUnder`, `categories_order`, `categories_displayName`),
     PRIMARY KEY (`categories_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -176,7 +207,7 @@ CREATE TABLE `comments` (
     `comments_authorEmail` VARCHAR(500) NULL,
     `comments_authorURL` VARCHAR(500) NULL,
     `comments_authorIP` VARCHAR(500) NULL,
-    `comments_created` TIMESTAMP(0) NULL,
+    `comments_created` TIMESTAMP(0) NULL DEFAULT CURRENT_TIMESTAMP(0),
     `comments_text` TEXT NULL,
     `comments_show` BOOLEAN NOT NULL DEFAULT true,
     `comments_approved` BOOLEAN NOT NULL DEFAULT false,
@@ -209,7 +240,7 @@ CREATE TABLE `editions` (
     `editions_deleted` BOOLEAN NOT NULL DEFAULT false,
     `editions_published` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
     `editions_show` BOOLEAN NOT NULL DEFAULT true,
-    `editions_showHome` TINYINT NOT NULL DEFAULT 1,
+    `editions_showHome` BOOLEAN NOT NULL DEFAULT true,
     `editions_thumbnail` INTEGER NULL,
     `editions_headerImage` INTEGER NULL,
     `editions_pdf` INTEGER NULL,
@@ -218,6 +249,7 @@ CREATE TABLE `editions` (
     `editions_type` VARCHAR(100) NULL,
 
     UNIQUE INDEX `editions_slug`(`editions_slug`),
+    INDEX `idx_editions_deleted_published`(`editions_deleted`, `editions_published`),
     PRIMARY KEY (`editions_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -282,6 +314,7 @@ CREATE TABLE `positions` (
     `positions_displayName` VARCHAR(255) NOT NULL,
     `positions_positionsGroups` VARCHAR(500) NULL,
     `positions_rank` TINYINT UNSIGNED NOT NULL DEFAULT 254,
+    `positions_teamPageGroup` INTEGER NOT NULL DEFAULT 4,
 
     INDEX `positions_positions_id_index`(`positions_id`),
     INDEX `positions_positions_positionsGroups_index`(`positions_positionsGroups`),
@@ -392,6 +425,7 @@ CREATE TABLE `users` (
     INDEX `users_users_googleAppsUsernameNouse_index`(`users_googleAppsUsernameNouse`),
     INDEX `users_users_googleAppsUsernameYork_index`(`users_googleAppsUsernameYork`),
     INDEX `users_users_suspended_index`(`users_suspended`),
+    INDEX `idx_users_userid_deleted`(`users_userid`, `users_deleted`),
     PRIMARY KEY (`users_userid`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -418,7 +452,22 @@ ALTER TABLE `adverts` ADD CONSTRAINT `adverts_s3files_s3files_id_fk` FOREIGN KEY
 ALTER TABLE `adverts` ADD CONSTRAINT `adverts_s3files_s3files_id_fk_2` FOREIGN KEY (`adverts_bannerImageMob`) REFERENCES `s3files`(`s3files_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE `articlesAuthors` ADD CONSTRAINT `articlesAuthors_articles_id_fkey` FOREIGN KEY (`articles_id`) REFERENCES `articles`(`articles_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `articlesAuthors` ADD CONSTRAINT `articlesAuthors_users_userid_fkey` FOREIGN KEY (`users_userid`) REFERENCES `users`(`users_userid`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `articlesCategories` ADD CONSTRAINT `articlesCategories_articles_id_fkey` FOREIGN KEY (`articles_id`) REFERENCES `articles`(`articles_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `articlesCategories` ADD CONSTRAINT `articlesCategories_categories_id_fkey` FOREIGN KEY (`categories_id`) REFERENCES `categories`(`categories_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE `articlesDrafts` ADD CONSTRAINT `articlesDrafts_users_users_userid_fk` FOREIGN KEY (`articlesDrafts_userid`) REFERENCES `users`(`users_userid`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+-- AddForeignKey
+ALTER TABLE `articlesDrafts` ADD CONSTRAINT `articlesDrafts_articles_id_fkey` FOREIGN KEY (`articles_id`) REFERENCES `articles`(`articles_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `auditLog` ADD CONSTRAINT `auditLog_users_users_userid_fk` FOREIGN KEY (`users_userid`) REFERENCES `users`(`users_userid`) ON DELETE RESTRICT ON UPDATE RESTRICT;
