@@ -84,9 +84,6 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
         $socialMedia['0'] = 0;
     }
 
-
-
-
     $articleData['articles_socialConfig'] = implode(",", $socialMedia); //Update the social media thing with whatever we've changed
 
     $articleDraftsData["articles_id"] = $article['articles_id'];
@@ -162,7 +159,6 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
         $socialMedia['2'] = 0;
     } else {
         $socialMedia['2'] = 1; //Say that they've chosen to post to twitter - set this to 1 so we know that
-
     }
 
     if ($_POST['postToFacebook'] != 1) { //They dont want it to go on FB
@@ -170,22 +166,21 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
     } else {
         $socialMedia['0'] = 1; //Say that they've chosen to post to fb - set this to 1 so we know that
     }
+
     $articleData['articles_socialConfig'] = implode(",", $socialMedia); //Update the social media thing with whatever we've changed
 
-
     $articleData["articles_type"] = $bCMS->sanitizeString($_POST['type']);
-
 
     $articleID = $DBLIB->insert("articles", $articleData);
     if (!$articleID) finish(false, ["code" => null, "message" => "Insert error" . $DBLIB->getLastError()]);
     $articleDraftsData["articles_id"] = $articleID;
     if ($DBLIB->insert("articlesDrafts", $articleDraftsData)) {
 
-        //Establish if this will make the public - in which case YUSU need to be notified
-        //This version is different because the article has to be updated
+        // Establish if this will make the public - in which case York SU need to be notified,
+        // This version is different because the article has to be updated
 
         if (strtotime($articleData["articles_published"]) <= time() and $articleData["articles_showInSearch"] == 1) {
-            $bCMS->yusuNotify($articleID); //This article has been posted historically so we need to email YUSU
+            $bCMS->yorkSUNotify($articleID); //This article has been posted historically, so we need to email York SU
         }
 
         //Social Media automation

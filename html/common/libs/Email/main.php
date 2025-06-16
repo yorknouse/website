@@ -1,4 +1,8 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 require_once __DIR__ . '/../../config.php';
 
 function outputemail($html) {
@@ -1021,30 +1025,44 @@ function sendemail($userIDOrEmail, $subject, $html) {
 
     $outputhtml = outputemail($html);
 
-    $email = new \SendGrid\Mail\Mail();
-    $email->setFrom($CONFIG['PROJECT_FROM_EMAIL'], $CONFIG['PROJECT_NAME']);
-    $email->setSubject($subject);
-    $email->addTo($user["users_email"], $user["users_name1"] . ' ' . $user["users_name2"]);
-    //$email->addContent("text/plain", "and easy to do anywhere, even with PHP");
-    $email->addContent("text/html", $outputhtml);
-    $sendgrid = new SendGrid($CONFIG['SENDGRID']['APIKEY']);
+    $mail = new PHPMailer(true);
 
-    $sqldata = array("users_userid" => $user['users_userid'],
-        "emailSent_html" => $html,
-        "emailSent_subject" => $subject,
-        "emailSent_sent" => date('Y-m-d G:i:s'),
-        "emailSent_fromEmail" => $CONFIG['PROJECT_FROM_EMAIL'],
-        "emailSent_fromName" => $CONFIG['PROJECT_NAME'],
-        'emailSent_toEmail' => $user["users_email"],
-        'emailSent_toName' => $user["users_name1"] . ' ' . $user["users_name2"]
-    );
-    $emailid = $DBLIB->insert('emailSent', $sqldata);
-    if (!$emailid)
+    try {
+        // Server settings
+        $mail->isSMTP();
+        $mail->Host = $CONFIG['EMAIL']['HOST'];
+        $mail->SMTPAuth   = true;
+        $mail->Username = $CONFIG['EMAIL']['USERNAME'];
+        $mail->Password = $CONFIG['EMAIL']['PASSWORD'];
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+
+        // Recipients
+        $mail->setFrom($CONFIG['EMAIL']['FROM'], 'Nouse No-Reply');
+        $mail->addAddress($user['users_email'], $user["users_name1"] . ' ' . $user["users_name2"]);
+
+        // Content
+        $mail->isHTML();
+        $mail->Subject = $subject;
+        $mail->Body    = $outputhtml;
+
+        $mail->send();
+        echo 'Message has been sent successfully.';
+        $sqldata = array("users_userid" => $user['users_userid'],
+            "emailSent_html" => $html,
+            "emailSent_subject" => $subject,
+            "emailSent_sent" => date('Y-m-d G:i:s'),
+            "emailSent_fromEmail" => $CONFIG['EMAIL']['FROM'],
+            "emailSent_fromName" => 'Nouse No-Reply',
+            'emailSent_toEmail' => $user["users_email"],
+            'emailSent_toName' => $user["users_name1"] . ' ' . $user["users_name2"]
+        );
+        $emailid = $DBLIB->insert('emailSent', $sqldata);
+        if (!$emailid)
+            return false;
+        return true;
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}, debug error: {$e->getMessage()}";
         return false;
-
-    $response = $sendgrid->send($email);
-    //$response->statusCode()
-    //$response->headers()
-    //$response->body()
-    return true;
+    }
 }

@@ -332,7 +332,7 @@ class bCMS {
         return $category["categories_name"] . "/" . $url;
     }
 
-    public function yusuNotify($articleid) {
+    public function yorkSUNotify($articleid) {
         global $DBLIB, $CONFIG;
         $DBLIB->where("articles.articles_id", $this->sanitizeString($articleid));
         $DBLIB->where("articles_mediaCharterDone", 0);
@@ -344,27 +344,26 @@ class bCMS {
         $DBLIB->where("articlesCategories.articles_id", $this->sanitizeString($articleid));
         $article['articles_categories'] = array_column($DBLIB->get("articlesCategories"), 'categories_id');
 
-        //YUSU Notification email html
-        $html = "You are receiving this email as a notification of a new article being uploaded to the Nouse.co.uk website in compliance with section 5.3 of the YUSU Media Charter.<br/><br/>";
+        // York SU Notification email html
+        $html = "You are receiving this email as a notification of a new article being uploaded to the Nouse.co.uk website in compliance with section 5.3 of the York SU Media Charter.<br/><br/>";
         if (strtotime($article["articles_published"]) > time()) $html .= "This article will be published at " . $article["articles_published"] . " GMT and this email is an advanced notification of publication. No further notifications will follow and this article will be automatically published.<br/><br/>";
         $html .= "<b>Headline: </b>" . $article['articlesDrafts_headline'] . "<br/>";
         $html .= "<b>Excerpt: </b>" . $article['articlesDrafts_excerpt'] . "<br/>";
         if (strtotime($article["articles_published"]) > time()) $html .= "This article hasn't been published yet, so it's not accessible on our website. A secret link has been generated for you to preview it, but please don't share this externally: <a href='" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "?key=" . md5($article['articles_id']) . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
         else $html .= "<b>Link to article: </b><a href='" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
         $html .= "<br/><br/><br/>If you have any questions about this notification please do not hesitate to contact us on support@nouse.co.uk.<br/>For queries relating to this article itself (for example concerns about its content) please contact editor@nouse.co.uk. <br/><br/><br/>Nouse Technical Team<br/><i>" . gethostname() . " (compliance tracked at  " . date("Y-m-d H:i:s") . " UTC)</i>";
-        if (count(array_intersect([2, 6, 7], explode(",", $article['articles_categories']))) > 0) {
+        if (count(array_intersect([2, 3, 6, 373, 397], $article['articles_categories'])) > 0) {
             if (sendemail("media-charter-notifications@nouse.co.uk", "New article on Nouse.co.uk", $html)) {
                 $DBLIB->where("articles_id", $article['articles_id']);
                 $DBLIB->update("articles", ["articles_mediaCharterDone" => 1]);
                 return true;
             } else return false;
         } else {
-            //We don't need to tell YUSU about this as it's not in categories 1,6 or 7
+            // We don't need to tell York SU about this as it's not in categories 2, 3, 6, 373 or 397
             $DBLIB->where("articles_id", $article['articles_id']);
             $DBLIB->update("articles", ["articles_mediaCharterDone" => 2]);
             return true;
         }
-
     }
 
     public function postSocial($articleid, $postToFacebook = true, $postToTwitter = true) {
