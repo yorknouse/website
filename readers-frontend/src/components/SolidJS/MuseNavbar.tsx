@@ -1,5 +1,5 @@
 import type { MuseNavbarCategory } from "@components/types";
-import { Accessor, Component, For, Setter } from "solid-js";
+import {type Accessor, type Component, For, type Setter } from "solid-js";
 
 type MuseNavbarProps = {
   active: Accessor<string>;

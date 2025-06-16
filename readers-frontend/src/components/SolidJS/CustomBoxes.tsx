@@ -1,4 +1,5 @@
-import { Component, For, JSXElement, createSignal } from "solid-js";
+import {type Component, For, type JSX, createSignal } from "solid-js";
+type JSXElement = JSX.Element;
 
 type CustomBoxesProps = {
   id: string;

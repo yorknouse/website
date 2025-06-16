@@ -1,6 +1,8 @@
 import type { MuseNavbarCategory } from "@components/types";
-import { Component, createSignal, For, JSXElement } from "solid-js";
+import {type Component, createSignal, For, type JSX } from "solid-js";
 import MuseNavbar from "./MuseNavbar";
+
+type JSXElement = JSX.Element;
 
 type MuseComponentProps = {
   categories: MuseNavbarCategory[];

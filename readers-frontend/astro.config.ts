@@ -1,7 +1,8 @@
 import { defineConfig } from "astro/config";
 import { loadEnv } from "vite";
-import tailwind from "@astrojs/tailwind";
-import image from "@astrojs/image";
+import tailwindcss from "@tailwindcss/vite";
+// import image from "@astrojs/image";
+import icon from 'astro-icon';
 import solidJs from "@astrojs/solid-js";
 import node from "@astrojs/node";
 import sitemap from "@astrojs/sitemap";
@@ -15,8 +16,8 @@ const categoriesLinks = await getCategoriesLinks();
 // https://astro.build/config
 export default defineConfig({
   integrations: [
-    tailwind(),
-    image(),
+      icon(),
+    // image(),
     solidJs(),
     sitemap({ customPages: [...articlesLinks, ...categoriesLinks] }),
   ],
@@ -26,14 +27,20 @@ export default defineConfig({
   // @ts-ignore
   environment,
   vite: {
+    plugins: [
+      tailwindcss(),
+    ],
     server: {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
       proxy: {
         "/api/searchSuggestions.php": {
           target: "http://localhost:420/api/searchSuggestions.php",
           changeOrigin: true,
         },
-        "/api/registerRead.php": {
-          target: "http://localhost:420/api/registerRead.php",
+        "/api/registerRead": {
+          target: "http://localhost:420/api/registerRead",
           changeOrigin: true,
         },
         "/api/topArticles.php": {

@@ -1,11 +1,11 @@
 import { createMediaQuery } from "@solid-primitives/media";
 import {
-  Accessor,
-  Component,
+  type Accessor,
+  type Component,
   createEffect,
   createSignal,
   For,
-  Setter,
+  type Setter,
   Show,
 } from "solid-js";
 

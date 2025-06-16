@@ -1,7 +1,7 @@
 import type { SearchResult } from "@components/types";
 import {
-  Accessor,
-  Component,
+  type Accessor,
+  type Component,
   Show,
   createRenderEffect,
   createSignal,
