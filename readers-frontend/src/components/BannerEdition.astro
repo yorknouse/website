@@ -18,16 +18,20 @@ const latestEdition = await prisma.editions.findFirst({
 });
 
 if (latestEdition === null) {
-  fail("Could not fetch latest edition");
-  return;
+  console.log("Could not fetch latest edition");
+  // return;
 }
 
-if (latestEdition.editions_thumbnail === null) {
-  fail("Edition thumbnail is null!");
-  return;
-}
+let thumbnail;
 
-const thumbnail = await s3URL(latestEdition.editions_thumbnail, "medium");
+if (latestEdition != null) {
+  if (latestEdition.editions_thumbnail === null) {
+    console.log("Edition thumbnail is null!");
+    return;
+  }
+
+  thumbnail = await s3URL(latestEdition.editions_thumbnail, "medium");
+}
 ---
 
 <div class="mt-4 flex w-full flex-col gap-2.5 sm:flex-row">
@@ -45,6 +49,7 @@ const thumbnail = await s3URL(latestEdition.editions_thumbnail, "medium");
   </a>
 
   {/* Edition */}
+  {latestEdition != null ?
   <a
     id="edition"
     class="flex w-full flex-row rounded-md border-4 border-whiteish-200 sm:w-2/5"
@@ -67,4 +72,6 @@ const thumbnail = await s3URL(latestEdition.editions_thumbnail, "medium");
       src={thumbnail}
      alt="Latest edition thumbnail"/>
   </a>
+      :
+      <div>Unknown latest edition</div>}
 </div>
