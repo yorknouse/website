@@ -17,7 +17,7 @@ test.describe("Author Page", () => {
     // Checking author profile picture
     await expect(authorMantle.locator("#author-image")).toHaveAttribute(
       "src",
-      "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1673190924591-33954450307270480000-jullietesspotifywrappedjpg_large.jpg"
+      "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1673190924591-33954450307270480000-jullietesspotifywrappedjpg_large.jpg",
     );
 
     // Checking number of featured articles
@@ -28,16 +28,16 @@ test.describe("Author Page", () => {
     await expect(authorDetails.locator("h1")).toHaveText("John Doe (he/him)");
     await expect(authorDetails.locator("p").first()).toHaveText("Editor");
     await expect(authorDetails.locator("p").nth(1)).toHaveText(
-      "Previously Held Positions: Deputy Editor (2022-2023)"
+      "Previously Held Positions: Deputy Editor (2022-2023)",
     );
     await expect(authorDetails.locator("p").nth(2)).toHaveText(
-      "Hi there. Hope you like my articles"
+      "Hi there. Hope you like my articles",
     );
   });
 
   test("Shows correct number of non featured articles", async ({ page }) => {
     await expect(page.locator("#article-list >> .article:visible")).toHaveCount(
-      10
+      10,
     );
     await expect(page.locator("#paginator-container >> button")).toHaveCount(2);
   });

@@ -6,7 +6,7 @@ import {
 import prisma from "../../prisma";
 
 export const getMenuCategories = async (
-  style: "nouse" | "muse"
+  style: "nouse" | "muse",
 ): Promise<categories[]> => {
   let menuCategories: categories[];
 
@@ -161,7 +161,7 @@ export type categoriesWithArticles = Prisma.categoriesGetPayload<
  */
 export const getCategoriesWithArticles = async (
   parentCategory?: number | null,
-  articlesLimit: number = 10
+  articlesLimit: number = 10,
 ): Promise<categoriesWithArticles[]> => {
   return prisma.categories.findMany({
     where: {
@@ -211,7 +211,7 @@ export const getCategoriesWithArticles = async (
  */
 export const getCategoryLink = (
   category_name: string,
-  parentCategory: number | null
+  parentCategory: number | null,
 ): string => {
   if (parentCategory === 4) {
     return `${import.meta.env.BASE_URL}muse/${category_name}`;
@@ -242,7 +242,7 @@ export const getParentCategory = (categories: ArticleCategories[]) => {
         category.categories_showPublic &&
         ((category.categories_nestUnder === null && // Nouse
           category.categories_id !== 4) ||
-          category.categories_nestUnder === 4) // Muse
+          category.categories_nestUnder === 4), // Muse
     );
 
   if (interimParentCategory) {
@@ -253,7 +253,7 @@ export const getParentCategory = (categories: ArticleCategories[]) => {
       categories.find(
         ({ category }) =>
           category.categories_nestUnder ===
-          interimParentCategory.category.categories_id
+          interimParentCategory.category.categories_id,
       )
     )
       return interimParentCategory.category;

@@ -1,6 +1,6 @@
 import type { SearchResponse, SearchResult } from "@components/types";
 import { createMediaQuery } from "@solid-primitives/media";
-import {type Component, createSignal, For, onMount, Show } from "solid-js";
+import { type Component, createSignal, For, onMount, Show } from "solid-js";
 import Paginator from "./Paginator";
 import SearchArticle from "./SearchArticle";
 import SearchResultRow from "./SearchResultRow";
@@ -88,7 +88,7 @@ const SearchResults: Component<SearchResultsProps> = (props) => {
                 each={[
                   ...articles().slice(
                     page() * articlesPerPage,
-                    page() * articlesPerPage + articlesPerPage
+                    page() * articlesPerPage + articlesPerPage,
                   ),
                 ]}
               >

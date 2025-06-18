@@ -1,4 +1,4 @@
-import {type Accessor, type Component, Show } from "solid-js";
+import { type Accessor, type Component, Show } from "solid-js";
 
 type SpinnerProps = {
   showAccessor: Accessor<boolean>;

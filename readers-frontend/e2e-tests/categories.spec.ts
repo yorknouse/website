@@ -11,7 +11,7 @@ test.describe("Muse", () => {
 
     // Checking for the featured articles
     await expect(
-      page.locator("#featured-articles >> .article:visible")
+      page.locator("#featured-articles >> .article:visible"),
     ).toHaveCount(2);
 
     // Checking for the featured sections
@@ -43,12 +43,12 @@ test.describe("Muse", () => {
 
     // Checking for the featured articles
     await expect(
-      page.locator("#featured-articles >> .article:visible")
+      page.locator("#featured-articles >> .article:visible"),
     ).toHaveCount(2);
 
     // Checking for the list of non-featured articles
     await expect(page.locator("#article-list >> .article:visible")).toHaveCount(
-      2
+      2,
     );
 
     // Check that paginator has two buttons
@@ -81,7 +81,7 @@ test.describe("Muse Subcategory", () => {
 
     // Checking for the featured articles
     await expect(
-      page.locator("#featured-articles >> .article:visible")
+      page.locator("#featured-articles >> .article:visible"),
     ).toHaveCount(2);
 
     // Check that paginator has two buttons
@@ -114,12 +114,12 @@ test.describe("Nouse Category", () => {
 
     // Checking for the featured articles
     await expect(
-      page.locator("#featured-articles >> .article:visible")
+      page.locator("#featured-articles >> .article:visible"),
     ).toHaveCount(5);
 
     // Checking for the list of non-featured articles
     await expect(page.locator("#article-list >> .article:visible")).toHaveCount(
-      2
+      2,
     );
 
     // Check that paginator has two buttons

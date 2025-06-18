@@ -14,7 +14,7 @@ test.describe("Search functionality", () => {
 
     const searchInterface = page.locator("[id=searchInterface]");
     const searchButton = await page.waitForSelector(
-      ".searchBtnClassIdentifier"
+      ".searchBtnClassIdentifier",
     );
 
     await expect(searchInterface).toHaveClass(/invisible/);
@@ -44,7 +44,7 @@ test.describe("Search functionality", () => {
     } else {
       // Perform search - Start
       const searchButton = await page.waitForSelector(
-        ".searchBtnClassIdentifier"
+        ".searchBtnClassIdentifier",
       );
 
       await searchButton.click();
@@ -77,7 +77,7 @@ test.describe("Search functionality", () => {
 
     // Paginator buttons
     const paginatorButtons = page.locator(
-      "[id=paginator-container] > div > div > button"
+      "[id=paginator-container] > div > div > button",
     );
 
     // No next page group button as there are only two pages, so count = 2
@@ -90,7 +90,7 @@ test.describe("Search functionality", () => {
     await page.waitForTimeout(1000);
 
     const secondPageArticles = page.locator(
-      "[id=searchResults_container] > div"
+      "[id=searchResults_container] > div",
     );
 
     // Second page has only one row
@@ -110,7 +110,7 @@ test.describe("Search functionality", () => {
     } else {
       // Perform search - Start
       const searchButton = await page.waitForSelector(
-        ".searchBtnClassIdentifier"
+        ".searchBtnClassIdentifier",
       );
 
       searchButton.click();
@@ -126,7 +126,7 @@ test.describe("Search functionality", () => {
     const fallBackText = page.locator("[id=searchFallback]");
 
     await expect(fallBackText).toHaveText(
-      "We couldn't find anything for “Test”"
+      "We couldn't find anything for “Test”",
     );
   });
 });

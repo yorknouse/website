@@ -1,4 +1,4 @@
-import {type Component, For, type JSX, createSignal } from "solid-js";
+import { type Component, For, type JSX, createSignal } from "solid-js";
 type JSXElement = JSX.Element;
 
 type CustomBoxesProps = {
@@ -14,14 +14,14 @@ const CustomBoxes: Component<CustomBoxesProps> = (props) => {
     props.customBoxes.every((_, index, array) => {
       if (index === active() && index + 1 < array.length) {
         const previousBlock = document.getElementById(
-          `${props.id}-${active()}`
+          `${props.id}-${active()}`,
         );
 
         previousBlock?.classList.remove(
           "w-full",
           "md:w-10/12",
           "opacity-100",
-          "p-4"
+          "p-4",
         );
         previousBlock?.classList.add("w-0", "h-0", "opacity-0", "p-0");
 
@@ -41,14 +41,14 @@ const CustomBoxes: Component<CustomBoxesProps> = (props) => {
     props.customBoxes.every((_, index, array) => {
       if (index === active() && index - 1 >= 0) {
         const previousBlock = document.getElementById(
-          `${props.id}-${active()}`
+          `${props.id}-${active()}`,
         );
 
         previousBlock?.classList.remove(
           "w-full",
           "md:w-10/12",
           "opacity-100",
-          "p-4"
+          "p-4",
         );
         previousBlock?.classList.add("w-0", "h-0", "opacity-0", "p-0");
 

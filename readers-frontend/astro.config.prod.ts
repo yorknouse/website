@@ -2,8 +2,7 @@ import { defineConfig } from "astro/config";
 import { loadEnv } from "vite";
 
 import tailwindcss from "@tailwindcss/vite";
-// import image from "@astrojs/image";
-import icon from 'astro-icon';
+import icon from "astro-icon";
 import solidJs from "@astrojs/solid-js";
 import node from "@astrojs/node";
 import sitemap from "@astrojs/sitemap";
@@ -17,8 +16,7 @@ const categoriesLinks = await getCategoriesLinks();
 // https://astro.build/config
 export default defineConfig({
   integrations: [
-      icon(),
-    // image(),
+    icon(),
     solidJs(),
     sitemap({
       customPages: [...articlesLinks, ...categoriesLinks],
@@ -32,9 +30,7 @@ export default defineConfig({
     },
   },
   vite: {
-    plugins: [
-        tailwindcss(),
-    ],
+    plugins: [tailwindcss()],
     server: {
       headers: {
         "Access-Control-Allow-Origin": "https://nouse.co.uk",

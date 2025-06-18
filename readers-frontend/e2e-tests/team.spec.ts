@@ -10,7 +10,7 @@ test.describe("Team Page", () => {
 
     // Checking user position
     await expect(seniorTeamUsers.locator("span").first()).toHaveText(
-      "Editor -"
+      "Editor -",
     );
 
     // Checking user name
@@ -19,18 +19,18 @@ test.describe("Team Page", () => {
     // Checking link to author page
     await expect(seniorTeamUsers.locator("a").first()).toHaveAttribute(
       "href",
-      "/website/author/1"
+      "/website/author/1",
     );
 
     // Checking user email
     await expect(seniorTeamUsers.locator("a").nth(1)).toHaveText(
-      "john.doe@nouse.co.uk"
+      "john.doe@nouse.co.uk",
     );
 
     // Checking link to user email
     await expect(seniorTeamUsers.locator("a").nth(1)).toHaveAttribute(
       "href",
-      "mailto:john.doe@nouse.co.uk"
+      "mailto:john.doe@nouse.co.uk",
     );
 
     const nouseUsers = page.locator("#nouse >> .user");
@@ -40,7 +40,7 @@ test.describe("Team Page", () => {
 
     // Checking user position
     await expect(nouseUsers.locator("span").first()).toHaveText(
-      "News Editor -"
+      "News Editor -",
     );
 
     // Checking user name
@@ -49,18 +49,18 @@ test.describe("Team Page", () => {
     // Checking link to author page
     await expect(nouseUsers.locator("a").first()).toHaveAttribute(
       "href",
-      "/website/author/2"
+      "/website/author/2",
     );
 
     // Checking user email
     await expect(nouseUsers.locator("a").nth(1)).toHaveText(
-      "jane.doe@nouse.co.uk"
+      "jane.doe@nouse.co.uk",
     );
 
     // Checking link to user email
     await expect(nouseUsers.locator("a").nth(1)).toHaveAttribute(
       "href",
-      "mailto:jane.doe@nouse.co.uk"
+      "mailto:jane.doe@nouse.co.uk",
     );
 
     await expect(page.locator("#muse >> .user")).toHaveCount(0);

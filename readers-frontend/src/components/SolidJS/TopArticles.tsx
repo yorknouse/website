@@ -1,4 +1,4 @@
-import {type Component, For, Show, createSignal } from "solid-js";
+import { type Component, For, Show, createSignal } from "solid-js";
 import Spinner from "./Spinner";
 import type { TopArticleResult, TopArticlesResponse } from "@components/types";
 import SearchArticle from "./SearchArticle";

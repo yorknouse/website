@@ -14,26 +14,26 @@ test.describe("Desktop Navbar", () => {
     // Checking Header Picture
     await expect(page.locator("#desktopHeader > a > img")).toHaveAttribute(
       "src",
-      "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
+      "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg",
     );
     // Checking Nouse button Picture
     await expect(
-      page.locator("#desktopNav > ul > li:nth-child(5) > a > img")
+      page.locator("#desktopNav > ul > li:nth-child(5) > a > img"),
     ).toHaveAttribute(
       "src",
-      "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/kingfisher.svg"
+      "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/kingfisher.svg",
     );
     // Checking Muse button Picture
     await expect(
-      page.locator("#desktopNav > ul > li:nth-child(7) > a > img")
+      page.locator("#desktopNav > ul > li:nth-child(7) > a > img"),
     ).toHaveAttribute(
       "src",
-      "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
+      "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png",
     );
     // Checking Test category page shows nested category
     await page.goto("./testCategory1");
     await expect(
-      page.locator("#desktopNav > ul").nth(1).locator("li")
+      page.locator("#desktopNav > ul").nth(1).locator("li"),
     ).toHaveCount(1);
   });
 
@@ -41,24 +41,24 @@ test.describe("Desktop Navbar", () => {
     test.skip(isMobile === true);
     // Home Button
     await expect(
-      page.locator("#desktopNav > ul > li:nth-child(1) > a")
+      page.locator("#desktopNav > ul > li:nth-child(1) > a"),
     ).toHaveAttribute("href", "/website/");
     // Test category Button
     await expect(
-      page.locator("#desktopNav > ul > li:nth-child(3) > a")
+      page.locator("#desktopNav > ul > li:nth-child(3) > a"),
     ).toHaveAttribute("href", "/website/testCategory1");
     // Nouse Button
     await expect(
-      page.locator("#desktopNav > ul > li:nth-child(5) > a")
+      page.locator("#desktopNav > ul > li:nth-child(5) > a"),
     ).toHaveAttribute("href", "/website/");
     // Muse Button
     await expect(
-      page.locator("#desktopNav > ul > li:nth-child(7) > a")
+      page.locator("#desktopNav > ul > li:nth-child(7) > a"),
     ).toHaveAttribute("href", "/website/muse");
     // Checking Test category page has correct nested category button
     await page.goto("./testCategory1");
     await expect(
-      page.locator("#desktopNav > ul").nth(1).locator("li:nth-child(1) > a")
+      page.locator("#desktopNav > ul").nth(1).locator("li:nth-child(1) > a"),
     ).toHaveAttribute("href", "/website/testCategory1/testNestedCategory");
   });
 });
@@ -74,7 +74,7 @@ test.describe("Mobile navbar", () => {
     await hamburgerMenu.click();
 
     await expect(mobileNav).not.toHaveClass(
-      /-translate-y-\[calc\(100%\+7rem\)]/
+      /-translate-y-\[calc\(100%\+7rem\)]/,
     );
   });
 
@@ -85,19 +85,21 @@ test.describe("Mobile navbar", () => {
 
     // Home Button
     await expect(
-      page.locator("#mobileNav > ul > li:nth-child(1) > div > a")
+      page.locator("#mobileNav > ul > li:nth-child(1) > div > a"),
     ).toHaveAttribute("href", "/website/");
     // Test category Button (has nested category)
     await expect(
-      page.locator("#mobileNav > ul > li:nth-child(2) > div > button > div > a")
+      page.locator(
+        "#mobileNav > ul > li:nth-child(2) > div > button > div > a",
+      ),
     ).toHaveAttribute("href", "/website/testCategory1");
     // Nouse Button
     await expect(
-      page.locator("#mobileNav > ul > li:nth-child(3) > div > a")
+      page.locator("#mobileNav > ul > li:nth-child(3) > div > a"),
     ).toHaveAttribute("href", "/website/");
     // Muse Button
     await expect(
-      page.locator("#mobileNav > ul > li:nth-child(4) > div > a")
+      page.locator("#mobileNav > ul > li:nth-child(4) > div > a"),
     ).toHaveAttribute("href", "/website/muse");
   });
 
@@ -108,10 +110,10 @@ test.describe("Mobile navbar", () => {
 
     // --- Nouse begin ---
     const nouseCategoryBtn = page.locator(
-      "#mobileNav > ul > li:nth-child(2) > div > button"
+      "#mobileNav > ul > li:nth-child(2) > div > button",
     );
     const nouseCategoryListContainer = page.locator(
-      "#mobileNav > ul > li:nth-child(2) > div > div[id*='ListContainer']"
+      "#mobileNav > ul > li:nth-child(2) > div > div[id*='ListContainer']",
     );
 
     // Before opening submenu
@@ -137,7 +139,7 @@ test.describe("Mobile navbar", () => {
 
     // Check link
     await expect(
-      nouseCategoryListContainer.locator("ul > li:nth-child(1) > a")
+      nouseCategoryListContainer.locator("ul > li:nth-child(1) > a"),
     ).toHaveAttribute("href", "/website/testCategory1/testNestedCategory");
     // --- Nouse end ---
 
@@ -146,10 +148,10 @@ test.describe("Mobile navbar", () => {
 
     // --- Muse begin ---
     const museCategoryBtn = page.locator(
-      "#mobileNav > ul > li:nth-child(2) > div > button"
+      "#mobileNav > ul > li:nth-child(2) > div > button",
     );
     const museCategoryListContainer = page.locator(
-      "#mobileNav > ul > li:nth-child(2) > div > div[id*='ListContainer']"
+      "#mobileNav > ul > li:nth-child(2) > div > div[id*='ListContainer']",
     );
 
     // Before opening submenu
@@ -175,7 +177,7 @@ test.describe("Mobile navbar", () => {
 
     // Check link
     await expect(
-      museCategoryListContainer.locator("ul > li:nth-child(1) > a")
+      museCategoryListContainer.locator("ul > li:nth-child(1) > a"),
     ).toHaveAttribute("href", "/website/muse/features/testMuseNestedCategory");
     // --- Muse end ---
   });
@@ -186,33 +188,33 @@ test.describe("Mobile navbar", () => {
     await hamburgerMenu.click();
 
     await expect(
-      page.locator("#mobileNav > ul > li:nth-child(1) > div > a")
+      page.locator("#mobileNav > ul > li:nth-child(1) > div > a"),
     ).toHaveClass(/border-b-\[5px\]/);
 
     await page.goto("./testCategory1");
     await hamburgerMenu.click();
 
     await expect(
-      page.locator("#mobileNav > ul > li:nth-child(2) > div > button")
+      page.locator("#mobileNav > ul > li:nth-child(2) > div > button"),
     ).toHaveClass(/border-b-\[5px\]/);
 
     await page.goto("./testCategory1/testNestedCategory");
     await hamburgerMenu.click();
 
     await expect(
-      page.locator("#mobileNav > ul > li:nth-child(2) > div > button")
+      page.locator("#mobileNav > ul > li:nth-child(2) > div > button"),
     ).toHaveClass(/border-b-\[5px\]/);
 
     await page.goto("./muse/features");
     await hamburgerMenu.click();
     await expect(
-      page.locator("#mobileNav > ul > li:nth-child(2) > div > button")
+      page.locator("#mobileNav > ul > li:nth-child(2) > div > button"),
     ).toHaveClass(/border-b-\[5px\]/);
 
     await page.goto("./muse/features/testMuseNestedCategory");
     await hamburgerMenu.click();
     await expect(
-      page.locator("#mobileNav > ul > li:nth-child(2) > div > button")
+      page.locator("#mobileNav > ul > li:nth-child(2) > div > button"),
     ).toHaveClass(/border-b-\[5px\]/);
   });
 
@@ -221,10 +223,10 @@ test.describe("Mobile navbar", () => {
 
     const hamburgerMenu = page.locator("#mobileNavMenuTgl");
     const chevron = page.locator(
-      "#mobileNav > ul > li:nth-child(2) > div > button > div > svg"
+      "#mobileNav > ul > li:nth-child(2) > div > button > div > svg",
     );
     const category = page.locator(
-      "#mobileNav > ul > li:nth-child(2) > div > button"
+      "#mobileNav > ul > li:nth-child(2) > div > button",
     );
     await hamburgerMenu.click();
 

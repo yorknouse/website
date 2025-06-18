@@ -40,7 +40,7 @@ export type articleWithUserAndDraft = Prisma.articlesGetPayload<
  * @returns {Promise<articlesWithArticleDrafts[]>} Promise object represents the articles.
  */
 export const getArticles = async (
-  articleIds?: number[]
+  articleIds?: number[],
 ): Promise<articlesWithArticleDrafts[]> => {
   if (articleIds == undefined) {
     return [];
@@ -123,7 +123,7 @@ export const getAllArticles = async (): Promise<articleWithUserAndDraft[]> => {
  * @returns {Promise<articlesWithArticleDrafts[]>} Promise object represents the articles.
  */
 export const getSimilarArticles = async (
-  parentCategoryId: number
+  parentCategoryId: number,
 ): Promise<articlesWithArticleDrafts[]> => {
   return prisma.articles.findMany({
     where: {
@@ -169,7 +169,7 @@ export const getSimilarArticles = async (
  */
 export const getArticleImage = async (
   article: articlesWithArticleDrafts,
-  size: "tiny" | "small" | "medium" | "large" | false = "large"
+  size: "tiny" | "small" | "medium" | "large" | false = "large",
 ): Promise<string> => {
   if (!article.articles_displayImages) {
     return (

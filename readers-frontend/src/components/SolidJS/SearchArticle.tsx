@@ -1,4 +1,10 @@
-import {type Accessor, type Component, createEffect, createSignal, on } from "solid-js";
+import {
+  type Accessor,
+  type Component,
+  createEffect,
+  createSignal,
+  on,
+} from "solid-js";
 
 interface SearchArticleProps {
   headline: string;

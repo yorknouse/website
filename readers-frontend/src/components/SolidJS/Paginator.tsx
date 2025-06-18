@@ -74,7 +74,7 @@ const Paginator: Component<PaginatorProps> = (props) => {
         <For
           each={[...Array(getPages()).keys()].slice(
             firstPage(),
-            firstPage() + allowedPagesToDisplay()
+            firstPage() + allowedPagesToDisplay(),
           )}
         >
           {(p) => (

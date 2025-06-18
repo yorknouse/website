@@ -26,7 +26,7 @@ test("Article content is correct", async ({ page }) => {
   const image = page.locator("[id=article-image]");
   await expect(image).toHaveAttribute(
     "src",
-    "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1673190924591-33954450307270480000-jullietesspotifywrappedjpg_large.jpg"
+    "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1673190924591-33954450307270480000-jullietesspotifywrappedjpg_large.jpg",
   );
 
   // Content is correct
@@ -34,7 +34,7 @@ test("Article content is correct", async ({ page }) => {
   const contentTree = content.locator("p");
   await expect(contentTree).toHaveCount(1);
   await expect(contentTree).toHaveText(
-    "This is raw HTML, as it comes from the backend."
+    "This is raw HTML, as it comes from the backend.",
   );
 });
 
