@@ -10,11 +10,13 @@ jobs:
       - uses: actions/checkout@v3
       - name: Git happy
         run: git config --global --add safe.directory /app
-      - uses: php-actions/composer@v6
-        with:
-          php_extensions: ext-gd
-
+      - name: Install composer
+        run: |
+          php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+          php -r "if (hash  _file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'.PHP_EOL; } else { echo 'Installer corrupt'.PHP_EOL; unlink('composer-setup.php'); exit(1); }"
+          php composer-setup.php
+          php -r "unlink('composer-setup.php');"
+      - name: Composer install
+        run: php composer.phar install
       - name: PHPStan
-        uses: php-actions/phpstan@v3
-        with:
-          path: html/
+        run: php -d memory_limit=512M composer/vendor/bin/phpstan analyse html
