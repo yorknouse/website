@@ -349,8 +349,8 @@ class bCMS {
         if (strtotime($article["articles_published"]) > time()) $html .= "This article will be published at " . $article["articles_published"] . " GMT and this email is an advanced notification of publication. No further notifications will follow and this article will be automatically published.<br/><br/>";
         $html .= "<b>Headline: </b>" . $article['articlesDrafts_headline'] . "<br/>";
         $html .= "<b>Excerpt: </b>" . $article['articlesDrafts_excerpt'] . "<br/>";
-        if (strtotime($article["articles_published"]) > time()) $html .= "This article hasn't been published yet, so it's not accessible on our website. A secret link has been generated for you to preview it, but please don't share this externally: <a href='" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "?key=" . md5($article['articles_id']) . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
-        else $html .= "<b>Link to article: </b><a href='" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
+        if (strtotime($article["articles_published"]) > time()) $html .= "This article hasn't been published yet, so it's not accessible on our website. A secret link has been generated for you to preview it, but please don't share this externally: <a href='" . $CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "?key=" . md5($article['articles_id']) . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/articles" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
+        else $html .= "<b>Link to article: </b><a href='" . $CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
         $html .= "<br/><br/><br/>If you have any questions about this notification please do not hesitate to contact us on support@nouse.co.uk.<br/>For queries relating to this article itself (for example concerns about its content) please contact editor@nouse.co.uk. <br/><br/><br/>Nouse Technical Team<br/><i>" . gethostname() . " (compliance tracked at  " . date("Y-m-d H:i:s") . " UTC)</i>";
         if (count(array_intersect([2, 3, 6, 373, 397], $article['articles_categories'])) > 0) {
             if (sendemail("media-charter-notifications@nouse.co.uk", "New article on Nouse.co.uk", $html)) {
@@ -376,7 +376,7 @@ class bCMS {
         $article = $DBLIB->getone("articles", ["articles_socialExcerpt", "articles.articles_socialConfig", "articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline", "articlesDrafts.articlesDrafts_excerpt"]);
         if (!$article) return false;
 
-        $realpermalink = $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article["articles_published"])) . "/" . $article['articles_slug'];
+        $realpermalink = $CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article["articles_published"])) . "/" . $article['articles_slug'];
 
         if (strlen($article['articles_socialExcerpt']) > 0) {
             $postExcerpt = $article['articles_socialExcerpt'];

@@ -10,7 +10,7 @@ $bCMS->auditLog("DELETE", "articles", $bCMS->sanitizeString($_GET['articleid']),
 $DBLIB->where ('articles_id', $bCMS->sanitizeString($_GET['articleid']));
 $article = $DBLIB->getOne("articles", ["articles_id", "articles_published", "articles_slug"]);
 
-$bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug']);
+$bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug']);
 $DBLIB->where("articlesCategories.articles_id", $bCMS->sanitizeString($_GET['articleid']));
 $article['articles_categories'] = array_column($DBLIB->get("articlesCategories"), 'categories_id');
 foreach ($article['articles_categories'] as $category) {

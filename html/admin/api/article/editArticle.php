@@ -68,7 +68,7 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
     if (!$article) finish(false, ["code" => null, "message" => "No data specified"]);
 
     $bCMS->auditLog("EDIT", "articles", $article['articles_id'], $AUTH->data['users_userid']);
-    $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug']);
+    $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug']);
 
     $socialMedia = explode(",", $article['articles_socialConfig']);
     if ($_POST['postToTwitter'] == 1 and $socialMedia['2'] != 1 and $socialMedia['3'] != 1) { //If it's not yet been posted to twitter but the checkbox has now been checked we should post it to twitter
