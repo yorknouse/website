@@ -10,7 +10,7 @@ $output = '<style>.pagebreak { page-break-before: always; } </style>';
 if (!isset($_GET['email']) or $_GET['email'] == '')
 	die('Nothing to see here!');
 
-$DBLIB->where ('emailSent_id IN (' . $bCMS->sanitizeString($_GET['email']) . ')');
+$DBLIB->where('emailSent_id IN (' . $bCMS->sanitizeString($_GET['email']) . ')');
 $emails = $DBLIB->get('emailSent');
 if (!isset($emails[0])) die('E-Mail not found');
 

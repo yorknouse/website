@@ -170,8 +170,8 @@ class bID {
         if ($userid == null) $userid = $this->data['users_userid'];
         else $userid = $GLOBALS['bCMS']->sanitizeString($userid);
 
-        $DBLIB->where ('users_userid', $userid);
-        if ($DBLIB->update ('authTokens', ["authTokens_valid" => 0])) return true;
+        $DBLIB->where('users_userid', $userid);
+        if ($DBLIB->update('authTokens', ["authTokens_valid" => 0])) return true;
         else return false;
     }
 

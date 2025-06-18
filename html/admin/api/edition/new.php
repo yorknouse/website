@@ -8,7 +8,7 @@ if (!$AUTH->permissionCheck(50) or !isset($_GET['title']) or (strlen($_GET['titl
 $editionSlug = "";
 function generateEditionSlug($slugDraft) {
     global $editionSlug,$DBLIB,$bCMS;
-    $DBLIB->where ('editions_slug', $slugDraft);
+    $DBLIB->where('editions_slug', $slugDraft);
     if ($DBLIB->getValue("editions", "COUNT(*)") > 0) {
         //Taken so add a bit to the slug and try again
         generateEditionSlug($slugDraft . $bCMS->randomString(3));

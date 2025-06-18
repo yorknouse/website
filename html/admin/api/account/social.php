@@ -18,7 +18,7 @@ if ($_POST['users_userid'] != $USERDATA['users_userid'] && $AUTH->permissionChec
 else $userid = $USERDATA['users_userid'];
 
 $DBLIB->where("users_userid", $userid);
-if (!$DBLIB->update ('users', $userTabledata))
+if (!$DBLIB->update('users', $userTabledata))
     die("2");
 
 $bCMS->auditLog("UPDATE", "users", "CHANGE SOCIAL DETAILS", $AUTH->data['users_userid'],$userid);

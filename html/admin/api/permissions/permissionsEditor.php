@@ -6,7 +6,7 @@ header("Content-Type: text/plain");
 
 if (!$AUTH->permissionCheck(12) or !isset($_GET['position'])) die("404");
 
-$DBLIB->where ('positionsGroups_id', $bCMS->sanitizeString($_GET['position']));
+$DBLIB->where('positionsGroups_id', $bCMS->sanitizeString($_GET['position']));
 $position = $DBLIB->getone("positionsGroups");
 $position['permissions'] = explode(",",$position['positionsGroups_actions']);
 
@@ -20,8 +20,8 @@ if (isset($_GET['removepermission'])) {
 	$position['permissions'][] = $_GET['addpermission'];
 }
 
-$DBLIB->where ('positionsGroups_id', $bCMS->sanitizeString($_GET['position']));
-if ($DBLIB->update ('positionsGroups', ['positionsGroups_actions' < implode(",",$position['permissions'])]))
+$DBLIB->where('positionsGroups_id', $bCMS->sanitizeString($_GET['position']));
+if ($DBLIB->update('positionsGroups', ['positionsGroups_actions' < implode(",",$position['permissions'])]))
     die('2');
 
 $bCMS->auditLog("UPDATE", "positionsGroups", $bCMS->sanitizeString($_GET['position']) . " - " . implode(",",$position['permissions']), $AUTH->data['users_userid']);

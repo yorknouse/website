@@ -5,7 +5,7 @@ header("Content-Type: text/plain");
 
 if (!$AUTH->permissionCheck(58) or !isset($_GET['id']) or !is_numeric($_GET['id'])) die("404");
 
-$DBLIB->where ('adverts_id', $_GET['id']);
+$DBLIB->where('adverts_id', $_GET['id']);
 $select = $DBLIB->getOne("adverts", ["adverts_id"]);
 if (!$select) die("404");
 
