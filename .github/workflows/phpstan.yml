@@ -11,6 +11,8 @@ jobs:
       - name: Git happy
         run: git config --global --add safe.directory /app
       - uses: php-actions/composer@v6
+        with:
+          php_extensions: ext-gd
 
       - name: PHPStan
         uses: php-actions/phpstan@v3
