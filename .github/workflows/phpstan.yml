@@ -10,7 +10,9 @@ jobs:
       - uses: actions/checkout@v3
       - uses: php-actions/composer@v6
         with:
-          command: composer install
+          command: 'git config --global --add safe.directory /app; install'
+          php_version: "8.4"
+          php_extensions: ext-gd
       - name: PHPStan
         uses: php-actions/phpstan@v3
         with:
