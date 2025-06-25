@@ -116,36 +116,42 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
             if ($edition) $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/editions/" . $edition['editions_slug']);
         }
         //Categories
-        $categories = explode(",", $_POST['categories']);
+        $categoriesString = rtrim($_POST['categories'], ',');
+        $categories = explode(",", $categoriesString);
         $DBLIB->where("categories_id", $categories,"NOT IN");
         $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
         $DBLIB->delete("articlesCategories");
         foreach ($categories as $category) {
-            $DBLIB->where("categories_id", $category);
-            $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
-            if ($DBLIB->getValue("articlesCategories", "COUNT(*)") == 0) {
-                $articleCategory = [
-                    "articles_id" => $bCMS->sanitizeString($_POST['articleid']),
-                    "categories_id" => $category
-                ];
-                $DBLIB->insert("articlesCategories", $articleCategory);
+            if (is_numeric($category)) {
+                $DBLIB->where("categories_id", $category);
+                $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
+                if ($DBLIB->getValue("articlesCategories", "COUNT(*)") == 0) {
+                    $articleCategory = [
+                        "articles_id" => $bCMS->sanitizeString($_POST['articleid']),
+                        "categories_id" => $category
+                    ];
+                    $DBLIB->insert("articlesCategories", $articleCategory);
+                }
+                $bCMS->cacheClearCategory($category);
             }
-            $bCMS->cacheClearCategory($category);
         }
         //Authors
-        $authors = explode(",", $bCMS->sanitizeString($_POST['authors']));
+        $authorsString = rtrim($_POST['authors'], ',');
+        $authors = explode(",", $bCMS->sanitizeString($authorsString));
         $DBLIB->where("users_userid", $authors,"NOT IN");
         $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
         $DBLIB->delete("articlesAuthors");
         foreach ($authors as $author) {
-            $DBLIB->where("users_userid", $author);
-            $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
-            if ($DBLIB->getValue("articlesAuthors", "COUNT(*)") == 0) {
-                $articlesAuthor = [
-                    "articles_id" => $bCMS->sanitizeString($_POST['articleid']),
-                    "users_userid" => $author
-                ];
-                $DBLIB->insert("articlesAuthors", $articlesAuthor);
+            if (is_numeric($author)) {
+                $DBLIB->where("users_userid", $author);
+                $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
+                if ($DBLIB->getValue("articlesAuthors", "COUNT(*)") == 0) {
+                    $articlesAuthor = [
+                        "articles_id" => $bCMS->sanitizeString($_POST['articleid']),
+                        "users_userid" => $author
+                    ];
+                    $DBLIB->insert("articlesAuthors", $articlesAuthor);
+                }
             }
         }
         finish(true);
