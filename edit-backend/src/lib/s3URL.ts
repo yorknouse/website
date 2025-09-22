@@ -1,4 +1,4 @@
-import prisma from "../../prisma";
+import prisma from "@/lib/prisma";
 
 /**
  * Retrieves a file from s3 (actually backblaze)
