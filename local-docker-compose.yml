@@ -19,16 +19,37 @@ services:
       - nouseprod-local.env
     ports:
       - 3306:3306
-  nouse:
+  # TODO: fix
+#  nouse:
+#    build:
+#      context: .
+#      dockerfile: ./Dockerfile.local
+#    container_name: nouse-container
+#    restart: always
+#    ports:
+#      - 80:80
+#      - 420:420
+#      - 419:419
+#    depends_on:
+#      - db
+#    environment:
+#      - MYSQL_HOSTNAME=db
+#      - MYSQL_DATABASE=nouse
+#      - MYSQL_USER=userDocker
+#      - MYSQL_PASSWORD=passDocker
+#    env_file:
+#      - nouseprod-local.env
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#    volumes:
+#      - ./html:/var/www/html
+#      - ./composer:/var/www/composer
+  php:
     build:
       context: .
-      dockerfile: ./Dockerfile.local
-    container_name: nouse-container
+      dockerfile: Dockerfile.php
+    container_name: php-container
     restart: always
-    ports:
-      - 80:80
-      - 420:420
-      - 419:419
     depends_on:
       - db
     environment:
@@ -40,9 +61,20 @@ services:
       - nouseprod-local.env
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    volumes:
-      - ./html:/var/www/html
-      - ./composer:/var/www/composer
+  astro:
+    build:
+      context: .
+      dockerfile: Dockerfile.astro-local
+    container_name: astro-container
+    restart: always
+    depends_on:
+      - db
+    env_file:
+      - nouseprod-local.env
+    ports:
+      - 4321:4321
+    environment:
+      - DATABASE_URL=mysql://userDocker:passDocker@db:3306/nouse
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2
     container_name: phpmyadmin

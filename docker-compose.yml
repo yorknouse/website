@@ -43,7 +43,7 @@ services:
   nouse:
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: Dockerfile.php
     container_name: nouse-container
     restart: always
     depends_on:
@@ -57,6 +57,39 @@ services:
       - nouseprod.env
     extra_hosts:
       - "host.docker.internal:host-gateway"
+  # TODO: fix
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile.php
+    container_name: php-container
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - MYSQL_HOSTNAME=db
+      - MYSQL_DATABASE=nouse
+      - MYSQL_USER=userDocker
+      - MYSQL_PASSWORD=passDocker
+    env_file:
+      - nouseprod.env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  astro:
+    build:
+      context: .
+      dockerfile: Dockerfile.astro
+    container_name: astro-container
+    restart: always
+    depends_on:
+      - db
+    env_file:
+      - nouseprod.env
+    expose:
+      - "4321"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=mysql://userDocker:passDocker@db:3306/nouse
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2
     container_name: phpmyadmin
