@@ -1,7 +1,7 @@
 import {
   getMenuCategories,
   getMenuSubcategories,
-} from "../src/components/utils/categories";
+} from "@components/utils/categories.ts";
 import baseUrl from "./baseUrl";
 
 export default async function getCategoriesLinks() {

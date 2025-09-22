@@ -3,13 +3,14 @@ import FeaturedArticles from "@components/FeaturedArticles.astro";
 import FeaturedSection from "@components/FeaturedSection.astro";
 import Paginator from "@components/SolidJS/Paginator";
 import {
-  categoriesWithArticles,
   getCategoriesWithArticles,
 } from "@components/utils/categories";
 import Layout from "src/layouts/Layout.astro";
 import NavbarColourSwitcher from "@components/NavbarColourSwitcher.astro";
 import ArticleRows from "@components/ArticleRows.astro";
-import prisma from "src/prisma";
+import type { ArticleCategory } from "@components/types";
+import { getCategoryLink } from "@components/utils/categories";
+import type { ICategoryArticles } from "../../components/types";
 
 const { topLevelCategory, path } = Astro.params;
 const cleanPath = path ? decodeURIComponent(path) : undefined;
@@ -62,28 +63,13 @@ const articlesSkipped = isMuseLandingPage // Number of articles to skip
   ? (pageNumber - 1) * articlesPerPage
   : pageNumber * articlesPerPage;
 
-// Getting the number of articles in the category and the ids of featured articles
-const categoryFeaturedAndCount = await prisma.categories.findFirst({
-  where: {
-    categories_name: categoryName,
-    categories_showPublic: true,
-    categories_showMenu: true,
-  },
-  select: {
-    categories_featured: true,
+let res = await fetch(`http://localhost:3000/api/frontend/categoryFeaturedAndCount/${categoryName}`);
+const categoryFeaturedAndCount: {
     _count: {
-      select: {
-        articles: {
-          where: {
-            article: {
-              articles_showInLists: true,
-            },
-          },
-        },
-      },
-    },
-  },
-});
+        articles: number
+    }
+    categories_featured: string | null
+} | null = await res.json();
 
 // Getting the featured article ids
 const featuredArticlesIds =
@@ -95,6 +81,7 @@ const featuredArticlesIds =
 // Redirecting to 404 if the category doesn't exist
 // Or if there are no articles to display and the page number isn't 0
 // Note: the second condition allows us to show landing pages for categories with no articles
+console.log(categoryFeaturedAndCount);
 if (
   !categoryFeaturedAndCount ||
   (categoryFeaturedAndCount._count.articles -
@@ -104,50 +91,54 @@ if (
 )
   return Astro.redirect("/404");
 
-const category = await prisma.categories.findFirst({
-  where: {
-    categories_name: categoryName,
-    categories_showPublic: true,
-    categories_showMenu: true,
-  },
-  include: {
-    articles: {
-      take: isMuseLandingPage ? 0 : articlesPerPage,
-      skip: articlesSkipped,
-      where: {
-        article: {
-          articles_showInLists: true,
-          NOT: {
-            articles_id: {
-              in: featuredArticlesIds,
-            },
-          },
-        },
-      },
-      orderBy: {
-        article: {
-          articles_published: "desc",
-        },
-      },
-      include: {
-        article: {
-          include: {
-            articlesDrafts: {
-              orderBy: {
-                articlesDrafts_timestamp: "desc",
-              },
-              take: 1,
-            },
-            categories: {
-              include: { category: true },
-            },
-            users: { include: { users: true } },
-          },
-        },
-      },
-    },
-  },
+const formData = new FormData();
+formData.append("categoryName", categoryName);
+formData.append("take", String(isMuseLandingPage ? 0 : articlesPerPage))
+formData.append("skip", String(articlesSkipped))
+formData.append("notInFeatured", String(featuredArticlesIds))
+
+res = await fetch(`http://localhost:3000/api/frontend/categoryArticlesPath`, {
+    method: "POST",
+    body: formData,
 });
+
+// const category: {
+//     articles: {
+//         article: {
+//             articlesDrafts: {
+//                 articles_id: number | null
+//                 articlesDrafts_timestamp: Date
+//                 articlesDrafts_id: number
+//                 articlesDrafts_userid: number | null
+//                 articlesDrafts_headline: string
+//                 articlesDrafts_excerpt: string | null
+//                 articlesDrafts_changelog: string | null
+//                 articlesDrafts_thumbnailCredit: string | null
+//             }[]
+//             categories: {}[]
+//             users: {
+//                 users: {
+//                     users_userid: number
+//                     users_name1: string | null
+//                     users_name2: string | null
+//                 }
+//             }[]
+//             articles_published: Date | null
+//             articles_slug: string | null
+//             articles_thumbnail: string | null
+//             articles_isThumbnailPortrait: boolean
+//             articles_type: number
+//             articles_displayImages: boolean | null
+//         }
+//     }[],
+//     categories_id: number
+//     categories_nestUnder: number | null
+//     categories_name: string
+//     categories_displayName: string | null
+//     categories_backgroundColor: string | null
+// } | null = await res.json()
+
+const category: ICategoryArticles = await res.json();
 
 // Redirecting to 404 if the category doesn't exist or if there are no articles to show
 if (!category) return Astro.redirect("/404");
@@ -161,10 +152,67 @@ const style =
     : "nouse";
 
 // Getting the featured section for the muse homepage
-let museCategories: categoriesWithArticles[] = [];
+let museCategories: ICategoryArticles[] = [];
 if (isMuseLandingPage) {
   museCategories = await getCategoriesWithArticles(4);
 }
+
+const cat: ArticleCategory = {
+    id: category.categories_id,
+    name: category.categories_name,
+    displayName: category.categories_displayName,
+    colour: category.categories_backgroundColor,
+    link: getCategoryLink(
+        String(category.categories_name),
+        Number(category.categories_nestUnder)
+    ),
+    nestUnder: Number(category.categories_nestUnder)
+};
+
+// const articles = await Promise.all(category.articles!.map(async ({ article }) => {
+//     const res = await fetch(`http://localhost:3000/api/s3url?fileId=${article.articles_thumbnail}&size=small`);
+//     const s3url: S3URL = await res.json();
+//
+//     const date = new Date(article.articles_published!);
+//
+//     const a: IArticleFull = {
+//         id: Number(article.articlesDrafts[0].articles_id),
+//         headline: article.articlesDrafts[0].articlesDrafts_headline?.length != 0
+//             ? String(article.articlesDrafts[0].articlesDrafts_headline)
+//             : "Unknown",
+//         excerpt: article.articlesDrafts[0].articlesDrafts_excerpt?.length != 0
+//             ? String(article.articlesDrafts[0].articlesDrafts_headline)
+//             : "Unknown",
+//         text: null,
+//         articleURL: `${import.meta.env.BASE_URL}articles/${dateFormatter
+//             .format(date) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+//             .split("/")
+//             .reverse()
+//             .join("/")}/${String(article.articles_slug)}`,
+//         thumbnailURL: s3url.url,
+//         isThumbnailPortrait: article.articles_isThumbnailPortrait,
+//         thumbnailCredit: article.articlesDrafts[0].articlesDrafts_thumbnailCredit,
+//         articleType: article.articles_type,
+//         published: dateFormatter.format(date)
+//             .split("/")
+//             .reverse()
+//             .join("/"),
+//         parentCategory: cat,
+//         categories: null,
+//         authors: article.users.map(({ users }) => {
+//             const author: ArticleAuthor = {
+//                 users_userid: users.users_userid,
+//                 users_name1: String(users.users_name1),
+//                 users_name2: String(users.users_name2),
+//             }
+//
+//             return author;
+//         }),
+//         similarArticles: null,
+//         displayImages: Boolean(article.articles_displayImages),
+//     }
+//     return a;
+// }))
 ---
 
 <Layout
@@ -202,9 +250,7 @@ if (isMuseLandingPage) {
         <>
           <div id="article-list">
             <ArticleRows
-              articles={category.articles.map((article) => article.article)}
-              parentCategory={category}
-              style={"nouse"}
+              articles={category.articles!}
               hideCategoryAccent={true}
             />
           </div>
@@ -214,7 +260,7 @@ if (isMuseLandingPage) {
           <div class="featured-sections">
             {museCategories.map((category) => (
               <div id={`${category.categories_name}-section`}>
-                <FeaturedSection category={category} />
+                  <FeaturedSection category={category} style={"muse"} />
               </div>
             ))}
           </div>

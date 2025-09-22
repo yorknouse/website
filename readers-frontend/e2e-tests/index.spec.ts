@@ -61,7 +61,7 @@ test.describe("Featured Articles", () => {
             // All other articles have the default image
             await expect(article.locator("img")).toHaveAttribute(
               "src",
-              process.env.fileStoreUrl +
+              process.env.FILESTOREURL +
                 "/nouseSiteAssets/imageArchive-comp.jpg",
             );
           }
@@ -245,7 +245,7 @@ test.describe("Featured Articles", () => {
               // in Mobile View, only the first 3 articles have images visible
               await expect(article.locator("img")).toHaveAttribute(
                 "src",
-                process.env.fileStoreUrl +
+                process.env.FILESTOREURL +
                   "/nouseSiteAssets/imageArchive-comp.jpg",
               );
               await expect(article.locator(".image-link")).toHaveAttribute(
@@ -374,7 +374,7 @@ test.describe("Featured Section", () => {
         // All other articles have the default image
         await expect(article.locator("img")).toHaveAttribute(
           "src",
-          process.env.fileStoreUrl + "/nouseSiteAssets/imageArchive-comp.jpg",
+          process.env.FILESTOREURL + "/nouseSiteAssets/imageArchive-comp.jpg",
         );
       }
       if (!isMobile || (isMobile && i == 0)) {

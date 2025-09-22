@@ -12,7 +12,7 @@ const TopArticles: Component<TopArticleProps> = (props) => {
   const [loading, setLoading] = createSignal<boolean>(true);
   const [articles, setArticles] = createSignal<TopArticleResult[]>([]);
 
-  fetch(props.apiAddress, { method: "POST" })
+  fetch(props.apiAddress, { method: "GET" })
     .then(async (res) => {
       if (res.status !== 200) throw new Error(res.statusText);
 

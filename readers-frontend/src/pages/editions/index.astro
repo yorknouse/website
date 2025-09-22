@@ -1,38 +1,27 @@
 ---
-import { s3URL } from "@components/utils/s3URL";
-import type { editions } from "@prisma/client";
 import Layout from "src/layouts/Layout.astro";
-import prisma from "src/prisma";
+import type { IEdition, S3URL } from "@components/types";
 
-const allEditions = await prisma.editions.findMany({
-  where: {
-    editions_show: true,
-    editions_deleted: false,
-    NOT: {
-      editions_thumbnail: null,
-    },
-  },
-  orderBy: {
-    editions_published: "desc",
-  },
-});
+const res = await fetch(`http://localhost:3000/api/frontend/getEditions`);
+const allEditions: IEdition[] = await res.json();
 
 // Sorting editions into academic years
 let yearlyEditions: {
   [academicYear: string]: {
-    printEditions: editions[];
-    webEditions: editions[];
+    printEditions: IEdition[];
+    webEditions: IEdition[];
   };
 } = {};
 allEditions.forEach((edition) => {
+  const published = new Date(edition.editions_published);
   let academicYear =
-    edition.editions_published.getMonth() + 1 >= 9
-      ? `${edition.editions_published.getFullYear()}-${
-          edition.editions_published.getFullYear() + 1
+    published.getMonth() + 1 >= 9
+      ? `${published.getFullYear()}-${
+          published.getFullYear() + 1
         }`
       : `${
-          edition.editions_published.getFullYear() - 1
-        }-${edition.editions_published.getFullYear()}`;
+          published.getFullYear() - 1
+        }-${published.getFullYear()}`;
   if (yearlyEditions[academicYear]) {
     if (edition.editions_type !== "Web Edition") {
       yearlyEditions[academicYear].printEditions.push(edition);
@@ -75,26 +64,30 @@ export const prerender = true;
               <div
                 class={`print-editions mb-4 flex flex-wrap justify-center gap-8`}
               >
-                {editions.printEditions.map(async (edition) => (
-                  <a
-                    class="edition px-[17%] md:w-1/6 md:p-0"
-                    href={`${
-                      import.meta.env.BASE_URL
-                    }editions/${decodeURIComponent(edition.editions_slug)}`}
-                  >
-                    {edition.editions_thumbnail && (
-                      <img
-                        class="mb-4 aspect-auto object-contain md:aspect-edition"
-                        src={await s3URL(edition.editions_thumbnail, "medium")}
-                      />
-                    )}
-                    <h4 class="text-center text-base sm:text-xl">
-                      {edition.editions_printNumber
-                        ? `№${edition.editions_printNumber}`
-                        : edition.editions_name}
-                    </h4>
-                  </a>
-                ))}
+                {editions.printEditions.map(async (edition) => {
+                  const res = await fetch(`http://localhost:3000/api/s3url?fileId=${Number(edition.editions_thumbnail)}&size=medium`);
+                  const s3url: S3URL = await res.json();
+                  return (
+                      <a
+                          class="edition px-[17%] md:w-1/6 md:p-0"
+                          href={`${
+                              import.meta.env.BASE_URL
+                          }editions/${decodeURIComponent(edition.editions_slug)}`}
+                      >
+                        {edition.editions_thumbnail && (
+                            <img
+                                class="mb-4 aspect-auto object-contain md:aspect-edition"
+                                src={s3url.url}
+                            />
+                        )}
+                        <h4 class="text-center text-base sm:text-xl">
+                          {edition.editions_printNumber
+                              ? `№${edition.editions_printNumber}`
+                              : edition.editions_name}
+                        </h4>
+                      </a>
+                  )
+                })}
               </div>
             </>
           )}
@@ -106,24 +99,28 @@ export const prerender = true;
               <div
                 class={`web-editions mb-4 flex flex-wrap justify-center gap-8`}
               >
-                {editions.webEditions.map(async (edition) => (
-                  <a
-                    class="edition px-[17%] md:w-1/6 md:p-0"
-                    href={`${import.meta.env.BASE_URL}editions/${
-                      edition.editions_slug
-                    }`}
-                  >
-                    {edition.editions_thumbnail && (
-                      <img
-                        class="mb-4 aspect-auto object-contain md:aspect-video"
-                        src={await s3URL(edition.editions_thumbnail, "medium")}
-                      />
-                    )}
-                    <h4 class="text-center text-base sm:text-xl">
-                      {edition.editions_name}
-                    </h4>
-                  </a>
-                ))}
+                {editions.webEditions.map(async (edition) => {
+                  const res = await fetch(`http://localhost:3000/api/s3url?fileId=${Number(edition.editions_thumbnail)}&size=medium`);
+                  const s3url: S3URL = await res.json();
+                  return (
+                      <a
+                          class="edition px-[17%] md:w-1/6 md:p-0"
+                          href={`${import.meta.env.BASE_URL}editions/${
+                              edition.editions_slug
+                          }`}
+                      >
+                        {edition.editions_thumbnail && (
+                            <img
+                                class="mb-4 aspect-auto object-contain md:aspect-video"
+                                src={s3url.url}
+                            />
+                        )}
+                        <h4 class="text-center text-base sm:text-xl">
+                          {edition.editions_name}
+                        </h4>
+                      </a>
+                  )
+                })}
               </div>
             </>
           )}

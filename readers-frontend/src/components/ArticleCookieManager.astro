@@ -9,8 +9,8 @@ const apiAddress =
   import.meta.env.MODE === "production"
     ? process.env.LOCAL_DOCKER === "true"
       ? "http://localhost:420/api/registerRead.php"
-      : "https://nouse.co.uk/api/registerRead.php"
-    : "/api/registerRead.php";
+      : "https://nouse.co.uk/api/frontend/registerRead"
+    : "http://localhost:3000/api/frontend/registerRead";
 ---
 
 <article-cookie-manager
@@ -22,7 +22,7 @@ const apiAddress =
     constructor() {
       super();
 
-      const apiAddress = this.dataset.apiAddress || "/api/registerRead.php";
+      const apiAddress = this.dataset.apiAddress || "http://localhost:3000/api/frontend/registerRead";
       const stringArticleId = this.dataset.articleId || "0";
       const articleId = parseInt(this.dataset.articleId || "0");
 

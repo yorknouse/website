@@ -1,12 +1,12 @@
 ---
-import type { users } from "@prisma/client";
+import { type ArticleAuthor } from "./types";
 
 export interface Props {
   headline: string;
   excerpt: string | null;
-  authors: users[];
+  authors: ArticleAuthor[];
   category: string | null | undefined;
-  categoryLink: string | undefined;
+  categoryLink: string | null | undefined;
   categoryColor: string | null | undefined;
   imageUrl?: string;
   articleUrl: string;

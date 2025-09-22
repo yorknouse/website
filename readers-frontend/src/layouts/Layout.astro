@@ -2,26 +2,19 @@
 import "../styles/global.css";
 import Navbar from "@components/Navbar.astro";
 import SearchInterface from "@components/SearchInterface.astro";
-import prisma from "src/prisma";
 import { Icon } from "astro-icon/components";
 
 export interface Props {
   title: string | undefined;
-  active: string | undefined;
+  active: string | undefined | null;
   style: "nouse" | "muse";
 }
 
-const categoriesColours = await prisma.categories.findMany({
-  select: {
-    categories_backgroundColor: true,
-    categories_name: true,
-  },
-  where: {
-    NOT: {
-      categories_backgroundColor: null,
-    },
-  },
-});
+const res = await fetch(`http://localhost:3000/api/frontend/getCategoriesColours`);
+const categoriesColours: {
+  categories_name: string
+  categories_backgroundColor: string | null
+}[] = await res.json();
 
 const { title, active, style } = Astro.props;
 ---
@@ -31,11 +24,20 @@ const { title, active, style } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link
-      rel="icon"
-      type="image/png"
-      href="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/icons/favicon-32x32.png"
-    />
+    <!--<link-->
+    <!--  rel="icon"-->
+    <!--  type="image/png"-->
+    <!--  href="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/icons/favicon-32x32.png"-->
+    <!--/>-->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Nouse" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     {/* Adobe Fonts */}

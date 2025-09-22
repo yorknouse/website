@@ -1,36 +1,22 @@
 ---
-import prisma from "../prisma";
-import { fail } from "./utils/fail";
-import { s3URL } from "./utils/s3URL";
+import type { IEdition } from "./types";
 
-const latestEdition = await prisma.editions.findFirst({
-  orderBy: {
-    editions_published: "desc",
-  },
-  where: {
-    editions_show: true,
-    editions_showHome: true,
-    editions_deleted: false,
-    NOT: {
-      editions_thumbnail: null,
-    },
-  },
-});
+const res = await fetch(`http://localhost:3000/api/frontend/latestEdition`);
+const latestEdition: IEdition = await res.json();
+
 
 if (latestEdition === null) {
   console.log("Could not fetch latest edition");
-  // return;
 }
 
 let thumbnail;
 
 if (latestEdition != null) {
-  if (latestEdition.editions_thumbnail === null) {
+  if (latestEdition.thumbnailURL === null) {
     console.log("Edition thumbnail is null!");
     return;
   }
-
-  thumbnail = await s3URL(latestEdition.editions_thumbnail, "medium");
+  thumbnail = latestEdition.thumbnailURL;
 }
 ---
 
@@ -53,7 +39,7 @@ if (latestEdition != null) {
   <a
     id="edition"
     class="flex w-full flex-row rounded-md border-4 border-whiteish-200 sm:w-2/5"
-    href={`${import.meta.env.BASE_URL}editions/${latestEdition?.editions_slug}`}
+    href={`${import.meta.env.BASE_URL}editions/${String(latestEdition?.slug)}`}
   >
     <div class="flex w-1/2 flex-col gap-2.5 self-center">
       <p
@@ -64,7 +50,7 @@ if (latestEdition != null) {
       <p
         class="text-center text-base sm:text-sm md:text-base lg:text-lg xl:text-xl"
       >
-        {latestEdition?.editions_name}
+        {latestEdition?.name}
       </p>
     </div>
     <img

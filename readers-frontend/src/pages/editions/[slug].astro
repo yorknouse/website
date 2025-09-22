@@ -3,11 +3,11 @@ import ArticleRows from "@components/ArticleRows.astro";
 import CustomBoxes from "@components/SolidJS/CustomBoxes";
 import type { FeaturedHighlights } from "@components/types";
 import { getArticles } from "@components/utils/articles";
-import { s3URL } from "@components/utils/s3URL";
 import Layout from "src/layouts/Layout.astro";
-import prisma from "src/prisma";
 import { v4 as uuidv4 } from "uuid";
 import crypto from "crypto";
+import type { S3URL } from "@components/types";
+import type { IEdition } from "../../components/types";
 
 const { slug } = Astro.params;
 
@@ -16,21 +16,17 @@ const cleanSlug = decodeURIComponent(slug || "");
 const preview = Astro.url.searchParams.get("preview") != null;
 const previewEditionId = Astro.url.searchParams.get("edition");
 const previewEditionHash = Astro.url.searchParams.get("key");
-const isPreview = preview && previewEditionId && previewEditionHash;
+const isPreview = preview && previewEditionId !== null && previewEditionHash !== null;
 
-const edition = await prisma.editions.findFirst({
-  where: {
-    editions_slug: cleanSlug,
-    editions_show: isPreview ? false : true,
-    editions_deleted: false,
-    NOT: {
-      editions_thumbnail: null,
-    },
-  },
-  orderBy: {
-    editions_published: "desc",
-  },
+const formData = new FormData();
+formData.append("slug", cleanSlug);
+formData.append("isPreview", String(isPreview));
+
+const res = await fetch(`http://localhost:3000/api/frontend/getEdition`, {
+  method: "POST",
+  body: formData,
 });
+const edition: IEdition = await res.json();
 
 if (!edition) return Astro.redirect("/404");
 if (isPreview) {
@@ -43,6 +39,7 @@ if (isPreview) {
 
 const isWebEdition = edition.editions_type === "Web Edition";
 let pdfURL;
+let tempFileId;
 // Data for web editions is saved as a JSON string in the database
 // This is parsed into an object here
 let featuredHighlights: FeaturedHighlights = null;
@@ -52,7 +49,7 @@ if (isWebEdition && edition.editions_featuredHighlights) {
     for (const section of featuredHighlights.sections) {
       if (section.articles.length !== 0) {
         const articleIds = section.articles.map((n) => Number.parseInt(n));
-        section.articlesData = await getArticles(articleIds);
+        section.articlesData = await getArticles("nouse", articleIds);
       }
       // If there is a custom box header, add it to the start of the custom boxes array
       if (section.customBoxHeader.title) {
@@ -60,10 +57,15 @@ if (isWebEdition && edition.editions_featuredHighlights) {
       }
     }
   }
-} else {
-  pdfURL = edition.editions_pdf
-    ? await s3URL(edition.editions_pdf)
-    : await s3URL(edition.editions_pdfOriginal!);
+} else if (edition.editions_pdf)
+  tempFileId = edition.editions_pdf;
+else
+  tempFileId = edition.editions_pdfOriginal;
+
+if (tempFileId) {
+  const res = await fetch(`http://localhost:3000/api/s3url?fileId=${tempFileId}`);
+  const s3url: S3URL = await res.json();
+  pdfURL = s3url.url;
 }
 ---
 
@@ -98,20 +100,26 @@ if (isWebEdition && edition.editions_featuredHighlights) {
   {
     isWebEdition && featuredHighlights ? (
       async () => {
+        const res = await fetch(`http://localhost:3000/api/s3url?fileId=${edition.editions_thumbnail!}&size=medium`);
+        const s3url: S3URL = await res.json();
         return (
           <div class="mt-8">
             <img
               id="thumbnail"
               class="mb-5 w-full px-[3%] sm:px-[0.5%] 2xl:px-[13%]"
-              src={await s3URL(edition.editions_thumbnail!, "medium")}
+              src={s3url.url}
+              alt="Edition thumbnail"
             />
             {featuredHighlights!.sections.map(async (section) => {
+              const res = await fetch(`http://localhost:3000/api/s3url?fileId=${section.headerImage}&size=medium`);
+              const s3url: S3URL = await res.json();
               return (
                 <div class="section mb-8">
                   {section.headerImage && (
                     <img
                       class="section-image mb-5 w-full px-[3%] sm:px-[0.5%] 2xl:px-[13%]"
-                      src={await s3URL(section.headerImage, "medium")}
+                      src={s3url.url}
+                      alt="Featured highlight section header image"
                     />
                   )}
                   {section.customBoxes.length !== 0 &&
@@ -154,7 +162,6 @@ if (isWebEdition && edition.editions_featuredHighlights) {
                     <div class="px-[3%] sm:px-[0.5%] 2xl:px-[13%]">
                       <ArticleRows
                         articles={section.articlesData}
-                        style={section.name}
                       />
                     </div>
                   )}

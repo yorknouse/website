@@ -6,12 +6,12 @@ import icon from "astro-icon";
 import solidJs from "@astrojs/solid-js";
 import node from "@astrojs/node";
 import sitemap from "@astrojs/sitemap";
-import getArticlesLinks from "./build-utils/getArticlesLinks";
-import getCategoriesLinks from "./build-utils/getCategoriesLinks";
+// import getArticlesLinks from "./build-utils/getArticlesLinks";
+// import getCategoriesLinks from "./build-utils/getCategoriesLinks";
 const environment = loadEnv(import.meta.env.MODE, process.cwd(), "");
 
-const articlesLinks = await getArticlesLinks();
-const categoriesLinks = await getCategoriesLinks();
+// const articlesLinks = await getArticlesLinks();
+// const categoriesLinks = await getCategoriesLinks();
 
 // https://astro.build/config
 export default defineConfig({
@@ -19,7 +19,9 @@ export default defineConfig({
     icon(),
     solidJs(),
     sitemap({
-      customPages: [...articlesLinks, ...categoriesLinks],
+      customPages: [
+        /*...articlesLinks, ...categoriesLinks*/
+      ],
     }),
   ],
   site: "https://nouse.co.uk",

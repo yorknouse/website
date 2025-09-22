@@ -15,6 +15,7 @@ type PaginatorProps = {
   pages: Accessor<number> | number;
   pagesToDisplay: number;
   prefix?: string;
+  useQueryParams?: boolean;
 };
 
 const Paginator: Component<PaginatorProps> = (props) => {
@@ -32,6 +33,10 @@ const Paginator: Component<PaginatorProps> = (props) => {
     if (props.setPage) return props.setPage(page);
     else if (page == 0)
       window.location.href = `${import.meta.env.BASE_URL}${props.prefix}`;
+    else if (props.useQueryParams)
+      window.location.href = `${import.meta.env.BASE_URL}${props.prefix}?page=${
+        page + 1
+      }`;
     else
       window.location.href = `${import.meta.env.BASE_URL}${props.prefix}/${
         page + 1
