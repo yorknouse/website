@@ -38,6 +38,9 @@ export default defineConfig({
         "Access-Control-Allow-Origin": "https://nouse.co.uk",
       },
     },
+    define: {
+      'import.meta.env.API_BASE_URL': JSON.stringify(process.env.API_BASE_URL || 'https://nouse.co.uk')
+    },
   },
   // @ts-ignore
   environment,

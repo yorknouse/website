@@ -39,15 +39,10 @@ export default defineConfig({
           target: "http://localhost:420/api/searchSuggestions.php",
           changeOrigin: true,
         },
-        // "/api1/registerRead": {
-        //   target: "http://localhost:420/api/registerRead",
-        //   changeOrigin: true,
-        // },
-        // "/api/topArticles.php": {
-        //   target: "http://localhost:420/api/topArticles.php",
-        //   changeOrigin: true,
-        // },
       },
+    },
+    define: {
+      'import.meta.env.API_BASE_URL': JSON.stringify(process.env.API_BASE_URL || 'http://localhost:3000')
     },
   },
   adapter: node({
