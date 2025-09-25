@@ -2,7 +2,9 @@
 import Layout from "src/layouts/Layout.astro";
 import { type Position } from "../components/types";
 
-const res = await fetch('http://localhost:3000/api/frontend/team');
+const apiBase = import.meta.env.API_BASE_URL;
+
+const res = await fetch(`${apiBase}/api/frontend/team`);
 const positions: Position[] = await res.json();
 ---
 

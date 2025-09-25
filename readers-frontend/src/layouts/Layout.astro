@@ -10,10 +10,12 @@ export interface Props {
   style: "nouse" | "muse";
 }
 
-const res = await fetch(`http://localhost:3000/api/frontend/getCategoriesColours`);
+const apiBase = import.meta.env.API_BASE_URL;
+
+const res = await fetch(`${apiBase}/api/frontend/getCategoriesColours`);
 const categoriesColours: {
-  categories_name: string
-  categories_backgroundColor: string | null
+    categories_name: string
+    categories_backgroundColor: string | null
 }[] = await res.json();
 
 const { title, active, style } = Astro.props;

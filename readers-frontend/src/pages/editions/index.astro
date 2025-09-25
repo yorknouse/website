@@ -2,7 +2,9 @@
 import Layout from "src/layouts/Layout.astro";
 import type { IEdition, S3URL } from "@components/types";
 
-const res = await fetch(`http://localhost:3000/api/frontend/getEditions`);
+const apiBase = import.meta.env.API_BASE_URL;
+
+const res = await fetch(`${apiBase}/api/frontend/getEditions`);
 const allEditions: IEdition[] = await res.json();
 
 // Sorting editions into academic years
@@ -42,12 +44,9 @@ allEditions.forEach((edition) => {
     }
   }
 });
-
-// Static render this page
-export const prerender = true;
 ---
 
-<Layout title="Our Editions - Nouse" active={undefined} style="nouse">
+<Layout title="Our Editions - Nouse" active={undefined} style={"nouse"}>
   <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
     <h1 class="mb-4 text-center text-2xl sm:text-4xl">Our Editions</h1>
     {
@@ -65,7 +64,7 @@ export const prerender = true;
                 class={`print-editions mb-4 flex flex-wrap justify-center gap-8`}
               >
                 {editions.printEditions.map(async (edition) => {
-                  const res = await fetch(`http://localhost:3000/api/s3url?fileId=${Number(edition.editions_thumbnail)}&size=medium`);
+                  const res = await fetch(`${apiBase}/api/s3url?fileId=${Number(edition.editions_thumbnail)}&size=medium`);
                   const s3url: S3URL = await res.json();
                   return (
                       <a
@@ -100,7 +99,7 @@ export const prerender = true;
                 class={`web-editions mb-4 flex flex-wrap justify-center gap-8`}
               >
                 {editions.webEditions.map(async (edition) => {
-                  const res = await fetch(`http://localhost:3000/api/s3url?fileId=${Number(edition.editions_thumbnail)}&size=medium`);
+                  const res = await fetch(`${apiBase}/api/s3url?fileId=${Number(edition.editions_thumbnail)}&size=medium`);
                   const s3url: S3URL = await res.json();
                   return (
                       <a

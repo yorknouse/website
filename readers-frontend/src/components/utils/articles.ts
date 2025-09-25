@@ -8,13 +8,15 @@ export const getArticles = async (
     return [];
   }
 
+  const apiBase = import.meta.env.API_BASE_URL;
+
   const articlesString = JSON.stringify(articleIds);
 
   const formData = new FormData();
   formData.append("articleIds", articlesString);
   formData.append("style", style);
 
-  const res = await fetch(`http://localhost:3000/api/frontend/getArticles`, {
+  const res = await fetch(`${apiBase}/api/frontend/getArticles`, {
     method: "POST",
     body: formData,
   });

@@ -12,12 +12,9 @@ const apiAddress =
       ? "http://localhost:420/api/searchSuggestions.php"
       : "https://nouse.co.uk/api/searchSuggestions.php"
     : "http://localhost:3000/api/frontend/searchSuggestions";
-
-// Static render this page
-export const prerender = true;
 ---
 
-<Layout title="Welcome to Astro." active={undefined} style="nouse">
+<Layout title="Welcome to Astro." active={undefined} style={"nouse"}>
   <main class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
     <SearchResults client:only baseUrl={baseUrl} apiAddress={apiAddress} />
   </main>

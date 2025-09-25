@@ -8,7 +8,9 @@ import { getFeaturedSectionsCategories } from "@components/utils/categories";
 import NavbarColourSwitcher from "@components/NavbarColourSwitcher.astro";
 import { type IFeaturedHome } from "@components/types";
 
-const res = await fetch(`http://localhost:3000/api/frontend/featuredArticlesIds`);
+const apiBase = import.meta.env.API_BASE_URL;
+
+const res = await fetch(`${apiBase}/api/frontend/featuredArticlesIds`);
 const featuredArticlesIds: IFeaturedHome = await res.json();
 
 const categories = await getFeaturedSectionsCategories();

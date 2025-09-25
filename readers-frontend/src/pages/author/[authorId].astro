@@ -12,7 +12,9 @@ if (!authorId) return Astro.redirect("/404");
 const authorIdNumber = parseInt(authorId);
 const pageNumber = parseInt(page || "") || 0;
 
-const res = await fetch(`http://localhost:3000/api/frontend/author/${authorIdNumber}`);
+const apiBase = import.meta.env.API_BASE_URL;
+
+const res = await fetch(`${apiBase}/api/frontend/author/${authorIdNumber}`);
 const author: {
   users_name1: string | null
   users_name2: string | null
@@ -41,7 +43,7 @@ let s3URL: S3URL = {
 };
 
 if (author.users_thumbnail) {
-  const res = await fetch(`http://localhost:3000/api/s3url?fileId=${Number(author.users_thumbnail)}&size=large`);
+  const res = await fetch(`${apiBase}/api/s3url?fileId=${Number(author.users_thumbnail)}&size=large`);
   s3URL = await res.json();
 }
 

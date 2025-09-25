@@ -11,7 +11,9 @@ interface Props {
 
 const { articlesPerPage, pageNumber, authorId } = Astro.props;
 
-const res = await fetch(`http://localhost:3000/api/frontend/authorArticles?authorId=${authorId}&page=${pageNumber}&limit=${articlesPerPage}`);
+const apiBase = import.meta.env.API_BASE_URL;
+
+const res = await fetch(`${apiBase}/api/frontend/authorArticles?authorId=${authorId}&page=${pageNumber}&limit=${articlesPerPage}`);
 const authorArticles: AuthorArticles = await res.json();
 ---
 

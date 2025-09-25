@@ -4,13 +4,15 @@ import ArticleCookieManager from "@components/ArticleCookieManager.astro";
 import TopArticles from "@components/SolidJS/TopArticles";
 import { Icon } from "astro-icon/components";
 import Layout from "src/layouts/Layout.astro";
-import type { IArticle, S3URL } from "../../../../../components/types";
+import type { IArticle, S3URL } from "@components/types";
 
 const { year, month, day, slug } = Astro.params;
 
 const cleanSlug = decodeURIComponent(slug || "");
 
-const res = await fetch('http://localhost:3000/api/frontend/article/'+cleanSlug);
+const apiBase = import.meta.env.API_BASE_URL;
+
+const res = await fetch(`${apiBase}/api/frontend/article/`+cleanSlug);
 const article: IArticle = await res.json();
 
 if (!article) return Astro.redirect("/404");
@@ -33,13 +35,6 @@ let baseUrl = import.meta.env.BASE_URL;
 
 baseUrl = baseUrl.slice(0, baseUrl.length - 1);
 
-const apiAddress =
-  import.meta.env.MODE === "production"
-    ? process.env.LOCAL_DOCKER === "true"
-      ? "http://localhost:420/api/topArticles.php"
-      : "https://nouse.co.uk/api/topArticles.php"
-    : "http://localhost:3000/api/frontend/topArticles";
-
 const imagePlaceHolder =
   '"https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg"';
 
@@ -53,7 +48,7 @@ if (article.articleType === 2 && article.text != null && article.text.length > 0
       .filter((id) => !isNaN(id));
 
   galleryImages = await Promise.all(imageIds.map(async (id) => {
-    const res = await fetch(`http://localhost:3000/api/s3url?fileId=${id}&size=small`);
+    const res = await fetch(`${apiBase}/api/s3url?fileId=${id}&size=small`);
     const s3url: S3URL = await res.json();
     return s3url.url
   }));
@@ -218,7 +213,7 @@ if (article.articleType === 2 && article.text != null && article.text.length > 0
         </style>
         {/* Top Articles */}
         <div class="flex w-full flex-col md:w-1/3">
-          <TopArticles client:only baseUrl={baseUrl} apiAddress={apiAddress} />
+          <TopArticles client:only baseUrl={baseUrl} />
         </div>
       </div>
       {/* Similar Articles */}

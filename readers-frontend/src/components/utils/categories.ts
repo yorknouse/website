@@ -4,14 +4,14 @@ import type {
   ICategoryArticles,
 } from "@components/types.ts";
 
+const apiBase = import.meta.env.API_BASE_URL;
+
 export const getMenuCategories: (
   style: "nouse" | "muse",
 ) => Promise<ICategory[]> = async (
   style: "nouse" | "muse",
 ): Promise<ICategory[]> => {
-  const res = await fetch(
-    `http://localhost:3000/api/frontend/menuCategories/${style}`,
-  );
+  const res = await fetch(`${apiBase}/api/frontend/menuCategories/${style}`);
   return await res.json();
 };
 
@@ -24,18 +24,14 @@ export const getMenuCategories: (
 export const getMenuSubcategories: (
   parentCategory: number,
 ) => Promise<ICategory[]> = async (parentCategory: number) => {
-  const res = await fetch(
-    `http://localhost:3000/api/frontend/menuSubcategories/${parentCategory}`,
-  );
+  const res = await fetch(`${apiBase}/api/frontend/menuSubcategories/${parentCategory}`);
   return await res.json();
 };
 
 export const getFeaturedSectionsCategories: () => Promise<
   ICategory[]
 > = async (): Promise<ICategory[]> => {
-  const res = await fetch(
-    `http://localhost:3000/api/frontend/featuredSectionCategories`,
-  );
+  const res = await fetch(`${apiBase}/api/frontend/featuredSectionCategories`);
   return await res.json();
 };
 
@@ -50,7 +46,7 @@ export const getCategoriesWithArticles = async (
   articlesLimit: number = 10,
 ): Promise<ICategoryArticles[]> => {
   const res = await fetch(
-    `http://localhost:3000/api/frontend/categoriesWithArticles?parentCategory=${parentCategory}&articlesLimit=${articlesLimit}`,
+    `${apiBase}/api/frontend/categoriesWithArticles?parentCategory=${parentCategory}&articlesLimit=${articlesLimit}`,
   );
   return await res.json();
 };

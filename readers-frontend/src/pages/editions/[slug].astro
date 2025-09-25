@@ -22,7 +22,9 @@ const formData = new FormData();
 formData.append("slug", cleanSlug);
 formData.append("isPreview", String(isPreview));
 
-const res = await fetch(`http://localhost:3000/api/frontend/getEdition`, {
+const apiBase = import.meta.env.API_BASE_URL;
+
+const res = await fetch(`${apiBase}/api/frontend/getEdition`, {
   method: "POST",
   body: formData,
 });
@@ -63,7 +65,7 @@ else
   tempFileId = edition.editions_pdfOriginal;
 
 if (tempFileId) {
-  const res = await fetch(`http://localhost:3000/api/s3url?fileId=${tempFileId}`);
+  const res = await fetch(`${apiBase}/api/s3url?fileId=${tempFileId}`);
   const s3url: S3URL = await res.json();
   pdfURL = s3url.url;
 }
@@ -100,7 +102,7 @@ if (tempFileId) {
   {
     isWebEdition && featuredHighlights ? (
       async () => {
-        const res = await fetch(`http://localhost:3000/api/s3url?fileId=${edition.editions_thumbnail!}&size=medium`);
+        const res = await fetch(`${apiBase}/api/s3url?fileId=${edition.editions_thumbnail!}&size=medium`);
         const s3url: S3URL = await res.json();
         return (
           <div class="mt-8">
@@ -111,7 +113,7 @@ if (tempFileId) {
               alt="Edition thumbnail"
             />
             {featuredHighlights!.sections.map(async (section) => {
-              const res = await fetch(`http://localhost:3000/api/s3url?fileId=${section.headerImage}&size=medium`);
+              const res = await fetch(`${apiBase}/api/s3url?fileId=${section.headerImage}&size=medium`);
               const s3url: S3URL = await res.json();
               return (
                 <div class="section mb-8">

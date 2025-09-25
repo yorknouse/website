@@ -10,7 +10,7 @@ import NavbarColourSwitcher from "@components/NavbarColourSwitcher.astro";
 import ArticleRows from "@components/ArticleRows.astro";
 import type { ArticleCategory } from "@components/types";
 import { getCategoryLink } from "@components/utils/categories";
-import type { ICategoryArticles } from "../../components/types";
+import type { ICategoryArticles } from "@components/types";
 
 const { topLevelCategory, path } = Astro.params;
 const cleanPath = path ? decodeURIComponent(path) : undefined;
@@ -63,7 +63,9 @@ const articlesSkipped = isMuseLandingPage // Number of articles to skip
   ? (pageNumber - 1) * articlesPerPage
   : pageNumber * articlesPerPage;
 
-let res = await fetch(`http://localhost:3000/api/frontend/categoryFeaturedAndCount/${categoryName}`);
+const apiBase = import.meta.env.API_BASE_URL;
+
+let res = await fetch(`${apiBase}/api/frontend/categoryFeaturedAndCount/${categoryName}`);
 const categoryFeaturedAndCount: {
     _count: {
         articles: number
@@ -97,7 +99,7 @@ formData.append("take", String(isMuseLandingPage ? 0 : articlesPerPage))
 formData.append("skip", String(articlesSkipped))
 formData.append("notInFeatured", String(featuredArticlesIds))
 
-res = await fetch(`http://localhost:3000/api/frontend/categoryArticlesPath`, {
+res = await fetch(`${apiBase}/api/frontend/categoryArticlesPath`, {
     method: "POST",
     body: formData,
 });
@@ -170,7 +172,7 @@ const cat: ArticleCategory = {
 };
 
 // const articles = await Promise.all(category.articles!.map(async ({ article }) => {
-//     const res = await fetch(`http://localhost:3000/api/s3url?fileId=${article.articles_thumbnail}&size=small`);
+//     const res = await fetch(`${apiBase}/api/s3url?fileId=${article.articles_thumbnail}&size=small`);
 //     const s3url: S3URL = await res.json();
 //
 //     const date = new Date(article.articles_published!);

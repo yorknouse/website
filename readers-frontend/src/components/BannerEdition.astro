@@ -1,7 +1,9 @@
 ---
 import type { IEdition } from "./types";
 
-const res = await fetch(`http://localhost:3000/api/frontend/latestEdition`);
+const apiBase = import.meta.env.API_BASE_URL;
+
+const res = await fetch(`${apiBase}/api/frontend/latestEdition`);
 const latestEdition: IEdition = await res.json();
 
 

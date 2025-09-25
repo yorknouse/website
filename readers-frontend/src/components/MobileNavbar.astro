@@ -19,7 +19,9 @@ formData.append("style", style);
 formData.append("menuCategories", JSON.stringify(menuCategories));
 formData.append("subMenuCategories", JSON.stringify([...subMenuCategories.entries()]));
 
-const res = await fetch(`http://localhost:3000/api/frontend/mobileNavBar`, {
+const apiBase = import.meta.env.API_BASE_URL;
+
+const res = await fetch(`${apiBase}/api/frontend/mobileNavBar`, {
   method: "POST",
   body: formData,
 });
