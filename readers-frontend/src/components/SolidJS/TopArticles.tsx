@@ -5,14 +5,15 @@ import SearchArticle from "./SearchArticle";
 
 type TopArticleProps = {
   baseUrl: string;
-  apiAddress: string;
 };
 
 const TopArticles: Component<TopArticleProps> = (props) => {
   const [loading, setLoading] = createSignal<boolean>(true);
   const [articles, setArticles] = createSignal<TopArticleResult[]>([]);
 
-  fetch(props.apiAddress, { method: "GET" })
+  const apiBase = import.meta.env.API_BASE_URL;
+
+  fetch(`${apiBase}/api/frontend/topArticles`, { method: "GET" })
     .then(async (res) => {
       if (res.status !== 200) throw new Error(res.statusText);
 
