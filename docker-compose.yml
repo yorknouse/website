@@ -17,7 +17,10 @@ services:
       - nouseprod.env
     depends_on:
       - db
-      - nouse
+#      - nouse
+      - php-container
+      - astro-container
+      - react-container
       - phpmyadmin
       - grafana
   db:
@@ -40,25 +43,24 @@ services:
       - nouseprod.env
     ports:
       - 3306:3306
-  nouse:
-    build:
-      context: .
-      dockerfile: Dockerfile.php
-    container_name: nouse-container
-    restart: always
-    depends_on:
-      - db
-    environment:
-      - MYSQL_HOSTNAME=db
-      - MYSQL_DATABASE=nouse
-      - MYSQL_USER=userDocker
-      - MYSQL_PASSWORD=passDocker
-    env_file:
-      - nouseprod.env
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-  # TODO: fix
-  php:
+#  nouse:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.php
+#    container_name: nouse-container
+#    restart: always
+#    depends_on:
+#      - db
+#    environment:
+#      - MYSQL_HOSTNAME=db
+#      - MYSQL_DATABASE=nouse
+#      - MYSQL_USER=userDocker
+#      - MYSQL_PASSWORD=passDocker
+#    env_file:
+#      - nouseprod.env
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+  php-container:
     build:
       context: .
       dockerfile: Dockerfile.php
@@ -75,21 +77,36 @@ services:
       - nouseprod.env
     extra_hosts:
       - "host.docker.internal:host-gateway"
-  astro:
+  react-container:
     build:
       context: .
-      dockerfile: Dockerfile.astro
-    container_name: astro-container
+      dockerfile: Dockerfile.react
+    container_name: react-container
     restart: always
     depends_on:
       - db
     env_file:
       - nouseprod.env
     expose:
-      - "4321"
+      - "3000"
     environment:
       - NODE_ENV=production
       - DATABASE_URL=mysql://userDocker:passDocker@db:3306/nouse
+  astro-container:
+    build:
+      context: .
+      dockerfile: Dockerfile.astro
+    container_name: astro-container
+    restart: always
+    depends_on:
+      - react-container
+    env_file:
+      - nouseprod.env
+    expose:
+      - "4321"
+    environment:
+      - NODE_ENV=production
+      - API_BASE_URL=https://nouse.co.uk/api
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2
     container_name: phpmyadmin
@@ -162,7 +179,7 @@ services:
       - PGID=120 #This varies from server to server (https://learn.netdata.cloud/docs/agent/packaging/docker) - find it with      grep docker /etc/group | cut -d ':' -f 3
     depends_on: #Relies on everything because it needs to start last in order to access details of docker containers
       - caddy
-      - nouse
+#      - nouse
       - db
       - phpmyadmin
       - mysql-backup

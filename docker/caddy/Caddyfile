@@ -22,7 +22,7 @@
         reverse_proxy netdata:19999
     }
 
-    reverse_proxy php:80
+    reverse_proxy php-container:80
 
     encode gzip
 }
@@ -34,17 +34,17 @@ www.nouse.co.uk nouse.co.uk {
         }
     }
     handle /api/* {
-        reverse_proxy react:3000
+        reverse_proxy react-container:3000
     }
-    reverse_proxy astro:4321
+    reverse_proxy astro-container:4321
     encode gzip
 }
 # This is a temporary measure due to using YSTV monitoring infrastructure
 internal.nouse.co.uk {
     handle /api/* {
-        reverse_proxy react:3000
+        reverse_proxy react-container:3000
     }
-    reverse_proxy astro:4321
+    reverse_proxy astro-container:4321
     encode gzip
 }
 edit.nouse.co.uk {
@@ -54,7 +54,7 @@ edit.nouse.co.uk {
             trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
         }
     }
-    reverse_proxy php:80
+    reverse_proxy php-container:80
     encode gzip
 }
 stats.nouse.co.uk {
