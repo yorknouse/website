@@ -1,18 +1,33 @@
-# TODO: fix
-FROM node:22
+# --- Build stage ---
+FROM node:22 AS build
 
-# Create app directory
 WORKDIR /app
 
-# Copy Astro project files
+# Copy Astro project
 COPY ./readers-frontend /app
 
-# Install dependencies and build
+# Install deps and build
+ENV API_BASE_URL=http://host.docker.internal:3000
 RUN npm install
 RUN npm run build -- --config astro.config.prod.ts
 
-# Expose the Astro port
+# --- Runtime stage ---
+FROM node:22-slim AS runtime
+
+WORKDIR /app
+
+# Copy built output only
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/package*.json ./
+
+# Install production-only deps (optional, if you have server adapters needing them)
+RUN npm install --omit=dev
+
+# Reset env var so runtime fetches work
+ENV API_BASE_URL=
+ENV NODE_ENV=production
+ENV PORT=4321
+
 EXPOSE 4321
 
-# Run the Astro server
 CMD ["node", "dist/server/entry.mjs"]
