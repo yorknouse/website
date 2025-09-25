@@ -34,12 +34,6 @@ export default defineConfig({
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
-      proxy: {
-        "/api/searchSuggestions.php": {
-          target: "http://localhost:420/api/searchSuggestions.php",
-          changeOrigin: true,
-        },
-      },
     },
     define: {
       'import.meta.env.API_BASE_URL': JSON.stringify(process.env.API_BASE_URL || 'http://localhost:3000')
