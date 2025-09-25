@@ -26,9 +26,9 @@ export default async function handler(
       orderBy: { read_count: "desc" },
       take: 4,
       select: {
-          articles_id: true,
-          read_count: true,
-          updated_at: true,
+        articles_id: true,
+        read_count: true,
+        updated_at: true,
       },
     });
 
@@ -37,8 +37,11 @@ export default async function handler(
       read_count: number;
       updated_at: Date;
     }[] = summary.map(
-      (s: { articles_id: number; read_count: number; updated_at: Date }): { articles_id: number; read_count: number; updated_at: Date } =>
-        s,
+      (s: {
+        articles_id: number;
+        read_count: number;
+        updated_at: Date;
+      }): { articles_id: number; read_count: number; updated_at: Date } => s,
     );
 
     const articles: TopArticleResult[] = await prisma.$queryRawUnsafe(`
@@ -73,8 +76,8 @@ export default async function handler(
         }[] = await prisma.articlesCategories.findMany({
           where: { articles_id: article.articles_id },
           select: {
-              articles_id: true,
-              categories_id: true,
+            articles_id: true,
+            categories_id: true,
           },
         });
 

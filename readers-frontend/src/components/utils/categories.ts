@@ -24,7 +24,9 @@ export const getMenuCategories: (
 export const getMenuSubcategories: (
   parentCategory: number,
 ) => Promise<ICategory[]> = async (parentCategory: number) => {
-  const res = await fetch(`${apiBase}/api/frontend/menuSubcategories/${parentCategory}`);
+  const res = await fetch(
+    `${apiBase}/api/frontend/menuSubcategories/${parentCategory}`,
+  );
   return await res.json();
 };
 
