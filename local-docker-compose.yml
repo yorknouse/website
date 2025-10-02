@@ -19,7 +19,6 @@ services:
       - nouseprod-local.env
     ports:
       - 3306:3306
-  # TODO: fix
 #  nouse:
 #    build:
 #      context: .
@@ -44,12 +43,16 @@ services:
 #    volumes:
 #      - ./html:/var/www/html
 #      - ./composer:/var/www/composer
-  php:
+  php-container:
     build:
       context: .
-      dockerfile: Dockerfile.php
+      dockerfile: Dockerfile.php-local-df
     container_name: php-container
     restart: always
+    ports:
+      - 80:80
+      - 420:420
+      - 419:419
     depends_on:
       - db
     environment:
@@ -61,14 +64,28 @@ services:
       - nouseprod-local.env
     extra_hosts:
       - "host.docker.internal:host-gateway"
-  astro:
+  react-container:
     build:
       context: .
-      dockerfile: Dockerfile.astro-local
-    container_name: astro-container
+      dockerfile: Dockerfile.react-local-df
+    container_name: react-container
     restart: always
     depends_on:
       - db
+    env_file:
+      - nouseprod-local.env
+    ports:
+      - 3000:3000
+    environment:
+      - DATABASE_URL=mysql://userDocker:passDocker@db:3306/nouse
+  astro-container:
+    build:
+      context: .
+      dockerfile: Dockerfile.astro-local-df
+    container_name: astro-container
+    restart: always
+    depends_on:
+      - react-container
     env_file:
       - nouseprod-local.env
     ports:
