@@ -4,7 +4,7 @@ import type { TopArticleResult, TopArticlesResponse } from "@components/types";
 import SearchArticle from "./SearchArticle";
 
 type TopArticleProps = {
-  baseUrl: string;
+  // baseUrl: string;
 };
 
 const TopArticles: Component<TopArticleProps> = (props) => {
@@ -51,7 +51,7 @@ const TopArticles: Component<TopArticleProps> = (props) => {
                       isVertical={true}
                       isPortrait={article.articles_isThumbnailPortrait}
                       hideCategoryAccent={true}
-                      baseUrl={props.baseUrl}
+                      // baseUrl={props.baseUrl}
                     />
                   </div>
                 )}

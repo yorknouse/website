@@ -14,7 +14,7 @@ type SearchResultRowProps = {
   bottomBorder: boolean;
   page: Accessor<number>;
   lastArticle: SearchResult | undefined;
-  baseUrl: string;
+  // baseUrl: string;
 };
 
 const SearchResultRow: Component<SearchResultRowProps> = (props) => {
@@ -56,7 +56,7 @@ const SearchResultRow: Component<SearchResultRowProps> = (props) => {
                   isPortrait={article.articles_isThumbnailPortrait}
                   hideCategoryAccent={false}
                   page={props.page}
-                  baseUrl={props.baseUrl}
+                  // baseUrl={props.baseUrl}
                 />
               </div>
             )}
@@ -79,7 +79,7 @@ const SearchResultRow: Component<SearchResultRowProps> = (props) => {
                   isPortrait={article.articles_isThumbnailPortrait}
                   hideCategoryAccent={false}
                   page={props.page}
-                  baseUrl={props.baseUrl}
+                  // baseUrl={props.baseUrl}
                 />
               </div>
             )}

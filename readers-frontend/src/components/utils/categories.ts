@@ -64,9 +64,9 @@ export const getCategoryLink = (
   parentCategory: number | null,
 ): string => {
   if (parentCategory === 4) {
-    return `${import.meta.env.BASE_URL}muse/${category_name}`;
+    return `/muse/${category_name}`;
   } else {
-    return `${import.meta.env.BASE_URL}${category_name}`;
+    return `/${category_name}`;
   }
 };
 

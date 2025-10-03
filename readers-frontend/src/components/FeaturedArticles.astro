@@ -433,7 +433,7 @@ const mainCategories: ICategory[] = featuredArticles.flatMap(({categories}) =>
         categoryLink={getCategoryLink(mainCategories[index]?.categories_name, mainCategories[index]?.categories_nestUnder)}
         categoryColor={mainCategories[index]?.categories_backgroundColor}
         imageUrl={index <= 2 ? article.thumbnailURL : undefined}
-        articleUrl={article.articleURL || import.meta.env.BASE_URL}
+        articleUrl={article.articleURL}
         isVertical={index == 0}
         isPortrait={article.isThumbnailPortrait}
         hideCategoryAccent={hideCategoryAccent}
