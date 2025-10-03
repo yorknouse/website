@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $bCMS, $TWIG, $DBLIB;
 require_once __DIR__ . '/common/headSecure.php';
 
 $PAGEDATA['pageConfig'] = ["TITLE" => "Editions", "BREADCRUMB" => false];
@@ -34,4 +35,3 @@ foreach ($editions as $edition) {
 
 
 echo $TWIG->render('editions.twig', $PAGEDATA);
-?>

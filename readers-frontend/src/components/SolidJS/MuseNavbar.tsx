@@ -1,6 +1,5 @@
 import type { MuseNavbarCategory } from "@components/types";
-import type { categories } from "@prisma/client";
-import { Accessor, Component, For, Setter } from "solid-js";
+import { type Accessor, type Component, For, type Setter } from "solid-js";
 
 type MuseNavbarProps = {
   active: Accessor<string>;
@@ -13,20 +12,17 @@ const MuseNavbar: Component<MuseNavbarProps> = (props) => {
     <>
       {/* Desktop */}
       <div
-        class="2xl:text-large hidden h-12 w-full text-base text-white md:block 2xl:px-[13%]"
+        class="2xl:text-large hidden h-12 w-full text-base text-white md:block 2xl:px-[13%] bg-navbar"
         id="muse-navbar-desktop"
       >
         <ul class="flex h-full w-full flex-row justify-between border-t border-transparent border-white text-xs lg:text-base">
           <For each={props.categories}>
             {(category, i) => (
               <>
-                {i() !== 0 && ( // No divider before Home
-                  <span class="h-3/5 self-center border-r border-white" />
-                )}
                 <li
                   class={`group relative flex h-full w-full border-b-4 ${
                     props.active() === category.name
-                      ? "border-white"
+                      ? "border-white bg-navbar-item"
                       : "border-transparent"
                   }`}
                 >
@@ -39,18 +35,18 @@ const MuseNavbar: Component<MuseNavbarProps> = (props) => {
                       class="mx-auto my-auto"
                       onClick={() => {
                         const previousBlock = document.getElementById(
-                          `muse_${props.active()}`
+                          `muse_${props.active()}`,
                         );
                         previousBlock?.classList.remove(
                           "opacity-100",
                           "h-min",
-                          "my-4"
+                          "my-4",
                         );
                         previousBlock?.classList.add("opacity-0", "h-0");
                         props.setActive(category.name);
 
                         const newBlock = document.getElementById(
-                          `muse_${category.name}`
+                          `muse_${category.name}`,
                         );
                         newBlock?.classList.remove("opacity-0", "h-0");
                         newBlock?.classList.add("opacity-100", "h-min", "my-4");
@@ -66,7 +62,7 @@ const MuseNavbar: Component<MuseNavbarProps> = (props) => {
         </ul>
       </div>
       {/* Mobile */}
-      <div class="relative flex w-full flex-col md:hidden">
+      <div class="relative flex w-full flex-col md:hidden bg-navbar">
         <For each={props.categories}>
           {(category) => (
             <p

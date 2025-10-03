@@ -1,16 +1,17 @@
 ---
-import type { categories } from "@prisma/client";
-import { Icon } from "astro-icon";
+import { Icon } from "astro-icon/components";
+import type { ICategory } from "./types";
 
 interface Props {
   active: string | undefined;
   displayName: string | null;
   categoryName: string;
   baseUrl: string;
-  subMenu: categories[] | undefined;
+  subMenu: ICategory[] | undefined;
 }
 
-const { active, displayName, categoryName, baseUrl, subMenu } = Astro.props;
+const { active, displayName, categoryName, baseUrl, subMenu }: Props =
+  Astro.props;
 ---
 
 <>

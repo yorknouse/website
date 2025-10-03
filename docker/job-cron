@@ -1,2 +1,2 @@
-* * * * * bash /var/www/cron-minute.sh > /var/log/cron.log 2>&1
-
+* * * * * /bin/bash /var/www/cron-minute.sh > /var/log/cron.log 2>&1
+*/10 * * * * /usr/local/bin/php /var/www/html/cron/updateArticlesReadsSummary.php >> /var/log/cron.log 2>&1

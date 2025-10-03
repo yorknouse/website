@@ -37,6 +37,12 @@ $CONFIG = array(
     "FILESTOREURL" => "https://bbcdn.nouse.co.uk/file",
     "ARCHIVEFILESTOREURL" => "https://bbcdn.nouse.co.uk/file/nouseOldImageLibrary/archive/public", //Images pre 2019
     "RECAPTCHA" => ['KEY' => getenv('bCMS__RECAPTCHA_KEY'), 'SECRET' => getenv('bCMS__RECAPTCHA_SECRET')],
+    'EMAIL' => [
+        'HOST' => getenv('EMAIL_HOST'),
+        'USERNAME' => getenv('EMAIL_USERNAME'),
+        'PASSWORD' => getenv('EMAIL_PASSWORD'),
+        'FROM' => getenv('EMAIL_FROM'),
+    ],
     'AWS' => [
         'UPLOAD' => true,
         'KEY' => getenv('AWS_ACCESS_KEY_ID'),

@@ -1,66 +1,37 @@
 ---
-import type { categories } from "@prisma/client";
-import { Icon } from "astro-icon";
-import prisma from "src/prisma";
+import { Icon } from "astro-icon/components";
 import MobileNavbarItem from "./MobileNavbarItem.astro";
+import type { ICategory } from "./types";
 
 interface Props {
   active: string | undefined;
   style: "muse" | "nouse";
-  menuCategories: categories[];
-  subMenuCategories: Map<string, categories[]>;
+  menuCategories: ICategory[];
+  subMenuCategories: Map<string, ICategory[]>;
   baseUrl: string;
 }
 
-const { active, style, menuCategories, subMenuCategories, baseUrl } =
-  Astro.props;
+const { active, style, menuCategories, subMenuCategories, baseUrl }: Props = Astro.props;
 
-const activeCategory = active
-  ? await prisma.categories.findFirst({
-      where: {
-        categories_name: active,
-      },
-    })
-  : undefined;
+const formData = new FormData();
+formData.append("active", active!);
+formData.append("style", style);
+formData.append("menuCategories", JSON.stringify(menuCategories));
+formData.append("subMenuCategories", JSON.stringify([...subMenuCategories.entries()]));
 
-// Check for parent category colour
-let parentColour = undefined;
-let parentCategory: categories | null = null;
-if (
-  activeCategory &&
-  activeCategory.categories_nestUnder &&
-  activeCategory.categories_nestUnder !== 4
-) {
-  // Mask muse out of this as muse categories are nested
-  parentCategory = await prisma.categories.findFirst({
-    where: {
-      categories_id: activeCategory.categories_nestUnder,
-    },
-  });
+const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
-  if (parentCategory) parentColour = parentCategory.categories_backgroundColor;
-}
+const res = await fetch(`${apiBase}/api/frontend/mobileNavBar`, {
+  method: "POST",
+  body: formData,
+});
 
-// Default base colour depending on style
-let computedBaseColour = style === "muse" ? "#000" : "#F5EFEB";
-
-if (activeCategory?.categories_backgroundColor) {
-  computedBaseColour = activeCategory.categories_backgroundColor;
-} else if (parentColour) computedBaseColour = parentColour;
-
-// Whether to invert logo or not.
-// Should be inverted for non-home nouse categories.
-let invert =
-  style === "nouse" &&
-  activeCategory &&
-  activeCategory.categories_name !== "home" &&
-  computedBaseColour !== "#F5EFEB";
-
-// Menu and Search icons colours
-let textColour = "text-black";
-if (style === "muse" || invert) {
-  textColour = "text-white";
-}
+const {
+  parentCategory,
+  computedBaseColour,
+  invert,
+  textColour,
+} = await res.json();
 ---
 
 <header
@@ -83,7 +54,7 @@ if (style === "muse" || invert) {
       src={style === "nouse"
         ? "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
         : "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"}
-    />
+      alt="Header logo image"/>
   </a>
   <button
     class="searchBtnClassIdentifier my-auto mr-4 h-10 w-10 sm:mr-8"
@@ -93,7 +64,7 @@ if (style === "muse" || invert) {
   </button>
 </header>
 <nav
-  class="fixed top-28 left-0 right-0 z-30 flex h-[calc(100dvh-7rem)] md:hidden -translate-y-[calc(100%+7rem)] flex-col overflow-y-scroll bg-black transition-transform duration-500 ease-in-out"
+  class="fixed top-28 left-0 right-0 z-30 flex h-[calc(100dvh-7rem)] -translate-y-[calc(100%+7rem)] flex-col overflow-y-scroll bg-black transition-transform duration-500 ease-in-out md:hidden"
   id="mobileNav"
 >
   <ul
@@ -115,7 +86,7 @@ if (style === "muse" || invert) {
                       <img
                         src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
                         class="mx-auto w-36"
-                      />
+                        alt="MUSE site logo"/>
                     </a>
                   );
                 case "Nouse":
@@ -127,7 +98,7 @@ if (style === "muse" || invert) {
                       <img
                         src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
                         class="mx-auto w-36 invert"
-                      />
+                        alt="Nouse logo"/>
                     </a>
                   );
                 default:

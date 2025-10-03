@@ -1,46 +1,44 @@
 import { defineConfig } from "astro/config";
 import { loadEnv } from "vite";
-import tailwind from "@astrojs/tailwind";
-import image from "@astrojs/image";
+import tailwindcss from "@tailwindcss/vite";
+import icon from "astro-icon";
 import solidJs from "@astrojs/solid-js";
 import node from "@astrojs/node";
 import sitemap from "@astrojs/sitemap";
-import getCategoriesLinks from "./build-utils/getCategoriesLinks";
-import getArticlesLinks from "./build-utils/getArticlesLinks";
+// import getCategoriesLinks from "./build-utils/getCategoriesLinks";
+// import getArticlesLinks from "./build-utils/getArticlesLinks";
 const environment = loadEnv(import.meta.env.MODE, process.cwd(), "");
 
-const articlesLinks = await getArticlesLinks();
-const categoriesLinks = await getCategoriesLinks();
+// const articlesLinks = await getArticlesLinks();
+// const categoriesLinks = await getCategoriesLinks();
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
-    tailwind(),
-    image(),
+    icon(),
     solidJs(),
-    sitemap({ customPages: [...articlesLinks, ...categoriesLinks] }),
+    sitemap({
+      customPages: [
+        /*...articlesLinks, ...categoriesLinks*/
+      ],
+    }),
   ],
   site: "https://yorknouse.github.io",
-  base: "/website",
+  base: "/",
   output: "server",
   // @ts-ignore
   environment,
   vite: {
+    plugins: [tailwindcss()],
     server: {
-      proxy: {
-        "/api/searchSuggestions.php": {
-          target: "http://localhost:420/api/searchSuggestions.php",
-          changeOrigin: true,
-        },
-        "/api/registerRead.php": {
-          target: "http://localhost:420/api/registerRead.php",
-          changeOrigin: true,
-        },
-        "/api/topArticles.php": {
-          target: "http://localhost:420/api/topArticles.php",
-          changeOrigin: true,
-        },
+      headers: {
+        "Access-Control-Allow-Origin": "*",
       },
+    },
+    define: {
+      "import.meta.env.PUBLIC_API_BASE_URL": JSON.stringify(
+        process.env.PUBLIC_API_BASE_URL || "http://localhost:3000",
+      ),
     },
   },
   adapter: node({

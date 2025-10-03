@@ -5,24 +5,19 @@ interface Props {
 
 const { articleId } = Astro.props;
 
-const apiAddress =
-  import.meta.env.MODE === "production"
-    ? process.env.LOCAL_DOCKER === "true"
-      ? "http://localhost:420/api/registerRead.php"
-      : "https://nouse.co.uk/api/registerRead.php"
-    : "/api/registerRead.php";
+const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 ---
 
 <article-cookie-manager
   data-article-id={articleId}
-  data-api-address={apiAddress}></article-cookie-manager>
+  data-api-address={`${apiBase}/api/frontend/registerRead`}></article-cookie-manager>
 
 <script>
   class ArticleCookieManager extends HTMLElement {
     constructor() {
       super();
 
-      const apiAddress = this.dataset.apiAddress || "/api/registerRead.php";
+      const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
       const stringArticleId = this.dataset.articleId || "0";
       const articleId = parseInt(this.dataset.articleId || "0");
 
@@ -63,7 +58,7 @@ const apiAddress =
         const formData = new FormData();
         formData.append("articleId", stringArticleId);
 
-        fetch(apiAddress, {
+        fetch(`${apiBase}/api/frontend/registerRead`, {
           method: "POST",
           body: formData,
         });

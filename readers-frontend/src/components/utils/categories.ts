@@ -1,201 +1,56 @@
-import { articlesCategories, categories, Prisma } from "@prisma/client";
-import prisma from "../../prisma";
-import type { Page, PaginateOptions } from "astro";
-import type { articlesWithArticleDrafts } from "./articles";
+import type {
+  IArticleCategory,
+  ICategory,
+  ICategoryArticles,
+} from "@components/types.ts";
 
-export const getMenuCategories = async (
-  style: "nouse" | "muse"
-): Promise<categories[]> => {
-  let menuCategories: categories[];
+const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
-  if (style === "nouse") {
-    menuCategories = await prisma.categories.findMany({
-      where: {
-        categories_showMenu: true,
-        categories_showPublic: true,
-        categories_nestUnder: null,
-      },
-    });
-
-    // Add home as first item - possibly need to adjust values in the future
-    menuCategories.unshift({
-      categories_name: "home",
-      categories_id: 0,
-      categories_showHome: true,
-      categories_displayName: "Home",
-      categories_showMenu: true,
-      categories_showPublic: true,
-      categories_showAdmin: true,
-      categories_featured: null,
-      categories_order: null,
-      categories_nestUnder: null,
-      categories_showSub: false,
-      categories_facebook: null,
-      categories_twitter: null,
-      categories_instagram: null,
-      categories_backgroundColor: null,
-      categories_backgroundColorContrast: null,
-      categories_customTheme: null,
-      categories_socialMediaOverlay: null,
-    });
-
-    // Muse to last
-    menuCategories = menuCategories.sort((a, b) => {
-      if (b.categories_name === "muse") return -1;
-      if (a.categories_name === "muse") return 1;
-
-      return 0;
-    });
-  } else {
-    menuCategories = await prisma.categories.findMany({
-      where: {
-        categories_showMenu: true,
-        categories_showPublic: true,
-        categories_nestUnder: 4, // Muse
-      },
-    });
-
-    const muse = await prisma.categories.findFirst({
-      where: {
-        categories_name: "muse",
-      },
-    });
-
-    if (menuCategories.length > 0 && muse) {
-      // Add home as first item - possibly need to adjust values in the future
-      menuCategories.unshift({
-        ...muse,
-        categories_displayName: "Home",
-      });
-
-      // Link to Nouse home
-      menuCategories.push({
-        categories_name: "nouse",
-        categories_id: 0,
-        categories_showHome: true,
-        categories_displayName: "Nouse",
-        categories_showMenu: true,
-        categories_showPublic: true,
-        categories_showAdmin: true,
-        categories_featured: null,
-        categories_order: null,
-        categories_nestUnder: null,
-        categories_showSub: false,
-        categories_facebook: null,
-        categories_twitter: null,
-        categories_instagram: null,
-        categories_backgroundColor: null,
-        categories_backgroundColorContrast: null,
-        categories_customTheme: null,
-        categories_socialMediaOverlay: null,
-      });
-    }
-  }
-
-  return menuCategories;
+export const getMenuCategories: (
+  style: "nouse" | "muse",
+) => Promise<ICategory[]> = async (
+  style: "nouse" | "muse",
+): Promise<ICategory[]> => {
+  const res = await fetch(`${apiBase}/api/frontend/menuCategories/${style}`);
+  return await res.json();
 };
 
 /**
  * Gets all sub-categories nested under a parent category.
  * Only retrieves category marked for menu usage (categories_showMenu: true).
  * @param {number} parentCategory The parent category to get submenus for
- * @returns {Promise<categories[]>} Promise object represents the subcategories
+ * @returns {Promise<ICategory[]>} Promise object represents the subcategories
  */
-export const getMenuSubcategories = async (parentCategory: number) => {
-  return await prisma.categories.findMany({
-    where: {
-      categories_showMenu: true,
-      categories_showPublic: true,
-      categories_nestUnder: parentCategory,
-    },
-  });
+export const getMenuSubcategories: (
+  parentCategory: number,
+) => Promise<ICategory[]> = async (parentCategory: number) => {
+  const res = await fetch(
+    `${apiBase}/api/frontend/menuSubcategories/${parentCategory}`,
+  );
+  return await res.json();
 };
 
-export const getFeaturedSectionsCategories = async (): Promise<
-  categories[]
-> => {
-  return await prisma.categories.findMany({
-    where: {
-      categories_showHome: true,
-      categories_showPublic: true,
-      categories_nestUnder: null,
-      NOT: {
-        categories_name: "muse",
-      },
-      categories_featured: {
-        not: null,
-      },
-    },
-  });
+export const getFeaturedSectionsCategories: () => Promise<
+  ICategory[]
+> = async (): Promise<ICategory[]> => {
+  const res = await fetch(`${apiBase}/api/frontend/featuredSectionCategories`);
+  return await res.json();
 };
-
-const categoriesWithArticles = Prisma.validator<Prisma.categoriesArgs>()({
-  include: {
-    articles: {
-      include: {
-        article: {
-          include: {
-            articlesDrafts: true,
-            categories: {
-              include: { category: true },
-            },
-            users: { include: { users: true } },
-          },
-        },
-      },
-    },
-  },
-});
-
-export type categoriesWithArticles = Prisma.categoriesGetPayload<
-  typeof categoriesWithArticles
->;
 
 /**
  * Gets all the categories and their articles.
  * @param {number | null} parentCategory The parent category to get the children of.
- * @returns {Promise<categoriesWithArticles[]>} Promise object represents the categories and their articles.
+ * @param articlesLimit indicates the limit for how many articles are gathered
+ * @returns {Promise<ICategoryArticles[]>} Promise object represents the categories and their articles.
  */
 export const getCategoriesWithArticles = async (
-  parentCategory?: number | null
-): Promise<categoriesWithArticles[]> => {
-  return await prisma.categories.findMany({
-    where: {
-      categories_showPublic: true,
-      categories_showMenu: true,
-      categories_nestUnder: parentCategory,
-    },
-    include: {
-      articles: {
-        where: {
-          article: {
-            articles_showInLists: true,
-          },
-        },
-        orderBy: {
-          article: {
-            articles_published: "desc",
-          },
-        },
-        include: {
-          article: {
-            include: {
-              articlesDrafts: {
-                orderBy: {
-                  articlesDrafts_timestamp: "desc",
-                },
-                take: 1,
-              },
-              categories: {
-                include: { category: true },
-              },
-              users: { include: { users: true } },
-            },
-          },
-        },
-      },
-    },
-  });
+  parentCategory?: number | null,
+  articlesLimit: number = 10,
+): Promise<ICategoryArticles[]> => {
+  const res = await fetch(
+    `${apiBase}/api/frontend/categoriesWithArticles?parentCategory=${parentCategory}&articlesLimit=${articlesLimit}`,
+  );
+  return await res.json();
 };
 
 /**
@@ -206,17 +61,17 @@ export const getCategoriesWithArticles = async (
  */
 export const getCategoryLink = (
   category_name: string,
-  parentCategory: number | null
+  parentCategory: number | null,
 ): string => {
   if (parentCategory === 4) {
-    return `${import.meta.env.BASE_URL}muse/${category_name}`;
+    return `/muse/${category_name}`;
   } else {
-    return `${import.meta.env.BASE_URL}${category_name}`;
+    return `/${category_name}`;
   }
 };
 
-type ArticleCategories = articlesCategories & {
-  category: categories;
+type ArticleCategories = IArticleCategory & {
+  category: ICategory;
 };
 
 /**
@@ -237,7 +92,7 @@ export const getParentCategory = (categories: ArticleCategories[]) => {
         category.categories_showPublic &&
         ((category.categories_nestUnder === null && // Nouse
           category.categories_id !== 4) ||
-        category.categories_nestUnder === 4) // Muse
+          category.categories_nestUnder === 4), // Muse
     );
 
   if (interimParentCategory) {
@@ -248,7 +103,7 @@ export const getParentCategory = (categories: ArticleCategories[]) => {
       categories.find(
         ({ category }) =>
           category.categories_nestUnder ===
-          interimParentCategory.category.categories_id
+          interimParentCategory.category.categories_id,
       )
     )
       return interimParentCategory.category;

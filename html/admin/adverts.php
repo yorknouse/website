@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $bCMS, $DBLIB, $TWIG;
 require_once __DIR__ . '/common/headSecure.php';
 
 $PAGEDATA['pageConfig'] = ["TITLE" => "Adverts", "BREADCRUMB" => false];
@@ -8,8 +9,10 @@ if (!$AUTH->permissionCheck(58)) die("Sorry - you can't access this page");
 if (isset($_GET['q'])) $PAGEDATA['search'] = $bCMS->sanitizeString($_GET['q']);
 else $PAGEDATA['search'] = null;
 
-if (isset($_GET['page'])) $page = $bCMS->sanitizeString($_GET['page']);
-else $page = 1;
+$page = 1;
+if (isset($_GET['page']))
+    $page = $bCMS->sanitizeString($_GET['page']);
+
 $DBLIB->pageLimit = 20;
 if (strlen($PAGEDATA['search']) > 0) {
     //Search
@@ -37,4 +40,3 @@ foreach ($adverts as $advert) {
 }
 
 echo $TWIG->render('adverts.twig', $PAGEDATA);
-?>

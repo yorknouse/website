@@ -1,9 +1,8 @@
 ---
-import { Icon } from "astro-icon";
 import { getMenuCategories, getMenuSubcategories } from "./utils/categories";
 import DesktopNavbar from "./DesktopNavbar.astro";
 import MobileNavbar from "./MobileNavbar.astro";
-import type { categories } from "@prisma/client";
+import type { ICategory } from "./types";
 
 interface Props {
   active: string | undefined;
@@ -15,7 +14,7 @@ const { active, style = "nouse" } = Astro.props;
 const baseUrl =
   style === "nouse"
     ? import.meta.env.BASE_URL
-    : `${import.meta.env.BASE_URL}muse/`;
+    : `/muse/`;
 
 const menuCategories = await getMenuCategories(style);
 
@@ -25,7 +24,8 @@ const subMenuCategories = await menuCategories.reduce(
 
     if (
       menuCategory.categories_name !== "home" &&
-      menuCategory.categories_name !== "muse"
+      menuCategory.categories_name !== "muse" &&
+      menuCategory.categories_id !== 0
     ) {
       const subCategories = await getMenuSubcategories(
         menuCategory.categories_id
@@ -37,7 +37,7 @@ const subMenuCategories = await menuCategories.reduce(
 
     return accumulator;
   },
-  Promise.resolve(new Map<string, categories[]>())
+  Promise.resolve(new Map<string, ICategory[]>())
 );
 ---
 

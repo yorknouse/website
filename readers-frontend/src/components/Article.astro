@@ -1,12 +1,12 @@
 ---
-import type { users } from "@prisma/client";
+import { type ArticleAuthor } from "./types";
 
 export interface Props {
   headline: string;
   excerpt: string | null;
-  authors: users[];
+  authors: ArticleAuthor[];
   category: string | null | undefined;
-  categoryLink: string | undefined;
+  categoryLink: string | null | undefined;
   categoryColor: string | null | undefined;
   imageUrl?: string;
   articleUrl: string;
@@ -29,7 +29,7 @@ const {
   isPortrait,
   hideCategoryAccent,
   textColour = "#000",
-} = Astro.props;
+}: Props = Astro.props;
 
 let overrideCategoryColor = false; 
 if (category) {
@@ -100,21 +100,21 @@ const imagePlaceHolder =
               {authors.map((author, index) => {
                 if (index === 0) {
                   return (
-                    <a href={`${import.meta.env.BASE_URL}author/${author.users_userid}`}>
+                    <a href={`/author/${author.users_userid}`}>
                       {`${author.users_name1} ${author.users_name2}`}
                     </a>
                   );
                 } else if (index === authors.length - 1) {
                   return (
                     <span> and </span>
-                    <a href={`${import.meta.env.BASE_URL}author/${author.users_userid}`}>
+                    <a href={`/author/${author.users_userid}`}>
                       {`${author.users_name1} ${author.users_name2}`}
                     </a>
                   );
                 } else {
                   return (
                   <span>, </span>
-                    <a href={`${import.meta.env.BASE_URL}author/${author.users_userid}`}>
+                    <a href={`/author/${author.users_userid}`}>
                       {`${author.users_name1} ${author.users_name2}`}
                     </a>
                   );

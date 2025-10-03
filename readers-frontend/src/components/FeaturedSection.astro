@@ -1,21 +1,27 @@
 ---
-import type { categories } from "@prisma/client";
 import Article from "./Article.astro";
-import {
-  articlesWithArticleDrafts,
-  getArticleImage,
-  getArticles,
-} from "./utils/articles";
-import dateFormatter from "./utils/dateFormatter";
+import { getArticles } from "./utils/articles";
 import { getCategoryLink } from "./utils/categories";
+import type {IArticleFull, ICategory, ICategoryArticles} from "./types";
 
 export interface Props {
-  category: categories;
+  category: ICategoryArticles | ICategory;
+  style: "nouse" | "muse";
 }
-const { category } = Astro.props;
-const articles: articlesWithArticleDrafts[] = await getArticles(
-  category.categories_featured?.split(",").map(Number)
-);
+const { category, style } = Astro.props;
+
+let articles: IArticleFull[] = [];
+if ('articles' in category) {
+    if (category.articles) {
+        articles = category.articles.map((article) => article);
+    } else {
+        console.error("No articles found for category");
+    }
+} else {
+    articles = await getArticles(style,
+        category.categories_featured?.split(",").map(Number)
+    );
+}
 
 const categoryColor = category.categories_backgroundColor;
 ---
@@ -37,39 +43,48 @@ const categoryColor = category.categories_backgroundColor;
           class="arno-display category-color text-2xl uppercase xl:text-3xl 2xl:text-4xl"
           href={`${
             category.categories_nestUnder == 4
-              ? `${import.meta.env.BASE_URL}muse/`
-              : import.meta.env.BASE_URL
+              ? `/muse/`
+              : '/'
           }${category.categories_name}`}
         >
           {category.categories_displayName}
         </a>
         {/* Desktop */}
         <div class="hidden max-w-full flex-row justify-center gap-2.5 md:flex">
-          {articles.map(async (article, index) => (
-            <div
-              class={`w-full pr-2.5 ${
-                index != articles.length - 1 ? "border-r border-gray-300" : ""
-              }`}
-            >
-              <Article
-                headline={article.articlesDrafts[0].articlesDrafts_headline}
-                excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-                authors={article.users.map(users => users.users)}
-                category={category.categories_displayName}
-                categoryLink={getCategoryLink(category.categories_name, category.categories_nestUnder)}
-                categoryColor={categoryColor}
-                imageUrl={await getArticleImage(article)}
-                articleUrl={`${import.meta.env.BASE_URL}articles/${dateFormatter
-                  .format(article.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
-                  .split("/")
-                  .reverse()
-                  .join("/")}/${article.articles_slug}`}
-                isVertical={true}
-                isPortrait={article.articles_isThumbnailPortrait}
-                hideCategoryAccent={true}
-              />
-            </div>
-          ))}
+          {articles.map(async (article, index) => {
+              return (
+                      <div
+                              class={`w-full pr-2.5 ${
+                                  index != articles.length - 1 ? "border-r border-gray-300" : ""
+                              }`}
+                      >
+                          <Article
+                                  headline={
+                                      article.headline?.length != 0
+                                          ? String(article.headline)
+                                          : "Unknown"
+                                  }
+                                  excerpt={
+                                      article.excerpt?.length != 0
+                                          ? article.excerpt
+                                          : "Unknown"
+                                  }
+                                  authors={article.authors}
+                                  category={category.categories_displayName}
+                                  categoryLink={getCategoryLink(
+                                      category.categories_name,
+                                      category.categories_nestUnder
+                                  )}
+                                  categoryColor={categoryColor}
+                                  imageUrl={article.thumbnailURL}
+                                  articleUrl={article.articleURL}
+                                  isVertical={true}
+                                  isPortrait={article.isThumbnailPortrait}
+                                  hideCategoryAccent={true}
+                          />
+                      </div>
+              )
+          })}
         </div>
         {/* Mobile */}
         {
@@ -77,28 +92,31 @@ const categoryColor = category.categories_backgroundColor;
             {articles.map(async (article, index) => (
               <div
                 class={`w-full p-2.5 ${
-                  index != articles.length - 1
-                    ? "border-b border-gray-300"
-                    : ""
+                  index != articles.length - 1 ? "border-b border-gray-300" : ""
                 }`}
               >
                 <Article
-                  headline={article.articlesDrafts[0].articlesDrafts_headline}
-                  excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-                  authors={article.users.map(users => users.users)}
-                  category={category.categories_displayName}
-                  categoryLink={getCategoryLink(category.categories_name, category.categories_nestUnder)}
-                  categoryColor={categoryColor}
-                  imageUrl={
-                    index == 0 ? await getArticleImage(article) : undefined
+                  headline={
+                    article.headline?.length != 0
+                      ? String(article.headline)
+                      : "Unknown"
                   }
-                  articleUrl={`${import.meta.env.BASE_URL}articles/${dateFormatter
-                    .format(article.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
-                    .split("/")
-                    .reverse()
-                    .join("/")}/${article.articles_slug}`}
+                  excerpt={
+                    article.excerpt?.length != 0
+                      ? article.excerpt
+                      : "Unknown"
+                  }
+                  authors={article.authors}
+                  category={category.categories_displayName}
+                  categoryLink={getCategoryLink(
+                    category.categories_name,
+                    category.categories_nestUnder
+                  )}
+                  categoryColor={categoryColor}
+                  imageUrl={article.thumbnailURL}
+                  articleUrl={article.articleURL}
                   isVertical={false}
-                  isPortrait={article.articles_isThumbnailPortrait}
+                  isPortrait={article.isThumbnailPortrait}
                   hideCategoryAccent={true}
                 />
               </div>

@@ -1,0 +1,33 @@
+# --- Build stage ---
+FROM node:22 AS build
+
+WORKDIR /app
+
+# Copy Astro project
+COPY ./readers-frontend /app
+
+ARG PUBLIC_API_BASE_URL
+ENV PUBLIC_API_BASE_URL=$PUBLIC_API_BASE_URL
+
+# Install deps and build
+RUN npm install
+RUN npm run build -- --config astro.config.prod.ts
+
+# --- Runtime stage ---
+FROM node:22-slim AS runtime
+
+WORKDIR /app
+
+# Copy built output only
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/package*.json ./
+
+# Install production-only deps (optional, if you have server adapters needing them)
+RUN npm install --omit=dev
+
+ENV NODE_ENV=production
+ENV PORT=4321
+
+EXPOSE 4321
+
+CMD ["node", "dist/server/entry.mjs"]

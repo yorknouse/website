@@ -1,12 +1,12 @@
 ---
-import type { categories } from "@prisma/client";
+import type { ICategory } from "./types";
 
 interface Props {
-  featuredCategories: categories[];
+  featuredCategories: ICategory[];
   style: "muse" | "nouse";
 }
 
-const { featuredCategories, style } = Astro.props;
+const { featuredCategories, style }: Props = Astro.props;
 
 // A simplified category list for the navbar colour switcher script
 const scrollCategories = featuredCategories.reduce((accumulator, category) => {

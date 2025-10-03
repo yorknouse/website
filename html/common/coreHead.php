@@ -1,4 +1,5 @@
 <?php
+global $CONFIG;
 require_once __DIR__ . '/config.php';
 
 use Aws\S3\S3Client;
@@ -7,8 +8,7 @@ use Aws\S3\Exception\S3Exception;
 use voku\helper\HtmlDomParser;
 
 //GLOBALS STUFF - DON'T CHANGE
-function errorHandler()
-{
+function errorHandler() {
     if (error_get_last() and error_get_last()['type'] == '1') {
         global $CONFIG;
         die('Sorry we hit an error. Our tech team have been automatically notified but please contact support@nouse.co.uk for help resolving this error for your device <p style="display:none;">' . "\n\n\n" . error_get_last()['message'] . "\n\n\n" . '</p>');
@@ -16,7 +16,7 @@ function errorHandler()
 }
 
 //set_error_handler('errorHandler');
-if ($CONFIG['DEV'] != true) {
+if (!$CONFIG['DEV']) {
     Sentry\init([
         'dsn' => $CONFIG['ERRORS']['SENTRY'],
         'traces_sample_rate' => 0.1, //Capture 10% of pageloads for perforamnce monitoring
@@ -80,8 +80,7 @@ class bCMS {
         return $randomString;
     }
 
-    function cleanString($var)
-    {
+    function cleanString($var) {
         //HTML Purification - user comments are run through this so it's pretty important we strip out all bad HTML.
         $config = HTMLPurifier_Config::createDefault();
         $config->set('Cache.DefinitionImpl', null);
@@ -91,8 +90,7 @@ class bCMS {
         return $clean_html; //NOTE THAT THIS REQUIRES THE USE OF PREPARED STATEMENTS AS IT'S NOT ESCAPED
     }
 
-    function formatSize($bytes)
-    {
+    function formatSize($bytes) {
         if ($bytes >= 1073741824) {
             $bytes = number_format($bytes / 1073741824, 1) . ' GB';
         } elseif ($bytes >= 100000) {
@@ -109,8 +107,7 @@ class bCMS {
         return $bytes;
     }
 
-    function modifyGet($array)
-    {
+    function modifyGet($array) {
         //Used to setup links that don't affect search terms etc.
         foreach ($array as $key => $value) {
             $_GET[$key] = $value;
@@ -118,8 +115,7 @@ class bCMS {
         return $_GET;
     }
 
-    public function articleThumbnail($article, $size = "large", $overrideImageDisplay = false)
-    {
+    public function articleThumbnail($article, $size = "large", $overrideImageDisplay = false) {
         global $DBLIB, $CONFIG;
         if ($article == null) return false;
         $DBLIB->where("articles_id", $this->sanitizeString($article));
@@ -237,8 +233,7 @@ class bCMS {
         else return $presignedUrl;
     }
 
-    public function cacheClearCategory($categoryid)
-    {
+    public function cacheClearCategory($categoryid) {
         global $DBLIB, $CONFIG;
         if (!$categoryid) return false;
 
@@ -260,8 +255,7 @@ class bCMS {
         return $this->cacheClear($url . "/");
     }
 
-    public function cacheClear($URL, $all = false)
-    {
+    public function cacheClear($URL, $all = false) {
         global $AUTH;
 
         if (!$this->cloudflare) $this->cloudflareInit();
@@ -293,8 +287,7 @@ class bCMS {
         }
     }
 
-    private function cloudflareInit()
-    {
+    private function cloudflareInit() {
         global $CONFIG;
         $this->cloudflare = [];
         $this->cloudflare['key'] = new Cloudflare\API\Auth\APIKey($CONFIG['CLOUDFLARE']['EMAIL'], $CONFIG['CLOUDFLARE']['KEY']);
@@ -306,8 +299,8 @@ class bCMS {
         //$this->cloudflare['user'] = new Cloudflare\API\Endpoints\User($this->cloudflare['adapter']);
     }
 
-    function auditLog($actionType = null, $table = null, $revelantData = null, $userid = null, $useridTo = null)
-    { //Keep an audit trail of actions - $userid is this user, and $useridTo is who this action was done to if it was at all
+    function auditLog($actionType = null, $table = null, $revelantData = null, $userid = null, $useridTo = null) {
+        //Keep an audit trail of actions - $userid is this user, and $useridTo is who this action was done to if it was at all
         global $DBLIB;
         $data = [
             "auditLog_actionType" => $this->sanitizeString($actionType),
@@ -339,8 +332,7 @@ class bCMS {
         return $category["categories_name"] . "/" . $url;
     }
 
-    public function yusuNotify($articleid)
-    {
+    public function yorkSUNotify($articleid) {
         global $DBLIB, $CONFIG;
         $DBLIB->where("articles.articles_id", $this->sanitizeString($articleid));
         $DBLIB->where("articles_mediaCharterDone", 0);
@@ -352,31 +344,29 @@ class bCMS {
         $DBLIB->where("articlesCategories.articles_id", $this->sanitizeString($articleid));
         $article['articles_categories'] = array_column($DBLIB->get("articlesCategories"), 'categories_id');
 
-        //YUSU Notification email html
-        $html = "You are receiving this email as a notification of a new article being uploaded to the Nouse.co.uk website in compliance with section 5.3 of the YUSU Media Charter.<br/><br/>";
+        // York SU Notification email html
+        $html = "You are receiving this email as a notification of a new article being uploaded to the Nouse.co.uk website in compliance with section 5.3 of the York SU Media Charter.<br/><br/>";
         if (strtotime($article["articles_published"]) > time()) $html .= "This article will be published at " . $article["articles_published"] . " GMT and this email is an advanced notification of publication. No further notifications will follow and this article will be automatically published.<br/><br/>";
         $html .= "<b>Headline: </b>" . $article['articlesDrafts_headline'] . "<br/>";
         $html .= "<b>Excerpt: </b>" . $article['articlesDrafts_excerpt'] . "<br/>";
-        if (strtotime($article["articles_published"]) > time()) $html .= "This article hasn't been published yet, so it's not accessible on our website. A secret link has been generated for you to preview it, but please don't share this externally: <a href='" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "?key=" . md5($article['articles_id']) . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
-        else $html .= "<b>Link to article: </b><a href='" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
+        if (strtotime($article["articles_published"]) > time()) $html .= "This article hasn't been published yet, so it's not accessible on our website. A secret link has been generated for you to preview it, but please don't share this externally: <a href='" . $CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "?key=" . md5($article['articles_id']) . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/articles" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
+        else $html .= "<b>Link to article: </b><a href='" . $CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
         $html .= "<br/><br/><br/>If you have any questions about this notification please do not hesitate to contact us on support@nouse.co.uk.<br/>For queries relating to this article itself (for example concerns about its content) please contact editor@nouse.co.uk. <br/><br/><br/>Nouse Technical Team<br/><i>" . gethostname() . " (compliance tracked at  " . date("Y-m-d H:i:s") . " UTC)</i>";
-        if (count(array_intersect([2, 6, 7], explode(",", $article['articles_categories']))) > 0) {
+        if (count(array_intersect([2, 3, 6, 373, 397], $article['articles_categories'])) > 0) {
             if (sendemail("media-charter-notifications@nouse.co.uk", "New article on Nouse.co.uk", $html)) {
                 $DBLIB->where("articles_id", $article['articles_id']);
                 $DBLIB->update("articles", ["articles_mediaCharterDone" => 1]);
                 return true;
             } else return false;
         } else {
-            //We don't need to tell YUSU about this as it's not in categories 1,6 or 7
+            // We don't need to tell York SU about this as it's not in categories 2, 3, 6, 373 or 397
             $DBLIB->where("articles_id", $article['articles_id']);
             $DBLIB->update("articles", ["articles_mediaCharterDone" => 2]);
             return true;
         }
-
     }
 
-    public function postSocial($articleid, $postToFacebook = true, $postToTwitter = true)
-    {
+    public function postSocial($articleid, $postToFacebook = true, $postToTwitter = true) {
         global $DBLIB, $CONFIG;
         $DBLIB->where("articles.articles_id", $this->sanitizeString($articleid));
         $DBLIB->where("articles.articles_showInSearch", 1); //ie those that can actually be shown - no point tweeting a dud link
@@ -386,7 +376,7 @@ class bCMS {
         $article = $DBLIB->getone("articles", ["articles_socialExcerpt", "articles.articles_socialConfig", "articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline", "articlesDrafts.articlesDrafts_excerpt"]);
         if (!$article) return false;
 
-        $realpermalink = $CONFIG['ROOTFRONTENDURL'] . "/" . date("Y/m/d", strtotime($article["articles_published"])) . "/" . $article['articles_slug'];
+        $realpermalink = $CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article["articles_published"])) . "/" . $article['articles_slug'];
 
         if (strlen($article['articles_socialExcerpt']) > 0) {
             $postExcerpt = $article['articles_socialExcerpt'];
@@ -430,4 +420,5 @@ class bCMS {
     }
 }
 
+/** @var bCMS $bCMS */
 $GLOBALS['bCMS'] = new bCMS;

@@ -1,11 +1,12 @@
 <?php
+global $AUTH, $DBLIB, $bCMS, $CONFIG;
 require_once __DIR__ . '/../apiHeadSecure.php';
 header("Content-Type: text/plain");
 
 if (!$AUTH->permissionCheck(45)) die("404");
 
-$DBLIB->where ('quickLinks_string', $bCMS->sanitizeString($_GET['string']));
-$DBLIB->where ('quickLinks_deleted', 0);
+$DBLIB->where('quickLinks_string', $bCMS->sanitizeString($_GET['string']));
+$DBLIB->where('quickLinks_deleted', 0);
 if ($DBLIB->getValue("quickLinks", "COUNT(*)") > 0) die("TAKEN");
 
 $data = [
@@ -17,5 +18,7 @@ $data = [
 ];
 $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/" . $bCMS->sanitizeString($_GET['string']));
 $bCMS->auditLog("CREATE", "quickLink", "", $AUTH->data['users_userid']);
-if ($DBLIB->insert("quickLinks", $data)) die("1");
-else die("404");
+if (!$DBLIB->insert("quickLinks", $data))
+    die("404");
+
+die("1");

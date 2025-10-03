@@ -27,7 +27,7 @@ test.describe("Featured Articles", () => {
         });
         await page.reload();
         await expect(
-          page.locator("#featured-articles >> .article:visible")
+          page.locator("#featured-articles >> .article:visible"),
         ).toHaveCount(landscapeFeaturedArticles.length);
       });
 
@@ -54,43 +54,43 @@ test.describe("Featured Articles", () => {
             // Article 1 has a custom image
             await expect(article.locator("img")).toHaveAttribute(
               "src",
-              "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1673190924591-33954450307270480000-jullietesspotifywrappedjpg_large.jpg"
+              "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1673190924591-33954450307270480000-jullietesspotifywrappedjpg_large.jpg",
             );
           } else if (!isMobile || (isMobile && i <= 2)) {
             // in Mobile View, only the first 3 articles have images visible
             // All other articles have the default image
             await expect(article.locator("img")).toHaveAttribute(
               "src",
-              process.env.fileStoreUrl +
-                "/nouseSiteAssets/imageArchive-comp.jpg"
+              process.env.FILESTOREURL +
+                "/nouseSiteAssets/imageArchive-comp.jpg",
             );
           }
           if (!isMobile || (isMobile && i <= 2)) {
             // in Mobile View, only the first 3 articles have images visible
             await expect(article.locator(".image-link")).toHaveAttribute(
               "href",
-              new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`)
+              new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`),
             );
           }
 
           // Checking Category
           await expect(article.locator("#category-text")).toHaveAttribute(
             "href",
-            "/website/testCategory1"
+            "/website/testCategory1",
           );
           await expect(article.locator("#category-text")).toHaveText("Test");
           await expect(article.locator("#category-text")).toHaveCSS(
             "color",
-            "rgb(237, 179, 33)"
+            "rgb(237, 179, 33)",
           ); // Playwright doesn't support hex values for toHaveCSS.
 
           // Checking Headline
           await expect(article.locator(".headline")).toHaveAttribute(
             "href",
-            new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`)
+            new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`),
           );
           await expect(article.locator(".headline")).toHaveText(
-            `Article Draft ${i + 1}`
+            `Article Draft ${i + 1}`,
           );
 
           // Checking Authors
@@ -101,29 +101,29 @@ test.describe("Featured Articles", () => {
             await expect(authorLinks.nth(0)).toHaveText("John Doe");
             await expect(authorLinks.nth(0)).toHaveAttribute(
               "href",
-              `/website/author/1`
+              `/website/author/1`,
             );
             await expect(authorLinks.nth(1)).toHaveText("Jane Doe");
             await expect(authorLinks.nth(1)).toHaveAttribute(
               "href",
-              `/website/author/2`
+              `/website/author/2`,
             );
           } else {
             await expect(authorLinks).toHaveCount(1);
             await expect(authorLinks.nth(0)).toHaveText("John Doe");
             await expect(authorLinks.nth(0)).toHaveAttribute(
               "href",
-              `/website/author/1`
+              `/website/author/1`,
             );
           }
 
           // Checking Excerpt
           await expect(article.locator(".excerpt")).toHaveAttribute(
             "href",
-            new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`)
+            new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`),
           );
           await expect(article.locator(".excerpt")).toHaveText(
-            `Article ${i + 1} Excerpt`
+            `Article ${i + 1} Excerpt`,
           );
         }
       });
@@ -136,7 +136,7 @@ test.describe("Featured Articles", () => {
     let landscapeWithPortraitArticles = [2, 3, 4, 5, 6, 7]; // 7 is portrait. The rest are landscape.
     const landscapeFeaturedArticles = landscapeWithPortraitArticles.slice(
       0,
-      i - 1
+      i - 1,
     );
     landscapeFeaturedArticles.push(7);
     test.describe(`When ${landscapeFeaturedArticles.length} landscape articles and 1 portrait article are featured ${landscapeFeaturedArticles}`, async () => {
@@ -153,7 +153,7 @@ test.describe("Featured Articles", () => {
         });
         await page.reload();
         await expect(
-          page.locator("#featured-articles >> .article:visible")
+          page.locator("#featured-articles >> .article:visible"),
         ).toHaveCount(landscapeFeaturedArticles.length);
       });
 
@@ -176,31 +176,31 @@ test.describe("Featured Articles", () => {
         // Checking Image
         await expect(article.locator("img")).toHaveAttribute(
           "src",
-          "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1673190924591-33954450307270480000-jullietesspotifywrappedjpg_large.jpg"
+          "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1673190924591-33954450307270480000-jullietesspotifywrappedjpg_large.jpg",
         );
         await expect(article.locator(".image-link")).toHaveAttribute(
           "href",
-          /^(.*?)\/2023\/02\/24\/test-article-7/
+          /^(.*?)\/2023\/02\/24\/test-article-7/,
         );
 
         // Checking Category
         await expect(article.locator("#category-text")).toHaveAttribute(
           "href",
-          "/website/testCategory1"
+          "/website/testCategory1",
         );
         await expect(article.locator("#category-text")).toHaveText("Test");
         await expect(article.locator("#category-text")).toHaveCSS(
           "color",
-          "rgb(237, 179, 33)"
+          "rgb(237, 179, 33)",
         ); // Playwright doesn't support hex values for toHaveCSS.
 
         // Checking Headline
         await expect(article.locator(".headline")).toHaveAttribute(
           "href",
-          /^(.*?)\/2023\/02\/24\/test-article-7/
+          /^(.*?)\/2023\/02\/24\/test-article-7/,
         );
         await expect(article.locator(".headline")).toHaveText(
-          `Article Draft 7`
+          `Article Draft 7`,
         );
 
         // Checking Authors
@@ -209,16 +209,16 @@ test.describe("Featured Articles", () => {
         await expect(authorLinks.nth(0)).toHaveText("John Doe");
         await expect(authorLinks.nth(0)).toHaveAttribute(
           "href",
-          `/website/author/1`
+          `/website/author/1`,
         );
 
         // Checking Excerpt
         await expect(article.locator(".excerpt")).toHaveAttribute(
           "href",
-          /^(.*?)\/2023\/02\/24\/test-article-7/
+          /^(.*?)\/2023\/02\/24\/test-article-7/,
         );
         await expect(article.locator(".excerpt")).toHaveText(
-          `Article 7 Excerpt`
+          `Article 7 Excerpt`,
         );
       });
 
@@ -245,33 +245,33 @@ test.describe("Featured Articles", () => {
               // in Mobile View, only the first 3 articles have images visible
               await expect(article.locator("img")).toHaveAttribute(
                 "src",
-                process.env.fileStoreUrl +
-                  "/nouseSiteAssets/imageArchive-comp.jpg"
+                process.env.FILESTOREURL +
+                  "/nouseSiteAssets/imageArchive-comp.jpg",
               );
               await expect(article.locator(".image-link")).toHaveAttribute(
                 "href",
-                new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`)
+                new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`),
               );
             }
 
             // Checking Category
             await expect(article.locator("#category-text")).toHaveAttribute(
               "href",
-              `/website/testCategory1`
+              `/website/testCategory1`,
             );
             await expect(article.locator("#category-text")).toHaveText("Test");
             await expect(article.locator("#category-text")).toHaveCSS(
               "color",
-              "rgb(237, 179, 33)"
+              "rgb(237, 179, 33)",
             ); // Playwright doesn't support hex values for toHaveCSS.
 
             // Checking Headline
             await expect(article.locator(".headline")).toHaveAttribute(
               "href",
-              new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`)
+              new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`),
             );
             await expect(article.locator(".headline")).toHaveText(
-              `Article Draft ${i + 1}`
+              `Article Draft ${i + 1}`,
             );
 
             // Checking Authors
@@ -280,16 +280,16 @@ test.describe("Featured Articles", () => {
             await expect(authorLinks.nth(0)).toHaveText("John Doe");
             await expect(authorLinks.nth(0)).toHaveAttribute(
               "href",
-              `/website/author/1`
+              `/website/author/1`,
             );
 
             // Checking Excerpt
             await expect(article.locator(".excerpt")).toHaveAttribute(
               "href",
-              new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`)
+              new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`),
             );
             await expect(article.locator(".excerpt")).toHaveText(
-              `Article ${i + 1} Excerpt`
+              `Article ${i + 1} Excerpt`,
             );
           }
         });
@@ -303,26 +303,26 @@ test.describe("Banner and Edition", () => {
     const join = page.locator("[id='join_nouse']");
     await expect(join.locator("img")).toHaveAttribute(
       "src",
-      "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/headerImages/join_nouse.png"
+      "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/headerImages/join_nouse.png",
     );
 
     const edition = page.locator("[id='edition']");
     await expect(edition.locator("div > p")).toHaveCount(2);
     await expect(edition.locator("img")).toHaveAttribute(
       "src",
-      "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/EDITION-THUMBNAIL/1676037110155-67511536907255130000-503jpg_medium.jpg"
+      "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/EDITION-THUMBNAIL/1676037110155-67511536907255130000-503jpg_medium.jpg",
     );
   });
 
   test("Has the correct links", async ({ page }) => {
     await expect(page.locator("[id='join_nouse']")).toHaveAttribute(
       "href",
-      "/website/join"
+      "/website/join",
     );
 
     await expect(page.locator("[id='edition']")).toHaveAttribute(
       "href",
-      "/website/editions/test-edition"
+      "/website/editions/test-edition",
     );
   });
 });
@@ -338,7 +338,7 @@ test.describe("Featured Section", () => {
       .locator("#category-text");
     await expect(categoryAccent).toHaveAttribute(
       "href",
-      `/website/testCategory1`
+      `/website/testCategory1`,
     );
     await expect(categoryAccent).toHaveText("Test");
     await expect(categoryAccent).toHaveCSS("color", "rgb(237, 179, 33)"); // Playwright doesn't support hex values for toHaveCSS.
@@ -367,31 +367,31 @@ test.describe("Featured Section", () => {
         // Article 1 has a custom image
         await expect(article.locator("img")).toHaveAttribute(
           "src",
-          "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1673190924591-33954450307270480000-jullietesspotifywrappedjpg_large.jpg"
+          "https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/1673190924591-33954450307270480000-jullietesspotifywrappedjpg_large.jpg",
         );
       } else if (!isMobile) {
         // in Mobile View, only the first article has an image visible
         // All other articles have the default image
         await expect(article.locator("img")).toHaveAttribute(
           "src",
-          process.env.fileStoreUrl + "/nouseSiteAssets/imageArchive-comp.jpg"
+          process.env.FILESTOREURL + "/nouseSiteAssets/imageArchive-comp.jpg",
         );
       }
       if (!isMobile || (isMobile && i == 0)) {
         // in Mobile View, only the first 3 articles have images
         await expect(article.locator(".image-link")).toHaveAttribute(
           "href",
-          new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`)
+          new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`),
         );
       }
 
       // Checking Headline
       await expect(article.locator(".headline")).toHaveAttribute(
         "href",
-        new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`)
+        new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`),
       );
       await expect(article.locator(".headline")).toHaveText(
-        `Article Draft ${i + 1}`
+        `Article Draft ${i + 1}`,
       );
 
       // Checking Authors
@@ -402,29 +402,29 @@ test.describe("Featured Section", () => {
         await expect(authorLinks.nth(0)).toHaveText("John Doe");
         await expect(authorLinks.nth(0)).toHaveAttribute(
           "href",
-          `/website/author/1`
+          `/website/author/1`,
         );
         await expect(authorLinks.nth(1)).toHaveText("Jane Doe");
         await expect(authorLinks.nth(1)).toHaveAttribute(
           "href",
-          `/website/author/2`
+          `/website/author/2`,
         );
       } else {
         await expect(authorLinks).toHaveCount(1);
         await expect(authorLinks.nth(0)).toHaveText("John Doe");
         await expect(authorLinks.nth(0)).toHaveAttribute(
           "href",
-          `/website/author/1`
+          `/website/author/1`,
         );
       }
 
       // Checking Excerpt
       await expect(article.locator(".excerpt")).toHaveAttribute(
         "href",
-        new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`)
+        new RegExp(String.raw`^(.*?)/2023/02/24/test-article-${i + 1}`),
       );
       await expect(article.locator(".excerpt")).toHaveText(
-        `Article ${i + 1} Excerpt`
+        `Article ${i + 1} Excerpt`,
       );
     }
   });
@@ -442,13 +442,13 @@ test.describe("Muse component", () => {
     await expect(museLogo).toHaveCount(1);
     await expect(museLogo).toHaveAttribute(
       "src",
-      "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
+      "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png",
     );
   });
 
   test("Muse Banner lays navbar", async ({ page }) => {
     const museNavbarItems = page.locator(
-      "[id='muse-navbar-desktop'] > ul > li"
+      "[id='muse-navbar-desktop'] > ul > li",
     );
 
     await expect(museNavbarItems).toHaveCount(3);
@@ -478,7 +478,7 @@ test.describe("Muse component", () => {
     await expect(secondItemMissingLink).toHaveCount(0);
 
     await expect(secondItemButton).toHaveText(
-      museMenuCategories[1].categories_displayName!
+      museMenuCategories[1].categories_displayName!,
     );
 
     // Button should turn insto a tag after click
@@ -489,11 +489,11 @@ test.describe("Muse component", () => {
 
     await expect(secondItemLink).toHaveCount(1);
     await expect(secondItemLink).toHaveText(
-      museMenuCategories[1].categories_displayName!
+      museMenuCategories[1].categories_displayName!,
     );
     await expect(secondItemLink).toHaveAttribute(
       "href",
-      `/${museMenuCategories[1].categories_name}`
+      `/${museMenuCategories[1].categories_name}`,
     );
     await expect(secondItemMissingButton).toHaveCount(0);
   });

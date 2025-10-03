@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $bCMS, $TWIG, $DBLIB;
 require_once __DIR__ . '/common/headSecure.php';
 
 $PAGEDATA['pageConfig'] = ["TITLE" => "Articles", "BREADCRUMB" => false];
@@ -55,4 +56,3 @@ $PAGEDATA['CATEGORIES'] = $DBLIB->get("categories",null, ["categories_id","categ
 
 
 echo $TWIG->render('articles.twig', $PAGEDATA);
-?>

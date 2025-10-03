@@ -2,17 +2,10 @@
 import MuseComponent from "@solidComponents/MuseComponent";
 import { getMenuCategories } from "./utils/categories";
 import {
-  articlesWithArticleDrafts,
-  getArticleImage,
   getArticles,
 } from "./utils/articles";
-import type { MuseNavbarCategory } from "./types";
+import type { IArticleFull, MuseNavbarCategory } from "./types";
 import Article from "./Article.astro";
-import dateFormatter from "./utils/dateFormatter";
-
-type articlesWithArticlesDraftAndLink = articlesWithArticleDrafts & {
-  imageUrl: string;
-};
 
 const museMenuCategories = (await getMenuCategories("muse")).filter(
   (category) => category.categories_name !== "nouse"
@@ -29,24 +22,23 @@ const categories = museMenuCategories.reduce((accumulator, currentCategory) => {
   return accumulator;
 }, [] as MuseNavbarCategory[]);
 
-const articles = new Map<string, articlesWithArticlesDraftAndLink[]>();
+const articles = new Map<string, IArticleFull[]>();
 
-for (let i = 0; i < museMenuCategories.length; i++) {
-  const featuredArticles = museMenuCategories[i].categories_featured
-    ?.split(",")
-    .map(Number);
+const allFeaturedArticleIds = museMenuCategories
+    .flatMap(c => c.categories_featured?.split(',').map(Number) ?? []);
 
-  const articlesList = (await getArticles(featuredArticles)).slice(0, 4);
-  const articlesArray = await Promise.all(
-    articlesList.map(async (article) => {
-      return {
-        ...article,
-        imageUrl: await getArticleImage(article),
-      };
-    })
-  );
+const allArticles = await getArticles("muse", allFeaturedArticleIds);
 
-  articles.set(museMenuCategories[i].categories_name, articlesArray);
+for (const category of museMenuCategories) {
+  const featuredIds = category.categories_featured?.split(',').map(Number) ?? [];
+  const categoryArticles: IArticleFull[] = allArticles
+      .filter(a => featuredIds.includes(a.id))
+      .slice(0, 4)
+      .map(a => ({
+        ...a,
+      }));
+
+  articles.set(category.categories_name, categoryArticles);
 }
 ---
 
@@ -55,6 +47,7 @@ for (let i = 0; i < museMenuCategories.length; i++) {
     <img
       class="mx-auto my-4 w-[27%] md:w-[14%]"
       src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
+      alt="Nouse MUSE logo"
     />
   </a>
 
@@ -78,20 +71,24 @@ for (let i = 0; i < museMenuCategories.length; i++) {
               >
                 <div class="pr-3">
                   <Article
-                    headline={article.articlesDrafts[0].articlesDrafts_headline}
-                    excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-                    authors={article.users.map(users => users.users)}
+                    headline={
+                      article.headline?.length != 0
+                        ? String(article.headline)
+                        : "Unknown"
+                    }
+                    excerpt={
+                      article.excerpt?.length != 0
+                        ? article.excerpt
+                        : "Unknown"
+                    }
+                    authors={article.authors}
                     category={undefined}
                     categoryColor={"#FFF"}
                     categoryLink={undefined}
-                    imageUrl={article.imageUrl}
-                    articleUrl={`${import.meta.env.BASE_URL}articles/${dateFormatter
-                      .format(article.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
-                      .split("/")
-                      .reverse()
-                      .join("/")}/${article.articles_slug}`}
+                    imageUrl={article.thumbnailURL}
+                    articleUrl={article.articleURL}
                     isVertical={true}
-                    isPortrait={article.articles_isThumbnailPortrait}
+                    isPortrait={article.isThumbnailPortrait}
                     hideCategoryAccent={true}
                     textColour={"#FFF"}
                   />
@@ -113,20 +110,24 @@ for (let i = 0; i < museMenuCategories.length; i++) {
                   <hr class="my-2.5 w-full self-center border-white" />
                 )}
                 <Article
-                  headline={article.articlesDrafts[0].articlesDrafts_headline}
-                  excerpt={article.articlesDrafts[0].articlesDrafts_excerpt}
-                  authors={article.users.map(users => users.users)}
+                  headline={
+                    article.headline?.length != 0
+                      ? String(article.headline)
+                      : "Unknown"
+                  }
+                  excerpt={
+                    article.excerpt?.length != 0
+                      ? article.excerpt
+                      : "Unknown"
+                  }
+                  authors={article.authors}
                   category={undefined}
                   categoryColor={"#FFF"}
                   categoryLink={undefined}
-                  imageUrl={article.imageUrl}
-                  articleUrl={`${import.meta.env.BASE_URL}articles/${dateFormatter
-                    .format(article.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
-                    .split("/")
-                    .reverse()
-                    .join("/")}/${article.articles_slug}`}
+                  imageUrl={article.thumbnailURL}
+                  articleUrl={article.articleURL}
                   isVertical={false}
-                  isPortrait={article.articles_isThumbnailPortrait}
+                  isPortrait={article.isThumbnailPortrait}
                   hideCategoryAccent={true}
                   textColour={"#FFF"}
                 />

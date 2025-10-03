@@ -1,7 +1,7 @@
 import type { SearchResult } from "@components/types";
 import {
-  Accessor,
-  Component,
+  type Accessor,
+  type Component,
   Show,
   createRenderEffect,
   createSignal,
@@ -14,7 +14,7 @@ type SearchResultRowProps = {
   bottomBorder: boolean;
   page: Accessor<number>;
   lastArticle: SearchResult | undefined;
-  baseUrl: string;
+  // baseUrl: string;
 };
 
 const SearchResultRow: Component<SearchResultRowProps> = (props) => {
@@ -36,9 +36,7 @@ const SearchResultRow: Component<SearchResultRowProps> = (props) => {
     <Show when={props.article1 || props.article2}>
       <div
         class={`relative flex w-full flex-row ${
-          props.bottomBorder &&
-          !hasLastArticle() &&
-          "border-b border-gray-300"
+          props.bottomBorder && !hasLastArticle() && "border-b border-gray-300"
         } mt-2 pb-2`}
       >
         <div class="w-1/2 border-r border-gray-300">
@@ -58,7 +56,7 @@ const SearchResultRow: Component<SearchResultRowProps> = (props) => {
                   isPortrait={article.articles_isThumbnailPortrait}
                   hideCategoryAccent={false}
                   page={props.page}
-                  baseUrl={props.baseUrl}
+                  // baseUrl={props.baseUrl}
                 />
               </div>
             )}
@@ -81,7 +79,7 @@ const SearchResultRow: Component<SearchResultRowProps> = (props) => {
                   isPortrait={article.articles_isThumbnailPortrait}
                   hideCategoryAccent={false}
                   page={props.page}
-                  baseUrl={props.baseUrl}
+                  // baseUrl={props.baseUrl}
                 />
               </div>
             )}
