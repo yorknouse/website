@@ -2,7 +2,7 @@
 import Layout from "src/layouts/Layout.astro";
 import type { IEdition, S3URL } from "@components/types";
 
-const apiBase = import.meta.env.API_BASE_URL;
+const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
 const res = await fetch(`${apiBase}/api/frontend/getEditions`);
 const allEditions: IEdition[] = await res.json();

@@ -17,7 +17,7 @@ formData.append("active", active!);
 formData.append("menuCategories", JSON.stringify(menuCategories));
 formData.append("subMenuCategories", JSON.stringify([...subMenuCategories.entries()]));
 
-const apiBase = import.meta.env.API_BASE_URL;
+const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
 const res = await fetch(`${apiBase}/api/frontend/desktopNavBar`, {
   method: "POST",

@@ -4,7 +4,7 @@ import type {
   ICategoryArticles,
 } from "@components/types.ts";
 
-const apiBase = import.meta.env.API_BASE_URL;
+const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
 export const getMenuCategories: (
   style: "nouse" | "muse",

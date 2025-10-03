@@ -19,30 +19,6 @@ services:
       - nouseprod-local.env
     ports:
       - 3306:3306
-#  nouse:
-#    build:
-#      context: .
-#      dockerfile: ./Dockerfile.local
-#    container_name: nouse-container
-#    restart: always
-#    ports:
-#      - 80:80
-#      - 420:420
-#      - 419:419
-#    depends_on:
-#      - db
-#    environment:
-#      - MYSQL_HOSTNAME=db
-#      - MYSQL_DATABASE=nouse
-#      - MYSQL_USER=userDocker
-#      - MYSQL_PASSWORD=passDocker
-#    env_file:
-#      - nouseprod-local.env
-#    extra_hosts:
-#      - "host.docker.internal:host-gateway"
-#    volumes:
-#      - ./html:/var/www/html
-#      - ./composer:/var/www/composer
   php-container:
     build:
       context: .
@@ -82,6 +58,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.astro-local-df
+      args:
+        - PUBLIC_API_BASE_URL=http://react-container:3000
     container_name: astro-container
     restart: always
     depends_on:
@@ -91,7 +69,7 @@ services:
     ports:
       - 4321:4321
     environment:
-      - DATABASE_URL=mysql://userDocker:passDocker@db:3306/nouse
+      - PUBLIC_API_BASE_URL=http://react-container:3000
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2
     container_name: phpmyadmin

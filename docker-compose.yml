@@ -43,23 +43,6 @@ services:
       - nouseprod.env
     ports:
       - 3306:3306
-#  nouse:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile.php
-#    container_name: nouse-container
-#    restart: always
-#    depends_on:
-#      - db
-#    environment:
-#      - MYSQL_HOSTNAME=db
-#      - MYSQL_DATABASE=nouse
-#      - MYSQL_USER=userDocker
-#      - MYSQL_PASSWORD=passDocker
-#    env_file:
-#      - nouseprod.env
-#    extra_hosts:
-#      - "host.docker.internal:host-gateway"
   php-container:
     build:
       context: .
@@ -96,6 +79,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.astro-df
+      args:
+        - PUBLIC_API_BASE_URL=https://nouse.co.uk/api
     container_name: astro-container
     restart: always
     depends_on:
@@ -106,7 +91,7 @@ services:
       - "4321"
     environment:
       - NODE_ENV=production
-      - API_BASE_URL=https://nouse.co.uk/api
+      - PUBLIC_API_BASE_URL=https://nouse.co.uk/api
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2
     container_name: phpmyadmin

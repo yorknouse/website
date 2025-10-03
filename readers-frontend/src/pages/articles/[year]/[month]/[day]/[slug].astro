@@ -10,7 +10,7 @@ const { year, month, day, slug } = Astro.params;
 
 const cleanSlug = decodeURIComponent(slug || "");
 
-const apiBase = import.meta.env.API_BASE_URL;
+const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
 const res = await fetch(`${apiBase}/api/frontend/article/`+cleanSlug);
 const article: IArticle = await res.json();

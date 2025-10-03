@@ -8,7 +8,7 @@ export const getArticles = async (
     return [];
   }
 
-  const apiBase = import.meta.env.API_BASE_URL;
+  const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
   const articlesString = JSON.stringify(articleIds);
 

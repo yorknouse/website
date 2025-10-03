@@ -6,6 +6,9 @@ WORKDIR /app
 # Copy Astro project
 COPY ./readers-frontend /app
 
+ARG PUBLIC_API_BASE_URL
+ENV PUBLIC_API_BASE_URL=$PUBLIC_API_BASE_URL
+
 # Install deps and build
 RUN npm install
 RUN npm run build -- --config astro.config.ts

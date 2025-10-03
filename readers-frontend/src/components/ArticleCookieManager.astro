@@ -5,7 +5,7 @@ interface Props {
 
 const { articleId } = Astro.props;
 
-const apiBase = import.meta.env.API_BASE_URL;
+const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 ---
 
 <article-cookie-manager
@@ -17,7 +17,7 @@ const apiBase = import.meta.env.API_BASE_URL;
     constructor() {
       super();
 
-      const apiBase = import.meta.env.API_BASE_URL;
+      const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
       const stringArticleId = this.dataset.articleId || "0";
       const articleId = parseInt(this.dataset.articleId || "0");
 

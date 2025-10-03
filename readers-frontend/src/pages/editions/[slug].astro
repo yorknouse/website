@@ -22,7 +22,7 @@ const formData = new FormData();
 formData.append("slug", cleanSlug);
 formData.append("isPreview", String(isPreview));
 
-const apiBase = import.meta.env.API_BASE_URL;
+const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
 const res = await fetch(`${apiBase}/api/frontend/getEdition`, {
   method: "POST",
