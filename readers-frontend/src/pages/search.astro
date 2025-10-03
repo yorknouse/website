@@ -2,23 +2,15 @@
 import SearchResults from "@components/SolidJS/SearchResults";
 import Layout from "src/layouts/Layout.astro";
 
-let baseUrl = import.meta.env.BASE_URL;
+// let baseUrl = import.meta.env.BASE_URL;
 
-baseUrl = baseUrl.slice(0, baseUrl.length - 1);
+// baseUrl = baseUrl.slice(0, baseUrl.length - 1);
 
-const apiAddress =
-  import.meta.env.MODE === "production"
-    ? process.env.LOCAL_DOCKER === "true"
-      ? "http://localhost:420/api/searchSuggestions.php"
-      : "https://nouse.co.uk/api/searchSuggestions.php"
-    : "/api/searchSuggestions.php";
-
-// Static render this page
-export const prerender = true;
+const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 ---
 
-<Layout title="Welcome to Astro." active={undefined} style="nouse">
+<Layout title="Welcome to Nouse" active={undefined} style={"nouse"}>
   <main class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
-    <SearchResults client:only baseUrl={baseUrl} apiAddress={apiAddress} />
+    <SearchResults client:only apiAddress={`${apiBase}/api/frontend/searchSuggestions`} />
   </main>
 </Layout>

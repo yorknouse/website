@@ -1,18 +1,19 @@
-import { Component, For, Show, createSignal } from "solid-js";
+import { type Component, For, Show, createSignal } from "solid-js";
 import Spinner from "./Spinner";
 import type { TopArticleResult, TopArticlesResponse } from "@components/types";
 import SearchArticle from "./SearchArticle";
 
 type TopArticleProps = {
-  baseUrl: string;
-  apiAddress: string;
+  // baseUrl: string;
 };
 
 const TopArticles: Component<TopArticleProps> = (props) => {
   const [loading, setLoading] = createSignal<boolean>(true);
   const [articles, setArticles] = createSignal<TopArticleResult[]>([]);
 
-  fetch(props.apiAddress, { method: "POST" })
+  const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
+
+  fetch(`${apiBase}/api/frontend/topArticles`, { method: "GET" })
     .then(async (res) => {
       if (res.status !== 200) throw new Error(res.statusText);
 
@@ -50,7 +51,7 @@ const TopArticles: Component<TopArticleProps> = (props) => {
                       isVertical={true}
                       isPortrait={article.articles_isThumbnailPortrait}
                       hideCategoryAccent={true}
-                      baseUrl={props.baseUrl}
+                      // baseUrl={props.baseUrl}
                     />
                   </div>
                 )}

@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $DBLIB, $bCMS, $TWIG;
 require_once __DIR__ . '/common/headSecure.php';
 
 $PAGEDATA['pageConfig'] = ["TITLE" => "Users", "BREADCRUMB" => false];
@@ -14,7 +15,3 @@ if (isset($_GET['q']) and isset($_GET['id']) and (strlen($_GET['id']) > 0 or str
 } else {
 	echo $TWIG->render('commentsSearch.twig', $PAGEDATA);
 }
-
-
-
-?>

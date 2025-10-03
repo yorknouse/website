@@ -1,7 +1,7 @@
 import {
   getMenuCategories,
   getMenuSubcategories,
-} from "../src/components/utils/categories";
+} from "@components/utils/categories.ts";
 import baseUrl from "./baseUrl";
 
 export default async function getCategoriesLinks() {
@@ -13,26 +13,31 @@ export default async function getCategoriesLinks() {
   museCategories.pop();
 
   const nouseLinks = nouseCategories.map(
-    (category) => `${baseUrl}${category.categories_name}`
+    (category) => `${baseUrl}${category.categories_name}`,
   );
 
   const museLinks = museCategories.map(
-    (category) => `${baseUrl}muse/${category.categories_name}`
+    (category) => `${baseUrl}muse/${category.categories_name}`,
   );
 
   const nouseSubCategoriesLinks = await nouseCategories
     .filter((category) => category.categories_name !== "muse")
-    .reduce(async (accumulator, category) => {
-      const acc = await accumulator;
-      const subCategories = await getMenuSubcategories(category.categories_id);
-      acc.push(
-        ...subCategories.map(
-          (subcategory) =>
-            `${baseUrl}${category.categories_name}/${subcategory.categories_name}`
-        )
-      );
-      return acc;
-    }, Promise.resolve([] as string[]));
+    .reduce(
+      async (accumulator, category) => {
+        const acc = await accumulator;
+        const subCategories = await getMenuSubcategories(
+          category.categories_id,
+        );
+        acc.push(
+          ...subCategories.map(
+            (subcategory) =>
+              `${baseUrl}${category.categories_name}/${subcategory.categories_name}`,
+          ),
+        );
+        return acc;
+      },
+      Promise.resolve([] as string[]),
+    );
 
   const museSubCategoriesLinks = await museCategories.reduce(
     async (accumulator, category) => {
@@ -41,12 +46,12 @@ export default async function getCategoriesLinks() {
       acc.push(
         ...subCategories.map(
           (subcategory) =>
-            `${baseUrl}muse/${category.categories_name}/${subcategory.categories_name}`
-        )
+            `${baseUrl}muse/${category.categories_name}/${subcategory.categories_name}`,
+        ),
       );
       return acc;
     },
-    Promise.resolve([] as string[])
+    Promise.resolve([] as string[]),
   );
 
   return [

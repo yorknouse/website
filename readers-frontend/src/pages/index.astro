@@ -1,37 +1,30 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import FeaturedArticles from "@components/FeaturedArticles.astro";
-import type { featuredHome } from "@prisma/client";
-import prisma from "../prisma";
 import BannerEdition from "@components/BannerEdition.astro";
 import Muse from "@components/Muse.astro";
 import FeaturedSection from "@components/FeaturedSection.astro";
 import { getFeaturedSectionsCategories } from "@components/utils/categories";
 import NavbarColourSwitcher from "@components/NavbarColourSwitcher.astro";
+import { type IFeaturedHome } from "@components/types";
 
-// Get featured articles ids
-const featuredArticlesIds: featuredHome | null =
-  await prisma.featuredHome.findFirst({
-    orderBy: {
-      featuredHome_timestamp: "desc",
-    },
-  });
+const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
+
+const res = await fetch(`${apiBase}/api/frontend/featuredArticlesIds`);
+const featuredArticlesIds: IFeaturedHome = await res.json();
 
 const categories = await getFeaturedSectionsCategories();
-
-// Static render this page
-export const prerender = true;
 ---
 
-<Layout title="Nouse" active="home" style="nouse">
+<Layout title="Nouse" active="home" style={"nouse"}>
   <main>
     <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
       <div id="featured-articles">
         <FeaturedArticles
-          featuredArticlesIds={featuredArticlesIds?.featuredHome_articles
+          featuredArticlesIds={featuredArticlesIds?.articles
             ?.split(",")
             .map(Number)}
-          style="nouse"
+          style={"nouse"}
         />
       </div>
       <BannerEdition />
@@ -41,7 +34,7 @@ export const prerender = true;
       {
         categories.map((category) => (
           <div id={`${category.categories_name}-section`}>
-            <FeaturedSection category={category} />
+            <FeaturedSection category={category} style={"nouse"} />
           </div>
         ))
       }

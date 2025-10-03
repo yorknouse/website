@@ -1,9 +1,13 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 require_once __DIR__ . '/../../config.php';
 
 function outputemail($html) {
-	global $CONFIG;
-	return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    global $CONFIG;
+    return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 	<html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>Message from ' . $CONFIG['PROJECT_NAME'] . '</title>
@@ -912,7 +916,7 @@ function outputemail($html) {
 				<td style="padding: 0;vertical-align: top">
 				<table style="border-collapse: collapse;border-spacing: 0;width: 602px">
 					<tbody><tr>
-					<td class="title" style="padding: 0;vertical-align: top;padding-top: 10px;padding-bottom: 12px;font-size: 12px;line-height: 21px;text-align: left;color: #999;font-family: Georgia,serif">&#10004;Official Message from '. $CONFIG['PROJECT_NAME'] .'</td>
+					<td class="title" style="padding: 0;vertical-align: top;padding-top: 10px;padding-bottom: 12px;font-size: 12px;line-height: 21px;text-align: left;color: #999;font-family: Georgia,serif">&#10004;Official Message from ' . $CONFIG['PROJECT_NAME'] . '</td>
 					<td class="webversion" style="padding: 0;vertical-align: top;padding-top: 10px;padding-bottom: 12px;font-size: 12px;line-height: 21px;text-align: right;width: 300px;color: #999;font-family: Georgia,serif">
 						<a href="' . $CONFIG['ROOTFRONTENDURL'] . '">Visit ' . $CONFIG['PROJECT_NAME'] . '</a>
 					</td>
@@ -999,11 +1003,12 @@ function outputemail($html) {
 
 	</body></html>';
 }
+
 function sendemail($userIDOrEmail, $subject, $html) {
-	global $DBLIB, $CONFIG;
-	if (is_numeric($userIDOrEmail)) {
-	    $DBLIB->where('users_userid', $userIDOrEmail);
-        $user = $DBLIB->getone('users', ['users_userid','users_name1','users_name2','users_googleAppsUsernameYork','users_googleAppsUsernameNouse']);
+    global $DBLIB, $CONFIG;
+    if (is_numeric($userIDOrEmail)) {
+        $DBLIB->where('users_userid', $userIDOrEmail);
+        $user = $DBLIB->getone('users', ['users_userid', 'users_name1', 'users_name2', 'users_googleAppsUsernameYork', 'users_googleAppsUsernameNouse']);
         if (!$user) return false; //Can't find user
         if (strlen($user['users_googleAppsUsernameNouse']) > 0) {
             $user['users_email'] = $user['users_googleAppsUsernameNouse'] . "@nouse.co.uk";
@@ -1011,38 +1016,53 @@ function sendemail($userIDOrEmail, $subject, $html) {
             $user['users_email'] = $user['users_googleAppsUsernameYork'] . "@york.ac.uk";
         } else return false; //We don't have their york or nouse username
     } elseif (filter_var($userIDOrEmail, FILTER_VALIDATE_EMAIL)) {
-	    $user = [];
-	    $user['users_email'] = $userIDOrEmail;
+        $user = [];
+        $user['users_email'] = $userIDOrEmail;
         $user["users_name1"] = $userIDOrEmail;
         $user["users_name2"] = "";
         $user['users_userid'] = null;
     } else return false;
 
-	$outputhtml = outputemail($html);
+    $outputhtml = outputemail($html);
 
-    $email = new \SendGrid\Mail\Mail();
-    $email->setFrom($CONFIG['PROJECT_FROM_EMAIL'], $CONFIG['PROJECT_NAME']);
-    $email->setSubject($subject);
-    $email->addTo($user["users_email"], $user["users_name1"] .  ' ' . $user["users_name2"]);
-    //$email->addContent("text/plain", "and easy to do anywhere, even with PHP");
-    $email->addContent("text/html", $outputhtml);
-    $sendgrid = new \SendGrid($CONFIG['SENDGRID']['APIKEY']);
+    $mail = new PHPMailer(true);
 
-	$sqldata = Array ("users_userid" => $user['users_userid'],
-				"emailSent_html" => $html,
-				"emailSent_subject" => $subject,
-				"emailSent_sent" => date('Y-m-d G:i:s'),
-				"emailSent_fromEmail" => $CONFIG['PROJECT_FROM_EMAIL'],
-				"emailSent_fromName" => $CONFIG['PROJECT_NAME'],
-				'emailSent_toEmail' => $user["users_email"],
-				'emailSent_toName' => $user["users_name1"] .  ' ' . $user["users_name2"]
-	);
-	$emailid = $DBLIB->insert('emailSent', $sqldata);
-	if(!$emailid) return false;
+    try {
+        // Server settings
+        $mail->isSMTP();
+        $mail->Host = $CONFIG['EMAIL']['HOST'];
+        $mail->SMTPAuth   = true;
+        $mail->Username = $CONFIG['EMAIL']['USERNAME'];
+        $mail->Password = $CONFIG['EMAIL']['PASSWORD'];
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
 
-    $response = $sendgrid->send($email);
-    //$response->statusCode()
-    //$response->headers()
-    //$response->body()
-	return true;
+        // Recipients
+        $mail->setFrom($CONFIG['EMAIL']['FROM'], 'Nouse No-Reply');
+        $mail->addAddress($user['users_email'], $user["users_name1"] . ' ' . $user["users_name2"]);
+
+        // Content
+        $mail->isHTML();
+        $mail->Subject = $subject;
+        $mail->Body    = $outputhtml;
+
+        $mail->send();
+        echo 'Message has been sent successfully.';
+        $sqldata = array("users_userid" => $user['users_userid'],
+            "emailSent_html" => $html,
+            "emailSent_subject" => $subject,
+            "emailSent_sent" => date('Y-m-d G:i:s'),
+            "emailSent_fromEmail" => $CONFIG['EMAIL']['FROM'],
+            "emailSent_fromName" => 'Nouse No-Reply',
+            'emailSent_toEmail' => $user["users_email"],
+            'emailSent_toName' => $user["users_name1"] . ' ' . $user["users_name2"]
+        );
+        $emailid = $DBLIB->insert('emailSent', $sqldata);
+        if (!$emailid)
+            return false;
+        return true;
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}, debug error: {$e->getMessage()}";
+        return false;
+    }
 }

@@ -245,7 +245,8 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 1, // Landscape article with custom thumbnail
         articles_slug: "test-article-1",
-        articles_categories: "1",
+        // TODO: take a look at this
+        // articles_categories: "1",
         articles_isThumbnailPortrait: false,
         articles_displayImages: true,
         articles_showInLists: true,
@@ -255,7 +256,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 2, // Landscape article with no thumbnail
         articles_slug: "test-article-2",
-        articles_categories: "1",
+        // articles_categories: "1",
         articles_isThumbnailPortrait: false,
         articles_displayImages: false,
         articles_showInLists: true,
@@ -264,7 +265,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 3,
         articles_slug: "test-article-3",
-        articles_categories: "1",
+        // articles_categories: "1",
         articles_isThumbnailPortrait: false,
         articles_displayImages: false,
         articles_showInLists: true,
@@ -273,7 +274,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 4,
         articles_slug: "test-article-4",
-        articles_categories: "1",
+        // articles_categories: "1",
         articles_isThumbnailPortrait: false,
         articles_displayImages: false,
         articles_showInLists: true,
@@ -282,7 +283,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 5,
         articles_slug: "test-article-5",
-        articles_categories: "1",
+        // articles_categories: "1",
         articles_isThumbnailPortrait: false,
         articles_displayImages: false,
         articles_showInLists: true,
@@ -291,7 +292,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 6,
         articles_slug: "test-article-6",
-        articles_categories: "1",
+        // articles_categories: "1",
         articles_isThumbnailPortrait: false,
         articles_displayImages: false,
         articles_showInLists: true,
@@ -300,7 +301,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 7, // Portrait article with custom thumbnail
         articles_slug: "test-article-7",
-        articles_categories: "1",
+        // articles_categories: "1",
         articles_isThumbnailPortrait: true,
         articles_displayImages: true,
         articles_thumbnail: "2",
@@ -310,7 +311,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 8, // Landscape article with custom thumbnail
         articles_slug: "test-article-8",
-        articles_categories: "",
+        // articles_categories: "",
         articles_isThumbnailPortrait: false,
         articles_displayImages: true,
         articles_showInLists: true,
@@ -320,7 +321,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 9, // Landscape article with custom thumbnail
         articles_slug: "test-article-9",
-        articles_categories: "",
+        // articles_categories: "",
         articles_isThumbnailPortrait: false,
         articles_displayImages: true,
         articles_showInLists: true,
@@ -330,7 +331,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 10, // Landscape article with custom thumbnail
         articles_slug: "test-article-10",
-        articles_categories: "",
+        // articles_categories: "",
         articles_isThumbnailPortrait: false,
         articles_displayImages: true,
         articles_showInLists: true,
@@ -340,7 +341,7 @@ async function dbGlobalSetup(config: FullConfig) {
       {
         articles_id: 11, // Landscape article with custom thumbnail
         articles_slug: "test-article-11",
-        articles_categories: "",
+        // articles_categories: "",
         articles_isThumbnailPortrait: false,
         articles_displayImages: true,
         articles_showInLists: true,

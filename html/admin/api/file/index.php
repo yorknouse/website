@@ -1,4 +1,5 @@
 <?php
+global $bCMS;
 require_once __DIR__ . '/../apiHeadSecure.php';
 /*
  * File interface for Amazon AWS S3.
@@ -10,11 +11,11 @@ require_once __DIR__ . '/../apiHeadSecure.php';
  *      e (optional, default 1 minute) - when should the link expire? Must be a string describing how long in words basically. If this file type has security features then it will default to 1 minute.
  */
 
-$file = $bCMS->s3URL($_GET['f'], (isset($_GET['s']) ? $_GET['s'] : null), (isset($_GET['d'])),(isset($_GET['e']) ? $_GET['e'] : null));
+$file = $bCMS->s3URL($_GET['f'], ($_GET['s'] ?? null), (isset($_GET['d'])),($_GET['e'] ?? null));
 if (!$file) die("404 file not found");
-else {
-    if (isset($_GET['r'])) {
-        header("Location: " . $file);
-        die();
-    } else die($file);
-}
+
+if (!isset($_GET['r']))
+    die($file);
+
+header("Location: " . $file);
+die();

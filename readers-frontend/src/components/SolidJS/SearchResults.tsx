@@ -1,13 +1,13 @@
 import type { SearchResponse, SearchResult } from "@components/types";
 import { createMediaQuery } from "@solid-primitives/media";
-import { Component, createSignal, For, onMount, Show } from "solid-js";
+import { type Component, createSignal, For, onMount, Show } from "solid-js";
 import Paginator from "./Paginator";
 import SearchArticle from "./SearchArticle";
 import SearchResultRow from "./SearchResultRow";
 import Spinner from "./Spinner";
 
 type SearchResultsProps = {
-  baseUrl: string;
+  // baseUrl: string;
   apiAddress: string;
 };
 
@@ -88,7 +88,7 @@ const SearchResults: Component<SearchResultsProps> = (props) => {
                 each={[
                   ...articles().slice(
                     page() * articlesPerPage,
-                    page() * articlesPerPage + articlesPerPage
+                    page() * articlesPerPage + articlesPerPage,
                   ),
                 ]}
               >
@@ -113,7 +113,7 @@ const SearchResults: Component<SearchResultsProps> = (props) => {
                       isPortrait={article.articles_isThumbnailPortrait}
                       hideCategoryAccent={false}
                       page={page}
-                      baseUrl={props.baseUrl}
+                      // baseUrl={props.baseUrl}
                     />
                   </div>
                 )}
@@ -128,7 +128,7 @@ const SearchResults: Component<SearchResultsProps> = (props) => {
                     article2={articles()[page() * articlesPerPage + i + 1]}
                     bottomBorder={i !== 4}
                     page={page}
-                    baseUrl={props.baseUrl}
+                    // baseUrl={props.baseUrl}
                     lastArticle={lastArticle()}
                   />
                 </Show>

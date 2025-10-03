@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $DBLIB, $bCMS, $TWIG;
 require_once __DIR__ . '/common/headSecure.php';
 
 $PAGEDATA['pageConfig'] = ["TITLE" => "Users", "BREADCRUMB" => false];
@@ -28,7 +29,7 @@ if (strlen($PAGEDATA['search']) > 0) {
 		OR users_googleAppsUsernameNouse LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
     )");
 }
-//if (!isset($_GET['suspended'])) $DBLIB->where ("users.users_suspended", "0");
+//if (!isset($_GET['suspended'])) $DBLIB->where("users.users_suspended", "0");
 $users = $DBLIB->arraybuilder()->paginate('users', $page, ["users.*"]);
 $PAGEDATA['pagination'] = ["page" => $page, "total" => $DBLIB->totalPages];
 foreach ($users as $user) {
@@ -53,4 +54,3 @@ foreach ($users as $user) {
 }
 
 echo $TWIG->render('users.twig', $PAGEDATA);
-?>

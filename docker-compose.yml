@@ -1,4 +1,3 @@
-version: '3'
 services:
   caddy:
     image: ghcr.io/yorknouse/caddy:latest
@@ -18,7 +17,10 @@ services:
       - nouseprod.env
     depends_on:
       - db
-      - nouse
+#      - nouse
+      - php-container
+      - astro-container
+      - react-container
       - phpmyadmin
       - grafana
   db:
@@ -41,11 +43,11 @@ services:
       - nouseprod.env
     ports:
       - 3306:3306
-  nouse:
+  php-container:
     build:
       context: .
-      dockerfile: ./Dockerfile
-    container_name: nouse-container
+      dockerfile: Dockerfile.php-df
+    container_name: php-container
     restart: always
     depends_on:
       - db
@@ -58,8 +60,40 @@ services:
       - nouseprod.env
     extra_hosts:
       - "host.docker.internal:host-gateway"
+  react-container:
+    build:
+      context: .
+      dockerfile: Dockerfile.react-df
+    container_name: react-container
+    restart: always
+    depends_on:
+      - db
+    env_file:
+      - nouseprod.env
+    expose:
+      - "3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=mysql://userDocker:passDocker@db:3306/nouse
+  astro-container:
+    build:
+      context: .
+      dockerfile: Dockerfile.astro-df
+      args:
+        - PUBLIC_API_BASE_URL=https://nouse.co.uk/api
+    container_name: astro-container
+    restart: always
+    depends_on:
+      - react-container
+    env_file:
+      - nouseprod.env
+    expose:
+      - "4321"
+    environment:
+      - NODE_ENV=production
+      - PUBLIC_API_BASE_URL=https://nouse.co.uk/api
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:5.1
+    image: phpmyadmin/phpmyadmin:5.2
     container_name: phpmyadmin
     environment:
       - PMA_HOST=db
@@ -106,7 +140,7 @@ services:
      volumes:
        - /etc/localtime:/etc/localtime:ro
   grafana:
-    image: grafana/grafana:8.1.7-ubuntu
+    image: grafana/grafana:8.5.27-ubuntu
     container_name: grafana
     restart: unless-stopped
     volumes:
@@ -130,7 +164,7 @@ services:
       - PGID=120 #This varies from server to server (https://learn.netdata.cloud/docs/agent/packaging/docker) - find it with      grep docker /etc/group | cut -d ':' -f 3
     depends_on: #Relies on everything because it needs to start last in order to access details of docker containers
       - caddy
-      - nouse
+#      - nouse
       - db
       - phpmyadmin
       - mysql-backup

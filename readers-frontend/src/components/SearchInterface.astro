@@ -1,10 +1,9 @@
 ---
-import { Icon } from "astro-icon";
-import Article from "./Article.astro";
+import { Icon } from "astro-icon/components";
 ---
 
 <div
-  class="bg-whiteish-100 invisible fixed top-0 bottom-0 left-0 right-0 z-50 flex flex-col overflow-y-scroll opacity-0 transition-opacity duration-500 md:overflow-hidden"
+  class="invisible fixed top-0 bottom-0 left-0 right-0 z-50 flex flex-col overflow-y-scroll bg-whiteish-100 opacity-0 transition-opacity duration-500 md:overflow-hidden"
   id="searchInterface"
 >
   <button
@@ -21,7 +20,7 @@ import Article from "./Article.astro";
       <input
         id="searchBox"
         type="text"
-        class="bg-whiteish-100 w-min border-b-2 border-black outline-none sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl"
+        class="w-min border-b-2 border-black bg-whiteish-100 outline-none sm:text-3xl md:text-4xl lg:text-5xl xl:text-7xl"
         placeholder="What are you looking for?"
         size="25"
       />
@@ -52,7 +51,7 @@ import Article from "./Article.astro";
 
     const query = encodeURIComponent(input.value);
     if (query.length > 0) {
-      window.location.href = `${import.meta.env.BASE_URL}search?q=${query}`;
+      window.location.href = `/search?q=${query}`;
     }
   });
 </script>

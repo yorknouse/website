@@ -1,4 +1,5 @@
-import { Component, For, JSXElement, createSignal } from "solid-js";
+import { type Component, For, type JSX, createSignal } from "solid-js";
+type JSXElement = JSX.Element;
 
 type CustomBoxesProps = {
   id: string;
@@ -13,17 +14,20 @@ const CustomBoxes: Component<CustomBoxesProps> = (props) => {
     props.customBoxes.every((_, index, array) => {
       if (index === active() && index + 1 < array.length) {
         const previousBlock = document.getElementById(
-          `${props.id}-${active()}`
+          `${props.id}-${active()}`,
         );
 
-        previousBlock?.classList.remove("w-full", "md:w-10/12", "opacity-100", "p-4");
+        previousBlock?.classList.remove(
+          "w-full",
+          "md:w-10/12",
+          "opacity-100",
+          "p-4",
+        );
         previousBlock?.classList.add("w-0", "h-0", "opacity-0", "p-0");
 
         setActive(index + 1);
 
-        const newBlock = document.getElementById(
-          `${props.id}-${active()}`
-        );
+        const newBlock = document.getElementById(`${props.id}-${active()}`);
 
         newBlock?.classList.remove("w-0", "h-0", "opacity-0", "p-0");
         newBlock?.classList.add("w-full", "md:w-10/12", "opacity-100", "p-4");
@@ -37,17 +41,20 @@ const CustomBoxes: Component<CustomBoxesProps> = (props) => {
     props.customBoxes.every((_, index, array) => {
       if (index === active() && index - 1 >= 0) {
         const previousBlock = document.getElementById(
-          `${props.id}-${active()}`
+          `${props.id}-${active()}`,
         );
 
-        previousBlock?.classList.remove("w-full", "md:w-10/12", "opacity-100", "p-4");
+        previousBlock?.classList.remove(
+          "w-full",
+          "md:w-10/12",
+          "opacity-100",
+          "p-4",
+        );
         previousBlock?.classList.add("w-0", "h-0", "opacity-0", "p-0");
 
         setActive(index - 1);
 
-        const newBlock = document.getElementById(
-          `${props.id}-${active()}`
-        );
+        const newBlock = document.getElementById(`${props.id}-${active()}`);
 
         newBlock?.classList.remove("w-0", "h-0", "opacity-0", "p-0");
         newBlock?.classList.add("w-full", "md:w-10/12", "opacity-100", "p-4");
@@ -74,9 +81,9 @@ const CustomBoxes: Component<CustomBoxesProps> = (props) => {
         }
       }}
     >
-      <div class="py-5 flex w-full flex-row px-4 md:px-0">
+      <div class="flex w-full flex-row py-5 px-4 md:px-0">
         <button
-          class="back-button w-1/12 items-center justify-center hidden md:flex disabled:opacity-30"
+          class="back-button hidden w-1/12 items-center justify-center disabled:opacity-30 md:flex"
           onClick={displayPreviousBox}
           disabled={active() === 0}
         >
@@ -93,7 +100,7 @@ const CustomBoxes: Component<CustomBoxesProps> = (props) => {
         </button>
         {props.children}
         <button
-          class="forward-button w-1/12 items-center justify-center hidden md:flex disabled:opacity-30"
+          class="forward-button hidden w-1/12 items-center justify-center disabled:opacity-30 md:flex"
           onClick={displayNextBox}
           disabled={active() === props.customBoxes.length - 1}
         >
@@ -114,9 +121,7 @@ const CustomBoxes: Component<CustomBoxesProps> = (props) => {
           {(_, index) => (
             <span
               class={`mr-2 h-4 w-4 rounded-full border-[6px] transition-colors delay-100 duration-700 ${
-                active() === index()
-                  ? "border-white"
-                  : "border-gray-500"
+                active() === index() ? "border-white" : "border-gray-500"
               }`}
             />
           )}

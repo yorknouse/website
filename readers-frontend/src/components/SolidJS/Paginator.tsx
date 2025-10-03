@@ -1,11 +1,11 @@
 import { createMediaQuery } from "@solid-primitives/media";
 import {
-  Accessor,
-  Component,
+  type Accessor,
+  type Component,
   createEffect,
   createSignal,
   For,
-  Setter,
+  type Setter,
   Show,
 } from "solid-js";
 
@@ -15,6 +15,7 @@ type PaginatorProps = {
   pages: Accessor<number> | number;
   pagesToDisplay: number;
   prefix?: string;
+  useQueryParams?: boolean;
 };
 
 const Paginator: Component<PaginatorProps> = (props) => {
@@ -30,8 +31,16 @@ const Paginator: Component<PaginatorProps> = (props) => {
   };
   const setPage = (page: number) => {
     if (props.setPage) return props.setPage(page);
-    else if (page == 0) window.location.href = `${import.meta.env.BASE_URL}${props.prefix}`;
-    else window.location.href = `${import.meta.env.BASE_URL}${props.prefix}/${page + 1}`;
+    else if (page == 0)
+      window.location.href = `${import.meta.env.BASE_URL}${props.prefix}`;
+    else if (props.useQueryParams)
+      window.location.href = `${import.meta.env.BASE_URL}${props.prefix}?page=${
+        page + 1
+      }`;
+    else
+      window.location.href = `${import.meta.env.BASE_URL}${props.prefix}/${
+        page + 1
+      }`;
   };
 
   const mobilePagesToDisplay = 5;
@@ -70,7 +79,7 @@ const Paginator: Component<PaginatorProps> = (props) => {
         <For
           each={[...Array(getPages()).keys()].slice(
             firstPage(),
-            firstPage() + allowedPagesToDisplay()
+            firstPage() + allowedPagesToDisplay(),
           )}
         >
           {(p) => (

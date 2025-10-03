@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $DBLIB;
 require_once __DIR__ . '/../../apiHeadSecure.php';
 
 if (!$AUTH->permissionCheck(54) or !isset($_POST['commentid'])) finish(false, ["code" => null, "message" => "Auth fail"]);

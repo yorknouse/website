@@ -1,10 +1,11 @@
 <?php
+global $AUTH, $DBLIB, $bCMS, $CONFIG;
 require_once __DIR__ . '/../apiHeadSecure.php';
 header("Content-Type: text/json");
 
 if (!$AUTH->permissionCheck(51) or !isset($_POST['editionid']) or !is_numeric($_POST['editionid'])) die("404");
 
-$DBLIB->where ('editions_id', $bCMS->sanitizeString($_POST['editionid']));
+$DBLIB->where('editions_id', $bCMS->sanitizeString($_POST['editionid']));
 $edition = $DBLIB->getOne("editions");
 if (!$edition) die("404");
 
@@ -34,10 +35,11 @@ if ($_POST['featuredHighlights'] != "{}") {
     $newData["editions_featuredHighlights"] = json_encode($highlights);
 } else $newData["editions_featuredHighlights"] = "{}";
 
-$DBLIB->where ('editions_id', $edition['editions_id']);
-if ($DBLIB->update ('editions', $newData)) {
-    $bCMS->auditLog("EDIT", "editions", json_encode(["edition" => $edition['editions_id'], "newData" => $newData]), $AUTH->data['users_userid']);
-    $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/edition/" . $edition['editions_slug']);
-    $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL']);
-    finish(true);
-} else finish(false, ["code" => null, "message" => "Edit error"]);
+$DBLIB->where('editions_id', $edition['editions_id']);
+if (!$DBLIB->update('editions', $newData))
+    finish(false, ["code" => null, "message" => "Edit error"]);
+
+$bCMS->auditLog("EDIT", "editions", json_encode(["edition" => $edition['editions_id'], "newData" => $newData]), $AUTH->data['users_userid']);
+$bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/edition/" . $edition['editions_slug']);
+$bCMS->cacheClear($CONFIG['ROOTFRONTENDURL']);
+finish(true);

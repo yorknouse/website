@@ -1,4 +1,5 @@
 <?php
+global $bCMS, $DBLIB;
 require_once __DIR__ . '/../../common/coreHead.php';
 
 if (!isset($_POST['articleId'])) {
@@ -14,8 +15,8 @@ $readData = array(
 
 $id = $DBLIB->insert('articlesReads', $readData);
 
-if ($id) {
-    die();
-} else {
+if (!$id) {
     die(1);
 }
+
+die();

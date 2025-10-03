@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $DBLIB, $bCMS;
 require_once __DIR__ . '/../apiHeadSecure.php';
 
 header('Content-type: application/json');
@@ -24,17 +25,19 @@ if ($_POST['action'] == "DELETE") {
         "userPositions_show"=>$bCMS->sanitizeString($_POST["userPositions_show"])
     ];
     if ($_POST['userPositions_id'] == 'new') {
-        if ($DBLIB->insert("userPositions",$data)) {
-            $bCMS->auditLog("CREATE", "userPositions", json_encode($data), $AUTH->data['users_userid'],$bCMS->sanitizeString($_POST["users_userid"]));
-            finish(true);
-        } else finish(false, ["code" => null, "message"=> "Insert error"]);
+        if (!$DBLIB->insert("userPositions",$data))
+            finish(false, ["code" => null, "message"=> "Insert error"]);
+
+        $bCMS->auditLog("CREATE", "userPositions", json_encode($data), $AUTH->data['users_userid'],$bCMS->sanitizeString($_POST["users_userid"]));
+        finish(true);
     } else {
         $DBLIB->where("users_userid", $bCMS->sanitizeString($_POST["users_userid"]));
         $DBLIB->where("userPositions_id", $bCMS->sanitizeString($_POST["userPositions_id"]));
-        if ($DBLIB->update("userPositions",$data)) {
-            $bCMS->auditLog("EDIT", "userPositions", $bCMS->sanitizeString($_POST["userPositions_id"]), $AUTH->data['users_userid'],$bCMS->sanitizeString($_POST["users_userid"]));
-            finish(true);
-        } else finish(false, ["code" => null, "message"=> "Edit error"]);
+        if (!$DBLIB->update("userPositions",$data))
+            finish(false, ["code" => null, "message"=> "Edit error"]);
+
+        $bCMS->auditLog("EDIT", "userPositions", $bCMS->sanitizeString($_POST["userPositions_id"]), $AUTH->data['users_userid'],$bCMS->sanitizeString($_POST["users_userid"]));
+        finish(true);
     }
 } elseif ($_POST['action'] == "ENDAll") {
     $DBLIB->where("users_userid", $bCMS->sanitizeString($_POST["users_userid"]));
@@ -46,5 +49,3 @@ if ($_POST['action'] == "DELETE") {
     $bCMS->auditLog("ENDALL", "userPositions", $bCMS->sanitizeString($_POST["userPositions_id"]), $AUTH->data['users_userid'],$bCMS->sanitizeString($_POST["users_userid"]));
     finish(true);
 } else finish(false, ["code" => null, "message"=> "Attribute action error"]);
-
-?>

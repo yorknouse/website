@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $bCMS, $DBLIB, $TWIG;
 require_once __DIR__ . '/common/headSecure.php';
 
 $PAGEDATA['pageConfig'] = ["TITLE" => "Redirect Links", "BREADCRUMB" => false];
@@ -35,4 +36,3 @@ foreach ($quickLinks as $link) {
 }
 
 echo $TWIG->render('quicklinks.twig', $PAGEDATA);
-?>

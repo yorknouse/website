@@ -1,80 +1,38 @@
 ---
-import prisma from "src/prisma";
 import ArticleRows from "./ArticleRows.astro";
 import Paginator from "./SolidJS/Paginator";
-import type { articleWithUserAndDraft } from "./utils/articles";
+import type { AuthorArticles } from "./types";
 
 interface Props {
-    articlesPerPage: number;
-    pageNumber: number;
-    authorId: number;
+  articlesPerPage: number;
+  pageNumber: number;
+  authorId: number;
 }
 
 const { articlesPerPage, pageNumber, authorId } = Astro.props;
 
-const authorArticles = await prisma.articlesAuthors.findMany({
-    where: {
-        users_userid: authorId,
-    },
-});
+const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
-let articles: articleWithUserAndDraft[];
-let pages: number;
-
-if (!authorArticles) {
-    articles = [];
-    pages = 0;
-} else {
-    pages = Math.ceil(authorArticles.length / articlesPerPage);
-    const articlesIds = authorArticles.reduce((accumulator, authorArticle) => {
-        accumulator.push(authorArticle.articles_id);
-
-        return accumulator;
-    }, [] as number[]);
-
-    articles = await prisma.articles.findMany({
-        where: {
-            articles_id: {
-                in: articlesIds,
-            },
-            articles_showInLists: true,
-        },
-        orderBy: {
-            articles_published: "desc",
-        },
-        take: articlesPerPage,
-        skip: pageNumber ? (pageNumber - 1) * articlesPerPage : 0,
-        include: {
-            articlesDrafts: {
-                orderBy: {
-                    articlesDrafts_timestamp: "desc",
-                },
-                take: 1,
-            },
-            categories: {
-                include: { category: true },
-            },
-            users: { include: { users: true } },
-        },
-    });
-}
+const res = await fetch(`${apiBase}/api/frontend/authorArticles?authorId=${authorId}&page=${pageNumber}&limit=${articlesPerPage}`);
+const authorArticles: AuthorArticles = await res.json();
 ---
 
 <div class="pt-8 sm:px-[0.5%] 2xl:px-[13%]">
-    {
-        articles.length !== 0 && (
-            <div id="article-list">
-                <ArticleRows articles={articles} style="nouse" />
-            </div>
-        )
-    }
-    <div class="w-full mt-4" id="paginator-container">
-        <Paginator
-            client:only
-            page={pageNumber === 0 ? pageNumber : pageNumber - 1}
-            pages={pages}
-            pagesToDisplay={5}
-            prefix={`author/${authorId}`}
-        />
-    </div>
+  {
+    authorArticles.articles.length !== 0 && (
+      <div id="article-list">
+        <ArticleRows articles={authorArticles.articles} style={"nouse"} />
+      </div>
+    )
+  }
+  <div class="mt-4 w-full" id="paginator-container">
+    <Paginator
+      client:only
+      page={pageNumber === 0 ? pageNumber : pageNumber - 1}
+      pages={authorArticles.pages}
+      pagesToDisplay={5}
+      prefix={`author/${authorId}`}
+      useQueryParams={true}
+    />
+  </div>
 </div>

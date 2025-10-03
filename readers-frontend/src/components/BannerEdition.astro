@@ -1,64 +1,65 @@
 ---
-import prisma from "../prisma";
-import { fail } from "./utils/fail";
-import { s3URL } from "./utils/s3URL";
+import type { IEdition } from "./types";
 
-const latestEdition = await prisma.editions.findFirst({
-  orderBy: {
-    editions_published: "desc",
-  },
-  where: {
-    editions_show: true,
-    editions_showHome: true,
-    editions_deleted: false,
-    NOT: {
-      editions_thumbnail: null,
-    },
-  },
-});
+const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
+
+const res = await fetch(`${apiBase}/api/frontend/latestEdition`);
+const latestEdition: IEdition = await res.json();
+
 
 if (latestEdition === null) {
-  fail("Could not fetch latest edition");
-  return;
+  console.log("Could not fetch latest edition");
 }
 
-if (latestEdition.editions_thumbnail === null) {
-  fail("Edition thumbnail is null!");
-  return;
-}
+let thumbnail;
 
-const thumbnail = await s3URL(latestEdition.editions_thumbnail, "medium");
+if (latestEdition != null) {
+  if (latestEdition.thumbnailURL === null) {
+    console.log("Edition thumbnail is null!");
+    return;
+  }
+  thumbnail = latestEdition.thumbnailURL;
+}
 ---
 
 <div class="mt-4 flex w-full flex-col gap-2.5 sm:flex-row">
   {/* Join */}
   <a
     id="join_nouse"
-    href={`${import.meta.env.BASE_URL}join`}
-    class="border-whiteish-200 w-full rounded-md border-4 sm:w-3/5"
+    href={`/join`}
+    class="w-full rounded-md border-4 border-whiteish-200 sm:w-3/5"
   >
     <img
       class="h-full w-full"
       src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/headerImages/join_nouse.png"
+      alt="Join Nouse banner image"
     />
   </a>
 
   {/* Edition */}
+  {latestEdition != null ?
   <a
     id="edition"
-    class="border-whiteish-200 flex w-full flex-row rounded-md border-4 sm:w-2/5"
-    href={`${import.meta.env.BASE_URL}editions/${latestEdition?.editions_slug}`}
+    class="flex w-full flex-row rounded-md border-4 border-whiteish-200 sm:w-2/5"
+    href={`/editions/${String(latestEdition?.slug)}`}
   >
     <div class="flex w-1/2 flex-col gap-2.5 self-center">
-      <p class="text-center uppercase text-2xl sm:text-base md:text-2xl lg:text-4xl xl:text-5xl">
+      <p
+        class="text-center text-2xl uppercase sm:text-base md:text-2xl lg:text-4xl xl:text-5xl"
+      >
         Our<br />latest<br />edition
       </p>
       <p
         class="text-center text-base sm:text-sm md:text-base lg:text-lg xl:text-xl"
       >
-        {latestEdition?.editions_name}
+        {latestEdition?.name}
       </p>
     </div>
-    <img class="aspect-edition w-1/2 p-2.5 sm:p-4 object-contain" src={thumbnail} />
+    <img
+      class="aspect-edition w-1/2 object-contain p-2.5 sm:p-4"
+      src={thumbnail}
+     alt="Latest edition thumbnail"/>
   </a>
+      :
+      <div>Unknown latest edition</div>}
 </div>

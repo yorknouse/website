@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $DBLIB, $TWIG;
 require_once __DIR__ . '/common/headSecure.php';
 
 $PAGEDATA['pageConfig'] = ["TITLE" => "Permissions", "BREADCRUMB" => false];
@@ -37,4 +38,3 @@ foreach ($actualPositions as $position) {
 }
 
 echo $TWIG->render('permissions.twig', $PAGEDATA);
-?>

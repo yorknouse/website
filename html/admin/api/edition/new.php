@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $bCMS, $DBLIB;
 require_once __DIR__ . '/../apiHeadSecure.php';
 header("Content-Type: text/json");
 
@@ -7,12 +8,14 @@ if (!$AUTH->permissionCheck(50) or !isset($_GET['title']) or (strlen($_GET['titl
 $editionSlug = "";
 function generateEditionSlug($slugDraft) {
     global $editionSlug,$DBLIB,$bCMS;
-    $DBLIB->where ('editions_slug', $slugDraft);
+    $DBLIB->where('editions_slug', $slugDraft);
     if ($DBLIB->getValue("editions", "COUNT(*)") > 0) {
         //Taken so add a bit to the slug and try again
         generateEditionSlug($slugDraft . $bCMS->randomString(3));
         return false;
-    } else $editionSlug = $slugDraft;
+    }
+
+    $editionSlug = $slugDraft;
 }
 generateEditionSlug(urlencode(strtolower(str_replace( " ", "-", $bCMS->cleanString($_GET['title']) ))));
 
@@ -25,11 +28,10 @@ $result = $DBLIB->insert("editions", [
     "editions_published" => date("Y-m-d H:i:s"),
     "editions_slug" => $editionSlug,
 ]);
-if ($result) {
-    $bCMS->auditLog("INSERT", "editions", $result, $AUTH->data['users_userid']);
-    finish(true, null, ["id" => $result]);
-} else {
+if (!$result) {
     echo $DBLIB->getLastError();
     finish(false, ["code" => null, "message" => "Insert error"]);
 }
-?>
+
+$bCMS->auditLog("INSERT", "editions", $result, $AUTH->data['users_userid']);
+finish(true, null, ["id" => $result]);

@@ -1,4 +1,5 @@
 <?php
+global $USERDATA, $DBLIB, $bCMS, $AUTH;
 require_once __DIR__ . '/../apiHeadSecure.php';
 
 header('Content-Type:text/plain');
@@ -43,4 +44,3 @@ if (isset($_GET['forename'])) {
         }
     }
 } else die('3');
-?>

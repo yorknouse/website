@@ -1,4 +1,5 @@
 <?php
+global $AUTH, $DBLIB, $bCMS, $TWIG;
 require_once __DIR__ . '/common/headSecure.php';
 
 $PAGEDATA['pageConfig'] = ["TITLE" => "Audit Log", "BREADCRUMB" => false];
@@ -42,6 +43,4 @@ foreach ($items as $item) {
 	$PAGEDATA['items'][] = $item;
 }
 
-
 echo $TWIG->render('auditLog.twig', $PAGEDATA);
-?>
