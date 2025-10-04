@@ -1,15 +1,15 @@
 ---
 import FeaturedArticles from "@components/FeaturedArticles.astro";
 import FeaturedSection from "@components/FeaturedSection.astro";
-import Paginator from "@components/SolidJS/Paginator";
+import Paginator from "@solidComponents/Paginator";
 import {
   getCategoriesWithArticles,
-} from "@components/utils/categories";
-import Layout from "src/layouts/Layout.astro";
+} from "@componentsUtils/categories";
+import Layout from "@layouts/Layout.astro";
 import NavbarColourSwitcher from "@components/NavbarColourSwitcher.astro";
 import ArticleRows from "@components/ArticleRows.astro";
 import type { ArticleCategory } from "@components/types";
-import { getCategoryLink } from "@components/utils/categories";
+import { getCategoryLink } from "@componentsUtils/categories";
 import type { ICategoryArticles } from "@components/types";
 
 const { topLevelCategory, path } = Astro.params;

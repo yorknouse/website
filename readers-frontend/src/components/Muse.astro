@@ -1,26 +1,33 @@
 ---
 import MuseComponent from "@solidComponents/MuseComponent";
-import { getMenuCategories } from "./utils/categories";
+import { getMenuCategories } from "@componentsUtils/categories";
 import {
   getArticles,
-} from "./utils/articles";
-import type { IArticleFull, MuseNavbarCategory } from "./types";
+} from "@componentsUtils/articles";
+import type {IArticleFull, ICategory, MuseNavbarCategory} from "./types";
 import Article from "./Article.astro";
 
-const museMenuCategories = (await getMenuCategories("muse")).filter(
-  (category) => category.categories_name !== "nouse"
-);
+const museMenuCategoriesRaw = await getMenuCategories("muse");
 
-const categories = museMenuCategories.reduce((accumulator, currentCategory) => {
-  accumulator.push({
-    name: currentCategory.categories_name,
-    displayName: currentCategory.categories_displayName
-      ? currentCategory.categories_displayName
-      : "",
-  });
+let museMenuCategories: ICategory[] = [];
+let categories: MuseNavbarCategory[] = [];
 
-  return accumulator;
-}, [] as MuseNavbarCategory[]);
+if (museMenuCategoriesRaw !== undefined) {
+    museMenuCategories = museMenuCategoriesRaw.filter(
+        (category) => category.categories_name !== "nouse"
+    );
+
+    categories = museMenuCategories.reduce((accumulator, currentCategory) => {
+        accumulator.push({
+            name: currentCategory.categories_name,
+            displayName: currentCategory.categories_displayName
+                ? currentCategory.categories_displayName
+                : "",
+        });
+
+        return accumulator;
+    }, [] as MuseNavbarCategory[]);
+}
 
 const articles = new Map<string, IArticleFull[]>();
 

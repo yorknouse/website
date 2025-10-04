@@ -1,5 +1,5 @@
 ---
-import { getMenuCategories, getMenuSubcategories } from "./utils/categories";
+import { getMenuCategories, getMenuSubcategories } from "@componentsUtils/categories";
 import DesktopNavbar from "./DesktopNavbar.astro";
 import MobileNavbar from "./MobileNavbar.astro";
 import type { ICategory } from "./types";
@@ -18,27 +18,31 @@ const baseUrl =
 
 const menuCategories = await getMenuCategories(style);
 
-const subMenuCategories = await menuCategories.reduce(
-  async (accumulatorPromise, menuCategory) => {
-    const accumulator = await accumulatorPromise;
+let subMenuCategories: Map<string, ICategory[]> = new Map();
 
-    if (
-      menuCategory.categories_name !== "home" &&
-      menuCategory.categories_name !== "muse" &&
-      menuCategory.categories_id !== 0
-    ) {
-      const subCategories = await getMenuSubcategories(
-        menuCategory.categories_id
-      );
+if (menuCategories !== undefined) {
+    subMenuCategories = await menuCategories.reduce(
+        async (accumulatorPromise, menuCategory) => {
+            const accumulator = await accumulatorPromise;
 
-      if (subCategories && subCategories.length > 0)
-        accumulator.set(menuCategory.categories_name, subCategories);
-    }
+            if (
+                menuCategory.categories_name !== "home" &&
+                menuCategory.categories_name !== "muse" &&
+                menuCategory.categories_id !== 0
+            ) {
+                const subCategories = await getMenuSubcategories(
+                    menuCategory.categories_id
+                );
 
-    return accumulator;
-  },
-  Promise.resolve(new Map<string, ICategory[]>())
-);
+                if (subCategories && subCategories.length > 0)
+                    accumulator.set(menuCategory.categories_name, subCategories);
+            }
+
+            return accumulator;
+        },
+        Promise.resolve(new Map<string, ICategory[]>())
+    );
+}
 ---
 
 <DesktopNavbar

@@ -1,13 +1,13 @@
 ---
 import ArticleRows from "@components/ArticleRows.astro";
-import CustomBoxes from "@components/SolidJS/CustomBoxes";
+import CustomBoxes from "@solidComponents/CustomBoxes";
 import type { FeaturedHighlights } from "@components/types";
-import { getArticles } from "@components/utils/articles";
-import Layout from "src/layouts/Layout.astro";
+import { getArticles } from "@componentsUtils/articles";
+import Layout from "@layouts/Layout.astro";
 import { v4 as uuidv4 } from "uuid";
 import crypto from "crypto";
 import type { S3URL } from "@components/types";
-import type { IEdition } from "../../components/types";
+import type { IEdition } from "@components/types";
 
 const { slug } = Astro.params;
 
