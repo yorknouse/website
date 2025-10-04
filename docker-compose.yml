@@ -3,8 +3,8 @@ services:
     image: ghcr.io/yorknouse/caddy:latest
     restart: always
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
     volumes:
       - caddy:/data
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
@@ -17,7 +17,6 @@ services:
       - nouseprod.env
     depends_on:
       - db
-#      - nouse
       - php-container
       - astro-container
       - react-container
@@ -70,8 +69,8 @@ services:
       - db
     env_file:
       - nouseprod.env
-    expose:
-      - "3000"
+    ports:
+      - "3000:3000"
     environment:
       - NODE_ENV=production
       - DATABASE_URL=mysql://userDocker:passDocker@db:3306/nouse
@@ -87,8 +86,8 @@ services:
       - react-container
     env_file:
       - nouseprod.env
-    expose:
-      - "4321"
+    ports:
+      - "4321:4321"
     environment:
       - NODE_ENV=production
       - PUBLIC_API_BASE_URL=https://nouse.co.uk/api
@@ -164,7 +163,7 @@ services:
       - PGID=120 #This varies from server to server (https://learn.netdata.cloud/docs/agent/packaging/docker) - find it with      grep docker /etc/group | cut -d ':' -f 3
     depends_on: #Relies on everything because it needs to start last in order to access details of docker containers
       - caddy
-#      - nouse
+      - php-container
       - db
       - phpmyadmin
       - mysql-backup
