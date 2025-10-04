@@ -103,42 +103,6 @@ res = await fetch(`${apiBase}/api/frontend/categoryArticlesPath`, {
     body: formData,
 });
 
-// const category: {
-//     articles: {
-//         article: {
-//             articlesDrafts: {
-//                 articles_id: number | null
-//                 articlesDrafts_timestamp: Date
-//                 articlesDrafts_id: number
-//                 articlesDrafts_userid: number | null
-//                 articlesDrafts_headline: string
-//                 articlesDrafts_excerpt: string | null
-//                 articlesDrafts_changelog: string | null
-//                 articlesDrafts_thumbnailCredit: string | null
-//             }[]
-//             categories: {}[]
-//             users: {
-//                 users: {
-//                     users_userid: number
-//                     users_name1: string | null
-//                     users_name2: string | null
-//                 }
-//             }[]
-//             articles_published: Date | null
-//             articles_slug: string | null
-//             articles_thumbnail: string | null
-//             articles_isThumbnailPortrait: boolean
-//             articles_type: number
-//             articles_displayImages: boolean | null
-//         }
-//     }[],
-//     categories_id: number
-//     categories_nestUnder: number | null
-//     categories_name: string
-//     categories_displayName: string | null
-//     categories_backgroundColor: string | null
-// } | null = await res.json()
-
 const category: ICategoryArticles = await res.json();
 
 // Redirecting to 404 if the category doesn't exist or if there are no articles to show
@@ -169,51 +133,6 @@ const cat: ArticleCategory = {
     ),
     nestUnder: Number(category.categories_nestUnder)
 };
-
-// const articles = await Promise.all(category.articles!.map(async ({ article }) => {
-//     const res = await fetch(`${apiBase}/api/s3url?fileId=${article.articles_thumbnail}&size=small`);
-//     const s3url: S3URL = await res.json();
-//
-//     const date = new Date(article.articles_published!);
-//
-//     const a: IArticleFull = {
-//         id: Number(article.articlesDrafts[0].articles_id),
-//         headline: article.articlesDrafts[0].articlesDrafts_headline?.length != 0
-//             ? String(article.articlesDrafts[0].articlesDrafts_headline)
-//             : "Unknown",
-//         excerpt: article.articlesDrafts[0].articlesDrafts_excerpt?.length != 0
-//             ? String(article.articlesDrafts[0].articlesDrafts_headline)
-//             : "Unknown",
-//         text: null,
-//         articleURL: `${import.meta.env.BASE_URL}articles/${dateFormatter
-//             .format(date) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
-//             .split("/")
-//             .reverse()
-//             .join("/")}/${String(article.articles_slug)}`,
-//         thumbnailURL: s3url.url,
-//         isThumbnailPortrait: article.articles_isThumbnailPortrait,
-//         thumbnailCredit: article.articlesDrafts[0].articlesDrafts_thumbnailCredit,
-//         articleType: article.articles_type,
-//         published: dateFormatter.format(date)
-//             .split("/")
-//             .reverse()
-//             .join("/"),
-//         parentCategory: cat,
-//         categories: null,
-//         authors: article.users.map(({ users }) => {
-//             const author: ArticleAuthor = {
-//                 users_userid: users.users_userid,
-//                 users_name1: String(users.users_name1),
-//                 users_name2: String(users.users_name2),
-//             }
-//
-//             return author;
-//         }),
-//         similarArticles: null,
-//         displayImages: Boolean(article.articles_displayImages),
-//     }
-//     return a;
-// }))
 ---
 
 <Layout
