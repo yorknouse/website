@@ -48,7 +48,7 @@ if (article.articleType === 2 && article.text != null && article.text.length > 0
       .filter((id) => !isNaN(id));
 
   galleryImages = await Promise.all(imageIds.map(async (id) => {
-    const res = await fetch(`${apiBase}/api/s3url?fileId=${id}&size=small`);
+    const res = await fetch(`${apiBase}/api/s3url?fileId=${id}&size=large`);
     const s3url: S3URL = await res.json();
     return s3url.url
   }));
