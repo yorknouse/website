@@ -61,7 +61,7 @@ class bCMS {
     private $cloudflare;
 
     function sanitizeString($var) {
-        $var = htmlspecialchars ($var); //Sanitize all html out of it - important for user comments section
+        $var = htmlspecialchars($var); //Sanitize all html out of it - important for user comments section
         $var = strip_tags($var);
         //$var = htmlentities($var);
         //$var = stripslashes($var);
