@@ -63,6 +63,7 @@ class bCMS {
     function sanitizeString($var) {
         $var = htmlspecialchars($var); //Sanitize all html out of it - important for user comments section
         $var = strip_tags($var);
+        $var = trim($var);
         //$var = htmlentities($var);
         //$var = stripslashes($var);
         global $CONN;
