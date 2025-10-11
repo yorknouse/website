@@ -41,12 +41,13 @@ const { active, displayName, categoryName, baseUrl, subMenu }: Props =
             <Icon
               id={`${categoryName}Chevron`}
               name="ic:sharp-chevron-right"
-              class="my-auto h-6 w-6 rotate-90"
+              class=`my-auto h-6 w-6 ${active === categoryName ? "-rotate-90" : "rotate-90"}`
+              style={"color: white"}
             />
           </div>
         </button>
         <div
-          class="hidden w-full border-b border-b-white"
+          class=`${active === categoryName ? "" : "hidden"} w-full border-b border-b-white`
           id={`${categoryName}ListContainer`}
         >
           <ul class="flex w-full flex-col bg-neutral-900 text-center">
