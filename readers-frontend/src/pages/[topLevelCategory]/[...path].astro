@@ -67,6 +67,7 @@ const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
 console.log(`${apiBase}/api/frontend/categoryFeaturedAndCount/${categoryName}`);
 let res = await fetch(`${apiBase}/api/frontend/categoryFeaturedAndCount/${categoryName}`);
+console.log(res, res.text());
 const categoryFeaturedAndCount: {
     _count: {
         articles: number
