@@ -1,0 +1,126 @@
+---
+import {Icon} from "astro-icon/components";
+
+const baseUrl = import.meta.env.BASE_URL;
+---
+<!DOCTYPE html>
+<html lang="en" class="bg-whiteish-100 font-arno font-normal">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width"/>
+    <!--<link-->
+    <!--  rel="icon"-->
+    <!--  type="image/png"-->
+    <!--  href="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/icons/favicon-32x32.png"-->
+    <!--/>-->
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96"/>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+    <meta name="apple-mobile-web-app-title" content="Nouse"/>
+    <link rel="manifest" href="/site.webmanifest"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <meta name="generator" content={Astro.generator}/>
+    <title>500 - Nouse</title>
+    {/* Adobe Fonts */}
+    <link rel="stylesheet" href="https://use.typekit.net/ghx5ucu.css"/>
+    {/* Iconify icons */}
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+</head>
+<body>
+<header
+id="desktopHeader"
+class={`hidden md:flex md:flex-row w-full bg-transparent`}
+>
+<a href={baseUrl} class="mx-auto self-center">
+<img
+class="my-4 h-14"
+src={"https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"}
+alt="Header logo"/>
+</a>
+</header>
+<nav
+        id="desktopNav"
+        class={`hidden h-12 w-full text-xs md:block lg:text-sm sticky top-0 z-40 bg-navbar`}
+>
+    <ul
+            class={`flex h-full w-full flex-row justify-between border-transparent 2xl:px-[13%] text-white transition-colors ease-in-out duration-500`}
+    >
+    <li
+            class={`group relative flex h-full w-full border-b-4 border-transparent`}
+            onmouseover="this.style.backgroundColor = '#000'"
+            onmouseout="this.style.backgroundColor = 'transparent'"
+    >
+        <a
+                class="mx-auto my-auto text-center"
+                href={baseUrl}
+        >
+            Home
+        </a>
+    </li>
+    </ul>
+</nav>
+<h1 class="mb-4 text-center text-2xl sm:text-4xl">500 server error</h1>
+<div class="mb-4 text-center text-xs xl:text-sm 2xl:text-base">
+    <p>
+        We apologise for the inconvenience but we have experienced a server error.
+    </p>
+    <p>
+        Please try again later.
+    </p>
+</div>
+</body>
+<footer
+        class="mt-4 flex flex-col bg-black py-8 px-[3%] pt-8 sm:px-[5%] 2xl:px-[13%]"
+>
+    <img
+            class="mb-6 h-10 w-min invert"
+            src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
+    />
+    <div
+            class="flex flex-row justify-between border-t border-white pt-5 text-xs text-lg text-white lg:text-sm"
+    >
+        <div class="flex grow flex-row flex-wrap gap-3 pr-2 2xl:gap-7 bg-navbar">
+            <a href={`/about-us`}>About Us</a>
+            <a href={`/team`}>Our Team</a>
+            <a href={`/editions`}>Previous Editions</a>
+            <a href={`/website-credits`}
+            >Website Credits</a
+            >
+            <a href={`/archives`}>Archives</a>
+            <a href={`/website-policies`}
+            >Website Policies</a
+            >
+            <a href={`/advertising`}>Advertising</a>
+            <a href={`/contact-us`}>Contact Us</a>
+            <a href="https://edit.nouse.co.uk" target="_blank" rel="”noreferrer”"
+            >Editor Login</a
+            >
+        </div>
+        <div
+                class="flex flex-row gap-3 border-l border-white pl-2 md:border-l-0 2xl:gap-7"
+        >
+            <a href="https://www.facebook.com/yorknouse">
+                <Icon name="ri:facebook-fill" class="h-4 lg:h-5"/>
+            </a>
+            <a href="https://twitter.com/yorknouse">
+                <Icon name="ri:twitter-fill" class="h-4 lg:h-5"/>
+            </a>
+            <a href="https://www.instagram.com/yorknouse/">
+                <Icon name="ri:instagram-line" class="h-4 lg:h-5"/>
+            </a>
+            <p class="opacity-50">@yorknouse</p>
+        </div>
+    </div>
+</footer>
+<style is:global>
+    .arno-display {
+        font-family: "arno-pro-display", serif;
+        font-weight: 700;
+        font-style: normal;
+    }
+</style>
+</html>
