@@ -5,6 +5,7 @@ import TopArticles from "@solidComponents/TopArticles";
 import { Icon } from "astro-icon/components";
 import Layout from "@layouts/Layout.astro";
 import type { IArticle, S3URL } from "@components/types";
+import Gallery from "@solidComponents/Gallery";
 
 const { year, month, day, slug } = Astro.params;
 
@@ -156,11 +157,13 @@ if (article.articleType === 2 && article.text != null && article.text.length > 0
           {article.articleType == 2 ?
               <div class="gallery">
                 {galleryImages.length > 0 && (
-                    <div class="gallery">
-                      {galleryImages.map((img) => (
-                          <img src={img} alt="Gallery image" class="gallery-img" />
-                      ))}
-                    </div>
+                    <p><i>Click image to expand</i></p>
+                    <Gallery client:load images={galleryImages} />
+                    <!--<div class="gallery">-->
+                    <!--  {galleryImages.map((img) => (-->
+                    <!--      <img src={img} alt="Gallery image" class="gallery-img" />-->
+                    <!--  ))}-->
+                    <!--</div>-->
                 )}
               </div>
               :
