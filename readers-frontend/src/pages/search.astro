@@ -4,7 +4,6 @@ import Layout from "@layouts/Layout.astro";
 
 const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 ---
-
 <Layout title="Welcome to Nouse" active={undefined} style={"nouse"}>
   <main class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
     <SearchResults client:only apiAddress={`${apiBase}/api/frontend/searchSuggestions`} />
