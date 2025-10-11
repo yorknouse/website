@@ -7,7 +7,6 @@ import SearchResultRow from "./SearchResultRow";
 import Spinner from "./Spinner";
 
 type SearchResultsProps = {
-  // baseUrl: string;
   apiAddress: string;
 };
 
