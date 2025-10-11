@@ -2,6 +2,7 @@ import prisma from "@/lib/prisma";
 import type { ArticleAuthor, TopArticleResult } from "@/lib/types";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getArticleImage } from "@/lib/articles";
+import { Prisma } from "@prisma/client";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -43,7 +44,9 @@ export default async function handler(
       }): { articles_id: number; read_count: number; updated_at: Date } => s,
     );
 
-    const articles: TopArticleResult[] = await prisma.$queryRawUnsafe(`
+    const articleIds = articlesID.map((id) => id.articles_id);
+
+    const queryString = Prisma.sql`
             SELECT articles.articles_id,
                    articles.articles_published,
                    articles.articles_slug,
@@ -62,8 +65,10 @@ export default async function handler(
                     ) t2 ON t1.articles_id = t2.articles_id AND t1.articlesDrafts_timestamp = t2.max_ts
             ) ad ON articles.articles_id = ad.articles_id
             LEFT JOIN nouse.articlesAuthors aA on articles.articles_id = aA.articles_id
-            WHERE articles.articles_id IN (${articlesID.map((id) => String(id.articles_id)).join(",")})
-        `);
+            WHERE articles.articles_id IN (${Prisma.join(articleIds)})
+        `;
+
+    const articles: TopArticleResult[] = await prisma.$queryRaw(queryString);
 
     const output = await Promise.all(
       articles.map(async (article) => {
