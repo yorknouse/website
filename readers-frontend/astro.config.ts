@@ -39,6 +39,9 @@ export default defineConfig({
       "import.meta.env.PUBLIC_API_BASE_URL": JSON.stringify(
         process.env.PUBLIC_API_BASE_URL || "http://localhost:3000",
       ),
+      "import.meta.env.PUBLIC_BASE_URL": JSON.stringify(
+        process.env.PUBLIC_BASE_URL || "http://localhost:3000",
+      ),
     },
   },
   adapter: node({
