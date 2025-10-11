@@ -40,7 +40,7 @@ export default defineConfig({
     },
     define: {
       "import.meta.env.PUBLIC_API_BASE_URL": JSON.stringify(
-        process.env.PUBLIC_API_BASE_URL || "https://nouse.co.uk",
+        process.env.PUBLIC_API_BASE_URL || "http://react-container:3000",
       ),
     },
   },

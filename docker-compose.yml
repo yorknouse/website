@@ -79,7 +79,7 @@ services:
       context: .
       dockerfile: Dockerfile.astro-df
       args:
-        - PUBLIC_API_BASE_URL=https://nouse.co.uk
+        - PUBLIC_API_BASE_URL=http://react-container:3000
     container_name: astro-container
     restart: always
     depends_on:
@@ -90,7 +90,7 @@ services:
       - "4321:4321"
     environment:
       - NODE_ENV=production
-      - PUBLIC_API_BASE_URL=https://nouse.co.uk
+      - PUBLIC_API_BASE_URL=http://react-container:3000
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.2
     container_name: phpmyadmin
