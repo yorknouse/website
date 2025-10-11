@@ -1,4 +1,3 @@
-// src/pages/api/topArticles.ts
 import prisma from "@/lib/prisma";
 import type { ArticleAuthor, TopArticleResult } from "@/lib/types";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -63,7 +62,7 @@ export default async function handler(
                     ) t2 ON t1.articles_id = t2.articles_id AND t1.articlesDrafts_timestamp = t2.max_ts
             ) ad ON articles.articles_id = ad.articles_id
             LEFT JOIN nouse.articlesAuthors aA on articles.articles_id = aA.articles_id
-            WHERE articles.articles_id IN (${articlesID.map((id) => String(id)).join(",")})
+            WHERE articles.articles_id IN (${articlesID.map((id) => String(id.articles_id)).join(",")})
         `);
 
     const output = await Promise.all(
