@@ -10,6 +10,7 @@ import {
 } from "@/lib/types";
 import { getCategoryLink, getParentCategory } from "@/lib/categories";
 import dateFormatter from "@/lib/dateFormatter";
+import he from "he";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -116,8 +117,8 @@ export default async function handler(
         const authors: ArticleAuthor[] = article1.users.map(({ users }) => {
           const author: ArticleAuthor = {
             users_userid: users.users_userid,
-            users_name1: String(users.users_name1),
-            users_name2: String(users.users_name2),
+            users_name1: he.decode(users.users_name1 || ""),
+            users_name2: he.decode(users.users_name2 || ""),
           };
 
           return author;

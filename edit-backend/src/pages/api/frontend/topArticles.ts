@@ -3,6 +3,7 @@ import type { ArticleAuthor, TopArticleResult } from "@/lib/types";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getArticleImage } from "@/lib/articles";
 import { Prisma } from "@prisma/client";
+import he from "he";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -128,8 +129,8 @@ export default async function handler(
           categories_name: categoryName,
           articles_authors: authors.map((a) => {
             const author: ArticleAuthor = {
-              users_name1: String(a.users.users_name1),
-              users_name2: String(a.users.users_name2),
+              users_name1: he.decode(a.users.users_name1 || ""),
+              users_name2: he.decode(a.users.users_name2 || ""),
               users_userid: a.users.users_userid,
             };
             return author;

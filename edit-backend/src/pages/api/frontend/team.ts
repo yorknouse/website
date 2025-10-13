@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Position, PositionMember } from "@/lib/types";
+import he from "he";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -45,8 +46,8 @@ export default async function handler(_: NextApiRequest, res: NextApiResponse) {
       (userRaw) => {
         const user: PositionMember = {
           users_userid: Number(userRaw.users_userid),
-          users_name1: String(userRaw.users?.users_name1),
-          users_name2: String(userRaw.users?.users_name2),
+          users_name1: he.decode(userRaw.users?.users_name1 || ""),
+          users_name2: he.decode(userRaw.users?.users_name2 || ""),
           users_googleAppsUsernameNouse: String(
             userRaw.users?.users_googleAppsUsernameNouse,
           ),
