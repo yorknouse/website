@@ -69,6 +69,13 @@ $DBLIB->orderBy("users.users_created", "ASC");
 $DBLIB->where("users_deleted", 0);
 $PAGEDATA['USERS'] = $DBLIB->get("users", null, ["users_name1","users_name2","users_userid"]);
 
+// Decode HTML entities for each user
+foreach ($PAGEDATA['USERS'] as &$user) {
+    $user['users_name1'] = html_entity_decode($user['users_name1'] ?? '', ENT_QUOTES);
+    $user['users_name2'] = html_entity_decode($user['users_name2'] ?? '', ENT_QUOTES);
+}
+unset($user); // important: break reference
+
 //				Editions
 $DBLIB->orderBy("editions_published", "DESC");
 $DBLIB->where("editions_deleted", 0); //ie those that can actually be shown

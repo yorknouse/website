@@ -55,16 +55,16 @@ class bID {
             return;
         }
 
-        $this->data['users_name1'] = html_entity_decode($this->data['users_name1']);
-        $this->data['users_name2'] = html_entity_decode($this->data['users_name2']);
+        $this->data['users_name1'] = html_entity_decode($this->data['users_name1'] ?? '', ENT_QUOTES);
+        $this->data['users_name2'] = html_entity_decode($this->data['users_name2'] ?? '', ENT_QUOTES);
 
 //        $this->token = $this->tokenCheckResult;
         if ($this->tokenCheckResult["authTokens_adminId"] != null) { //Admin "view site as" functionality
             $DBLIB->where("users_userid", $this->tokenCheckResult["authTokens_adminId"]);
             $this->data['viewSiteAs'] = $DBLIB->getOne("users");
             // Decode HTML entities before sending to Twig
-            $this->data['viewSiteAs']['users_name1'] = html_entity_decode($this->data['viewSiteAs']['users_name1']);
-            $this->data['viewSiteAs']['users_name2'] = html_entity_decode($this->data['viewSiteAs']['users_name2']);
+            $this->data['viewSiteAs']['users_name1'] = html_entity_decode($this->data['viewSiteAs']['users_name1'] ?? '', ENT_QUOTES);
+            $this->data['viewSiteAs']['users_name2'] = html_entity_decode($this->data['viewSiteAs']['users_name2'] ?? '', ENT_QUOTES);
         } else $this->data['viewSiteAs'] = false;
 
         $this->login = true;
@@ -128,8 +128,8 @@ class bID {
         }
 
         // Decode HTML entities before sending to Twig
-        $user['users_name1'] = html_entity_decode($user['users_name1']);
-        $user['users_name2'] = html_entity_decode($user['users_name2']);
+        $user['users_name1'] = html_entity_decode($user['users_name1'] ?? '', ENT_QUOTES);
+        $user['users_name2'] = html_entity_decode($user['users_name2'] ?? '', ENT_QUOTES);
 
         $DBLIB->where("userPositions_end >= '" . date('Y-m-d H:i:s') . "'");
         $DBLIB->where("userPositions_start <= '" . date('Y-m-d H:i:s') . "'");

@@ -38,7 +38,14 @@ foreach ($articles as $article) {
 	foreach ($authors as $author) {
 		$DBLIB->where("users_userid", $author);
 		$DBLIB->where("users_deleted", 0);
-		$article['articles_authors'][] = $DBLIB->getone("users", ["users.users_name1", "users.users_name2", "users.users_userid"]);
+
+        $user = $DBLIB->getone("users", ["users.users_name1", "users.users_name2", "users.users_userid"]);
+
+        // Decode any HTML entities in user name fields
+        $user['users_name1'] = html_entity_decode($user['users_name1'] ?? '', ENT_QUOTES);
+        $user['users_name2'] = html_entity_decode($user['users_name2'] ?? '', ENT_QUOTES);
+
+		$article['articles_authors'][] = $user;
 	}
 
 	$DBLIB->where("articlesCategories.articles_id", $bCMS->sanitizeString($article['articles_id']));

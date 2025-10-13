@@ -33,6 +33,10 @@ if (strlen($PAGEDATA['search']) > 0) {
 $users = $DBLIB->arraybuilder()->paginate('users', $page, ["users.*"]);
 $PAGEDATA['pagination'] = ["page" => $page, "total" => $DBLIB->totalPages];
 foreach ($users as $user) {
+    // Decode any HTML entities in user name fields
+    $user['users_name1'] = html_entity_decode($user['users_name1'] ?? '', ENT_QUOTES);
+    $user['users_name2'] = html_entity_decode($user['users_name2'] ?? '', ENT_QUOTES);
+
 	$DBLIB->where('users_userid', $user['users_userid']);
 	$PAGEDATA["mailings"][$user['users_userid']] = $DBLIB->get('emailSent'); //Get user's E-Mails
 	$user['emails'] = [];

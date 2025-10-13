@@ -15,8 +15,8 @@ if (isset($_GET['new']) and $AUTH->permissionCheck(4)) {
     $PAGEDATA['USER'] = $DBLIB->getone("users");
 
     // Decode HTML entities before sending to Twig
-    $PAGEDATA['USER']['users_name1'] = html_entity_decode($PAGEDATA['USER']['users_name1']);
-    $PAGEDATA['USER']['users_name2'] = html_entity_decode($PAGEDATA['USER']['users_name2']);
+    $PAGEDATA['USER']['users_name1'] = html_entity_decode($PAGEDATA['USER']['users_name1'] ?? '', ENT_QUOTES);
+    $PAGEDATA['USER']['users_name2'] = html_entity_decode($PAGEDATA['USER']['users_name2'] ?? '', ENT_QUOTES);
 
     $DBLIB->where("users_userid", $userid);
     $DBLIB->orderBy("userPositions_start", "ASC");
