@@ -683,182 +683,181 @@
         </div>
     </div>
     {% endif %}
+</div>
+<script>
+    {% if article.articles_id %}
+    var thumbnailid = null; //Used to store a new thumbnail if one is set
+    {% else %}
+    var thumbnailid = 1; //Current default thumbnail
+    {% endif %}
 
-
-    <script>
-        {% if article.articles_id %}
-        var thumbnailid = null; //Used to store a new thumbnail if one is set
-        {% else %}
-        var thumbnailid = 1; //Current default thumbnail
-        {% endif %}
-
-        function saveArticle(skipThumnailPrompt, skipThumbnailCaptionPrompt, skipThumbnailCreditTypePrompt) {
-            //Check prompts
-            if ((thumbnailid == 1 || (thumbnailid == null && "{{ article.articles_thumbnail }}" == "1")) && !skipThumnailPrompt) {
-                //This is the default thumbnail so warn them of that and make sure they know what they're doing
-                bootbox.confirm({
-                    message: "You haven't set a thumbnail for this article yet - are you sure you want to save it?",
-                    buttons: {
-                        confirm: {
-                            label: 'Yes',
-                            className: 'btn-danger'
-                        },
-                        cancel: {
-                            label: 'Cancel',
-                            className: 'btn-default'
-                        }
+    function saveArticle(skipThumnailPrompt, skipThumbnailCaptionPrompt, skipThumbnailCreditTypePrompt) {
+        //Check prompts
+        if ((thumbnailid == 1 || (thumbnailid == null && "{{ article.articles_thumbnail }}" == "1")) && !skipThumnailPrompt) {
+            //This is the default thumbnail so warn them of that and make sure they know what they're doing
+            bootbox.confirm({
+                message: "You haven't set a thumbnail for this article yet - are you sure you want to save it?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-danger'
                     },
-                    callback: function (result) {
-                        if (result) {
-                            saveArticle(true, false, false);
-                        }
-                    }
-                });
-                return false;
-            }
-            if (!skipThumbnailCaptionPrompt && $("#thumbnailCredit").val().length < 1 && thumbnailid != 1 && (thumbnailid != null || "{{ article.articles_thumbnail }}" != "1")) {
-                bootbox.confirm({
-                    message: "You haven't set a credit for the thumbnail for this article yet. <br/><br/>Please confirm that no credit is required - if you are unsure please consult a senior editor",
-                    buttons: {
-                        confirm: {
-                            label: 'No credit required',
-                            className: 'btn-danger'
-                        },
-                        cancel: {
-                            label: 'Cancel',
-                            className: 'btn-default'
-                        }
-                    },
-                    callback: function (result) {
-                        if (result) {
-                            saveArticle(true, true, false);
-                        }
-                    }
-                });
-                return false;
-            }
-
-            if (!skipThumbnailCreditTypePrompt && thumbnailid != 1 && (thumbnailid != null || "{{ article.articles_thumbnail }}" != "1")) {
-                {% if article.articles_type != 6 %}
-                bootbox.confirm({
-                    message: "Because this article is not a conventional text based article you must credit the thumbnail you have used somewhere in your article (if credit is required) as a credit will not be automatically displayed using the text entered in the credit field<br/><br/>Please confirm that you have done this - if you are unsure please consult a senior editor",
-                    buttons: {
-                        confirm: {
-                            label: 'Thumbnail credited in body of article',
-                            className: 'btn-success'
-                        },
-                        cancel: {
-                            label: 'Cancel',
-                            className: 'btn-default'
-                        }
-                    },
-                    callback: function (result) {
-                        if (result) {
-                            saveArticle(true, true, true);
-                        }
-                    }
-                });
-                return false;
-                {% endif %}
-            }
-
-            var savingDialog = bootbox.dialog({
-                message: '<p class="text-center">Saving and publishing your changes</p>',
-                closeButton: false
-            });
-
-            {% if article.articles_type == 2 %}
-            var galleryArray = [];
-            var captionArray = [];
-            $('#imagesList').children('div').each(function () {
-                if ($(this).is(":visible")) {
-                    galleryArray.push($(this).data("imageid"));
-                    captionArray.push($(this).find("div.box-footer").text());
-
-                }
-            });
-            {% endif %}
-
-            if ($("#headline").val().length < 1) {
-                bootbox.alert("Please specify a headline");
-                savingDialog.modal('hide');
-                return false;
-            } else if ($("#slug").val().length < 1) {
-                bootbox.alert("Please try again after a slug has been generated");
-                savingDialog.modal('hide');
-                return false;
-            }
-
-            $.ajax({
-                url: "{{ CONFIG.ROOTBACKENDURL }}/api/article/editArticle.php",
-                type: 'POST',
-                dataType: "json",
-                data: {
-                    {% if article.articles_type == 1  %}
-                    "text": $('#editor').summernote('code'),
-                    {% elseif article.articles_type == 2 %}
-                    "text": galleryArray.join(","),
-                    "captions": captionArray.join(","),
-                    {% elseif article.articles_type == 4 %}
-                    "text": $("#embeddata").val(),
-                    {% elseif article.articles_type == 5 %}
-                    "text": $("#embeddurl").val(),
-                    {% elseif article.articles_type == 6 %}
-                    "markdown": editor.getMarkdown(),
-                    "text": editor.getHtml(),
-                    {% endif %}
-                    "headline": $("#headline").val(),
-                    "excerpt": $("#excerpt").val(),
-                    "categories":($("#category1").val() || []).join(",") + "," + ($("#category2").val() || []).join(","),
-                    "authors":($("#authors").val() || []).join(","),
-                    "published":$("#published").val(),
-                    "edition":$("#edition").val(),
-                    "pagenumber":$("#pagenumber").val(),
-                    "status":$("#status").val(),
-                    "slug":$("#slug").val(),
-                    "thumbnail": thumbnailid,
-                    {% if article.articles_id != null %}
-                    "articleid": "{{ article.articles_id }}",
-                    {% endif %}
-                    "type": "{{ article.articles_type }}", {#It's a new one so set the type#}
-                    "postToTwitter": ($("#postToTwitter").is(':checked') ? 1 : 0),
-                    "postToFacebook": ($("#postToFacebook").is(':checked') ? 1 : 0),
-                    "displayImages": ($("#displayImages").is(':checked') ? 1 : 0),
-                    "isThumbnailPortrait": ($("#isThumbnailPortrait").is(':checked') ? 1 : 0),
-                    "socialexcerpt": $("#socialexcerpt").val(),
-                    "thumbCredit": $("#thumbnailCredit").val(),
-                    "dropCap": ($("#dropCap").is(':checked') ? 1 : 0),
-                },
-                success: function (result) {
-                    savingDialog.modal('hide');
-                    if (result.result) {
-                        window.onbeforeunload = null; //Let them leave a page without a warning after they save
-                        {% if article.articles_id == null %}
-                        window.location.href = "?id=" + result.response.articleid;
-                        {% else %}
-
-                        $('.note-status-output').html(
-                            '<div class="alert alert-success">' +
-                            'Saved' +
-                            '</div>'
-                        );
-                        {% endif %}
-                    } else {
-                        console.log(result);
-                        bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again");
+                    cancel: {
+                        label: 'Cancel',
+                        className: 'btn-default'
                     }
                 },
-                error: function () {
-                    savingDialog.modal('hide');
-                    bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again");
+                callback: function (result) {
+                    if (result) {
+                        saveArticle(true, false, false);
+                    }
                 }
             });
+            return false;
+        }
+        if (!skipThumbnailCaptionPrompt && $("#thumbnailCredit").val().length < 1 && thumbnailid != 1 && (thumbnailid != null || "{{ article.articles_thumbnail }}" != "1")) {
+            bootbox.confirm({
+                message: "You haven't set a credit for the thumbnail for this article yet. <br/><br/>Please confirm that no credit is required - if you are unsure please consult a senior editor",
+                buttons: {
+                    confirm: {
+                        label: 'No credit required',
+                        className: 'btn-danger'
+                    },
+                    cancel: {
+                        label: 'Cancel',
+                        className: 'btn-default'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        saveArticle(true, true, false);
+                    }
+                }
+            });
+            return false;
         }
 
-        $(document).ready(function () {
-            $(".saveArticleButton").click(function () {
-                saveArticle()
+        if (!skipThumbnailCreditTypePrompt && thumbnailid != 1 && (thumbnailid != null || "{{ article.articles_thumbnail }}" != "1")) {
+            {% if article.articles_type != 6 %}
+            bootbox.confirm({
+                message: "Because this article is not a conventional text based article you must credit the thumbnail you have used somewhere in your article (if credit is required) as a credit will not be automatically displayed using the text entered in the credit field<br/><br/>Please confirm that you have done this - if you are unsure please consult a senior editor",
+                buttons: {
+                    confirm: {
+                        label: 'Thumbnail credited in body of article',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'Cancel',
+                        className: 'btn-default'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        saveArticle(true, true, true);
+                    }
+                }
             });
+            return false;
+            {% endif %}
+        }
+
+        var savingDialog = bootbox.dialog({
+            message: '<p class="text-center">Saving and publishing your changes</p>',
+            closeButton: false
         });
-    </script>
-    {% endblock %}
+
+        {% if article.articles_type == 2 %}
+        var galleryArray = [];
+        var captionArray = [];
+        $('#imagesList').children('div').each(function () {
+            if ($(this).is(":visible")) {
+                galleryArray.push($(this).data("imageid"));
+                captionArray.push($(this).find("div.box-footer").text());
+
+            }
+        });
+        {% endif %}
+
+        if ($("#headline").val().length < 1) {
+            bootbox.alert("Please specify a headline");
+            savingDialog.modal('hide');
+            return false;
+        } else if ($("#slug").val().length < 1) {
+            bootbox.alert("Please try again after a slug has been generated");
+            savingDialog.modal('hide');
+            return false;
+        }
+
+        $.ajax({
+            url: "{{ CONFIG.ROOTBACKENDURL }}/api/article/editArticle.php",
+            type: 'POST',
+            dataType: "json",
+            data: {
+                {% if article.articles_type == 1  %}
+                "text": $('#editor').summernote('code'),
+                {% elseif article.articles_type == 2 %}
+                "text": galleryArray.join(","),
+                "captions": captionArray.join(","),
+                {% elseif article.articles_type == 4 %}
+                "text": $("#embeddata").val(),
+                {% elseif article.articles_type == 5 %}
+                "text": $("#embeddurl").val(),
+                {% elseif article.articles_type == 6 %}
+                "markdown": editor.getMarkdown(),
+                "text": editor.getHtml(),
+                {% endif %}
+                "headline": $("#headline").val(),
+                "excerpt": $("#excerpt").val(),
+                "categories":($("#category1").val() || []).join(",") + "," + ($("#category2").val() || []).join(","),
+                "authors":($("#authors").val() || []).join(","),
+                "published":$("#published").val(),
+                "edition":$("#edition").val(),
+                "pagenumber":$("#pagenumber").val(),
+                "status":$("#status").val(),
+                "slug":$("#slug").val(),
+                "thumbnail": thumbnailid,
+                {% if article.articles_id != null %}
+                "articleid": "{{ article.articles_id }}",
+                {% endif %}
+                "type": "{{ article.articles_type }}", {#It's a new one so set the type#}
+                "postToTwitter": ($("#postToTwitter").is(':checked') ? 1 : 0),
+                "postToFacebook": ($("#postToFacebook").is(':checked') ? 1 : 0),
+                "displayImages": ($("#displayImages").is(':checked') ? 1 : 0),
+                "isThumbnailPortrait": ($("#isThumbnailPortrait").is(':checked') ? 1 : 0),
+                "socialexcerpt": $("#socialexcerpt").val(),
+                "thumbCredit": $("#thumbnailCredit").val(),
+                "dropCap": ($("#dropCap").is(':checked') ? 1 : 0),
+            },
+            success: function (result) {
+                savingDialog.modal('hide');
+                if (result.result) {
+                    window.onbeforeunload = null; //Let them leave a page without a warning after they save
+                    {% if article.articles_id == null %}
+                    window.location.href = "?id=" + result.response.articleid;
+                    {% else %}
+
+                    $('.note-status-output').html(
+                        '<div class="alert alert-success">' +
+                        'Saved' +
+                        '</div>'
+                    );
+                    {% endif %}
+                } else {
+                    console.log(result);
+                    bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again");
+                }
+            },
+            error: function () {
+                savingDialog.modal('hide');
+                bootbox.alert("Sorry - there was a problem saving your changes. Please check your internet connection and try again");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $(".saveArticleButton").click(function () {
+            saveArticle()
+        });
+    });
+</script>
+{% endblock %}
