@@ -262,16 +262,15 @@
                 {% embed 'common/plugins/uppy.twig' with {'publicBool': true, 'type': 'ARTICLE-IMAGE', 'paste': false, 'typeId': 2, 'subTypeId': (article.articles_id ?: '0'), 'imagesOnly': true } %}
                     {% block success %}
                         {% if article.articles_type == 1 %}
-                        $('#editor').summernote('insertImage',"{{ CONFIG.ROOTFRONTENDURL }}/image/?f=" + responseJson.id + "&s=large&r=true", function ($image) {
+                        $('#editor').summernote('insertImage',responseJson.url, function ($image) {
                             $image.attr('data-fileid', responseJson.id);
-                            $image.attr('alt', responseJson.url);
                         });
                         {% elseif article.articles_type == 6 %}
                             var currentEditorContent = editor.getMarkdown();
                             if (currentEditorContent.length < 1) {
                                 editor.setMarkdown("   ");
                             }
-                            editor.setMarkdown(currentEditorContent + "\n[test](" + responseJson.url + ")\n" + '![' + responseJson.id + '](' + ("{{ CONFIG.ROOTFRONTENDURL }}/image/?f=" + responseJson.id + "&s=large&r=true").replace(/ /g, "%20") + ')', true)
+                            editor.setMarkdown(currentEditorContent + "\n\n" + '![' + responseJson.id + '](' + (responseJson.url).replace(/ /g, "%20") + ')', true)
                         {% endif %}
                     {% endblock %}
                 {% endembed %}
@@ -298,8 +297,7 @@
                 <input id="thumbnailCredit" style="margin-bottom: 5px; display:none;" value="{{ article.articlesDrafts_thumbnailCredit|raw }}" class="form-control" placeholder="Image credit for caption" />
                 {% embed 'common/plugins/uppy.twig' with {'publicBool': true, 'type': 'ARTICLE-THUMBNAIL', 'paste': false, 'typeId': 3, 'subTypeId': (article.articles_id ?: '0'), 'imagesOnly': true, 'fileLimit': 1 } %}
                     {% block success %}
-                        $("#thumbnailImage").attr("src","{{ CONFIG.ROOTFRONTENDURL }}/image/?f=" + responseJson.id + "&s=large&r=true");
-                        $("#thumbnailImage").attr("alt",responseJson.url);
+                        $("#thumbnailImage").attr("src",responseJson.url);
                         thumbnailid = responseJson.id;
                         $("#thumbnailCredit").show();
                     {% endblock %}
@@ -581,7 +579,7 @@
                 <div class="box-footer">
                     {% embed 'common/plugins/uppy.twig' with {'publicBool': true, 'type': 'ARTICLE-IMAGE', 'paste': false, 'typeId': 2, 'subTypeId': 2, 'imagesOnly': true } %}
                         {% block success %}
-                            $("#imagesList").append('<div class="col-md-2" data-imageid="' + responseJson.id + '"><div class="box"><div class="box-header with-border"><h3 class="box-title">' + responseJson.id + '</h3><p>' + responseJson.url + '</p><div class="box-tools pull-right"><button type="button" class="btn btn-box-tool deleteGalleryImage"><i class="fa fa-times"></i></button></div></div><div class="box-body"><img src="{{ CONFIG.ROOTFRONTENDURL }}/image/?f=' + responseJson.id + '&s=large&r=true" style="width:100%;"  class="galleryEditImage" /></div><div class="box-footer"></div></div></div>');
+                            $("#imagesList").append('<div class="col-md-2" data-imageid="' + responseJson.id + '"><div class="box"><div class="box-header with-border"><h3 class="box-title">' + responseJson.id + '</h3><div class="box-tools pull-right"><button type="button" class="btn btn-box-tool deleteGalleryImage"><i class="fa fa-times"></i></button></div></div><div class="box-body"><img src="' + responseJson.url + '" style="width:100%;" class="galleryEditImage" alt="' + responseJson.id + '" /></div><div class="box-footer"></div></div></div>');
                         {% endblock %}
                     {% endembed %}
                     <script>
