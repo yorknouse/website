@@ -14,6 +14,10 @@ if (isset($_GET['new']) and $AUTH->permissionCheck(4)) {
     $DBLIB->where("users_userid", $userid);
     $PAGEDATA['USER'] = $DBLIB->getone("users");
 
+    // Decode HTML entities before sending to Twig
+    $PAGEDATA['USER']['users_name1'] = html_entity_decode($PAGEDATA['USER']['users_name1']);
+    $PAGEDATA['USER']['users_name2'] = html_entity_decode($PAGEDATA['USER']['users_name2']);
+
     $DBLIB->where("users_userid", $userid);
     $DBLIB->orderBy("userPositions_start", "ASC");
     $DBLIB->orderBy("userPositions_end", "ASC");
