@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import he from "he";
 import prisma from "@/lib/prisma";
 
 const cors = (res: NextApiResponse) => {
@@ -50,7 +51,14 @@ export default async function handler(
       return;
     }
 
-    res.status(200).json(author);
+    // Decode all HTML entities before sending back
+    const decodedAuthor = {
+      ...author,
+      users_name1: he.decode(author.users_name1 || ""),
+      users_name2: he.decode(author.users_name2 || ""),
+    };
+
+    res.status(200).json(decodedAuthor);
   } catch (err) {
     console.error("Error in author:", err);
     res.status(500).json({ message: "Internal server error" });
