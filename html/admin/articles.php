@@ -46,13 +46,9 @@ foreach ($articles as $article) {
 	$PAGEDATA['articles'][] = $article;
 }
 
-
-
-
 $DBLIB->orderBy("categories_nestUnder", "ASC");
 $DBLIB->orderBy("categories_order", "ASC");
 $DBLIB->orderBy("categories_displayName", "ASC");
 $PAGEDATA['CATEGORIES'] = $DBLIB->get("categories",null, ["categories_id","categories_displayName","categories_backgroundColor","categories_backgroundColorContrast"]);
-
 
 echo $TWIG->render('articles.twig', $PAGEDATA);
