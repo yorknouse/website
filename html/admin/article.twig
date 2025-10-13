@@ -271,7 +271,7 @@
                             if (currentEditorContent.length < 1) {
                                 editor.setMarkdown("   ");
                             }
-                            editor.setMarkdown(currentEditorContent + "\n[test](responseJson.url)\n" + '![' + responseJson.id + '](' + ("{{ CONFIG.ROOTFRONTENDURL }}/image/?f=" + responseJson.id + "&s=large&r=true").replace(/ /g, "%20") + ')', true)
+                            editor.setMarkdown(currentEditorContent + "\n[test](' + responseJson.url + ')\n" + '![' + responseJson.id + '](' + ("{{ CONFIG.ROOTFRONTENDURL }}/image/?f=" + responseJson.id + "&s=large&r=true").replace(/ /g, "%20") + ')', true)
                         {% endif %}
                     {% endblock %}
                 {% endembed %}
