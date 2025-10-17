@@ -3,6 +3,7 @@
 import { useState } from "react";
 import {Menu, X, Home, BookOpen, NewspaperIcon, IdCard, Users, LogOut, Files, FileChartPie, Gavel} from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Sidebar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -57,53 +58,53 @@ export default function Sidebar() {
 
                 {/* Navigation */}
                 <nav className="flex-1 overflow-y-auto py-4 space-y-1">
-                    <a href="/" className={linkStyle}>
+                    <Link href="/" className={linkStyle}>
                         <Home className={iconStyle} />
                         <span className="truncate">Dashboard</span>
-                    </a>
+                    </Link>
 
-                    <a href="/editions" className={linkStyle}>
+                    <Link href="/editions" className={linkStyle}>
                         <NewspaperIcon className={iconStyle} />
                         <span className="truncate">Editions</span>
-                    </a>
+                    </Link>
 
                     <span className={"truncate text-gray-600 p-4"}>Articles</span>
 
-                    <a href="/articles/12345" className={linkStyle}>
+                    <Link href="/articles/12345" className={linkStyle}>
                         <IdCard className={iconStyle} />
                         <span className="truncate">My Articles</span>
-                    </a>
+                    </Link>
 
-                    <a href="/articles" className={linkStyle}>
+                    <Link href="/articles" className={linkStyle}>
                         <Files className={iconStyle} />
                         <span className="truncate">All Articles</span>
-                    </a>
+                    </Link>
 
-                    <a href="/featured" className={linkStyle}>
+                    <Link href="/featured" className={linkStyle}>
                         <FileChartPie className={iconStyle} />
                         <span className="truncate">Featured Articles</span>
-                    </a>
+                    </Link>
 
                     <span className={"truncate text-gray-600 p-4"}>Admin</span>
 
                     {userRole === "admin" && (
-                        <a href="/users" className={linkStyle}>
+                        <Link href="/users" className={linkStyle}>
                             <Users className={iconStyle} />
                             <span className="truncate">Users</span>
-                        </a>
+                        </Link>
                     )}
 
                     {(userRole === "admin" || userRole === "editor") && (
-                        <a href="/audit" className={linkStyle}>
+                        <Link href="/audit" className={linkStyle}>
                             <Gavel className={iconStyle} />
                             <span className="truncate">Audit Log</span>
-                        </a>
+                        </Link>
                     )}
 
-                    <a href="https://docs.nouse.co.uk" className={linkStyle}>
+                    <Link href="https://docs.nouse.co.uk" className={linkStyle}>
                         <BookOpen className={iconStyle} />
                         <span className="truncate">Docs</span>
-                    </a>
+                    </Link>
                 </nav>
 
                 {/* Footer */}
