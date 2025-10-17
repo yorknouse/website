@@ -31,6 +31,7 @@ export default async function handler(
         read_count: true,
         updated_at: true,
       },
+      distinct: "articles_id",
     });
 
     const articlesID: {
@@ -48,7 +49,7 @@ export default async function handler(
     const articleIds = articlesID.map((id) => id.articles_id);
 
     const queryString = Prisma.sql`
-            SELECT articles.articles_id,
+            SELECT DISTINCT articles.articles_id,
                    articles.articles_published,
                    articles.articles_slug,
                    articles.articles_thumbnail,
@@ -60,7 +61,7 @@ export default async function handler(
                 SELECT t1.*
                     FROM articlesDrafts t1
                     INNER JOIN (
-                        SELECT articles_id, MAX(articlesDrafts_timestamp) AS max_ts
+                        SELECT DISTINCT articles_id, MAX(articlesDrafts_timestamp) AS max_ts
                         FROM articlesDrafts
                         GROUP BY articles_id
                     ) t2 ON t1.articles_id = t2.articles_id AND t1.articlesDrafts_timestamp = t2.max_ts
