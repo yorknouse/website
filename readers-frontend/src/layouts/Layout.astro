@@ -95,34 +95,34 @@ const { title, active, style } = Astro.props;
       </div>
     </div>
   </footer>
+  <script define:vars={{ categoriesColours }}>
+      const style = document.createElement("style");
+      document.getElementsByTagName("head")[0].appendChild(style);
+      categoriesColours.forEach((c) => {
+          if (style.sheet && style.sheet.insertRule) {
+              style.sheet.insertRule(
+                  `.category-color-${c.categories_name} {color: ${c.categories_backgroundColor};}`
+              );
+              style.sheet.insertRule(
+                  `.border-color-${c.categories_name} {border-color: ${c.categories_backgroundColor};}`
+              );
+          } else {
+              (style.styleSheet || style.sheet).addRule(
+                  `.category-color-${c.categories_name}`,
+                  `color: ${c.categories_backgroundColor};`
+              );
+              (style.styleSheet || style.sheet).addRule(
+                  `.border-color-${c.categories_name}`,
+                  `border-color: ${c.categories_backgroundColor};`
+              );
+          }
+      });
+  </script>
+  <style is:global>
+      .arno-display {
+          font-family: "arno-pro-display", serif;
+          font-weight: 700;
+          font-style: normal;
+      }
+  </style>
 </html>
-<script define:vars={{ categoriesColours }}>
-  const style = document.createElement("style");
-  document.getElementsByTagName("head")[0].appendChild(style);
-  categoriesColours.forEach((c) => {
-    if (style.sheet && style.sheet.insertRule) {
-      style.sheet.insertRule(
-        `.category-color-${c.categories_name} {color: ${c.categories_backgroundColor};}`
-      );
-      style.sheet.insertRule(
-        `.border-color-${c.categories_name} {border-color: ${c.categories_backgroundColor};}`
-      );
-    } else {
-      (style.styleSheet || style.sheet).addRule(
-        `.category-color-${c.categories_name}`,
-        `color: ${c.categories_backgroundColor};`
-      );
-      (style.styleSheet || style.sheet).addRule(
-        `.border-color-${c.categories_name}`,
-        `border-color: ${c.categories_backgroundColor};`
-      );
-    }
-  });
-</script>
-<style is:global>
-  .arno-display {
-    font-family: "arno-pro-display", serif;
-    font-weight: 700;
-    font-style: normal;
-  }
-</style>
