@@ -57,6 +57,16 @@ edit.nouse.co.uk {
     reverse_proxy php-container:80
     encode gzip
 }
+edit1.nouse.co.uk {
+    tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
+        client_auth {
+            mode require_and_verify
+            trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
+        }
+    }
+    reverse_proxy react-container:3000
+    encode gzip
+}
 stats.nouse.co.uk {
     tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
         client_auth {
