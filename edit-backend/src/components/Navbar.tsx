@@ -101,7 +101,7 @@ export default function Sidebar() {
                         </Link>
                     )}
 
-                    <Link href="https://docs.nouse.co.uk" className={linkStyle}>
+                    <Link href="https://docs.nouse.co.uk" className={linkStyle} target={"_blank"}>
                         <BookOpen className={iconStyle} />
                         <span className="truncate">Docs</span>
                     </Link>
