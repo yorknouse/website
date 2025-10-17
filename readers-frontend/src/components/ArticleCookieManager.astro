@@ -1,23 +1,21 @@
 ---
 interface Props {
   articleId: number;
+  base: string;
 }
 
-const { articleId } = Astro.props;
-
-const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
+const { articleId, base } = Astro.props;
 ---
 
 <article-cookie-manager
   data-article-id={articleId}
-  data-api-address={`${apiBase}/api/frontend/registerRead`}></article-cookie-manager>
+  data-api-address={`${base}/api/frontend/registerRead`}></article-cookie-manager>
 
-<script>
+<script define:vars={{ base }}>
   class ArticleCookieManager extends HTMLElement {
     constructor() {
       super();
 
-      const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
       const stringArticleId = this.dataset.articleId || "0";
       const articleId = parseInt(this.dataset.articleId || "0");
 
@@ -58,7 +56,7 @@ const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
         const formData = new FormData();
         formData.append("articleId", stringArticleId);
 
-        fetch(`${apiBase}/api/frontend/registerRead`, {
+        fetch(`${base}/api/frontend/registerRead`, {
           method: "POST",
           body: formData,
         });

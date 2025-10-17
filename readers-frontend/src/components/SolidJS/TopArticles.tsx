@@ -4,16 +4,14 @@ import type { TopArticleResult, TopArticlesResponse } from "@components/types";
 import SearchArticle from "./SearchArticle";
 
 type TopArticleProps = {
-  // baseUrl: string;
+  base: string;
 };
 
 const TopArticles: Component<TopArticleProps> = (props) => {
   const [loading, setLoading] = createSignal<boolean>(true);
   const [articles, setArticles] = createSignal<TopArticleResult[]>([]);
 
-  const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
-
-  fetch(`${apiBase}/api/frontend/topArticles`, { method: "GET" })
+  fetch(`${props.base}/api/frontend/topArticles`, { method: "GET" })
     .then(async (res) => {
       if (res.status !== 200) throw new Error(res.statusText);
 
