@@ -1,72 +1,78 @@
 ---
 interface Props {
-  articleId: number;
-  base: string;
+    articleId: number;
 }
 
-const { articleId, base } = Astro.props;
+const { articleId } = Astro.props;
+
+const base = import.meta.env.PUBLIC_BASE_URL;
 ---
 
 <article-cookie-manager
-  data-article-id={articleId}
-  data-api-address={`${base}/api/frontend/registerRead`}></article-cookie-manager>
+        data-article-id={articleId}
+        data-api-address={`${base}/api/frontend/registerRead`}></article-cookie-manager>
 
 <script>
-  class ArticleCookieManager extends HTMLElement {
-    constructor() {
-      super();
+    class ArticleCookieManager extends HTMLElement {
+        constructor() {
+            super();
 
-      const stringArticleId = this.dataset.articleId || "0";
-      const articleId = parseInt(this.dataset.articleId || "0");
+            const base = import.meta.env.PUBLIC_BASE_URL;
+            const stringArticleId = this.dataset.articleId || "0";
+            const articleId = parseInt(this.dataset.articleId || "0");
 
-      const cookies = document.cookie.split(";");
-      const cookie = "readArticles=";
-      const expiration = "readArticlesExpires=";
-      const readArticles = [];
+            const cookies = document.cookie.split(";");
+            const cookie = "readArticles=";
+            const expiration = "readArticlesExpires=";
+            const readArticles = [];
 
-      // Expires in a week
-      let expires: Date | string = new Date();
-      expires.setUTCDate(expires.getUTCDate() + 7);
-      expires.setUTCMilliseconds(0);
-      expires.setUTCSeconds(0);
-      expires.setUTCMinutes(0);
-      expires.setUTCHours(0);
+            // Expires in a week
+            let expires: Date | string = new Date();
+            expires.setUTCDate(expires.getUTCDate() + 7);
+            expires.setUTCMilliseconds(0);
+            expires.setUTCSeconds(0);
+            expires.setUTCMinutes(0);
+            expires.setUTCHours(0);
 
-      for (let i = 0; i < cookies.length; i++) {
-        const item = cookies[i];
+            for (let i = 0; i < cookies.length; i++) {
+                const item = cookies[i];
 
-        if (item.includes(cookie)) {
-          const articles = item.substring(cookie.length + 1);
-          readArticles.push(
-            ...articles
-              .split(",")
-              .map((article) => parseInt(article))
-              .filter((articleNum) => !isNaN(articleNum))
-          );
+                if (item.includes(cookie)) {
+                    const articles = item.substring(cookie.length + 1);
+                    readArticles.push(
+                        ...articles
+                            .split(",")
+                            .map((article) => parseInt(article))
+                            .filter((articleNum) => !isNaN(articleNum))
+                    );
+                }
+
+                if (item.includes(expiration))
+                    expires = item.substring(expiration.length + 1);
+            }
+
+            if (!readArticles.includes(articleId)) {
+                readArticles.push(articleId);
+
+                // Register read on server
+                const formData = new FormData();
+                formData.append("articleId", stringArticleId);
+
+                fetch(`${base}/api/frontend/registerRead`, {
+                    method: "POST",
+                    body: formData,
+                });
+            }
+
+            expires = expires instanceof Date ? expires.toUTCString() : expires;
+
+            document.cookie = `${cookie}${readArticles.join(
+                ","
+            )};expires=${expires};path=/`;
+
+            document.cookie = `${expiration}${expires};expires=${expires};path=/`;
         }
-
-        if (item.includes(expiration))
-          expires = item.substring(expiration.length + 1);
-      }
-
-      if (!readArticles.includes(articleId)) {
-        readArticles.push(articleId);
-
-        // Register read on server
-        const formData = new FormData();
-        formData.append("articleId", stringArticleId);
-        fetch(`${this.dataset.apiAddress}`, {
-          method: "POST",
-          body: formData,
-        });
-      }
-
-      expires = expires instanceof Date ? expires.toUTCString() : expires;
-
-      document.cookie = `${cookie}${readArticles.join(",")};expires=${expires};path=/`;
-      document.cookie = `${expiration}${expires};expires=${expires};path=/`;
     }
-  }
-  // Define custom article-cookie-manager element
-  customElements.define("article-cookie-manager", ArticleCookieManager);
+    // Define custom article-cookie-manager element
+    customElements.define("article-cookie-manager", ArticleCookieManager);
 </script>
