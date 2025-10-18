@@ -11,7 +11,7 @@ const { articleId, base } = Astro.props;
   data-article-id={articleId}
   data-api-address={`${base}/api/frontend/registerRead`}></article-cookie-manager>
 
-<script define:vars={{ base }}>
+<script type="module">
   class ArticleCookieManager extends HTMLElement {
     constructor() {
       super();
@@ -55,8 +55,7 @@ const { articleId, base } = Astro.props;
         // Register read on server
         const formData = new FormData();
         formData.append("articleId", stringArticleId);
-
-        fetch(`${base}/api/frontend/registerRead`, {
+        fetch(`${this.dataset.apiAddress}`, {
           method: "POST",
           body: formData,
         });
@@ -64,10 +63,7 @@ const { articleId, base } = Astro.props;
 
       expires = expires instanceof Date ? expires.toUTCString() : expires;
 
-      document.cookie = `${cookie}${readArticles.join(
-        ","
-      )};expires=${expires};path=/`;
-
+      document.cookie = `${cookie}${readArticles.join(",")};expires=${expires};path=/`;
       document.cookie = `${expiration}${expires};expires=${expires};path=/`;
     }
   }
