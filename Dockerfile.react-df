@@ -1,6 +1,8 @@
 # --- Build Stage ---
 FROM node:22-slim AS build
 
+RUN apt-get update -y && apt-get install -y openssl
+
 WORKDIR /app
 
 # Copy package files for caching
@@ -28,10 +30,9 @@ RUN npx tsc -p tsconfig.cron.json
 # --- Runtime Stage ---
 FROM node:22-slim AS runtime
 
-WORKDIR /app
-
-# Install cron service
 RUN apt-get update -y && apt-get install -y cron openssl
+
+WORKDIR /app
 
 # Copy node_modules and built Next.js from build stage
 COPY --from=build /app/node_modules ./node_modules
