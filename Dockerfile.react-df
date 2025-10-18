@@ -41,6 +41,10 @@ COPY --from=build /app/prisma ./prisma
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/package*.json ./
 
+# Install Prisma client & generate
+RUN npm install @prisma/client
+RUN npx prisma generate
+
 # Environment variables
 ENV FRONTEND_URL=https://nouse.co.uk/
 ENV NODE_ENV=production
