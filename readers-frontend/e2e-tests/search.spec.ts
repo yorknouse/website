@@ -28,7 +28,7 @@ test.describe("Search functionality", () => {
 
   test("Search provides results", async ({ page, isMobile }) => {
     // Mock api
-    await page.route("**/searchSuggestions.php", async (route) => {
+    await page.route("**/searchSuggestions", async (route) => {
       const json = apiSearchResponse;
       await route.fulfill({ json });
     });
@@ -99,7 +99,7 @@ test.describe("Search functionality", () => {
 
   test("Search provides fallback text", async ({ page, isMobile }) => {
     // Mock api, internal server error
-    await page.route("**/searchSuggestions.php", async (route) => {
+    await page.route("**/searchSuggestions", async (route) => {
       const status = 500;
       await route.fulfill({ status });
     });
