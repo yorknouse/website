@@ -1,19 +1,17 @@
-# --- Build stage ---
+# --- Build Stage ---
 FROM node:22-slim AS build
 
 WORKDIR /app
 
-# Copy package files first (better caching)
+# Copy package files for caching
 COPY ./edit-backend/package*.json ./
 
 RUN npm install
 
-# Copy Prisma schema before generating
+# Copy Prisma schema
 COPY ./edit-backend/prisma /app/prisma
 
-RUN apt-get update -y && apt-get install -y openssl
-
-# Generate Prisma client (needs schema + node_modules)
+# Install Prisma client & generate
 RUN npm install @prisma/client
 RUN npx prisma generate
 
@@ -23,10 +21,44 @@ COPY ./edit-backend /app
 # Build Next.js
 RUN npm run build
 
+# Compile cron script
+# Make sure tsconfig.cron.json exists in project root
+RUN npx tsc -p tsconfig.cron.json
+
+# --- Runtime Stage ---
+FROM node:22-slim
+
+WORKDIR /app
+
+# Install cron service
+RUN apt-get update -y && apt-get install -y cron
+
+# Copy node_modules and built Next.js from build stage
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/.next ./.next
+COPY --from=build /app/public ./public
+COPY --from=build /app/prisma ./prisma
+COPY --from=build /app/dist ./dist           # compiled cron.js
+COPY --from=build /app/package*.json ./
+
+# Environment variables
 ENV FRONTEND_URL=https://nouse.co.uk/
 ENV NODE_ENV=production
 ENV PORT=3000
 
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+# Create cron log file
+RUN touch /var/log/cron.log
+
+# Add cron job
+COPY docker/nextjs-cron /etc/cron.d/nextjs-cron
+
+# Set permissions
+RUN chmod 0644 /etc/cron.d/nextjs-cron
+
+# Apply cron job
+RUN crontab /etc/cron.d/nextjs-cron
+
+# Start cron in background and then start Next.js server
+CMD cron && npm run start
