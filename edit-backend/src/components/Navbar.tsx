@@ -44,7 +44,7 @@ export default function Sidebar() {
                 {/* Header */}
                 <div className="flex items-center justify-between h-16 px-4 border-b border-gray-800">
                     <div className="flex items-center gap-3">
-                        <Image src={"/favicon.svg"} alt={"Nouse Kingfisher"} width={32} height={32} />
+                        <Image src={"/favicon.svg"} alt={"Nouse Kingfisher"} width={32} height={32} className={"rounded-lg"} />
                         <span className={"text-lg"}><span className={"font-extrabold"}>Nouse</span> Admin</span>
                     </div>
 
