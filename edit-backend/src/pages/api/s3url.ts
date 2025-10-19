@@ -1,5 +1,5 @@
-import prisma from "@/lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { s3URL } from "@/lib/s3URL";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -26,39 +26,20 @@ export default async function handler(
       return;
     }
 
-    let sizeExt = "_comp";
+    let sizeExt: false | "tiny" | "small" | "medium" | "large" | "comp" = "comp";
 
     const sizeString = String(size);
 
-    if (sizeString == "tiny") sizeExt = "_tiny";
-    else if (sizeString == "small") sizeExt = "_small";
-    else if (sizeString == "medium") sizeExt = "_medium";
-    else if (sizeString == "large") sizeExt = "_large";
+    if (sizeString == "tiny") sizeExt = "tiny";
+    else if (sizeString == "small") sizeExt = "small";
+    else if (sizeString == "medium") sizeExt = "medium";
+    else if (sizeString == "large") sizeExt = "large";
 
-    const sanitisedId = String(fileId).replace(/\D/g, "");
+    const sanitisedId = Number(String(fileId).replace(/\D/g, ""));
 
-    const s3File = await prisma.s3files.findUnique({
-      where: {
-        s3files_id: Number(sanitisedId),
-      },
-    });
+    const url = await s3URL(sanitisedId, sizeExt)
 
-    if (!s3File) {
-      res.status(400).json({ message: "Missing or invalid fileId" });
-      return;
-    }
-
-    let fileUrl = `${s3File.s3files_cdn_endpoint}/${
-      s3File.s3files_path
-    }/${encodeURIComponent(s3File.s3files_filename)}`;
-
-    if (size) {
-      fileUrl += sizeExt;
-    }
-
-    fileUrl += `.${s3File.s3files_extension}`;
-
-    res.status(200).json({ url: fileUrl });
+    res.status(200).json({ url: url });
   } catch (err) {
     console.error("Error in s3URL:", err);
     res.status(500).json({ message: "Internal server error" });
