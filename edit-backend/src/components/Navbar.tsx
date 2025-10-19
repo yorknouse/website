@@ -4,6 +4,7 @@ import { useState } from "react";
 import {Menu, X, Home, BookOpen, NewspaperIcon, IdCard, Users, LogOut, Files, FileChartPie, Gavel} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 
 export default function Sidebar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -112,6 +113,7 @@ export default function Sidebar() {
                 <div className="border-t border-gray-800 p-4">
                     <button
                         className={`${linkStyle} w-full text-left text-gray-400 hover:text-white`}
+                        onClick={() => signOut()}
                     >
                         <LogOut className={iconStyle} />
                         <span className="truncate">Logout</span>
