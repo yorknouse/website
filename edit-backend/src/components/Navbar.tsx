@@ -13,7 +13,8 @@ export default function Sidebar() {
 
     const linkStyle =
         "flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-800 transition-colors";
-    const iconStyle = "flex-shrink-0 w-5 h-5"; // fixed icon size
+    const iconStyle = "flex-shrink-0 w-5 h-5";
+    const separatorStyle = "truncate text-gray-500 p-4";
 
     return (
         <>
@@ -68,7 +69,7 @@ export default function Sidebar() {
                         <span className="truncate">Editions</span>
                     </Link>
 
-                    <span className={"truncate text-gray-600 p-4"}>Articles</span>
+                    <span className={separatorStyle}>Articles</span>
 
                     <Link href="/articles/12345" className={linkStyle}>
                         <IdCard className={iconStyle} />
@@ -85,7 +86,7 @@ export default function Sidebar() {
                         <span className="truncate">Featured Articles</span>
                     </Link>
 
-                    <span className={"truncate text-gray-600 p-4"}>Admin</span>
+                    <span className={separatorStyle}>Admin</span>
 
                     {userRole === "admin" && (
                         <Link href="/users" className={linkStyle}>
