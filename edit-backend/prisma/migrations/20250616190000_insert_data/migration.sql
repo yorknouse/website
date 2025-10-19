@@ -1,11 +1,11 @@
 -- Insert defaults
-INSERT INTO nouse.positionsGroups (`positionsGroups_id`, `positionsGroups_name`, `positionsGroups_actions`) VALUES (1,'Administrator','11,12,4,5,6,7,9,10,13,2,3,14,20,30,21,22,40,41,42,15,43,44,45,46,47,48,49,50,51,52,53,54,32,31,33,55,56,57,58');
-INSERT INTO nouse.positionsGroups (`positionsGroups_id`, `positionsGroups_name`, `positionsGroups_actions`) VALUES (2,'Managerial Committee','3,11,2,6,20,4,30,21,22,40,44,45,48,49,50,51,52,53,54,32,31,33,57,58');
-INSERT INTO nouse.positionsGroups (`positionsGroups_id`, `positionsGroups_name`, `positionsGroups_actions`) VALUES (3,'Editor','2,20,4,30,21,11,40,44,45,49,32,31,33,57,51,50,52');
-INSERT INTO positions (`positions_displayName`, `positions_positionsGroups`, `positions_rank`, `positions_teamPageGroup`) VALUES ('Muse Radio Editor', 3, 51, 1);
-INSERT INTO positions (`positions_displayName`, `positions_positionsGroups`, `positions_rank`, `positions_teamPageGroup`) VALUES ('Nouse Radio Editor', 3, 52, 1);
-INSERT INTO positions (`positions_displayName`, `positions_positionsGroups`, `positions_rank`, `positions_teamPageGroup`) VALUES ('Puzzles Editor', 3, 53, 1);
-INSERT INTO positions (`positions_displayName`, `positions_positionsGroups`, `positions_rank`, `positions_teamPageGroup`) VALUES ('Technical Director','1,2,3',35,4);
+INSERT INTO `positionsGroups` (`positionsGroups_id`, `positionsGroups_name`, `positionsGroups_actions`) VALUES (1,'Administrator','11,12,4,5,6,7,9,10,13,2,3,14,20,30,21,22,40,41,42,15,43,44,45,46,47,48,49,50,51,52,53,54,32,31,33,55,56,57,58');
+INSERT INTO `positionsGroups` (`positionsGroups_id`, `positionsGroups_name`, `positionsGroups_actions`) VALUES (2,'Managerial Committee','3,11,2,6,20,4,30,21,22,40,44,45,48,49,50,51,52,53,54,32,31,33,57,58');
+INSERT INTO `positionsGroups` (`positionsGroups_id`, `positionsGroups_name`, `positionsGroups_actions`) VALUES (3,'Editor','2,20,4,30,21,11,40,44,45,49,32,31,33,57,51,50,52');
+INSERT INTO `positions` (`positions_displayName`, `positions_positionsGroups`, `positions_rank`, `positions_teamPageGroup`) VALUES ('Muse Radio Editor', 3, 51, 1);
+INSERT INTO `positions` (`positions_displayName`, `positions_positionsGroups`, `positions_rank`, `positions_teamPageGroup`) VALUES ('Nouse Radio Editor', 3, 52, 1);
+INSERT INTO `positions` (`positions_displayName`, `positions_positionsGroups`, `positions_rank`, `positions_teamPageGroup`) VALUES ('Puzzles Editor', 3, 53, 1);
+INSERT INTO `positions` (`positions_displayName`, `positions_positionsGroups`, `positions_rank`, `positions_teamPageGroup`) VALUES ('Technical Director','1,2,3',35,4);
 UPDATE `positions` SET `positions_teamPageGroup` = 3
 WHERE `positions_id` = 58;
 INSERT INTO `categories` (`categories_id`, `categories_showHome`, `categories_displayName`, `categories_showMenu`, `categories_name`, `categories_showPublic`, `categories_showAdmin`, `categories_featured`, `categories_order`, `categories_nestUnder`, `categories_showSub`, `categories_facebook`, `categories_twitter`, `categories_instagram`, `categories_backgroundColor`, `categories_backgroundColorContrast`, `categories_customTheme`, `categories_socialMediaOverlay`) VALUES
