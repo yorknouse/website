@@ -72,7 +72,7 @@ export default function Sidebar() {
 
                     <span className={separatorStyle}>Articles</span>
 
-                    <Link href="/articles/12345" className={linkStyle}>
+                    <Link href="/articles/user/1234" className={linkStyle}>
                         <IdCard className={iconStyle} />
                         <span className="truncate">My Articles</span>
                     </Link>
