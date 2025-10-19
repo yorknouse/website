@@ -3,13 +3,13 @@ import prisma from "@/lib/prisma";
 /**
  * Retrieves a file from s3 (actually backblaze)
  * @param {number} fileId The file id.
- * @param {"tiny" | "small" | "medium" | "large" | false} [size] File size.
+ * @param {"tiny" | "small" | "medium" | "large" | "comp" | false} [size] File size.
  * @returns {Promise<string>} Promise object represents the file URL.
  * @throws Will throw an error if it cannot find the file by id.
  */
 const s3URL = async (
   fileId: number,
-  size: "tiny" | "small" | "medium" | "large" | false = false,
+  size: "tiny" | "small" | "medium" | "large"  | "comp" | false = false,
 ): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
     prisma.s3files
