@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from "react";
-import {Menu, X, Home, BookOpen, NewspaperIcon, IdCard, Users, LogOut, Files, FileChartPie, Gavel} from "lucide-react";
+import { Menu, X, Home, BookOpen, NewspaperIcon, IdCard, Users, LogOut, Files, FileChartPie, Gavel, SquareUserRound } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
@@ -62,7 +62,12 @@ export default function Sidebar() {
                 <nav className="flex-1 overflow-y-auto py-4 space-y-1">
                     <Link href="/" className={linkStyle}>
                         <Home className={iconStyle} />
-                        <span className="truncate">Dashboard</span>
+                        <span className="truncate">Home</span>
+                    </Link>
+
+                    <Link href="/account" className={linkStyle}>
+                        <SquareUserRound className={iconStyle} />
+                        <span className="truncate">Account</span>
                     </Link>
 
                     <Link href="/editions" className={linkStyle}>
