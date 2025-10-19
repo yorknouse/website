@@ -1,19 +1,12 @@
 import Sidebar from "@/components/Navbar";
 import type { Metadata } from "next";
-import { useSession } from "next-auth/react";
-import {redirect} from "next/navigation";
+import UserData from "@/components/UserData";
 
 export const metadata: Metadata = {
     title: "Home",
 };
 
 export default function Home() {
-  const { data: session } = useSession();
-
-  if (!session) {
-      redirect("/auth/signin");
-  }
-
   return (
       <div className="lg:flex min-h-screen bg-gray-200 text-gray-900">
           <Sidebar />
@@ -28,10 +21,7 @@ export default function Home() {
                       If you have any issues using the website then please reach out to <code>#tech</code> on Slack for guidance or help or to report an issue
                   </p>
               </div>
-              <div className="flex items-center gap-2">
-                  <span>{session.user?.name}</span>
-                  <span>{session.user?.email}</span>
-              </div>
+              <UserData />
           </main>
       </div>
   );
