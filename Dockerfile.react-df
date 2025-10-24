@@ -34,8 +34,6 @@ COPY --from=build /app/prisma ./prisma
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/package*.json ./
 
-ENV GOOGLE_CLIENT_ID;
-ENV GOOGLE_CLIENT_SECRET;
 ENV FRONTEND_URL=https://nouse.co.uk/
 ENV NODE_ENV=production
 ENV PORT=3000
