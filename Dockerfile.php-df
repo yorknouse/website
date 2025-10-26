@@ -1,78 +1,93 @@
-FROM php:8.4-apache AS build
+# ============================================================
+#  STAGE 1 — Build PHP dependencies & prepare app
+# ============================================================
+FROM composer:2 AS vendor
 
-# 1️⃣ Install system dependencies first (rarely change)
+WORKDIR /app
+
+# Only copy composer files first for better caching
+COPY composer.json composer.lock ./
+
+# Install dependencies (no dev, no interaction)
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --no-progress \
+    --prefer-dist \
+    --optimize-autoloader
+
+# Copy the rest of your app source
+COPY . .
+
+# ============================================================
+#  STAGE 2 — Build final PHP + Apache runtime image
+# ============================================================
+FROM php:8.4-apache AS runtime
+
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
-	libfreetype6-dev \
-	libjpeg62-turbo-dev \
-	libpng-dev \
-	libjpeg-dev \
-	libzip-dev \
-	libonig-dev \
-	zlib1g-dev \
-	libicu-dev \
-	unzip \
-	git \
-	nano \
-	cron \
-	dos2unix \
-	libcurl4-gnutls-dev \
-	ca-certificates curl gnupg \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libzip-dev \
+    libonig-dev \
+    zlib1g-dev \
+    libicu-dev \
+    unzip \
+    git \
+    nano \
+    cron \
+    dos2unix \
+    libcurl4-gnutls-dev \
+    ca-certificates curl gnupg \
  && rm -rf /var/lib/apt/lists/*
 
-# 2️⃣ Enable Apache modules
+# Enable Apache modules
 RUN a2dissite 000-default.conf \
  && a2dismod autoindex -f \
  && a2enmod rewrite headers
 
-# 3️⃣ Copy Apache configs (these rarely change)
+# Copy Apache config files
 COPY docker/apache/apache2site.conf /etc/apache2/sites-available/apache2site.conf
 COPY docker/apache/apache2admin.conf /etc/apache2/sites-available/apache2admin.conf
 COPY docker/apache/001default-apache2.conf /etc/apache2/sites-available/001default-apache2.conf
 RUN a2ensite apache2site.conf apache2admin.conf 001default-apache2.conf
 
-# 4️⃣ PHP configuration (rarely changes)
+# Copy PHP config
 COPY docker/php.ini /usr/local/etc/php/php.ini
 
-# 5️⃣ Install PHP extensions (expensive, cache this)
+# Build PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg --enable-gd \
- && docker-php-ext-install -j$(nproc) gd zip mbstring mysqli intl \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+ && docker-php-ext-install -j$(nproc) gd zip mbstring mysqli intl
 
-# 6️⃣ Copy cron files (small, stable)
+# Set workdir
+WORKDIR /var/www
+
+# Copying files over
 COPY docker/job-cron /etc/cron.d/job-cron
 COPY docker/cron-minute.sh /var/www/cron-minute.sh
+COPY docker/start-new.sh /var/www/start.sh
+
+# Copy built vendor files from Stage 1 (composer cache preserved)
+COPY --from=vendor /app/vendor ./vendor
+
+# Copy app source (excluding files in .dockerignore)
+COPY . .
+
+# Cron setup
 RUN chmod 0644 /etc/cron.d/job-cron /var/www/cron-minute.sh \
  && dos2unix /etc/cron.d/job-cron /var/www/cron-minute.sh \
  && crontab /etc/cron.d/job-cron \
  && touch /var/log/cron.log \
  && chmod 0777 /var/log/cron.log
 
-# 7️⃣ Copy Composer from official image
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
-
-# 8️⃣ Set working directory
-WORKDIR /var/www
-
-# 9️⃣ Copy only composer files first for cache reuse
-COPY composer.json composer.lock ./
-
-# 10️⃣ Install PHP dependencies
-RUN composer install --no-interaction --no-scripts --no-autoloader
-
-# 11️⃣ Now copy the rest of your app
-COPY . .
-
-# 12️⃣ Finish Composer setup
-RUN composer dump-autoload --optimize
-
-# 13️⃣ Permissions and final setup
-RUN dos2unix /var/www/start-new.sh \
- && mv /var/www/start-new.sh /var/www/start.sh \
- && chown -R www-data:www-data /var/www /tmp \
+# Setup start script
+RUN dos2unix /var/www/start.sh \
+ && chown -R www-data:www-data /var/www \
+ && git config --global --add safe.directory /var/www \
  && mkdir -p /tmp/admin/43 \
  && chown -R www-data:www-data /tmp/admin \
- && git config --global --add safe.directory /var/www \
  && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-CMD ["bash","/var/www/start.sh"]
+CMD ["bash", "/var/www/start.sh"]
