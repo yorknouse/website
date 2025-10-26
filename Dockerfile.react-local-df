@@ -27,10 +27,13 @@ RUN apt-get update -y && apt-get install -y cron openssl
 
 WORKDIR /app
 
-COPY --from=build /app/package*.json ./
+COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/.next ./.next
 COPY --from=build /app/public ./public
-COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/prisma ./prisma
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/package*.json ./
+COPY --from=build /app/next.config.ts ./
 
 ENV PORT=3000
 ENV HOST=0.0.0.0
