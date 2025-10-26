@@ -25,7 +25,7 @@ export default function UserData() {
       <span>{session.user?.name}</span>
       <span>{session.user?.email}</span>
       <Image
-        src={session.user?.image!}
+        src={session.user?.image || "/favicon.svg"}
         alt={"User profile image"}
         width={32}
         height={32}
