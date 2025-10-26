@@ -6,9 +6,6 @@ WORKDIR /app
 
 COPY ./edit-backend/package*.json ./
 
-ARG DATABASE_URL
-ENV DATABASE_URL=$DATABASE_URL
-
 RUN npm install
 
 COPY ./edit-backend/prisma /app/prisma
