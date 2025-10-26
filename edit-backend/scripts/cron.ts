@@ -2,6 +2,7 @@
 
 import { Prisma, PrismaClient} from "@prisma/client";
 import * as fs from "fs";
+import path from "path";
 
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
@@ -13,10 +14,27 @@ if (process.env.NODE_ENV !== "production") {
 
 // Helper function to log to file
 function logToFile(message: string) {
-    // const logPath = "/var/log/cron.log";
-    const logPath = "cron.log";
-    const timestamp = new Date().toISOString();
-    fs.appendFileSync(logPath, `[${timestamp}] ${message}\n`);
+  const systemLog = "/var/log/cron.log";
+  const localLog = path.resolve("cron.log");
+  const timestamp = new Date().toISOString();
+  const logEntry = `[${timestamp}] ${message}\n`;
+  let logPath = systemLog;
+
+  try {
+    // Check if the system log file exists and is writable
+    fs.accessSync(systemLog, fs.constants.W_OK);
+  } catch (err) {
+    // If not writable (or doesn’t exist), fall back to local
+    logPath = localLog;
+  }
+
+  try {
+    fs.appendFileSync(logPath, logEntry);
+  } catch (err) {
+    // Final fallback: log to console
+    console.error(`Failed to write to ${logPath}:`, err);
+    console.log(logEntry.trim());
+  }
 }
 
 async function updateArticlesReadsSummary() {
