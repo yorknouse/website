@@ -31,7 +31,9 @@ export default function UserData() {
         height={32}
         className={"rounded-lg"}
       />
-      {session.user.positions?.map((position) => (<span key={position}>Position - {position}</span>))}
+      {session.user.positions?.map((position) => (
+        <span key={position}>Position - {position}</span>
+      ))}
     </div>
   );
 }
