@@ -21,7 +21,7 @@ RUN apk add --no-cache \
     shadow \
     tzdata \
     cronie \
- && docker-php-ext-configure gd --with-freetype --with-jpeg \
+ && docker-php-ext-configure gd --with-freetype --with-jpeg --enable-gd \
  && docker-php-ext-install -j$(nproc) gd zip mbstring mysqli intl \
  && apk del --purge freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev icu-dev oniguruma-dev zlib-dev \
  && rm -rf /var/cache/apk/*
