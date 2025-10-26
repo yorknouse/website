@@ -51,10 +51,13 @@ RUN chmod 0777 /var/log/cron.log
 COPY . /var/www/
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
 WORKDIR /var/www
-RUN composer install
 
 COPY docker/start-new.sh /var/www/start.sh
+
+RUN composer install
+
 RUN dos2unix /var/www/start.sh
 
 RUN chown -R www-data:www-data /var/www
