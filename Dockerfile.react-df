@@ -8,12 +8,10 @@ COPY ./edit-backend/package*.json ./
 
 RUN npm install
 
-COPY ./edit-backend/prisma /app/prisma
+COPY ./edit-backend /app
 
 RUN npm install @prisma/client
 RUN npx prisma generate
-
-COPY ./edit-backend /app
 
 RUN npm run build
 
