@@ -195,6 +195,9 @@ model categories {
   categories_socialMediaOverlay      String?              @db.VarChar(200)
   articles                           articlesCategories[]
 
+  parent   categories?  @relation("CategoryParent", fields: [categories_nestUnder], references: [categories_id])
+  children categories[] @relation("CategoryParent")
+
   @@index([categories_name], map: "categories_categories_name_index")
   @@index([categories_nestUnder], map: "categories_categories_nestUnder_index")
   @@index([categories_order], map: "categories_categories_order_index")
