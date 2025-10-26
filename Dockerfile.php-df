@@ -1,79 +1,58 @@
-FROM php:8.4-apache AS build
+FROM php:8.4-fpm-alpine AS app
 
-# 1️⃣ Install system dependencies first (rarely change)
-RUN apt-get update && apt-get install -y --no-install-recommends \
-	libfreetype6-dev \
-	libjpeg62-turbo-dev \
-	libpng-dev \
-	libjpeg-dev \
-	libzip-dev \
-	libonig-dev \
-	zlib1g-dev \
-	libicu-dev \
-	unzip \
-	git \
-	nano \
-	cron \
-	dos2unix \
-	libcurl4-gnutls-dev \
-	ca-certificates curl gnupg \
- && rm -rf /var/lib/apt/lists/*
+# 1️⃣ Install system dependencies and PHP extensions
+RUN apk add --no-cache \
+    bash \
+    curl \
+    git \
+    nano \
+    unzip \
+    dos2unix \
+    icu-dev \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    libzip-dev \
+    oniguruma-dev \
+    zlib-dev \
+    libcurl \
+    ca-certificates \
+    busybox-suid \
+    shadow \
+    tzdata \
+    # Cron
+    cronie \
+ && docker-php-ext-configure gd --with-freetype --with-jpeg \
+ && docker-php-ext-install -j$(nproc) gd zip mbstring mysqli intl \
+ && apk del --purge freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev icu-dev oniguruma-dev zlib-dev \
+ && rm -rf /var/cache/apk/*
 
-# 2️⃣ Enable Apache modules
-RUN a2dissite 000-default.conf \
- && a2dismod autoindex -f \
- && a2enmod rewrite headers
-
-# 3️⃣ Copy Apache configs (these rarely change)
-COPY docker/apache/apache2site.conf /etc/apache2/sites-available/apache2site.conf
-COPY docker/apache/apache2admin.conf /etc/apache2/sites-available/apache2admin.conf
-COPY docker/apache/001default-apache2.conf /etc/apache2/sites-available/001default-apache2.conf
-RUN a2ensite apache2site.conf apache2admin.conf 001default-apache2.conf
-
-# 4️⃣ PHP configuration (rarely changes)
+# 2️⃣ Copy PHP configuration
 COPY docker/php.ini /usr/local/etc/php/php.ini
 
-# 5️⃣ Install PHP extensions (expensive, cache this)
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg --enable-gd \
- && docker-php-ext-install -j$(nproc) gd zip mbstring mysqli intl \
- && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+COPY docker/start-new-2.sh /var/www/start.sh
 
-# 6️⃣ Copy cron files (small, stable)
+# 3️⃣ Cron setup
 COPY docker/job-cron /etc/cron.d/job-cron
 COPY docker/cron-minute.sh /var/www/cron-minute.sh
 RUN chmod 0644 /etc/cron.d/job-cron /var/www/cron-minute.sh \
  && dos2unix /etc/cron.d/job-cron /var/www/cron-minute.sh \
  && crontab /etc/cron.d/job-cron \
- && touch /var/log/cron.log \
- && chmod 0777 /var/log/cron.log
+ && touch /var/log/cron.log && chmod 0777 /var/log/cron.log
 
-# 7️⃣ Copy Composer from official image
+# 4️⃣ Composer
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-# 8️⃣ Set working directory
+# 5️⃣ Application setup
 WORKDIR /var/www
-
-COPY docker/start-new.sh /var/www/start.sh
-
-# 9️⃣ Copy only composer files first for cache reuse
 COPY composer.json composer.lock ./
-
-# 1️⃣0️⃣ Install PHP dependencies
 RUN composer install --no-interaction --no-scripts --no-autoloader
-
-# 1️⃣1️⃣ Now copy the rest of your app
 COPY . .
 
-# 1️⃣2️⃣ Finish Composer setup
-RUN composer dump-autoload --optimize
-
-# 1️⃣3️⃣ Permissions and final setup
-RUN dos2unix /var/www/start.sh \
+# 6️⃣ Final setup and permissions
+RUN composer dump-autoload --optimize \
+ && dos2unix /var/www/start.sh \
  && chown -R www-data:www-data /var/www /tmp \
- && mkdir -p /tmp/admin/43 \
- && chown -R www-data:www-data /tmp/admin \
- && git config --global --add safe.directory /var/www \
- && apt-get clean && rm -rf /var/lib/apt/lists/*
+ && git config --global --add safe.directory /var/www
 
-CMD ["bash","/var/www/start.sh"]
+CMD ["bash", "/var/www/start.sh"]
