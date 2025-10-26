@@ -109,7 +109,7 @@ export default async function FeaturedArticles() {
 
       <section>
         <h2 className="text-2xl mb-4">Homepage Featured</h2>
-        {featuredHomeArticles?.length ? (
+        {featuredHomeArticles?.length && featuredHomeArticles !== null ? (
           <ul className={"list-disc ml-6"}>
             {featuredHomeArticles.map((a) => (
               <li key={a.id}>
