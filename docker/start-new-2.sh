@@ -2,6 +2,6 @@
 
 printenv | grep -v "no_proxy" >> /etc/environment #Required to include environment variables in cron
 
-cron -f &
+crond -f &
 
 php-fpm
