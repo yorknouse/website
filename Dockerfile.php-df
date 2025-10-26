@@ -69,8 +69,7 @@ COPY . .
 RUN composer dump-autoload --optimize
 
 # 13️⃣ Permissions and final setup
-RUN dos2unix /var/www/start-new.sh \
- && mv /var/www/start-new.sh /var/www/start.sh \
+RUN dos2unix /var/www/start.sh \
  && chown -R www-data:www-data /var/www /tmp \
  && mkdir -p /tmp/admin/43 \
  && chown -R www-data:www-data /tmp/admin \
