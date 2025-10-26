@@ -50,6 +50,8 @@ RUN chmod 0644 /etc/cron.d/job-cron /var/www/cron-minute.sh \
 WORKDIR /var/www
 COPY composer.json composer.lock ./
 
+RUN sed -i 's/^listen = .*/listen = 9070/' /usr/local/etc/php-fpm.d/www.conf
+
 # 🧩 Composer install AFTER gd is available
 RUN composer update
 RUN composer install --no-interaction --no-scripts --no-autoloader

@@ -29,7 +29,7 @@ services:
       - 80:80
       - 420:420
       - 419:419
-      - 9000:9000
+      - 9070:9070
     depends_on:
       - db
     environment:
@@ -37,6 +37,7 @@ services:
       - MYSQL_DATABASE=nouse
       - MYSQL_USER=userDocker
       - MYSQL_PASSWORD=passDocker
+      - FPM_LISTEN=9070
     env_file:
       - nouseprod-local.env
     extra_hosts:
