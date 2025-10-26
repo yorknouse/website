@@ -9,7 +9,7 @@ import prisma from "@/lib/prisma";
  */
 const s3URL = async (
   fileId: number,
-  size: "tiny" | "small" | "medium" | "large"  | "comp" | false = false,
+  size: "tiny" | "small" | "medium" | "large" | "comp" | false = false,
 ): Promise<string> => {
   return new Promise<string>((resolve, reject) => {
     prisma.s3files

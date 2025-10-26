@@ -26,7 +26,8 @@ export default async function handler(
       return;
     }
 
-    let sizeExt: false | "tiny" | "small" | "medium" | "large" | "comp" = "comp";
+    let sizeExt: false | "tiny" | "small" | "medium" | "large" | "comp" =
+      "comp";
 
     const sizeString = String(size);
 
@@ -37,7 +38,7 @@ export default async function handler(
 
     const sanitisedId = Number(String(fileId).replace(/\D/g, ""));
 
-    const url = await s3URL(sanitisedId, sizeExt)
+    const url = await s3URL(sanitisedId, sizeExt);
 
     res.status(200).json({ url: url });
   } catch (err) {

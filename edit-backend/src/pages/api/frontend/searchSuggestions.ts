@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ParseForm } from "@/lib/parseForm";
 import { getArticleImage } from "@/lib/articles";
-import type {ArticleAuthor} from "@/lib/types";
+import type { ArticleAuthor } from "@/lib/types";
 import he from "he";
 
 const cors = (res: NextApiResponse) => {
@@ -207,12 +207,12 @@ export default async function handler(
           url: `/${article.articles_published?.toISOString().split("T")[0].replace(/-/g, "/")}/${String(article.articles_slug)}`,
           image,
           articles_authors: article.users.map((aa) => {
-              const author: ArticleAuthor = {
-                  users_name1: he.decode(aa.users.users_name1 || ""),
-                  users_name2: he.decode(aa.users.users_name2 || ""),
-                  users_userid: aa.users.users_userid,
-              };
-              return author;
+            const author: ArticleAuthor = {
+              users_name1: he.decode(aa.users.users_name1 || ""),
+              users_name2: he.decode(aa.users.users_name2 || ""),
+              users_userid: aa.users.users_userid,
+            };
+            return author;
           }),
           ...(category && {
             categories_name: category.categories_name,
