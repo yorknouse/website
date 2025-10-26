@@ -1,21 +1,7 @@
 FROM php:8.4-apache AS build
-RUN apt-get update
-COPY docker/php.ini /var/www/php.ini
-RUN mv "/var/www/php.ini" "$PHP_INI_DIR/php.ini"
 
-RUN a2dissite 000-default.conf
-RUN a2dismod autoindex -f
-RUN a2enmod rewrite
-RUN a2enmod headers
-
-COPY docker/apache/apache2site.conf /etc/apache2/sites-available/apache2site.conf
-RUN a2ensite apache2site.conf
-COPY docker/apache/apache2admin.conf /etc/apache2/sites-available/apache2admin.conf
-RUN a2ensite apache2admin.conf
-COPY docker/apache/001default-apache2.conf /etc/apache2/sites-available/001default-apache2.conf
-RUN a2ensite 001default-apache2.conf
-
-RUN apt-get install -y --no-install-recommends \
+# 1️⃣ Install system dependencies first (rarely change)
+RUN apt-get update && apt-get install -y --no-install-recommends \
 	libfreetype6-dev \
 	libjpeg62-turbo-dev \
 	libpng-dev \
@@ -31,43 +17,62 @@ RUN apt-get install -y --no-install-recommends \
 	dos2unix \
 	libcurl4-gnutls-dev \
 	ca-certificates curl gnupg \
-    && rm -rf /var/lib/apt/lists/*
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg --enable-gd
-RUN docker-php-ext-install -j$(nproc) gd zip mbstring mysqli intl
+ && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+# 2️⃣ Enable Apache modules
+RUN a2dissite 000-default.conf \
+ && a2dismod autoindex -f \
+ && a2enmod rewrite headers
 
+# 3️⃣ Copy Apache configs (these rarely change)
+COPY docker/apache/apache2site.conf /etc/apache2/sites-available/apache2site.conf
+COPY docker/apache/apache2admin.conf /etc/apache2/sites-available/apache2admin.conf
+COPY docker/apache/001default-apache2.conf /etc/apache2/sites-available/001default-apache2.conf
+RUN a2ensite apache2site.conf apache2admin.conf 001default-apache2.conf
+
+# 4️⃣ PHP configuration (rarely changes)
+COPY docker/php.ini /usr/local/etc/php/php.ini
+
+# 5️⃣ Install PHP extensions (expensive, cache this)
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg --enable-gd \
+ && docker-php-ext-install -j$(nproc) gd zip mbstring mysqli intl \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+
+# 6️⃣ Copy cron files (small, stable)
 COPY docker/job-cron /etc/cron.d/job-cron
 COPY docker/cron-minute.sh /var/www/cron-minute.sh
-RUN chmod 0644 /etc/cron.d/job-cron
-RUN chmod 0644 /var/www/cron-minute.sh
-RUN dos2unix /etc/cron.d/job-cron
-RUN dos2unix /var/www/cron-minute.sh
-RUN crontab /etc/cron.d/job-cron
+RUN chmod 0644 /etc/cron.d/job-cron /var/www/cron-minute.sh \
+ && dos2unix /etc/cron.d/job-cron /var/www/cron-minute.sh \
+ && crontab /etc/cron.d/job-cron \
+ && touch /var/log/cron.log \
+ && chmod 0777 /var/log/cron.log
 
-RUN touch /var/log/cron.log
-RUN chmod 0777 /var/log/cron.log
-
-COPY . /var/www/
-
+# 7️⃣ Copy Composer from official image
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
+# 8️⃣ Set working directory
 WORKDIR /var/www
 
-COPY docker/start-new.sh /var/www/start.sh
+# 9️⃣ Copy only composer files first for cache reuse
+COPY composer.json composer.lock ./
 
-RUN composer install
+# 10️⃣ Install PHP dependencies
+RUN composer install --no-interaction --no-scripts --no-autoloader
 
-RUN dos2unix /var/www/start.sh
+# 11️⃣ Now copy the rest of your app
+COPY . .
 
-RUN chown -R www-data:www-data /var/www
-RUN git config --global --add safe.directory /var/www
+# 12️⃣ Finish Composer setup
+RUN composer dump-autoload --optimize
 
-RUN mkdir -p /tmp/admin/43
-RUN chown -R www-data:www-data /tmp/admin
-
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# To get in container - docker exec -t -i nouse-container /bin/bash
+# 13️⃣ Permissions and final setup
+RUN dos2unix /var/www/start-new.sh \
+ && mv /var/www/start-new.sh /var/www/start.sh \
+ && chown -R www-data:www-data /var/www /tmp \
+ && mkdir -p /tmp/admin/43 \
+ && chown -R www-data:www-data /tmp/admin \
+ && git config --global --add safe.directory /var/www \
+ && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 CMD ["bash","/var/www/start.sh"]
