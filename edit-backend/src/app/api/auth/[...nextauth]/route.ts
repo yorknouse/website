@@ -92,16 +92,17 @@ export const authOptions: AuthOptions = {
       // Attach to session
       user.internalId = userRecord.users_userid;
       user.internalToken = tokenValue;
-      // (user as any).positions = userRecord.userPositions.map(
-      //   (pos) =>
-      //     pos.positions?.positions_displayName || pos.userPositions_displayName,
-      // );
+      user.positions = userRecord.userPositions.map(
+        (pos) =>
+          pos.positions?.positions_displayName || pos.userPositions_displayName,
+      );
 
       return true;
     },
     async jwt({ token, user, account, profile }) {
       if (user) {
         token.internalId = user.internalId;
+        token.positions = user.positions;
       }
 
       if (account && profile) {
@@ -119,6 +120,7 @@ export const authOptions: AuthOptions = {
           email: token.email,
           image: token.picture,
           internalId: token.internalId,
+          positions: token.positions,
         };
       }
 
