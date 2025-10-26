@@ -12,6 +12,7 @@ RUN apk add --no-cache \
     libpng-dev \
     libpng \
     libjpeg-turbo-dev \
+    libjpeg \
     freetype-dev \
     libzip-dev \
     libzip \
@@ -26,7 +27,7 @@ RUN apk add --no-cache \
     cronie \
  && docker-php-ext-configure gd --with-freetype --with-jpeg --enable-gd \
  && docker-php-ext-install -j$(nproc) gd zip mbstring mysqli intl \
- && apk del --purge freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev icu-dev oniguruma-dev zlib-dev \
+ && apk del --purge freetype-dev libpng-dev libzip-dev oniguruma-dev zlib-dev \
  && rm -rf /var/cache/apk/*
 
 # 2️⃣ Copy PHP configuration
