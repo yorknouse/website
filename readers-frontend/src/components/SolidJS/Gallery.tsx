@@ -1,47 +1,47 @@
 import { createSignal, For, Show } from "solid-js";
 import { X } from "lucide-solid"; // uses lucide icons (already supported in Astro)
 
-export default function Gallery(props: {images: string[]}) {
-    const [selectedImage, setSelectedImage] = createSignal<string | null>(null);
+export default function Gallery(props: { images: string[] }) {
+  const [selectedImage, setSelectedImage] = createSignal<string | null>(null);
 
-    const closeModal = (e: MouseEvent) => {
-        // prevent closing when clicking on the image itself
-        if ((e.target as HTMLElement).classList.contains("modal-overlay")) {
-            setSelectedImage(null);
-        }
-    };
+  const closeModal = (e: MouseEvent) => {
+    // prevent closing when clicking on the image itself
+    if ((e.target as HTMLElement).classList.contains("modal-overlay")) {
+      setSelectedImage(null);
+    }
+  };
 
-    return (
-        <div class="gallery-container">
-            {/* Grid of images */}
-            <div class="gallery-grid">
-                <For each={props.images}>
-                    {(img) => (
-                        <img
-                            src={img}
-                            alt="Gallery image"
-                            class="gallery-img"
-                            onClick={() => setSelectedImage(img)}
-                        />
-                    )}
-                </For>
-            </div>
+  return (
+    <div class="gallery-container">
+      {/* Grid of images */}
+      <div class="gallery-grid">
+        <For each={props.images}>
+          {(img) => (
+            <img
+              src={img}
+              alt="Gallery image"
+              class="gallery-img"
+              onClick={() => setSelectedImage(img)}
+            />
+          )}
+        </For>
+      </div>
 
-            {/* Modal */}
-            <Show when={selectedImage()}>
-                <div class="modal-overlay" onClick={closeModal}>
-                    <button
-                        class="modal-close"
-                        onClick={() => setSelectedImage(null)}
-                        aria-label="Close image"
-                    >
-                        <X size={28} color="#fff" />
-                    </button>
-                    <img src={selectedImage()!} alt="Full-size" class="modal-image" />
-                </div>
-            </Show>
+      {/* Modal */}
+      <Show when={selectedImage()}>
+        <div class="modal-overlay" onClick={closeModal}>
+          <button
+            class="modal-close"
+            onClick={() => setSelectedImage(null)}
+            aria-label="Close image"
+          >
+            <X size={28} color="#fff" />
+          </button>
+          <img src={selectedImage()!} alt="Full-size" class="modal-image" />
+        </div>
+      </Show>
 
-            <style>{`
+      <style>{`
         .gallery-grid {
           display: grid;
           grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -93,6 +93,6 @@ export default function Gallery(props: {images: string[]}) {
           background: rgba(255, 255, 255, 0.2);
         }
       `}</style>
-        </div>
-    );
+    </div>
+  );
 }

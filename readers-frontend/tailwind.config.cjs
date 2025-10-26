@@ -17,14 +17,14 @@ module.exports = {
           "serif",
         ],
         playfair: [
-            "playfair-display",
-            "ui-serif",
-            "Georgia",
-            "Cambria",
-            '"Times New Roman"',
-            "Times",
-            "serif",
-        ]
+          "playfair-display",
+          "ui-serif",
+          "Georgia",
+          "Cambria",
+          '"Times New Roman"',
+          "Times",
+          "serif",
+        ],
       },
       aspectRatio: {
         edition: "19/23",
