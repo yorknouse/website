@@ -47,7 +47,6 @@ WORKDIR /var/www
 COPY composer.json composer.lock ./
 
 # 🧩 Composer install AFTER gd is available
-RUN composer update
 RUN composer install --no-interaction --no-scripts --no-autoloader
 
 # 6️⃣ Copy app code
