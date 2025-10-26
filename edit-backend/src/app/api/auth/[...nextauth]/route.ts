@@ -17,7 +17,7 @@ export const authOptions: AuthOptions = {
     signIn: "/auth/signin",
   },
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn({ user, profile }) {
       if (!profile?.email) return false;
 
       const email = profile.email.toLowerCase();
@@ -92,10 +92,10 @@ export const authOptions: AuthOptions = {
       // Attach to session
       user.internalId = userRecord.users_userid;
       user.internalToken = tokenValue;
-      (user as any).positions = userRecord.userPositions.map(
-        (pos) =>
-          pos.positions?.positions_displayName || pos.userPositions_displayName,
-      );
+      // (user as any).positions = userRecord.userPositions.map(
+      //   (pos) =>
+      //     pos.positions?.positions_displayName || pos.userPositions_displayName,
+      // );
 
       return true;
     },
