@@ -21,7 +21,7 @@ No linting is provided or used.~~
 Actually *firstly*, an apology.
 This repo is still in somewhat early development but is getting there in maturity.
 This is a 5 (almost 6)
-year labour ot love of over 1,300 commits just trying to keep up with Nouse as the society grew and its needs developed.
+year labour of love of over 1,300 commits just trying to keep up with Nouse as the society grew and its needs developed.
 There are very few tests and documentation is fragmented if even there in the first place.
 Linting has been a project to put in for some semblance of consistency but oh wow it has been a struggle
 (coming from a current alum who is still dedicating their time to helping out).
