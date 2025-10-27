@@ -64,6 +64,13 @@ edit.nouse.co.uk {
 		try_files {path} /index.php
 	}
 
+	# Directory index rewrite
+	@dirIndex {
+		path_regexp dir ^(.*)/$
+		file {http.matchers.path_regexp.dir.1}/index.php
+	}
+	rewrite @dirIndex {http.matchers.path_regexp.dir.1}/index.php
+
 	header {
 		Access-Control-Allow-Origin "*"
 	}
