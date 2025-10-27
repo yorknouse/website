@@ -10,7 +10,7 @@
 {$serverHostname:localhost} {
 	#Extra Tools
 
-	basicauth /tools/* bcrypt {
+	basic_auth /tools/* bcrypt {
 		nouseAdmin {$nouseAdminPassword:JDJ5JDEyJERYNy9hRDVBRi93U2VWaWRvZXlNSmVDQkpmLkE5MjhmTXdpcU5rWTh5VVRRdUVVNmhVbzdHIA==} #default is "password" - needs to be a base64 hash of bcrypt
 	}
 	route /tools/phpmyadmin/* {
@@ -30,7 +30,9 @@ www.nouse.co.uk nouse.co.uk {
 	tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
 		client_auth {
 			mode require_and_verify
-			trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
+			trust_pool file {
+				pem_file /etc/ssl/certs/origin-pull-ca.pem
+			}
 		}
 	}
 	handle /api/* {
@@ -51,11 +53,21 @@ edit.nouse.co.uk {
 	tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
 		client_auth {
 			mode require_and_verify
-			trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
+			trust_pool file {
+				pem_file /etc/ssl/certs/origin-pull-ca.pem
+			}
 		}
 	}
 	root * /var/www/html/admin
-	php_fastcgi php-container:9000
+	php_fastcgi php-container:9000 {
+		# try /index.php if no file specified
+		try_files {path} /index.php
+	}
+
+	header {
+		Access-Control-Allow-Origin "*"
+	}
+
 	encode gzip
 
 	handle_errors {
@@ -70,7 +82,9 @@ edit1.nouse.co.uk {
 	tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
 		client_auth {
 			mode require_and_verify
-			trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
+			trust_pool file {
+				pem_file /etc/ssl/certs/origin-pull-ca.pem
+			}
 		}
 	}
 	reverse_proxy react-container:3000
@@ -80,7 +94,9 @@ stats.nouse.co.uk {
 	tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
 		client_auth {
 			mode require_and_verify
-			trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
+			trust_pool file {
+				pem_file /etc/ssl/certs/origin-pull-ca.pem
+			}
 		}
 	}
 	reverse_proxy grafana:3001
