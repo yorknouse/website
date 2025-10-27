@@ -75,6 +75,7 @@ edit.nouse.co.uk {
 	# 2) fallback for anything else that is not a file
 	@fallback {
 		not file
+		not path /index.php
 	}
 	rewrite @fallback /index.php?{query}
 
