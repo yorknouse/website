@@ -89,7 +89,16 @@ class bID {
             foreach ($position['groups'] as $positiongroup) {
                 $DBLIB->where("positionsGroups_id", $positiongroup);
                 $positiongroup = $DBLIB->getone("positionsGroups", ["positionsGroups_actions"]);
-                $permissionCodes = array_merge($permissionCodes, explode(",", $positiongroup['positionsGroups_actions']), explode(",", $position['userPositions_extraPermissions']));
+                // Ensure we have strings to pass to explode
+                $groupActions = $positiongroup['positionsGroups_actions'] ?? '';
+                $extraPermissions = $position['userPositions_extraPermissions'] ?? '';
+
+                // Merge into permission codes, filtering out empty strings
+                $permissionCodes = array_merge(
+                    $permissionCodes,
+                    array_filter(explode(",", $groupActions)),
+                    array_filter(explode(",", $extraPermissions))
+                );
             }
         }
         $this->permissions = array_unique($permissionCodes);
