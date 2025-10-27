@@ -1,5 +1,8 @@
 ---
-import { getMenuCategories, getMenuSubcategories } from "@componentsUtils/categories";
+import {
+  getMenuCategories,
+  getMenuSubcategories,
+} from "@componentsUtils/categories";
 import DesktopNavbar from "./DesktopNavbar.astro";
 import MobileNavbar from "./MobileNavbar.astro";
 import type { ICategory } from "./types";
@@ -11,37 +14,34 @@ interface Props {
 
 const { active, style = "nouse" } = Astro.props;
 
-const baseUrl =
-  style === "nouse"
-    ? import.meta.env.BASE_URL
-    : `/muse/`;
+const baseUrl = style === "nouse" ? import.meta.env.BASE_URL : `/muse/`;
 
 const menuCategories = await getMenuCategories(style);
 
 let subMenuCategories: Map<string, ICategory[]> = new Map();
 
 if (menuCategories !== undefined) {
-    subMenuCategories = await menuCategories.reduce(
-        async (accumulatorPromise, menuCategory) => {
-            const accumulator = await accumulatorPromise;
+  subMenuCategories = await menuCategories.reduce(
+    async (accumulatorPromise, menuCategory) => {
+      const accumulator = await accumulatorPromise;
 
-            if (
-                menuCategory.categories_name !== "home" &&
-                menuCategory.categories_name !== "muse" &&
-                menuCategory.categories_id !== 0
-            ) {
-                const subCategories = await getMenuSubcategories(
-                    menuCategory.categories_id
-                );
+      if (
+        menuCategory.categories_name !== "home" &&
+        menuCategory.categories_name !== "muse" &&
+        menuCategory.categories_id !== 0
+      ) {
+        const subCategories = await getMenuSubcategories(
+          menuCategory.categories_id,
+        );
 
-                if (subCategories && subCategories.length > 0)
-                    accumulator.set(menuCategory.categories_name, subCategories);
-            }
+        if (subCategories && subCategories.length > 0)
+          accumulator.set(menuCategory.categories_name, subCategories);
+      }
 
-            return accumulator;
-        },
-        Promise.resolve(new Map<string, ICategory[]>())
-    );
+      return accumulator;
+    },
+    Promise.resolve(new Map<string, ICategory[]>()),
+  );
 }
 ---
 
@@ -63,10 +63,10 @@ if (menuCategories !== undefined) {
 
 <script>
   const searchBtnList = document.querySelectorAll(
-    ".searchBtnClassIdentifier"
+    ".searchBtnClassIdentifier",
   ) as NodeListOf<HTMLButtonElement>;
   const searchInterface = document.getElementById(
-    "searchInterface"
+    "searchInterface",
   ) as HTMLElement;
 
   searchBtnList.forEach((searchBtn) => {

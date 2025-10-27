@@ -2,7 +2,7 @@
 import Article from "./Article.astro";
 import { getArticles } from "@componentsUtils//articles";
 import { getCategoryLink } from "@componentsUtils/categories";
-import type {IArticleFull, ICategory, ICategoryArticles} from "./types";
+import type { IArticleFull, ICategory, ICategoryArticles } from "./types";
 
 export interface Props {
   category: ICategoryArticles | ICategory;
@@ -11,16 +11,17 @@ export interface Props {
 const { category, style } = Astro.props;
 
 let articles: IArticleFull[] = [];
-if ('articles' in category) {
-    if (category.articles) {
-        articles = category.articles.map((article) => article);
-    } else {
-        console.error("No articles found for category");
-    }
+if ("articles" in category) {
+  if (category.articles) {
+    articles = category.articles.map((article) => article);
+  } else {
+    console.error("No articles found for category");
+  }
 } else {
-    articles = await getArticles(style,
-        category.categories_featured?.split(",").map(Number)
-    );
+  articles = await getArticles(
+    style,
+    category.categories_featured?.split(",").map(Number),
+  );
 }
 
 const categoryColor = category.categories_backgroundColor;
@@ -42,9 +43,7 @@ const categoryColor = category.categories_backgroundColor;
           id="category-text"
           class="playfair-display category-color text-2xl uppercase xl:text-3xl 2xl:text-4xl"
           href={`${
-            category.categories_nestUnder == 4
-              ? `/muse/`
-              : '/'
+            category.categories_nestUnder == 4 ? `/muse/` : "/"
           }${category.categories_name}`}
         >
           {category.categories_displayName}
@@ -52,38 +51,36 @@ const categoryColor = category.categories_backgroundColor;
         {/* Desktop */}
         <div class="hidden max-w-full flex-row justify-center gap-2.5 md:flex">
           {articles.map(async (article, index) => {
-              return (
-                      <div
-                              class={`w-full pr-2.5 ${
-                                  index != articles.length - 1 ? "border-r border-gray-300" : ""
-                              }`}
-                      >
-                          <Article
-                                  headline={
-                                      article.headline?.length != 0
-                                          ? String(article.headline)
-                                          : "Unknown"
-                                  }
-                                  excerpt={
-                                      article.excerpt?.length != 0
-                                          ? article.excerpt
-                                          : "Unknown"
-                                  }
-                                  authors={article.authors}
-                                  category={category.categories_displayName}
-                                  categoryLink={getCategoryLink(
-                                      category.categories_name,
-                                      category.categories_nestUnder
-                                  )}
-                                  categoryColor={categoryColor}
-                                  imageUrl={article.thumbnailURL}
-                                  articleUrl={article.articleURL}
-                                  isVertical={true}
-                                  isPortrait={article.isThumbnailPortrait}
-                                  hideCategoryAccent={true}
-                          />
-                      </div>
-              )
+            return (
+              <div
+                class={`w-full pr-2.5 ${
+                  index != articles.length - 1 ? "border-r border-gray-300" : ""
+                }`}
+              >
+                <Article
+                  headline={
+                    article.headline?.length != 0
+                      ? String(article.headline)
+                      : "Unknown"
+                  }
+                  excerpt={
+                    article.excerpt?.length != 0 ? article.excerpt : "Unknown"
+                  }
+                  authors={article.authors}
+                  category={category.categories_displayName}
+                  categoryLink={getCategoryLink(
+                    category.categories_name,
+                    category.categories_nestUnder,
+                  )}
+                  categoryColor={categoryColor}
+                  imageUrl={article.thumbnailURL}
+                  articleUrl={article.articleURL}
+                  isVertical={true}
+                  isPortrait={article.isThumbnailPortrait}
+                  hideCategoryAccent={true}
+                />
+              </div>
+            );
           })}
         </div>
         {/* Mobile */}
@@ -102,15 +99,13 @@ const categoryColor = category.categories_backgroundColor;
                       : "Unknown"
                   }
                   excerpt={
-                    article.excerpt?.length != 0
-                      ? article.excerpt
-                      : "Unknown"
+                    article.excerpt?.length != 0 ? article.excerpt : "Unknown"
                   }
                   authors={article.authors}
                   category={category.categories_displayName}
                   categoryLink={getCategoryLink(
                     category.categories_name,
-                    category.categories_nestUnder
+                    category.categories_nestUnder,
                   )}
                   categoryColor={categoryColor}
                   imageUrl={article.thumbnailURL}

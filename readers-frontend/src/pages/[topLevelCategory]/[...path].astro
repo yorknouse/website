@@ -2,9 +2,7 @@
 import FeaturedArticles from "@components/FeaturedArticles.astro";
 import FeaturedSection from "@components/FeaturedSection.astro";
 import Paginator from "@solidComponents/Paginator";
-import {
-  getCategoriesWithArticles,
-} from "@componentsUtils/categories";
+import { getCategoriesWithArticles } from "@componentsUtils/categories";
 import Layout from "@layouts/Layout.astro";
 import NavbarColourSwitcher from "@components/NavbarColourSwitcher.astro";
 import ArticleRows from "@components/ArticleRows.astro";
@@ -60,17 +58,19 @@ const isMuseLandingPage = categoryName === "muse" && pageNumber === 0; // Whethe
 const articlesSkipped = isMuseLandingPage // Number of articles to skip
   ? 0
   : categoryName === "muse"
-  ? (pageNumber - 1) * articlesPerPage
-  : pageNumber * articlesPerPage;
+    ? (pageNumber - 1) * articlesPerPage
+    : pageNumber * articlesPerPage;
 
 const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
-let res = await fetch(`${apiBase}/api/frontend/categoryFeaturedAndCount/${categoryName}`);
+let res = await fetch(
+  `${apiBase}/api/frontend/categoryFeaturedAndCount/${categoryName}`,
+);
 const categoryFeaturedAndCount: {
-    _count: {
-        articles: number
-    }
-    categories_featured: string | null
+  _count: {
+    articles: number;
+  };
+  categories_featured: string | null;
 } | null = await res.json();
 
 // Getting the featured article ids
@@ -94,13 +94,13 @@ if (
 
 const formData = new FormData();
 formData.append("categoryName", categoryName);
-formData.append("take", String(isMuseLandingPage ? 0 : articlesPerPage))
-formData.append("skip", String(articlesSkipped))
-formData.append("notInFeatured", String(featuredArticlesIds))
+formData.append("take", String(isMuseLandingPage ? 0 : articlesPerPage));
+formData.append("skip", String(articlesSkipped));
+formData.append("notInFeatured", String(featuredArticlesIds));
 
 res = await fetch(`${apiBase}/api/frontend/categoryArticlesPath`, {
-    method: "POST",
-    body: formData,
+  method: "POST",
+  body: formData,
 });
 
 const category: ICategoryArticles = await res.json();
@@ -123,15 +123,15 @@ if (isMuseLandingPage) {
 }
 
 const cat: ArticleCategory = {
-    id: category.categories_id,
-    name: category.categories_name,
-    displayName: category.categories_displayName,
-    colour: category.categories_backgroundColor,
-    link: getCategoryLink(
-        String(category.categories_name),
-        Number(category.categories_nestUnder)
-    ),
-    nestUnder: Number(category.categories_nestUnder)
+  id: category.categories_id,
+  name: category.categories_name,
+  displayName: category.categories_displayName,
+  colour: category.categories_backgroundColor,
+  link: getCategoryLink(
+    String(category.categories_name),
+    Number(category.categories_nestUnder),
+  ),
+  nestUnder: Number(category.categories_nestUnder),
 };
 ---
 
@@ -180,7 +180,7 @@ const cat: ArticleCategory = {
           <div class="featured-sections">
             {museCategories.map((category) => (
               <div id={`${category.categories_name}-section`}>
-                  <FeaturedSection category={category} style={"muse"} />
+                <FeaturedSection category={category} style={"muse"} />
               </div>
             ))}
           </div>
@@ -196,13 +196,13 @@ const cat: ArticleCategory = {
         ? Math.ceil(
             (categoryFeaturedAndCount._count.articles -
               featuredArticlesIds.length) /
-              articlesPerPage
+              articlesPerPage,
           ) + 1
         : Math.max(
             1,
             Math.ceil(
-              categoryFeaturedAndCount._count.articles / articlesPerPage
-            )
+              categoryFeaturedAndCount._count.articles / articlesPerPage,
+            ),
           )}
       pagesToDisplay={5}
       prefix={paginatorPrefix}

@@ -6,7 +6,6 @@ const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 const res = await fetch(`${apiBase}/api/frontend/latestEdition`);
 const latestEdition: IEdition = await res.json();
 
-
 if (latestEdition === null) {
   console.log("Could not fetch latest edition");
 }
@@ -37,29 +36,33 @@ if (latestEdition != null) {
   </a>
 
   {/* Edition */}
-  {latestEdition != null ?
-  <a
-    id="edition"
-    class="flex w-full flex-row rounded-md border-4 border-whiteish-200 sm:w-2/5"
-    href={`/editions/${String(latestEdition?.slug)}`}
-  >
-    <div class="flex w-1/2 flex-col gap-2.5 self-center">
-      <p
-        class="text-center text-2xl uppercase sm:text-base md:text-2xl lg:text-4xl xl:text-5xl"
+  {
+    latestEdition != null ? (
+      <a
+        id="edition"
+        class="flex w-full flex-row rounded-md border-4 border-whiteish-200 sm:w-2/5"
+        href={`/editions/${String(latestEdition?.slug)}`}
       >
-        Our<br />latest<br />edition
-      </p>
-      <p
-        class="text-center text-base sm:text-sm md:text-base lg:text-lg xl:text-xl"
-      >
-        {latestEdition?.name}
-      </p>
-    </div>
-    <img
-      class="aspect-edition w-1/2 object-contain p-2.5 sm:p-4"
-      src={thumbnail}
-     alt="Latest edition thumbnail"/>
-  </a>
-      :
-      <div>Unknown latest edition</div>}
+        <div class="flex w-1/2 flex-col gap-2.5 self-center">
+          <p class="text-center text-2xl uppercase sm:text-base md:text-2xl lg:text-4xl xl:text-5xl">
+            Our
+            <br />
+            latest
+            <br />
+            edition
+          </p>
+          <p class="text-center text-base sm:text-sm md:text-base lg:text-lg xl:text-xl">
+            {latestEdition?.name}
+          </p>
+        </div>
+        <img
+          class="aspect-edition w-1/2 object-contain p-2.5 sm:p-4"
+          src={thumbnail}
+          alt="Latest edition thumbnail"
+        />
+      </a>
+    ) : (
+      <div>Unknown latest edition</div>
+    )
+  }
 </div>

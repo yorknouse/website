@@ -31,8 +31,8 @@ const { active, displayName, categoryName, baseUrl, subMenu }: Props =
                 displayName === "Home"
                   ? baseUrl
                   : displayName === "Nouse"
-                  ? import.meta.env.BASE_URL
-                  : `${baseUrl + categoryName}`
+                    ? import.meta.env.BASE_URL
+                    : `${baseUrl + categoryName}`
               }
               class="my-auto mr-2"
             >
@@ -41,13 +41,13 @@ const { active, displayName, categoryName, baseUrl, subMenu }: Props =
             <Icon
               id={`${categoryName}Chevron`}
               name="ic:sharp-chevron-right"
-              class=`my-auto h-6 w-6 ${active === categoryName ? "-rotate-90" : "rotate-90"}`
+              class={`my-auto h-6 w-6 ${active === categoryName ? "-rotate-90" : "rotate-90"}`}
               style={"color: white"}
             />
           </div>
         </button>
         <div
-          class=`${active === categoryName ? "" : "hidden"} w-full border-b border-b-white`
+          class={`${active === categoryName ? "" : "hidden"} w-full border-b border-b-white`}
           id={`${categoryName}ListContainer`}
         >
           <ul class="flex w-full flex-col bg-neutral-900 text-center">
@@ -69,8 +69,8 @@ const { active, displayName, categoryName, baseUrl, subMenu }: Props =
           displayName === "Home"
             ? baseUrl
             : displayName === "Nouse"
-            ? import.meta.env.BASE_URL
-            : `${baseUrl + categoryName}`
+              ? import.meta.env.BASE_URL
+              : `${baseUrl + categoryName}`
         }
         class={`mx-auto w-full pb-4 text-center ${
           active === categoryName ? "border-b-[5px]" : "border-b"
@@ -89,7 +89,7 @@ const { active, displayName, categoryName, baseUrl, subMenu }: Props =
     btn.addEventListener("click", () => {
       const chevron = document.getElementById(`${categoryName}Chevron`);
       const listContainer = document.getElementById(
-        `${categoryName}ListContainer`
+        `${categoryName}ListContainer`,
       );
 
       if (chevron) {

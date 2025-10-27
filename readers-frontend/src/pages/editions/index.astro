@@ -18,12 +18,8 @@ allEditions.forEach((edition) => {
   const published = new Date(edition.editions_published);
   let academicYear =
     published.getMonth() + 1 >= 9
-      ? `${published.getFullYear()}-${
-          published.getFullYear() + 1
-        }`
-      : `${
-          published.getFullYear() - 1
-        }-${published.getFullYear()}`;
+      ? `${published.getFullYear()}-${published.getFullYear() + 1}`
+      : `${published.getFullYear() - 1}-${published.getFullYear()}`;
   if (yearlyEditions[academicYear]) {
     if (edition.editions_type !== "Web Edition") {
       yearlyEditions[academicYear].printEditions.push(edition);
@@ -64,28 +60,30 @@ allEditions.forEach((edition) => {
                 class={`print-editions mb-4 flex flex-wrap justify-center gap-8`}
               >
                 {editions.printEditions.map(async (edition) => {
-                  const res = await fetch(`${apiBase}/api/s3url?fileId=${Number(edition.editions_thumbnail)}&size=medium`);
+                  const res = await fetch(
+                    `${apiBase}/api/s3url?fileId=${Number(edition.editions_thumbnail)}&size=medium`,
+                  );
                   const s3url: S3URL = await res.json();
                   return (
-                      <a
-                          class="edition px-[17%] md:w-1/6 md:p-0"
-                          href={`${
-                              import.meta.env.BASE_URL
-                          }editions/${decodeURIComponent(edition.editions_slug)}`}
-                      >
-                        {edition.editions_thumbnail && (
-                            <img
-                                class="mb-4 aspect-auto object-contain md:aspect-edition"
-                                src={s3url.url}
-                            />
-                        )}
-                        <h4 class="text-center text-base sm:text-xl">
-                          {edition.editions_printNumber
-                              ? `№${edition.editions_printNumber}`
-                              : edition.editions_name}
-                        </h4>
-                      </a>
-                  )
+                    <a
+                      class="edition px-[17%] md:w-1/6 md:p-0"
+                      href={`${
+                        import.meta.env.BASE_URL
+                      }editions/${decodeURIComponent(edition.editions_slug)}`}
+                    >
+                      {edition.editions_thumbnail && (
+                        <img
+                          class="mb-4 aspect-auto object-contain md:aspect-edition"
+                          src={s3url.url}
+                        />
+                      )}
+                      <h4 class="text-center text-base sm:text-xl">
+                        {edition.editions_printNumber
+                          ? `№${edition.editions_printNumber}`
+                          : edition.editions_name}
+                      </h4>
+                    </a>
+                  );
                 })}
               </div>
             </>
@@ -99,26 +97,26 @@ allEditions.forEach((edition) => {
                 class={`web-editions mb-4 flex flex-wrap justify-center gap-8`}
               >
                 {editions.webEditions.map(async (edition) => {
-                  const res = await fetch(`${apiBase}/api/s3url?fileId=${Number(edition.editions_thumbnail)}&size=medium`);
+                  const res = await fetch(
+                    `${apiBase}/api/s3url?fileId=${Number(edition.editions_thumbnail)}&size=medium`,
+                  );
                   const s3url: S3URL = await res.json();
                   return (
-                      <a
-                          class="edition px-[17%] md:w-1/6 md:p-0"
-                          href={`/editions/${
-                              edition.editions_slug
-                          }`}
-                      >
-                        {edition.editions_thumbnail && (
-                            <img
-                                class="mb-4 aspect-auto object-contain md:aspect-video"
-                                src={s3url.url}
-                            />
-                        )}
-                        <h4 class="text-center text-base sm:text-xl">
-                          {edition.editions_name}
-                        </h4>
-                      </a>
-                  )
+                    <a
+                      class="edition px-[17%] md:w-1/6 md:p-0"
+                      href={`/editions/${edition.editions_slug}`}
+                    >
+                      {edition.editions_thumbnail && (
+                        <img
+                          class="mb-4 aspect-auto object-contain md:aspect-video"
+                          src={s3url.url}
+                        />
+                      )}
+                      <h4 class="text-center text-base sm:text-xl">
+                        {edition.editions_name}
+                      </h4>
+                    </a>
+                  );
                 })}
               </div>
             </>

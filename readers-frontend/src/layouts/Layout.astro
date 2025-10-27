@@ -14,14 +14,14 @@ const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
 const res = await fetch(`${apiBase}/api/frontend/getCategoriesColours`);
 const categoriesColours: {
-    categories_name: string
-    categories_backgroundColor: string | null
+  categories_name: string;
+  categories_backgroundColor: string | null;
 }[] = await res.json();
 
 const { title, active, style } = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="bg-whiteish-100 font-arno font-normal">
   <head>
     <meta charset="UTF-8" />
@@ -39,8 +39,14 @@ const { title, active, style } = Astro.props;
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
+      rel="stylesheet"
+    />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     {/* Adobe Fonts */}
@@ -67,13 +73,9 @@ const { title, active, style } = Astro.props;
         <a href={`/about-us`}>About Us</a>
         <a href={`/team`}>Our Team</a>
         <a href={`/editions`}>Previous Editions</a>
-        <a href={`/website-credits`}
-          >Website Credits</a
-        >
+        <a href={`/website-credits`}>Website Credits</a>
         <a href={`/archives`}>Archives</a>
-        <a href={`/website-policies`}
-          >Website Policies</a
-        >
+        <a href={`/website-policies`}>Website Policies</a>
         <a href={`/advertising`}>Advertising</a>
         <a href={`/contact-us`}>Contact Us</a>
         <a href="https://edit.nouse.co.uk" target="_blank" rel="”noreferrer”"
@@ -97,38 +99,38 @@ const { title, active, style } = Astro.props;
     </div>
   </footer>
   <script define:vars={{ categoriesColours }}>
-      const style = document.createElement("style");
-      document.getElementsByTagName("head")[0].appendChild(style);
-      categoriesColours.forEach((c) => {
-          if (style.sheet && style.sheet.insertRule) {
-              style.sheet.insertRule(
-                  `.category-color-${c.categories_name} {color: ${c.categories_backgroundColor};}`
-              );
-              style.sheet.insertRule(
-                  `.border-color-${c.categories_name} {border-color: ${c.categories_backgroundColor};}`
-              );
-          } else {
-              (style.styleSheet || style.sheet).addRule(
-                  `.category-color-${c.categories_name}`,
-                  `color: ${c.categories_backgroundColor};`
-              );
-              (style.styleSheet || style.sheet).addRule(
-                  `.border-color-${c.categories_name}`,
-                  `border-color: ${c.categories_backgroundColor};`
-              );
-          }
-      });
+    const style = document.createElement("style");
+    document.getElementsByTagName("head")[0].appendChild(style);
+    categoriesColours.forEach((c) => {
+      if (style.sheet && style.sheet.insertRule) {
+        style.sheet.insertRule(
+          `.category-color-${c.categories_name} {color: ${c.categories_backgroundColor};}`,
+        );
+        style.sheet.insertRule(
+          `.border-color-${c.categories_name} {border-color: ${c.categories_backgroundColor};}`,
+        );
+      } else {
+        (style.styleSheet || style.sheet).addRule(
+          `.category-color-${c.categories_name}`,
+          `color: ${c.categories_backgroundColor};`,
+        );
+        (style.styleSheet || style.sheet).addRule(
+          `.border-color-${c.categories_name}`,
+          `border-color: ${c.categories_backgroundColor};`,
+        );
+      }
+    });
   </script>
   <style is:global>
-      .arno-display {
-          font-family: "arno-pro-display", serif;
-          font-weight: 700;
-          font-style: normal;
-      }
-      .playfair-display {
-          font-family: "playfair-display", serif;
-          font-weight: 700;
-          font-style: normal;
-      }
+    .arno-display {
+      font-family: "arno-pro-display", serif;
+      font-weight: 700;
+      font-style: normal;
+    }
+    .playfair-display {
+      font-family: "playfair-display", serif;
+      font-weight: 700;
+      font-style: normal;
+    }
   </style>
 </html>

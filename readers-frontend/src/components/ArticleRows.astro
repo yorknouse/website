@@ -23,16 +23,16 @@ const {
           accumulator: IArticleFull[][],
           currentValue: any,
           currentIndex: number,
-          array: IArticleFull[]
+          array: IArticleFull[],
         ) => {
           if (currentIndex % articlesPerRow === 0) {
             accumulator.push(
-              array.slice(currentIndex, currentIndex + articlesPerRow)
+              array.slice(currentIndex, currentIndex + articlesPerRow),
             );
           }
           return accumulator;
         },
-        []
+        [],
       )
       .map(async (articleRow: IArticleFull[], index: number) => {
         // const categories = articleRow.map((article) =>
@@ -41,52 +41,54 @@ const {
         //     : getParentCategory(article.categories)
         // );
         return (
-          <div>
-            <div class="flex max-h-52 max-w-full gap-2.5">
-              {articleRow.map(
-                async (
-                  article: IArticleFull,
-                  articleIndex: number
-                ) => {
+          <>
+            <div>
+              <div class="flex max-h-52 max-w-full gap-2.5">
+                {articleRow.map(
+                  async (article: IArticleFull, articleIndex: number) => {
                     return (
-                  <div
-                    class={`${
-                      articlesPerRow == 1 ? "w-full" : `w-1/${articlesPerRow}`
-                    } pr-2.5 ${
-                      articleIndex < articleRow.length - 1 &&
-                      "border-r border-gray-300"
-                    }`}
-                  >
-                    <Article
-                      headline={
-                          article.headline?.length != 0
+                      <div
+                        class={`${
+                          articlesPerRow == 1
+                            ? "w-full"
+                            : `w-1/${articlesPerRow}`
+                        } pr-2.5 ${
+                          articleIndex < articleRow.length - 1 &&
+                          "border-r border-gray-300"
+                        }`}
+                      >
+                        <Article
+                          headline={
+                            article.headline?.length != 0
                               ? String(article.headline)
                               : "Unknown"
-                      }
-                      excerpt={
-                          article.excerpt?.length != 0
+                          }
+                          excerpt={
+                            article.excerpt?.length != 0
                               ? String(article.excerpt)
                               : "Unknown"
-                      }
-                      authors={article.authors}
-                      category={article.parentCategory.displayName}
-                      categoryLink={article.parentCategory.link}
-                      categoryColor={article.parentCategory.colour}
-                      imageUrl={article.thumbnailURL}
-                      articleUrl={article.articleURL}
-                      isVertical={false}
-                      isPortrait={false}
-                      hideCategoryAccent={hideCategoryAccent}
-                    />
-                  </div>
+                          }
+                          authors={article.authors}
+                          category={article.parentCategory.displayName}
+                          categoryLink={article.parentCategory.link}
+                          categoryColor={article.parentCategory.colour}
+                          imageUrl={article.thumbnailURL}
+                          articleUrl={article.articleURL}
+                          isVertical={false}
+                          isPortrait={false}
+                          hideCategoryAccent={hideCategoryAccent}
+                        />
+                      </div>
+                    );
+                  },
                 )}
+              </div>
+              {index !=
+                (0 || Math.ceil(articles.length / articlesPerRow) - 1) && (
+                <hr class="my-2.5 w-full self-center border-gray-300" />
               )}
             </div>
-            {index !=
-              (0 || Math.ceil(articles.length / articlesPerRow) - 1) && (
-              <hr class="my-2.5 w-full self-center border-gray-300" />
-            )}
-          </div>
+          </>
         );
       })
   }
@@ -94,9 +96,6 @@ const {
 <div class="block max-w-full justify-center md:hidden">
   {
     articles.map(async (article, index) => {
-      <!--const category = parentCategory-->
-      <!--  ? parentCategory-->
-      <!--  : getParentCategory(article.categories);-->
       return (
         <div
           class={`w-full p-2.5 ${
@@ -110,9 +109,7 @@ const {
                 : "Unknown"
             }
             excerpt={
-              article.excerpt?.length != 0
-                ? String(article.excerpt)
-                : "Unknown"
+              article.excerpt?.length != 0 ? String(article.excerpt) : "Unknown"
             }
             authors={article.authors}
             category={article.parentCategory.name}

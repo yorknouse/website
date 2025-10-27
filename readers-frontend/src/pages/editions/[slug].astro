@@ -16,7 +16,8 @@ const cleanSlug = decodeURIComponent(slug || "");
 const preview = Astro.url.searchParams.get("preview") != null;
 const previewEditionId = Astro.url.searchParams.get("edition");
 const previewEditionHash = Astro.url.searchParams.get("key");
-const isPreview = preview && previewEditionId !== null && previewEditionHash !== null;
+const isPreview =
+  preview && previewEditionId !== null && previewEditionHash !== null;
 
 const formData = new FormData();
 formData.append("slug", cleanSlug);
@@ -59,10 +60,8 @@ if (isWebEdition && edition.editions_featuredHighlights) {
       }
     }
   }
-} else if (edition.editions_pdf)
-  tempFileId = edition.editions_pdf;
-else
-  tempFileId = edition.editions_pdfOriginal;
+} else if (edition.editions_pdf) tempFileId = edition.editions_pdf;
+else tempFileId = edition.editions_pdfOriginal;
 
 if (tempFileId) {
   const res = await fetch(`${apiBase}/api/s3url?fileId=${tempFileId}`);
@@ -94,7 +93,7 @@ if (tempFileId) {
         new Date(edition.editions_name).toString() === "Invalid Date") && (
         <h4 class="text-center text-lg md:text-xl">{`Published on ${edition.editions_published.toLocaleString(
           "en-gb",
-          { day: "numeric", month: "long", year: "numeric" }
+          { day: "numeric", month: "long", year: "numeric" },
         )}`}</h4>
       )
     }
@@ -102,7 +101,9 @@ if (tempFileId) {
   {
     isWebEdition && featuredHighlights ? (
       async () => {
-        const res = await fetch(`${apiBase}/api/s3url?fileId=${edition.editions_thumbnail!}&size=medium`);
+        const res = await fetch(
+          `${apiBase}/api/s3url?fileId=${edition.editions_thumbnail!}&size=medium`,
+        );
         const s3url: S3URL = await res.json();
         return (
           <div class="mt-8">
@@ -113,7 +114,9 @@ if (tempFileId) {
               alt="Edition thumbnail"
             />
             {featuredHighlights!.sections.map(async (section) => {
-              const res = await fetch(`${apiBase}/api/s3url?fileId=${section.headerImage}&size=medium`);
+              const res = await fetch(
+                `${apiBase}/api/s3url?fileId=${section.headerImage}&size=medium`,
+              );
               const s3url: S3URL = await res.json();
               return (
                 <div class="section mb-8">
@@ -162,9 +165,7 @@ if (tempFileId) {
                     })}
                   {section.articles.length !== 0 && (
                     <div class="px-[3%] sm:px-[0.5%] 2xl:px-[13%]">
-                      <ArticleRows
-                        articles={section.articlesData}
-                      />
+                      <ArticleRows articles={section.articlesData} />
                     </div>
                   )}
                 </div>

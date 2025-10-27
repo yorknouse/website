@@ -14,14 +14,14 @@ const cleanSlug = decodeURIComponent(slug || "");
 const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 const base = import.meta.env.PUBLIC_BASE_URL;
 
-const res = await fetch(`${apiBase}/api/frontend/article/`+cleanSlug);
+const res = await fetch(`${apiBase}/api/frontend/article/` + cleanSlug);
 const article: IArticle = await res.json();
 
 if (!article) return Astro.redirect("/404");
 
 if (!article.categories || article.categories.length == 0) {
-  console.error("No categories exist")
-  return Astro.redirect("/404")
+  console.error("No categories exist");
+  return Astro.redirect("/404");
 }
 const topCategory = article.categories[0];
 
@@ -38,18 +38,24 @@ const imagePlaceHolder =
 
 let galleryImages: string[] = [];
 
-if (article.articleType === 2 && article.text != null && article.text.length > 0) {
+if (
+  article.articleType === 2 &&
+  article.text != null &&
+  article.text.length > 0
+) {
   let draftText = article.text;
   const imageIds = draftText
-      .split(',')
-      .map((idStr) => parseInt(idStr.trim()))
-      .filter((id) => !isNaN(id));
+    .split(",")
+    .map((idStr) => parseInt(idStr.trim()))
+    .filter((id) => !isNaN(id));
 
-  galleryImages = await Promise.all(imageIds.map(async (id) => {
-    const res = await fetch(`${apiBase}/api/s3url?fileId=${id}&size=large`);
-    const s3url: S3URL = await res.json();
-    return s3url.url
-  }));
+  galleryImages = await Promise.all(
+    imageIds.map(async (id) => {
+      const res = await fetch(`${apiBase}/api/s3url?fileId=${id}&size=large`);
+      const s3url: S3URL = await res.json();
+      return s3url.url;
+    }),
+  );
 }
 ---
 
@@ -113,9 +119,7 @@ if (article.articleType === 2 && article.text != null && article.text.length > 0
               class={`ml-2 category-color-${article.parentCategory?.name}`}
               id="article-credits"
             >
-              Image by {
-                article.thumbnailCredit
-              }
+              Image by {article.thumbnailCredit}
             </p>
           </div>
           <p class="text-xl italic">
@@ -123,56 +127,48 @@ if (article.articleType === 2 && article.text != null && article.text.length > 0
               >By
             </span>
             {
-              article.authors
-                .map((author, index) => {
-                  if (index === 0) {
-                    return (
-                      <a
-                        href={`/author/${
-                          author.users_userid
-                        }`}
-                      >
-                        {`${author.users_name1} ${author.users_name2}`}
-                      </a>
-                    );
-                  } else if (index === article.authors.length - 1) {
-                    return (
-                      <a
-                        href={`/author/${
-                          author.users_userid
-                        }`}
-                      >
-                        {` and ${author.users_name1} ${author.users_name2}`}
-                      </a>
-                    );
-                  } else {
-                    return (
-                      <a href={`/author/${author.users_userid}`}>
-                        {`, ${author.users_name1} ${author.users_name2}`}
-                      </a>
-                    );
-                  }
-                })
+              article.authors.map((author, index) => {
+                if (index === 0) {
+                  return (
+                    <a href={`/author/${author.users_userid}`}>
+                      {`${author.users_name1} ${author.users_name2}`}
+                    </a>
+                  );
+                } else if (index === article.authors.length - 1) {
+                  return (
+                    <a href={`/author/${author.users_userid}`}>
+                      {` and ${author.users_name1} ${author.users_name2}`}
+                    </a>
+                  );
+                } else {
+                  return (
+                    <a href={`/author/${author.users_userid}`}>
+                      {`, ${author.users_name1} ${author.users_name2}`}
+                    </a>
+                  );
+                }
+              })
             }
           </p>
-          {article.articleType == 2 ?
+          {
+            article.articleType == 2 ? (
               <div class="gallery">
                 {galleryImages.length > 0 && (
-                    <p><i>Click image to expand</i></p>
+                  <>
+                    <p>
+                      <i>Click image to expand</i>
+                    </p>
                     <Gallery client:load images={galleryImages} />
-                    <!--<div class="gallery">-->
-                    <!--  {galleryImages.map((img) => (-->
-                    <!--      <img src={img} alt="Gallery image" class="gallery-img" />-->
-                    <!--  ))}-->
-                    <!--</div>-->
+                  </>
                 )}
               </div>
-              :
+            ) : (
               <div
-                  id="article-content"
-                  class="whitespace-pre-wrap text-justify"
-                  set:html={article.text}
+                id="article-content"
+                class="whitespace-pre-wrap text-justify"
+                set:html={article.text}
               />
+            )
           }
         </div>
         <style>
@@ -225,35 +221,34 @@ if (article.articleType === 2 && article.text != null && article.text.length > 0
         >
           {
             article.similarArticles!.map(async (similarArticle, i) => (
-                  <div
-                      class={`mt-4 w-full border-b-whiteish-200 border-r-whiteish-200 pb-4 md:mt-0 md:max-w-[25%] md:pb-0 ${
-                          i < article.similarArticles!.length - 1
-                              ? "border-b border-r-0 md:border-b-0 md:border-r"
-                              : "border-0"
-                      } md:pr-4 ${i > 0 ? "md:ml-4" : "md:ml-0"}`}
-                  >
-                    <div class="h-min">
-                      <Article
-                          headline={
-                            similarArticle.headline!.length != 0
-                                ? similarArticle.headline!
-                                : "Unknown"
-                          }
-                          excerpt={null}
-                          authors={similarArticle.authors}
-                          category={undefined}
-                          categoryLink={undefined}
-                          categoryColor={similarArticle.parentCategory.colour}
-                          imageUrl={similarArticle.thumbnailURL}
-                          articleUrl={similarArticle.articleURL}
-                          isVertical={true}
-                          isPortrait={similarArticle.isThumbnailPortrait}
-                          hideCategoryAccent={true}
-                      />
-                    </div>
-                  </div>
-              )
-            )
+              <div
+                class={`mt-4 w-full border-b-whiteish-200 border-r-whiteish-200 pb-4 md:mt-0 md:max-w-[25%] md:pb-0 ${
+                  i < article.similarArticles!.length - 1
+                    ? "border-b border-r-0 md:border-b-0 md:border-r"
+                    : "border-0"
+                } md:pr-4 ${i > 0 ? "md:ml-4" : "md:ml-0"}`}
+              >
+                <div class="h-min">
+                  <Article
+                    headline={
+                      similarArticle.headline!.length != 0
+                        ? similarArticle.headline!
+                        : "Unknown"
+                    }
+                    excerpt={null}
+                    authors={similarArticle.authors}
+                    category={undefined}
+                    categoryLink={undefined}
+                    categoryColor={similarArticle.parentCategory.colour}
+                    imageUrl={similarArticle.thumbnailURL}
+                    articleUrl={similarArticle.articleURL}
+                    isVertical={true}
+                    isPortrait={similarArticle.isThumbnailPortrait}
+                    hideCategoryAccent={true}
+                  />
+                </div>
+              </div>
+            ))
           }
         </div>
       </div>

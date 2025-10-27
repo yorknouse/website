@@ -10,12 +10,16 @@ interface Props {
   baseUrl: string;
 }
 
-const { active, style, menuCategories, subMenuCategories, baseUrl }: Props = Astro.props;
+const { active, style, menuCategories, subMenuCategories, baseUrl }: Props =
+  Astro.props;
 
 const formData = new FormData();
 formData.append("active", active!);
 formData.append("menuCategories", JSON.stringify(menuCategories));
-formData.append("subMenuCategories", JSON.stringify([...subMenuCategories.entries()]));
+formData.append(
+  "subMenuCategories",
+  JSON.stringify([...subMenuCategories.entries()]),
+);
 
 const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
@@ -24,11 +28,7 @@ const res = await fetch(`${apiBase}/api/frontend/desktopNavBar`, {
   body: formData,
 });
 
-const {
-  subMenuItems,
-  parentCategory,
-  computedBaseColour
-} = await res.json();
+const { subMenuItems, parentCategory, computedBaseColour } = await res.json();
 ---
 
 <header
@@ -43,7 +43,8 @@ const {
       src={style === "nouse"
         ? "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
         : "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"}
-     alt="Header logo"/>
+      alt="Header logo"
+    />
   </a>
 </header>
 <nav
@@ -60,9 +61,6 @@ const {
     {
       menuCategories.map((menuItem, index) => (
         <>
-          <!--{index !== 0 && ( // No divider before Home
-            <span class="h-3/5 self-center border-r border-white" />
-          )}-->
           <li
             class={`group relative flex h-full w-full border-b-4 ${
               active === menuItem.categories_name ||
@@ -70,8 +68,13 @@ const {
                 ? "border-white bg-navbar-item"
                 : "border-transparent"
             } ${parentCategory?.categories_name}`}
-            onmouseover=`this.style.backgroundColor = '${menuItem.categories_backgroundColor != null ? menuItem.categories_backgroundColor : "#000"}'`
-            onmouseout="this.style.backgroundColor = 'transparent'"
+            onMouseOver={(event) => {
+              event.currentTarget.style.backgroundColor =
+                menuItem.categories_backgroundColor ?? "#000";
+            }}
+            onMouseOut={(event) => {
+              event.currentTarget.style.backgroundColor = "transparent";
+            }}
           >
             <a
               class="mx-auto my-auto text-center"
@@ -79,8 +82,8 @@ const {
                 menuItem.categories_displayName === "Home"
                   ? baseUrl
                   : menuItem.categories_displayName === "Nouse"
-                  ? import.meta.env.BASE_URL
-                  : `${baseUrl + menuItem.categories_name}`
+                    ? import.meta.env.BASE_URL
+                    : `${baseUrl + menuItem.categories_name}`
               }
             >
               {() => {
@@ -98,7 +101,8 @@ const {
                       <img
                         src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/kingfisher.svg"
                         class="w-10 invert"
-                       alt="Nouse Kingfisher logo"/>
+                        alt="Nouse Kingfisher logo"
+                      />
                     );
                   default:
                     return menuItem.categories_displayName;
@@ -122,9 +126,6 @@ const {
       <ul class="bg-navbar flex h-1/2 w-full flex-row text-white brightness-90 2xl:px-[13%]">
         {subMenuItems?.map((menuItem: ICategory, index: number) => (
           <>
-            <!--{index !== 0 && ( // No divider before Home
-              <span class="h-3/5 self-center border-r border-white" />
-            )}-->
             <li
               class={`group relative flex h-full border-b-4 px-[3%] ${
                 active === menuItem.categories_name

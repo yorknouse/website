@@ -16,34 +16,36 @@ const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
 const res = await fetch(`${apiBase}/api/frontend/author/${authorIdNumber}`);
 const author: {
-  users_name1: string | null
-  users_name2: string | null
-  users_bio: string | null
-  articles_featured: string | null
-  users_thumbnail: string | null
-  users_pronouns: string | null
+  users_name1: string | null;
+  users_name2: string | null;
+  users_bio: string | null;
+  articles_featured: string | null;
+  users_thumbnail: string | null;
+  users_pronouns: string | null;
   userPositions: {
-    userPositions_show: boolean
-    userPositions_start: Date
-    userPositions_end: Date | null
+    userPositions_show: boolean;
+    userPositions_start: Date;
+    userPositions_end: Date | null;
     positions: {
-      positions_id: number
-      positions_displayName: string
-      positions_positionsGroups: string | null
-      positions_rank: number
-      positions_teamPageGroup: number
-    } | null
-  }[]
+      positions_id: number;
+      positions_displayName: string;
+      positions_positionsGroups: string | null;
+      positions_rank: number;
+      positions_teamPageGroup: number;
+    } | null;
+  }[];
 } | null = await res.json();
 
 if (!author) return Astro.redirect("/404");
 
 let s3URL: S3URL = {
-  url: ""
+  url: "",
 };
 
 if (author.users_thumbnail) {
-  const res = await fetch(`${apiBase}/api/s3url?fileId=${Number(author.users_thumbnail)}&size=large`);
+  const res = await fetch(
+    `${apiBase}/api/s3url?fileId=${Number(author.users_thumbnail)}&size=large`,
+  );
   s3URL = await res.json();
 }
 
@@ -74,14 +76,14 @@ const articlesPerPage = 10;
             id="author-image"
             class="mb-4 h-52 w-52 rounded-full border-4 border-[#D76B6B] object-cover md:mr-20"
             src={authorImage}
-            alt=`Thumbnail image of ${author.users_name1}  ${author.users_name2}`
+            alt={`Thumbnail image of ${author.users_name1} ${author.users_name2}`}
           />
         )
       }
       <div id="author-details" class="w-full px-8 md:w-7/12 md:px-0">
         <h1 class="text-center md:text-left text-4xl">
           <span class="text-4xl">
-            {`${author.users_name1}  ${author.users_name2}`}
+            {`${author.users_name1} ${author.users_name2}`}
           </span>
           {
             author.users_pronouns && (
@@ -96,13 +98,13 @@ const articlesPerPage = 10;
                 (position) =>
                   position.userPositions_show &&
                   position.positions &&
-                  position.userPositions_end! >= new Date()
+                  position.userPositions_end! >= new Date(),
               )
               .map(
                 (position, index) =>
                   `${index === 0 ? "" : ", "}${
                     position.positions!.positions_displayName
-                  }`
+                  }`,
               )
           }
         </p>
@@ -113,13 +115,13 @@ const articlesPerPage = 10;
                 (position) =>
                   position.userPositions_show &&
                   position.positions &&
-                  position.userPositions_end! < new Date()
+                  position.userPositions_end! < new Date(),
               )
               .map(
                 (position, index) =>
                   `${index === 0 ? "Previously Held Positions: " : ", "}${
                     position.positions!.positions_displayName
-                  } (${position.userPositions_start.getFullYear()}-${position.userPositions_end!.getFullYear()})`
+                  } (${position.userPositions_start.getFullYear()}-${position.userPositions_end!.getFullYear()})`,
               )
           }
         </p>

@@ -12,13 +12,13 @@ const { featuredCategories, style }: Props = Astro.props;
 const scrollCategories = featuredCategories.reduce((accumulator, category) => {
   accumulator.set(
     category.categories_name,
-    category.categories_backgroundColor || "#000"
+    category.categories_backgroundColor || "#000",
   );
   return accumulator;
 }, new Map<string, string>());
 
 const serialisedScrollCategories = JSON.stringify(
-  Array.from(scrollCategories.entries())
+  Array.from(scrollCategories.entries()),
 );
 ---
 
@@ -44,7 +44,7 @@ const serialisedScrollCategories = JSON.stringify(
       super();
       // Get parameters
       this.scrollCategories = new Map<string, string>(
-        JSON.parse(this.dataset.categories || "[]")
+        JSON.parse(this.dataset.categories || "[]"),
       );
 
       if (this.dataset.style === "muse" || this.dataset.style === "nouse")
@@ -53,10 +53,10 @@ const serialisedScrollCategories = JSON.stringify(
       // Get document elements
       this.desktopNav = document.querySelector("#desktopNav") as HTMLElement;
       this.mobileHeader = document.querySelector(
-        "#mobileHeader"
+        "#mobileHeader",
       ) as HTMLElement;
       this.mobileNouseLogo = document.querySelector(
-        "#mobileHeader img"
+        "#mobileHeader img",
       ) as HTMLElement;
       this.sections = document.querySelectorAll("[id$=section]");
 
@@ -87,7 +87,7 @@ const serialisedScrollCategories = JSON.stringify(
 
       // Get 1 rem size
       const fontSize = parseInt(
-        getComputedStyle(document.documentElement).fontSize
+        getComputedStyle(document.documentElement).fontSize,
       );
 
       // Desktop navbar is 3rem
@@ -110,7 +110,7 @@ const serialisedScrollCategories = JSON.stringify(
       // Create Intersection Observer
       this.observer = new IntersectionObserver(
         this.changeNavbarColour,
-        observerOptions
+        observerOptions,
       );
 
       if (this.sections) {
@@ -125,7 +125,7 @@ const serialisedScrollCategories = JSON.stringify(
         )
           // Observe first element above sections
           this.observer.observe(
-            this.sections[0].parentElement.previousElementSibling
+            this.sections[0].parentElement.previousElementSibling,
           );
       }
     }
@@ -147,11 +147,11 @@ const serialisedScrollCategories = JSON.stringify(
             // Change Navbar colour
             this.desktopNav.style.setProperty(
               "--computedBaseColour",
-              this.scrollCategories.get(id.replace("-section", "")) || "#000"
+              this.scrollCategories.get(id.replace("-section", "")) || "#000",
             );
             this.mobileHeader.style.setProperty(
               "--computedBaseColour",
-              this.scrollCategories.get(id.replace("-section", "")) || "#000"
+              this.scrollCategories.get(id.replace("-section", "")) || "#000",
             );
 
             // Nouse logo wants white
@@ -171,12 +171,12 @@ const serialisedScrollCategories = JSON.stringify(
               this.mobileHeader.classList.add("text-black");
               this.mobileHeader.style.setProperty(
                 "--computedBaseColour",
-                "#F5EFEB"
+                "#F5EFEB",
               );
             } else {
               this.mobileHeader.style.setProperty(
                 "--computedBaseColour",
-                "#000"
+                "#000",
               );
             }
           }

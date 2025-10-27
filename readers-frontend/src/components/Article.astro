@@ -31,9 +31,10 @@ const {
   textColour = "#000",
 }: Props = Astro.props;
 
-let overrideCategoryColor = false; 
+let overrideCategoryColor = false;
 if (category) {
-  overrideCategoryColor = category.toLowerCase() === "muse" && textColour.toLowerCase() === "#fff";
+  overrideCategoryColor =
+    category.toLowerCase() === "muse" && textColour.toLowerCase() === "#fff";
 }
 const imagePlaceHolder =
   '"https://bbcdn.nouse.co.uk/file/nousePublicBackendUploads/db/webUploads/public/ARTICLE-THUMBNAIL/mWMFA4fY1ENg25x%20breakingNews_large.jpg"';
@@ -96,27 +97,37 @@ const imagePlaceHolder =
         {
           authors.length !== 0 && (
             <p class="authors text-colour text-sm italic 2xl:text-base">
-              <span class={`${overrideCategoryColor ? "text-white" : "category-color"}`}>By</span>
+              <span
+                class={`${overrideCategoryColor ? "text-white" : "category-color"}`}
+              >
+                By
+              </span>
               {authors.map((author, index) => {
                 if (index === 0) {
                   return (
-                    <a href={`/author/${author.users_userid}`}>
-                      {`${author.users_name1} ${author.users_name2}`}
-                    </a>
+                    <>
+                      <a href={`/author/${author.users_userid}`}>
+                        {`${author.users_name1} ${author.users_name2}`}
+                      </a>
+                    </>
                   );
                 } else if (index === authors.length - 1) {
                   return (
-                    <span> and </span>
-                    <a href={`/author/${author.users_userid}`}>
-                      {`${author.users_name1} ${author.users_name2}`}
-                    </a>
+                    <>
+                      <span> and </span>
+                      <a href={`/author/${author.users_userid}`}>
+                        {`${author.users_name1} ${author.users_name2}`}
+                      </a>
+                    </>
                   );
                 } else {
                   return (
-                  <span>, </span>
-                    <a href={`/author/${author.users_userid}`}>
-                      {`${author.users_name1} ${author.users_name2}`}
-                    </a>
+                    <>
+                      <span>, </span>
+                      <a href={`/author/${author.users_userid}`}>
+                        {`${author.users_name1} ${author.users_name2}`}
+                      </a>
+                    </>
                   );
                 }
               })}

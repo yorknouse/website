@@ -1,10 +1,8 @@
 ---
 import MuseComponent from "@solidComponents/MuseComponent";
 import { getMenuCategories } from "@componentsUtils/categories";
-import {
-  getArticles,
-} from "@componentsUtils/articles";
-import type {IArticleFull, ICategory, MuseNavbarCategory} from "./types";
+import { getArticles } from "@componentsUtils/articles";
+import type { IArticleFull, ICategory, MuseNavbarCategory } from "./types";
 import Article from "./Article.astro";
 
 const museMenuCategoriesRaw = await getMenuCategories("muse");
@@ -13,37 +11,39 @@ let museMenuCategories: ICategory[] = [];
 let categories: MuseNavbarCategory[] = [];
 
 if (museMenuCategoriesRaw !== undefined) {
-    museMenuCategories = museMenuCategoriesRaw.filter(
-        (category) => category.categories_name !== "nouse"
-    );
+  museMenuCategories = museMenuCategoriesRaw.filter(
+    (category) => category.categories_name !== "nouse",
+  );
 
-    categories = museMenuCategories.reduce((accumulator, currentCategory) => {
-        accumulator.push({
-            name: currentCategory.categories_name,
-            displayName: currentCategory.categories_displayName
-                ? currentCategory.categories_displayName
-                : "",
-        });
+  categories = museMenuCategories.reduce((accumulator, currentCategory) => {
+    accumulator.push({
+      name: currentCategory.categories_name,
+      displayName: currentCategory.categories_displayName
+        ? currentCategory.categories_displayName
+        : "",
+    });
 
-        return accumulator;
-    }, [] as MuseNavbarCategory[]);
+    return accumulator;
+  }, [] as MuseNavbarCategory[]);
 }
 
 const articles = new Map<string, IArticleFull[]>();
 
-const allFeaturedArticleIds = museMenuCategories
-    .flatMap(c => c.categories_featured?.split(',').map(Number) ?? []);
+const allFeaturedArticleIds = museMenuCategories.flatMap(
+  (c) => c.categories_featured?.split(",").map(Number) ?? [],
+);
 
 const allArticles = await getArticles("muse", allFeaturedArticleIds);
 
 for (const category of museMenuCategories) {
-  const featuredIds = category.categories_featured?.split(',').map(Number) ?? [];
+  const featuredIds =
+    category.categories_featured?.split(",").map(Number) ?? [];
   const categoryArticles: IArticleFull[] = allArticles
-      .filter(a => featuredIds.includes(a.id))
-      .slice(0, 4)
-      .map(a => ({
-        ...a,
-      }));
+    .filter((a) => featuredIds.includes(a.id))
+    .slice(0, 4)
+    .map((a) => ({
+      ...a,
+    }));
 
   articles.set(category.categories_name, categoryArticles);
 }
@@ -84,9 +84,7 @@ for (const category of museMenuCategories) {
                         : "Unknown"
                     }
                     excerpt={
-                      article.excerpt?.length != 0
-                        ? article.excerpt
-                        : "Unknown"
+                      article.excerpt?.length != 0 ? article.excerpt : "Unknown"
                     }
                     authors={article.authors}
                     category={undefined}
@@ -123,9 +121,7 @@ for (const category of museMenuCategories) {
                       : "Unknown"
                   }
                   excerpt={
-                    article.excerpt?.length != 0
-                      ? article.excerpt
-                      : "Unknown"
+                    article.excerpt?.length != 0 ? article.excerpt : "Unknown"
                   }
                   authors={article.authors}
                   category={undefined}
