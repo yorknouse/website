@@ -11,7 +11,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Run Prettier on readers-frontend
+      - name: Install dependencies
+        working-directory: readers-frontend
+        run: npm ci
+
+      - name: Run Prettier check
         working-directory: readers-frontend
         run: npx prettier --check "**/*.{astro,ts,tsx,js}"
 
@@ -24,10 +28,13 @@ jobs:
           echo "The following files are not formatted:"
           echo "${{steps.prettier-run.outputs.prettier_output}}"
 
-      - name: Run Prettier edit backend
-        uses: rutajdash/prettier-cli-action@v1.0.0
-        with:
-          file_pattern: edit-backend/**/*.{js,ts,tsx}
+      - name: Install edit-backend deps
+        working-directory: edit-backend
+        run: npm ci
+
+      - name: Run Prettier check on edit-backend
+        working-directory: edit-backend
+        run: npx prettier --check "**/*.{ts,tsx,js,jsx}"
 
       # This step only runs if prettier finds errors causing the previous step to fail
       # This steps lists the files where errors were found
