@@ -1,88 +1,88 @@
 {
-    # Top level config and options for Caddy
-	http_port  80
+	# Top level config and options for Caddy
+	http_port 80
 	https_port 443
 	admin off
 
 	# TLS Options
-    email tech@nouse.co.uk  #Used to generate Letsencrypt certificates
+	email tech@nouse.co.uk #Used to generate Letsencrypt certificates
 }
 {$serverHostname:localhost} {
-    #Extra Tools
+	#Extra Tools
 
-    basicauth /tools/* bcrypt {
-        nouseAdmin {$nouseAdminPassword:JDJ5JDEyJERYNy9hRDVBRi93U2VWaWRvZXlNSmVDQkpmLkE5MjhmTXdpcU5rWTh5VVRRdUVVNmhVbzdHIA==} #default is "password" - needs to be a base64 hash of bcrypt
-    }
-    route /tools/phpmyadmin/* {
-        uri strip_prefix /tools/phpmyadmin
-        reverse_proxy phpmyadmin:80
-    }
-    route /tools/netdata/* {
-        uri strip_prefix /tools/netdata
-        reverse_proxy netdata:19999
-    }
+	basicauth /tools/* bcrypt {
+		nouseAdmin {$nouseAdminPassword:JDJ5JDEyJERYNy9hRDVBRi93U2VWaWRvZXlNSmVDQkpmLkE5MjhmTXdpcU5rWTh5VVRRdUVVNmhVbzdHIA==} #default is "password" - needs to be a base64 hash of bcrypt
+	}
+	route /tools/phpmyadmin/* {
+		uri strip_prefix /tools/phpmyadmin
+		reverse_proxy phpmyadmin:80
+	}
+	route /tools/netdata/* {
+		uri strip_prefix /tools/netdata
+		reverse_proxy netdata:19999
+	}
 
-    reverse_proxy php-container:9070
+	reverse_proxy php-container:9070
 
-    encode gzip
+	encode gzip
 }
 www.nouse.co.uk nouse.co.uk {
-    tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
-        client_auth {
-            mode require_and_verify
-            trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
-        }
-    }
-    handle /api/* {
-        reverse_proxy react-container:3000
-    }
-    reverse_proxy astro-container:4321
-    encode gzip
+	tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
+		client_auth {
+			mode require_and_verify
+			trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
+		}
+	}
+	handle /api/* {
+		reverse_proxy react-container:3000
+	}
+	reverse_proxy astro-container:4321
+	encode gzip
 }
 # This is a temporary measure due to using YSTV monitoring infrastructure
 internal.nouse.co.uk {
-    handle /api/* {
-        reverse_proxy react-container:3000
-    }
-    reverse_proxy astro-container:4321
-    encode gzip
+	handle /api/* {
+		reverse_proxy react-container:3000
+	}
+	reverse_proxy astro-container:4321
+	encode gzip
 }
 edit.nouse.co.uk {
-    tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
-        client_auth {
-            mode require_and_verify
-            trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
-        }
-    }
-    root * /var/www/html/admin
-    php_fastcgi php-container:9000
-    encode gzip
+	tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
+		client_auth {
+			mode require_and_verify
+			trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
+		}
+	}
+	root * /var/www/html/admin
+	php_fastcgi php-container:9000
+	encode gzip
 
-    handle_errors {
-        @notFound {
-            expression {http.error.status_code} == 404
-        }
-        rewrite @notFound /index.php
-        php_fastcgi php-container:9000
-    }
+	handle_errors {
+		@notFound {
+			expression {http.error.status_code} == 404
+		}
+		rewrite @notFound /index.php
+		php_fastcgi php-container:9000
+	}
 }
 edit1.nouse.co.uk {
-    tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
-        client_auth {
-            mode require_and_verify
-            trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
-        }
-    }
-    reverse_proxy react-container:3000
-    encode gzip
+	tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
+		client_auth {
+			mode require_and_verify
+			trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
+		}
+	}
+	reverse_proxy react-container:3000
+	encode gzip
 }
 stats.nouse.co.uk {
-    tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
-        client_auth {
-            mode require_and_verify
-            trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
-        }
-    }
-    reverse_proxy grafana:3001
-    encode gzip
+	tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
+		client_auth {
+			mode require_and_verify
+			trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
+		}
+	}
+	reverse_proxy grafana:3001
+	encode gzip
 }
