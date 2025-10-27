@@ -1,6 +1,9 @@
 # Nouse Website
 
-Nouse was based on "bCMS" originally, a custom built content management system. There's probably going to always be some debate about whether this was the best idea for Nouse, but it has enabled us to do some really great custom stuff over the years, and overcome crippling performance issues on Wordpress.
+Nouse was based on "bCMS" originally, a custom built content management system.
+There's probably going to always be some debate about whether this was the best idea for Nouse,
+but it has enabled us to do some really great custom stuff over the years,
+and overcome crippling performance issues on Wordpress.
 
 ## Local Development
 
@@ -18,9 +21,20 @@ frontend - "Public Site" nouse.co.uk
 
 ### Ajax?....
 
-To improve user performance & error handling the backend site is not based around a conventional laravel-esque form structure for user interaction. Instead, most data from the database is returned to the user through a normal dynamically loaded page, generating html from a twig template.
+To improve user performance & error handling the backend site is not based around a conventional laravel-esque form structure for user interaction.
+Instead, most data from the database is returned to the user through a normal dynamically loaded page,
+generating html from a twig template.
 
-When a user interacts with the page, such as pressing a button, this triggers a JQuery function (all defined in that pages' twig template) which makes an "api call" to a php script within the `admin/api/` folder and executes the change (such as an insert/delete/update). Once this completes successfully two things can happen. The first, a legacy behaviour, is that the page reloads to reflect the changes in the page itself. The second option is that the page calls a function to update what's displayed, without needing a page re-load. There are quite a few endpoints in `admin/api` that provide access to retrieving data as well, as this is how the mobile app downloads its data which it then displays.
+When a user interacts with the page,
+such as pressing a button,
+this triggers a JQuery function (all defined in that pages' twig template) which makes an "api call"
+to a php script within the `admin/api/` folder and executes the change
+(such as an insert/delete/update).
+Once this completes successfully two things can happen.
+The first, a legacy behaviour, is that the page reloads to reflect the changes in the page itself.
+The second option is that the page calls a function to update what's displayed, without needing a page re-load.
+There are quite a few endpoints in `admin/api` that provide access to retrieving data as well,
+as this is how the mobile app downloads its data which it then displays.
 
 With hindsight this was not a great way to do this.
 
@@ -31,17 +45,20 @@ With hindsight this was not a great way to do this.
 The whole stack runs off one docker-compose file which makes this all a lot simpler!
 
 1. Make sure you're the root user `sudo su` then `cd /root/`
-1. `apt update && apt install docker.io docker-compose`
-1. `systemctl enable docker` to ensure docker boots on startup
-1. Clone the repo `git clone git@github.com:yorknouse/website.git`
-1. `cd website` to get into it
-1. Download the Cloudflare Origin Certificate - place the certificate (`.crt` file) in the `ssl` directory, with the `ssl.key` file
-1. Create `nouseprod.env` based on the example file, and fill out the details (do this with `nano nouseprod.env`)
-1. Run `docker-compose up -d` to get the site running
+2. `apt update && apt install docker.io docker-compose`
+3. `systemctl enable docker` to ensure docker boots on startup
+4. Clone the repo `git clone git@github.com:yorknouse/website.git`
+5. `cd website` to get into it
+6. Download the Cloudflare Origin Certificate - place the certificate (`.crt` file) in the `ssl` directory, 
+with the `ssl.key` file
+7. Create `nouseprod.env` based on the example file, and fill out the details (do this with `nano nouseprod.env`)
+8. Run `docker-compose up -d` to get the site running
 
 ## Deploy webhook
 
-Some pages in the website are statically built, nominally the home page. To rebuild them, the host vm needs a webhook that can be triggered from the admin panel and causes the docker images to be rebuilt.
+Some pages in the website are statically built, nominally the home page.
+To rebuild them,
+the host vm needs a webhook that can be triggered from the admin panel and causes the docker images to be rebuilt.
 
 Setting up:
 
@@ -74,7 +91,8 @@ And make the script executable:
 chmod +x /root/rebuild.sh
 ```
 
-Now we need a service to start webhook on boot. Create the `/etc/systemd/system/rebuild.service` file with the following content:
+Now we need a service to start webhook on boot.
+Create the `/etc/systemd/system/rebuild.service` file with the following content:
 
 ```sh
 [Unit]
@@ -104,7 +122,8 @@ Watchtower does the updating for you anytime you push a new tag (which triggers 
 
 You need to setup the CORS on the bucket to allow uploads from any host, and downloads from any host
 
-First download and authenticate the AWS Cli (using your Backblaze credentials), then download the cors.json file from this repo and run:
+First download and authenticate the AWS Cli (using your Backblaze credentials),
+then download the cors.json file from this repo and run:
 
 `aws s3api put-bucket-cors --bucket=nousePublicBackendUploads --endpoint-url=https://s3.eu-central-003.backblazeb2.com  --cors-configuration=file://cors.json`
 
@@ -120,7 +139,9 @@ cat nouseBackup.sql | docker exec -i db /usr/bin/mysql -u root --password=rootPa
 
 ## MySQL Backups
 
-`mysql-backup` runs a backup every day at about 2:30am and pops it in our S3 bucket. That's all automatic, but you do need to set up a lifecycle rule for the spaces/S3 bucket. This is so the backups are deleted after 40 days and we don't get bancrupted by them.
+`mysql-backup` runs a backup every day at about 2:30am and pops it in our S3 bucket.
+That's all automatic, but you do need to set up a lifecycle rule for the spaces/S3 bucket.
+This is so the backups are deleted after 40 days and we don't get bankrupted by them.
 
 - Set the lifecycle policy for the bucket using the `lifecycle.xml` file
 
@@ -134,7 +155,10 @@ netdata is accessible at http://yusunouse01.york.ac.uk/tools/netdata, with login
 
 # Grafana
 
-Grafana (stats.nouse.co.uk) runs as an instance inside the MySQL server. It has full root access to the database due to Docker limitations so as such no users have edit permissions. Instead, set up your queries and graphs in the text files under `"`docker/grafana/dashboards`. You can also generate these locally by running grafana and using the UI to export JSON files.
+Grafana (stats.nouse.co.uk) runs as an instance inside the MySQL server.
+It has full root access to the database due to Docker limitations so as such no users have edit permissions.
+Instead, set up your queries and graphs in the text files under `"`docker/grafana/dashboards`.
+You can also generate these locally by running grafana and using the UI to export JSON files.
 
 Grafana security is managed by an oauth hook from the main admin site.
 
