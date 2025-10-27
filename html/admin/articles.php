@@ -12,7 +12,7 @@ else $PAGEDATA['search'] = null;
 if (isset($_GET['page'])) $page = $bCMS->sanitizeString($_GET['page']);
 else $page = 1;
 $DBLIB->pageLimit = 20;
-if (strlen($PAGEDATA['search']) > 0) {
+if (strlen($PAGEDATA['search'] ?? '') > 0) {
 	//Search
 	$DBLIB->where("
 		(articlesDrafts.articlesDrafts_headline LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
