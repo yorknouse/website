@@ -54,8 +54,18 @@ edit.nouse.co.uk {
             trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
         }
     }
-    reverse_proxy php-container:9070
+    php_fastcgi php-container:9070
     encode gzip
+
+    Access-Control-Allow-Origin "*"
+
+    handle_errors {
+        @notFound {
+            expression {http.error.status_code} == 404
+        }
+        rewrite @notFound /index.php
+        php_fastcgi php-container:9070
+    }
 }
 edit1.nouse.co.uk {
     tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
