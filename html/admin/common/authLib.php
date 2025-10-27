@@ -81,27 +81,25 @@ class bID {
             $this->login = false;
             return;
         }
-        $this->data['positions'] = [];
-        $permissionCodes = [];
-        foreach ($positions as $position) {
-            $this->data['positions'][] = $position;
-            $position['groups'] = explode(",", $position['positions_positionsGroups']);
-            foreach ($position['groups'] as $positiongroup) {
-                $DBLIB->where("positionsGroups_id", $positiongroup);
-                $positiongroup = $DBLIB->getone("positionsGroups", ["positionsGroups_actions"]);
-                // Ensure we have strings to pass to explode
-                $groupActions = $positiongroup['positionsGroups_actions'] ?? '';
-                $extraPermissions = $position['userPositions_extraPermissions'] ?? '';
+        $this->data['positions'] = $positions; // store all positions
 
-                // Merge into permission codes, filtering out empty strings
-                $permissionCodes = array_merge(
-                    $permissionCodes,
-                    array_filter(explode(",", $groupActions)),
-                    array_filter(explode(",", $extraPermissions))
+        $this->permissions = array_unique(array_reduce($positions, function ($carry, $position) use ($DBLIB) {
+            $positionGroups = explode(",", $position['positions_positionsGroups'] ?? '');
+
+            foreach ($positionGroups as $groupId) {
+                $DBLIB->where("positionsGroups_id", $groupId);
+                $groupData = $DBLIB->getone("positionsGroups", ["positionsGroups_actions"]);
+
+                // Merge group actions and extra permissions safely
+                $carry = array_merge(
+                    $carry,
+                    array_filter(explode(",", $groupData['positionsGroups_actions'] ?? '')),
+                    array_filter(explode(",", $position['userPositions_extraPermissions'] ?? ''))
                 );
             }
-        }
-        $this->permissions = array_unique($permissionCodes);
+
+            return $carry;
+        }, []));
     }
     public function login($code) {
         global $CONFIG,$DBLIB;
