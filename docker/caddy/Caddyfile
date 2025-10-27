@@ -58,6 +58,7 @@ edit.nouse.co.uk {
 			}
 		}
 	}
+
 	root * /var/www/html/admin
 	php_fastcgi php-container:9000
 
@@ -68,13 +69,14 @@ edit.nouse.co.uk {
 		path_regexp dir ^(.*)/$
 		file {http.matchers.path_regexp.dir.1}/index.php
 	}
-	rewrite @dirIndex {http.matchers.path_regexp.dir.1}/index.php
+	# preserve query string for PHP
+	rewrite @dirIndex {http.matchers.path_regexp.dir.1}/index.php?{query}
 
-	# 2) fallback for anything else that doesn't match a file or directory
+	# 2) fallback for anything else that is not a file
 	@fallback {
 		not file
 	}
-	rewrite @fallback /index.php
+	rewrite @fallback /index.php?{query}
 
 	header {
 		Access-Control-Allow-Origin "*"
@@ -86,7 +88,7 @@ edit.nouse.co.uk {
 		@notFound {
 			expression {http.error.status_code} == 404
 		}
-		rewrite @notFound /index.php
+		rewrite @notFound /index.php?{query}
 		php_fastcgi php-container:9000
 	}
 }
