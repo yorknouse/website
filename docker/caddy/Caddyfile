@@ -54,7 +54,7 @@ edit.nouse.co.uk {
             trusted_ca_cert_file /etc/ssl/certs/origin-pull-ca.pem
         }
     }
-    php_fastcgi php-container:9070
+    php_fastcgi php-container:9000
     encode gzip
 
     handle_errors {
@@ -62,7 +62,7 @@ edit.nouse.co.uk {
             expression {http.error.status_code} == 404
         }
         rewrite @notFound /index.php
-        php_fastcgi php-container:9070
+        php_fastcgi php-container:9000
     }
 }
 edit1.nouse.co.uk {
