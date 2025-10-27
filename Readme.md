@@ -182,7 +182,7 @@ Grafana security is managed by an oauth hook from the main admin site.
 
 ## Licence
 
-Copyright (C) 2018-2021 Nouse, University of York Students Union and its contributors
+Copyright (C) 2018-2025 Nouse, University of York Students' Union and its contributors
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
