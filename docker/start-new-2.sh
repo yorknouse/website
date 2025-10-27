@@ -4,4 +4,4 @@ printenv | grep -v "no_proxy" >> /etc/environment #Required to include environme
 
 crond -f &
 
-php-fpm
+exec php-fpm
