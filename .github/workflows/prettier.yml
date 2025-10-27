@@ -15,7 +15,7 @@ jobs:
         id: prettier-run
         uses: rutajdash/prettier-cli-action@v1.0.0
         with:
-          file_pattern: readers-frontend/**/*.js
+          file_pattern: readers-frontend/**/*.{astro,js,ts,tsx}
 
       # This step only runs if prettier finds errors causing the previous step to fail
       # This steps lists the files where errors were found
@@ -29,7 +29,7 @@ jobs:
       - name: Run Prettier edit backend
         uses: rutajdash/prettier-cli-action@v1.0.0
         with:
-          file_pattern: edit-backend/**/*.js
+          file_pattern: edit-backend/**/*.{js,ts,tsx}
 
       # This step only runs if prettier finds errors causing the previous step to fail
       # This steps lists the files where errors were found
