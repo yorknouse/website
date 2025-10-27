@@ -7,6 +7,7 @@ services:
       - "443:443"
     volumes:
       - caddy:/data
+      - php_app_data:/var/www/html/admin
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
       - ./ssl/ssl.key:/etc/ssl/private/ssl.key
       - ./ssl/ssl.crt:/etc/ssl/certs/ssl.crt
@@ -60,6 +61,8 @@ services:
       - nouseprod.env
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    volumes:
+      - php_app_data:/var/www/html/admin
   react-container:
     build:
       context: .
@@ -195,4 +198,5 @@ volumes:
   netdatalib:
   netdatacache:
   caddy:
+  php_app_data:
   db_data: { }
