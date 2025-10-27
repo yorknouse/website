@@ -11,11 +11,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Run Prettier readers frontend
-        id: prettier-run
-        uses: rutajdash/prettier-cli-action@v1.0.0
-        with:
-          file_pattern: readers-frontend/**/*.{astro,js,ts,tsx}
+      - name: Run Prettier on readers-frontend
+        working-directory: readers-frontend
+        run: npx prettier --check "**/*.{astro,ts,tsx,js}"
 
       # This step only runs if prettier finds errors causing the previous step to fail
       # This steps lists the files where errors were found
