@@ -1,0 +1,36 @@
+name: Validate Caddyfile
+
+on:
+  push:
+    paths:
+      - 'docker/caddy/Caddyfile'
+  pull_request:
+    paths:
+      - 'docker/caddy/Caddyfile'
+
+jobs:
+  validate-caddyfile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up SSL directory
+        run: mkdir -p docker/caddy/ssl
+
+      - name: Generate self-signed SSL certificate
+        run: |
+          openssl req -x509 -newkey rsa:2048 -nodes -days 1 \
+            -subj '/CN=localhost' \
+            -keyout docker/caddy/ssl/ssl.key \
+            -out docker/caddy/ssl/ssl.crt
+
+      - name: Validate Caddyfile using Docker
+        run: |
+          docker run --rm -v ${{ github.workspace }}/docker/caddy:/etc/caddy -w /etc/caddy caddy:latest sh -c "
+            mkdir -p /etc/ssl/certs /etc/ssl/private && \
+            cp /etc/caddy/ssl/ssl.crt /etc/ssl/certs/ssl.crt && \
+            cp /etc/caddy/ssl/ssl.key /etc/ssl/private/ssl.key && \
+            touch /etc/ssl/certs/origin-pull-ca.pem && \
+            caddy validate --config /etc/caddy/Caddyfile
+          "
