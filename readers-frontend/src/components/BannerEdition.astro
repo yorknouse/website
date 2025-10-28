@@ -1,10 +1,10 @@
 ---
-import type { IEdition } from "./types";
+import type { IEditionLatest } from "./types";
 
 const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
 const res = await fetch(`${apiBase}/api/frontend/latestEdition`);
-const latestEdition: IEdition = await res.json();
+const latestEdition: IEditionLatest = await res.json();
 
 if (latestEdition === null) {
   console.log("Could not fetch latest edition");

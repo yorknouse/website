@@ -127,6 +127,18 @@ export interface IAuthorArticles {
   articles: IArticle[];
 }
 
+export interface IEditionLatest {
+    name: string;
+    slug: string;
+    thumbnailURL: string | null;
+}
+
+export interface IEditionLimited {
+    editions_name: string;
+    editions_slug: string;
+    editions_thumbnail: number | null;
+}
+
 export interface IEdition {
   editions_id: number;
   editions_name: string;

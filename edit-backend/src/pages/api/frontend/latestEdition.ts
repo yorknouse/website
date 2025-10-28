@@ -1,6 +1,7 @@
 import prisma from "@/lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { IEdition } from "@/lib/types";
+import { IEditionLatest, IEditionLimited } from "@/lib/types";
+import { s3URL } from "@/lib/s3URL";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -19,7 +20,12 @@ export default async function handler(
     return;
   }
 
-  const latestEdition: IEdition | null = await prisma.editions.findFirst({
+  const latestEdition: IEditionLimited | null = await prisma.editions.findFirst({
+    select: {
+      editions_name: true,
+      editions_slug: true,
+      editions_thumbnail: true,
+    },
     orderBy: {
       editions_published: "desc",
     },
@@ -38,5 +44,13 @@ export default async function handler(
     return;
   }
 
-  res.status(200).json(latestEdition);
+  let s3url = await s3URL(Number(latestEdition.editions_thumbnail), "large");
+
+  const latestEditionRet: IEditionLatest = {
+      name: latestEdition.editions_name,
+      slug: latestEdition.editions_slug,
+      thumbnailURL: s3url,
+  }
+
+  res.status(200).json(latestEditionRet);
 }

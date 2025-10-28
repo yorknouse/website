@@ -120,7 +120,7 @@ export type AuthorArticles = {
   articles: IArticleFull[];
 };
 
-export interface IEdition {
+export interface IEditionLatest {
   name: string;
   slug: string;
   thumbnailURL: string | null;
