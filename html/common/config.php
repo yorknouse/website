@@ -65,7 +65,8 @@ $CONFIG = array(
     'HOSTNAME' => $_SERVER['HTTP_HOST'],
     'VERSION' => ['COMMIT' => exec("cd " . __DIR__ . "/../../ && git log --pretty=\"%h\" -n1 HEAD"), 'TAG' => exec("cd " . __DIR__ . "/../../ && git describe --tags --abbrev=0"), "COMMITFULL" => exec("cd " . __DIR__ . "/../../ && git log --pretty=\"%H\" -n1 HEAD")],
 );
-if ($CONFIG['VERSION']['COMMIT'] == null) $CONFIG['VERSION']['COMMIT'] = 'DEV';
+# Temporary override
+if ($CONFIG['VERSION']['COMMIT'] == null) $CONFIG['VERSION']['COMMIT'] = 'v1.14.0';
 if ($CONFIG['VERSION']['TAG'] == null) $CONFIG['VERSION']['TAG'] = 'vDEV';
 if ($CONFIG['VERSION']['COMMITFULL'] == null) $CONFIG['VERSION']['COMMITFULL'] = 'DEVFULL';
 
