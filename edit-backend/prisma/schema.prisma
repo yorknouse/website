@@ -72,6 +72,7 @@ model articles {
   articles_isThumbnailPortrait Boolean              @default(false)
   articlesDrafts               articlesDrafts[]
   categories                   articlesCategories[]
+  edition                      editions?            @relation("editions_id_to_editions", fields: [editions_id], references: [editions_id], map: "idx_articles_editions_id")
   users                        articlesAuthors[]
 
   @@index([articles_id], map: "articles_articles_id_index")
@@ -83,6 +84,7 @@ model articles {
   @@index([articles_showInSearch], map: "articles_articles_showInSearch_index")
   @@index([articles_slug], map: "articles_articles_slug_index")
   @@index([editions_id, articles_showInAdmin], map: "idx_articles_editions_admin")
+  @@index([editions_id], map: "idx_articles_editions_id")
   @@index([articles_showInAdmin, articles_published(sort: Desc)], map: "idx_articles_admin_published")
   @@fulltext([articles_slug])
 }
@@ -236,21 +238,22 @@ model comments {
 }
 
 model editions {
-  editions_id                 Int      @id @default(autoincrement())
-  editions_name               String   @db.VarChar(500)
-  editions_excerpt            String?  @db.VarChar(500)
-  editions_slug               String   @unique(map: "editions_slug") @db.VarChar(200)
+  editions_id                 Int        @id @default(autoincrement())
+  editions_name               String     @db.VarChar(500)
+  editions_excerpt            String?    @db.VarChar(500)
+  editions_slug               String     @unique(map: "editions_slug") @db.VarChar(200)
   editions_printNumber        Int?
-  editions_deleted            Boolean  @default(false)
-  editions_published          DateTime @default(now()) @db.Timestamp(0)
-  editions_show               Boolean  @default(true)
-  editions_showHome           Boolean  @default(true)
+  editions_deleted            Boolean    @default(false)
+  editions_published          DateTime   @default(now()) @db.Timestamp(0)
+  editions_show               Boolean    @default(true)
+  editions_showHome           Boolean    @default(true)
   editions_thumbnail          Int?
   editions_headerImage        Int?
   editions_pdf                Int?
   editions_pdfOriginal        Int?
-  editions_featuredHighlights String?  @db.LongText
-  editions_type               String?  @db.VarChar(100)
+  editions_featuredHighlights String?    @db.LongText
+  editions_type               String?    @db.VarChar(100)
+  articles                    articles[] @relation("editions_id_to_editions")
 
   @@index([editions_deleted, editions_published(desc)], map: "idx_editions_deleted_published")
 }
