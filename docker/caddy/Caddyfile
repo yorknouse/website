@@ -22,7 +22,10 @@
 		reverse_proxy netdata:19999
 	}
 
-	reverse_proxy php-container:9070
+    php_fastcgi php-container:9000 {
+        # try /index.php if no file specified
+        try_files {path} /index.php
+    }
 
 	encode gzip
 }
