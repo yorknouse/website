@@ -1,4 +1,20 @@
 services:
+  caddy:
+    image: caddy:latest
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - caddy:/data
+      - php_app_data:/var/www/html/admin
+      - ./docker/caddy/local/Caddyfile:/etc/caddy/Caddyfile
+    env_file:
+      - nouseprod-local.env
+    depends_on:
+      - php-container
+      - astro-container
+      - react-container
+      - phpmyadmin
   db:
     image: mysql/mysql-server:8.0
     command: --default-authentication-plugin=mysql_native_password --innodb-thread-concurrency=0 --sort_buffer_size=512K --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
@@ -18,18 +34,15 @@ services:
     env_file:
       - nouseprod-local.env
     ports:
-      - 3306:3306
+      - "3306:3306"
   php-container:
     build:
       context: .
       dockerfile: Dockerfile.php-local-df
     container_name: php-container
     restart: always
-    ports:
-      - 80:80
-      - 420:420
-      - 419:419
-      - 9070:9070
+    expose:
+      - 9070
     depends_on:
       - db
     environment:
@@ -37,7 +50,6 @@ services:
       - MYSQL_DATABASE=nouse
       - MYSQL_USER=userDocker
       - MYSQL_PASSWORD=passDocker
-      - FPM_LISTEN=9070
     env_file:
       - nouseprod-local.env
     extra_hosts:
@@ -52,8 +64,8 @@ services:
       - db
     env_file:
       - nouseprod-local.env
-    ports:
-      - 3000:3000
+    expose:
+      - 3000
     environment:
       - DATABASE_URL=mysql://userDocker:passDocker@db:3306/nouse
   astro-container:
@@ -69,8 +81,8 @@ services:
       - react-container
     env_file:
       - nouseprod-local.env
-    ports:
-      - 4321:4321
+    expose:
+      - 4321
     environment:
       - PUBLIC_API_BASE_URL=http://react-container:3000
       - PUBLIC_BASE_URL=http://localhost:3000
@@ -84,8 +96,8 @@ services:
       - PMA_USER=userDocker
       - PMA_PASSWORD=passDocker
     restart: always
-    ports:
-      - 800:80
+    expose:
+      - 80
     depends_on:
       - db
     volumes:
@@ -104,4 +116,6 @@ services:
     env_file:
       - nouseprod-local.env
 volumes:
+  caddy:
+  php_app_data:
   db_data: { }

@@ -6,6 +6,12 @@ To set up a local development environment run:
 docker-compose -f local-docker-compose.yml up -d
 ```
 
+Modify your `/etc/hosts` file to ensure the following is in so Caddy will work: 
+
+```
+127.0.0.1 localhost edit.localhost admin.localhost tools.localhost
+```
+
 Whenever you make a change to the code or any of the configuration files run:
 
 ```
@@ -31,4 +37,4 @@ You will be asked to enter a password. It's the MYSQL_PASSWORD defined in the Do
 
 # PHP MYADMIN
 
-PHPMYADMIN is available at `localhost:800`.
+PHPMYADMIN is available at `localhost.tools/tools/phpmyadmin`.

@@ -1,76 +1,68 @@
-FROM php:8.4-apache AS build
-RUN apt-get update
-COPY docker/php.ini /var/www/php.ini
-RUN mv "/var/www/php.ini" "$PHP_INI_DIR/php.ini"
+FROM php:8.4-fpm-alpine AS app
 
-RUN a2dissite 000-default.conf
-RUN a2dismod autoindex -f
-RUN a2enmod rewrite
-RUN a2enmod proxy
-RUN a2enmod proxy_http
-RUN a2enmod headers
+# 1️⃣ Install dependencies & PHP extensions
+RUN apk add --no-cache \
+    bash \
+    curl \
+    git \
+    nano \
+    unzip \
+    dos2unix \
+    icu-dev \
+    libpng-dev \
+    libpng \
+    libjpeg-turbo-dev \
+    libjpeg \
+    freetype-dev \
+    libzip-dev \
+    libzip \
+    zip \
+    oniguruma-dev \
+    zlib-dev \
+    libcurl \
+    ca-certificates \
+    busybox-suid \
+    shadow \
+    tzdata \
+    cronie \
+ && docker-php-ext-configure gd --with-freetype --with-jpeg --enable-gd \
+ && docker-php-ext-install -j$(nproc) gd zip mbstring mysqli intl \
+ && apk del --purge libpng-dev libzip-dev oniguruma-dev zlib-dev \
+ && rm -rf /var/cache/apk/*
 
-COPY docker/apache/local/ports.conf /etc/apache2/ports.conf
-COPY docker/apache/local/apache2site.conf /etc/apache2/sites-available/apache2site.conf
-RUN a2ensite apache2site.conf
-COPY docker/apache/local/apache2admin.conf /etc/apache2/sites-available/apache2admin.conf
-RUN a2ensite apache2admin.conf
-COPY docker/apache/001default-apache2.conf /etc/apache2/sites-available/001default-apache2.conf
-RUN a2ensite 001default-apache2.conf
+# 2️⃣ Copy PHP configuration
+COPY docker/php.ini /usr/local/etc/php/php.ini
 
-RUN apt-get install -y --no-install-recommends \
-	libfreetype6-dev \
-	libjpeg62-turbo-dev \
-	libpng-dev \
-	libjpeg-dev \
-	libzip-dev \
-	libonig-dev \
-	zlib1g-dev \
-	libicu-dev \
-	unzip \
-	git \
-	nano \
-	cron \
-	dos2unix \
-	libcurl4-gnutls-dev \
-	ca-certificates curl gnupg \
-    && rm -rf /var/lib/apt/lists/*
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg --enable-gd
-RUN docker-php-ext-install -j$(nproc) gd zip mbstring mysqli intl
+COPY docker/start-new-2.sh /var/www/start.sh
 
-RUN apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
-
-COPY docker/job-cron /etc/cron.d/job-cron
-COPY docker/cron-minute.sh /var/www/cron-minute.sh
-RUN chmod 0644 /etc/cron.d/job-cron
-RUN chmod 0644 /var/www/cron-minute.sh
-RUN dos2unix /etc/cron.d/job-cron
-RUN dos2unix /var/www/cron-minute.sh
-RUN crontab /etc/cron.d/job-cron
-
-RUN touch /var/log/cron.log
-RUN chmod 0777 /var/log/cron.log
-
-COPY . /var/www/
-
+# 3️⃣ Copy Composer (after gd is installed!)
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
+# 4️⃣ Cron setup
+COPY docker/job-cron /etc/cron.d/job-cron
+COPY docker/cron-minute.sh /var/www/cron-minute.sh
+RUN chmod 0644 /etc/cron.d/job-cron /var/www/cron-minute.sh \
+ && dos2unix /etc/cron.d/job-cron /var/www/cron-minute.sh \
+ && crontab /etc/cron.d/job-cron \
+ && touch /var/log/cron.log && chmod 0777 /var/log/cron.log
+
+# 5️⃣ Working directory and composer deps
 WORKDIR /var/www
+COPY composer.json composer.lock ./
 
-COPY docker/start-new.sh /var/www/start.sh
+RUN sed -i "s|^listen = .*|listen = 0.0.0.0:9000|" /usr/local/etc/php-fpm.d/www.conf
 
-RUN composer install
+# 🧩 Composer install AFTER gd is available
+RUN composer update
+RUN composer install --no-interaction --no-scripts --no-autoloader
 
-RUN dos2unix /var/www/start.sh
+# 6️⃣ Copy app code
+COPY . .
 
-RUN chown -R www-data:www-data /var/www
-RUN git config --global --add safe.directory /var/www
+# 7️⃣ Optimize and permissions
+RUN composer dump-autoload --optimize \
+ && dos2unix /var/www/start.sh \
+ && chown -R www-data:www-data /var/www /tmp \
+ && git config --global --add safe.directory /var/www
 
-RUN mkdir -p /tmp/admin/43
-RUN chown -R www-data:www-data /tmp/admin
-
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# To get in container - docker exec -t -i nouse-container /bin/bash
-
-CMD ["bash","/var/www/start.sh"]
+CMD ["bash", "/var/www/start.sh"]
