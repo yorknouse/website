@@ -33,7 +33,7 @@ RUN apk add --no-cache \
 # 2️⃣ Copy PHP configuration
 COPY docker/php.ini /usr/local/etc/php/php.ini
 
-COPY docker/start-new-2.sh /var/www/start.sh
+COPY docker/start.sh /var/www/start.sh
 
 # 3️⃣ Copy Composer (after gd is installed!)
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
