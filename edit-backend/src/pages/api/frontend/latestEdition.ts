@@ -20,24 +20,26 @@ export default async function handler(
     return;
   }
 
-  const latestEdition: IEditionLimited | null = await prisma.editions.findFirst({
-    select: {
-      editions_name: true,
-      editions_slug: true,
-      editions_thumbnail: true,
-    },
-    orderBy: {
-      editions_published: "desc",
-    },
-    where: {
-      editions_show: true,
-      editions_showHome: true,
-      editions_deleted: false,
-      NOT: {
-        editions_thumbnail: null,
+  const latestEdition: IEditionLimited | null = await prisma.editions.findFirst(
+    {
+      select: {
+        editions_name: true,
+        editions_slug: true,
+        editions_thumbnail: true,
+      },
+      orderBy: {
+        editions_published: "desc",
+      },
+      where: {
+        editions_show: true,
+        editions_showHome: true,
+        editions_deleted: false,
+        NOT: {
+          editions_thumbnail: null,
+        },
       },
     },
-  });
+  );
 
   if (!latestEdition) {
     res.status(404).json({ message: "Latest edition not Found" });
@@ -47,10 +49,10 @@ export default async function handler(
   const s3url = await s3URL(Number(latestEdition.editions_thumbnail), "large");
 
   const latestEditionRet: IEditionLatest = {
-      name: latestEdition.editions_name,
-      slug: latestEdition.editions_slug,
-      thumbnailURL: s3url,
-  }
+    name: latestEdition.editions_name,
+    slug: latestEdition.editions_slug,
+    thumbnailURL: s3url,
+  };
 
   res.status(200).json(latestEditionRet);
 }
