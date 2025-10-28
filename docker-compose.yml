@@ -73,8 +73,8 @@ services:
       - db
     env_file:
       - nouseprod.env
-    ports:
-      - "3000:3000"
+    expose:
+      - 3000
     environment:
       - NODE_ENV=production
       - DATABASE_URL=mysql://userDocker:passDocker@db:3306/nouse
@@ -91,8 +91,8 @@ services:
       - react-container
     env_file:
       - nouseprod.env
-    ports:
-      - "4321:4321"
+    expose:
+      - 4321
     environment:
       - NODE_ENV=production
       - PUBLIC_API_BASE_URL=http://react-container:3000
