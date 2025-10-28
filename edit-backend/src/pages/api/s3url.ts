@@ -29,12 +29,13 @@ export default async function handler(
     let sizeExt: false | "tiny" | "small" | "medium" | "large" | "comp" =
       "comp";
 
-    const sizeString = String(size);
+    const sizeString: string | boolean = String(size);
 
     if (sizeString == "tiny") sizeExt = "tiny";
     else if (sizeString == "small") sizeExt = "small";
     else if (sizeString == "medium") sizeExt = "medium";
     else if (sizeString == "large") sizeExt = "large";
+    else if (!sizeString || sizeString == "false") sizeExt = false;
 
     const sanitisedId = Number(String(fileId).replace(/\D/g, ""));
 

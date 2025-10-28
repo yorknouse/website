@@ -64,7 +64,7 @@ if (isWebEdition && edition.editions_featuredHighlights) {
 else tempFileId = edition.editions_pdfOriginal;
 
 if (tempFileId) {
-  const res = await fetch(`${apiBase}/api/s3url?fileId=${tempFileId}`);
+  const res = await fetch(`${apiBase}/api/s3url?fileId=${tempFileId}&size=false`);
   const s3url: S3URL = await res.json();
   pdfURL = s3url.url;
 }
