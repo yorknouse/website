@@ -44,7 +44,7 @@ export default async function handler(
     return;
   }
 
-  let s3url = await s3URL(Number(latestEdition.editions_thumbnail), "large");
+  const s3url = await s3URL(Number(latestEdition.editions_thumbnail), "large");
 
   const latestEditionRet: IEditionLatest = {
       name: latestEdition.editions_name,
