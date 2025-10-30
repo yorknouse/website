@@ -55,6 +55,10 @@ edit.localhost {
 		php_fastcgi php-container:9000
 	}
 }
+oauth.internal {
+    root * /var/www/html/admin
+    php_fastcgi php-container:9000
+}
 edit1.localhost {
 	reverse_proxy react-container:3000
 	encode gzip

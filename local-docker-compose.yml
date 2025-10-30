@@ -15,6 +15,10 @@ services:
       - astro-container
       - react-container
       - phpmyadmin
+    networks:
+      default:
+        aliases:
+          - oauth.internal
   db:
     image: mysql/mysql-server:8.0
     command: --default-authentication-plugin=mysql_native_password --innodb-thread-concurrency=0 --sort_buffer_size=512K --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
