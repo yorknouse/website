@@ -6,9 +6,13 @@ datasources:
     url: db:3306
     database: nouse
     user: userDocker
-    password: passDocker
+    secureJsonData:
+      password: passDocker
     editable: false
     jsonData:
+      tlsAuth: false
+      tlsSkipVerify: true
+      database: nouse
       maxOpenConns: 0         # Grafana v5.4+
       maxIdleConns: 2         # Grafana v5.4+
       connMaxLifetime: 14400  # Grafana v5.4+
