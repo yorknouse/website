@@ -241,3 +241,11 @@ export async function getArticles({
     },
   };
 }
+
+export async function deleteArticle(articleID: number) {
+  await prisma.articles.delete({
+    where: {
+      articles_id: articleID,
+    },
+  });
+}
