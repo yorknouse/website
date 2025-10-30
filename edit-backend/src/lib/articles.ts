@@ -137,11 +137,16 @@ export async function getArticles({
     totalPages: number;
   };
 }> {
-  const where: any = { articles_showInAdmin: true };
+  const where: Prisma.articlesWhereInput = { articles_showInAdmin: true };
 
   if (search && search.length > 0) {
     where.OR = [
-      { articles_slug: { contains: search, mode: "insensitive" } },
+      {
+        articles_slug: {
+          contains: search,
+          mode: "insensitive",
+        },
+      },
       {
         articlesDrafts: {
           some: {
