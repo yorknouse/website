@@ -95,7 +95,48 @@ export async function getArticles({
   authorId?: number;
   page?: number;
   pageSize?: number;
-}) {
+}): Promise<{
+  articles: {
+    articles_id: number;
+    articles_slug: string | null;
+    articles_published: Date | null;
+    articles_updated: Date | null;
+    articles_showInLists: boolean;
+    articles_showInSearch: boolean;
+    editions_id: number | null;
+    articles_authors: {
+      users_userid: number;
+      users_name1: string | null;
+      users_name2: string | null;
+    }[];
+    articles_categories: {
+      categories_id: number;
+      category: {
+        categories_displayName: string | null;
+        categories_backgroundColor: string | null;
+        categories_backgroundColorContrast: string | null;
+      };
+    }[];
+    articlesDrafts: {
+      articlesDrafts_headline: string;
+      articlesDrafts_excerpt: string | null;
+    }[];
+    edition: {
+      editions_printNumber: number | null;
+    } | null;
+    users: {
+      users: {
+        users_userid: number;
+        users_name1: string | null;
+        users_name2: string | null;
+      };
+    }[];
+  }[];
+  pagination: {
+    page: number;
+    totalPages: number;
+  };
+}> {
   const where: any = { articles_showInAdmin: true };
 
   if (search && search.length > 0) {
