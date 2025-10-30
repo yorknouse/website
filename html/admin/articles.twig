@@ -92,7 +92,10 @@
                                             <a href="{{ CONFIG.ROOTFRONTENDURL }}/articles/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}"
                                                type="button" title="View on website" class="btn btn-default" target="_blank"><i
                                                         class="fa fa-eye"></i></a>
-                                                <a target="_blank" href="https://stats.nouse.co.uk/d/article/article-stats?var-articleid={{ article.articles_id }}&from={{ ((article.articles_published|date("U"))-7200)*1000 }}&to=now" title="View Article Stats" class="btn btn-default"><i class="fa fa-line-chart"></i></a>
+                                                <a target="_blank"
+                                                   href="https://stats.nouse.co.uk/d/article/article-stats?var-articleid={{ article.articles_id }}&from={{ ((article.articles_published|date("U"))-7200)*1000 }}&to=now"
+                                                   title="View Article Stats"
+                                                   class="btn btn-default"><i class="fa fa-line-chart"></i></a>
                                             {% endif %}
                                             {% if 32|permissions %}
                                                 <a href="{{ CONFIG.ROOTBACKENDURL }}/article.php?id={{ article.articles_id }}"
