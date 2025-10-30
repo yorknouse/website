@@ -1,3 +1,5 @@
+"use server";
+
 import { articles, Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { s3URL } from "@/lib/s3URL";
