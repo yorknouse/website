@@ -18,8 +18,7 @@
  * Might be useful, when you want to pass some other data to your handler
  */
 
-(function(jQuery) {
-
+(function (jQuery) {
   jQuery.hotkeys = {
     version: "0.2.0",
 
@@ -87,35 +86,49 @@
       219: "[",
       220: "\\",
       221: "]",
-      222: "'"
+      222: "'",
     },
 
     shiftNums: {
       "`": "~",
-      "1": "!",
-      "2": "@",
-      "3": "#",
-      "4": "$",
-      "5": "%",
-      "6": "^",
-      "7": "&",
-      "8": "*",
-      "9": "(",
-      "0": ")",
+      1: "!",
+      2: "@",
+      3: "#",
+      4: "$",
+      5: "%",
+      6: "^",
+      7: "&",
+      8: "*",
+      9: "(",
+      0: ")",
       "-": "_",
       "=": "+",
       ";": ": ",
-      "'": "\"",
+      "'": '"',
       ",": "<",
       ".": ">",
       "/": "?",
-      "\\": "|"
+      "\\": "|",
     },
 
     // excludes: button, checkbox, file, hidden, image, password, radio, reset, search, submit, url
     textAcceptingInputTypes: [
-      "text", "password", "number", "email", "url", "range", "date", "month", "week", "time", "datetime",
-      "datetime-local", "search", "color", "tel"],
+      "text",
+      "password",
+      "number",
+      "email",
+      "url",
+      "range",
+      "date",
+      "month",
+      "week",
+      "time",
+      "datetime",
+      "datetime-local",
+      "search",
+      "color",
+      "tel",
+    ],
 
     // default input types not to bind to unless bound directly
     textInputTypes: /textarea|input|select/i,
@@ -123,45 +136,55 @@
     options: {
       filterInputAcceptingElements: true,
       filterTextInputs: true,
-      filterContentEditable: true
-    }
+      filterContentEditable: true,
+    },
   };
 
   function keyHandler(handleObj) {
     if (typeof handleObj.data === "string") {
       handleObj.data = {
-        keys: handleObj.data
+        keys: handleObj.data,
       };
     }
 
     // Only care when a possible input has been specified
-    if (!handleObj.data || !handleObj.data.keys || typeof handleObj.data.keys !== "string") {
+    if (
+      !handleObj.data ||
+      !handleObj.data.keys ||
+      typeof handleObj.data.keys !== "string"
+    ) {
       return;
     }
 
     var origHandler = handleObj.handler,
       keys = handleObj.data.keys.toLowerCase().split(" ");
 
-    handleObj.handler = function(event) {
+    handleObj.handler = function (event) {
       //      Don't fire in text-accepting inputs that we didn't directly bind to
-      if (this !== event.target &&
-        (jQuery.hotkeys.options.filterInputAcceptingElements &&
-          jQuery.hotkeys.textInputTypes.test(event.target.nodeName) ||
-          (jQuery.hotkeys.options.filterContentEditable && jQuery(event.target).attr('contenteditable')) ||
+      if (
+        this !== event.target &&
+        ((jQuery.hotkeys.options.filterInputAcceptingElements &&
+          jQuery.hotkeys.textInputTypes.test(event.target.nodeName)) ||
+          (jQuery.hotkeys.options.filterContentEditable &&
+            jQuery(event.target).attr("contenteditable")) ||
           (jQuery.hotkeys.options.filterTextInputs &&
-            jQuery.inArray(event.target.type, jQuery.hotkeys.textAcceptingInputTypes) > -1))) {
+            jQuery.inArray(
+              event.target.type,
+              jQuery.hotkeys.textAcceptingInputTypes,
+            ) > -1))
+      ) {
         return;
       }
 
-      var special = event.type !== "keypress" && jQuery.hotkeys.specialKeys[event.which],
+      var special =
+          event.type !== "keypress" && jQuery.hotkeys.specialKeys[event.which],
         character = String.fromCharCode(event.which).toLowerCase(),
         modif = "",
         possible = {};
 
-      jQuery.each(["alt", "ctrl", "shift"], function(index, specialKey) {
-
-        if (event[specialKey + 'Key'] && special !== specialKey) {
-          modif += specialKey + '+';
+      jQuery.each(["alt", "ctrl", "shift"], function (index, specialKey) {
+        if (event[specialKey + "Key"] && special !== specialKey) {
+          modif += specialKey + "+";
         }
       });
 
@@ -170,14 +193,17 @@
         modif += "meta+";
       }
 
-      if (event.metaKey && special !== "meta" && modif.indexOf("alt+ctrl+shift+") > -1) {
+      if (
+        event.metaKey &&
+        special !== "meta" &&
+        modif.indexOf("alt+ctrl+shift+") > -1
+      ) {
         modif = modif.replace("alt+ctrl+shift+", "hyper+");
       }
 
       if (special) {
         possible[modif + special] = true;
-      }
-      else {
+      } else {
         possible[modif + character] = true;
         possible[modif + jQuery.hotkeys.shiftNums[character]] = true;
 
@@ -195,10 +221,9 @@
     };
   }
 
-  jQuery.each(["keydown", "keyup", "keypress"], function() {
+  jQuery.each(["keydown", "keyup", "keypress"], function () {
     jQuery.event.special[this] = {
-      add: keyHandler
+      add: keyHandler,
     };
   });
-
 })(jQuery || this.jQuery || window.jQuery);
