@@ -46,12 +46,12 @@ export default function ConfirmAction<T = void>({
     setOpen(false);
   };
 
-    /** Close modal when clicking the backdrop (not the modal box itself) */
-    const handleBackdropClick = (e: MouseEvent<HTMLDivElement>) => {
-        if (e.target === e.currentTarget) {
-            setOpen(false);
-        }
-    };
+  /** Close modal when clicking the backdrop (not the modal box itself) */
+  const handleBackdropClick = (e: MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      setOpen(false);
+    }
+  };
 
   return (
     <>
@@ -60,8 +60,10 @@ export default function ConfirmAction<T = void>({
 
       {/* Modal */}
       {open && (
-        <div onClick={handleBackdropClick}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+        <div
+          onClick={handleBackdropClick}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+        >
           <div className="bg-white rounded-lg shadow-xl p-6 max-w-sm w-full animate-fadeIn">
             <h2 className="text-lg font-semibold text-gray-800 mb-2">
               {title}
