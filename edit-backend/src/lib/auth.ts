@@ -132,7 +132,7 @@ export const authOptions: AuthOptions = {
       const positionGroupsMap = new Map<number, number[]>();
       positionGroupsList.map((positionGroup) => {
         if (positionGroup.positionsGroups_actions) {
-          let actions: number[] = [];
+          const actions: number[] = [];
           for (const posGroupAction of positionGroup.positionsGroups_actions.split(
             ",",
           )) {
