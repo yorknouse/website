@@ -1,6 +1,12 @@
 import prisma from "@/lib/prisma";
+import { checkUserPermissions, GetUserData } from "@/lib/auth";
 
 export default async function FeaturedArticles() {
+  const userData = await GetUserData();
+  if (!userData || !checkUserPermissions(20, userData.actions)) {
+    return {};
+  }
+
   const categories = await prisma.categories.findMany({
     where: {
       categories_showAdmin: true,
