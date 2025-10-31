@@ -6,6 +6,7 @@ declare module "next-auth" {
       internalId?: number;
       internalToken?: string;
       positions?: (string | null)[];
+      actions?: Map<number, boolean>;
     } & DefaultSession["user"];
   }
 
@@ -13,6 +14,7 @@ declare module "next-auth" {
     internalId?: number;
     internalToken?: string;
     positions?: (string | null)[];
+    actions?: Map<number, boolean>;
   }
 }
 
@@ -21,5 +23,6 @@ declare module "next-auth/jwt" {
     internalId?: number;
     internalToken?: string;
     positions?: (string | null)[];
+    actions?: Map<number, boolean>;
   }
 }
