@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getArticles } from "@/lib/articles";
-import { Check, EyeIcon } from "lucide-react";
+import { Check, EyeIcon, ChartLine, PenLine } from "lucide-react";
 import dateFormatter from "@/lib/dateFormatter";
 import ArticleDeleteButton from "@/components/ArticleDeleteButton";
 import { GetUserData } from "@/lib/auth";
@@ -127,20 +127,36 @@ export default async function Articles() {
                   {article.articles_showInSearch &&
                     article.articles_published &&
                     article.articles_published < new Date() && (
-                      <a
-                        href={`${process.env.FRONTEND_URL}articles/${dateFormatter
-                          .format(article.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
-                          .split("/")
-                          .reverse()
-                          .join("/")}/${String(article.articles_slug)}`}
-                        target={"_blank"}
-                        className={
-                          "inline-block rounded-sm px-2 py-2 shadow-sm bg-gray-200"
-                        }
-                        title={"View on website"}
-                      >
-                        <EyeIcon />
-                      </a>
+                      <>
+                        <span className={"px-2 py-2"}>
+                          <a
+                            href={`${process.env.FRONTEND_URL}articles/${dateFormatter
+                              .format(article.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+                              .split("/")
+                              .reverse()
+                              .join("/")}/${String(article.articles_slug)}`}
+                            target={"_blank"}
+                            className={
+                              "inline-block rounded-sm px-2 py-2 shadow-sm bg-gray-200 hover:bg-gray-300 transition"
+                            }
+                            title={"View on website"}
+                          >
+                            <EyeIcon />
+                          </a>
+                        </span>
+                        <span className={"px-2 py-2"}>
+                          <a
+                            href={`${process.env.GRAFANA_URL}d/article/article-stats?var-articleid=${article.articles_id}&from=${(article.articles_published.valueOf() - 7200) * 1000}&to=now`}
+                            target={"_blank"}
+                            className={
+                              "inline-block rounded-sm px-2 py-2 shadow-sm bg-gray-200 hover:bg-gray-300 transition"
+                            }
+                            title={"View article stats"}
+                          >
+                            <ChartLine />
+                          </a>
+                        </span>
+                      </>
                     )}
                   <span className={"px-2 py-2"}>
                     <a
