@@ -4,6 +4,7 @@ import { articles, Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { s3URL } from "@/lib/s3URL";
 import { TopArticleResult } from "@/lib/types";
+import { checkUserPermissions } from "@/lib/auth";
 
 const articlesWithArticleDrafts = Prisma.validator()({
   include: {
@@ -242,9 +243,16 @@ export async function getArticles({
   };
 }
 
-export async function deleteArticle(articleID: number, userID: number) {
-  // TODO: implement RBAC
+export async function deleteArticle(
+  articleID: number,
+  userID: number,
+  userActions?: Map<number, boolean>,
+) {
   // TODO: move audit log to separate function
+
+  if (!checkUserPermissions(30, userActions)) {
+    return {};
+  }
 
   await prisma.auditLog.create({
     data: {
