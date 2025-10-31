@@ -142,6 +142,17 @@ export default async function Articles() {
                         <EyeIcon />
                       </a>
                     )}
+                  <span className={"px-2 py-2"}>
+                    <a
+                      href={`/articles/${article.articles_id}`}
+                      className={
+                        "inline-block rounded-sm px-2 py-2 shadow-sm bg-gray-200 hover:bg-gray-300 transition"
+                      }
+                      title={"Edit article"}
+                    >
+                      <PenLine />
+                    </a>
+                  </span>
                 </td>
               </tr>
             ))}
