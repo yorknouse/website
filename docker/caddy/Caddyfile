@@ -22,10 +22,10 @@
 		reverse_proxy netdata:19999
 	}
 
-    php_fastcgi php-container:9000 {
-        # try /index.php if no file specified
-        try_files {path} /index.php
-    }
+	php_fastcgi php-container:9000 {
+		# try /index.php if no file specified
+		try_files {path} /index.php
+	}
 
 	encode gzip
 }
@@ -62,7 +62,7 @@ edit.nouse.co.uk {
 		}
 	}
 	root * /var/www/html/admin
-    file_server /assets/*
+	file_server /assets/*
 
 	php_fastcgi php-container:9000 {
 		# try /index.php if no file specified
@@ -91,8 +91,8 @@ edit.nouse.co.uk {
 	}
 }
 oauth.internal {
-    root * /var/www/html/admin
-    php_fastcgi php-container:9000
+	root * /var/www/html/admin
+	php_fastcgi php-container:9000
 }
 edit1.nouse.co.uk {
 	tls /etc/ssl/certs/ssl.crt /etc/ssl/private/ssl.key {
