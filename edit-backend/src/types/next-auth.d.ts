@@ -23,6 +23,6 @@ declare module "next-auth/jwt" {
     internalId?: number;
     internalToken?: string;
     positions?: (string | null)[];
-    actions?: Map<number, boolean>;
+    actions?: Map<number, boolean> | { [k: string]: boolean };
   }
 }
