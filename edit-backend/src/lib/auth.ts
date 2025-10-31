@@ -30,6 +30,16 @@ export async function GetUserData(): Promise<{
   };
 }
 
+export function checkUserPermissions(
+  permissionNumber: number,
+  userActions?: Map<number, boolean>,
+): boolean {
+  if (!userActions) {
+    return false;
+  }
+  return userActions.has(permissionNumber);
+}
+
 export const authOptions: AuthOptions = {
   providers: [
     GoogleProvider({
