@@ -16,9 +16,7 @@ export default function ArticleDeleteButton({
     userActions?: Map<number, boolean>;
   };
 }) {
-  const handleDelete = async (
-    id?: number,
-  ) => {
+  const handleDelete = async (id?: number) => {
     if (!id) return;
     await deleteArticle(id, userID, userActions);
     window.location.reload();
