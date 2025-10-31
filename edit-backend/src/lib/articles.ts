@@ -242,10 +242,40 @@ export async function getArticles({
   };
 }
 
-export async function deleteArticle(articleID: number) {
-  await prisma.articles.delete({
-    where: {
-      articles_id: articleID,
+export async function deleteArticle(articleID: number, userID: number) {
+  // TODO: implement RBAC
+  // TODO: move audit log to separate function
+
+  await prisma.auditLog.create({
+    data: {
+      auditLog_actionType: "DELETE",
+      auditLog_actionTable: "articles",
+      auditLog_actionData: String(articleID),
+      users_userid: userID ?? null,
     },
   });
+
+  // Fetch article info
+  const article = await prisma.articles.findUnique({
+    where: { articles_id: articleID },
+    select: {
+      articles_id: true,
+      articles_slug: true,
+      articles_published: true,
+    },
+  });
+
+  if (!article) throw new Error("Article not found");
+
+  // Soft delete (hide from admin, search, and lists)
+  await prisma.articles.update({
+    where: { articles_id: articleID },
+    data: {
+      articles_showInAdmin: false,
+      articles_showInSearch: false,
+      articles_showInLists: false,
+    },
+  });
+
+  return { success: true };
 }
