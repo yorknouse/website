@@ -4,6 +4,20 @@ import prisma from "@/lib/prisma";
 
 export default withAuth(
   async function middleware(req: NextRequestWithAuth) {
+    const origin = req.headers.get("origin");
+    const allowedOrigins = ["https://edit.nouse.co.uk"];
+
+    // Handle CORS preflight requests immediately
+    if (req.method === "OPTIONS") {
+      const res = NextResponse.next();
+      if (origin && allowedOrigins.includes(origin)) {
+        res.headers.set("Access-Control-Allow-Origin", origin);
+        res.headers.set("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+        res.headers.set("Access-Control-Allow-Headers", "*");
+      }
+      return new NextResponse(null, { status: 204, headers: res.headers });
+    }
+
     const token = req.nextauth?.token;
 
     // No token at all → let withAuth redirect to signIn
@@ -65,7 +79,15 @@ export default withAuth(
     });
 
     // Everything OK — continue
-    return NextResponse.next();
+    const res = NextResponse.next();
+    // Add CORS headers for normal requests
+    if (origin && allowedOrigins.includes(origin)) {
+      res.headers.set("Access-Control-Allow-Origin", origin);
+      res.headers.set("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
+      res.headers.set("Access-Control-Allow-Headers", "*");
+    }
+
+    return res;
   },
   {
     pages: {
