@@ -37,7 +37,7 @@ export function checkUserPermissions(
   if (!userActions) {
     return false;
   }
-  return userActions.has(permissionNumber);
+  return userActions.get(permissionNumber) ?? false;
 }
 
 export const authOptions: AuthOptions = {
