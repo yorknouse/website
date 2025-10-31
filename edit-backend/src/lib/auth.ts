@@ -128,6 +128,36 @@ export const authOptions: AuthOptions = {
         },
       });
 
+      const positionGroupsList = await prisma.positionsGroups.findMany();
+      const positionGroupsMap = new Map<number, number[]>();
+      positionGroupsList.map((positionGroup) => {
+        if (positionGroup.positionsGroups_actions) {
+          let actions: number[] = [];
+          for (const posGroupAction of positionGroup.positionsGroups_actions.split(
+            ",",
+          )) {
+            actions.push(Number(posGroupAction));
+          }
+          positionGroupsMap.set(positionGroup.positionsGroups_id, actions);
+        }
+      });
+
+      const userActionsMap = new Map<number, boolean>();
+      userRecord.userPositions.map((position) => {
+        if (
+          position.positions &&
+          position.positions.positions_positionsGroups
+        ) {
+          position.positions.positions_positionsGroups
+            .split(",")
+            .forEach((positionGroup) => {
+              positionGroupsMap.get(Number(positionGroup))?.map((action) => {
+                userActionsMap.set(action, true);
+              });
+            });
+        }
+      });
+
       // Attach to session
       user.internalId = userRecord.users_userid;
       user.internalToken = tokenValue;
@@ -135,6 +165,7 @@ export const authOptions: AuthOptions = {
         (pos) =>
           pos.positions?.positions_displayName || pos.userPositions_displayName,
       );
+      user.actions = userActionsMap;
 
       return true;
     },
