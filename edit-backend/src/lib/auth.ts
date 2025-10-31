@@ -173,6 +173,12 @@ export const authOptions: AuthOptions = {
       if (user) {
         token.internalId = user.internalId;
         token.positions = user.positions;
+        // Convert Map → Object for safe serialization
+        if (user.actions instanceof Map) {
+          token.actions = Object.fromEntries(user.actions);
+        } else {
+          token.actions = user.actions || {};
+        }
       }
 
       if (account && profile) {
@@ -191,6 +197,13 @@ export const authOptions: AuthOptions = {
           image: token.picture,
           internalId: token.internalId,
           positions: token.positions,
+          // Rehydrate: Object → Map
+          actions: new Map(
+            Object.entries(token.actions || {}).map(([k, v]) => [
+              Number(k),
+              Boolean(v),
+            ]),
+          ),
         };
       }
 
