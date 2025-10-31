@@ -2,13 +2,19 @@ import type { Metadata } from "next";
 import { getArticles } from "@/lib/articles";
 import { Check, EyeIcon } from "lucide-react";
 import dateFormatter from "@/lib/dateFormatter";
+import { GetUserData } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Articles",
 };
 
 export default async function Articles() {
-  const articles = await getArticles({ page: 2 });
+  const articles = await getArticles({ page: 1 });
+
+  const userData = await GetUserData();
+  if (!userData) {
+    return {};
+  }
 
   return (
     <div className="lg:flex min-h-screen bg-gray-200 text-gray-900">
