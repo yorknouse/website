@@ -63,9 +63,8 @@ edit.nouse.co.uk {
 	}
 	root * /var/www/html/admin
     handle /assets/* {
-        file_server (
-            root * /var/www/html/admin/assets
-        )
+        root * /var/www/html/admin/assets
+        file_server
     }
 
 	php_fastcgi php-container:9000 {
