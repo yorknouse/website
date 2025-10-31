@@ -61,13 +61,15 @@ edit.nouse.co.uk {
 			}
 		}
 	}
-    root * /var/www/html/admin/assets
-	file_server /assets/* {
-        browse
-		hide .git template.twig
-	}
+    root * /var/www/html/admin
+    @assets {
+        path /assets/*
+    }
+    handle @assets {
+        root * /var/www/html/admin
+        file_server
+    }
 
-	root * /var/www/html/admin
 	php_fastcgi php-container:9000 {
 		# try /index.php if no file specified
 		try_files {path} /index.php
