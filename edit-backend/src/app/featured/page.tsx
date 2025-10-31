@@ -127,12 +127,12 @@ export default async function FeaturedArticles() {
         {categoriesWithArticles.map((cat) => (
           <div key={cat.categories_id} className="mb-6">
             <h3 className="text-xl font-semibold">
-              {cat.categories_displayName}{" "}
               {cat.parent?.categories_displayName && (
                 <span className="text-gray-500">
-                  ({cat.parent?.categories_displayName})
+                  ({cat.parent?.categories_displayName}){" "}
                 </span>
               )}
+              {cat.categories_displayName}
             </h3>
             {cat.ARTICLES && cat.ARTICLES.length > 0 ? (
               <ul className={"list-disc ml-6"}>
