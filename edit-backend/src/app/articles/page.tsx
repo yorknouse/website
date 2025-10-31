@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getArticles } from "@/lib/articles";
 import { Check, EyeIcon } from "lucide-react";
 import dateFormatter from "@/lib/dateFormatter";
+import ArticleDeleteButton from "@/components/ArticleDeleteButton";
 import { GetUserData } from "@/lib/auth";
 
 export const metadata: Metadata = {
@@ -122,7 +123,7 @@ export default async function Articles() {
                     </p>
                   ))}
                 </td>
-                <td className={"px-4 py-2"}>
+                <td className={"px-2 py-2"}>
                   {article.articles_showInSearch &&
                     article.articles_published &&
                     article.articles_published < new Date() && (
