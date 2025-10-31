@@ -62,6 +62,14 @@ edit.nouse.co.uk {
 		}
 	}
 	root * /var/www/html/admin
+    # Serve static files (js, css, images, etc.) directly
+    @static {
+        path *.js *.css *.png *.jpg *.jpeg *.gif *.ico *.svg *.webp *.woff *.woff2 *.ttf *.eot
+    }
+    handle @static {
+        file_server
+    }
+
 	php_fastcgi php-container:9000 {
 		# try /index.php if no file specified
 		try_files {path} /index.php
