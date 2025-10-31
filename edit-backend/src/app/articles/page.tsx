@@ -3,7 +3,7 @@ import { getArticles } from "@/lib/articles";
 import { Check, EyeIcon, ChartLine, PenLine } from "lucide-react";
 import dateFormatter from "@/lib/dateFormatter";
 import ArticleDeleteButton from "@/components/ArticleDeleteButton";
-import { GetUserData } from "@/lib/auth";
+import { checkUserPermissions, GetUserData } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Articles",
@@ -13,9 +13,12 @@ export default async function Articles() {
   const articles = await getArticles({ page: 1 });
 
   const userData = await GetUserData();
-  if (!userData) {
+  if (!userData || !checkUserPermissions(30, userData.actions)) {
     return {};
   }
+
+  const canEdit = checkUserPermissions(32, userData.actions);
+  const canDelete = checkUserPermissions(33, userData.actions);
 
   return (
     <div className="lg:flex min-h-screen bg-gray-200 text-gray-900">
