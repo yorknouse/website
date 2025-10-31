@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { Metadata } from "next";
 import prisma from "@/lib/prisma";
+import { checkUserPermissions, GetUserData } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "User articles",
@@ -11,6 +12,11 @@ export default async function UserArticles({
 }: {
   params: Promise<{ userId: string }>;
 }) {
+  const userData = await GetUserData();
+  if (!userData || !checkUserPermissions(30, userData.actions)) {
+    return {};
+  }
+
   const resolvedParams = await params;
   const userIDParse = z
     .preprocess((val) => (val ? val : undefined), z.coerce.number())
