@@ -34,5 +34,7 @@ jobs:
             cp /etc/caddy/ssl/ssl.crt /etc/ssl/certs/ssl.crt && \
             cp /etc/caddy/ssl/ssl.key /etc/ssl/private/ssl.key && \
             touch /etc/ssl/certs/origin-pull-ca.pem && \
+            caddy fmt /etc/caddy/Caddyfile && \
+            caddy fmt /etc/caddy/local/Caddyfile && \
             caddy validate --config /etc/caddy/Caddyfile
           "
