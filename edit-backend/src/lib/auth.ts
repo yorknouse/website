@@ -90,7 +90,9 @@ export const authOptions: AuthOptions = {
                 { userPositions_end: { gte: new Date() } },
               ],
             },
-            include: { positions: true },
+            include: {
+              positions: true,
+            },
           },
         },
       });
