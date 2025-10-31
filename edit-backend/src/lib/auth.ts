@@ -8,7 +8,13 @@ export async function IsLoggedIn() {
   return !!session;
 }
 
-export async function GetUserData() {
+export async function GetUserData(): Promise<{
+  id: number;
+  name: string;
+  email: string;
+  photo: string | null;
+  actions: Map<number, boolean> | undefined;
+} | null> {
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -16,10 +22,11 @@ export async function GetUserData() {
   }
 
   return {
-    id: session.user.internalId,
-    name: session.user.name,
-    email: session.user.email,
-    photo: session.user.image,
+    id: Number(session.user.internalId),
+    name: String(session.user.name),
+    email: String(session.user.email),
+    photo: session.user.image == null ? null : session.user.image,
+    actions: session.user.actions,
   };
 }
 
