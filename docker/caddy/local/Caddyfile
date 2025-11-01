@@ -31,7 +31,10 @@ localhost {
 }
 edit.localhost {
 	root * /var/www/html/admin
-	file_server /assets/*
+	handle /assets/* {
+		uri replace /assets/ /oldAssets/
+		reverse_proxy react-container:3000
+	}
 
 	php_fastcgi php-container:9000 {
 		# try /index.php if no file specified
