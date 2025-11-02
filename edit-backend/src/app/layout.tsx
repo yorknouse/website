@@ -4,7 +4,7 @@ import "../css/globals.css";
 import React from "react";
 import Providers from "./providers";
 import Sidebar from "@/components/Navbar";
-import { IsLoggedIn } from "@/lib/auth";
+import { GetUserName, IsLoggedIn } from "@/lib/auth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +39,12 @@ export default async function RootLayout({
         </body>
       </html>
     );
+  }
+
+  let name = "Unknown";
+  const userName = await GetUserName();
+  if (userName !== null) {
+    name = userName;
   }
 
   return (
