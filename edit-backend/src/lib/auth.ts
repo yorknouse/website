@@ -161,30 +161,16 @@ export const authOptions: AuthOptions = {
       // Attach to session
       user.internalId = userRecord.users_userid;
       user.internalToken = tokenValue;
-      user.positions = userRecord.userPositions.map(
-        (pos) =>
-          pos.positions?.positions_displayName || pos.userPositions_displayName,
-      );
-      user.actions = userActionsMap;
 
       return true;
     },
     async jwt({ token, user, account, profile }) {
       if (user) {
         token.internalId = user.internalId;
-        token.positions = user.positions;
-        // Convert Map → Object for safe serialization
-        if (user.actions instanceof Map) {
-          token.actions = Object.fromEntries(user.actions);
-        } else {
-          token.actions = user.actions || {};
-        }
       }
 
       if (account && profile) {
         token.id = profile.sub;
-        token.name = profile.name;
-        token.email = profile.email;
       }
 
       return token;
@@ -192,18 +178,7 @@ export const authOptions: AuthOptions = {
     async session({ session, token }) {
       if (token) {
         session.user = {
-          name: token.name,
-          email: token.email,
-          image: token.picture,
           internalId: token.internalId,
-          positions: token.positions,
-          // Rehydrate: Object → Map
-          actions: new Map(
-            Object.entries(token.actions || {}).map(([k, v]) => [
-              Number(k),
-              Boolean(v),
-            ]),
-          ),
         };
       }
 
