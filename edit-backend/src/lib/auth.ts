@@ -95,6 +95,30 @@ export async function GetUserData(): Promise<{
   };
 }
 
+export async function GetUserName(): Promise<string | null> {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return null;
+  }
+
+  const userRecord = await prisma.users.findFirst({
+    select: {
+      users_name1: true,
+      users_name2: true,
+    },
+    where: {
+      users_userid: Number(session.user.internalId),
+    },
+  });
+
+  if (!userRecord) {
+    return null;
+  }
+
+  return userRecord.users_name1 + " " + userRecord.users_name2;
+}
+
 export function checkUserPermissions(
   permissionNumber: number,
   userActions?: Map<number, boolean>,
