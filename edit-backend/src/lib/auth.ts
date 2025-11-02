@@ -133,11 +133,11 @@ export const authOptions: AuthOptions = {
       positionGroupsList.map((positionGroup) => {
         if (positionGroup.positionsGroups_actions) {
           const actions: number[] = [];
-          for (const posGroupAction of positionGroup.positionsGroups_actions.split(
-            ",",
-          )) {
-            actions.push(Number(posGroupAction));
-          }
+          positionGroup.positionsGroups_actions
+            .split(",")
+            .forEach((posGroupAction) => {
+              actions.push(Number(posGroupAction));
+            });
           positionGroupsMap.set(positionGroup.positionsGroups_id, actions);
         }
       });
