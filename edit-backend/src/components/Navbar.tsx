@@ -80,7 +80,7 @@ export default function Sidebar({
         `}
       >
         {/* Header */}
-        <div className="flex items-center justify-between h-16 px-4 border-b border-gray-800">
+        <div className="flex items-center justify-between h-14 px-4">
           <div className="flex items-center gap-3">
             <Image
               src={"/favicon.svg"}
@@ -102,6 +102,14 @@ export default function Sidebar({
           >
             <X size={22} />
           </button>
+        </div>
+        <div className="flex items-center justify-between px-4 py-1 border-b border-gray-800">
+          <div className="flex items-center gap-3">
+            <span>
+              <span className={"text-gray-500"}>Welcome, </span>
+              {name}
+            </span>
+          </div>
         </div>
 
         {/* Navigation */}
