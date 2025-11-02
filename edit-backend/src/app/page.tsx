@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
 import UserData from "@/components/UserData";
+import { GetUserData } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Home",
 };
 
-export default function Home() {
+export default async function Home() {
+  const userData = await GetUserData();
+  if (!userData) {
+    return {};
+  }
   return (
     <div>
       <div
@@ -26,7 +31,7 @@ export default function Home() {
           <code>#tech</code> on Slack for guidance or help or to report an issue
         </p>
       </div>
-      <UserData />
+      <UserData props={{ userData: userData }} />
     </div>
   );
 }
