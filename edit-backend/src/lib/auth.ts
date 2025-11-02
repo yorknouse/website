@@ -2,6 +2,7 @@ import { AuthOptions, getServerSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import prisma from "@/lib/prisma";
 import { randomBytes, createHash } from "crypto";
+import { s3URL } from "@/lib/s3URL";
 
 export async function IsLoggedIn() {
   const session = await getServerSession(authOptions);
@@ -13,6 +14,7 @@ export async function GetUserData(): Promise<{
   name: string;
   email: string;
   photo: string | null;
+  positions: (string | null)[];
   actions: Map<number, boolean> | undefined;
 } | null> {
   const session = await getServerSession(authOptions);
@@ -21,12 +23,75 @@ export async function GetUserData(): Promise<{
     return null;
   }
 
+  const positionGroupsList = await prisma.positionsGroups.findMany();
+  const positionGroupsMap = new Map<number, number[]>();
+  positionGroupsList.map((positionGroup) => {
+    if (positionGroup.positionsGroups_actions) {
+      const actions: number[] = [];
+      positionGroup.positionsGroups_actions
+        .split(",")
+        .forEach((posGroupAction) => {
+          actions.push(Number(posGroupAction));
+        });
+      positionGroupsMap.set(positionGroup.positionsGroups_id, actions);
+    }
+  });
+
+  const userRecord = await prisma.users.findFirst({
+    where: {
+      users_userid: Number(session.user.internalId),
+    },
+    include: {
+      userPositions: {
+        where: {
+          userPositions_start: { lte: new Date() },
+          OR: [
+            { userPositions_end: null },
+            { userPositions_end: { gte: new Date() } },
+          ],
+        },
+        include: {
+          positions: true,
+        },
+      },
+    },
+  });
+
+  if (!userRecord) {
+    return null;
+  }
+
+  const userActionsMap = new Map<number, boolean>();
+  userRecord.userPositions.map((position) => {
+    if (position.positions && position.positions.positions_positionsGroups) {
+      position.positions.positions_positionsGroups
+        .split(",")
+        .forEach((positionGroup) => {
+          positionGroupsMap.get(Number(positionGroup))?.map((action) => {
+            userActionsMap.set(action, true);
+          });
+        });
+    }
+  });
+
+  let thumbnail: string | null = null;
+  if (userRecord.users_thumbnail !== null) {
+    thumbnail = await s3URL(Number(userRecord.users_thumbnail), "tiny");
+  }
+
   return {
     id: Number(session.user.internalId),
-    name: String(session.user.name),
-    email: String(session.user.email),
-    photo: session.user.image == null ? null : session.user.image,
-    actions: session.user.actions,
+    name: userRecord.users_name1 + " " + userRecord.users_name2,
+    email:
+      userRecord.users_googleAppsUsernameNouse !== null
+        ? userRecord.users_googleAppsUsernameNouse + "@nouse.co.uk"
+        : userRecord.users_googleAppsUsernameYork + "@york.ac.uk",
+    photo: thumbnail,
+    positions: userRecord.userPositions.map(
+      (pos) =>
+        pos.positions?.positions_displayName || pos.userPositions_displayName,
+    ),
+    actions: userActionsMap,
   };
 }
 
