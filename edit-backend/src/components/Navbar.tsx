@@ -19,7 +19,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 
-export default function Sidebar() {
+export default function Sidebar({
+  props: { name },
+}: {
+  props: { name: string };
+}) {
   async function handleLogout() {
     try {
       // Invalidate the auth token in DB
