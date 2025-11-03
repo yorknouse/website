@@ -22,34 +22,47 @@ export const config = {
 };
 
 const formSchema = z.object({
-  categoryName: z
-    .string()
-    .trim()
-    .min(1, "Category name is required")
-    .max(100)
-    .regex(/^[a-zA-Z0-9\-_ ]+$/, "Invalid category name"),
-  take: z
-    .string()
-    .transform((val) => parseInt(val, 10))
-    .refine((num) => Number.isInteger(num) && num >= 0 && num <= 100, {
-      message: "Invalid 'take' value",
-    }),
-  skip: z
-    .string()
-    .transform((val) => parseInt(val, 10))
-    .refine((num) => Number.isInteger(num) && num >= 0 && num <= 10000, {
-      message: "Invalid 'skip' value",
-    }),
+  categoryName: z.preprocess(
+    (val: unknown) => (Array.isArray(val) ? val[0] : val),
+    z
+      .string()
+      .trim()
+      .min(1, "Category name is required")
+      .max(100)
+      .regex(/^[a-zA-Z0-9\-_ ]+$/, "Invalid category name"),
+  ),
+  take: z.preprocess(
+    (val: unknown) => {
+      const strVal = Array.isArray(val) ? val[0] : val;
+      return parseInt(strVal, 10);
+    },
+    z
+      .number()
+      .int()
+      .min(0, "Invalid 'take' value")
+      .max(100, "Invalid 'take' value"),
+  ),
+  skip: z.preprocess(
+    (val: unknown) => {
+      const strVal = Array.isArray(val) ? val[0] : val;
+      return parseInt(strVal, 10);
+    },
+    z
+      .number()
+      .int()
+      .min(0, "Invalid 'skip' value")
+      .max(10000, "Invalid 'skip' value"),
+  ),
   notInFeatured: z
-    .string()
-    .optional()
-    .transform((val) => {
-      if (!val || !val.trim()) return [];
-      return val
+    .preprocess((val: unknown) => {
+      const strVal = Array.isArray(val) ? val[0] : val;
+      if (!strVal || !strVal.trim()) return [];
+      return String(strVal)
         .split(",")
         .map((s) => parseInt(s.trim(), 10))
         .filter((n) => Number.isInteger(n) && n > 0);
-    }),
+    }, z.array(z.number().int().positive()))
+    .optional(),
 });
 
 export default async function handler(
