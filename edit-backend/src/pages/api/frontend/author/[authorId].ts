@@ -22,16 +22,19 @@ export default async function handler(
   const { authorId } = req.query;
 
   try {
-    if (!authorId || typeof authorId === "undefined") {
-      res.status(400).json({ message: "Missing or invalid authorId" });
-      return;
+    if (!authorId) {
+      return res.status(400).json({ message: "Missing authorId" });
     }
 
-    const sanitisedId = String(authorId).replace(/\D/g, "");
+    const id = Number(authorId);
+
+    if (!Number.isInteger(id) || id < 0) {
+      return res.status(400).json({ message: "Invalid authorId" });
+    }
 
     const author = await prisma.users.findFirst({
       where: {
-        users_userid: Number(sanitisedId),
+        users_userid: id,
         users_deleted: false,
       },
       include: {

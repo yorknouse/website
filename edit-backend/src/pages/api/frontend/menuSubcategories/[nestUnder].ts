@@ -21,18 +21,21 @@ export default async function handler(
   const { nestUnder } = req.query;
 
   try {
-    if (!nestUnder || typeof nestUnder === "undefined") {
-      res.status(400).json({ message: "Missing or invalid nestUnder" });
-      return;
+    if (!nestUnder) {
+      return res.status(400).json({ message: "Missing nestUnder" });
     }
 
-    const sanitisedId = String(nestUnder).replace(/\D/g, "");
+    const id = Number(nestUnder);
+
+    if (!Number.isInteger(id) || id < 0) {
+      return res.status(400).json({ message: "Invalid nestUnder" });
+    }
 
     const categories = await prisma.categories.findMany({
       where: {
         categories_showMenu: true,
         categories_showPublic: true,
-        categories_nestUnder: Number(sanitisedId),
+        categories_nestUnder: id,
       },
     });
 

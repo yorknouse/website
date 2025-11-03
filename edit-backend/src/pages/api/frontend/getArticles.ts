@@ -11,6 +11,7 @@ import {
 import { getCategoryLink, getParentCategory } from "@/lib/categories";
 import dateFormatter from "@/lib/dateFormatter";
 import he from "he";
+import { z } from "zod";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -51,10 +52,22 @@ export default async function handler(
 
     const style = String(styleRaw);
 
-    const articleIds: number[] = JSON.parse(String(articleIdsRaw));
+    // Safely parse articleIds
+    let articleIds: number[];
+    try {
+      const parsed = JSON.parse(String(articleIdsRaw));
 
-    if (!articleIds || typeof articleIds === "undefined") {
-      res.status(400).json({ message: "Missing or invalid articleIds" });
+      const schema = z.array(z.number().int().positive()).nonempty();
+      const validation = schema.safeParse(parsed);
+
+      if (!validation.success) {
+        res.status(400).json({ message: "Invalid articleIds format" });
+        return;
+      }
+
+      articleIds = validation.data;
+    } catch {
+      res.status(400).json({ message: "Malformed articleIds JSON" });
       return;
     }
 

@@ -21,9 +21,9 @@ export default async function handler(
   try {
     const { fileId, size } = req.query;
 
-    if (!fileId || typeof fileId === "undefined") {
-      res.status(400).json({ message: "Missing or invalid fileId" });
-      return;
+    const fileIdNumber = Number(fileId);
+    if (Number.isNaN(fileIdNumber)) {
+      return res.status(400).json({ message: "Invalid fileId" });
     }
 
     let sizeExt: false | "tiny" | "small" | "medium" | "large" | "comp" =
@@ -37,9 +37,7 @@ export default async function handler(
     else if (sizeString == "large") sizeExt = "large";
     else if (!sizeString || sizeString == "false") sizeExt = false;
 
-    const sanitisedId = Number(String(fileId).replace(/\D/g, ""));
-
-    const url = await s3URL(sanitisedId, sizeExt);
+    const url = await s3URL(fileIdNumber, sizeExt);
 
     res.status(200).json({ url: url });
   } catch (err) {

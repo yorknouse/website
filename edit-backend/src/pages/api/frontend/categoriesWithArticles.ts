@@ -25,16 +25,26 @@ export default async function handler(
 
   const { parentCategory, articlesLimit = "10" } = req.query;
 
+  const parentCategoryNumber = Number(parentCategory);
+  if (Number.isNaN(parentCategoryNumber)) {
+    return res.status(400).json({ message: "Invalid parentCategory" });
+  }
+
+  const articlesLimitNumber = Number(articlesLimit);
+  if (Number.isNaN(articlesLimitNumber)) {
+    return res.status(400).json({ message: "Invalid articlesLimit" });
+  }
+
   try {
     const categoriesWithArticlesRaw = await prisma.categories.findMany({
       where: {
         categories_showPublic: true,
         categories_showMenu: true,
-        categories_nestUnder: Number(parentCategory),
+        categories_nestUnder: parentCategoryNumber,
       },
       include: {
         articles: {
-          take: Number(articlesLimit),
+          take: articlesLimitNumber,
           where: {
             article: {
               articles_showInLists: true,

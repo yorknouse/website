@@ -6,6 +6,7 @@ import { getArticleImage } from "@/lib/articles";
 import dateFormatter from "@/lib/dateFormatter";
 import { getCategoryLink } from "@/lib/categories";
 import he from "he";
+import { z } from "zod";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -20,6 +21,37 @@ export const config = {
   },
 };
 
+const formSchema = z.object({
+  categoryName: z
+    .string()
+    .trim()
+    .min(1, "Category name is required")
+    .max(100)
+    .regex(/^[a-zA-Z0-9\-_ ]+$/, "Invalid category name"),
+  take: z
+    .string()
+    .transform((val) => parseInt(val, 10))
+    .refine((num) => Number.isInteger(num) && num >= 0 && num <= 100, {
+      message: "Invalid 'take' value",
+    }),
+  skip: z
+    .string()
+    .transform((val) => parseInt(val, 10))
+    .refine((num) => Number.isInteger(num) && num >= 0 && num <= 10000, {
+      message: "Invalid 'skip' value",
+    }),
+  notInFeatured: z
+    .string()
+    .optional()
+    .transform((val) => {
+      if (!val || !val.trim()) return [];
+      return val
+        .split(",")
+        .map((s) => parseInt(s.trim(), 10))
+        .filter((n) => Number.isInteger(n) && n > 0);
+    }),
+});
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -33,18 +65,20 @@ export default async function handler(
 
   try {
     const { fields } = await ParseForm(req);
-    const categoryName = String(fields.categoryName);
-    const take = String(fields.take);
-    const skip = String(fields.skip);
-    const notInFeatured = String(fields.notInFeatured);
+    const parsed = formSchema.safeParse({
+      categoryName: fields.categoryName,
+      take: fields.take,
+      skip: fields.skip,
+      notInFeatured: fields.notInFeatured,
+    });
 
-    const notInFeaturedArr =
-      notInFeatured.trim() !== ""
-        ? notInFeatured
-            .split(",")
-            .map((s) => parseInt(s.trim()))
-            .filter((n) => !isNaN(n))
-        : null;
+    if (!parsed.success) {
+      res
+        .status(400)
+        .json({ message: "Invalid request", errors: parsed.error.errors });
+      return;
+    }
+    const { categoryName, take, skip, notInFeatured } = parsed.data;
 
     const category = await prisma.categories.findFirst({
       where: {
@@ -59,11 +93,11 @@ export default async function handler(
           where: {
             article: {
               articles_showInLists: true,
-              ...(notInFeaturedArr?.length
+              ...(notInFeatured?.length
                 ? {
                     NOT: {
                       articles_id: {
-                        in: notInFeaturedArr,
+                        in: notInFeatured,
                       },
                     },
                   }

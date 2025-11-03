@@ -4,6 +4,7 @@ import { ParseForm } from "@/lib/parseForm";
 import { getArticleImage } from "@/lib/articles";
 import type { ArticleAuthor } from "@/lib/types";
 import he from "he";
+import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -38,7 +39,11 @@ export default async function handler(
       return;
     }
 
-    const term = String(rawTerm);
+    const term = sanitiseSearchTerm(rawTerm);
+    if (!term) {
+      res.status(400).json({ message: "Invalid searchterm" });
+      return;
+    }
 
     const term1 = `%${rawTerm}%`;
 

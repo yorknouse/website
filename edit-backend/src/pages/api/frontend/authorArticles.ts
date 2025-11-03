@@ -25,14 +25,28 @@ export default async function handler(
 
   const { authorId, page = "1", limit = "10" } = req.query;
 
+  const authorIdNumber = Number(authorId);
+  if (Number.isNaN(authorIdNumber)) {
+    return res.status(400).json({ message: "Invalid authorId" });
+  }
+
+  let pageNumber = Number(page);
+  let articlesPerPage = Number(limit);
+
+  if (Number.isNaN(pageNumber) || pageNumber < 1) pageNumber = 1;
+  if (
+    Number.isNaN(articlesPerPage) ||
+    articlesPerPage < 1 ||
+    articlesPerPage > 100
+  ) {
+    articlesPerPage = 10;
+  }
+
   const authorArticles = await prisma.articlesAuthors.findMany({
     where: {
-      users_userid: Number(String(authorId)),
+      users_userid: authorIdNumber,
     },
   });
-
-  const pageNumber = Number(page);
-  const articlesPerPage = Number(limit);
 
   let articles: IArticle[];
   let pages: number;

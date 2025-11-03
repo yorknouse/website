@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 import { ParseForm } from "@/lib/parseForm";
 import { ICategory } from "@/lib/types";
+import { validateDesktopNavBar } from "@/lib/validation/navbar";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -28,38 +29,25 @@ export default async function handler(
   }
 
   const { fields } = await ParseForm(req);
-  const active = fields.active;
-  const menuCategories = fields.menuCategories;
-  const subMenuCategories = fields.subMenuCategories;
+  const { active, menuCategories, subMenuCategories } =
+    validateDesktopNavBar(fields);
 
-  const activeHere = String(active);
+  const menuCategoriesHere: ICategory[] = menuCategories;
 
-  const menuCategoriesHere: ICategory[] = JSON.parse(String(menuCategories));
-
-  const rawSubMenuCategories = JSON.parse(String(subMenuCategories));
-  const subMenuCategoriesHere = new Map<string, ICategory[]>(
-    rawSubMenuCategories,
-  );
+  const subMenuCategoriesHere = new Map<string, ICategory[]>(subMenuCategories);
 
   try {
-    if (!activeHere || typeof activeHere === "undefined") {
-      res.status(400).json({ message: "Missing or invalid actives" });
-      return;
-    }
-
-    const activeCategory = activeHere
+    const activeCategory = active
       ? await prisma.categories.findFirst({
           where: {
-            categories_name: activeHere,
+            categories_name: active,
           },
         })
       : undefined;
 
     let parentColour = undefined;
     let parentCategory: ICategory | null = null;
-    let subMenuItems = activeHere
-      ? subMenuCategoriesHere.get(activeHere)
-      : undefined;
+    let subMenuItems = active ? subMenuCategoriesHere.get(active) : undefined;
     if (
       activeCategory &&
       activeCategory.categories_nestUnder &&

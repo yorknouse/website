@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
+import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -21,8 +22,9 @@ export default async function handler(
   const { name } = req.query;
 
   try {
-    if (!name || typeof name === "undefined") {
-      res.status(400).json({ message: "Missing or invalid categoryName" });
+    const nameSanitised = sanitiseSearchTerm(name);
+    if (!nameSanitised || nameSanitised.length == 0) {
+      res.status(400).json({ message: "Missing or invalid slug" });
       return;
     }
 
@@ -33,7 +35,7 @@ export default async function handler(
       categories_featured: string | null;
     } | null = await prisma.categories.findFirst({
       where: {
-        categories_name: String(name),
+        categories_name: nameSanitised,
         categories_showPublic: true,
         categories_showMenu: true,
       },

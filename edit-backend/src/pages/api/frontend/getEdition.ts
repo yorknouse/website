@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 import { ParseForm } from "@/lib/parseForm";
 import type { IEdition } from "@/lib/types";
+import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -29,13 +30,12 @@ export default async function handler(
 
   try {
     const { fields } = await ParseForm(req);
-    const slug = String(fields.slug);
-    const isPreview = String(fields.isPreview) == "true";
-
+    const slug = sanitiseSearchTerm(fields.slug);
     if (!slug || slug.length == 0) {
       res.status(400).json({ message: "Missing or invalid slug" });
       return;
     }
+    const isPreview = String(fields.isPreview) == "true";
 
     const edition: IEdition | null = await prisma.editions.findFirst({
       where: {

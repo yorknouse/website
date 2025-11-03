@@ -33,14 +33,23 @@ export default async function handler(
 
   try {
     const { fields } = await ParseForm(req);
-    const articleId = fields.articleId;
+    const articleIdRaw = Array.isArray(fields.articleId)
+      ? fields.articleId[0]
+      : fields.articleId;
 
-    if (!articleId || typeof articleId === "undefined") {
-      res.status(400).json({ message: "Missing or invalid articleId" });
-      return;
+    if (!articleIdRaw) {
+      return res.status(400).json({ message: "Missing articleId" });
     }
 
-    const sanitisedId = articleId[0].replace(/\D/g, "");
+    // Remove all non-digit characters
+    const sanitisedId = articleIdRaw.replace(/\D/g, "");
+
+    // Ensure it's actually a valid positive integer
+    const articleId = Number(sanitisedId);
+
+    if (!Number.isInteger(articleId) || articleId <= 0) {
+      return res.status(400).json({ message: "Invalid articleId" });
+    }
 
     const result = await prisma.articlesReads.create({
       data: { articles_id: Number(sanitisedId) },

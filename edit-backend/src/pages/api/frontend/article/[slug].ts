@@ -6,6 +6,7 @@ import dateFormatter from "@/lib/dateFormatter";
 import { getCategoryLink, getParentCategory } from "@/lib/categories";
 import crypto from "crypto";
 import he from "he";
+import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -23,7 +24,9 @@ export default async function handler(
 
   const isPreview = preview && post && key;
 
-  const cleanSlug = decodeURIComponent(String(slug) || "");
+  const slugSanitised = sanitiseSearchTerm(slug);
+
+  const cleanSlug = decodeURIComponent(slugSanitised || "");
 
   const articleRaw = await prisma.articles.findFirst({
     where: {

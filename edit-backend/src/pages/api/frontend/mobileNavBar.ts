@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 import { ParseForm } from "@/lib/parseForm";
 import { ICategory } from "@/lib/types";
+import { validateMobileNavBar } from "@/lib/validation/navbar";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -28,35 +29,23 @@ export default async function handler(
   }
 
   const { fields } = await ParseForm(req);
-  const active = fields.active;
-  const style = fields.style;
-  const menuCategories = fields.menuCategories;
-  const subMenuCategories = fields.subMenuCategories;
+  const { active, style, menuCategories, subMenuCategories } =
+    validateMobileNavBar(fields);
 
-  const activeHere = String(active);
-  const styleHere = String(style);
-  if (styleHere !== "nouse" && styleHere !== "muse") {
-    res.status(400).json({ message: "Missing or invalid style" });
-    return;
-  }
+  const menuCategoriesHere: ICategory[] = menuCategories;
 
-  const menuCategoriesHere: ICategory[] = JSON.parse(String(menuCategories));
-
-  const rawSubMenuCategories = JSON.parse(String(subMenuCategories));
-  const subMenuCategoriesHere = new Map<string, ICategory[]>(
-    rawSubMenuCategories,
-  );
+  const subMenuCategoriesHere = new Map<string, ICategory[]>(subMenuCategories);
 
   try {
-    if (!activeHere || typeof activeHere === "undefined") {
+    if (!active || typeof active === "undefined") {
       res.status(400).json({ message: "Missing or invalid actives" });
       return;
     }
 
-    const activeCategory = activeHere
+    const activeCategory = active
       ? await prisma.categories.findFirst({
           where: {
-            categories_name: activeHere,
+            categories_name: active,
           },
         })
       : undefined;
@@ -80,7 +69,7 @@ export default async function handler(
       }
     }
 
-    let computedBaseColour = styleHere === "muse" ? "#000" : "#F5EFEB";
+    let computedBaseColour = style === "muse" ? "#000" : "#F5EFEB";
 
     if (activeCategory?.categories_backgroundColor) {
       computedBaseColour = activeCategory.categories_backgroundColor;
@@ -89,14 +78,14 @@ export default async function handler(
     // Whether to invert logo or not.
     // Should be inverted for non-home nouse categories.
     const invert =
-      styleHere === "nouse" &&
+      style === "nouse" &&
       activeCategory &&
       activeCategory.categories_name !== "home" &&
       computedBaseColour !== "#F5EFEB";
 
     // Menu and Search icons colours
     let textColour = "text-black";
-    if (styleHere === "muse" || invert) {
+    if (style === "muse" || invert) {
       textColour = "text-white";
     }
 
