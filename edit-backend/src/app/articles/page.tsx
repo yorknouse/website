@@ -9,8 +9,19 @@ export const metadata: Metadata = {
   title: "Articles",
 };
 
-export default async function Articles() {
-  const articles = await getArticles({ page: 1 });
+export default async function Articles({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string; search?: string; user?: string }>;
+}) {
+  const awaitedSearchParams = await searchParams;
+  const pageRaw = awaitedSearchParams.page ?? "1";
+  const searchRaw = awaitedSearchParams.search ?? null;
+  const userRaw = awaitedSearchParams.user ?? null;
+  console.log(pageRaw, searchRaw, userRaw);
+  const page = isNaN(Number(pageRaw)) ? 1 : Number(pageRaw);
+  console.log(page);
+  const articles = await getArticles({ page: page });
 
   const userData = await GetUserData();
   if (!userData || !checkUserPermissions(30, userData.actions)) {
