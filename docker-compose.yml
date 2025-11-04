@@ -7,7 +7,7 @@ services:
       - "443:443"
     volumes:
       - caddy:/data
-      - php_app_data:/var/www/html/admin
+      - php_app_data:/var/www/html/admin:ro
       - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile
       - ./ssl/ssl.key:/etc/ssl/private/ssl.key
       - ./ssl/ssl.crt:/etc/ssl/certs/ssl.crt

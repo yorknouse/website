@@ -6,7 +6,7 @@ services:
       - "80:80"
     volumes:
       - caddy:/data
-      - php_app_data:/var/www/html/admin
+      - php_app_data:/var/www/html/admin:ro
       - ./docker/caddy/local/Caddyfile:/etc/caddy/Caddyfile
     env_file:
       - nouseprod-local.env
