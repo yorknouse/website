@@ -4,6 +4,8 @@ import { Check, EyeIcon, ChartLine, PenLine, Trash } from "lucide-react";
 import dateFormatter from "@/lib/dateFormatter";
 import ArticleDeleteButton from "@/components/ArticleDeleteButton";
 import { checkUserPermissions, GetUserData } from "@/lib/auth";
+import Pagination from "@/components/Pagination";
+import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
 
 export const metadata: Metadata = {
   title: "Articles",
@@ -18,10 +20,17 @@ export default async function Articles({
   const pageRaw = awaitedSearchParams.page ?? "1";
   const searchRaw = awaitedSearchParams.search ?? null;
   const userRaw = awaitedSearchParams.user ?? null;
-  console.log(pageRaw, searchRaw, userRaw);
   const page = isNaN(Number(pageRaw)) ? 1 : Number(pageRaw);
-  console.log(page);
-  const articles = await getArticles({ page: page });
+  const user = isNaN(Number(userRaw)) ? undefined : Number(userRaw);
+  let search: string | null | undefined = sanitiseSearchTerm(searchRaw);
+  if (search === null) {
+    search = undefined;
+  }
+  const articles = await getArticles({
+    page: page,
+    authorId: user,
+    search: search,
+  });
 
   const userData = await GetUserData();
   if (!userData || !checkUserPermissions(30, userData.actions)) {
@@ -219,6 +228,10 @@ export default async function Articles({
             })}
           </tbody>
         </table>
+        <Pagination
+          page={articles.pagination.page}
+          totalPages={articles.pagination.totalPages}
+        />
       </div>
     </div>
   );
