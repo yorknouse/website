@@ -68,7 +68,6 @@ class bCMS {
         //$var = stripslashes($var);
         global $CONN;
         return mysqli_real_escape_string($CONN, $var);
-        return $var;
     }
     function randomString($length = 10, $stringonly = false) { //Generate a random string
         $characters = 'abcdefghkmnopqrstuvwxyzABCDEFGHKMNOPQRSTUVWXYZ';
