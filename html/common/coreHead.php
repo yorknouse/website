@@ -60,6 +60,10 @@ class bCMS {
 
     private $cloudflare;
 
+    function sanitizeString($var) {
+        return $this->sanitiseString($var);
+    }
+
     function sanitiseString($var) {
         $var = htmlspecialchars($var); //Sanitize all html out of it - important for user comments section
         $var = strip_tags($var);
