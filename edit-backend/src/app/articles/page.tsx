@@ -6,6 +6,7 @@ import ArticleDeleteButton from "@/components/ArticleDeleteButton";
 import { checkUserPermissions, GetUserData } from "@/lib/auth";
 import Pagination from "@/components/Pagination";
 import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
+import SearchBar from "@/components/SearchBar";
 
 export const metadata: Metadata = {
   title: "Articles",
@@ -47,6 +48,7 @@ export default async function Articles({
       <div className={"flex flex-col"}>
         <h1 className={"text-2xl font-semibold"}>Articles</h1>
         <br />
+        <SearchBar />
         <table className={"table-auto bg-white"}>
           <thead className={"border-b-4 border-gray-600"}>
             <tr>
