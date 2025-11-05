@@ -58,6 +58,8 @@ services:
       - nouseprod-local.env
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    volumes:
+      - php_app_data:/var/www/html/admin:wo
   react-container:
     build:
       context: .
