@@ -6,24 +6,25 @@ $PAGEDATA['pageConfig'] = ["TITLE" => "Articles", "BREADCRUMB" => false];
 
 if (!$AUTH->permissionCheck(30)) die("Sorry - you can't access this page");
 
-if (isset($_GET['q'])) $PAGEDATA['search'] = $bCMS->sanitizeString($_GET['q']);
+if (isset($_GET['q'])) $PAGEDATA['search'] = $bCMS->sanitiseString($_GET['q']);
 else $PAGEDATA['search'] = null;
 
-if (isset($_GET['page'])) $page = $bCMS->sanitizeString($_GET['page']);
+if (isset($_GET['page'])) $page = $bCMS->sanitiseString($_GET['page']);
 else $page = 1;
 $DBLIB->pageLimit = 20;
 if (strlen($PAGEDATA['search'] ?? '') > 0) {
+    $sanitisedSearch = $bCMS->sanitiseString($PAGEDATA['search']);
 	//Search
 	$DBLIB->where("
-		(articlesDrafts.articlesDrafts_headline LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
-		OR articles.articles_slug LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
-		OR articlesDrafts.articlesDrafts_excerpt LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%')
+		(articlesDrafts.articlesDrafts_headline LIKE '%" . $sanitisedSearch . "%'
+		OR articles.articles_slug LIKE '%" . $sanitisedSearch . "%'
+		OR articlesDrafts.articlesDrafts_excerpt LIKE '%" . $sanitisedSearch . "%')
     ");
 }
 $DBLIB->orderBy("articles_published", "DESC");
 $DBLIB->where("articles_showInAdmin", 1); //ie those that can actually be shown
 if (isset($_GET['a'])) {
-	$DBLIB->where("articles.articles_id IN (SELECT articles_id FROM articlesAuthors WHERE articlesAuthors.users_userid=" . $bCMS->sanitizeString($_GET['a']) . ")");
+	$DBLIB->where("articles.articles_id IN (SELECT articles_id FROM articlesAuthors WHERE articlesAuthors.users_userid=" . $bCMS->sanitiseString($_GET['a']) . ")");
 	$PAGEDATA['pageConfig']['author'] = true;
 }
 $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
@@ -48,7 +49,7 @@ foreach ($articles as $article) {
 		$article['articles_authors'][] = $user;
 	}
 
-	$DBLIB->where("articlesCategories.articles_id", $bCMS->sanitizeString($article['articles_id']));
+	$DBLIB->where("articlesCategories.articles_id", $bCMS->sanitiseString($article['articles_id']));
 	$article['articles_categories'] = array_column($DBLIB->get("articlesCategories"), 'categories_id');
 	$PAGEDATA['articles'][] = $article;
 }

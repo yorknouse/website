@@ -5,7 +5,7 @@ header("Content-Type: text/plain");
 
 if (!$AUTH->permissionCheck(31) or !$AUTH->permissionCheck(32) or !isset($_GET['slug'])) die("404");
 
-$DBLIB->where('articles_slug', $bCMS->sanitizeString($_GET['slug']));
+$DBLIB->where('articles_slug', $bCMS->sanitiseString($_GET['slug']));
 if ($DBLIB->getValue("articles", "COUNT(*)") > 0) die("TAKEN");
 
 die("1");

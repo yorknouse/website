@@ -60,7 +60,7 @@ class bCMS {
 
     private $cloudflare;
 
-    function sanitizeString($var) {
+    function sanitiseString($var) {
         $var = htmlspecialchars($var); //Sanitize all html out of it - important for user comments section
         $var = strip_tags($var);
         $var = trim($var);
@@ -118,7 +118,7 @@ class bCMS {
     public function articleThumbnail($article, $size = "large", $overrideImageDisplay = false) {
         global $DBLIB, $CONFIG;
         if ($article == null) return false;
-        $DBLIB->where("articles_id", $this->sanitizeString($article));
+        $DBLIB->where("articles_id", $this->sanitiseString($article));
         $thumb = $DBLIB->getone("articles", ["articles_thumbnail","articles_displayImages"]);
         if (!$thumb or $thumb["articles_thumbnail"] == null) return false;
         elseif ($thumb['articles_displayImages'] == 0 and $overrideImageDisplay != true) return $CONFIG['FILESTOREURL'] . '/nouseSiteAssets/imageArchive-comp.jpg';
@@ -136,7 +136,7 @@ class bCMS {
          *      d (optional, default false) - should a download be forced or should it be displayed in the browser? (if set it will download)
          *      e (optional, default 1 minute) - when should the link expire? Must be a string describing how long in words basically. If this file type has security features then it will default to 1 minute.
          */
-        $fileid = $this->sanitizeString($fileid);
+        $fileid = $this->sanitiseString($fileid);
         if (strlen($fileid) < 1) return false;
         $DBLIB->where("s3files_id", $fileid);
         $DBLIB->where("s3files_meta_deleteOn IS NULL"); //If the file is to be deleted soon or has been deleted don't let them download it
@@ -237,7 +237,7 @@ class bCMS {
         global $DBLIB, $CONFIG;
         if (!$categoryid) return false;
 
-        $DBLIB->where("categories_id", $this->sanitizeString($categoryid));
+        $DBLIB->where("categories_id", $this->sanitiseString($categoryid));
         $category = $DBLIB->getOne("categories", ["categories_name", "categories_nestUnder"]);
         if (!$category) return false;
         $url = $CONFIG['ROOTFRONTENDURL'] . '/' . $category['categories_name'];
@@ -303,13 +303,13 @@ class bCMS {
         //Keep an audit trail of actions - $userid is this user, and $useridTo is who this action was done to if it was at all
         global $DBLIB;
         $data = [
-            "auditLog_actionType" => $this->sanitizeString($actionType),
-            "auditLog_actionTable" => $this->sanitizeString($table),
-            "auditLog_actionData" => $this->sanitizeString($revelantData),
+            "auditLog_actionType" => $this->sanitiseString($actionType),
+            "auditLog_actionTable" => $this->sanitiseString($table),
+            "auditLog_actionData" => $this->sanitiseString($revelantData),
             "auditLog_timestamp" => date("Y-m-d H:i:s")
         ];
-        if ($userid > 0) $data["users_userid"] = $this->sanitizeString($userid);
-        if ($useridTo > 0) $data["auditLog_actionUserid"] = $this->sanitizeString($useridTo);
+        if ($userid > 0) $data["users_userid"] = $this->sanitiseString($userid);
+        if ($useridTo > 0) $data["auditLog_actionUserid"] = $this->sanitiseString($useridTo);
 
         if ($DBLIB->insert("auditLog", $data)) return true;
         else return false;
@@ -317,7 +317,7 @@ class bCMS {
 
     public function categoryURL($categoryid) {
         global $DBLIB, $bCMS;
-        $DBLIB->where("categories_id", $bCMS->sanitizeString($categoryid));
+        $DBLIB->where("categories_id", $bCMS->sanitiseString($categoryid));
         $category = $DBLIB->getone("categories",["categories_name","categories_nestUnder"]);
         if ($category["categories_nestUnder"] == null) return $category["categories_name"];
         $url = $category["categories_name"];
@@ -334,14 +334,14 @@ class bCMS {
 
     public function yorkSUNotify($articleid) {
         global $DBLIB, $CONFIG;
-        $DBLIB->where("articles.articles_id", $this->sanitizeString($articleid));
+        $DBLIB->where("articles.articles_id", $this->sanitiseString($articleid));
         $DBLIB->where("articles_mediaCharterDone", 0);
         $DBLIB->where("articles_showInSearch", 1);
         $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
         $DBLIB->where("articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
         $article = $DBLIB->getone("articles", ["articles.articles_id", "articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline", "articlesDrafts.articlesDrafts_excerpt"]);
         if (!$article) return false;
-        $DBLIB->where("articlesCategories.articles_id", $this->sanitizeString($articleid));
+        $DBLIB->where("articlesCategories.articles_id", $this->sanitiseString($articleid));
         $article['articles_categories'] = array_column($DBLIB->get("articlesCategories"), 'categories_id');
 
         // York SU Notification email html
@@ -368,7 +368,7 @@ class bCMS {
 
     public function postSocial($articleid, $postToFacebook = true, $postToTwitter = true) {
         global $DBLIB, $CONFIG;
-        $DBLIB->where("articles.articles_id", $this->sanitizeString($articleid));
+        $DBLIB->where("articles.articles_id", $this->sanitiseString($articleid));
         $DBLIB->where("articles.articles_showInSearch", 1); //ie those that can actually be shown - no point tweeting a dud link
         $DBLIB->where("articles.articles_published <= '" . date("Y-m-d H:i:s") . "'");
         $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
@@ -414,7 +414,7 @@ class bCMS {
             if (true) $article["articles_socialConfig"][3] = 1; //TODO check the IFTTT response
         }
 
-        $DBLIB->where("articles_id", $this->sanitizeString($articleid));
+        $DBLIB->where("articles_id", $this->sanitiseString($articleid));
         if ($DBLIB->update("articles", ["articles.articles_socialConfig" => implode(",", $article["articles_socialConfig"])])) return true;
         else return false;
     }

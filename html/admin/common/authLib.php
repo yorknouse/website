@@ -186,7 +186,7 @@ class bID {
         global $DBLIB, $CONFIG;
 
         if ($userid == null) $userid = $this->data['users_userid'];
-        else $userid = $GLOBALS['bCMS']->sanitizeString($userid);
+        else $userid = $GLOBALS['bCMS']->sanitiseString($userid);
 
         $DBLIB->where('users_userid', $userid);
         if ($DBLIB->update('authTokens', ["authTokens_valid" => 0])) return true;

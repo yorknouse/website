@@ -6,15 +6,15 @@ header('Content-Type:text/plain');
 parse_str($_POST['data'],$data); //Convert the data back into an array
 
 $userTabledata = [
-	"users_social_facebook" => trim(strtolower($bCMS->sanitizeString($data['facebook']))),
-	"users_social_twitter" => trim(strtolower($bCMS->sanitizeString($data['twitter']))),
-	"users_social_linkedin" => trim(strtolower($bCMS->sanitizeString($data['linkedin']))),
-	"users_social_snapchat" => trim(strtolower($bCMS->sanitizeString($data['snapchat']))),
-	"users_social_instagram" => trim(strtolower($bCMS->sanitizeString($data['instagram'])))
+	"users_social_facebook" => trim(strtolower($bCMS->sanitiseString($data['facebook']))),
+	"users_social_twitter" => trim(strtolower($bCMS->sanitiseString($data['twitter']))),
+	"users_social_linkedin" => trim(strtolower($bCMS->sanitiseString($data['linkedin']))),
+	"users_social_snapchat" => trim(strtolower($bCMS->sanitiseString($data['snapchat']))),
+	"users_social_instagram" => trim(strtolower($bCMS->sanitiseString($data['instagram'])))
 ];
 
 if ($_POST['users_userid'] != $USERDATA['users_userid'] && $AUTH->permissionCheck(5))
-    $userid = $bCMS->sanitizeString($_POST['users_userid']);
+    $userid = $bCMS->sanitiseString($_POST['users_userid']);
 else $userid = $USERDATA['users_userid'];
 
 $DBLIB->where("users_userid", $userid);

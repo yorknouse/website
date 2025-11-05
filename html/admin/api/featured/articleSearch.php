@@ -3,9 +3,9 @@ global $bCMS, $DBLIB;
 require_once __DIR__ . '/../apiHeadSecure.php';
 
 if (!isset($_POST['term'])) finish(false, ["code" => "PARAM", "message"=> "No term set"]);
-$term = $bCMS->sanitizeString($_POST['term']);
+$term = $bCMS->sanitiseString($_POST['term']);
 if (strlen($term) > 0)
-    $DBLIB->where("(articlesDrafts.articlesDrafts_headline LIKE '%" . $bCMS->sanitizeString($term) . "%')");
+    $DBLIB->where("(articlesDrafts.articlesDrafts_headline LIKE '%" . $bCMS->sanitiseString($term) . "%')");
 
 if (isset($_POST['categoryid']))
     $DBLIB->where("articles.articles_id IN (SELECT articles_id FROM articlesCategories WHERE categories_id = " . $_POST['categoryid'] . ")");

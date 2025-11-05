@@ -9,7 +9,7 @@ if (isset($_GET['new']) and $AUTH->permissionCheck(4)) {
     $PAGEDATA['USER'] = ["users_userid" => "NEW"];
 } else {
     if (!isset($_GET['uid']) or !$AUTH->permissionCheck(5)) $userid = $AUTH->data['users_userid'];
-    else $userid = $bCMS->sanitizeString($_GET['uid']);
+    else $userid = $bCMS->sanitiseString($_GET['uid']);
 
     $DBLIB->where("users_userid", $userid);
     $PAGEDATA['USER'] = $DBLIB->getone("users");

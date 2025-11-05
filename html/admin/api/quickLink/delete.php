@@ -17,6 +17,6 @@ $DBLIB->where('quickLinks_id', $link['quickLinks_id']);
 if (!$DBLIB->update('quickLinks', ["quickLinks_deleted" => 1]))
     die("2");
 
-$bCMS->auditLog("DELETE", "quickLinks", $bCMS->sanitizeString($_GET['id']), $AUTH->data['users_userid']);
+$bCMS->auditLog("DELETE", "quickLinks", $bCMS->sanitiseString($_GET['id']), $AUTH->data['users_userid']);
 $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/" . $link['quickLinks_string']);
 die("1");

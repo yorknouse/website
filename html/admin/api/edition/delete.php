@@ -5,7 +5,7 @@ header("Content-Type: text/plain");
 
 if (!$AUTH->permissionCheck(52) or !isset($_GET['editionid']) or !is_numeric($_GET['editionid'])) die("404");
 
-$DBLIB->where('editions_id', $bCMS->sanitizeString($_GET['editionid']));
+$DBLIB->where('editions_id', $bCMS->sanitiseString($_GET['editionid']));
 $edition = $DBLIB->getOne("editions", ["editions_id","editions_slug"]);
 if (!$edition) die("404");
 

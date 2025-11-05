@@ -5,7 +5,7 @@ header("Content-Type: text/json");
 
 if (!$AUTH->permissionCheck(58) or !isset($_POST['id']) or !is_numeric($_POST['id'])) die("404");
 
-$DBLIB->where('adverts_id', $bCMS->sanitizeString($_POST['id']));
+$DBLIB->where('adverts_id', $bCMS->sanitiseString($_POST['id']));
 $advert = $DBLIB->getOne("adverts");
 if (!$advert) die("404");
 

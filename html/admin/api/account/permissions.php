@@ -9,43 +9,43 @@ if (!$AUTH->permissionCheck(13)) die("Sorry - you can't access this page");
 if (!isset($_POST['action']) or !isset($_POST['users_userid']) or !isset($_POST["userPositions_id"])) finish(false, ["code" => null, "message"=> "Attribute error"]);
 
 if ($_POST['action'] == "DELETE") {
-    $DBLIB->where("users_userid", $bCMS->sanitizeString($_POST["users_userid"]));
-    $DBLIB->where("userPositions_id", $bCMS->sanitizeString($_POST["userPositions_id"]));
+    $DBLIB->where("users_userid", $bCMS->sanitiseString($_POST["users_userid"]));
+    $DBLIB->where("userPositions_id", $bCMS->sanitiseString($_POST["userPositions_id"]));
     if ($DBLIB->delete("userPositions")) {
-        $bCMS->auditLog("DELETE", "userPositions", $bCMS->sanitizeString($_POST["userPositions_id"]), $AUTH->data['users_userid'],$bCMS->sanitizeString($_POST["users_userid"]));
+        $bCMS->auditLog("DELETE", "userPositions", $bCMS->sanitiseString($_POST["userPositions_id"]), $AUTH->data['users_userid'],$bCMS->sanitiseString($_POST["users_userid"]));
         finish(true);
     } else finish(false, ["code" => null, "message"=> "Delete error"]);
 } elseif ($_POST['action'] == "EDIT") {
     if (strlen($_POST["userPositions_start"]) < 1 or strlen($_POST["userPositions_end"]) < 1 or strlen($_POST["userPositions_show"]) < 1) finish(false, ["code" => null, "message"=> "Attribute data error"]);
     $data = [
-        "users_userid"=>$bCMS->sanitizeString($_POST["users_userid"]),
-        "positions_id"=>$bCMS->sanitizeString($_POST["positions_id"]),
-        "userPositions_start"=>date("Y-m-d H:i:s", strtotime($bCMS->sanitizeString($_POST["userPositions_start"]))),
-        "userPositions_end"=>date("Y-m-d H:i:s", strtotime($bCMS->sanitizeString($_POST["userPositions_end"]))),
-        "userPositions_show"=>$bCMS->sanitizeString($_POST["userPositions_show"])
+        "users_userid"=>$bCMS->sanitiseString($_POST["users_userid"]),
+        "positions_id"=>$bCMS->sanitiseString($_POST["positions_id"]),
+        "userPositions_start"=>date("Y-m-d H:i:s", strtotime($bCMS->sanitiseString($_POST["userPositions_start"]))),
+        "userPositions_end"=>date("Y-m-d H:i:s", strtotime($bCMS->sanitiseString($_POST["userPositions_end"]))),
+        "userPositions_show"=>$bCMS->sanitiseString($_POST["userPositions_show"])
     ];
     if ($_POST['userPositions_id'] == 'new') {
         if (!$DBLIB->insert("userPositions",$data))
             finish(false, ["code" => null, "message"=> "Insert error"]);
 
-        $bCMS->auditLog("CREATE", "userPositions", json_encode($data), $AUTH->data['users_userid'],$bCMS->sanitizeString($_POST["users_userid"]));
+        $bCMS->auditLog("CREATE", "userPositions", json_encode($data), $AUTH->data['users_userid'],$bCMS->sanitiseString($_POST["users_userid"]));
         finish(true);
     } else {
-        $DBLIB->where("users_userid", $bCMS->sanitizeString($_POST["users_userid"]));
-        $DBLIB->where("userPositions_id", $bCMS->sanitizeString($_POST["userPositions_id"]));
+        $DBLIB->where("users_userid", $bCMS->sanitiseString($_POST["users_userid"]));
+        $DBLIB->where("userPositions_id", $bCMS->sanitiseString($_POST["userPositions_id"]));
         if (!$DBLIB->update("userPositions",$data))
             finish(false, ["code" => null, "message"=> "Edit error"]);
 
-        $bCMS->auditLog("EDIT", "userPositions", $bCMS->sanitizeString($_POST["userPositions_id"]), $AUTH->data['users_userid'],$bCMS->sanitizeString($_POST["users_userid"]));
+        $bCMS->auditLog("EDIT", "userPositions", $bCMS->sanitiseString($_POST["userPositions_id"]), $AUTH->data['users_userid'],$bCMS->sanitiseString($_POST["users_userid"]));
         finish(true);
     }
 } elseif ($_POST['action'] == "ENDAll") {
-    $DBLIB->where("users_userid", $bCMS->sanitizeString($_POST["users_userid"]));
+    $DBLIB->where("users_userid", $bCMS->sanitiseString($_POST["users_userid"]));
     $DBLIB->where("userPositions_end > '" . date("Y-m-d H:i:s") . "'");
     foreach ($DBLIB->get("userPositions", null, ["userPositions_start", "userPositions_id"]) as $position) {
         $DBLIB->where("userPositions_id", $position["userPositions_id"]);
         $DBLIB->update("userPositions", ["userPositions_start" => $position['userPositions_start'], "userPositions_end" => date("Y-m-d") . " 00:00:00"]);
     }
-    $bCMS->auditLog("ENDALL", "userPositions", $bCMS->sanitizeString($_POST["userPositions_id"]), $AUTH->data['users_userid'],$bCMS->sanitizeString($_POST["users_userid"]));
+    $bCMS->auditLog("ENDALL", "userPositions", $bCMS->sanitiseString($_POST["userPositions_id"]), $AUTH->data['users_userid'],$bCMS->sanitiseString($_POST["users_userid"]));
     finish(true);
 } else finish(false, ["code" => null, "message"=> "Attribute action error"]);

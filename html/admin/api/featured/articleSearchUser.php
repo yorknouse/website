@@ -4,10 +4,10 @@ require_once __DIR__ . '/../apiHeadSecure.php';
 
 if (!isset($_GET['userid'])) finish(false, ["code" => "PARAM", "message"=> "No term set"]);
 
-$term = $bCMS->sanitizeString($_POST['term']);
-$userid = $bCMS->sanitizeString($_GET['userid']);
+$term = $bCMS->sanitiseString($_POST['term']);
+$userid = $bCMS->sanitiseString($_GET['userid']);
 if (strlen($term) > 0)
-    $DBLIB->where("(articlesDrafts.articlesDrafts_headline LIKE '%" . $bCMS->sanitizeString($term) . "%')");
+    $DBLIB->where("(articlesDrafts.articlesDrafts_headline LIKE '%" . $bCMS->sanitiseString($term) . "%')");
 
 $DBLIB->where("articles_showInLists", 1);
 $DBLIB->where("articles_published <= '" . date("Y-m-d H:i:s") . "'");

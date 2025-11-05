@@ -3,11 +3,11 @@ global $USERDATA, $AUTH, $bCMS, $DBLIB;
 require_once __DIR__ . '/../apiHeadSecure.php';
 header('Content-Type:text/plain');
 
-if ($_POST['users_userid'] != $USERDATA['users_userid'] && $AUTH->permissionCheck(14)) $userid = $bCMS->sanitizeString($_POST['users_userid']);
+if ($_POST['users_userid'] != $USERDATA['users_userid'] && $AUTH->permissionCheck(14)) $userid = $bCMS->sanitiseString($_POST['users_userid']);
 else $userid = $USERDATA['users_userid'];
 
 $DBLIB->where("users_userid", $userid);
-if ($DBLIB->update('users', ["users_thumbnail" => $bCMS->sanitizeString($_POST['thumbnail'])]))
+if ($DBLIB->update('users', ["users_thumbnail" => $bCMS->sanitiseString($_POST['thumbnail'])]))
     die("2");
 
 $bCMS->auditLog("UPDATE", "users", "CHANGE THUMBNAIL", $AUTH->data['users_userid'],$userid);

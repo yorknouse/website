@@ -6,19 +6,19 @@ $PAGEDATA['pageConfig'] = ["TITLE" => "Adverts", "BREADCRUMB" => false];
 
 if (!$AUTH->permissionCheck(58)) die("Sorry - you can't access this page");
 
-if (isset($_GET['q'])) $PAGEDATA['search'] = $bCMS->sanitizeString($_GET['q']);
+if (isset($_GET['q'])) $PAGEDATA['search'] = $bCMS->sanitiseString($_GET['q']);
 else $PAGEDATA['search'] = null;
 
 $page = 1;
 if (isset($_GET['page']))
-    $page = $bCMS->sanitizeString($_GET['page']);
+    $page = $bCMS->sanitiseString($_GET['page']);
 
 $DBLIB->pageLimit = 20;
 if (strlen($PAGEDATA['search']) > 0) {
     //Search
     $DBLIB->where("(
-		adverts_name LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
-		OR adverts_notes LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
+		adverts_name LIKE '%" . $bCMS->sanitiseString($PAGEDATA['search']) . "%'
+		OR adverts_notes LIKE '%" . $bCMS->sanitiseString($PAGEDATA['search']) . "%'
     )");
 }
 $DBLIB->orderBy("adverts_default","DESC"); //Get default as first in the list

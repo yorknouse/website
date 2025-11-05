@@ -6,19 +6,20 @@ $PAGEDATA['pageConfig'] = ["TITLE" => "Editions", "BREADCRUMB" => false];
 
 if (!$AUTH->permissionCheck(49)) die("Sorry - you can't access this page");
 
-if (isset($_GET['q'])) $PAGEDATA['search'] = $bCMS->sanitizeString($_GET['q']);
+if (isset($_GET['q'])) $PAGEDATA['search'] = $bCMS->sanitiseString($_GET['q']);
 else $PAGEDATA['search'] = null;
 
-if (isset($_GET['page'])) $page = $bCMS->sanitizeString($_GET['page']);
+if (isset($_GET['page'])) $page = $bCMS->sanitiseString($_GET['page']);
 else $page = 1;
 $DBLIB->pageLimit = 100;
 if (strlen($PAGEDATA['search']) > 0) {
+    $sanitisedSearch = $bCMS->sanitiseString($PAGEDATA['search']);
 	//Search
 	$DBLIB->where("
-		(editions.editions_excerpt LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
-		OR editions.editions_name LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
-		OR editions.editions_printNumber LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
-		OR editions.editions_slug LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%')
+		(editions.editions_excerpt LIKE '%" . $sanitisedSearch . "%'
+		OR editions.editions_name LIKE '%" . $sanitisedSearch . "%'
+		OR editions.editions_printNumber LIKE '%" . $sanitisedSearch . "%'
+		OR editions.editions_slug LIKE '%" . $sanitisedSearch . "%')
     ");
 }
 $DBLIB->orderBy("editions_published", "DESC");

@@ -9,7 +9,7 @@ if (isset($_GET['forename'])) {
     else $newUser = false;
 
     if ($AUTH->permissionCheck(5) && $USERDATA['users_userid'] != $_GET['userid'] && !$newUser) {
-        $DBLIB->where("users_userid", $bCMS->sanitizeString($_GET['userid']));
+        $DBLIB->where("users_userid", $bCMS->sanitiseString($_GET['userid']));
         $thisUser = $DBLIB->getone("users", ["users_userid"]);
         if (!$thisUser) die("5");
         $userid = $thisUser["users_userid"];
@@ -19,14 +19,14 @@ if (isset($_GET['forename'])) {
     }
 
     $data = Array (
-        'users_name1' => $bCMS->sanitizeString($_GET['forename']),
-        'users_name2' => $bCMS->sanitizeString($_GET['lastname']),
-        'users_pronouns' => $bCMS->sanitizeString($_GET['pronouns']),
+        'users_name1' => $bCMS->sanitiseString($_GET['forename']),
+        'users_name2' => $bCMS->sanitiseString($_GET['lastname']),
+        'users_pronouns' => $bCMS->sanitiseString($_GET['pronouns']),
         'users_bio' => $bCMS->cleanString($_GET['bio'])
     );
     if ($USERDATA['users_userid'] != $_GET['userid']) {
-        $data['users_googleAppsUsernameYork'] = (strlen($_GET['yorkusername']) > 0 ? str_replace("@york.ac.uk","",$bCMS->sanitizeString($_GET['yorkusername'])) : '');
-        $data['users_googleAppsUsernameNouse'] = (strlen($_GET['nouseusername']) > 0 ? str_replace("@nouse.co.uk","",$bCMS->sanitizeString($_GET['nouseusername'])) : '');
+        $data['users_googleAppsUsernameYork'] = (strlen($_GET['yorkusername']) > 0 ? str_replace("@york.ac.uk","",$bCMS->sanitiseString($_GET['yorkusername'])) : '');
+        $data['users_googleAppsUsernameNouse'] = (strlen($_GET['nouseusername']) > 0 ? str_replace("@nouse.co.uk","",$bCMS->sanitiseString($_GET['nouseusername'])) : '');
     }
 
     if (!$newUser) {

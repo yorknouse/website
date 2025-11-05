@@ -8,10 +8,10 @@ if (!$AUTH->permissionCheck(2)) die("Sorry - you can't access this page");
 
 $PAGEDATA["mailings"] = [];
 
-if (isset($_GET['q'])) $PAGEDATA['search'] = $bCMS->sanitizeString($_GET['q']);
+if (isset($_GET['q'])) $PAGEDATA['search'] = $bCMS->sanitiseString($_GET['q']);
 else $PAGEDATA['search'] = null;
 
-if (isset($_GET['page'])) $page = $bCMS->sanitizeString($_GET['page']);
+if (isset($_GET['page'])) $page = $bCMS->sanitiseString($_GET['page']);
 else $page = 1;
 $DBLIB->pageLimit = 20; //Users per page
 $DBLIB->orderBy("(SELECT COUNT(DISTINCT users_userid) FROM userPositions WHERE users_userid=users.users_userid AND userPositions_end >= '" . date('Y-m-d H:i:s') . "' AND userPositions_start <= '" . date('Y-m-d H:i:s') . "')", "DESC");
@@ -20,13 +20,14 @@ $DBLIB->orderBy("users.users_name2", "ASC");
 $DBLIB->orderBy("users.users_created", "ASC");
 $DBLIB->where("users_deleted", 0);
 if (strlen($PAGEDATA['search']) > 0) {
+    $sanitisedSearch = $bCMS->sanitiseString($PAGEDATA['search']);
 	//Search
 	$DBLIB->where("(
-		users_googleAppsUsernameYork LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
-		OR users_name1 LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
-		OR users_name2 LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'	
-		OR CONCAT( users_name1,  ' ', users_name2 ) LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
-		OR users_googleAppsUsernameNouse LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
+		users_googleAppsUsernameYork LIKE '%" . $sanitisedSearch . "%'
+		OR users_name1 LIKE '%" . $sanitisedSearch . "%'
+		OR users_name2 LIKE '%" . $sanitisedSearch . "%'	
+		OR CONCAT( users_name1,  ' ', users_name2 ) LIKE '%" . $sanitisedSearch . "%'
+		OR users_googleAppsUsernameNouse LIKE '%" . $sanitisedSearch . "%'
     )");
 }
 //if (!isset($_GET['suspended'])) $DBLIB->where("users.users_suspended", "0");

@@ -5,10 +5,10 @@ require_once __DIR__ . '/../apiHeadSecure.php';
 if (!isset($_GET['editionid'])) finish(false, ["code" => "PARAM", "message"=> "Not set"]);
 
 if (isset($_POST['articleid'])) {
-    $DBLIB->where("articles.articles_id IN (" . $bCMS->sanitizeString($_POST['articleid']) . ")");
+    $DBLIB->where("articles.articles_id IN (" . $bCMS->sanitiseString($_POST['articleid']) . ")");
 } else {
-    $term = $bCMS->sanitizeString($_POST['term']);
-    if (strlen($term) > 0) $DBLIB->where("(articlesDrafts.articlesDrafts_headline LIKE '%" . $bCMS->sanitizeString($term) . "%')");
+    $term = $bCMS->sanitiseString($_POST['term']);
+    if (strlen($term) > 0) $DBLIB->where("(articlesDrafts.articlesDrafts_headline LIKE '%" . $bCMS->sanitiseString($term) . "%')");
 }
 $DBLIB->orderBy("articles_published", "DESC");
 $DBLIB->where("articles_showInAdmin", 1);

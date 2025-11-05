@@ -6,21 +6,22 @@ $PAGEDATA['pageConfig'] = ["TITLE" => "Redirect Links", "BREADCRUMB" => false];
 
 if (!$AUTH->permissionCheck(44)) die("Sorry - you can't access this page");
 
-if (isset($_GET['q'])) $PAGEDATA['search'] = $bCMS->sanitizeString($_GET['q']);
+if (isset($_GET['q'])) $PAGEDATA['search'] = $bCMS->sanitiseString($_GET['q']);
 else $PAGEDATA['search'] = null;
 
-if (isset($_GET['page'])) $page = $bCMS->sanitizeString($_GET['page']);
+if (isset($_GET['page'])) $page = $bCMS->sanitiseString($_GET['page']);
 else $page = 1;
 $DBLIB->pageLimit = 20; //Users per page
 $DBLIB->orderBy("quickLinks.quickLinks_created", "DESC");
 $DBLIB->join("users", "quickLinks.users_userid=users.users_userid", "LEFT");
 if (strlen($PAGEDATA['search']) > 0) {
+    $sanitisedSearch = $bCMS->sanitiseString($PAGEDATA['search']);
 	//Search
 	$DBLIB->where("(
-		quickLinks.quickLinks_string LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
-		OR quickLinks.quickLinks_pointsTo LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
-		OR quickLinks.quickLinks_notes LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
-		OR CONCAT( users.users_name1,  ' ', users.users_name2 ) LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
+		quickLinks.quickLinks_string LIKE '%" . $sanitisedSearch . "%'
+		OR quickLinks.quickLinks_pointsTo LIKE '%" . $sanitisedSearch . "%'
+		OR quickLinks.quickLinks_notes LIKE '%" . $sanitisedSearch . "%'
+		OR CONCAT( users.users_name1,  ' ', users.users_name2 ) LIKE '%" . $sanitisedSearch . "%'
     )");
 }
 $quickLinks = $DBLIB->arraybuilder()->paginate('quickLinks', $page, ["quickLinks.*, users.users_name1, users.users_name2, users.users_userid"]);

@@ -4,7 +4,7 @@ require_once __DIR__ . '/../apiHeadSecure.php';
 header("Content-Type: text/json");
 
 $articleData = [
-    "articles_published" => date("Y-m-d H:i:s", strtotime($bCMS->sanitizeString($_POST['published']))),
+    "articles_published" => date("Y-m-d H:i:s", strtotime($bCMS->sanitiseString($_POST['published']))),
     "articles_updated" => date("Y-m-d H:i:s"),
     "articles_socialExcerpt" => $bCMS->cleanString(trim($_POST['socialexcerpt'])),
     "articles_displayImages" => $_POST['displayImages'],
@@ -13,7 +13,7 @@ $articleData = [
 ];
 
 if ($_POST['thumbnail'] != null) {
-    $articleData["articles_thumbnail"] = $bCMS->sanitizeString($_POST['thumbnail']);
+    $articleData["articles_thumbnail"] = $bCMS->sanitiseString($_POST['thumbnail']);
 }
 
 if (isset($_POST['edition'])) $articleData["editions_id"] = ($_POST['edition'] == null ? null : $_POST['edition']);
@@ -44,7 +44,7 @@ $articleDraftsData = [
 if (isset($_POST['markdown'])) $articleDraftsData['articlesDrafts_markdown'] = trim($_POST['markdown']);
 if (isset($_POST['thumbCredit'])) $articleDraftsData['articlesDrafts_thumbnailCredit'] = $bCMS->cleanString(trim($_POST['thumbCredit']));
 
-if ($bCMS->sanitizeString($_POST['type']) == "2") {
+if ($bCMS->sanitiseString($_POST['type']) == "2") {
     //Gallery
     $imagesList = explode(",", $bCMS->cleanString($_POST['text']));
     $captionList = explode(",", $bCMS->cleanString($_POST['captions']));
@@ -63,7 +63,7 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
 
     //Edit an existing article
 
-    $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
+    $DBLIB->where("articles_id", $bCMS->sanitiseString($_POST['articleid']));
     $article = $DBLIB->getone("articles",["articles_socialConfig","articles_id",'articles_published',"articles_slug","articles_mediaCharterDone","articles_showInSearch"]);
     if (!$article) finish(false, ["code" => null, "message" => "No data specified"]);
 
@@ -119,15 +119,15 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
         $categoriesString = rtrim($_POST['categories'], ',');
         $categories = explode(",", $categoriesString);
         $DBLIB->where("categories_id", $categories,"NOT IN");
-        $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
+        $DBLIB->where("articles_id", $bCMS->sanitiseString($_POST['articleid']));
         $DBLIB->delete("articlesCategories");
         foreach ($categories as $category) {
             if (is_numeric($category)) {
                 $DBLIB->where("categories_id", $category);
-                $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
+                $DBLIB->where("articles_id", $bCMS->sanitiseString($_POST['articleid']));
                 if ($DBLIB->getValue("articlesCategories", "COUNT(*)") == 0) {
                     $articleCategory = [
-                        "articles_id" => $bCMS->sanitizeString($_POST['articleid']),
+                        "articles_id" => $bCMS->sanitiseString($_POST['articleid']),
                         "categories_id" => $category
                     ];
                     $DBLIB->insert("articlesCategories", $articleCategory);
@@ -137,17 +137,17 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
         }
         //Authors
         $authorsString = rtrim($_POST['authors'], ',');
-        $authors = explode(",", $bCMS->sanitizeString($authorsString));
+        $authors = explode(",", $bCMS->sanitiseString($authorsString));
         $DBLIB->where("users_userid", $authors,"NOT IN");
-        $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
+        $DBLIB->where("articles_id", $bCMS->sanitiseString($_POST['articleid']));
         $DBLIB->delete("articlesAuthors");
         foreach ($authors as $author) {
             if (is_numeric($author)) {
                 $DBLIB->where("users_userid", $author);
-                $DBLIB->where("articles_id", $bCMS->sanitizeString($_POST['articleid']));
+                $DBLIB->where("articles_id", $bCMS->sanitiseString($_POST['articleid']));
                 if ($DBLIB->getValue("articlesAuthors", "COUNT(*)") == 0) {
                     $articlesAuthor = [
-                        "articles_id" => $bCMS->sanitizeString($_POST['articleid']),
+                        "articles_id" => $bCMS->sanitiseString($_POST['articleid']),
                         "users_userid" => $author
                     ];
                     $DBLIB->insert("articlesAuthors", $articlesAuthor);
@@ -158,7 +158,7 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
     } else finish(false, ["code" => null, "message" => "Insert draft error"]);
 } elseif ($AUTH->permissionCheck(31)) {
     //Create a new article
-    $articleData["articles_slug"] = $bCMS->sanitizeString($_POST['slug']); //Only set the slug if it's a new article
+    $articleData["articles_slug"] = $bCMS->sanitiseString($_POST['slug']); //Only set the slug if it's a new article
 
     $socialMedia = [1,0,1,0]; //Default
     if ($_POST['postToTwitter'] != 1) { //They dont want it to go on FB
@@ -175,7 +175,7 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
 
     $articleData['articles_socialConfig'] = implode(",", $socialMedia); //Update the social media thing with whatever we've changed
 
-    $articleData["articles_type"] = $bCMS->sanitizeString($_POST['type']);
+    $articleData["articles_type"] = $bCMS->sanitiseString($_POST['type']);
 
     $articleID = $DBLIB->insert("articles", $articleData);
     if (!$articleID) finish(false, ["code" => null, "message" => "Insert error" . $DBLIB->getLastError()]);
@@ -217,7 +217,7 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
             $bCMS->cacheClearCategory($category);
         }
         //Authors
-        foreach (explode(",", $bCMS->sanitizeString($_POST['authors'])) as $author) {
+        foreach (explode(",", $bCMS->sanitiseString($_POST['authors'])) as $author) {
             $articlesAuthor = [
                 "articles_id" => $articleID,
                 "users_userid" => $author

@@ -7,7 +7,7 @@ $PAGEDATA['pageConfig'] = ["TITLE" => "Edition Editor", "BREADCRUMB" => false];
 if (!$AUTH->permissionCheck(51)) die("Sorry - you can't access this page");
 
 if (isset($_GET['id'])) {
-	$DBLIB->where("editions.editions_id", $bCMS->sanitizeString($_GET['id'])); //ie those that can actually be shown
+	$DBLIB->where("editions.editions_id", $bCMS->sanitiseString($_GET['id'])); //ie those that can actually be shown
 	$DBLIB->where("editions.editions_deleted", 0); //ie those that can actually be shown
 	$PAGEDATA['edition'] = $DBLIB->getone("editions");
 	if (!$PAGEDATA['edition']) die("404 File not found");
@@ -29,7 +29,7 @@ if (isset($_GET['id'])) {
 	    $DBLIB->orderBy("articles.articles_editionPage", "ASC");
 	    $DBLIB->orderBy("articles.articles_published", "ASC");
 		$DBLIB->orderBy("articles.articles_slug", "ASC");
-		$DBLIB->where("articles.articles_id IN (SELECT articles_id FROM articlesCategories WHERE categories_id = " . $bCMS->sanitizeString($category['categories_id']) . ")");
+		$DBLIB->where("articles.articles_id IN (SELECT articles_id FROM articlesCategories WHERE categories_id = " . $bCMS->sanitiseString($category['categories_id']) . ")");
 		$DBLIB->where("editions_id", $PAGEDATA['edition']['editions_id']);
 		$DBLIB->where("articles.articles_showInAdmin", 1); //ie those that can actually be shown
 		$DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
@@ -38,7 +38,7 @@ if (isset($_GET['id'])) {
 		foreach ($articles as $article) {
 			if (in_array($article['articles_id'], $PAGEDATA['articlesIDs'])) continue; //Don't add it twice if it's already been added for another category
 
-			$DBLIB->where("articlesCategories.articles_id", $bCMS->sanitizeString($article['articles_id']));
+			$DBLIB->where("articlesCategories.articles_id", $bCMS->sanitiseString($article['articles_id']));
 			$article['articles_categories'] = array_column($DBLIB->get("articlesCategories"), 'categories_id');
 			$PAGEDATA['articlesIDs'][] = $article['articles_id'];
 			$PAGEDATA['articles'][] = $article;

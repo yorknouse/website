@@ -6,28 +6,29 @@ $PAGEDATA['pageConfig'] = ["TITLE" => "Audit Log", "BREADCRUMB" => false];
 
 if (!$AUTH->permissionCheck(48)) die("Sorry - you can't access this page");
 
-if (isset($_GET['q'])) $PAGEDATA['search'] = $bCMS->sanitizeString($_GET['q']);
+if (isset($_GET['q'])) $PAGEDATA['search'] = $bCMS->sanitiseString($_GET['q']);
 else $PAGEDATA['search'] = null;
 
-if (isset($_GET['page'])) $page = $bCMS->sanitizeString($_GET['page']);
+if (isset($_GET['page'])) $page = $bCMS->sanitiseString($_GET['page']);
 else $page = 1;
 $DBLIB->pageLimit = 50;
 
 if (strlen($PAGEDATA['search']) > 0) {
+    $sanitisedSearch = $bCMS->sanitiseString($PAGEDATA['search']);
 	//Search
 	$DBLIB->where("
-		(auditLog.auditLog_actionType LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
-		OR auditLog.auditLog_actionTable LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%'
-		OR auditLog.auditLog_actionData LIKE '%" . $bCMS->sanitizeString($PAGEDATA['search']) . "%')
+		(auditLog.auditLog_actionType LIKE '%" . $sanitisedSearch . "%'
+		OR auditLog.auditLog_actionTable LIKE '%" . $sanitisedSearch . "%'
+		OR auditLog.auditLog_actionData LIKE '%" . $sanitisedSearch . "%')
     ");
 }
 $DBLIB->orderBy("auditLog_timestamp", "DESC");
 if (isset($_GET['userby'])) {
-	$DBLIB->where("auditLog.users_userid", $bCMS->sanitizeString($_GET['userby']));
+	$DBLIB->where("auditLog.users_userid", $bCMS->sanitiseString($_GET['userby']));
 	$PAGEDATA['pageConfig']['userby'] = true;
 }
 if (isset($_GET['userto'])) {
-	$DBLIB->where("auditLog.auditLog_actionUserid", $bCMS->sanitizeString($_GET['userto']));
+	$DBLIB->where("auditLog.auditLog_actionUserid", $bCMS->sanitiseString($_GET['userto']));
 	$PAGEDATA['pageConfig']['userto'] = true;
 }
 $DBLIB->join("(users userSource)", "auditLog.users_userid=userSource.users_userid", "LEFT");
