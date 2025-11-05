@@ -146,7 +146,7 @@ export async function getArticles({
     where.OR = [
       {
         articles_slug: {
-          search: search,
+          contains: search,
         },
       },
       {
@@ -155,12 +155,12 @@ export async function getArticles({
             OR: [
               {
                 articlesDrafts_headline: {
-                  search: search,
+                  contains: search,
                 },
               },
               {
                 articlesDrafts_excerpt: {
-                  search: search,
+                  contains: search,
                 },
               },
             ],
