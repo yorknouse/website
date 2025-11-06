@@ -41,7 +41,7 @@
                     <a target="_blank" href="{{ CONFIG.ROOTFRONTENDURL }}/articles/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}" class="btn btn-sm btn-default">View on site</a>
                     <a target="_blank" href="https://stats.nouse.co.uk/d/article/article-stats?var-articleid={{ article.articles_id }}&from={{ ((article.articles_published|date("U"))-7200)*1000 }}&to=now" class="btn btn-sm btn-default">Stats</a>
                     {% elseif article.articles_id != null %}
-                        <a target="_blank" href="{{ CONFIG.ROOTFRONTENDURL }}/articles/{{ article.articles_published|date("Y/m/d") }}/{{ article.articles_slug }}?preview&post={{ article.articles_id }}&key={{ article.articles_id|md5 }}" class="btn btn-sm btn-default">Preview on Site</a>
+                        <a target="_blank" href="{{ CONFIG.ROOTBACKENDURL }}/preview.php?published={{ article.articles_published|date("Y.m.d") }}&slug={{ article.articles_slug }}&id={{ article.articles_id }}" class="btn btn-sm btn-default">Preview on Site</a>
                     {% endif %}
                 </div>
 
