@@ -7,6 +7,7 @@ import { checkUserPermissions, GetUserData } from "@/lib/auth";
 import Pagination from "@/components/Pagination";
 import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
 import SearchBar from "@/components/SearchBar";
+import { getUser } from "@/lib/users";
 
 export const metadata: Metadata = {
   title: "Articles",
@@ -33,6 +34,11 @@ export default async function Articles({
     search: search,
   });
 
+  let author = null;
+  if (user !== undefined) {
+    author = await getUser(user);
+  }
+
   const userData = await GetUserData();
   if (!userData || !checkUserPermissions(30, userData.actions)) {
     return {};
@@ -46,8 +52,21 @@ export default async function Articles({
   return (
     <div className="lg:flex min-h-screen bg-gray-200 text-gray-900">
       <div className={"flex flex-col"}>
-        <h1 className={"text-2xl font-semibold"}>Articles</h1>
+        <h1 className={"text-2xl font-semibold"}>
+          Articles
+          {author !== null
+            ? ': Author "' +
+              (author.users_name1 ?? "") +
+              " " +
+              author.users_name2 +
+              '"'
+            : ""}
+          {search !== undefined ? ': Search "' + search + '"' : ""}
+        </h1>
         <br />
+        {(author !== null || search !== undefined) && (
+          <a href={"/articles"}>Clear filters</a>
+        )}
         <SearchBar />
         <table className={"table-auto bg-white"}>
           <thead className={"border-b-4 border-gray-600"}>
@@ -148,7 +167,7 @@ export default async function Articles({
                   <td className={"px-4 py-2"}>
                     {article.users.map((author) => (
                       <p key={author.users.users_userid}>
-                        <a href={`/articles/user/${author.users.users_userid}`}>
+                        <a href={`/articles?user=${author.users.users_userid}`}>
                           {author.users.users_name1} {author.users.users_name2}
                         </a>
                       </p>
