@@ -95,7 +95,7 @@ export default async function handler(
       .createHash("md5")
       .update(articleRaw.articles_id.toString())
       .digest("hex");
-    if (expectedHash !== post) {
+    if (expectedHash !== hashHeader) {
       res.status(404).json({ message: "Article not found" });
       return;
     }
