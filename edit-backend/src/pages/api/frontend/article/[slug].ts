@@ -7,6 +7,7 @@ import { getCategoryLink, getParentCategory } from "@/lib/categories";
 import crypto from "crypto";
 import he from "he";
 import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
+import { Prisma } from "@prisma/client";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -37,9 +38,23 @@ export default async function handler(
 ) {
   cors(res);
 
-  const { slug, preview, post, key } = req.query;
+  const { slug } = req.query;
 
-  const isPreview = preview && post && key;
+    const authHeader = req.headers.authorization;
+  const hashHeader = req.headers["x-preview-hash"];
+  console.log(hashHeader);
+    const validToken = validatePreviewToken(authHeader);
+
+  const isPreview = hashHeader !== undefined && typeof hashHeader === "string" && validToken;
+
+  let categoriesWhere: Prisma.articlesCategoriesWhereInput = {
+      category: {
+          categories_showPublic: true,
+      },
+  };
+  if (isPreview) {
+      categoriesWhere = {};
+  }
 
   const slugSanitised = sanitiseSearchTerm(slug);
 
@@ -59,11 +74,7 @@ export default async function handler(
         take: 1,
       },
       categories: {
-        where: {
-          category: {
-            categories_showPublic: true,
-          },
-        },
+        where: categoriesWhere,
         include: {
           category: true,
         },
