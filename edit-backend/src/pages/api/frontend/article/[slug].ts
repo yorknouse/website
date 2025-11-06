@@ -16,20 +16,20 @@ const cors = (res: NextApiResponse) => {
 };
 
 function validatePreviewToken(authHeader: string | undefined): boolean {
-    if (!authHeader || authHeader.split(' ').length < 2) {
-        return false;
-    }
+  if (!authHeader || authHeader.split(" ").length < 2) {
+    return false;
+  }
 
-    const bearerToken = authHeader?.split(' ')[1];
-    if (!bearerToken) {
-        return false;
-    }
-    const token = process.env.DRAFT_VIEW_TOKEN;
-    if (!token) {
-        console.error("Draft view token missing from application!")
-        return false;
-    }
-    return bearerToken === token;
+  const bearerToken = authHeader?.split(" ")[1];
+  if (!bearerToken) {
+    return false;
+  }
+  const token = process.env.DRAFT_VIEW_TOKEN;
+  if (!token) {
+    console.error("Draft view token missing from application!");
+    return false;
+  }
+  return bearerToken === token;
 }
 
 export default async function handler(
@@ -40,20 +40,21 @@ export default async function handler(
 
   const { slug } = req.query;
 
-    const authHeader = req.headers.authorization;
+  const authHeader = req.headers.authorization;
   const hashHeader = req.headers["x-preview-hash"];
   console.log(hashHeader);
-    const validToken = validatePreviewToken(authHeader);
+  const validToken = validatePreviewToken(authHeader);
 
-  const isPreview = hashHeader !== undefined && typeof hashHeader === "string" && validToken;
+  const isPreview =
+    hashHeader !== undefined && typeof hashHeader === "string" && validToken;
 
   let categoriesWhere: Prisma.articlesCategoriesWhereInput = {
-      category: {
-          categories_showPublic: true,
-      },
+    category: {
+      categories_showPublic: true,
+    },
   };
   if (isPreview) {
-      categoriesWhere = {};
+    categoriesWhere = {};
   }
 
   const slugSanitised = sanitiseSearchTerm(slug);

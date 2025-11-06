@@ -27,15 +27,15 @@ const headers: Record<string, string> = {};
 
 // Prefer cookie token if available
 if (previewToken) {
-    headers["Authorization"] = `Bearer ${previewToken}`;
+  headers["Authorization"] = `Bearer ${previewToken}`;
 }
 // Fallback to legacy query param preview
 if (preview && hash) {
-    headers["X-Preview-Hash"] = hash; // optional header; backend can read it
+  headers["X-Preview-Hash"] = hash; // optional header; backend can read it
 }
 
 const res = await fetch(`${apiBase}/api/frontend/article/` + cleanSlug, {
-    headers: headers,
+  headers: headers,
 });
 const article: IArticle = await res.json();
 
@@ -95,9 +95,11 @@ if (
             class="text-2xl sm:text-3xl md:text-4xl lg:text-6xl"
             id="article-title"
           >
-              {((preview && hash) || previewToken) && (
-                  <span class="italic underline">DRAFT&nbsp;</span>
-              )}
+            {
+              ((preview && hash) || previewToken) && (
+                <span class="italic underline">DRAFT&nbsp;</span>
+              )
+            }
             {article.headline}
           </h1>
           {
@@ -175,9 +177,14 @@ if (
               })
             }
           </p>
-            {((preview && hash) || previewToken) && (
-                    <p class="italic underline text-xl">DRAFT Please note that this article is currently a draft and therefore is not publicly visible DRAFT</p>
-            )}
+          {
+            ((preview && hash) || previewToken) && (
+              <p class="italic underline text-xl">
+                DRAFT Please note that this article is currently a draft and
+                therefore is not publicly visible DRAFT
+              </p>
+            )
+          }
           {
             article.articleType == 2 ? (
               <div class="gallery">
