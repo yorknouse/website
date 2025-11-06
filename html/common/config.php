@@ -32,6 +32,7 @@ $CONFIG = array(
     "nextHash" => "sha256", //Hashing algorithm to put new passwords in
     "PROJECT_FROM_EMAIL" => getenv('bCMS__EMAIL'),
     "ROOTFRONTENDURL" => getenv('bCMS__FRONTENDURL'), //Set on a frontend/backend basis
+    "DRAFT_VIEW_TOKEN" => getenv('DRAFT_VIEW_TOKEN'),
     "ROOTBACKENDURL" => getenv('bCMS__BACKENDURL'), //Set on a frontend/backend basis
     "PROJECT_SUPPORT_EMAIL" => getenv('bCMS__SUPPORTEMAIL'),
     "FILESTOREURL" => "https://bbcdn.nouse.co.uk/file",
