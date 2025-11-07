@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 export default withAuth(
-  async function middleware(req: NextRequestWithAuth) {
+  async function proxy(req: NextRequestWithAuth) {
     const origin = req.headers.get("origin");
     const allowedOrigins = ["https://edit.nouse.co.uk"];
 
