@@ -14,17 +14,18 @@ export const metadata: Metadata = {
 export default async function Article({
   params,
 }: {
-  params: Promise<{ articleId: string }>;
+  params: {
+    articleId: string;
+  };
 }) {
   const userData = await GetUserData();
   if (!userData || !checkUserPermissions(32, userData.actions)) {
     return <p>Unauthorised</p>;
   }
 
-  const resolvedParams = await params;
   const articleIDParse = z
     .preprocess((val) => (val ? val : undefined), z.coerce.number())
-    .safeParse(resolvedParams.articleId);
+    .safeParse(params.articleId);
 
   if (!articleIDParse.success) {
     return <>Invalid User ID</>;
