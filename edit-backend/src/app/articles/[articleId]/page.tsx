@@ -96,12 +96,12 @@ export default async function Article({
             height={64}
           />
         ))}
-        <ArticlePreviewButton props={{ articleID: article.articles_id }} />
+      <ArticlePreviewButton props={{ articleID: article.articles_id }} />
       {article.articles_type !== 2 && (
         <p>{article.articlesDrafts[0].articlesDrafts_headline}</p>
       )}
-        <br />
-        <h3 className={"text-xl"}>History</h3>
+      <br />
+      <h3 className={"text-xl"}>History</h3>
       {drafts.map((draft) => (
         <div key={draft.articlesDrafts_id}>
           <p>{draft.articlesDrafts_id}</p>
@@ -118,7 +118,13 @@ export default async function Article({
           </p>
         </div>
       ))}
-        <DualEditor initialMarkdown={article.articlesDrafts[0].articlesDrafts_markdown !== null ? article.articlesDrafts[0].articlesDrafts_markdown : undefined} />
+      <DualEditor
+        initialMarkdown={
+          article.articlesDrafts[0].articlesDrafts_markdown !== null
+            ? article.articlesDrafts[0].articlesDrafts_markdown
+            : undefined
+        }
+      />
     </div>
   );
 }
