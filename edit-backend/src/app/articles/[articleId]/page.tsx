@@ -18,7 +18,7 @@ export default async function Article({
 }) {
   const userData = await GetUserData();
   if (!userData || !checkUserPermissions(32, userData.actions)) {
-    return {};
+    return <p>Unauthorised</p>;
   }
 
   const resolvedParams = await params;

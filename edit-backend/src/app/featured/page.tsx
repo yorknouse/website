@@ -4,7 +4,7 @@ import { checkUserPermissions, GetUserData } from "@/lib/auth";
 export default async function FeaturedArticles() {
   const userData = await GetUserData();
   if (!userData || !checkUserPermissions(20, userData.actions)) {
-    return {};
+    return <p>Unauthorised</p>;
   }
 
   const categories = await prisma.categories.findMany({

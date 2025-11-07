@@ -41,7 +41,7 @@ export default async function Articles({
 
   const userData = await GetUserData();
   if (!userData || !checkUserPermissions(30, userData.actions)) {
-    return {};
+    return <p>Unauthorised</p>;
   }
 
   const canEdit = checkUserPermissions(32, userData.actions);
