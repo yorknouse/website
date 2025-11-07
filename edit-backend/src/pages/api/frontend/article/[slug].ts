@@ -42,7 +42,6 @@ export default async function handler(
 
   const authHeader = req.headers.authorization;
   const hashHeader = req.headers["x-preview-hash"];
-  console.log(hashHeader);
   const validToken = validatePreviewToken(authHeader);
 
   const isPreview =
