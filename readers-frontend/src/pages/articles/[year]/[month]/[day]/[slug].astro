@@ -26,11 +26,11 @@ const hash = urlSearchParams.get("hash");
 const headers: Record<string, string> = {};
 
 // Prefer cookie token if available
-if (previewToken) {
+if (previewToken && previewToken.length > 0) {
   headers["Authorization"] = `Bearer ${previewToken}`;
 }
 // Fallback to legacy query param preview
-if (preview && hash) {
+if (preview && preview.length > 0 && hash && hash.length > 0) {
   headers["X-Preview-Hash"] = hash; // optional header; backend can read it
 }
 
@@ -96,9 +96,14 @@ if (
             id="article-title"
           >
             {
-              ((preview && hash) || previewToken) && (
-                <span class="italic underline">DRAFT&nbsp;</span>
-              )
+              preview &&
+                preview.length > 0 &&
+                hash &&
+                hash.length > 0 &&
+                previewToken &&
+                previewToken.length > 0 && (
+                  <span class="italic underline">DRAFT&nbsp;</span>
+                )
             }
             {article.headline}
           </h1>
@@ -178,12 +183,17 @@ if (
             }
           </p>
           {
-            ((preview && hash) || previewToken) && (
-              <p class="italic underline text-xl">
-                DRAFT Please note that this article is currently a draft and
-                therefore is not publicly visible DRAFT
-              </p>
-            )
+            preview &&
+              preview.length > 0 &&
+              hash &&
+              hash.length > 0 &&
+              previewToken &&
+              previewToken.length > 0 && (
+                <p class="italic underline text-xl">
+                  DRAFT Please note that this article is currently a draft and
+                  therefore is not publicly visible DRAFT
+                </p>
+              )
           }
           {
             article.articleType == 2 ? (
