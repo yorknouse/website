@@ -152,7 +152,7 @@ export const authOptions: AuthOptions = {
 
       // 1️⃣ Restrict domain access
       if (!allowedDomains.includes(domain)) {
-        console.warn(`Blocked login: unauthorized domain ${domain}`);
+        console.warn(`Blocked login: unauthorised domain ${domain}`);
         return false;
       }
 
