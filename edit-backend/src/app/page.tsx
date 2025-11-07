@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default async function Home() {
   const userData = await GetUserData();
   if (!userData) {
-    return {};
+    return <p>Unauthorised</p>;
   }
   return (
     <div>
