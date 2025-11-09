@@ -200,9 +200,18 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 volumes:
-  netdatalib:
-  netdatacache:
-  caddy:
+  netdatalib: {
+    external: true,
+    name: website_netdatalib
+  }
+  netdatacache: {
+    external: true,
+    name: website_netdatacache
+  }
+  caddy: {
+    external: true,
+    name: website_caddy
+  }
   php_app_data:
   db_data: {
     external: true,
