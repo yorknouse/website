@@ -39,7 +39,7 @@ const { subMenuItems, parentCategory, computedBaseColour } = await res.json();
 >
   <a href={baseUrl} class="mx-auto self-center">
     <img
-      class="my-4 h-14"
+      class=`my-4 h-14 ${computedBaseColour === "#000000" || computedBaseColour === "#000" || computedBaseColour === "black" ? "invert" : ""}`
       src={style === "nouse"
         ? "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
         : "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"}
@@ -153,6 +153,9 @@ const { subMenuItems, parentCategory, computedBaseColour } = await res.json();
 </nav>
 <style define:vars={{ computedBaseColour }}>
   .bg-navbar {
+    background-color: var(--computedBaseColour);
+  }
+  #desktopHeader {
     background-color: var(--computedBaseColour);
   }
 </style>
