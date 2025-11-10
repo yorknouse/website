@@ -37,6 +37,9 @@ const serialisedScrollCategories = JSON.stringify(
     desktopNav: HTMLElement | undefined;
     mobileHeader: HTMLElement | undefined;
     mobileNouseLogo: HTMLElement | undefined;
+    mobileMenuIcon: HTMLElement | undefined;
+    mobileCloseIcon: HTMLElement | undefined;
+    mobileSearchIcon: HTMLElement | undefined;
     sections: NodeListOf<Element> | undefined;
     observer: IntersectionObserver = new IntersectionObserver(() => {});
 
@@ -57,6 +60,15 @@ const serialisedScrollCategories = JSON.stringify(
       ) as HTMLElement;
       this.mobileNouseLogo = document.querySelector(
         "#mobileHeader img",
+      ) as HTMLElement;
+      this.mobileMenuIcon = document.querySelector(
+        "#mobileHeader #mobileNavMenuTgl #menuIcn #menuIcon",
+      ) as HTMLElement;
+      this.mobileCloseIcon = document.querySelector(
+        "#mobileHeader #mobileNavMenuTgl #closeIcn #closeIcon",
+      ) as HTMLElement;
+      this.mobileSearchIcon = document.querySelector(
+        "#mobileHeader #mobileSearchBtn #searchIcon",
       ) as HTMLElement;
       this.sections = document.querySelectorAll("[id$=section]");
 
@@ -159,6 +171,15 @@ const serialisedScrollCategories = JSON.stringify(
               this.mobileHeader.classList.remove("text-black");
               this.mobileHeader.classList.add("text-white");
               this.mobileNouseLogo.classList.add("invert");
+              // if (this.mobileMenuIcon) {
+              //   this.mobileMenuIcon.classList.remove("invert");
+              // }
+              // if (this.mobileCloseIcon) {
+              //   this.mobileCloseIcon.classList.remove("invert");
+              // }
+              // if (this.mobileSearchIcon) {
+              //   this.mobileSearchIcon.classList.remove("invert");
+              // }
             }
           } else {
             // Intersecting with element above sections. Restore to default nav
@@ -167,11 +188,21 @@ const serialisedScrollCategories = JSON.stringify(
             // Nouse wants black text back
             if (this.assignedStyle === "nouse") {
               this.mobileHeader.classList.remove("text-white");
-              this.mobileNouseLogo.classList.remove("invert");
+              this.mobileNouseLogo.classList.add("invert");
+              // if (this.mobileMenuIcon) {
+              //   this.mobileMenuIcon.classList.remove("invert");
+              // }
+              // if (this.mobileCloseIcon) {
+              //   this.mobileCloseIcon.classList.remove("invert");
+              // }
+              // if (this.mobileSearchIcon) {
+              //   this.mobileSearchIcon.classList.remove("invert");
+              // }
               this.mobileHeader.classList.add("text-black");
               this.mobileHeader.style.setProperty(
                 "--computedBaseColour",
-                "#F5EFEB",
+                // "#F5EFEB",
+                "#000",
               );
             } else {
               this.mobileHeader.style.setProperty(

@@ -69,7 +69,8 @@ export default async function handler(
       }
     }
 
-    let computedBaseColour = style === "muse" ? "#000" : "#F5EFEB";
+    // let computedBaseColour = style === "muse" ? "#000" : "#F5EFEB";
+    let computedBaseColour = style === "muse" ? "#000" : "#000";
 
     if (activeCategory?.categories_backgroundColor) {
       computedBaseColour = activeCategory.categories_backgroundColor;
@@ -77,11 +78,16 @@ export default async function handler(
 
     // Whether to invert logo or not.
     // Should be inverted for non-home nouse categories.
-    const invert =
+    let invert =
       style === "nouse" &&
       activeCategory &&
       activeCategory.categories_name !== "home" &&
-      computedBaseColour !== "#F5EFEB";
+      // computedBaseColour !== "#F5EFEB";
+      computedBaseColour !== "#000";
+    console.log(invert, style, activeCategory?.categories_name);
+    if (invert == null) {
+      invert = true;
+    }
 
     // Menu and Search icons colours
     let textColour = "text-black";
