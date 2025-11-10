@@ -84,7 +84,6 @@ export default async function handler(
       activeCategory.categories_name !== "home" &&
       // computedBaseColour !== "#F5EFEB";
       computedBaseColour !== "#000";
-    console.log(invert, style, activeCategory?.categories_name);
     if (invert == null) {
       invert = true;
     }
