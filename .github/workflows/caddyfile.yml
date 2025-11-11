@@ -1,17 +1,11 @@
-name: Validate Caddyfile
+name: Validate Caddyfiles
 
 on:
   push:
-    paths:
-      - 'docker/caddy/Caddyfile'
-      - 'docker/caddy/local/Caddyfile'
   pull_request:
-    paths:
-      - 'docker/caddy/Caddyfile'
-      - 'docker/caddy/local/Caddyfile'
 
 jobs:
-  validate-caddyfile:
+  validate-caddyfiles:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -27,7 +21,7 @@ jobs:
             -keyout docker/caddy/ssl/ssl.key \
             -out docker/caddy/ssl/ssl.crt
 
-      - name: Validate Caddyfile using Docker
+      - name: Validate prod Caddyfile using Docker
         run: |
           docker run --rm -v ${{ github.workspace }}/docker/caddy:/etc/caddy -w /etc/caddy caddy:latest sh -c "
             mkdir -p /etc/ssl/certs /etc/ssl/private && \
@@ -35,6 +29,13 @@ jobs:
             cp /etc/caddy/ssl/ssl.key /etc/ssl/private/ssl.key && \
             touch /etc/ssl/certs/origin-pull-ca.pem && \
             caddy fmt /etc/caddy/Caddyfile && \
+            caddy validate --config /etc/caddy/Caddyfile && \
+            caddy validate --config /etc/caddy/local/Caddyfile
+          "
+
+      - name: Validate local Caddyfile using Docker
+        run: |
+          docker run --rm -v ${{ github.workspace }}/docker/caddy:/etc/caddy -w /etc/caddy caddy:latest sh -c "
             caddy fmt /etc/caddy/local/Caddyfile && \
-            caddy validate --config /etc/caddy/Caddyfile
+            caddy validate --config /etc/caddy/local/Caddyfile
           "
