@@ -57,7 +57,7 @@ RUN composer update
 RUN composer install --no-interaction --no-scripts --no-autoloader
 
 # 6️⃣ Copy app code
-COPY . .
+COPY ./html ./html
 
 # 7️⃣ Optimize and permissions
 RUN composer dump-autoload --optimize \
