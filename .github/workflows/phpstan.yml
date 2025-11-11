@@ -9,6 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.4.8
+          tools: composer
       - name: Git happy
         run: git config --global --add safe.directory /app
       - name: Install composer
