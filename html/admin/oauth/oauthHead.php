@@ -9,7 +9,7 @@ $CLIENTS = [
     ]
 ];
 
-function base64UrlEncode($text) {
+function base64UrlEncode(string $text): string {
     return str_replace(
         ['+', '/', '='],
         ['-', '_', ''],
@@ -17,7 +17,7 @@ function base64UrlEncode($text) {
     );
 }
 
-function generateJWT($payload, $secret) {
+function generateJWT(mixed $payload, string $secret): string {
     $header = json_encode([
         'typ' => 'JWT',
         'alg' => 'HS256'

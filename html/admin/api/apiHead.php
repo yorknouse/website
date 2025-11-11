@@ -6,7 +6,7 @@ header("Pragma: no-cache");
 require_once __DIR__ . '/../common/head.php';
 //ini_set('display_errors', 0); //Errors break the output
 
-function finish($result = false, $error = ["code" => null, "message"=> null], $response = []) {
+function finish(bool $result = false, mixed $error = ["code" => null, "message"=> null], mixed $response = []): void {
     $dataReturn = ["result" => $result];
     if ($error) $dataReturn["error"] = $error;
     else $dataReturn["response"] = $response;

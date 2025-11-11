@@ -6,8 +6,8 @@ header("Content-Type: text/json");
 if (!$AUTH->permissionCheck(50) or !isset($_GET['title']) or (strlen($_GET['title']) < 1)) die("404");
 
 $editionSlug = "";
-function generateEditionSlug($slugDraft) {
-    global $editionSlug,$DBLIB,$bCMS;
+function generateEditionSlug(string $slugDraft): bool {
+    global $editionSlug, $DBLIB, $bCMS;
     $DBLIB->where('editions_slug', $slugDraft);
     if ($DBLIB->getValue("editions", "COUNT(*)") > 0) {
         //Taken so add a bit to the slug and try again
@@ -16,6 +16,7 @@ function generateEditionSlug($slugDraft) {
     }
 
     $editionSlug = $slugDraft;
+    return true;
 }
 generateEditionSlug(urlencode(strtolower(str_replace( " ", "-", $bCMS->cleanString($_GET['title']) ))));
 

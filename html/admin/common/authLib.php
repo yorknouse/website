@@ -2,12 +2,11 @@
 require_once __DIR__ . '/../../common/coreHead.php';
 
 class bID {
-    public $login;
-    public $data;
-    private $debug;
-    private $tokenCheckResult;
-    private $permissions;
-    private $token;
+    public bool $login;
+    public mixed $data;
+    private string $debug = '';
+    private mixed $tokenCheckResult;
+    private mixed $permissions;
     function __construct() {
         global $DBLIB,$CONFIG;
         if (!isset($_SESSION['token'])) {
@@ -101,7 +100,12 @@ class bID {
             return $carry;
         }, []));
     }
-    public function login($code) {
+
+    /**
+     * @return array{result: bool, errorMessage: string, url: string}
+     * @throws Exception
+     */
+    public function login(string $code): array {
         global $CONFIG,$DBLIB;
         $return = ["result" => false, "errorMessage" => "Unknown Error", "url" => (isset($_SESSION['return']) ? $_SESSION['return'] :  $CONFIG['ROOTBACKENDURL'])];
 
@@ -112,7 +116,7 @@ class bID {
             $return["errorMessage"] = "Invalid ID token";
             return $return;
         }
-        if ($payload["email_verified"] != true) {
+        if (!$payload["email_verified"]) {
             $return["errorMessage"] = 'Email address not verified';
             return $return;
         }
@@ -164,7 +168,8 @@ class bID {
         $return["result"] = true;
         return $return;
     }
-    private function generateTokenAlias() {
+
+    private function generateTokenAlias(): string {
         $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         $randomString = '';
@@ -174,7 +179,7 @@ class bID {
         return md5(time() . $randomString);
     }
 
-    public function logout() {
+    public function logout(): void {
         global $DBLIB;
         if (isset($_SESSION['token'])) {
             $DBLIB->where("authTokens_token", $_SESSION['token']);
@@ -182,18 +187,19 @@ class bID {
         }
         $_SESSION = array();
     }
-    public function destroyTokens($userid = null) {
+
+    public function destroyTokens(string|int|null $userId = null): bool {
         global $DBLIB, $CONFIG;
 
-        if ($userid == null) $userid = $this->data['users_userid'];
-        else $userid = $GLOBALS['bCMS']->sanitiseString($userid);
+        if ($userId == null) $userId = $this->data['users_userid'];
+        else $userId = $GLOBALS['bCMS']->sanitiseString($userId);
 
-        $DBLIB->where('users_userid', $userid);
+        $DBLIB->where('users_userid', $userId);
         if ($DBLIB->update('authTokens', ["authTokens_valid" => 0])) return true;
         else return false;
     }
 
-    public function permissionCheck($permissionId) {
+    public function permissionCheck(string|int $permissionId): bool {
         if (!$this->login) return false; //Not logged in
         if (in_array($permissionId, $this->permissions)) return true;
         else return false;

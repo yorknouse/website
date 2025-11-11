@@ -8,7 +8,7 @@ use Aws\S3\Exception\S3Exception;
 use voku\helper\HtmlDomParser;
 
 //GLOBALS STUFF - DON'T CHANGE
-function errorHandler() {
+function errorHandler(): void {
     if (error_get_last() and error_get_last()['type'] == '1') {
         global $CONFIG;
         die('Sorry we hit an error. Our tech team have been automatically notified but please contact support@nouse.co.uk for help resolving this error for your device <p style="display:none;">' . "\n\n\n" . error_get_last()['message'] . "\n\n\n" . '</p>');
@@ -52,19 +52,25 @@ header("Content-Security-Policy: default-src 'none';" .
 //Oauth uses its own connection for the lib as well
 $CONN = new mysqli($CONFIG['DB_HOSTNAME'], $CONFIG['DB_USERNAME'], $CONFIG['DB_PASSWORD'], $CONFIG['DB_DATABASE']);
 if ($CONN->connect_error) throw new Exception($CONN->connect_error);
-$DBLIB = new MysqliDb ($CONN); //Re-use it in the wierd lib we love
+/** @var mysqli $CONN */
+/** @phpstan-ignore-next-line */
+$DBLIB = new MysqliDb($CONN); //Re-use it in the wierd lib we love
 
 
 /* FUNCTIONS */
 class bCMS {
 
-    private $cloudflare;
+    /**
+     * @var array{
+     *     key: Cloudflare\API\Auth\APIKey,
+     *     adapter: Cloudflare\API\Adapter\Guzzle,
+     *     zones: Cloudflare\API\Endpoints\Zones,
+     *     zoneid: string|false
+     * }
+     */
+    private array $cloudflare;
 
-    function sanitizeString($var) {
-        return $this->sanitiseString($var);
-    }
-
-    function sanitiseString($var) {
+    function sanitiseString(string $var): string {
         $var = htmlspecialchars($var); //Sanitize all html out of it - important for user comments section
         $var = strip_tags($var);
         $var = trim($var);
@@ -73,9 +79,10 @@ class bCMS {
         global $CONN;
         return mysqli_real_escape_string($CONN, $var);
     }
-    function randomString($length = 10, $stringonly = false) { //Generate a random string
+
+    function randomString(int $length = 10, bool $stringOnly = false): string { //Generate a random string
         $characters = 'abcdefghkmnopqrstuvwxyzABCDEFGHKMNOPQRSTUVWXYZ';
-        if (!$stringonly) $characters .= '0123456789';
+        if (!$stringOnly) $characters .= '0123456789';
         $charactersLength = strlen($characters);
         $randomString = '';
         for ($i = 0; $i < $length; $i++) {
@@ -84,7 +91,7 @@ class bCMS {
         return $randomString;
     }
 
-    function cleanString($var) {
+    function cleanString(string $var): string {
         //HTML Purification - user comments are run through this so it's pretty important we strip out all bad HTML.
         $config = HTMLPurifier_Config::createDefault();
         $config->set('Cache.DefinitionImpl', null);
@@ -94,7 +101,7 @@ class bCMS {
         return $clean_html; //NOTE THAT THIS REQUIRES THE USE OF PREPARED STATEMENTS AS IT'S NOT ESCAPED
     }
 
-    function formatSize($bytes) {
+    function formatSize(int $bytes): string {
         if ($bytes >= 1073741824) {
             $bytes = number_format($bytes / 1073741824, 1) . ' GB';
         } elseif ($bytes >= 100000) {
@@ -111,7 +118,11 @@ class bCMS {
         return $bytes;
     }
 
-    function modifyGet($array) {
+    /**
+     * @param array<string, mixed> $array
+     * @return array<string, mixed>
+     */
+    function modifyGet(array $array): array {
         //Used to setup links that don't affect search terms etc.
         foreach ($array as $key => $value) {
             $_GET[$key] = $value;
@@ -119,18 +130,30 @@ class bCMS {
         return $_GET;
     }
 
-    public function articleThumbnail($article, $size = "large", $overrideImageDisplay = false) {
+    public function articleThumbnail(string|int|null $article, string $size = "large", bool $overrideImageDisplay = false): bool|string {
         global $DBLIB, $CONFIG;
         if ($article == null) return false;
         $DBLIB->where("articles_id", $this->sanitiseString($article));
         $thumb = $DBLIB->getone("articles", ["articles_thumbnail","articles_displayImages"]);
         if (!$thumb or $thumb["articles_thumbnail"] == null) return false;
-        elseif ($thumb['articles_displayImages'] == 0 and $overrideImageDisplay != true) return $CONFIG['FILESTOREURL'] . '/nouseSiteAssets/imageArchive-comp.jpg';
+        elseif ($thumb['articles_displayImages'] == 0 and !$overrideImageDisplay) return $CONFIG['FILESTOREURL'] . '/nouseSiteAssets/imageArchive-comp.jpg';
         elseif (is_numeric($thumb["articles_thumbnail"])) return $this->s3URL($thumb["articles_thumbnail"], $size);
         else return $CONFIG['ARCHIVEFILESTOREURL'] . "/articleImages/" . rawurlencode($thumb["articles_thumbnail"]);
     }
 
-    function s3URL($fileid, $size = false, $forceDownload = false, $expire = '+1 minute', $returnArray = false) {
+    /**
+     * @param string|int $fileId
+     * @param string $size
+     * @param bool $forceDownload
+     * @param string $expire
+     * @param bool $returnArray
+     * @return string|array{
+     *     url: string,
+     *     data: mixed,
+     * }|false
+     * @throws Exception
+     */
+    function s3URL(string|int $fileId, string $size = 'comp', bool $forceDownload = false, string $expire = '+1 minute', bool $returnArray = false): string|array|false {
         global $DBLIB, $CONFIG;
         /*
          * File interface for Amazon AWS S3.
@@ -140,9 +163,9 @@ class bCMS {
          *      d (optional, default false) - should a download be forced or should it be displayed in the browser? (if set it will download)
          *      e (optional, default 1 minute) - when should the link expire? Must be a string describing how long in words basically. If this file type has security features then it will default to 1 minute.
          */
-        $fileid = $this->sanitiseString($fileid);
-        if (strlen($fileid) < 1) return false;
-        $DBLIB->where("s3files_id", $fileid);
+        $fileId = $this->sanitiseString($fileId);
+        if (strlen($fileId) < 1) return false;
+        $DBLIB->where("s3files_id", $fileId);
         $DBLIB->where("s3files_meta_deleteOn IS NULL"); //If the file is to be deleted soon or has been deleted don't let them download it
         $DBLIB->where("s3files_meta_physicallyStored", 1); //If we've lost the file or deleted it we can't actually let them download it
         $file = $DBLIB->getone("s3files");
@@ -164,6 +187,7 @@ class bCMS {
                     case "large":
                         $returnFilePath .= '_large';
                         break;
+                    case "comp":
                     default:
                         $returnFilePath .= '_comp'; //TODO evaluate whether this is a good idea - or whether in some cases it's better to serve a fully uncompressed version
                         break;
@@ -237,11 +261,14 @@ class bCMS {
         else return $presignedUrl;
     }
 
-    public function cacheClearCategory($categoryid) {
+    /**
+     * @throws Cloudflare\API\Endpoints\EndpointException
+     */
+    public function cacheClearCategory(string|int $categoryId): bool {
         global $DBLIB, $CONFIG;
-        if (!$categoryid) return false;
+        if (!$categoryId) return false;
 
-        $DBLIB->where("categories_id", $this->sanitiseString($categoryid));
+        $DBLIB->where("categories_id", $this->sanitiseString($categoryId));
         $category = $DBLIB->getOne("categories", ["categories_name", "categories_nestUnder"]);
         if (!$category) return false;
         $url = $CONFIG['ROOTFRONTENDURL'] . '/' . $category['categories_name'];
@@ -259,15 +286,18 @@ class bCMS {
         return $this->cacheClear($url . "/");
     }
 
-    public function cacheClear($URL, $all = false) {
+    /**
+     * @throws Cloudflare\API\Endpoints\EndpointException
+     */
+    public function cacheClear(string $URL, bool $all = false): bool {
         global $AUTH;
 
-        if (!$this->cloudflare) $this->cloudflareInit();
+        $this->cloudflareInit();
 
         if (isset($AUTH->data['users_userid'])) $userid = $AUTH->data['users_userid'];
         else $userid = null;
 
-        if ($URL == false and $all == true) {
+        if (!$URL and $all) {
             try {
                 if ($this->cloudflare['zones']->cachePurgeEverything($this->cloudflare['zoneid'])) {
                     $this->auditLog("CACHECLEARALL", null, "Entire site", $userid);
@@ -291,25 +321,30 @@ class bCMS {
         }
     }
 
-    private function cloudflareInit() {
+    /**
+     * @throws Cloudflare\API\Endpoints\EndpointException
+     */
+    private function cloudflareInit(): bool {
         global $CONFIG;
-        $this->cloudflare = [];
-        $this->cloudflare['key'] = new Cloudflare\API\Auth\APIKey($CONFIG['CLOUDFLARE']['EMAIL'], $CONFIG['CLOUDFLARE']['KEY']);
-        $this->cloudflare['adapter'] = new Cloudflare\API\Adapter\Guzzle($this->cloudflare['key']);
-        $this->cloudflare['zones'] = new \Cloudflare\API\Endpoints\Zones($this->cloudflare['adapter']);
-        $this->cloudflare['zoneid'] = $this->cloudflare['zones']->getZoneID('nouse.co.uk');
-        if (!$this->cloudflare['zoneid']) return false;
-        else return true;
-        //$this->cloudflare['user'] = new Cloudflare\API\Endpoints\User($this->cloudflare['adapter']);
+
+        $cloudflare = []; // temporary local variable
+        $cloudflare['key'] = new Cloudflare\API\Auth\APIKey($CONFIG['CLOUDFLARE']['EMAIL'], $CONFIG['CLOUDFLARE']['KEY']);
+        $cloudflare['adapter'] = new Cloudflare\API\Adapter\Guzzle($cloudflare['key']);
+        $cloudflare['zones'] = new Cloudflare\API\Endpoints\Zones($cloudflare['adapter']);
+        $cloudflare['zoneid'] = $cloudflare['zones']->getZoneID('nouse.co.uk');
+
+        $this->cloudflare = $cloudflare; // assign after fully built
+
+        return (bool) $cloudflare['zoneid'];
     }
 
-    function auditLog($actionType = null, $table = null, $revelantData = null, $userid = null, $useridTo = null) {
+    function auditLog(string $actionType, string|null $table = null, mixed $relevantData = null, string|int|null $userid = null, string|int|null $useridTo = null): bool {
         //Keep an audit trail of actions - $userid is this user, and $useridTo is who this action was done to if it was at all
         global $DBLIB;
         $data = [
             "auditLog_actionType" => $this->sanitiseString($actionType),
             "auditLog_actionTable" => $this->sanitiseString($table),
-            "auditLog_actionData" => $this->sanitiseString($revelantData),
+            "auditLog_actionData" => $this->sanitiseString($relevantData),
             "auditLog_timestamp" => date("Y-m-d H:i:s")
         ];
         if ($userid > 0) $data["users_userid"] = $this->sanitiseString($userid);
@@ -319,9 +354,9 @@ class bCMS {
         else return false;
     }
 
-    public function categoryURL($categoryid) {
+    public function categoryURL(string|int $categoryId): string {
         global $DBLIB, $bCMS;
-        $DBLIB->where("categories_id", $bCMS->sanitiseString($categoryid));
+        $DBLIB->where("categories_id", $bCMS->sanitiseString($categoryId));
         $category = $DBLIB->getone("categories",["categories_name","categories_nestUnder"]);
         if ($category["categories_nestUnder"] == null) return $category["categories_name"];
         $url = $category["categories_name"];
@@ -336,16 +371,16 @@ class bCMS {
         return $category["categories_name"] . "/" . $url;
     }
 
-    public function yorkSUNotify($articleid) {
+    public function yorkSUNotify(string|int $articleId): bool {
         global $DBLIB, $CONFIG;
-        $DBLIB->where("articles.articles_id", $this->sanitiseString($articleid));
+        $DBLIB->where("articles.articles_id", $this->sanitiseString($articleId));
         $DBLIB->where("articles_mediaCharterDone", 0);
         $DBLIB->where("articles_showInSearch", 1);
         $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
         $DBLIB->where("articlesDrafts.articlesDrafts_id = (SELECT articlesDrafts_id FROM articlesDrafts WHERE articlesDrafts.articles_id=articles.articles_id ORDER BY articlesDrafts_timestamp DESC LIMIT 1)");
         $article = $DBLIB->getone("articles", ["articles.articles_id", "articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline", "articlesDrafts.articlesDrafts_excerpt"]);
         if (!$article) return false;
-        $DBLIB->where("articlesCategories.articles_id", $this->sanitiseString($articleid));
+        $DBLIB->where("articlesCategories.articles_id", $this->sanitiseString($articleId));
         $article['articles_categories'] = array_column($DBLIB->get("articlesCategories"), 'categories_id');
 
         // York SU Notification email html
@@ -357,7 +392,7 @@ class bCMS {
         else $html .= "<b>Link to article: </b><a href='" . $CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
         $html .= "<br/><br/><br/>If you have any questions about this notification please do not hesitate to contact us on support@nouse.co.uk.<br/>For queries relating to this article itself (for example concerns about its content) please contact editor@nouse.co.uk. <br/><br/><br/>Nouse Technical Team<br/><i>" . gethostname() . " (compliance tracked at  " . date("Y-m-d H:i:s") . " UTC)</i>";
         if (count(array_intersect([2, 3, 6, 373, 397], $article['articles_categories'])) > 0) {
-            if (sendemail("media-charter-notifications@nouse.co.uk", "New article on Nouse.co.uk", $html)) {
+            if (sendEmail("media-charter-notifications@nouse.co.uk", "New article on Nouse.co.uk", $html)) {
                 $DBLIB->where("articles_id", $article['articles_id']);
                 $DBLIB->update("articles", ["articles_mediaCharterDone" => 1]);
                 return true;
@@ -370,9 +405,9 @@ class bCMS {
         }
     }
 
-    public function postSocial($articleid, $postToFacebook = true, $postToTwitter = true) {
+    public function postSocial(string|int $articleId, bool $postToFacebook = true, bool $postToTwitter = true): bool {
         global $DBLIB, $CONFIG;
-        $DBLIB->where("articles.articles_id", $this->sanitiseString($articleid));
+        $DBLIB->where("articles.articles_id", $this->sanitiseString($articleId));
         $DBLIB->where("articles.articles_showInSearch", 1); //ie those that can actually be shown - no point tweeting a dud link
         $DBLIB->where("articles.articles_published <= '" . date("Y-m-d H:i:s") . "'");
         $DBLIB->join("articlesDrafts", "articles.articles_id=articlesDrafts.articles_id", "LEFT");
@@ -396,29 +431,29 @@ class bCMS {
             $url = 'https://maker.ifttt.com/trigger/socialMediaAutomationFB/with/key/' . $CONFIG['IFTTT'];
             $ch = curl_init($url);
             $xml = "value1=" . urlencode($postExcerpt) . "&value2=" . urlencode($realpermalink) . "&value3=null";
-            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //Supress the output from being dumped
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //Suppress the output from being dumped
             $response = curl_exec($ch);
             curl_close($ch);
 
-            if (true) $article["articles_socialConfig"][1] = 1; //TODO check the IFTTT response
+            if ($response) $article["articles_socialConfig"][1] = 1;
         }
         if ($article["articles_socialConfig"][2] == 1 and $article["articles_socialConfig"][3] != 1 and $postToTwitter) {
             //Go ahead and post to twitter
             $url = 'https://maker.ifttt.com/trigger/socialMediaAutomationTwitter/with/key/' . $CONFIG['IFTTT'];
             $ch = curl_init($url);
             $xml = "value1=" . urlencode($postExcerpt) . "&value2=" . urlencode($realpermalink) . "&value3=null";
-            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POST, true);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $xml);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //Supress the output from being dumped
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //Suppress the output from being dumped
             $response = curl_exec($ch);
             curl_close($ch);
 
-            if (true) $article["articles_socialConfig"][3] = 1; //TODO check the IFTTT response
+            if ($response) $article["articles_socialConfig"][3] = 1;
         }
 
-        $DBLIB->where("articles_id", $this->sanitiseString($articleid));
+        $DBLIB->where("articles_id", $this->sanitiseString($articleId));
         if ($DBLIB->update("articles", ["articles.articles_socialConfig" => implode(",", $article["articles_socialConfig"])])) return true;
         else return false;
     }

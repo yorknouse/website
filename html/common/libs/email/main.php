@@ -5,7 +5,7 @@ use PHPMailer\PHPMailer\Exception;
 
 require_once __DIR__ . '/../../config.php';
 
-function outputemail($html) {
+function outputEmail(string $html): string {
     global $CONFIG;
     return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 	<html xmlns="http://www.w3.org/1999/xhtml">
@@ -1004,7 +1004,7 @@ function outputemail($html) {
 	</body></html>';
 }
 
-function sendemail($userIDOrEmail, $subject, $html) {
+function sendEmail(string|int $userIDOrEmail, string $subject, string $html): bool {
     global $DBLIB, $CONFIG;
     if (is_numeric($userIDOrEmail)) {
         $DBLIB->where('users_userid', $userIDOrEmail);
@@ -1023,7 +1023,7 @@ function sendemail($userIDOrEmail, $subject, $html) {
         $user['users_userid'] = null;
     } else return false;
 
-    $outputhtml = outputemail($html);
+    $outputhtml = outputEmail($html);
 
     $mail = new PHPMailer(true);
 

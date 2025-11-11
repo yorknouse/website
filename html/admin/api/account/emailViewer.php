@@ -35,7 +35,7 @@ foreach ($emails as $email) {
 			<td>' . $email['emailSent_subject']. '</td>
 		</tr>
 		<tr>
-			<td colspan="2">' . outputemail($email['emailSent_html']). '</td>
+			<td colspan="2">' . outputEmail($email['emailSent_html']). '</td>
 	</table>
 	<div class="pagebreak"> </div>';
 }

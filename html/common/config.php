@@ -19,7 +19,7 @@ if (getenv('bCMS__ERRORS') == "true") {
 
 
 require_once(__DIR__ . '/../../composer/vendor/autoload.php'); //Composer
-require_once(__DIR__ . '/libs/Email/main.php'); //Email sending lib
+require_once(__DIR__ . '/libs/email/main.php'); //Email sending lib
 $CONFIG = array(
     'DB_HOSTNAME' => getenv('MYSQL_HOSTNAME'),
     'DB_DATABASE' => getenv('MYSQL_DATABASE'),
