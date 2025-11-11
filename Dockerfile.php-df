@@ -53,7 +53,6 @@ COPY composer.json composer.lock ./
 RUN sed -i "s|^listen = .*|listen = 0.0.0.0:9000|" /usr/local/etc/php-fpm.d/www.conf
 
 # 🧩 Composer install AFTER gd is available
-RUN composer update
 RUN composer install --no-interaction --no-scripts --no-autoloader
 
 # 6️⃣ Copy app code
