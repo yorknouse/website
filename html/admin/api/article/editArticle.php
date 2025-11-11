@@ -71,17 +71,19 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
     $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug']);
 
     $socialMedia = explode(",", $article['articles_socialConfig']);
-    if ($_POST['postToTwitter'] == 1 and $socialMedia['2'] != 1 and $socialMedia['3'] != 1) { //If it's not yet been posted to twitter but the checkbox has now been checked we should post it to twitter
-        $socialMedia['2'] = 1; //Say that they've chosen to post to twitter - set this to 1 so we know that
-    }
-    if ($_POST['postToFacebook'] == 1 and $socialMedia['0'] != 1 and $socialMedia['1'] != 1) { //If it's not yet been posted to fb but the checkbox has now been checked we should post it to fb
-        $socialMedia['0'] = 1; //Say that they've chosen to post to fb - set this to 1 so we know that
-    }
-    if ($_POST['postToTwitter'] == 0 and $socialMedia['2'] == 1 and $socialMedia['3'] != 1) { //They no longer want it to go on FB
-        $socialMedia['2'] = 0;
-    }
-    if ($_POST['postToFacebook'] == 0 and $socialMedia['0'] == 1 and $socialMedia['1'] != 1) { //They no longer want it to go on FB
-        $socialMedia['0'] = 0;
+    if (count($socialMedia) == 4) {
+        if ($_POST['postToTwitter'] == 1 and $socialMedia['2'] != 1 and $socialMedia['3'] != 1) { //If it's not yet been posted to twitter but the checkbox has now been checked we should post it to twitter
+            $socialMedia['2'] = 1; //Say that they've chosen to post to twitter - set this to 1 so we know that
+        }
+        if ($_POST['postToFacebook'] == 1 and $socialMedia['0'] != 1 and $socialMedia['1'] != 1) { //If it's not yet been posted to fb but the checkbox has now been checked we should post it to fb
+            $socialMedia['0'] = 1; //Say that they've chosen to post to fb - set this to 1 so we know that
+        }
+        if ($_POST['postToTwitter'] == 0 and $socialMedia['2'] == 1 and $socialMedia['3'] != 1) { //They no longer want it to go on FB
+            $socialMedia['2'] = 0;
+        }
+        if ($_POST['postToFacebook'] == 0 and $socialMedia['0'] == 1 and $socialMedia['1'] != 1) { //They no longer want it to go on FB
+            $socialMedia['0'] = 0;
+        }
     }
 
     $articleData['articles_socialConfig'] = implode(",", $socialMedia); //Update the social media thing with whatever we've changed
@@ -90,22 +92,23 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
     $DBLIB->where("articles_id", $article['articles_id']);
     if (!$DBLIB->update("articles", $articleData)) finish(false, ["code" => null, "message" => "Update error"]);
     if ($DBLIB->insert("articlesDrafts", $articleDraftsData)) {
+        if (count($socialMedia) == 4) {
+            //Social Media automation
+            if (strtotime($articleData["articles_published"]) <= time() and $socialMedia['2'] == 1 and $socialMedia['3'] != 1) { //It's backdated so tweet now
+                $bCMS->postSocial($article['articles_id'], false, true);
+            }
+            if (strtotime($articleData["articles_published"]) <= time() and $socialMedia['0'] == 1 and $socialMedia['1'] != 1) { //It's backdated so post now
+                $bCMS->postSocial($article['articles_id'], true, false);
+            }
 
-        //Social Media automation
-        if (strtotime($articleData["articles_published"]) <= time() and $socialMedia['2'] == 1 and $socialMedia['3'] != 1) { //It's backdated so tweet now
-            $bCMS->postSocial($article['articles_id'], false, true);
-        }
-        if (strtotime($articleData["articles_published"]) <= time() and $socialMedia['0'] == 1 and $socialMedia['1'] != 1) { //It's backdated so post now
-            $bCMS->postSocial($article['articles_id'], true, false);
-        }
-
-        if (strtotime($articleData["articles_published"]) <= time() and $socialMedia['2'] == 1 and $socialMedia['3'] != 1 and $article['articles_showInSearch'] != 1 and $articleData["articles_showInSearch"] ==  1){
-            //They've decided to make this article public when it wasn't before which means it needs to be posted on facebook/twitter
-            $bCMS->postSocial($article['articles_id'], false, true);
-        }
-        if (strtotime($articleData["articles_published"]) <= time() and $socialMedia['0'] == 1 and $socialMedia['1'] != 1 and $article['articles_showInSearch'] != 1 and $articleData["articles_showInSearch"] ==  1){
-            //They've decided to make this article public when it wasn't before which means it needs to be posted on facebook/twitter
-            $bCMS->postSocial($article['articles_id'], true, false);
+            if (strtotime($articleData["articles_published"]) <= time() and $socialMedia['2'] == 1 and $socialMedia['3'] != 1 and $article['articles_showInSearch'] != 1 and $articleData["articles_showInSearch"] == 1) {
+                //They've decided to make this article public when it wasn't before which means it needs to be posted on facebook/twitter
+                $bCMS->postSocial($article['articles_id'], false, true);
+            }
+            if (strtotime($articleData["articles_published"]) <= time() and $socialMedia['0'] == 1 and $socialMedia['1'] != 1 and $article['articles_showInSearch'] != 1 and $articleData["articles_showInSearch"] == 1) {
+                //They've decided to make this article public when it wasn't before which means it needs to be posted on facebook/twitter
+                $bCMS->postSocial($article['articles_id'], true, false);
+            }
         }
 
         //Caching

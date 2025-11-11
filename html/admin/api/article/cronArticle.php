@@ -17,6 +17,10 @@ if (count($articles) > 0) {
     $output .= "[INFO] Posting " . count($articles) . " articles to social media \n";
     foreach ($articles as $article) {
         $article["articles_socialConfig"] = explode(",", $article["articles_socialConfig"]);
+        if (count($article["articles_socialConfig"]) != 4) {
+            $output .= "[ERROR] Article has invalid number of social config options, article ID: " . $article['articles_id'] . ", number: " . count($article["articles_socialConfig"]) . "\n";
+            continue;
+        }
 
         if ($article["articles_socialConfig"]['2'] == 1 and $article["articles_socialConfig"]['3'] != 1) {
             $bCMS->postSocial($article['articles_id'], false, true); //Post to twitter
