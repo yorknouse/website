@@ -40,6 +40,6 @@ if (!$DBLIB->update('editions', $newData))
     finish(false, ["code" => null, "message" => "Edit error"]);
 
 $bCMS->auditLog("EDIT", "editions", json_encode(["edition" => $edition['editions_id'], "newData" => $newData]), $AUTH->data['users_userid']);
-$bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/edition/" . $edition['editions_slug']);
-$bCMS->cacheClear($CONFIG['ROOTFRONTENDURL']);
+$bCMS->cacheClear($CONFIG->ROOTFRONTENDURL . "/edition/" . $edition['editions_slug']);
+$bCMS->cacheClear($CONFIG->ROOTFRONTENDURL);
 finish(true);

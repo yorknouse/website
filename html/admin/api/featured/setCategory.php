@@ -10,6 +10,6 @@ if (!$DBLIB->update("categories", ["categories_featured" => $bCMS->sanitiseStrin
 
 $bCMS->auditLog("EDIT FEATURED", "categories", $bCMS->sanitiseString($_POST['selection']), $AUTH->data['users_userid']);
 $bCMS->cacheClearCategory($bCMS->sanitiseString($_POST['categoryid'])); //Clear that category page as it has a featured thing on it
-$bCMS->cacheClear($CONFIG['ROOTFRONTENDURL']); //Homepage has a list on it
+$bCMS->cacheClear($CONFIG->ROOTFRONTENDURL); //Homepage has a list on it
 
 finish(true);

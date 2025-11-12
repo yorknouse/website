@@ -38,7 +38,7 @@ try {
     exit("Invalid published date format");
 }
 
-$token = $CONFIG["DRAFT_VIEW_TOKEN"];
+$token = $CONFIG->DRAFT_VIEW_TOKEN;
 if (!$token) {
     http_response_code(500);
     exit("No token present");
@@ -59,7 +59,7 @@ setcookie(
 
 // optional legacy params still included for backwards compat
 $hash = md5($articleId);
-header("Location: {$CONFIG['ROOTFRONTENDURL']}/articles/" .
+header("Location: {$CONFIG->ROOTFRONTENDURL}/articles/" .
     $convertedDate . "/" .
     $slug .
     "?preview=true&hash={$hash}");

@@ -11,8 +11,8 @@ if (!$edition) die("404");
 
 $bCMS->auditLog("DELETE", "editions", $edition['editions_id'], $AUTH->data['users_userid']);
 
-$bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/edition/" . $edition['editions_slug']);
-$bCMS->cacheClear($CONFIG['ROOTFRONTENDURL']);
+$bCMS->cacheClear($CONFIG->ROOTFRONTENDURL . "/edition/" . $edition['editions_slug']);
+$bCMS->cacheClear($CONFIG->ROOTFRONTENDURL);
 
 $DBLIB->where('editions_id', $edition['editions_id']);
 if (!$DBLIB->update('editions', ["editions_deleted" => 1]))

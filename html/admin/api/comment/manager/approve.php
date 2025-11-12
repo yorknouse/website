@@ -21,10 +21,10 @@ if (count($article['articles_authors_array']) > 0) {
     foreach ($article['articles_authors_array'] as $author) {
         $html = "<b>Name: </b>" . htmlspecialchars($comment['comments_authorName']) . "<br/>";
         $html .= "<b>Text: </b>" . nl2br(htmlspecialchars($bCMS->cleanString($comment['comments_text']))) . "<br/>";
-        $html .= "<b>Article Link: </b><a href='" . $CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
+        $html .= "<b>Article Link: </b><a href='" . $CONFIG->ROOTFRONTENDURL . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "'>" . $CONFIG->ROOTFRONTENDURL . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
         $html .= "<br/><br/><br/>If you have any concerns about this comment please contact web@nouse.co.uk.<br/><br/>Nouse Technical Team<br/><i>Server " . gethostname() . " (sent at  " . date("Y-m-d H:i:s") . " UTC)</i>";
         sendEmail($author, "New comment added to your article on Nouse.co.uk", $html);
     }
 }
-$bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug']);
+$bCMS->cacheClear($CONFIG->ROOTFRONTENDURL . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug']);
 finish(true);

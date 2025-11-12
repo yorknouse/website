@@ -8,6 +8,6 @@ if (!$DBLIB->insert("featuredHome", ["featuredHome_articles" => $bCMS->sanitiseS
     finish(false, ["code" => "PARAM", "message"=> "Update error"]);
 
 $bCMS->auditLog("SET FEATURED", "featuredHome", $bCMS->sanitiseString($_POST['selection']), $AUTH->data['users_userid']);
-$bCMS->cacheClear($CONFIG['ROOTFRONTENDURL']); //Homepage has a list on it
+$bCMS->cacheClear($CONFIG->ROOTFRONTENDURL); //Homepage has a list on it
 
 finish(true);

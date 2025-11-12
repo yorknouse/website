@@ -2,21 +2,21 @@
 global $CONFIG;
 require_once __DIR__ . '/../apiHeadSecure.php';
 
-if (!$CONFIG['AWS']['UPLOAD']) die("Uploads disabled");
+if (!$CONFIG->AWS->UPLOAD) die("Uploads disabled");
 
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: GET");
-$bucket = $CONFIG['AWS']['DEFAULTUPLOADS']['BUCKET'];
+$bucket = $CONFIG->AWS->DEFAULTUPLOADS->BUCKET;
 // Directory to place uploaded files in.
 use Aws\S3\S3Client;
 // Create the S3 client.
 $s3 = new Aws\S3\S3Client([
     'version' => 'latest',
-    'region' => $CONFIG['AWS']['DEFAULTUPLOADS']['REGION'],
-    'endpoint' => "https://" . $CONFIG['AWS']['DEFAULTUPLOADS']['ENDPOINT'],
+    'region' => $CONFIG->AWS->DEFAULTUPLOADS->REGION,
+    'endpoint' => "https://" . $CONFIG->AWS->DEFAULTUPLOADS->ENDPOINT,
     'credentials' => array(
-        'key' => $CONFIG['AWS']['KEY'],
-        'secret' => $CONFIG['AWS']['SECRET'],
+        'key' => $CONFIG->AWS->KEY,
+        'secret' => $CONFIG->AWS->SECRET,
     )
 ]);
 

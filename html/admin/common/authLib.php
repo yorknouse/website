@@ -8,7 +8,7 @@ class bID {
     private mixed $tokenCheckResult;
     private mixed $permissions;
     function __construct() {
-        global $DBLIB,$CONFIG;
+        global $DBLIB;
         if (!isset($_SESSION['token'])) {
             $this->debug .= "No session token<br/>";
             $this->login = false;
@@ -107,9 +107,9 @@ class bID {
      */
     public function login(string $code): array {
         global $CONFIG,$DBLIB;
-        $return = ["result" => false, "errorMessage" => "Unknown Error", "url" => (isset($_SESSION['return']) ? $_SESSION['return'] :  $CONFIG['ROOTBACKENDURL'])];
+        $return = ["result" => false, "errorMessage" => "Unknown Error", "url" => (isset($_SESSION['return']) ? $_SESSION['return'] :  $CONFIG->ROOTBACKENDURL)];
 
-        $client = new Google_Client(['client_id' => $CONFIG['GOOGLE']['AUTH']['CLIENT']]);  // Specify the CLIENT_ID of the app that accesses the backend
+        $client = new Google_Client(['client_id' => $CONFIG->GOOGLE->AUTH->CLIENT]);  // Specify the CLIENT_ID of the app that accesses the backend
         $payload = $client->verifyIdToken($code); //verifies the JWT signature, the aud claim, the exp claim, and the iss claim.
         if (!$payload) {
             // Google has said the token is invalid
@@ -189,7 +189,7 @@ class bID {
     }
 
     public function destroyTokens(string|int|null $userId = null): bool {
-        global $DBLIB, $CONFIG;
+        global $DBLIB;
 
         if ($userId == null) $userId = $this->data['users_userid'];
         else $userId = $GLOBALS['bCMS']->sanitiseString($userId);

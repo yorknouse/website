@@ -13,5 +13,5 @@ if ($DBLIB->update('users', ["articles_featured" < implode(",", explode(",", $bC
     finish(false, ["code" => null, "message" => "Edit error"]);
 
 $bCMS->auditLog("UPDATE", "users", "CHANGE FEATURED ARTICLES", $AUTH->data['users_userid'],$userid);
-$bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/author/?a=" . $userid);
+$bCMS->cacheClear($CONFIG->ROOTFRONTENDURL . "/author/?a=" . $userid);
 finish(true);

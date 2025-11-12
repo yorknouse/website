@@ -25,7 +25,7 @@ $PAGEDATA = array('CONFIG' => $CONFIG, 'BODY' => true);
 //TWIG
 //Twig_Autoloader::register();
 $TWIGLOADER = new FilesystemLoader(__DIR__ . '/../');
-if ($CONFIG['DEV']) {
+if ($CONFIG->DEV) {
     $TWIG = new Environment($TWIGLOADER, array(
         'debug' => true,
         'auto_reload' => true,
@@ -67,10 +67,10 @@ $TWIG->addFilter(new TwigFilter('unclean', function ($var) {
     global $bCMS;
     return $bCMS->unCleanString($var);
 }));
-$TWIG->addFilter(new TwigFilter('permissions', function ($permissionid) {
+$TWIG->addFilter(new TwigFilter('permissions', function ($permissionId) {
     global $AUTH;
     if (!$AUTH->login) return false;
-    else return $AUTH->permissionCheck($permissionid);
+    else return $AUTH->permissionCheck($permissionId);
 }));
 $TWIG->addFilter(new TwigFilter('modifyGet', function ($array) {
     global $bCMS;
@@ -80,13 +80,13 @@ $TWIG->addFilter(new TwigFilter('randomString', function ($characters) {
     global $bCMS;
     return $bCMS->randomString($characters);
 }));
-$TWIG->addFilter(new TwigFilter('s3URL', function ($fileid, $size = false) {
+$TWIG->addFilter(new TwigFilter('s3URL', function ($fileId, $size = false) {
     global $bCMS;
-    return $bCMS->s3URL($fileid, $size);
+    return $bCMS->s3URL($fileId, $size);
 }));
-$TWIG->addFilter(new TwigFilter('s3DATA', function ($fileid) {
+$TWIG->addFilter(new TwigFilter('s3DATA', function ($fileId) {
     global $bCMS;
-    return $bCMS->s3URL($fileid, null, false, '+1 minute', true);
+    return $bCMS->s3URL($fileId, null, false, '+1 minute', true);
 }));
 $TWIG->addFilter(new TwigFilter('articleThumbnail', function ($article,$size = false, $overrideImageDisplay = false) {
     global $bCMS;

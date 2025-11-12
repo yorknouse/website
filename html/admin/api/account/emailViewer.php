@@ -15,7 +15,7 @@ $emails = $DBLIB->get('emailSent');
 if (!isset($emails[0])) die('E-Mail not found');
 
 foreach ($emails as $email) {
-	$output .= '<h1>' . $CONFIG['PROJECT_NAME']. ' (' . $email['emailSent_id'] . ')</h1>
+	$output .= '<h1>' . $CONFIG->PROJECT_NAME. ' (' . $email['emailSent_id'] . ')</h1>
 	<hr />
 	<table border="0" style="width: 100%;">
 		<tr>

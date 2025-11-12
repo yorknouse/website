@@ -66,7 +66,7 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
     if (!$article) finish(false, ["code" => null, "message" => "No data specified"]);
 
     $bCMS->auditLog("EDIT", "articles", $article['articles_id'], $AUTH->data['users_userid']);
-    $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug']);
+    $bCMS->cacheClear($CONFIG->ROOTFRONTENDURL . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug']);
 
     $socialMedia = explode(",", $article['articles_socialConfig']);
     if (count($socialMedia) == 4) {
@@ -114,7 +114,7 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
         if ($articleData['editions_id']) {
             $DBLIB->where("editions_id", $articleData['editions_id']);
             $edition = $DBLIB->getOne("editions", ["editions_slug"]);
-            if ($edition) $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/editions/" . $edition['editions_slug']);
+            if ($edition) $bCMS->cacheClear($CONFIG->ROOTFRONTENDURL . "/editions/" . $edition['editions_slug']);
         }
         //Categories
         $categoriesString = rtrim($_POST['categories'], ',');
@@ -206,7 +206,7 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
         if ($articleData['editions_id']) {
             $DBLIB->where("editions_id", $articleData['editions_id']);
             $edition = $DBLIB->getOne("editions", ["editions_slug"]);
-            if ($edition) $bCMS->cacheClear($CONFIG['ROOTFRONTENDURL'] . "/editions/" . $edition['editions_slug']);
+            if ($edition) $bCMS->cacheClear($CONFIG->ROOTFRONTENDURL . "/editions/" . $edition['editions_slug']);
         }
         //Categories
         foreach (explode(",", $_POST['categories']) as $category) {

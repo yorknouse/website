@@ -10,7 +10,7 @@ function outputEmail(string $html): string {
     return '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 	<html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>Message from ' . $CONFIG['PROJECT_NAME'] . '</title>
+		<title>Message from ' . $CONFIG->PROJECT_NAME . '</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<style type="text/css">
 			body {
@@ -900,7 +900,7 @@ function outputEmail(string $html): string {
 		</style>
 		<![endif]-->
 		<meta name="robots" content="noindex,nofollow" />
-		<meta property="og:title" content="A message from ' . $CONFIG['PROJECT_NAME'] . '" />
+		<meta property="og:title" content="A message from ' . $CONFIG->PROJECT_NAME . '" />
 	</head>
 		<body style="margin: 0;mso-line-height-rule: exactly;padding: 0;min-width: 100%;background-color: #fbfbfb">
 		<style type="text/css">
@@ -916,9 +916,9 @@ function outputEmail(string $html): string {
 				<td style="padding: 0;vertical-align: top">
 				<table style="border-collapse: collapse;border-spacing: 0;width: 602px">
 					<tbody><tr>
-					<td class="title" style="padding: 0;vertical-align: top;padding-top: 10px;padding-bottom: 12px;font-size: 12px;line-height: 21px;text-align: left;color: #999;font-family: Georgia,serif">&#10004;Official Message from ' . $CONFIG['PROJECT_NAME'] . '</td>
+					<td class="title" style="padding: 0;vertical-align: top;padding-top: 10px;padding-bottom: 12px;font-size: 12px;line-height: 21px;text-align: left;color: #999;font-family: Georgia,serif">&#10004;Official Message from ' . $CONFIG->PROJECT_NAME . '</td>
 					<td class="webversion" style="padding: 0;vertical-align: top;padding-top: 10px;padding-bottom: 12px;font-size: 12px;line-height: 21px;text-align: right;width: 300px;color: #999;font-family: Georgia,serif">
-						<a href="' . $CONFIG['ROOTFRONTENDURL'] . '">Visit ' . $CONFIG['PROJECT_NAME'] . '</a>
+						<a href="' . $CONFIG->ROOTFRONTENDURL . '">Visit ' . $CONFIG->PROJECT_NAME . '</a>
 					</td>
 					</tr>
 				</tbody></table>
@@ -979,7 +979,7 @@ function outputEmail(string $html): string {
 						<table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%">
 						<tbody><tr>
 							<td class="padded" style="padding: 0;vertical-align: top;padding-left: 0;padding-right: 10px;word-break: break-word;word-wrap: break-word;text-align: left;font-size: 12px;line-height: 20px;color: #999;font-family: Georgia,serif">
-							<div>This is an official message from ' . $CONFIG['PROJECT_NAME'] . '. Messages from ' . $CONFIG['PROJECT_NAME'] . ' will always carry the "Official Message from ' . $CONFIG['PROJECT_NAME'] . '" banner - If you receive messages purporting to come from ' . $CONFIG['PROJECT_NAME'] . ' not bearing the banner please contact ' . $CONFIG['PROJECT_FROM_EMAIL'] . ' immediately, forwarding the message you have received.</div>
+							<div>This is an official message from ' . $CONFIG->PROJECT_NAME . '. Messages from ' . $CONFIG->PROJECT_NAME . ' will always carry the "Official Message from ' . $CONFIG->PROJECT_NAME . '" banner - If you receive messages purporting to come from ' . $CONFIG->PROJECT_NAME . ' not bearing the banner please contact ' . $CONFIG->PROJECT_FROM_EMAIL . ' immediately, forwarding the message you have received.</div>
 							</td>
 						</tr>
 						</tbody></table>
@@ -988,7 +988,7 @@ function outputEmail(string $html): string {
 						<table class="contents" style="border-collapse: collapse;border-spacing: 0;table-layout: fixed;width: 100%">
 						<tbody><tr>
 							<td class="padded" style="padding: 0;vertical-align: top;padding-left: 10px;padding-right: 0;word-break: break-word;word-wrap: break-word;font-size: 12px;line-height: 20px;color: #999;font-family: Georgia,serif;text-align: right">
-								<span class="block"><unsubscribe style="text-decoration:none;">Any questions or want to unsubscribe&#63; Forward this E-Mail to <a href="mailto:' . $CONFIG['PROJECT_FROM_EMAIL'] . '">' . $CONFIG['PROJECT_FROM_EMAIL'] . '</a></unsubscribe></span>
+								<span class="block"><unsubscribe style="text-decoration:none;">Any questions or want to unsubscribe&#63; Forward this E-Mail to <a href="mailto:' . $CONFIG->PROJECT_FROM_EMAIL . '">' . $CONFIG->PROJECT_FROM_EMAIL . '</a></unsubscribe></span>
 
 							</td>
 						</tr>
@@ -1023,42 +1023,42 @@ function sendEmail(string|int $userIDOrEmail, string $subject, string $html): bo
         $user['users_userid'] = null;
     } else return false;
 
-    $outputhtml = outputEmail($html);
+    $outputHtml = outputEmail($html);
 
     $mail = new PHPMailer(true);
 
     try {
         // Server settings
         $mail->isSMTP();
-        $mail->Host = $CONFIG['EMAIL']['HOST'];
+        $mail->Host = $CONFIG->EMAIL->HOST;
         $mail->SMTPAuth   = true;
-        $mail->Username = $CONFIG['EMAIL']['USERNAME'];
-        $mail->Password = $CONFIG['EMAIL']['PASSWORD'];
+        $mail->Username = $CONFIG->EMAIL->USERNAME;
+        $mail->Password = $CONFIG->EMAIL->PASSWORD;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
         // Recipients
-        $mail->setFrom($CONFIG['EMAIL']['FROM'], 'Nouse No-Reply');
+        $mail->setFrom($CONFIG->EMAIL->FROM, 'Nouse No-Reply');
         $mail->addAddress($user['users_email'], $user["users_name1"] . ' ' . $user["users_name2"]);
 
         // Content
         $mail->isHTML();
         $mail->Subject = $subject;
-        $mail->Body    = $outputhtml;
+        $mail->Body    = $outputHtml;
 
         $mail->send();
         echo 'Message has been sent successfully.';
-        $sqldata = array("users_userid" => $user['users_userid'],
+        $sqlData = array("users_userid" => $user['users_userid'],
             "emailSent_html" => $html,
             "emailSent_subject" => $subject,
             "emailSent_sent" => date('Y-m-d G:i:s'),
-            "emailSent_fromEmail" => $CONFIG['EMAIL']['FROM'],
+            "emailSent_fromEmail" => $CONFIG->EMAIL->FROM,
             "emailSent_fromName" => 'Nouse No-Reply',
             'emailSent_toEmail' => $user["users_email"],
             'emailSent_toName' => $user["users_name1"] . ' ' . $user["users_name2"]
         );
-        $emailid = $DBLIB->insert('emailSent', $sqldata);
-        if (!$emailid)
+        $emailId = $DBLIB->insert('emailSent', $sqlData);
+        if (!$emailId)
             return false;
         return true;
     } catch (Exception $e) {

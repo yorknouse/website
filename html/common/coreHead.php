@@ -10,17 +10,16 @@ use voku\helper\HtmlDomParser;
 //GLOBALS STUFF - DON'T CHANGE
 function errorHandler(): void {
     if (error_get_last() and error_get_last()['type'] == '1') {
-        global $CONFIG;
         die('Sorry we hit an error. Our tech team have been automatically notified but please contact support@nouse.co.uk for help resolving this error for your device <p style="display:none;">' . "\n\n\n" . error_get_last()['message'] . "\n\n\n" . '</p>');
     }
 }
 
 //set_error_handler('errorHandler');
-if (!$CONFIG['DEV']) {
+if (!$CONFIG->DEV) {
     Sentry\init([
-        'dsn' => $CONFIG['ERRORS']['SENTRY'],
+        'dsn' => $CONFIG->ERRORS->SENTRY,
         'traces_sample_rate' => 0.1, //Capture 10% of pageloads for perforamnce monitoring
-        'release' => $CONFIG['VERSION']['TAG'] . "." . $CONFIG['VERSION']['COMMIT'],
+        'release' => $CONFIG->VERSION->TAG . "." . $CONFIG->VERSION->COMMIT,
         'sample_rate' => 1.0,
     ]);
 }
@@ -50,7 +49,7 @@ header("Content-Security-Policy: default-src 'none';" .
 
 /* DATBASE CONNECTIONS */
 //Oauth uses its own connection for the lib as well
-$CONN = new mysqli($CONFIG['DB_HOSTNAME'], $CONFIG['DB_USERNAME'], $CONFIG['DB_PASSWORD'], $CONFIG['DB_DATABASE']);
+$CONN = new mysqli($CONFIG->DB_HOSTNAME, $CONFIG->DB_USERNAME, $CONFIG->DB_PASSWORD, $CONFIG->DB_DATABASE);
 if ($CONN->connect_error) throw new Exception($CONN->connect_error);
 /** @var mysqli $CONN */
 /** @phpstan-ignore-next-line */
@@ -136,9 +135,9 @@ class bCMS {
         $DBLIB->where("articles_id", $this->sanitiseString($article));
         $thumb = $DBLIB->getone("articles", ["articles_thumbnail","articles_displayImages"]);
         if (!$thumb or $thumb["articles_thumbnail"] == null) return false;
-        elseif ($thumb['articles_displayImages'] == 0 and !$overrideImageDisplay) return $CONFIG['FILESTOREURL'] . '/nouseSiteAssets/imageArchive-comp.jpg';
+        elseif ($thumb['articles_displayImages'] == 0 and !$overrideImageDisplay) return $CONFIG->FILESTOREURL . '/nouseSiteAssets/imageArchive-comp.jpg';
         elseif (is_numeric($thumb["articles_thumbnail"])) return $this->s3URL($thumb["articles_thumbnail"], $size);
-        else return $CONFIG['ARCHIVEFILESTOREURL'] . "/articleImages/" . rawurlencode($thumb["articles_thumbnail"]);
+        else return $CONFIG->ARCHIVEFILESTOREURL . "/articleImages/" . rawurlencode($thumb["articles_thumbnail"]);
     }
 
     /**
@@ -200,8 +199,8 @@ class bCMS {
                 'endpoint' => "https://" . $file["s3files_endpoint"],
                 'version' => 'latest',
                 'credentials' => array(
-                    'key' => $CONFIG['AWS']['KEY'],
-                    'secret' => $CONFIG['AWS']['SECRET'],
+                    'key' => $CONFIG->AWS->KEY,
+                    'secret' => $CONFIG->AWS->SECRET,
                 )
             ]);
 
@@ -250,7 +249,7 @@ class bCMS {
                 'Bucket' => $file['s3files_bucket'],
                 'Key' => $file['s3files_path'] . "/" . $file['s3files_filename'] . '.' . $file['s3files_extension'],
             ];
-            if ($forceDownload) $parameters['ResponseContentDisposition'] = 'attachment; filename="' . $CONFIG['PROJECT_NAME'] . ' ' . $file['s3files_filename'] . '.' . $file['s3files_extension'] . '"';
+            if ($forceDownload) $parameters['ResponseContentDisposition'] = 'attachment; filename="' . $CONFIG->PROJECT_NAME . ' ' . $file['s3files_filename'] . '.' . $file['s3files_extension'] . '"';
             $cmd = $s3Client->getCommand('GetObject', $parameters);
             $request = $s3Client->createPresignedRequest($cmd, $file['expiry']);
             $presignedUrl = (string)$request->getUri();
@@ -271,7 +270,7 @@ class bCMS {
         $DBLIB->where("categories_id", $this->sanitiseString($categoryId));
         $category = $DBLIB->getOne("categories", ["categories_name", "categories_nestUnder"]);
         if (!$category) return false;
-        $url = $CONFIG['ROOTFRONTENDURL'] . '/' . $category['categories_name'];
+        $url = $CONFIG->ROOTFRONTENDURL . '/' . $category['categories_name'];
         if ($category['categories_nestUnder'] != null) {
             $DBLIB->where("categories_id", $category['categories_nestUnder']);
             $category = $DBLIB->getone("categories", ["categories_name", "categories_nestUnder"]);
@@ -328,7 +327,7 @@ class bCMS {
         global $CONFIG;
 
         $cloudflare = []; // temporary local variable
-        $cloudflare['key'] = new Cloudflare\API\Auth\APIKey($CONFIG['CLOUDFLARE']['EMAIL'], $CONFIG['CLOUDFLARE']['KEY']);
+        $cloudflare['key'] = new Cloudflare\API\Auth\APIKey($CONFIG->CLOUDFLARE->EMAIL, $CONFIG->CLOUDFLARE->KEY);
         $cloudflare['adapter'] = new Cloudflare\API\Adapter\Guzzle($cloudflare['key']);
         $cloudflare['zones'] = new Cloudflare\API\Endpoints\Zones($cloudflare['adapter']);
         $cloudflare['zoneid'] = $cloudflare['zones']->getZoneID('nouse.co.uk');
@@ -388,8 +387,8 @@ class bCMS {
         if (strtotime($article["articles_published"]) > time()) $html .= "This article will be published at " . $article["articles_published"] . " GMT and this email is an advanced notification of publication. No further notifications will follow and this article will be automatically published.<br/><br/>";
         $html .= "<b>Headline: </b>" . $article['articlesDrafts_headline'] . "<br/>";
         $html .= "<b>Excerpt: </b>" . $article['articlesDrafts_excerpt'] . "<br/>";
-        if (strtotime($article["articles_published"]) > time()) $html .= "This article hasn't been published yet, so it's not accessible on our website. A secret link has been generated for you to preview it, but please don't share this externally: <a href='" . $CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "?key=" . md5($article['articles_id']) . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/articles" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
-        else $html .= "<b>Link to article: </b><a href='" . $CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "'>" . $CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
+        if (strtotime($article["articles_published"]) > time()) $html .= "This article hasn't been published yet, so it's not accessible on our website. A secret link has been generated for you to preview it, but please don't share this externally: <a href='" . $CONFIG->ROOTFRONTENDURL . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "?key=" . md5($article['articles_id']) . "'>" . $CONFIG->ROOTFRONTENDURL . "/articles" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
+        else $html .= "<b>Link to article: </b><a href='" . $CONFIG->ROOTFRONTENDURL . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "'>" . $CONFIG->ROOTFRONTENDURL . "/articles/" . date("Y/m/d", strtotime($article['articles_published'])) . "/" . $article['articles_slug'] . "</a>";
         $html .= "<br/><br/><br/>If you have any questions about this notification please do not hesitate to contact us on support@nouse.co.uk.<br/>For queries relating to this article itself (for example concerns about its content) please contact editor@nouse.co.uk. <br/><br/><br/>Nouse Technical Team<br/><i>" . gethostname() . " (compliance tracked at  " . date("Y-m-d H:i:s") . " UTC)</i>";
         if (count(array_intersect([2, 3, 6, 373, 397], $article['articles_categories'])) > 0) {
             if (sendEmail("media-charter-notifications@nouse.co.uk", "New article on Nouse.co.uk", $html)) {
@@ -415,7 +414,7 @@ class bCMS {
         $article = $DBLIB->getone("articles", ["articles_socialExcerpt", "articles.articles_socialConfig", "articles.articles_published", "articles.articles_slug", "articlesDrafts.articlesDrafts_headline", "articlesDrafts.articlesDrafts_excerpt"]);
         if (!$article) return false;
 
-        $realpermalink = $CONFIG['ROOTFRONTENDURL'] . "/articles/" . date("Y/m/d", strtotime($article["articles_published"])) . "/" . $article['articles_slug'];
+        $realpermalink = $CONFIG->ROOTFRONTENDURL . "/articles/" . date("Y/m/d", strtotime($article["articles_published"])) . "/" . $article['articles_slug'];
 
         if (strlen($article['articles_socialExcerpt']) > 0) {
             $postExcerpt = $article['articles_socialExcerpt'];
@@ -428,7 +427,7 @@ class bCMS {
         $article["articles_socialConfig"] = explode(",", $article["articles_socialConfig"]);
         if ($article["articles_socialConfig"][0] == 1 and $article["articles_socialConfig"][1] != 1 and $postToFacebook) {
             //Go ahead and post to facebook
-            $url = 'https://maker.ifttt.com/trigger/socialMediaAutomationFB/with/key/' . $CONFIG['IFTTT'];
+            $url = 'https://maker.ifttt.com/trigger/socialMediaAutomationFB/with/key/' . $CONFIG->IFTTT;
             $ch = curl_init($url);
             $xml = "value1=" . urlencode($postExcerpt) . "&value2=" . urlencode($realpermalink) . "&value3=null";
             curl_setopt($ch, CURLOPT_POST, true);
@@ -441,7 +440,7 @@ class bCMS {
         }
         if ($article["articles_socialConfig"][2] == 1 and $article["articles_socialConfig"][3] != 1 and $postToTwitter) {
             //Go ahead and post to twitter
-            $url = 'https://maker.ifttt.com/trigger/socialMediaAutomationTwitter/with/key/' . $CONFIG['IFTTT'];
+            $url = 'https://maker.ifttt.com/trigger/socialMediaAutomationTwitter/with/key/' . $CONFIG->IFTTT;
             $ch = curl_init($url);
             $xml = "value1=" . urlencode($postExcerpt) . "&value2=" . urlencode($realpermalink) . "&value3=null";
             curl_setopt($ch, CURLOPT_POST, true);
