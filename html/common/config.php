@@ -191,7 +191,7 @@ $CONFIG = new Config(
             SECRET: getenv('AWS_SECRET_ACCESS_KEY')
         ),
     ),
-    CLOUDFLARE: new CloudFlareConfig(
+    CLOUDFLARE: new CloudflareConfig(
         EMAIL: getenv('bCMS__CLOUDFLARE_EMAIL'),
         KEY: getenv('bCMS__CLOUDFLARE_SECRET'),
     ),
