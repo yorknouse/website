@@ -69,8 +69,8 @@ class bCMS {
 
     private CloudflareCacheConfig $cloudflare;
 
-    function sanitiseString(string $var): string {
-        $var = htmlspecialchars($var); //Sanitize all html out of it - important for user comments section
+    function sanitiseString(string|int $var): string {
+        $var = htmlspecialchars(strval($var)); //Sanitize all html out of it - important for user comments section
         $var = strip_tags($var);
         $var = trim($var);
         //$var = htmlentities($var);
