@@ -23,11 +23,18 @@ function generateJWT(mixed $payload, string $secret): string {
         'alg' => 'HS256'
     ]);
 
-    $payload = json_encode($payload);
+    if ($header === false) {
+        throw new RuntimeException("Failed to encode JWT header");
+    }
+
+    $payloadJson = json_encode($payload);
+    if ($payloadJson === false) {
+        throw new RuntimeException("Failed to encode JWT payload");
+    }
 
     $base64UrlHeader = base64UrlEncode($header);
 
-    $base64UrlPayload = base64UrlEncode($payload);
+    $base64UrlPayload = base64UrlEncode($payloadJson);
 
     $signature = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, $secret, true);
 
