@@ -448,46 +448,46 @@
     gtag('js', new Date());
     gtag('config', '{{ CONFIG.ANALYTICS.BACKENDTRACKINGID }}');
 </script>
-<script>
-window.addEventListener('load', () => {
-    rebuildBtn.addEventListener('click', () => {
-        fetch("/api/rebuild.php", {
-            method: "POST",
-        })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error("Rebuild: HTTP status " + response.status);
-                }
-                alert("The website is being rebuilt.")
-            })
-            .catch(() => {
-                alert("Could not trigger website rebuild.")
-            })
-        });
-})
-</script>
-<style>
-    .rebuild-btn {
-        all: unset;
-        position: relative;
-        display: block;
-        width: 100%;
-        color: #b8c7ce;
-        padding: 12px 5px 12px 15px;
-        border-left: 3px solid transparent;
-    }
-    .rebuild-btn:hover {
-        color: #fff;
-        background: #1e282c;
-        cursor: pointer;
-    }
-    .rebuild-btn > i {
-        width: 20px;
-    }
-    .rebuildLi {
-        overflow: hidden;
-    }
-</style>
+{#<script>#}
+{#window.addEventListener('load', () => {#}
+{#    rebuildBtn.addEventListener('click', () => {#}
+{#        fetch("/api/rebuild.php", {#}
+{#            method: "POST",#}
+{#        })#}
+{#            .then((res) => {#}
+{#                if (!res.ok) {#}
+{#                    throw new Error("Rebuild: HTTP status " + response.status);#}
+{#                }#}
+{#                alert("The website is being rebuilt.")#}
+{#            })#}
+{#            .catch(() => {#}
+{#                alert("Could not trigger website rebuild.")#}
+{#            })#}
+{#        });#}
+{#})#}
+{#</script>#}
+{#<style>#}
+{#    .rebuild-btn {#}
+{#        all: unset;#}
+{#        position: relative;#}
+{#        display: block;#}
+{#        width: 100%;#}
+{#        color: #b8c7ce;#}
+{#        padding: 12px 5px 12px 15px;#}
+{#        border-left: 3px solid transparent;#}
+{#    }#}
+{#    .rebuild-btn:hover {#}
+{#        color: #fff;#}
+{#        background: #1e282c;#}
+{#        cursor: pointer;#}
+{#    }#}
+{#    .rebuild-btn > i {#}
+{#        width: 20px;#}
+{#    }#}
+{#    .rebuildLi {#}
+{#        overflow: hidden;#}
+{#    }#}
+{#</style>#}
 </body>
 {% endif %}
 </html>
