@@ -199,7 +199,6 @@ class bCMS {
 
             $file['expiry'] = $expire;
 
-
             switch ($file['s3files_meta_type']) {
                 case 0:
                     //Unknown
