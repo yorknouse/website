@@ -1007,14 +1007,19 @@ function outputEmail(string $html): string {
 function sendEmail(string|int $userIDOrEmail, string $subject, string $html): bool {
     global $DBLIB, $CONFIG;
     if (is_numeric($userIDOrEmail)) {
-        $DBLIB->where('users_userid', $userIDOrEmail);
-        $user = $DBLIB->getone('users', ['users_userid', 'users_name1', 'users_name2', 'users_googleAppsUsernameYork', 'users_googleAppsUsernameNouse']);
-        if (!$user) return false; //Can't find user
-        if (strlen($user['users_googleAppsUsernameNouse']) > 0) {
-            $user['users_email'] = $user['users_googleAppsUsernameNouse'] . "@nouse.co.uk";
-        } elseif (strlen($user['users_googleAppsUsernameYork']) > 0) {
-            $user['users_email'] = $user['users_googleAppsUsernameYork'] . "@york.ac.uk";
-        } else return false; //We don't have their york or nouse username
+        try {
+            $DBLIB->where('users_userid', $userIDOrEmail);
+            $user = $DBLIB->getone('users', ['users_userid', 'users_name1', 'users_name2', 'users_googleAppsUsernameYork', 'users_googleAppsUsernameNouse']);
+            if (!$user) return false; //Can't find user
+            if (strlen($user['users_googleAppsUsernameNouse']) > 0) {
+                $user['users_email'] = $user['users_googleAppsUsernameNouse'] . "@nouse.co.uk";
+            } elseif (strlen($user['users_googleAppsUsernameYork']) > 0) {
+                $user['users_email'] = $user['users_googleAppsUsernameYork'] . "@york.ac.uk";
+            } else return false; //We don't have their york or nouse username
+        } catch (Exception|\Exception $e) {
+            echo "User could not be found, debug error: {$e->getMessage()}";
+            return false;
+        }
     } elseif (filter_var($userIDOrEmail, FILTER_VALIDATE_EMAIL)) {
         $user = [];
         $user['users_email'] = $userIDOrEmail;
@@ -1061,7 +1066,7 @@ function sendEmail(string|int $userIDOrEmail, string $subject, string $html): bo
         if (!$emailId)
             return false;
         return true;
-    } catch (Exception $e) {
+    } catch (Exception|\Exception $e) {
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}, debug error: {$e->getMessage()}";
         return false;
     }
