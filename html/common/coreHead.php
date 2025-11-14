@@ -177,24 +177,13 @@ class bCMS {
             $returnFilePath = $file['s3files_cdn_endpoint'] . "/" . $file['s3files_path'] . "/" . rawurlencode($file['s3files_filename']);
             if ($file['s3files_compressed'] == 1) {
                 //If we have a compressed version of this file opt to use it!
-                switch ($size) {
-                    case "tiny":
-                        $returnFilePath .= '_tiny';
-                        break;
-                    case "small":
-                        $returnFilePath .= '_small';
-                        break;
-                    case "medium":
-                        $returnFilePath .= '_medium';
-                        break;
-                    case "large":
-                        $returnFilePath .= '_large';
-                        break;
-                    case "comp":
-                    default:
-                        $returnFilePath .= '_comp'; //TODO evaluate whether this is a good idea - or whether in some cases it's better to serve a fully uncompressed version
-                        break;
-                }
+                $returnFilePath .= match ($size) {
+                    "tiny" => '_tiny',
+                    "small" => '_small',
+                    "medium" => '_medium',
+                    "large" => '_large',
+                    default => '_comp',
+                };
             }
             $presignedUrl = $returnFilePath . "." . rawurlencode($file['s3files_extension']);
         } else {
