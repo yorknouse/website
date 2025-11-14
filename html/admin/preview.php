@@ -28,7 +28,7 @@ try {
     $dateObj = DateTime::createFromFormat('Y.m.d', $published);
     $errors = DateTime::getLastErrors();
 
-    if (!$dateObj || $errors['warning_count'] > 0 || $errors['error_count'] > 0) {
+    if (!$dateObj || ($errors && ($errors['warning_count'] > 0 || $errors['error_count'] > 0))) {
         http_response_code(400);
         exit("Invalid published date format");
     }
