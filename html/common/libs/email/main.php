@@ -1035,10 +1035,10 @@ function sendEmail(string|int $userIDOrEmail, string $subject, string $html): bo
     try {
         // Server settings
         $mail->isSMTP();
-        $mail->Host = $CONFIG->EMAIL->HOST;
+        $mail->Host       = $CONFIG->EMAIL->HOST;
         $mail->SMTPAuth   = true;
-        $mail->Username = $CONFIG->EMAIL->USERNAME;
-        $mail->Password = $CONFIG->EMAIL->PASSWORD;
+        $mail->Username   = $CONFIG->EMAIL->USERNAME;
+        $mail->Password   = $CONFIG->EMAIL->PASSWORD;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 
