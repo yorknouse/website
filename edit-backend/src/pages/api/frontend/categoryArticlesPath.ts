@@ -88,7 +88,7 @@ export default async function handler(
     if (!parsed.success) {
       res
         .status(400)
-        .json({ message: "Invalid request", errors: parsed.error.errors });
+        .json({ message: "Invalid request", errors: parsed.error.message });
       return;
     }
     const { categoryName, take, skip, notInFeatured } = parsed.data;
