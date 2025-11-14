@@ -21,8 +21,16 @@ try {
     //Do Nothing
 }
 
+/**
+ * @param object $obj
+ * @return array<string, mixed>
+ */
 function object_to_array(object $obj): array {
-    return json_decode(json_encode($obj), true);
+    $json = json_encode($obj);
+    if ($json === false) {
+        throw new RuntimeException("Failed to encode object");
+    }
+    return json_decode($json, true);
 }
 
 $PAGEDATA = array('CONFIG' => object_to_array($CONFIG), 'BODY' => true);
