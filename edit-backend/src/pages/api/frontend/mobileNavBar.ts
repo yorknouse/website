@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import { ParseForm } from "@/lib/parseForm";
 import { ICategory } from "@/lib/types";
 import { validateMobileNavBar } from "@/lib/validation/navbar";
+import { cache } from "@/lib/cache";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -43,11 +44,13 @@ export default async function handler(
     }
 
     const activeCategory = active
-      ? await prisma.categories.findFirst({
-          where: {
-            categories_name: active,
-          },
-        })
+      ? await cache(`category:name:${active}`, 7200, () =>
+          prisma.categories.findFirst({
+            where: {
+              categories_name: active,
+            },
+          }),
+        )
       : undefined;
 
     let parentColour = undefined;
@@ -58,11 +61,16 @@ export default async function handler(
       activeCategory.categories_nestUnder !== 4
     ) {
       // Mask muse out of this as muse categories are nested
-      parentCategory = await prisma.categories.findFirst({
-        where: {
-          categories_id: activeCategory.categories_nestUnder,
-        },
-      });
+      parentCategory = await cache(
+        `category:id:${activeCategory.categories_nestUnder}`,
+        7200,
+        () =>
+          prisma.categories.findFirst({
+            where: {
+              categories_id: Number(activeCategory.categories_nestUnder),
+            },
+          }),
+      );
 
       if (parentCategory) {
         parentColour = parentCategory.categories_backgroundColor;

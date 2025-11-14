@@ -5,6 +5,7 @@ import { getArticleImage } from "@/lib/articles";
 import {
   ArticleAuthor,
   ArticleCategory,
+  IArticle,
   IArticleFull,
   ICategory,
 } from "@/lib/types";
@@ -12,6 +13,7 @@ import { getCategoryLink, getParentCategory } from "@/lib/categories";
 import dateFormatter from "@/lib/dateFormatter";
 import he from "he";
 import { z } from "zod";
+import { cache } from "@/lib/cache";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -25,6 +27,36 @@ export const config = {
     bodyParser: false,
   },
 };
+
+function getArticlesFromList(articleIds: number[]) {
+  return async () => {
+    return prisma.articles.findMany({
+      where: {
+        articles_id: {
+          in: articleIds,
+        },
+        articles_showInLists: true,
+      },
+      include: {
+        articlesDrafts: {
+          // Get the latest draft for every featured article
+          orderBy: {
+            articlesDrafts_timestamp: "desc",
+          },
+          take: 1,
+        },
+        categories: {
+          include: {
+            category: true,
+          },
+        },
+        users: {
+          include: { users: true },
+        },
+      },
+    });
+  };
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -71,33 +103,12 @@ export default async function handler(
       return;
     }
 
-    const result = await prisma.articles.findMany({
-      where: {
-        articles_id: {
-          in: articleIds,
-        },
-        articles_showInLists: true,
-      },
-      include: {
-        articlesDrafts: {
-          // Get the latest draft for every featured article
-          orderBy: {
-            articlesDrafts_timestamp: "desc",
-          },
-          take: 1,
-        },
-        categories: {
-          include: {
-            category: true,
-          },
-        },
-        users: {
-          include: { users: true },
-        },
-      },
-    });
+    // Generate a cache key based on the article IDs + style
+    const cacheKey = `articlesList:${style}:${articleIds.join(",")}`;
 
-    if (!result) {
+    const data = await cache(cacheKey, 7200, getArticlesFromList(articleIds));
+
+    if (!data) {
       res.status(404).json({ message: "Failed to find articles" });
     }
 
@@ -110,7 +121,7 @@ export default async function handler(
     };
 
     const categories = new Map(
-      result.map((article) => {
+      data.map((article) => {
         const temp = getParentCategory(article.categories);
         const cat: Category = {
           id: temp.categories_id,
@@ -124,7 +135,7 @@ export default async function handler(
     );
 
     const articles = await Promise.all(
-      result.map(async (article1) => {
+      data.map(async (article1) => {
         const s3url = await getArticleImage(article1);
 
         const authors: ArticleAuthor[] = article1.users.map(({ users }) => {
@@ -161,10 +172,14 @@ export default async function handler(
           )
           .map(({ category }) => category);
 
+        const publishedDate = article1.articles_published
+          ? new Date(article1.articles_published)
+          : new Date(0);
+
         const article: IArticleFull = {
           id: article1.articles_id,
           articleURL: `${process.env.FRONTEND_URL}articles/${dateFormatter
-            .format(article1.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+            .format(publishedDate) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
             .split("/")
             .reverse()
             .join("/")}/${String(article1.articles_slug)}`,
@@ -181,7 +196,7 @@ export default async function handler(
               ? article1.articlesDrafts[0].articlesDrafts_excerpt
               : "Unknown",
           published: dateFormatter
-            .format(article1.articles_published || new Date(0))
+            .format(publishedDate)
             .split("/")
             .reverse()
             .join("/"),

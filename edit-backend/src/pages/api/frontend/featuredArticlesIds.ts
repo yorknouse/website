@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { cache } from "@/lib/cache";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { IFeaturedHome } from "@/lib/types";
 import { featuredHome } from "@prisma/client";
@@ -8,6 +9,12 @@ const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Methods", "GET");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 };
+
+async function getLatestFeaturedHome() {
+  return prisma.featuredHome.findFirst({
+    orderBy: { featuredHome_timestamp: "desc" },
+  });
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -21,22 +28,21 @@ export default async function handler(
   }
 
   try {
-    const featuredArticlesIds: featuredHome | null =
-      await prisma.featuredHome.findFirst({
-        orderBy: {
-          featuredHome_timestamp: "desc",
-        },
-      });
+    const data = await cache<featuredHome | null>(
+      "featuredHome:latest",
+      7200,
+      getLatestFeaturedHome,
+    );
 
-    if (!featuredArticlesIds) {
+    if (!data) {
       res.status(404).json({ message: "No featuredHome found with this id" });
       return;
     }
 
     const featuredHome: IFeaturedHome = {
-      id: featuredArticlesIds.featuredHome_id,
-      articles: featuredArticlesIds.featuredHome_articles,
-      timestamp: featuredArticlesIds.featuredHome_timestamp,
+      id: data.featuredHome_id,
+      articles: data.featuredHome_articles,
+      timestamp: data.featuredHome_timestamp,
     };
 
     res.status(200).json(featuredHome);

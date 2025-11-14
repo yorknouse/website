@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
+import { cache } from "@/lib/cache";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -14,6 +15,20 @@ export const config = {
   },
 };
 
+async function getCategoryColours() {
+  return prisma.categories.findMany({
+    select: {
+      categories_backgroundColor: true,
+      categories_name: true,
+    },
+    where: {
+      NOT: {
+        categories_backgroundColor: null,
+      },
+    },
+  });
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -26,26 +41,18 @@ export default async function handler(
   }
 
   try {
-    const categoriesColours: {
-      categories_name: string;
-      categories_backgroundColor: string | null;
-    }[] = await prisma.categories.findMany({
-      select: {
-        categories_backgroundColor: true,
-        categories_name: true,
-      },
-      where: {
-        NOT: {
-          categories_backgroundColor: null,
-        },
-      },
-    });
+    const data = await cache<
+      {
+        categories_name: string;
+        categories_backgroundColor: string | null;
+      }[]
+    >("categoryColours:latest", 7200, getCategoryColours);
 
-    if (!categoriesColours) {
+    if (!data) {
       res.status(404).json({ message: "Failed to find categories colours" });
     }
 
-    res.status(200).json(categoriesColours);
+    res.status(200).json(data);
   } catch (err) {
     console.error("Error in categoriesColours:", err);
     res.status(500).json({ message: "Internal server error" });

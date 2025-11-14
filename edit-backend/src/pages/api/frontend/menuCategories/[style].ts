@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 import { ICategory } from "@/lib/types";
+import { cache } from "@/lib/cache";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -30,13 +31,15 @@ export default async function handler(
     let menuCategories: ICategory[];
 
     if (String(style) === "nouse") {
-      menuCategories = await prisma.categories.findMany({
-        where: {
-          categories_showMenu: true,
-          categories_showPublic: true,
-          categories_nestUnder: null,
-        },
-      });
+      menuCategories = await cache("parentCategories:latest", 7200, () =>
+        prisma.categories.findMany({
+          where: {
+            categories_showMenu: true,
+            categories_showPublic: true,
+            categories_nestUnder: null,
+          },
+        }),
+      );
 
       // Add home as first item - possibly need to adjust values in the future
       menuCategories.unshift({
@@ -68,19 +71,23 @@ export default async function handler(
         return 0;
       });
     } else {
-      menuCategories = await prisma.categories.findMany({
-        where: {
-          categories_showMenu: true,
-          categories_showPublic: true,
-          categories_nestUnder: 4, // Muse
-        },
-      });
+      menuCategories = await cache("category:name:muse", 7200, () =>
+        prisma.categories.findMany({
+          where: {
+            categories_showMenu: true,
+            categories_showPublic: true,
+            categories_nestUnder: 4, // Muse
+          },
+        }),
+      );
 
-      const muse = await prisma.categories.findFirst({
-        where: {
-          categories_name: "muse",
-        },
-      });
+      const muse = await cache("category:name:muse", 7200, () =>
+        prisma.categories.findFirst({
+          where: {
+            categories_name: "muse",
+          },
+        }),
+      );
 
       if (menuCategories.length > 0 && muse) {
         // Add home as first item - possibly need to adjust values in the future
