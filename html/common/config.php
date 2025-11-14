@@ -20,200 +20,282 @@ if (getenv('bCMS__ERRORS') == "true") {
 require_once(__DIR__ . '/../../composer/vendor/autoload.php'); //Composer
 require_once(__DIR__ . '/libs/email/main.php'); //Email sending lib
 
-final readonly class Config {
-    public function __construct(
-        public string           $DB_HOSTNAME,
-        public string           $DB_DATABASE,
-        public string           $DB_USERNAME,
-        public string           $DB_PASSWORD,
-        public string           $PROJECT_NAME,
-        public SendGridConfig   $SENDGRID,
-        public ErrorsConfig     $ERRORS,
-        public AnalyticsConfig  $ANALYTICS,
-        public string           $nextHash,
-        public string           $PROJECT_FROM_EMAIL,
-        public string           $ROOTFRONTENDURL,
-        public string           $DRAFT_VIEW_TOKEN,
-        public string           $ROOTBACKENDURL,
-        public string           $PROJECT_SUPPORT_EMAIL,
-        public string           $FILESTOREURL,
-        public string           $ARCHIVEFILESTOREURL,
-        public RecaptchaConfig  $RECAPTCHA,
-        public EmailConfig      $EMAIL,
-        public AwsConfig        $AWS,
-        public CloudflareConfig $CLOUDFLARE,
-        public string           $IFTTT,
-        public GoogleConfig     $GOOGLE,
-        public string           $JIRAWIDGET,
-        public bool             $DEV,
-        public string           $HOSTNAME,
-        public VersionConfig    $VERSION,
-    ) {}
+function missingVariable(bool $dev, string $message): void {
+    if ($dev) {
+        echo $message;
+    } else {
+        die($message);
+    }
 }
 
-final readonly class SendGridConfig {
-    public function __construct(
-        public string $APIKEY,
-    ) {}
+/** @var bool $dev */
+$dev = filter_var(getenv('bCMS__ERRORS'), FILTER_VALIDATE_BOOL);
+
+/** @var string|false $dbHostname */
+$dbHostname = getenv('MYSQL_HOSTNAME');
+if (!$dbHostname) {
+    die("MYSQL_HOSTNAME not set");
 }
 
-final readonly class ErrorsConfig {
-    public function __construct(
-        public string $SENTRY,
-        public string $SENTRYPublic,
-    ) {}
+/** @var string|false $dbDatabase */
+$dbDatabase = getenv('MYSQL_DATABASE');
+if (!$dbDatabase) {
+    die("MYSQL_DATABASE not set");
 }
 
-final readonly class AnalyticsConfig {
-    public function __construct(
-        public string $FRONTENDTRACKINGID,
-        public string $BACKENDTRACKINGID,
-    ) {}
+/** @var string|false $dbUsername */
+$dbUsername = getenv('MYSQL_USERNAME');
+if (!$dbUsername) {
+    die("MYSQL_USERNAME not set");
 }
 
-final readonly class RecaptchaConfig {
-    public function __construct(
-        public string $KEY,
-        public string $SECRET,
-    ) {}
+/** @var string|false $dbPassword */
+$dbPassword = getenv('MYSQL_PASSWORD');
+if (!$dbPassword) {
+    die("MYSQL_PASSWORD not set");
 }
 
-final readonly class EmailConfig {
-    public function __construct(
-        public string $HOST,
-        public string $USERNAME,
-        public string $PASSWORD,
-        public string $FROM,
-    ) {}
+/** @var string|false $googleAuthClient */
+$googleAuthClient = getenv('bCMS__OAUTHCLIENT');
+if (!$googleAuthClient) {
+    die("bCMS__OAUTHCLIENT not set");
 }
-
-final readonly class AwsConfig {
-    public function __construct(
-        public bool                    $UPLOAD,
-        public string                  $KEY,
-        public string                  $SECRET,
-        public AwsDefaultUploadsConfig $DEFAULTUPLOADS,
-        public AwsUploaderConfig       $UPLOADER,
-    ) {}
+/** @var string|false $googleAuthSecret */
+$googleAuthSecret = getenv('bCMS__OAUTHSECRET');
+if (!$googleAuthSecret) {
+    die("bCMS__OAUTHSECRET not set");
 }
-
-final readonly class AwsDefaultUploadsConfig {
-    public function __construct(
-        public string $BUCKET,
-        public string $ENDPOINT,
-        public string $REGION,
-        public string $CDNEndpoint,
-    ) {}
-}
-
-final readonly class AwsUploaderConfig {
-    public function __construct(
-        public string $KEY,
-        public string $SECRET,
-    ) {}
-}
-
-final readonly class CloudflareConfig {
-    public function __construct(
-        public string $EMAIL,
-        public string $KEY,
-    ) {}
-}
-
-final readonly class GoogleConfig {
-    public function __construct(
-        public GoogleAuthConfig $AUTH,
-    ) {}
-}
-
-final readonly class GoogleAuthConfig {
-    public function __construct(
-        public string $CLIENT,
-        public string $SECRET,
-    ) {}
-}
-
-final class VersionConfig {
-    public function __construct(
-        public string $COMMIT,
-        public string $TAG,
-        public string $COMMITFULL,
-    ) {}
-}
-
-$CONFIG = new Config(
-    DB_HOSTNAME: getenv('MYSQL_HOSTNAME'),
-    DB_DATABASE: getenv('MYSQL_DATABASE'),
-    DB_USERNAME: getenv('MYSQL_USER'),
-    DB_PASSWORD: getenv('MYSQL_PASSWORD'),
-    PROJECT_NAME: "Nouse",
-    SENDGRID: new SendGridConfig(
-        APIKEY: getenv('bCMS__SendGridAPIKEY'),
-    ),
-    ERRORS: new ErrorsConfig(
-        SENTRY: getenv('bCMS__SENTRYLOGIN'),
-        SENTRYPublic: getenv('bCMS__SENTRYLOGINPUBLIC'),
-    ),
-    ANALYTICS: new AnalyticsConfig(
-        FRONTENDTRACKINGID: getenv('bCMS__GoogleAnalyticsFrontend'),
-        BACKENDTRACKINGID: getenv('bCMS__GoogleAnalyticsBackend'),
-    ),
-    nextHash: "sha256", //Hashing algorithm to put new passwords in
-    PROJECT_FROM_EMAIL: getenv('bCMS__EMAIL'),
-    ROOTFRONTENDURL: getenv('bCMS__FRONTENDURL'), //Set on a frontend/backend basis
-    DRAFT_VIEW_TOKEN: getenv('DRAFT_VIEW_TOKEN'),
-    ROOTBACKENDURL: getenv('bCMS__BACKENDURL'), //Set on a frontend/backend basis
-    PROJECT_SUPPORT_EMAIL: getenv('bCMS__SUPPORTEMAIL'),
-    FILESTOREURL: "https://bbcdn.nouse.co.uk/file",
-    ARCHIVEFILESTOREURL: "https://bbcdn.nouse.co.uk/file/nouseOldImageLibrary/archive/public", //Images pre 2019
-    RECAPTCHA: new RecaptchaConfig(
-        KEY: getenv('bCMS__RECAPTCHA_KEY'),
-        SECRET: getenv('bCMS__RECAPTCHA_SECRET'),
-    ),
-    EMAIL: new EmailConfig(
-        HOST: getenv('EMAIL_HOST'),
-        USERNAME: getenv('EMAIL_USERNAME'),
-        PASSWORD: getenv('EMAIL_PASSWORD'),
-        FROM: getenv('EMAIL_FROM'),
-    ),
-    AWS: new AwsConfig(
-        UPLOAD: true,
-        KEY: getenv('AWS_ACCESS_KEY_ID'),
-        SECRET: getenv('AWS_SECRET_ACCESS_KEY'),
-        DEFAULTUPLOADS: new AwsDefaultUploadsConfig(
-            BUCKET: getenv('AWS_BUCKET'),
-            ENDPOINT: str_replace("https://", "", getenv('AWS_ENDPOINT_URL')),
-            REGION: getenv('AWS_DEFAULT_REGION'),
-            CDNEndpoint: getenv('AWS_CDN')
-        ),
-        UPLOADER: new AwsUploaderConfig(
-            KEY: getenv('AWS_ACCESS_KEY_ID'),
-            SECRET: getenv('AWS_SECRET_ACCESS_KEY')
-        ),
-    ),
-    CLOUDFLARE: new CloudflareConfig(
-        EMAIL: getenv('bCMS__CLOUDFLARE_EMAIL'),
-        KEY: getenv('bCMS__CLOUDFLARE_SECRET'),
-    ),
-    IFTTT: getenv('bCMS__IFTTT'),
-    GOOGLE: new GoogleConfig(
-        AUTH: new GoogleAuthConfig(
-            CLIENT: getenv('bCMS__OAUTHCLIENT'),
-            SECRET: getenv('bCMS__OAUTHSECRET'),
-        ),
-    ),
-    JIRAWIDGET: getenv("bCMS__JIRAWIDGET"),
-    DEV: getenv('bCMS__ERRORS') == "true",
-    HOSTNAME: $_SERVER['HTTP_HOST'],
-    VERSION: new VersionConfig(
-        COMMIT: exec("cd " . __DIR__ . "/../../ && git log --pretty=\"%h\" -n1 HEAD"),
-        TAG: exec("cd " . __DIR__ . "/../../ && git describe --tags --abbrev=0"),
-        COMMITFULL: exec("cd " . __DIR__ . "/../../ && git log --pretty=\"%H\" -n1 HEAD"),
+$googleConfig = new GoogleConfig(
+    AUTH: new GoogleAuthConfig(
+        CLIENT: $googleAuthClient,
+        SECRET: $googleAuthSecret,
     ),
 );
-# Temporary override
-if ($CONFIG->VERSION->COMMIT == null) $CONFIG->VERSION->COMMIT = 'v1.14.0';
-if ($CONFIG->VERSION->TAG == null) $CONFIG->VERSION->TAG = 'vDEV';
-if ($CONFIG->VERSION->COMMITFULL == null) $CONFIG->VERSION->COMMITFULL = 'DEVFULL';
+
+/** @var string|false $recaptchaKey */
+$recaptchaKey = getenv('bCMS__RECAPTCHA_KEY');
+/** @var string|false $recaptchaSecret */
+$recaptchaSecret = getenv('bCMS__RECAPTCHA_SECRET');
+/** @var RecaptchaConfig|null $recaptchaConfig */
+$recaptchaConfig = null;
+if ($recaptchaKey && $recaptchaSecret) {
+    $recaptchaConfig = new RecaptchaConfig(
+        KEY: $recaptchaKey,
+        SECRET: $recaptchaSecret,
+    );
+}
+
+/** @var string|false $emailHost */
+$emailHost = getenv('EMAIL_HOST');
+if ($emailHost === false) {
+    missingVariable($dev, "EMAIL_HOST not set");
+}
+/** @var string|false $emailUsername */
+$emailUsername = getenv('EMAIL_USERNAME');
+if ($emailUsername === false) {
+    missingVariable($dev, "EMAIL_USERNAME not set");
+}
+/** @var string|false $emailPassword */
+$emailPassword = getenv('EMAIL_PASSWORD');
+if ($emailPassword === false) {
+    missingVariable($dev, "EMAIL_PASSWORD not set");
+}
+/** @var string|false $emailFrom */
+$emailFrom = getenv('EMAIL_FROM');
+if ($emailFrom === false) {
+    missingVariable($dev, "EMAIL_FROM not set");
+}
+/** @var EmailConfig|null $emailConfig */
+$emailConfig = null;
+if ($emailHost && $emailUsername && $emailPassword && $emailFrom) {
+    $emailConfig = new EmailConfig(
+        HOST: $emailHost,
+        USERNAME: $emailUsername,
+        PASSWORD: $emailPassword,
+        FROM: $emailFrom,
+    );
+}
+
+/** @var string|false $awsAccessKey */
+$awsAccessKey = getenv('AWS_ACCESS_KEY_ID');
+if ($awsAccessKey === false) {
+    missingVariable($dev, "AWS_ACCESS_KEY_ID not set");
+}
+/** @var string|false $awsAccessSecret */
+$awsAccessSecret = getenv('AWS_SECRET_ACCESS_KEY');
+if ($awsAccessSecret === false) {
+    missingVariable($dev, "AWS_SECRET_ACCESS_KEY not set");
+}
+/** @var string|false $awsBucket */
+$awsBucket = getenv('AWS_BUCKET');
+if ($awsBucket === false) {
+    missingVariable($dev, "AWS_BUCKET not set");
+}
+/** @var string|false $awsEndpointRaw */
+$awsEndpointRaw = getenv('AWS_ENDPOINT_URL');
+if ($awsEndpointRaw === false) {
+    missingVariable($dev, "AWS_ENDPOINT_URL not set");
+    $awsEndpointRaw = "";
+}
+/** @var string $awsEndpoint */
+$awsEndpoint = str_replace("https://", "", $awsEndpointRaw);
+if (strlen($awsEndpoint) == 0) {
+    missingVariable($dev, "AWS_ENDPOINT_URL not set");
+}
+/** @var string|false $awsRegion */
+$awsRegion = getenv('AWS_DEFAULT_REGION');
+if ($awsRegion === false) {
+    missingVariable($dev, "AWS_DEFAULT_REGION not set");
+}
+/** @var string|false $awsCDN */
+$awsCDN = getenv('AWS_CDN');
+if ($awsCDN === false) {
+    missingVariable($dev, "AWS_CDN not set");
+}
+/** @var AwsConfig|null $awsConfig */
+$awsConfig = null;
+if ($awsAccessKey && $awsAccessSecret && $awsBucket && $awsEndpoint && $awsRegion && $awsCDN) {
+    $awsConfig = new AwsConfig(
+        UPLOAD: true,
+        KEY: $awsAccessKey,
+        SECRET: $awsAccessSecret,
+        DEFAULTUPLOADS: new AwsDefaultUploadsConfig(
+            BUCKET: $awsBucket,
+            ENDPOINT: $awsEndpoint,
+            REGION: $awsRegion,
+            CDNEndpoint: $awsCDN,
+        ),
+        UPLOADER: new AwsUploaderConfig(
+            KEY: $awsAccessKey,
+            SECRET: $awsAccessSecret,
+        ),
+    );
+}
+
+/** @var string|false $sendGridApiKey */
+$sendGridApiKey = getenv('bCMS__SendGridAPIKEY');
+/** @var SendGridConfig|null $sendGridConfig */
+$sendGridConfig = null;
+if ($sendGridApiKey) {
+    $sendGridConfig = new SendGridConfig(
+        $sendGridApiKey,
+    );
+}
+
+/** @var string|false $sentryLogin */
+$sentryLogin = getenv('bCMS__SENTRYLOGIN');
+/** @var string|false $sentryPublicLogin */
+$sentryPublicLogin = getenv('bCMS__SENTRYLOGINPUBLIC');
+/** @var ErrorsConfig|null $sentryConfig */
+$sentryConfig = null;
+if ($sentryLogin) {
+    $sentryConfig = new ErrorsConfig(
+        $sentryLogin,
+        $sentryPublicLogin ?: null,
+    );
+}
+
+/** @var string|false $frontendTrackingId */
+$frontendTrackingId = getenv('bCMS__GoogleAnalyticsFrontend');
+/** @var string|false $backendTrackingId */
+$backendTrackingId = getenv('bCMS__GoogleAnalyticsBackend');
+/** @var AnalyticsConfig|null $analyticsConfig */
+$analyticsConfig = null;
+if ($frontendTrackingId && $backendTrackingId) {
+    $analyticsConfig = new AnalyticsConfig(
+        $frontendTrackingId,
+        $backendTrackingId,
+    );
+}
+
+/** @var string|false $projectFromEmail */
+$projectFromEmail = getenv('bCMS__EMAIL');
+if (!$projectFromEmail) {
+    $projectFromEmail = "support@nouse.co.uk";
+}
+
+/** @var string|false $projectSupportEmail */
+$projectSupportEmail = getenv('bCMS__SUPPORTEMAIL');
+if (!$projectSupportEmail) {
+    $projectSupportEmail = $projectFromEmail;
+}
+
+/** @var string|false $rootFrontend */
+$rootFrontend = getenv('bCMS__FRONTENDURL');
+if (!$rootFrontend) {
+    $rootFrontend = "https://nouse.co.uk";
+}
+
+/** @var string|false $draftViewToken */
+$draftViewToken = getenv('DRAFT_VIEW_TOKEN');
+
+/** @var string|false $rootBackend */
+$rootBackend = getenv('bCMS__BACKENDURL');
+if (!$rootBackend) {
+    $rootBackend = "https://edit.nouse.co.uk";
+}
+
+/** @var string|false $cloudflareEmail */
+$cloudflareEmail = getenv('bCMS__CLOUDFLARE_EMAIL');
+/** @var string|false $cloudflareKey */
+$cloudflareKey = getenv('bCMS__CLOUDFLARE_SECRET');
+/** @var CloudflareConfig|null $cloudflareConfig */
+$cloudflareConfig = null;
+if ($cloudflareEmail && $cloudflareKey) {
+    $cloudflareConfig = new CloudflareConfig(
+        EMAIL: $cloudflareEmail,
+        KEY: $cloudflareKey,
+    );
+}
+
+/** @var string|false $ifttt */
+$ifttt = getenv('bCMS__IFTTT');
+
+/** @var string|false $jiraWidget */
+$jiraWidget = getenv("bCMS__JIRAWIDGET");
+
+$commit = exec("cd " . __DIR__ . "/../../ && git log --pretty=\"%h\" -n1 HEAD");
+if (!$commit) $commit = "v1.14.0";
+
+$tag = exec("cd " . __DIR__ . "/../../ && git describe --tags --abbrev=0");
+if (!$tag) $tag = "vDEV";
+
+$commitFull = exec("cd " . __DIR__ . "/../../ && git log --pretty=\"%H\" -n1 HEAD");
+if (!$commitFull) $commitFull = "DEVFULL";
+
+$versionConfig = new VersionConfig(
+    COMMIT: $commit,
+    TAG: $tag,
+    COMMITFULL: $commitFull,
+);
+
+$CONFIG = new Config(
+    DB_HOSTNAME: $dbHostname,
+    DB_DATABASE: $dbDatabase,
+    DB_USERNAME: $dbUsername,
+    DB_PASSWORD: $dbPassword,
+    PROJECT_NAME: "Nouse",
+    SENDGRID: $sendGridConfig,
+    ERRORS: $sentryConfig,
+    ANALYTICS: $analyticsConfig,
+    nextHash: "sha256", //Hashing algorithm to put new passwords in
+    PROJECT_FROM_EMAIL: $projectFromEmail,
+    ROOTFRONTENDURL: $rootFrontend, //Set on a frontend/backend basis
+    DRAFT_VIEW_TOKEN: $draftViewToken ?: null,
+    ROOTBACKENDURL: $rootBackend, //Set on a frontend/backend basis
+    PROJECT_SUPPORT_EMAIL: $projectSupportEmail,
+    FILESTOREURL: "https://bbcdn.nouse.co.uk/file",
+    ARCHIVEFILESTOREURL: "https://bbcdn.nouse.co.uk/file/nouseOldImageLibrary/archive/public", //Images pre 2019
+    RECAPTCHA: $recaptchaConfig,
+    EMAIL: $emailConfig,
+    AWS: $awsConfig,
+    CLOUDFLARE: $cloudflareConfig,
+    IFTTT: $ifttt ?: null,
+    GOOGLE: $googleConfig,
+    JIRAWIDGET: $jiraWidget ?: null,
+    DEV: $dev,
+    HOSTNAME: $_SERVER['HTTP_HOST'],
+    VERSION: $versionConfig,
+);
 
 date_default_timezone_set("UTC");
