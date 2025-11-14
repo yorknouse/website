@@ -17,6 +17,7 @@ if (getenv('bCMS__ERRORS') == "true") {
     error_reporting(E_ALL);
 }
 
+require_once(__DIR__ . '/configClasses.php');
 require_once(__DIR__ . '/../../composer/vendor/autoload.php'); //Composer
 require_once(__DIR__ . '/libs/email/main.php'); //Email sending lib
 
