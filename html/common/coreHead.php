@@ -150,7 +150,6 @@ class bCMS {
      *     url: string,
      *     data: mixed,
      * }|false
-     * @throws Exception
      */
     function s3URL(string|int $fileId, string $size = 'comp', bool $forceDownload = false, string $expire = '+1 minute', bool $returnArray = false): string|array|false {
         global $DBLIB, $CONFIG;
@@ -162,12 +161,17 @@ class bCMS {
          *      d (optional, default false) - should a download be forced or should it be displayed in the browser? (if set it will download)
          *      e (optional, default 1 minute) - when should the link expire? Must be a string describing how long in words basically. If this file type has security features then it will default to 1 minute.
          */
-        $fileId = $this->sanitiseString($fileId);
-        if (strlen($fileId) < 1) return false;
-        $DBLIB->where("s3files_id", $fileId);
-        $DBLIB->where("s3files_meta_deleteOn IS NULL"); //If the file is to be deleted soon or has been deleted don't let them download it
-        $DBLIB->where("s3files_meta_physicallyStored", 1); //If we've lost the file or deleted it we can't actually let them download it
-        $file = $DBLIB->getone("s3files");
+        try {
+            $fileId = $this->sanitiseString($fileId);
+            if (strlen($fileId) < 1) return false;
+            $DBLIB->where("s3files_id", $fileId);
+            $DBLIB->where("s3files_meta_deleteOn IS NULL"); //If the file is to be deleted soon or has been deleted don't let them download it
+            $DBLIB->where("s3files_meta_physicallyStored", 1); //If we've lost the file or deleted it we can't actually let them download it
+            $file = $DBLIB->getone("s3files");
+        } catch (Exception $e) {
+            echo "File could not be found, debug error: {$e->getMessage()}";
+            return false;
+        }
         if (!$file) return false;
         if ($file['s3files_meta_public'] == 1) {
             $returnFilePath = $file['s3files_cdn_endpoint'] . "/" . $file['s3files_path'] . "/" . rawurlencode($file['s3files_filename']);
@@ -260,34 +264,33 @@ class bCMS {
         else return $presignedUrl;
     }
 
-    /**
-     * @throws Cloudflare\API\Endpoints\EndpointException
-     */
     public function cacheClearCategory(string|int $categoryId): bool {
         global $DBLIB, $CONFIG;
         if (!$categoryId) return false;
 
-        $DBLIB->where("categories_id", $this->sanitiseString($categoryId));
-        $category = $DBLIB->getOne("categories", ["categories_name", "categories_nestUnder"]);
-        if (!$category) return false;
-        $url = $CONFIG->ROOTFRONTENDURL . '/' . $category['categories_name'];
-        if ($category['categories_nestUnder'] != null) {
-            $DBLIB->where("categories_id", $category['categories_nestUnder']);
-            $category = $DBLIB->getone("categories", ["categories_name", "categories_nestUnder"]);
-            $url .= '/' . $category['categories_name'];
+        try {
+            $DBLIB->where("categories_id", $this->sanitiseString($categoryId));
+            $category = $DBLIB->getOne("categories", ["categories_name", "categories_nestUnder"]);
+            if (!$category) return false;
+            $url = $CONFIG->ROOTFRONTENDURL . '/' . $category['categories_name'];
             if ($category['categories_nestUnder'] != null) {
                 $DBLIB->where("categories_id", $category['categories_nestUnder']);
-                $category = $DBLIB->getone("categories", ["categories_name"]);
+                $category = $DBLIB->getone("categories", ["categories_name", "categories_nestUnder"]);
                 $url .= '/' . $category['categories_name'];
+                if ($category['categories_nestUnder'] != null) {
+                    $DBLIB->where("categories_id", $category['categories_nestUnder']);
+                    $category = $DBLIB->getone("categories", ["categories_name"]);
+                    $url .= '/' . $category['categories_name'];
+                }
             }
+        } catch (Exception $e) {
+            echo "Clear cache category error, debug error: {$e->getMessage()}";
+            return false;
         }
 
         return $this->cacheClear($url . "/");
     }
 
-    /**
-     * @throws Cloudflare\API\Endpoints\EndpointException
-     */
     public function cacheClear(string $URL, bool $all = false): bool {
         global $AUTH;
 
@@ -298,11 +301,12 @@ class bCMS {
 
         if (!$URL and $all) {
             try {
-                if ($this->cloudflare['zones']->cachePurgeEverything($this->cloudflare['zoneid'])) {
+                if ($this->cloudflare->zones->cachePurgeEverything($this->cloudflare->zoneId)) {
                     $this->auditLog("CACHECLEARALL", null, "Entire site", $userid);
                     return true;
                 } else return false;
             } catch (Exception $e) {
+                echo "CACHECLEARALL error, debug error: {$e->getMessage()}";
                 return false;
             }
         } else {
@@ -310,11 +314,12 @@ class bCMS {
             else $URL = [$URL];
 
             try {
-                if ($this->cloudflare['zones']->cachePurge($this->cloudflare['zoneid'], $URL)) {
+                if ($this->cloudflare->zones->cachePurge($this->cloudflare->zoneId, $URL)) {
                     //$this->auditLog("CACHECLEAR", null, json_encode($URL), $userid); - Don't audit log as it fills the table very quickly
                     return true;
                 } else return false;
             } catch (Exception $e) {
+                echo "CACHECLEARALL error, debug error: {$e->getMessage()}";
                 return false;
             }
         }
@@ -353,8 +358,14 @@ class bCMS {
         if ($userid > 0) $data["users_userid"] = $this->sanitiseString($userid);
         if ($useridTo > 0) $data["auditLog_actionUserid"] = $this->sanitiseString($useridTo);
 
-        if ($DBLIB->insert("auditLog", $data)) return true;
-        else return false;
+        $inserted = false;
+        try {
+            $inserted = $DBLIB->insert("auditLog", $data);
+        } catch (Exception $e) {
+            echo "Insert auditLog error, debug error: {$e->getMessage()}";
+        } finally {
+            return $inserted;
+        }
     }
 
     public function categoryURL(string|int $categoryId): string {
