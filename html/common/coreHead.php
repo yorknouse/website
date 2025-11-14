@@ -15,7 +15,7 @@ function errorHandler(): void {
 }
 
 //set_error_handler('errorHandler');
-if (!$CONFIG->DEV) {
+if (!$CONFIG->DEV && $CONFIG->ERRORS) {
     Sentry\init([
         'dsn' => $CONFIG->ERRORS->SENTRY,
         'traces_sample_rate' => 0.1, //Capture 10% of pageloads for perforamnce monitoring
@@ -55,19 +55,19 @@ if ($CONN->connect_error) throw new Exception($CONN->connect_error);
 /** @phpstan-ignore-next-line */
 $DBLIB = new MysqliDb($CONN); //Re-use it in the wierd lib we love
 
+final readonly class CloudflareCacheConfig {
+    public function __construct(
+        public Cloudflare\API\Auth\APIKey $key,
+        public Cloudflare\API\Adapter\Guzzle $adapter,
+        public Cloudflare\API\Endpoints\Zones $zones,
+        public string $zoneId,
+    ) {}
+}
 
 /* FUNCTIONS */
 class bCMS {
 
-    /**
-     * @var array{
-     *     key: Cloudflare\API\Auth\APIKey,
-     *     adapter: Cloudflare\API\Adapter\Guzzle,
-     *     zones: Cloudflare\API\Endpoints\Zones,
-     *     zoneid: string|false
-     * }
-     */
-    private array $cloudflare;
+    private CloudflareCacheConfig $cloudflare;
 
     function sanitiseString(string $var): string {
         $var = htmlspecialchars($var); //Sanitize all html out of it - important for user comments section
@@ -320,21 +320,25 @@ class bCMS {
         }
     }
 
-    /**
-     * @throws Cloudflare\API\Endpoints\EndpointException
-     */
     private function cloudflareInit(): bool {
         global $CONFIG;
 
-        $cloudflare = []; // temporary local variable
-        $cloudflare['key'] = new Cloudflare\API\Auth\APIKey($CONFIG->CLOUDFLARE->EMAIL, $CONFIG->CLOUDFLARE->KEY);
-        $cloudflare['adapter'] = new Cloudflare\API\Adapter\Guzzle($cloudflare['key']);
-        $cloudflare['zones'] = new Cloudflare\API\Endpoints\Zones($cloudflare['adapter']);
-        $cloudflare['zoneid'] = $cloudflare['zones']->getZoneID('nouse.co.uk');
-
-        $this->cloudflare = $cloudflare; // assign after fully built
-
-        return (bool) $cloudflare['zoneid'];
+        try {
+            $key = new Cloudflare\API\Auth\APIKey($CONFIG->CLOUDFLARE->EMAIL, $CONFIG->CLOUDFLARE->KEY);
+            $adapter = new Cloudflare\API\Adapter\Guzzle($key);
+            $zones = new Cloudflare\API\Endpoints\Zones($adapter);
+            $zoneId = $zones->getZoneID('nouse.co.uk');
+            $this->cloudflare = new CloudflareCacheConfig(
+                $key,
+                $adapter,
+                $zones,
+                $zoneId,
+            );
+        } catch (Cloudflare\API\Endpoints\EndpointException $e) {
+            echo "CLOUDFLARE error, debug error: {$e->getMessage()}";
+        } finally {
+            return (bool) $this->cloudflare->zoneId;
+        }
     }
 
     function auditLog(string $actionType, string|null $table = null, mixed $relevantData = null, string|int|null $userid = null, string|int|null $useridTo = null): bool {
