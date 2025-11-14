@@ -15,6 +15,7 @@ if (!isset($_GET['published'])) {
     http_response_code(400);
     exit("No published date specified");
 }
+/** @var string $articleId */
 $articleId = $bCMS->sanitiseString($_GET['id']);
 if (!ctype_digit($articleId)) {
     http_response_code(400);
