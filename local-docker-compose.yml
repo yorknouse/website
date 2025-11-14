@@ -19,6 +19,20 @@ services:
       default:
         aliases:
           - oauth.internal
+  valkey:
+    image: valkey/valkey:8-alpine
+    container_name: valkey
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - valkey_data:/data
+    command: [
+      "valkey-server",
+      "--appendonly", "yes",
+      "--maxmemory", "2gb",
+      "--maxmemory-policy", "allkeys-lru"
+    ]
   db:
     image: mysql:9.5
     command: --innodb-thread-concurrency=0 --sort_buffer_size=512K --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
@@ -68,6 +82,7 @@ services:
     restart: always
     depends_on:
       - db
+      - valkey
     env_file:
       - nouseprod-local.env
     expose:
@@ -126,6 +141,7 @@ volumes:
     external: true
     name: website_caddy
   php_app_data:
+  valkey_data:
   db_data:
     external: true
     name: website_db_data

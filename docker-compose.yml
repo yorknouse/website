@@ -47,6 +47,20 @@ services:
       - nouseprod.env
     ports:
       - 3306:3306
+  valkey:
+    image: valkey/valkey:8-alpine
+    container_name: valkey
+    restart: unless-stopped
+    expose:
+      - 6379
+    volumes:
+      - valkey_data:/data
+    command: [
+      "valkey-server",
+      "--appendonly", "yes",
+      "--maxmemory", "2gb",
+      "--maxmemory-policy", "allkeys-lru"
+    ]
   php-container:
     build:
       context: .
@@ -76,6 +90,7 @@ services:
     restart: always
     depends_on:
       - db
+      - valkey
     env_file:
       - nouseprod.env
     expose:
@@ -210,6 +225,7 @@ volumes:
     external: true
     name: website_caddy
   php_app_data:
+  valkey_data:
   db_data:
     external: true
     name: website_db_data
