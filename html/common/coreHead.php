@@ -282,7 +282,10 @@ class bCMS {
     public function cacheClear(string $URL, bool $all = false): bool {
         global $AUTH;
 
-        $this->cloudflareInit();
+        if (!$this->cloudflareInit()) {
+            echo "Cloudflare init failure";
+            return false;
+        }
 
         if (isset($AUTH->data['users_userid'])) $userid = $AUTH->data['users_userid'];
         else $userid = null;
