@@ -2,7 +2,7 @@
 global $CONFIG;
 require_once __DIR__ . '/../apiHeadSecure.php';
 
-if (!$CONFIG->AWS->UPLOAD) die("Uploads disabled");
+if ($CONFIG->AWS == null || !$CONFIG->AWS->UPLOAD) die("Uploads disabled");
 
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: GET");

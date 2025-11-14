@@ -20,7 +20,7 @@ final readonly class Config {
         public string                $ARCHIVEFILESTOREURL,
         public RecaptchaConfig|null  $RECAPTCHA,
         public EmailConfig|null      $EMAIL,
-        public AwsConfig             $AWS,
+        public AwsConfig|null        $AWS,
         public CloudflareConfig|null $CLOUDFLARE,
         public string|null           $IFTTT,
         public GoogleConfig          $GOOGLE,

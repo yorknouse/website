@@ -2,7 +2,7 @@
 global $CONFIG, $AUTH, $DBLIB, $bCMS;
 require_once __DIR__ . '/../apiHeadSecure.php';
 
-if (!$CONFIG->AWS->UPLOAD) die("Uploads disabled");
+if ($CONFIG->AWS == null || !$CONFIG->AWS->UPLOAD) die("Uploads disabled");
 
 $fileData = [
     "s3files_extension" => pathinfo($bCMS->sanitiseString($_POST['name']), PATHINFO_EXTENSION),
