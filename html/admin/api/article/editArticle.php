@@ -111,7 +111,7 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
 
         //Caching
         //Edition
-        if ($articleData['editions_id']) {
+        if (array_key_exists('editions_id', $articleData) && $articleData['editions_id']) {
             $DBLIB->where("editions_id", $articleData['editions_id']);
             $edition = $DBLIB->getOne("editions", ["editions_slug"]);
             if ($edition) $bCMS->cacheClear($CONFIG->ROOTFRONTENDURL . "/editions/" . $edition['editions_slug']);
@@ -203,7 +203,7 @@ if (isset($_POST['articleid']) and $AUTH->permissionCheck(32)) {
 
         //Caching
         //Edition
-        if ($articleData['editions_id']) {
+        if (array_key_exists('editions_id', $articleData) && $articleData['editions_id']) {
             $DBLIB->where("editions_id", $articleData['editions_id']);
             $edition = $DBLIB->getOne("editions", ["editions_slug"]);
             if ($edition) $bCMS->cacheClear($CONFIG->ROOTFRONTENDURL . "/editions/" . $edition['editions_slug']);
