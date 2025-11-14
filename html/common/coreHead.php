@@ -287,8 +287,7 @@ class bCMS {
             return false;
         }
 
-        if (isset($AUTH->data['users_userid'])) $userid = $AUTH->data['users_userid'];
-        else $userid = null;
+        $userid = $AUTH->data['users_userid'] ?? null;
 
         if (!$URL and $all) {
             try {
