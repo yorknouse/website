@@ -88,6 +88,8 @@ services:
     expose:
       - 3000
     environment:
+      - REDIS_HOST=valkey
+      - REDIS_PORT=6379
       - DATABASE_URL=mysql://userDocker:passDocker@db:3306/nouse
   astro-container:
     build:
