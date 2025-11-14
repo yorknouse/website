@@ -9,8 +9,10 @@ use voku\helper\HtmlDomParser;
 
 //GLOBALS STUFF - DON'T CHANGE
 function errorHandler(): void {
-    if (error_get_last() and error_get_last()['type'] == '1') {
-        die('Sorry we hit an error. Our tech team have been automatically notified but please contact support@nouse.co.uk for help resolving this error for your device <p style="display:none;">' . "\n\n\n" . error_get_last()['message'] . "\n\n\n" . '</p>');
+    $last = error_get_last();
+
+    if ($last !== null && $last['type'] === E_ERROR) {
+        die('Sorry we hit an error. Our tech team have been automatically notified but please contact support@nouse.co.uk for help resolving this error for your device <p style="display:none;">' . "\n\n\n" . $last['message'] . "\n\n\n" . '</p>');
     }
 }
 
@@ -357,10 +359,12 @@ class bCMS {
         global $DBLIB;
         $data = [
             "auditLog_actionType" => $this->sanitiseString($actionType),
-            "auditLog_actionTable" => $this->sanitiseString($table),
             "auditLog_actionData" => $this->sanitiseString($relevantData),
             "auditLog_timestamp" => date("Y-m-d H:i:s")
         ];
+        if ($table != null) {
+            $data["auditLog_actionTable"] = $this->sanitiseString($table);
+        }
         if ($userid > 0) $data["users_userid"] = $this->sanitiseString($userid);
         if ($useridTo > 0) $data["auditLog_actionUserid"] = $this->sanitiseString($useridTo);
 
