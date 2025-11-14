@@ -19,9 +19,26 @@ $s3 = new Aws\S3\S3Client([
 ]);
 
 // Retrieve data about the file to be uploaded from the request body.
-$body = json_decode(file_get_contents('php://input'));
-$filename = $body->filename;
-$contentType = $body->contentType;
+$rawInput = file_get_contents('php://input');
+if ($rawInput === false) {
+    http_response_code(400);
+    die("Invalid request body");
+}
+
+try {
+    $body = json_decode($rawInput, false, 512, JSON_THROW_ON_ERROR);
+} catch (Exception $e) {
+    http_response_code(400);
+    die("Invalid JSON");
+}
+
+$filename = $body->filename ?? null;
+$contentType = $body->contentType ?? null;
+
+if (!$filename || !$contentType) {
+    http_response_code(400);
+    die("Missing filename or contentType");
+}
 
 // Prepare a PutObject command.
 $command = $s3->getCommand('putObject', [
