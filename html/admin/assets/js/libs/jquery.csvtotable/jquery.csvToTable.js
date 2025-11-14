@@ -96,7 +96,7 @@ HEAVILY MODIFIED BY JAMES BITHELL - OCTOBER 2015 TO SUIT OUR PURPOSES!
 			data = csvFile;
 			//$.get(csvFile, function(data) {
 			var tableHTML = '<table id="' + $(this).attr('id') + '_table" class="' + options.tableClass + '">';
-			var lines = data.replace('\r','').split('\n');
+			var lines = data.replaceAll('\r','').split('\n');
 			var printedLines = 0;
 			var headerCount = 0;
 			var headers = new Array();
