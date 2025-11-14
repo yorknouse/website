@@ -21,7 +21,11 @@ try {
     //Do Nothing
 }
 
-$PAGEDATA = array('CONFIG' => $CONFIG, 'BODY' => true);
+function object_to_array(object $obj): array {
+    return json_decode(json_encode($obj), true);
+}
+
+$PAGEDATA = array('CONFIG' => object_to_array($CONFIG), 'BODY' => true);
 //TWIG
 //Twig_Autoloader::register();
 $TWIGLOADER = new FilesystemLoader(__DIR__ . '/../');
