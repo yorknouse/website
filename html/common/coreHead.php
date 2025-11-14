@@ -132,12 +132,28 @@ class bCMS {
     public function articleThumbnail(string|int|null $article, string $size = "large", bool $overrideImageDisplay = false): bool|string {
         global $DBLIB, $CONFIG;
         if ($article == null) return false;
-        $DBLIB->where("articles_id", $this->sanitiseString($article));
-        $thumb = $DBLIB->getone("articles", ["articles_thumbnail","articles_displayImages"]);
-        if (!$thumb or $thumb["articles_thumbnail"] == null) return false;
-        elseif ($thumb['articles_displayImages'] == 0 and !$overrideImageDisplay) return $CONFIG->FILESTOREURL . '/nouseSiteAssets/imageArchive-comp.jpg';
-        elseif (is_numeric($thumb["articles_thumbnail"])) return $this->s3URL($thumb["articles_thumbnail"], $size);
-        else return $CONFIG->ARCHIVEFILESTOREURL . "/articleImages/" . rawurlencode($thumb["articles_thumbnail"]);
+        try {
+            $DBLIB->where("articles_id", $this->sanitiseString($article));
+            $thumb = $DBLIB->getone("articles", ["articles_thumbnail", "articles_displayImages"]);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            return false;
+        }
+        if (!is_array($thumb)) {
+            return false;
+        }
+        if ($thumb["articles_thumbnail"] === null) {
+            return false;
+        }
+        if ($thumb['articles_displayImages'] == 0 && !$overrideImageDisplay) {
+            return $CONFIG->FILESTOREURL . '/nouseSiteAssets/imageArchive-comp.jpg';
+        }
+        if (is_numeric($thumb["articles_thumbnail"])) {
+            /** @var string|false $s3 */
+            $s3 = $this->s3URL((int)$thumb["articles_thumbnail"], $size);
+            return $s3;
+        }
+        return $CONFIG->ARCHIVEFILESTOREURL . "/articleImages/" . rawurlencode($thumb["articles_thumbnail"]);
     }
 
     /**
