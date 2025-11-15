@@ -22,6 +22,63 @@ export const config = {
   },
 };
 
+function getCategory(
+  categoryName: string,
+  take: number,
+  skip: number,
+  notInFeatured: number[] | undefined,
+) {
+  return () =>
+    prisma.categories.findFirst({
+      where: {
+        categories_name: categoryName,
+        categories_showPublic: true,
+        categories_showMenu: true,
+      },
+      include: {
+        articles: {
+          take: Number(String(take)),
+          skip: Number(String(skip)),
+          where: {
+            article: {
+              articles_showInLists: true,
+              ...(notInFeatured?.length
+                ? {
+                    NOT: {
+                      articles_id: {
+                        in: notInFeatured,
+                      },
+                    },
+                  }
+                : {}),
+            },
+          },
+          orderBy: {
+            article: {
+              articles_published: "desc",
+            },
+          },
+          include: {
+            article: {
+              include: {
+                articlesDrafts: {
+                  orderBy: {
+                    articlesDrafts_timestamp: "desc",
+                  },
+                  take: 1,
+                },
+                categories: {
+                  include: { category: true },
+                },
+                users: { include: { users: true } },
+              },
+            },
+          },
+        },
+      },
+    });
+}
+
 const formSchema = z.object({
   categoryName: z.preprocess(
     (val: unknown) => (Array.isArray(val) ? val[0] : val),
@@ -96,55 +153,10 @@ export default async function handler(
 
     const cacheKey = `categoryArticlesPath:name:${categoryName}:take:${take}:skip:${skip}:notIn:${notInFeatured?.join(",")}`;
 
-    const category = await cache(cacheKey, 7200, () =>
-      prisma.categories.findFirst({
-        where: {
-          categories_name: String(categoryName),
-          categories_showPublic: true,
-          categories_showMenu: true,
-        },
-        include: {
-          articles: {
-            take: Number(String(take)),
-            skip: Number(String(skip)),
-            where: {
-              article: {
-                articles_showInLists: true,
-                ...(notInFeatured?.length
-                  ? {
-                      NOT: {
-                        articles_id: {
-                          in: notInFeatured,
-                        },
-                      },
-                    }
-                  : {}),
-              },
-            },
-            orderBy: {
-              article: {
-                articles_published: "desc",
-              },
-            },
-            include: {
-              article: {
-                include: {
-                  articlesDrafts: {
-                    orderBy: {
-                      articlesDrafts_timestamp: "desc",
-                    },
-                    take: 1,
-                  },
-                  categories: {
-                    include: { category: true },
-                  },
-                  users: { include: { users: true } },
-                },
-              },
-            },
-          },
-        },
-      }),
+    const category = await cache(
+      cacheKey,
+      7200,
+      getCategory(categoryName, take, skip, notInFeatured),
     );
 
     if (!category) {
