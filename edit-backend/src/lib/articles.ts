@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma";
 import { s3URL } from "@/lib/s3URL";
 import { TopArticleResult } from "@/lib/types";
 import { checkUserPermissions } from "@/lib/auth";
+import { cache } from "@/lib/cache";
 
 const articlesWithArticleDrafts = Prisma.validator()({
   include: {
@@ -31,42 +32,47 @@ export const getSimilarArticles = async (
   parentCategoryId: number,
   currentArticleId: number,
 ): Promise<articlesWithArticleDrafts[]> => {
-  return prisma.articles.findMany({
-    where: {
-      categories: {
-        some: {
-          categories_id: {
-            equals: parentCategoryId,
+  return cache<articlesWithArticleDrafts[]>(
+    `similarArticles:${parentCategoryId}:${currentArticleId}`,
+    7200,
+    () =>
+      prisma.articles.findMany({
+        where: {
+          categories: {
+            some: {
+              categories_id: {
+                equals: parentCategoryId,
+              },
+            },
+          },
+          articles_showInLists: true,
+          NOT: {
+            articles_id: currentArticleId,
           },
         },
-      },
-      articles_showInLists: true,
-      NOT: {
-        articles_id: currentArticleId,
-      },
-    },
-    orderBy: {
-      articles_published: "desc",
-    },
-    take: 4,
-    include: {
-      articlesDrafts: {
-        // Get the latest draft for every featured article
         orderBy: {
-          articlesDrafts_timestamp: "desc",
+          articles_published: "desc",
         },
-        take: 1,
-      },
-      categories: {
+        take: 4,
         include: {
-          category: true,
+          articlesDrafts: {
+            // Get the latest draft for every featured article
+            orderBy: {
+              articlesDrafts_timestamp: "desc",
+            },
+            take: 1,
+          },
+          categories: {
+            include: {
+              category: true,
+            },
+          },
+          users: {
+            include: { users: true },
+          },
         },
-      },
-      users: {
-        include: { users: true },
-      },
-    },
-  });
+      }),
+  );
 };
 
 /**
