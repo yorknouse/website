@@ -91,10 +91,28 @@ export default async function handler(
 
       if (menuCategories.length > 0 && muse) {
         // Add home as first item - possibly need to adjust values in the future
-        menuCategories.unshift({
-          ...muse,
-          categories_displayName: "Home",
-        });
+          const homeCategory: ICategory = {
+              categories_id: muse.categories_id ?? 0,
+              categories_showHome: true,
+              categories_displayName: "Home",
+              categories_showMenu: muse.categories_showMenu ?? true,
+              categories_name: muse.categories_name ?? "home",
+              categories_showPublic: muse.categories_showPublic ?? true,
+              categories_showAdmin: muse.categories_showAdmin ?? true,
+              categories_featured: muse.categories_featured ?? null,
+              categories_order: muse.categories_order ?? null,
+              categories_nestUnder: muse.categories_nestUnder ?? null,
+              categories_showSub: muse.categories_showSub ?? false,
+              categories_facebook: muse.categories_facebook ?? null,
+              categories_twitter: muse.categories_twitter ?? null,
+              categories_instagram: muse.categories_instagram ?? null,
+              categories_backgroundColor: muse.categories_backgroundColor ?? null,
+              categories_backgroundColorContrast: muse.categories_backgroundColorContrast ?? null,
+              categories_customTheme: muse.categories_customTheme ?? null,
+              categories_socialMediaOverlay: muse.categories_socialMediaOverlay ?? null,
+          };
+
+          menuCategories.unshift(homeCategory);
 
         // Link to Nouse home
         menuCategories.push({
