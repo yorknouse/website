@@ -1,41 +1,38 @@
 import prisma from "@/lib/prisma";
+import { cache } from "@/lib/cache";
 
 /**
  * Retrieves a file from s3 (actually backblaze)
  * @param {number} fileId The file id.
  * @param {"tiny" | "small" | "medium" | "large" | "comp" | false} [size] File size.
  * @returns {Promise<string>} Promise object represents the file URL.
- * @throws Will throw an error if it cannot find the file by id.
+ * @throws Error Will throw an error if it cannot find the file by id.
  */
-const s3URL = async (
+export async function s3URL(
   fileId: number,
   size: "tiny" | "small" | "medium" | "large" | "comp" | false = false,
-): Promise<string> => {
-  return new Promise<string>((resolve, reject) => {
-    prisma.s3files
-      .findUnique({
-        where: {
-          s3files_id: fileId,
-        },
-      })
-      .then((s3File) => {
-        if (s3File) {
-          let fileUrl = `${s3File.s3files_cdn_endpoint}/${
-            s3File.s3files_path
-          }/${encodeURIComponent(s3File.s3files_filename)}`;
+): Promise<string> {
+  const key = `s3file:${fileId}:${size || "original"}`;
 
-          if (size) {
-            fileUrl += `_${size}`;
-          }
+  return cache<string>(key, 2592000, async () => {
+    const s3File = await prisma.s3files.findUnique({
+      where: { s3files_id: fileId },
+    });
 
-          fileUrl += `.${s3File.s3files_extension}`;
+    if (!s3File) {
+      throw new Error("Could not fetch s3 file: " + fileId);
+    }
 
-          resolve(fileUrl);
-        }
+    let fileUrl = `${s3File.s3files_cdn_endpoint}/${s3File.s3files_path}/${encodeURIComponent(
+      s3File.s3files_filename,
+    )}`;
 
-        reject(new Error("Could not fetch s3 file: " + fileId));
-      });
+    if (size) {
+      fileUrl += `_${size}`;
+    }
+
+    fileUrl += `.${s3File.s3files_extension}`;
+
+    return fileUrl;
   });
-};
-
-export { s3URL };
+}
