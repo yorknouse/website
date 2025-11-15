@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
+import { cache } from "@/lib/cache";
 import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
 
 const cors = (res: NextApiResponse) => {
@@ -28,32 +29,34 @@ export default async function handler(
       return;
     }
 
-    const categoryFeaturedAndCount: {
+    const categoryFeaturedAndCount = await cache<{
       _count: {
         articles: number;
       };
       categories_featured: string | null;
-    } | null = await prisma.categories.findFirst({
-      where: {
-        categories_name: nameSanitised,
-        categories_showPublic: true,
-        categories_showMenu: true,
-      },
-      select: {
-        categories_featured: true,
-        _count: {
-          select: {
-            articles: {
-              where: {
-                article: {
-                  articles_showInLists: true,
+    } | null>(`categoryFeaturedAndCount:name:${nameSanitised}`, 7200, () =>
+      prisma.categories.findFirst({
+        where: {
+          categories_name: nameSanitised,
+          categories_showPublic: true,
+          categories_showMenu: true,
+        },
+        select: {
+          categories_featured: true,
+          _count: {
+            select: {
+              articles: {
+                where: {
+                  article: {
+                    articles_showInLists: true,
+                  },
                 },
               },
             },
           },
         },
-      },
-    });
+      }),
+    );
 
     if (
       !categoryFeaturedAndCount ||
