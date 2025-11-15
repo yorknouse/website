@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
+import { cache } from "@/lib/cache";
 import { getCategoryLink } from "@/lib/categories";
 import { getArticleImage } from "@/lib/articles";
 import { ArticleAuthor, IArticleFull, ICategoryArticles } from "@/lib/types";
@@ -36,44 +37,49 @@ export default async function handler(
   }
 
   try {
-    const categoriesWithArticlesRaw = await prisma.categories.findMany({
-      where: {
-        categories_showPublic: true,
-        categories_showMenu: true,
-        categories_nestUnder: parentCategoryNumber,
-      },
-      include: {
-        articles: {
-          take: articlesLimitNumber,
+    const categoriesWithArticlesRaw = await cache(
+      `categoriesWithArticles:nestUnder:${parentCategoryNumber}:limit:${articlesLimitNumber}`,
+      7200,
+      () =>
+        prisma.categories.findMany({
           where: {
-            article: {
-              articles_showInLists: true,
-            },
-          },
-          orderBy: {
-            article: {
-              articles_published: "desc",
-            },
+            categories_showPublic: true,
+            categories_showMenu: true,
+            categories_nestUnder: parentCategoryNumber,
           },
           include: {
-            article: {
+            articles: {
+              take: articlesLimitNumber,
+              where: {
+                article: {
+                  articles_showInLists: true,
+                },
+              },
+              orderBy: {
+                article: {
+                  articles_published: "desc",
+                },
+              },
               include: {
-                articlesDrafts: {
-                  orderBy: {
-                    articlesDrafts_timestamp: "desc",
+                article: {
+                  include: {
+                    articlesDrafts: {
+                      orderBy: {
+                        articlesDrafts_timestamp: "desc",
+                      },
+                      take: 1,
+                    },
+                    categories: {
+                      include: { category: true },
+                    },
+                    users: { include: { users: true } },
                   },
-                  take: 1,
                 },
-                categories: {
-                  include: { category: true },
-                },
-                users: { include: { users: true } },
               },
             },
           },
-        },
-      },
-    });
+        }),
+    );
     if (!categoriesWithArticlesRaw || categoriesWithArticlesRaw.length === 0) {
       res.status(400).json({ message: "Categories with articles not found" });
       return;
