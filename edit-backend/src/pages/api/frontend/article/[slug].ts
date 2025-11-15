@@ -189,6 +189,10 @@ export default async function handler(
         nestUnder: temp.categories_nestUnder,
       };
 
+      const publishedDate = similarArticle.articles_published
+        ? new Date(similarArticle.articles_published)
+        : new Date(0);
+
       const similar: IArticle = {
         id: similarArticle.articles_id,
         headline:
@@ -200,7 +204,7 @@ export default async function handler(
             ? similarArticle.articlesDrafts[0].articlesDrafts_excerpt
             : "Unknown",
         articleURL: `${process.env.FRONTEND_URL}articles/${dateFormatter
-          .format(similarArticle.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+          .format(publishedDate) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
           .split("/")
           .reverse()
           .join("/")}/${String(similarArticle.articles_slug)}`,
@@ -220,10 +224,14 @@ export default async function handler(
     }),
   );
 
+  const publishedDate = articleRaw.articles_published
+    ? new Date(articleRaw.articles_published)
+    : new Date(0);
+
   const article: IArticle = {
     id: articleRaw.articles_id,
     articleURL: `${process.env.FRONTEND_URL}articles/${dateFormatter
-      .format(articleRaw.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+      .format(publishedDate) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
       .split("/")
       .reverse()
       .join("/")}/${String(articleRaw.articles_slug)}`,
@@ -240,7 +248,7 @@ export default async function handler(
         ? articleRaw.articlesDrafts![0].articlesDrafts_excerpt
         : "Unknown",
     published: dateFormatter
-      .format(articleRaw.articles_published || new Date(0))
+      .format(publishedDate)
       .split("/")
       .reverse()
       .join("/"),
