@@ -25,17 +25,17 @@ const headers: Record<string, string> = {};
 
 // Prefer cookie token if available
 if (previewToken && previewToken.length > 0) {
-    headers["Authorization"] = `Bearer ${previewToken}`;
+  headers["Authorization"] = `Bearer ${previewToken}`;
 }
 // Fallback to legacy query param preview
 if (preview && preview.length > 0 && hash && hash.length > 0) {
-    headers["X-Preview-Hash"] = hash; // optional header; backend can read it
+  headers["X-Preview-Hash"] = hash; // optional header; backend can read it
 }
 
 const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
 const res = await fetch(`${apiBase}/api/frontend/edition/` + cleanSlug, {
-    headers: headers,
+  headers: headers,
 });
 const edition: IEdition = await res.json();
 
@@ -84,16 +84,16 @@ if (tempFileId) {
 >
   <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
     <h1 class="text-center text-xl md:text-2xl lg:text-4xl">
-        {
-            preview &&
-            preview.length > 0 &&
-            hash &&
-            hash.length > 0 &&
-            previewToken &&
-            previewToken.length > 0 && (
-                        <span class="italic underline">DRAFT&nbsp;</span>
-            )
-        }
+      {
+        preview &&
+          preview.length > 0 &&
+          hash &&
+          hash.length > 0 &&
+          previewToken &&
+          previewToken.length > 0 && (
+            <span class="italic underline">DRAFT&nbsp;</span>
+          )
+      }
       {
         edition.editions_printNumber
           ? `№${edition.editions_printNumber}`
