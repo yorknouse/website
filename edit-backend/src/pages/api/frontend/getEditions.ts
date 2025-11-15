@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
+import { cache } from "@/lib/cache";
 import { IEdition } from "@/lib/types";
 
 const cors = (res: NextApiResponse) => {
@@ -7,6 +8,21 @@ const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Methods", "GET");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 };
+
+async function getEditions() {
+  return prisma.editions.findMany({
+    where: {
+      editions_show: true,
+      editions_deleted: false,
+      NOT: {
+        editions_thumbnail: null,
+      },
+    },
+    orderBy: {
+      editions_published: "desc",
+    },
+  });
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,18 +36,11 @@ export default async function handler(
   }
 
   try {
-    const editions: IEdition[] = await prisma.editions.findMany({
-      where: {
-        editions_show: true,
-        editions_deleted: false,
-        NOT: {
-          editions_thumbnail: null,
-        },
-      },
-      orderBy: {
-        editions_published: "desc",
-      },
-    });
+    const editions: IEdition[] = await cache(
+      "editions:latest",
+      7200,
+      getEditions,
+    );
 
     if (!editions || editions.length == 0) {
       res.status(404).json({ message: "Failed to find editions" });
