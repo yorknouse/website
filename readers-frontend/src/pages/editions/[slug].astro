@@ -5,7 +5,6 @@ import type { FeaturedHighlights } from "@components/types";
 import { getArticles } from "@componentsUtils/articles";
 import Layout from "@layouts/Layout.astro";
 import { v4 as uuidv4 } from "uuid";
-import crypto from "crypto";
 import type { S3URL } from "@components/types";
 import type { IEdition } from "@components/types";
 
@@ -13,32 +12,34 @@ const { slug } = Astro.params;
 
 const cleanSlug = decodeURIComponent(slug || "");
 
-const preview = Astro.url.searchParams.get("preview") != null;
-const previewEditionId = Astro.url.searchParams.get("edition");
-const previewEditionHash = Astro.url.searchParams.get("key");
-const isPreview =
-  preview && previewEditionId !== null && previewEditionHash !== null;
+// --- Read cookies ---
+const previewToken = Astro.cookies.get("previewToken")?.value;
 
-const formData = new FormData();
-formData.append("slug", cleanSlug);
-formData.append("isPreview", String(isPreview));
+// --- Read query params for legacy preview ---
+const urlSearchParams = new URLSearchParams(Astro.url.search);
+const preview = urlSearchParams.get("preview");
+const hash = urlSearchParams.get("hash");
+
+// --- Build fetch options ---
+const headers: Record<string, string> = {};
+
+// Prefer cookie token if available
+if (previewToken && previewToken.length > 0) {
+    headers["Authorization"] = `Bearer ${previewToken}`;
+}
+// Fallback to legacy query param preview
+if (preview && preview.length > 0 && hash && hash.length > 0) {
+    headers["X-Preview-Hash"] = hash; // optional header; backend can read it
+}
 
 const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
-const res = await fetch(`${apiBase}/api/frontend/getEdition`, {
-  method: "POST",
-  body: formData,
+const res = await fetch(`${apiBase}/api/frontend/edition/` + cleanSlug, {
+    headers: headers,
 });
 const edition: IEdition = await res.json();
 
 if (!edition) return Astro.redirect("/404");
-if (isPreview) {
-  const expectedHash = crypto
-    .createHash("md5")
-    .update(edition.editions_id.toString())
-    .digest("hex");
-  if (expectedHash !== previewEditionHash) return Astro.redirect("/404");
-}
 
 const isWebEdition = edition.editions_type === "Web Edition";
 let pdfURL;
@@ -83,6 +84,16 @@ if (tempFileId) {
 >
   <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
     <h1 class="text-center text-xl md:text-2xl lg:text-4xl">
+        {
+            preview &&
+            preview.length > 0 &&
+            hash &&
+            hash.length > 0 &&
+            previewToken &&
+            previewToken.length > 0 && (
+                        <span class="italic underline">DRAFT&nbsp;</span>
+            )
+        }
       {
         edition.editions_printNumber
           ? `№${edition.editions_printNumber}`
