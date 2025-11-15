@@ -31,7 +31,7 @@ export default async function handler(
     let menuCategories: ICategory[];
 
     if (String(style) === "nouse") {
-      menuCategories = await cache("parentCategories:latest", 7200, () =>
+      menuCategories = await cache("menuCategories:latest", 7200, () =>
         prisma.categories.findMany({
           where: {
             categories_showMenu: true,
