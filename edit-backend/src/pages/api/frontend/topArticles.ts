@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { cache } from "@/lib/cache";
 import type { ArticleAuthor, TopArticleResult } from "@/lib/types";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getArticleImage } from "@/lib/articles";
@@ -23,16 +24,18 @@ export default async function handler(
   }
 
   try {
-    const summary = await prisma.articlesReadsSummary.findMany({
-      orderBy: { read_count: "desc" },
-      take: 4,
-      select: {
-        articles_id: true,
-        read_count: true,
-        updated_at: true,
-      },
-      distinct: "articles_id",
-    });
+    const summary = await cache("articlesReadSummary:latest", 7200, () =>
+      prisma.articlesReadsSummary.findMany({
+        orderBy: { read_count: "desc" },
+        take: 4,
+        select: {
+          articles_id: true,
+          read_count: true,
+          updated_at: true,
+        },
+        distinct: "articles_id",
+      }),
+    );
 
     const articlesID: {
       articles_id: number;
@@ -48,6 +51,7 @@ export default async function handler(
 
     const articleIds = articlesID.map((id) => id.articles_id);
 
+    const cacheKey = `topArticles:${articleIds.join(",")}`;
     const queryString = Prisma.sql`
             SELECT DISTINCT articles.articles_id,
                    articles.articles_published,
@@ -70,59 +74,72 @@ export default async function handler(
             WHERE articles.articles_id IN (${Prisma.join(articleIds)})
         `;
 
-    const articles: TopArticleResult[] = await prisma.$queryRaw(queryString);
+    const articles = await cache<TopArticleResult[]>(cacheKey, 7200, () =>
+      prisma.$queryRaw(queryString),
+    );
 
     const output = await Promise.all(
       articles.map(async (article) => {
         const headline = article.articlesDrafts_headline;
-
-        const categoriesLinks: {
-          articles_id: number;
-          categories_id: number;
-        }[] = await prisma.articlesCategories.findMany({
-          where: { articles_id: article.articles_id },
-          select: {
-            articles_id: true,
-            categories_id: true,
-          },
-        });
+        const categoriesLinks = await cache<
+          {
+            articles_id: number;
+            categories_id: number;
+          }[]
+        >(`categoriesLinks:articles_id:${article.articles_id}`, 7200, () =>
+          prisma.articlesCategories.findMany({
+            where: { articles_id: article.articles_id },
+            select: {
+              articles_id: true,
+              categories_id: true,
+            },
+          }),
+        );
 
         let categoryName = null;
         if (categoriesLinks.length > 0) {
-          const topCategory = await prisma.categories.findFirst({
-            where: {
-              categories_id: {
-                in: categoriesLinks.map((c) => c.categories_id),
+          const categoryIds = categoriesLinks.map((c) => c.categories_id);
+          const cacheKey = `categoriesList:${categoryIds.join(",")}`;
+          const topCategory = await cache(cacheKey, 7200, () =>
+            prisma.categories.findFirst({
+              where: {
+                categories_id: {
+                  in: categoryIds,
+                },
+                categories_nestUnder: null,
               },
-              categories_nestUnder: null,
-            },
-          });
+            }),
+          );
           categoryName = topCategory?.categories_name ?? null;
         }
 
-        const authors: {
-          users: {
-            users_userid: number;
-            users_name1: string | null;
-            users_name2: string | null;
-          };
-        }[] = await prisma.articlesAuthors.findMany({
-          where: {
-            articles_id: article.articles_id,
+        const authors = await cache<
+          {
             users: {
-              users_deleted: false,
-            },
-          },
-          include: {
-            users: {
-              select: {
-                users_userid: true,
-                users_name1: true,
-                users_name2: true,
+              users_userid: number;
+              users_name1: string | null;
+              users_name2: string | null;
+            };
+          }[]
+        >(`authors:articleId:${article.articles_id}`, 7200, () =>
+          prisma.articlesAuthors.findMany({
+            where: {
+              articles_id: article.articles_id,
+              users: {
+                users_deleted: false,
               },
             },
-          },
-        });
+            include: {
+              users: {
+                select: {
+                  users_userid: true,
+                  users_name1: true,
+                  users_name2: true,
+                },
+              },
+            },
+          }),
+        );
 
         return {
           ...article,
