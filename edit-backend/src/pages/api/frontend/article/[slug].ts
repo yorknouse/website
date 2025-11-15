@@ -9,29 +9,13 @@ import crypto from "crypto";
 import he from "he";
 import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
 import { Prisma } from "@prisma/client";
+import { validatePreviewToken } from "@/lib/preview";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 };
-
-function validatePreviewToken(authHeader: string | undefined): boolean {
-  if (!authHeader || authHeader.split(" ").length < 2) {
-    return false;
-  }
-
-  const bearerToken = authHeader?.split(" ")[1];
-  if (!bearerToken) {
-    return false;
-  }
-  const token = process.env.DRAFT_VIEW_TOKEN;
-  if (!token) {
-    console.error("Draft view token missing from application!");
-    return false;
-  }
-  return bearerToken === token;
-}
 
 export default async function handler(
   req: NextApiRequest,
