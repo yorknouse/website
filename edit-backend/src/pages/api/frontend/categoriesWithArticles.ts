@@ -101,10 +101,14 @@ export default async function handler(
               return author;
             });
 
+            const publishedDate = article.articles_published
+              ? new Date(article.articles_published)
+              : new Date(0);
+
             const articleNew: IArticleFull = {
               id: article.articles_id,
               articleURL: `${process.env.FRONTEND_URL}articles/${dateFormatter
-                .format(article.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+                .format(publishedDate) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
                 .split("/")
                 .reverse()
                 .join("/")}/${String(article.articles_slug)}`,
@@ -121,7 +125,7 @@ export default async function handler(
                   ? article.articlesDrafts[0].articlesDrafts_excerpt
                   : "Unknown",
               published: dateFormatter
-                .format(article.articles_published || new Date(0))
+                .format(publishedDate)
                 .split("/")
                 .reverse()
                 .join("/"),
