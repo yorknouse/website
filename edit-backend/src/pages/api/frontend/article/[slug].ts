@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { cache } from "@/lib/cache";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ArticleAuthor, ArticleCategory, IArticle } from "@/lib/types";
 import { getArticleImage, getSimilarArticles } from "@/lib/articles";
@@ -60,30 +61,32 @@ export default async function handler(
 
   const cleanSlug = decodeURIComponent(slugSanitised || "");
 
-  const articleRaw = await prisma.articles.findFirst({
-    where: {
-      articles_showInLists: !isPreview,
-      articles_slug: cleanSlug,
-    },
-    include: {
-      articlesDrafts: {
-        // Get the latest draft for every featured article
-        orderBy: {
-          articlesDrafts_timestamp: "desc",
+  const articleRaw = await cache(`article:slug:${cleanSlug}`, 7200, () =>
+    prisma.articles.findFirst({
+      where: {
+        articles_showInLists: !isPreview,
+        articles_slug: cleanSlug,
+      },
+      include: {
+        articlesDrafts: {
+          // Get the latest draft for every featured article
+          orderBy: {
+            articlesDrafts_timestamp: "desc",
+          },
+          take: 1,
         },
-        take: 1,
-      },
-      categories: {
-        where: categoriesWhere,
-        include: {
-          category: true,
+        categories: {
+          where: categoriesWhere,
+          include: {
+            category: true,
+          },
+        },
+        users: {
+          include: { users: true },
         },
       },
-      users: {
-        include: { users: true },
-      },
-    },
-  });
+    }),
+  );
 
   if (!articleRaw) {
     res.status(404).json({ message: "Article not found" });
