@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
+import { cache } from "@/lib/cache";
 import { ParseForm } from "@/lib/parseForm";
 import { ArticleAuthor, IArticleFull, ICategoryArticles } from "@/lib/types";
 import { getArticleImage } from "@/lib/articles";
@@ -93,54 +94,58 @@ export default async function handler(
     }
     const { categoryName, take, skip, notInFeatured } = parsed.data;
 
-    const category = await prisma.categories.findFirst({
-      where: {
-        categories_name: String(categoryName),
-        categories_showPublic: true,
-        categories_showMenu: true,
-      },
-      include: {
-        articles: {
-          take: Number(String(take)),
-          skip: Number(String(skip)),
-          where: {
-            article: {
-              articles_showInLists: true,
-              ...(notInFeatured?.length
-                ? {
-                    NOT: {
-                      articles_id: {
-                        in: notInFeatured,
+    const cacheKey = `categoryArticlesPath:name:${categoryName}:take:${take}:skip:${skip}:notIn:${notInFeatured?.join(",")}`;
+
+    const category = await cache(cacheKey, 7200, () =>
+      prisma.categories.findFirst({
+        where: {
+          categories_name: String(categoryName),
+          categories_showPublic: true,
+          categories_showMenu: true,
+        },
+        include: {
+          articles: {
+            take: Number(String(take)),
+            skip: Number(String(skip)),
+            where: {
+              article: {
+                articles_showInLists: true,
+                ...(notInFeatured?.length
+                  ? {
+                      NOT: {
+                        articles_id: {
+                          in: notInFeatured,
+                        },
                       },
+                    }
+                  : {}),
+              },
+            },
+            orderBy: {
+              article: {
+                articles_published: "desc",
+              },
+            },
+            include: {
+              article: {
+                include: {
+                  articlesDrafts: {
+                    orderBy: {
+                      articlesDrafts_timestamp: "desc",
                     },
-                  }
-                : {}),
-            },
-          },
-          orderBy: {
-            article: {
-              articles_published: "desc",
-            },
-          },
-          include: {
-            article: {
-              include: {
-                articlesDrafts: {
-                  orderBy: {
-                    articlesDrafts_timestamp: "desc",
+                    take: 1,
                   },
-                  take: 1,
+                  categories: {
+                    include: { category: true },
+                  },
+                  users: { include: { users: true } },
                 },
-                categories: {
-                  include: { category: true },
-                },
-                users: { include: { users: true } },
               },
             },
           },
         },
-      },
-    });
+      }),
+    );
 
     if (!category) {
       res.status(400).json({ message: "Category articles not found" });
