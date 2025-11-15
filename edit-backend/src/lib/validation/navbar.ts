@@ -40,7 +40,7 @@ export function validateMobileNavBar(fields: unknown) {
   if (!result.success) {
     console.error(
       "[validateMobileNavBar] Validation failed:",
-      JSON.stringify(result.error.format(), null, 2),
+      JSON.stringify(z.treeifyError(result.error), null, 2),
       "\nRaw input:",
       JSON.stringify(fields, null, 2),
     );
@@ -55,7 +55,7 @@ export function validateDesktopNavBar(fields: unknown) {
   if (!result.success) {
     console.error(
       "[validateMobileNavBar] Validation failed:",
-      JSON.stringify(result.error.format(), null, 2),
+      JSON.stringify(z.treeifyError(result.error), null, 2),
       "\nRaw input:",
       JSON.stringify(fields, null, 2),
     );
