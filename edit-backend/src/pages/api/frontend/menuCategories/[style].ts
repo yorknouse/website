@@ -92,7 +92,7 @@ export default async function handler(
       if (menuCategories.length > 0 && muse) {
         // Add home as first item - possibly need to adjust values in the future
         const homeCategory: ICategory = {
-          categories_id: muse.categories_id ?? 0,
+          categories_id: muse.categories_id ?? 4,
           categories_showHome: true,
           categories_displayName: "Home",
           categories_showMenu: muse.categories_showMenu ?? true,
