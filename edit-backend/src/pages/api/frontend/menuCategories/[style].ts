@@ -2,7 +2,6 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 import { ICategory } from "@/lib/types";
 import { cache } from "@/lib/cache";
-import redis from "@/lib/redis";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -82,7 +81,6 @@ export default async function handler(
         }),
       );
 
-      redis.del("category:name:muse");
       const muse = await cache("category:name:muse", 7200, () =>
         prisma.categories.findFirst({
           where: {
