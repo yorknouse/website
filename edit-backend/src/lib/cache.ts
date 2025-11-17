@@ -1,4 +1,5 @@
 import redis from "./redis";
+import * as util from "node:util";
 
 export async function cache<T>(
   key: string,
@@ -13,7 +14,7 @@ export async function cache<T>(
       return JSON.parse(cached) as T;
     }
   } catch (err) {
-    console.warn(`Cache read failed for key ${key}:`, err);
+    console.warn(util.format("Cache read failed for key %s:", key), err);
     // Proceed to fetch from DB
   }
 
@@ -24,7 +25,7 @@ export async function cache<T>(
   try {
     await redis.set(key, JSON.stringify(fresh), "EX", ttlSeconds);
   } catch (err) {
-    console.warn(`Cache write failed for key ${key}:`, err);
+    console.warn(util.format("Cache write failed for key %s:", key), err);
   }
 
   return fresh;
