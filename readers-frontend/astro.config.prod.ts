@@ -1,28 +1,19 @@
 import { defineConfig } from "astro/config";
 import { loadEnv } from "vite";
-
 import tailwindcss from "@tailwindcss/vite";
 import icon from "astro-icon";
 import solidJs from "@astrojs/solid-js";
 import node from "@astrojs/node";
 import sitemap from "@astrojs/sitemap";
-// import getArticlesLinks from "./build-utils/getArticlesLinks";
-// import getCategoriesLinks from "./build-utils/getCategoriesLinks";
-const environment = loadEnv(import.meta.env.MODE, process.cwd(), "");
 
-// const articlesLinks = await getArticlesLinks();
-// const categoriesLinks = await getCategoriesLinks();
+const environment = loadEnv(import.meta.env.MODE, process.cwd(), "");
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
     icon(),
     solidJs(),
-    sitemap({
-      customPages: [
-        /*...articlesLinks, ...categoriesLinks*/
-      ],
-    }),
+    sitemap(),
   ],
   site: "https://nouse.co.uk",
   output: "server",
