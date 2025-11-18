@@ -10,11 +10,7 @@ const environment = loadEnv(import.meta.env.MODE, process.cwd(), "");
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [
-    icon(),
-    solidJs(),
-    sitemap(),
-  ],
+  integrations: [icon(), solidJs(), sitemap()],
   site: "https://nouse.co.uk",
   output: "server",
   server: {
