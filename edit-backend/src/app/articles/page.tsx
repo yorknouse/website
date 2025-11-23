@@ -67,7 +67,7 @@ export default async function Articles({
         {(author !== null || search !== undefined) && (
           <a href={"/articles"}>Clear filters</a>
         )}
-        <SearchBar />
+        <SearchBar placeholder={"Search articles..."} />
         <table className={"table-auto bg-white"}>
           <thead className={"border-b-4 border-gray-600"}>
             <tr>

@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Search } from "lucide-react";
 
-export default function SearchBar() {
+export default function SearchBar({ placeholder }: { placeholder: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -42,7 +42,7 @@ export default function SearchBar() {
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search articles..."
+        placeholder={placeholder}
         className="w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-2 pl-10 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-300 outline-none transition"
       />
       <button
