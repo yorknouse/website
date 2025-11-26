@@ -72,7 +72,7 @@
           "metricColumn": "editions_name",
           "queryType": "randomWalk",
           "rawQuery": true,
-          "rawSql": "SELECT\r\n\teditions.editions_name as \"Name\",\r\n  COUNT(DISTINCT(articles.articles_id)) as count\r\nFROM articles\r\nLEFT JOIN editions ON articles.editions_id=editions.editions_id\r\nWHERE editions.editions_deleted = 0\r\nGROUP BY articles.editions_id\r\nORDER BY count DESC",
+          "rawSql": "SELECT\r\n\te.editions_name AS \"Name\",\r\n\te.editions_published AS \"Published\",\r\n  COUNT(DISTINCT(a.articles_id)) AS \"Count\"\r\nFROM articles a\r\nLEFT JOIN editions e ON a.editions_id = e.editions_id\r\nWHERE e.editions_deleted = 0\r\nGROUP BY a.editions_id\r\nORDER BY Count DESC",
           "refId": "A",
           "select": [
             [
