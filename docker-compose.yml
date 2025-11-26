@@ -167,7 +167,7 @@ services:
      volumes:
        - /etc/localtime:/etc/localtime:ro
   grafana:
-    image: grafana/grafana:8.5.27-ubuntu
+    image: grafana/grafana:12.3-ubuntu
     container_name: grafana
     restart: unless-stopped
     volumes:
@@ -176,7 +176,7 @@ services:
     depends_on:
       - db
     environment:
-      - GF_INSTALL_PLUGINS=grafana-clock-panel,cloudflare-app
+      - GF_PLUGINS_PREINSTALL_SYNC=grafana-clock-panel
       - GF_INSTANCE_NAME=Nouse
   netdata:
     hostname: yusunouse01.york.ac.uk
