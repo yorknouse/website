@@ -3,22 +3,9 @@
 	https_port 443
 	admin off
 }
-localhost.tools {
-	basic_auth /tools/* {
-		nouseAdmin password
-	}
-	route /tools/phpmyadmin/* {
-		uri strip_prefix /tools/phpmyadmin
+tools.localhost {
+	route /phpmyadmin/* {
 		reverse_proxy phpmyadmin:80
-	}
-	route /tools/netdata/* {
-		uri strip_prefix /tools/netdata
-		reverse_proxy netdata:19999
-	}
-
-	php_fastcgi php-container:9000 {
-		# try /index.php if no file specified
-		try_files {path} /index.php
 	}
 
 	encode gzip
