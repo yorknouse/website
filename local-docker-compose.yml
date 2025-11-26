@@ -128,6 +128,20 @@ services:
       - db
     volumes:
       - /sessions
+  grafana:
+    image: grafana/grafana:12.3-ubuntu
+    container_name: grafana
+    restart: unless-stopped
+    volumes:
+      - ./docker/grafana/local/config:/etc/grafana
+      - ./docker/grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      - db
+    ports:
+      - "3001:3001"
+    environment:
+      - GF_PLUGINS_PREINSTALL_SYNC=grafana-clock-panel
+      - GF_INSTANCE_NAME=Nouse
   compressor:
     image: ghcr.io/yorknouse/image-compressor:latest
     restart: unless-stopped
