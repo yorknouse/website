@@ -1,9 +1,12 @@
 services:
   caddy:
     image: caddy:latest
+    container_name: caddy
     restart: always
     ports:
       - "80:80"
+      - "419:419"
+      - "443:443"
     volumes:
       - caddy:/data
       - php_app_data:/var/www/html/admin:ro
@@ -85,8 +88,8 @@ services:
       - valkey
     env_file:
       - nouseprod-local.env
-    expose:
-      - 3000
+    ports:
+      - "3000:3000"
     environment:
       - REDIS_HOST=valkey
       - REDIS_PORT=6379
@@ -125,6 +128,20 @@ services:
       - db
     volumes:
       - /sessions
+  grafana:
+    image: grafana/grafana:12.3-ubuntu
+    container_name: grafana
+    restart: unless-stopped
+    volumes:
+      - ./docker/grafana/local/config:/etc/grafana
+      - ./docker/grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      - db
+    ports:
+      - "3001:3001"
+    environment:
+      - GF_PLUGINS_PREINSTALL_SYNC=grafana-clock-panel
+      - GF_INSTANCE_NAME=Nouse
   compressor:
     image: ghcr.io/yorknouse/image-compressor:latest
     restart: unless-stopped

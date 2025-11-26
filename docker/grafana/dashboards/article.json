@@ -70,7 +70,7 @@
           "metricColumn": "none",
           "queryType": "randomWalk",
           "rawQuery": false,
-          "rawSql": "SELECT\n  articles_published AS \"time\",\n  articles_lifetimeViews\nFROM articles\nWHERE\n  articles_id = $articleid\nORDER BY articles_published",
+          "rawSql": "SELECT\n  a.articles_published AS \"time\",\n  COUNT(r.articlesReads_id) AS \"count\"\nFROM articlesReads r\nLEFT JOIN articles a ON r.articles_id = a.articles_id\nWHERE\n  r.articles_id = $articleid\nORDER BY a.articles_published",
           "refId": "A",
           "select": [
             [
