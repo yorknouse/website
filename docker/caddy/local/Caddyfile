@@ -29,7 +29,7 @@ localhost {
 	reverse_proxy astro-container:4321
 	encode gzip
 }
-edit.localhost {
+http://localhost:419 {
 	root * /var/www/html/admin
 	handle /assets/* {
 		uri replace /assets/ /oldAssets/
@@ -63,8 +63,4 @@ edit.localhost {
 oauth.internal {
 	root * /var/www/html/admin
 	php_fastcgi php-container:9000
-}
-edit1.localhost {
-	reverse_proxy react-container:3000
-	encode gzip
 }

@@ -4,6 +4,8 @@ services:
     restart: always
     ports:
       - "80:80"
+      - "419:419"
+      - "443:443"
     volumes:
       - caddy:/data
       - php_app_data:/var/www/html/admin:ro
@@ -85,8 +87,8 @@ services:
       - valkey
     env_file:
       - nouseprod-local.env
-    expose:
-      - 3000
+    ports:
+      - "3000:3000"
     environment:
       - REDIS_HOST=valkey
       - REDIS_PORT=6379
