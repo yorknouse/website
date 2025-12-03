@@ -11,7 +11,8 @@
     "test-local": "dotenv -e .env.test -- npx prisma migrate deploy && dotenv -e .env.test -- npx playwright test",
     "test-debug": "dotenv -e .env.test -- npx prisma migrate deploy && dotenv -e .env.test -- npx playwright test --debug",
     "prettier-check": "prettier --check .",
-    "prettier-write": "prettier --write ."
+    "prettier-write": "prettier --write .",
+    "seed": "npx tsx prisma/seed.ts"
   },
   "dependencies": {
     "@playwright/test": "^1.56.1",
