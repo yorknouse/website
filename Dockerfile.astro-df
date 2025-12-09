@@ -1,5 +1,4 @@
-# --- Build stage ---
-FROM node:24-slim AS build
+FROM node:24.11.1-trixie-slim AS build
 
 WORKDIR /app
 
@@ -16,7 +15,7 @@ ENV NODE_ENV=production
 RUN npm install --omit=dev
 RUN npm run build -- --config astro.config.prod.ts
 
-FROM node:24-slim AS runtime
+FROM node:24.11.1-trixie-slim AS runtime
 
 WORKDIR /app
 
