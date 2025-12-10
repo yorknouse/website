@@ -89,7 +89,7 @@ export default async function handler(
     try {
       const parsed = JSON.parse(String(articleIdsRaw));
 
-      const schema = z.array(z.number().int().positive()).nonempty();
+      const schema = z.array(z.number().int().nonnegative()).nonempty();
       const validation = schema.safeParse(parsed);
 
       if (!validation.success) {
