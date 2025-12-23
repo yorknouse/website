@@ -21,13 +21,11 @@ interface UploadMeta {
 
 interface AvatarUploaderProps {
   userId: number;
-  backendUrl: string;
   onSuccess?: () => void;
 }
 
 export default function AvatarUploader({
   userId,
-  backendUrl,
   onSuccess,
 }: AvatarUploaderProps) {
   useEffect(() => {
@@ -137,7 +135,7 @@ export default function AvatarUploader({
     return () => {
       uppy.destroy();
     };
-  }, [backendUrl, userId, onSuccess]);
+  }, [userId, onSuccess]);
 
   return <div id="uppy-avatar" />;
 }
