@@ -121,7 +121,7 @@ export default function AvatarUploader({
       await fetch(`/api/users/thumbnail`, {
         method: "POST",
         headers: {
-          "content-type": "application/x-www-form-urlencoded",
+          "content-type": "application/json",
         },
         body: JSON.stringify({
           users_userid: String(userId),
