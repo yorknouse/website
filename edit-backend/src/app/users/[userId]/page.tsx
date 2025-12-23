@@ -45,7 +45,5 @@ export default async function User({
     thumbnailURL = await s3URL(Number(user.users_thumbnail));
   }
 
-    return (
-    <UserPage props={{user, initialThumbnailURL: thumbnailURL}} />
-  );
+  return <UserPage props={{ user, initialThumbnailURL: thumbnailURL }} />;
 }

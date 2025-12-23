@@ -265,7 +265,9 @@ export function validateS3Key(s3Key: string): boolean {
 export function normalizeUploadCompletePayload(input: Record<string, any>) {
   const s3Key: string = input.s3Key ?? input.name ?? input.originalName;
   if (!s3Key.startsWith("db/webUploads/public/")) {
-    throw new Error("Invalid upload path: must start with db/webUploads/public/");
+    throw new Error(
+      "Invalid upload path: must start with db/webUploads/public/",
+    );
   }
 
   const parts = s3Key.split("/");
@@ -284,7 +286,9 @@ export function normalizeUploadCompletePayload(input: Record<string, any>) {
   const filenameWithExt = parts.pop()!;
   const path = parts.join("/");
 
-  const extMatch = filenameWithExt.match(/^[0-9]+-[0-9]+-[a-zA-Z0-9_-]+\.(\w+)$/);
+  const extMatch = filenameWithExt.match(
+    /^[0-9]+-[0-9]+-[a-zA-Z0-9_-]+\.(\w+)$/,
+  );
   if (!extMatch) {
     throw new Error("Invalid filename format");
   }
