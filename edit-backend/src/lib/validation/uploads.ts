@@ -13,6 +13,11 @@ export const updateThumbnailSchema = z
 export const uploadCompleteSchema = z
   .object({
     s3Key: z.string().min(1).max(1024),
+    path: z.string(),
+    filename: z.string(),
+    filenameWithExt: z.string(),
+    extension: z.string(),
+    target: z.string(),
     contentType: z.string().min(1),
 
     size: z.coerce.number().int().positive(),
@@ -258,50 +263,55 @@ export function validateS3Key(s3Key: string): boolean {
 }
 
 export function normalizeUploadCompletePayload(input: Record<string, any>) {
-  // Determine the filename to use for inferring content type
-  const filenameForInference = input.originalName ?? input.s3Key;
-  const contentType =
-    input.contentType ?? inferContentType(filenameForInference);
+  const s3Key: string = input.s3Key ?? input.name ?? input.originalName;
+  if (!s3Key.startsWith("db/webUploads/public/")) {
+    throw new Error("Invalid upload path: must start with db/webUploads/public/");
+  }
 
+  const parts = s3Key.split("/");
+  if (parts.length < 5) {
+    throw new Error("Invalid upload path: too few path segments");
+  }
+
+  const targetRaw = parts[3]; // db/webUploads/public/<TARGET>/<filename>
+  const parsedTarget = uploadTargetSchema.safeParse(targetRaw);
+  if (!parsedTarget.success) {
+    throw new Error("Invalid upload target");
+  }
+
+  const target = parsedTarget.data;
+
+  const filenameWithExt = parts.pop()!;
+  const path = parts.join("/");
+
+  const extMatch = filenameWithExt.match(/^[0-9]+-[0-9]+-[a-zA-Z0-9_-]+\.(\w+)$/);
+  if (!extMatch) {
+    throw new Error("Invalid filename format");
+  }
+
+  const extension = extMatch[1].toLowerCase();
+  const filename = filenameWithExt.replace(/\.[^.]+$/, "");
+
+  const contentType = input.contentType ?? inferContentType(filenameWithExt);
   if (!contentType) {
-    throw new Error(
-      "Unable to infer content type, filename: " + filenameForInference,
-    );
+    throw new Error("Unable to infer content type for: " + filenameWithExt);
   }
 
-  const target = TYPEID_TO_TARGET[Number(input.typeid)];
-
-  if (!target) {
-    throw new Error("Unknown upload typeid");
-  }
-
-  const isPublic =
-    input.public === "1" || input.public === 1 || input.public === true;
-
-  const s3Key = input.s3Key;
-
-  if (!validateS3Key(s3Key)) {
-    throw new Error("Invalid s3Key format: " + s3Key);
-  }
-
-  // Optional: Extract the target from the path
-  const match = s3Key.match(/^db\/webUploads\/public\/([A-Z-]+)\//);
-  if (!match) {
-    throw new Error("Unable to extract upload target from s3Key: " + s3Key);
-  }
-  const targetFromPath = match[1];
-  if (!ALLOWED_UPLOAD_TARGETS.includes(targetFromPath as UploadTarget)) {
-    throw new Error("Invalid upload target in s3Key: " + targetFromPath);
-  }
+  const isPublic = input.public === "1" || input.public === true;
 
   return {
     s3Key: s3Key,
-    contentType: input.contentType ?? contentType,
-    size: input.size,
+    path: path,
+    filenameWithExt: filenameWithExt,
+    filename: filename,
+    extension: extension.toUpperCase(),
+    contentType: contentType,
+    size: Number(input.size),
     public: isPublic,
-    typeid: input.typeid,
-    subtype: input.subtype,
+    typeid: Number(input.typeid),
+    subtype: input.subtype ? Number(input.subtype) : undefined,
     originalName: input.originalName,
+    target: target,
   };
 }
 
