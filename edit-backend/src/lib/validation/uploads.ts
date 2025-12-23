@@ -257,11 +257,6 @@ export const uploadTargetSchema = z.enum(ALLOWED_UPLOAD_TARGETS);
 
 export const uploadExtensionSchema = z.enum(ALLOWED_EXTENSIONS);
 
-export function validateS3Key(s3Key: string): boolean {
-  const regex = /^db\/webUploads\/public\/([A-Z-]+)\/[\d-]+-.+\.[a-zA-Z0-9]+$/;
-  return regex.test(s3Key);
-}
-
 export function normalizeUploadCompletePayload(input: Record<string, any>) {
   const s3Key: string = input.s3Key ?? input.name ?? input.originalName;
   if (!s3Key.startsWith("db/webUploads/public/")) {
