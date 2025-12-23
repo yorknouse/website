@@ -62,7 +62,7 @@ export async function POST(req: Request) {
       s3files_extension: extension,
       s3files_original_name: originalName,
       s3files_region: process.env.AWS_DEFAULT_REGION!,
-      s3files_endpoint: process.env.AWS_ENDPOINT_URL!,
+      s3files_endpoint: process.env.AWS_ENDPOINT_URL!.replace(/^http(s)?:\/\//, ""),
       s3files_cdn_endpoint: process.env.AWS_CDN!,
       s3files_bucket: process.env.AWS_BUCKET!,
       s3files_meta_size: BigInt(size),
