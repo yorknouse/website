@@ -118,7 +118,7 @@ export default function AvatarUploader({
       }
 
       // Set user thumbnail
-      await fetch(`/api/users/thumbnail`, {
+      const thumbRes = await fetch(`/api/users/thumbnail`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -128,6 +128,13 @@ export default function AvatarUploader({
           thumbnail: registerJson.response.id,
         }),
       });
+
+      const thumbJson = await thumbRes.json();
+
+      if (!thumbJson.success) {
+        alert("Setting thumbnail failed");
+        return;
+      }
 
       onSuccess?.();
     });
