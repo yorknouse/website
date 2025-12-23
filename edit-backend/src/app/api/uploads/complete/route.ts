@@ -50,13 +50,10 @@ export async function POST(req: Request) {
     public: isPublic,
     typeid,
     subtype,
+    path,
+    filename,
+    extension,
   } = parsed.data;
-
-  const parts = s3Key.split("/");
-  const filenameWithExt = parts.pop()!;
-  const path = parts.join("/");
-  const extension = filenameWithExt.split(".").pop()!;
-  const filename = filenameWithExt.replace(/\.[^.]+$/, "");
 
   const record = await prisma.s3files.create({
     data: {
