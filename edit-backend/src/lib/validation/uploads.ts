@@ -41,7 +41,7 @@ export const uploadCompleteSchema = z
     const parsedTarget = uploadTargetSchema.safeParse(targetRaw);
     if (!parsedTarget.success) {
       ctx.addIssue({
-        code: 'custom',
+        code: "custom",
         message: "Invalid upload target",
       });
       return;
@@ -130,7 +130,7 @@ export const uploadSignSchema = z
     const parsedTarget = uploadTargetSchema.safeParse(targetRaw);
     if (!parsedTarget.success) {
       ctx.addIssue({
-        code: 'custom',
+        code: "custom",
         message: "Invalid upload target",
       });
       return;
@@ -188,7 +188,7 @@ export const UPLOAD_TARGETS = {
   "LIBRARY-IMAGE": {
     maxSize: 25 * 1024 * 1024,
   },
-  "ADVERT": {
+  ADVERT: {
     maxSize: 1024 * 1024 * 1024,
   },
 } as const;
@@ -218,16 +218,18 @@ export function getMaxUploadSize(target: UploadTarget): number {
 }
 
 export function generateS3Key(
-    typeid: number,
-    originalFilename: string,
-    isPublic: boolean,
+  typeid: number,
+  originalFilename: string,
+  isPublic: boolean,
 ): string {
   const ext = originalFilename.split(".").pop();
   const safe = originalFilename.replace(/[^a-z0-9]/gi, "").toLowerCase();
 
-  return buildS3Key(typeid, `${Date.now()}-${Math.random()
-      .toString()
-      .slice(2)}-${safe}.${ext}`, isPublic);
+  return buildS3Key(
+    typeid,
+    `${Date.now()}-${Math.random().toString().slice(2)}-${safe}.${ext}`,
+    isPublic,
+  );
 }
 
 export function buildS3Key(
