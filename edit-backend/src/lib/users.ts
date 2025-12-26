@@ -54,39 +54,64 @@ export async function getUsers({
   }
 
   const [users, totalCount] = await Promise.all([
-    prisma.users.findMany({
-      where,
-      orderBy: [
+    prisma.$queryRaw<
+      [
         {
-          userPositions: {
-            _count: "desc",
-          },
-        },
-        {
-          users_name1: "asc",
-        },
-        {
-          users_name2: "asc",
-        },
-        {
-          users_created: "asc",
-        },
-      ],
-      skip: (page - 1) * pageSize,
-      take: pageSize,
-      include: {
-        userPositions: {
-          where: {
-            userPositions_start: {
-              lte: new Date(),
+          users_userid: number;
+          users_name1: string | null;
+          users_name2: string | null;
+          users_googleAppsUsernameYork: string | null;
+          users_googleAppsUsernameNouse: string | null;
+          users_created: Date | null;
+          users_suspended: Boolean;
+          users_deleted: Boolean | null;
+          userPositions: [
+            {
+              userPositions_id: number;
+              userPositions_start: Date;
+              userPositions_end: Date | null;
+              positions: {
+                positions_id: number;
+                positions_displayName: string;
+                positions_rank: number;
+              };
             },
-            userPositions_end: {
-              gte: new Date(),
-            },
-          },
+          ];
         },
-      },
-    }),
+      ]
+    >`
+      SELECT u.*,
+             COALESCE(
+                 JSON_ARRAYAGG(
+                     JSON_OBJECT(
+                         'userPositions_id', up.userPositions_id,
+                         'userPositions_start', up.userPositions_start,
+                         'userPositions_end', up.userPositions_end,
+                         'positions', JSON_OBJECT(
+                                      'positions_id', p.positions_id,
+                                      'positions_displayName', p.positions_displayName,
+                                      'positions_rank', p.positions_rank
+                                      )
+                     )
+                 ),
+                 JSON_ARRAY()
+             ) AS userPositions
+      FROM users u
+             LEFT JOIN userPositions up
+                       ON up.users_userid = u.users_userid
+                         AND up.userPositions_start <= NOW()
+                         AND up.userPositions_end >= NOW()
+             LEFT JOIN positions p
+                       ON p.positions_id = up.positions_id
+      GROUP BY u.users_userid, u.users_name1, u.users_name2, u.users_created
+      ORDER BY (SELECT COUNT(DISTINCT users_userid)
+                FROM userPositions
+                WHERE users_userid = u.users_userid
+                  AND userPositions_end >= NOW()
+                  AND userPositions_start <= NOW()) DESC, u.users_name1, u.users_name2, u.users_created
+  LIMIT ${pageSize}
+  OFFSET ${(page - 1) * pageSize}
+`,
     prisma.users.count({ where }),
   ]);
 
