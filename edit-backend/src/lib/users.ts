@@ -1,3 +1,5 @@
+"use server";
+
 import prisma from "@/lib/prisma";
 import { checkUserPermissions } from "@/lib/auth";
 import { Prisma } from "@prisma/client";
