@@ -124,6 +124,128 @@ export async function getUsers({
   };
 }
 
+export async function suspendUser(
+  userToID: number,
+  userID: number,
+  userActions?: Map<number, boolean>,
+) {
+  // TODO: move audit log to separate function
+
+  if (!checkUserPermissions(9, userActions)) {
+    return {};
+  }
+
+  await prisma.auditLog.create({
+    data: {
+      auditLog_actionType: "UPDATE",
+      auditLog_actionTable: "users",
+      auditLog_actionData: "SUSPEND 1",
+      users_userid: userID,
+      auditLog_actionUserid: userToID,
+    },
+  });
+
+  const user = await prisma.users.findUnique({
+    where: { users_userid: userToID },
+  });
+
+  if (!user) throw new Error("User not found");
+
+  await prisma.users.update({
+    where: { users_userid: userToID },
+    data: {
+      users_suspended: true,
+    },
+  });
+
+  return { success: true };
+}
+
+export async function unsuspendUser(
+  userToID: number,
+  userID: number,
+  userActions?: Map<number, boolean>,
+) {
+  // TODO: move audit log to separate function
+
+  if (!checkUserPermissions(9, userActions)) {
+    return {};
+  }
+
+  await prisma.auditLog.create({
+    data: {
+      auditLog_actionType: "UPDATE",
+      auditLog_actionTable: "users",
+      auditLog_actionData: "SUSPEND 0",
+      users_userid: userID,
+      auditLog_actionUserid: userToID,
+    },
+  });
+
+  const user = await prisma.users.findUnique({
+    where: { users_userid: userToID },
+  });
+
+  if (!user) throw new Error("User not found");
+
+  await prisma.users.update({
+    where: { users_userid: userToID },
+    data: {
+      users_suspended: false,
+    },
+  });
+
+  return { success: true };
+}
+
+export async function endAllPositionsForUser(
+  userToID: number,
+  userID: number,
+  userActions?: Map<number, boolean>,
+) {
+  // TODO: move audit log to separate function
+
+  if (!checkUserPermissions(13, userActions)) {
+    return {};
+  }
+
+  await prisma.auditLog.create({
+    data: {
+      auditLog_actionType: "ENDALL",
+      auditLog_actionTable: "userPositions",
+      users_userid: userID,
+      auditLog_actionUserid: userToID,
+    },
+  });
+
+  const user = await prisma.users.findUnique({
+    where: { users_userid: userToID },
+  });
+
+  if (!user) throw new Error("User not found");
+
+  await prisma.userPositions.updateMany({
+    where: {
+      users_userid: userToID,
+      OR: [
+        {
+          userPositions_end: {
+            gte: new Date(),
+          },
+        },
+        {
+          userPositions_end: null,
+        },
+      ],
+    },
+    data: {
+      userPositions_end: new Date(),
+    },
+  });
+
+  return { success: true };
+}
+
 export async function deleteUser(
   userToID: number,
   userID: number,
