@@ -49,7 +49,11 @@ export default async function handler(
       }): { articles_id: number; read_count: number; updated_at: Date } => s,
     );
 
-    const articleIds = articlesID.map((id) => id.articles_id);
+    let articleIds = articlesID.map((id) => id.articles_id);
+
+    if (articleIds.length == 0) {
+      articleIds.push(0);
+    }
 
     const cacheKey = `topArticles:${articleIds.join(",")}`;
     const queryString = Prisma.sql`

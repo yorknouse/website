@@ -181,7 +181,7 @@ export interface ICategory {
   categories_showPublic: boolean;
   categories_showAdmin: boolean;
   categories_featured: string | null;
-  categories_order: boolean | null;
+  categories_order: number | null;
   categories_nestUnder: number | null;
   categories_showSub: boolean;
   categories_facebook: string | null;
@@ -202,7 +202,7 @@ export interface ICategoryArticles {
   categories_showPublic: boolean;
   categories_showAdmin: boolean;
   categories_featured: string | null;
-  categories_order: boolean | null;
+  categories_order: number | null;
   categories_nestUnder: number | null;
   categories_showSub: boolean;
   categories_facebook: string | null;

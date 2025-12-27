@@ -127,7 +127,7 @@ model articlesDrafts {
   @@index([articles_id], map: "articlesDrafts_articles_articles_id_fk")
   @@index([articlesDrafts_userid], map: "articlesDrafts_users_users_userid_fk")
   @@index([articles_id, articlesDrafts_timestamp(sort: Desc)], map: "idx_articlesDrafts_article_timestamp")
-  @@fulltext([articlesDrafts_headline, articlesDrafts_excerpt])
+  @@fulltext([articlesDrafts_headline, articlesDrafts_excerpt], map: "fts_articleDrafts_headline_excerpt")
 }
 
 model articlesReads {
@@ -187,7 +187,7 @@ model categories {
   categories_showPublic              Boolean              @default(false)
   categories_showAdmin               Boolean              @default(true)
   categories_featured                String?              @db.VarChar(500)
-  categories_order                   Boolean?
+  categories_order                   Int?
   categories_nestUnder               Int?
   categories_showSub                 Boolean              @default(true)
   categories_facebook                String?              @db.VarChar(200)

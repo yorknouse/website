@@ -10,7 +10,7 @@ export const categorySchema = z.object({
   categories_showPublic: z.boolean(),
   categories_showAdmin: z.boolean(),
   categories_featured: z.string().nullable(),
-  categories_order: z.boolean().nullable(),
+  categories_order: z.number().int().nonnegative().nullable(),
   categories_nestUnder: z.number().int().nullable(),
   categories_showSub: z.boolean(),
   categories_facebook: z.string().nullable(),
