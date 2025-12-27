@@ -5,6 +5,7 @@ import { getArticleImage } from "@/lib/articles";
 import type { ArticleAuthor } from "@/lib/types";
 import he from "he";
 import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
+import { Prisma } from "@prisma/client";
 
 const cors = (res: NextApiResponse) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -45,120 +46,63 @@ export default async function handler(
       return;
     }
 
-    const term1 = `%${rawTerm}%`;
+    const ftTerm = term
+      .split(/\s+/)
+      .map((w) => `+${w}*`)
+      .join(" ");
 
-    // 1. Match authors
-    const matchingAuthors: { users_userid: number }[] =
-      await prisma.users.findMany({
-        where: {
-          users_deleted: false,
-          OR: [
-            {
-              users_name1: {
-                contains: term1,
-                // mode: "insensitive",
-              },
-            },
-            {
-              users_name2: {
-                contains: term1,
-                // mode: "insensitive",
-              },
-            },
-            {
-              // Name1 + Name2 full match (simulate CONCAT)
-              AND: [
-                {
-                  users_name1: {
-                    not: null,
-                  },
-                },
-                {
-                  users_name2: {
-                    not: null,
-                  },
-                },
-                {
-                  AND: [
-                    {
-                      users_name1: {
-                        contains: term.split(" ")[0],
-                        // mode: "insensitive",
-                      },
-                    },
-                    {
-                      users_name2: {
-                        contains: term.split(" ")[1] || "",
-                        // mode: "insensitive",
-                      },
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        select: {
-          users_userid: true,
-        },
-      });
+    // Match authors
+    const matchingAuthors1 = await prisma.$queryRaw<{ users_userid: number }[]>`
+      SELECT users_userid
+      FROM users
+      WHERE MATCH(users_name1, users_name2) AGAINST (${ftTerm} IN BOOLEAN MODE)
+    `;
 
     const authorIds =
-      matchingAuthors.length > 0
-        ? matchingAuthors.map((a) => a.users_userid)
-        : [-1]; // Avoid empty IN clause
+      matchingAuthors1.length > 0
+        ? matchingAuthors1.map((a) => a.users_userid)
+        : [-1];
 
-    // 2. Find matching articles with latest drafts
-    const now = new Date();
+    // Articles matching drafts
+    const matchingArticleIdsFT = await prisma.$queryRaw<
+      { articles_id: number }[]
+    >`
+      SELECT a.articles_id
+      FROM articles a
+             JOIN articlesDrafts d
+                  ON d.articles_id = a.articles_id
+      WHERE a.articles_showInSearch = 1
+        AND a.articles_published <= NOW()
+        AND MATCH(d.articlesDrafts_headline, d.articlesDrafts_excerpt)
+                  AGAINST (${ftTerm} IN BOOLEAN MODE)
+    `;
+
+    // Articles by authorIds
+    const matchingArticleIdsAuthors = await prisma.$queryRaw<
+      { articles_id: number }[]
+    >`
+      SELECT DISTINCT aa.articles_id
+      FROM articlesAuthors aa
+      WHERE aa.users_userid IN (${Prisma.join(authorIds)})
+    `;
+
+    // Combine IDs
+    const combinedIds = [
+      ...matchingArticleIdsFT.map((a) => Number(a.articles_id)),
+      ...matchingArticleIdsAuthors.map((a) => Number(a.articles_id)),
+    ];
+
+    // Fetch full articles
     const articles = await prisma.articles.findMany({
       where: {
+        articles_id: { in: combinedIds },
         articles_showInSearch: true,
-        articles_published: {
-          lte: now,
-        },
-        OR: [
-          {
-            articlesDrafts: {
-              some: {
-                OR: [
-                  {
-                    articlesDrafts_excerpt: {
-                      contains: term1,
-                      // mode: "insensitive",
-                    },
-                  },
-                  {
-                    articlesDrafts_headline: {
-                      contains: term1,
-                      // mode: "insensitive",
-                    },
-                  },
-                ],
-              },
-            },
-          },
-          {
-            articles_id: {
-              in: (
-                await prisma.articlesAuthors.findMany({
-                  where: {
-                    users_userid: { in: authorIds },
-                  },
-                  select: { articles_id: true },
-                })
-              ).map((a: { articles_id: number }) => a.articles_id),
-            },
-          },
-        ],
+        articles_published: { lte: new Date() },
       },
-      orderBy: {
-        articles_published: "desc",
-      },
+      orderBy: { articles_published: "desc" },
       include: {
         articlesDrafts: {
-          orderBy: {
-            articlesDrafts_timestamp: "desc",
-          },
+          orderBy: { articlesDrafts_timestamp: "desc" },
           take: 1,
         },
         categories: {
@@ -175,11 +119,7 @@ export default async function handler(
           },
         },
         users: {
-          where: {
-            users: {
-              users_deleted: false,
-            },
-          },
+          where: { users: { users_deleted: false } },
           select: {
             users: {
               select: {
