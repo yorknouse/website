@@ -52,7 +52,7 @@ export default async function handler(
     let articleIds = articlesID.map((id) => id.articles_id);
 
     if (articleIds.length == 0) {
-        articleIds.push(0);
+      articleIds.push(0);
     }
 
     const cacheKey = `topArticles:${articleIds.join(",")}`;
