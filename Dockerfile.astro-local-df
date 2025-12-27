@@ -1,4 +1,4 @@
-FROM node:24.11.1-trixie-slim AS build
+FROM node:24.12.0-trixie-slim AS build
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ ENV PUBLIC_BASE_URL=$PUBLIC_BASE_URL
 RUN npm install
 RUN npm run build -- --config astro.config.ts
 
-FROM node:24.11.1-trixie-slim AS runtime
+FROM node:24.12.0-trixie-slim AS runtime
 
 WORKDIR /app
 
