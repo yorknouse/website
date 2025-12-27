@@ -66,7 +66,7 @@ export default async function Users({
               <th className={"px-4 py-2"}>York username</th>
               <th className={"px-4 py-2"}>Nouse username</th>
               <th className={"px-4 py-2"}>Roles</th>
-              <th className={"px-4 py-2"}>Labels</th>
+              <th></th>
               <th className={"px-4 py-2"}>Actions</th>
             </tr>
           </thead>
