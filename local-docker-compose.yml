@@ -112,8 +112,8 @@ services:
       - react-container
     env_file:
       - nouseprod-local.env
-    expose:
-      - 4321
+    ports:
+      - "4321:4321"
     environment:
       - PUBLIC_API_BASE_URL=http://react-container:3000
       - PUBLIC_BASE_URL=http://localhost:3000
