@@ -112,7 +112,7 @@ export default async function Audit({
                   <td className={"px-4 py-2"}>
                     <code
                       className={
-                        "block max-w-[50vw] whitespace-pre-wrap break-words"
+                        "block max-w-[50vw] whitespace-pre-wrap wrap-break-word"
                       }
                     >
                       {he.decode(String(log.auditLog_actionData))}
