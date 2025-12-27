@@ -5,6 +5,7 @@ import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
 import { getAuditLog } from "@/lib/auditLog";
 import { getUser } from "@/lib/users";
 import he from "he";
+import { checkUserPermissions, GetUserData } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Audit Log",
@@ -20,6 +21,10 @@ export default async function Audit({
     actionUserId?: string;
   }>;
 }) {
+  const userData = await GetUserData();
+  if (!userData || !checkUserPermissions(48, userData.actions)) {
+    return <p>Unauthorised</p>;
+  }
   const awaitedSearchParams = await searchParams;
   const pageRaw = awaitedSearchParams.page ?? "1";
   const searchRaw = awaitedSearchParams.search ?? null;
@@ -82,13 +87,13 @@ export default async function Audit({
         <table className={"table-auto bg-white max-w-dvw"}>
           <thead className={"border-b-4 border-gray-600"}>
             <tr>
-              <th>ID</th>
-              <th>Type</th>
-              <th>Table Affected</th>
-              <th>Data</th>
-              <th>Timestamp</th>
-              <th>Action performed by</th>
-              <th>Action performed against user</th>
+              <th className={"px-4 py-2"}>ID</th>
+              <th className={"px-4 py-2"}>Type</th>
+              <th className={"px-4 py-2"}>Table Affected</th>
+              <th className={"px-4 py-2"}>Data</th>
+              <th className={"px-4 py-2"}>Timestamp</th>
+              <th className={"px-4 py-2"}>Action performed by</th>
+              <th className={"px-4 py-2"}>Action performed against user</th>
             </tr>
           </thead>
           <tbody>
