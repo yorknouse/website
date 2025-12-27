@@ -5,6 +5,7 @@ import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
 import { getAuditLog } from "@/lib/auditLog";
 import { getUser } from "@/lib/users";
 import he from "he";
+import { checkUserPermissions, GetUserData } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Audit Log",
@@ -20,6 +21,10 @@ export default async function Audit({
     actionUserId?: string;
   }>;
 }) {
+  const userData = await GetUserData();
+  if (!userData || !checkUserPermissions(48, userData.actions)) {
+    return <p>Unauthorised</p>;
+  }
   const awaitedSearchParams = await searchParams;
   const pageRaw = awaitedSearchParams.page ?? "1";
   const searchRaw = awaitedSearchParams.search ?? null;
