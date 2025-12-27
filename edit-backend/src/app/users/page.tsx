@@ -101,7 +101,7 @@ export default async function Users({
                       <span className={"px-1"}>
                         <span
                           className={
-                            "inline-block rounded-sm shadow-sm bg-red-400 px-2 py-1 text-xs text-white"
+                            "inline-block rounded-full shadow-sm bg-red-400 px-2 py-0.5 text-xs text-white font-medium mb-1 mr-1"
                           }
                         >
                           Suspended
@@ -114,7 +114,7 @@ export default async function Users({
                       <span className={"px-1"}>
                         <span
                           className={
-                            "inline-block rounded-sm shadow-sm bg-orange-300 px-2 py-1 text-xs text-white"
+                            "inline-block rounded-full shadow-sm bg-orange-300 px-2 py-0.5 text-xs font-medium mb-1 mr-1"
                           }
                         >
                           Cannot log in
