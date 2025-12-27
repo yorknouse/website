@@ -186,7 +186,7 @@ export default async function handler(
         excerpt:
           similarArticle.articlesDrafts.length != 0
             ? similarArticle.articlesDrafts[0].articlesDrafts_excerpt
-            : "Unknown",
+            : null,
         articleURL: `${process.env.FRONTEND_URL}articles/${dateFormatter
           .format(publishedDate) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
           .split("/")
@@ -230,7 +230,7 @@ export default async function handler(
     excerpt:
       articleRaw.articlesDrafts.length != 0
         ? articleRaw.articlesDrafts![0].articlesDrafts_excerpt
-        : "Unknown",
+        : null,
     published: dateFormatter
       .format(publishedDate)
       .split("/")

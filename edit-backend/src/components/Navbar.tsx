@@ -119,7 +119,7 @@ export default function Sidebar({
             <span className="truncate">Home</span>
           </Link>
 
-          <Link href="/account" className={linkStyle}>
+          <Link href={`/users/${userId}`} className={linkStyle}>
             <SquareUserRound className={iconStyle} />
             <span className="truncate">Account</span>
           </Link>

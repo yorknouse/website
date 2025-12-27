@@ -158,7 +158,7 @@ export default async function handler(
           excerpt:
             article1.articlesDrafts.length != 0
               ? article1.articlesDrafts[0].articlesDrafts_excerpt
-              : "Unknown",
+              : null,
           published: dateFormatter
             .format(article1.articles_published || new Date(0))
             .split("/")
