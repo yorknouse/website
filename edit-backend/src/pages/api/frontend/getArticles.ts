@@ -5,7 +5,6 @@ import { getArticleImage } from "@/lib/articles";
 import {
   ArticleAuthor,
   ArticleCategory,
-  IArticle,
   IArticleFull,
   ICategory,
 } from "@/lib/types";
