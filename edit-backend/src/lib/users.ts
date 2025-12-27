@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { checkUserPermissions } from "@/lib/auth";
 import { Prisma } from "@prisma/client";
+import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
 
 export async function getUser(userId: number) {
   if (isNaN(userId)) {
@@ -24,33 +25,44 @@ export async function getUsers({
   page?: number;
   pageSize?: number;
 }) {
-  const where: Prisma.usersWhereInput = { users_deleted: false };
+  let whereClause: Prisma.Sql | null = null;
 
   if (search && search.trim().length > 0) {
-    const terms = search.trim().split(/\s+/);
-    where.AND = terms.map((term) => ({
-      OR: [
-        { users_name1: { contains: term } },
-        { users_name2: { contains: term } },
-        { users_googleAppsUsernameYork: { contains: term } },
-        { users_googleAppsUsernameNouse: { contains: term } },
-        { users_userid: isNaN(Number(term)) ? undefined : Number(term) },
-        {
-          userPositions: {
-            some: {
-              OR: [
-                { userPositions_displayName: { contains: term } },
-                {
-                  positions: {
-                    positions_displayName: { contains: term },
-                  },
-                },
-              ],
-            },
-          },
-        },
-      ].filter(Boolean),
-    }));
+    const rawTerms = search.trim().split(/\s+/);
+
+    const safeTerms = rawTerms
+      .map((t) => sanitiseSearchTerm(t))
+      .filter((t): t is string => t !== null);
+
+    if (safeTerms.length > 0) {
+      const termClauses = safeTerms.map(
+        (term) =>
+          Prisma.sql`
+        (
+          u.users_name1 LIKE CONCAT('%', ${term}, '%')
+          OR u.users_name2 LIKE CONCAT('%', ${term}, '%')
+          OR u.users_googleAppsUsernameYork LIKE CONCAT('%', ${term}, '%')
+          OR u.users_googleAppsUsernameNouse LIKE CONCAT('%', ${term}, '%')
+          OR u.users_userid = ${isNaN(Number(term)) ? -1 : Number(term)}
+          OR EXISTS (
+            SELECT 1
+            FROM userPositions up2
+            LEFT JOIN positions p2
+              ON p2.positions_id = up2.positions_id
+            WHERE up2.users_userid = u.users_userid
+              AND (
+                up2.userPositions_displayName LIKE CONCAT('%', ${term}, '%')
+                OR p2.positions_displayName LIKE CONCAT('%', ${term}, '%')
+              )
+          )
+        )
+      `,
+      );
+
+      whereClause = Prisma.sql`
+      WHERE ${Prisma.join(termClauses, ` AND `)} AND u.users_deleted IS FALSE
+    `;
+    }
   }
 
   const [users, totalCount] = await Promise.all([
@@ -81,21 +93,19 @@ export async function getUsers({
       ]
     >`
       SELECT u.*,
-             COALESCE(
-                 JSON_ARRAYAGG(
-                     JSON_OBJECT(
-                         'userPositions_id', up.userPositions_id,
-                         'userPositions_start', up.userPositions_start,
-                         'userPositions_end', up.userPositions_end,
-                         'positions', JSON_OBJECT(
-                                      'positions_id', p.positions_id,
-                                      'positions_displayName', p.positions_displayName,
-                                      'positions_rank', p.positions_rank
-                                      )
-                     )
-                 ),
-                 JSON_ARRAY()
-             ) AS userPositions
+             IF(COUNT(up.userPositions_id) = 0, NULL, JSON_ARRAYAGG(
+                 JSON_OBJECT(
+                     'userPositions_id', up.userPositions_id,
+                     'userPositions_start', up.userPositions_start,
+                     'userPositions_end', up.userPositions_end,
+                     'positions', JSON_OBJECT(
+                         'positions_id', p.positions_id,
+                         'positions_displayName', p.positions_displayName,
+                         'positions_rank', p.positions_rank
+                                  )
+                 )
+                                                      )) AS userPositions
+
       FROM users u
              LEFT JOIN userPositions up
                        ON up.users_userid = u.users_userid
@@ -103,23 +113,51 @@ export async function getUsers({
                          AND up.userPositions_end >= NOW()
              LEFT JOIN positions p
                        ON p.positions_id = up.positions_id
-      GROUP BY u.users_userid, u.users_name1, u.users_name2, u.users_created
-      ORDER BY (SELECT COUNT(DISTINCT users_userid)
-                FROM userPositions
-                WHERE users_userid = u.users_userid
-                  AND userPositions_end >= NOW()
-                  AND userPositions_start <= NOW()) DESC, u.users_name1, u.users_name2, u.users_created
-  LIMIT ${pageSize}
-  OFFSET ${(page - 1) * pageSize}
-`,
-    prisma.users.count({ where }),
+        ${whereClause ?? Prisma.sql`WHERE u.users_deleted IS FALSE`}
+
+      GROUP BY
+        u.users_userid,
+        u.users_name1,
+        u.users_name2,
+        u.users_created
+
+      ORDER BY
+        (
+        SELECT COUNT(DISTINCT up3.users_userid)
+        FROM userPositions up3
+        WHERE up3.users_userid = u.users_userid
+        AND up3.userPositions_start <= NOW()
+        AND up3.userPositions_end > NOW()
+        )
+      DESC,
+        u.users_name1,
+        u.users_name2,
+        u.users_created
+        LIMIT ${pageSize}
+        OFFSET ${(page - 1) * pageSize}
+    `,
+    prisma.$queryRaw<{ total: number }[]>`
+    SELECT COUNT(DISTINCT u.users_userid) AS total
+    FROM users u
+    LEFT JOIN userPositions up
+      ON up.users_userid = u.users_userid
+     AND up.userPositions_start <= NOW()
+     AND up.userPositions_end >= NOW()
+    LEFT JOIN positions p
+      ON p.positions_id = up.positions_id
+
+    ${whereClause ?? Prisma.sql`WHERE u.users_deleted IS FALSE`}
+  `,
   ]);
+
+  if (totalCount.length !== 1 || isNaN(Number(totalCount[0].total)))
+    throw new Error("Total count for users error");
 
   return {
     users: users,
     pagination: {
       page,
-      totalPages: Math.ceil(totalCount / pageSize),
+      totalPages: Math.ceil(Number(totalCount[0].total) / pageSize),
     },
   };
 }
