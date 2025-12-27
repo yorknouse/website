@@ -179,7 +179,7 @@ CREATE TABLE `categories` (
     `categories_showPublic` BOOLEAN NOT NULL DEFAULT false,
     `categories_showAdmin` BOOLEAN NOT NULL DEFAULT true,
     `categories_featured` VARCHAR(500) NULL,
-    `categories_order` BOOLEAN NULL,
+    `categories_order` INTEGER NULL,
     `categories_nestUnder` INTEGER NULL,
     `categories_showSub` BOOLEAN NOT NULL DEFAULT true,
     `categories_facebook` VARCHAR(200) NULL,
