@@ -1,10 +1,10 @@
 generator client {
-  provider = "prisma-client-js"
+  provider   = "prisma-client-js"
+  engineType = "client"
 }
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
 }
 
 model actions {
@@ -86,6 +86,7 @@ model articles {
   @@index([editions_id, articles_showInAdmin], map: "idx_articles_editions_admin")
   @@index([editions_id], map: "idx_articles_editions_id")
   @@index([articles_showInAdmin, articles_published(sort: Desc)], map: "idx_articles_admin_published")
+  @@index([articles_showInSearch, articles_published(sort: Desc)], map: "idx_articles_search_published")
   @@fulltext([articles_slug])
 }
 
@@ -96,6 +97,7 @@ model articlesAuthors {
   users        users    @relation(fields: [users_userid], references: [users_userid])
 
   @@unique([articles_id, users_userid], map: "articlesAuthors_articles_id_users_userid_unique")
+  @@index([users_userid, articles_id], map: "idx_articlesAuthors_user_articles")
 }
 
 model articlesCategories {
@@ -432,6 +434,7 @@ model users {
   @@index([users_googleAppsUsernameYork], map: "users_users_googleAppsUsernameYork_index")
   @@index([users_suspended], map: "users_users_suspended_index")
   @@index([users_userid, users_deleted], map: "idx_users_userid_deleted")
+  @@fulltext([users_name1, users_name2], map: "idx_users_name_fulltext")
 }
 
 model usersOauthCodes {

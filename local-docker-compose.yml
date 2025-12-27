@@ -94,6 +94,11 @@ services:
       - REDIS_HOST=valkey
       - REDIS_PORT=6379
       - DATABASE_URL=mysql://userDocker:passDocker@db:3306/nouse
+      - MYSQL_HOSTNAME=db
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=nouse
+      - MYSQL_USERNAME=userDocker
+      - MYSQL_PASSWORD=passDocker
   astro-container:
     build:
       context: .
