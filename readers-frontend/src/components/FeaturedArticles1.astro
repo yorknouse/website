@@ -1,0 +1,127 @@
+---
+import Article from "./Article.astro";
+import { getArticles } from "@componentsUtils//articles";
+import { getCategoryLink } from "@componentsUtils//categories";
+import type { IArticleFull, ICategory } from "./types";
+
+interface Props {
+  featuredArticlesIds: number[] | undefined;
+  hideCategoryAccent?: boolean;
+  style: "nouse" | "muse";
+  textColor?: string;
+}
+
+const { featuredArticlesIds, hideCategoryAccent, style, textColor } =
+  Astro.props;
+
+// Get featured articles
+const featuredArticles: IArticleFull[] = await getArticles(
+  style,
+  featuredArticlesIds,
+);
+const hasPortraitArticles =
+  featuredArticles.filter((a) => a.isThumbnailPortrait).length > 0;
+// Sort articles so that portrait articles are first
+if (hasPortraitArticles) {
+  featuredArticles.sort((a, b) => {
+    if (a.isThumbnailPortrait && !b.isThumbnailPortrait) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
+}
+
+const mainCategories: ICategory[] = featuredArticles.flatMap(({ categories }) =>
+  categories!
+    .filter(
+      (category) =>
+        category.categories_nestUnder === (style === "nouse" ? null : 4) &&
+        category.categories_showPublic &&
+        category.categories_showHome,
+    )
+    .map((category) => category),
+);
+---
+
+{
+  featuredArticles.length != 0 && (
+    <>
+      <div class="border-color mt-4 h-full">
+        {/* Desktop */}
+        <div
+          class="
+    hidden md:grid gap-4 w-full
+    md:grid-cols-[repeat(auto-fit,minmax(25%,1fr))]
+    xl:grid-cols-[repeat(auto-fit,minmax(16.666%,1fr))]
+  "
+        >
+          {featuredArticles.map(async (article, index) => {
+            return (
+              <div class={`w-full pr-2.5`}>
+                <Article
+                  headline={
+                    article.headline?.length != 0
+                      ? String(article.headline)
+                      : "Unknown"
+                  }
+                  excerpt={
+                    article.excerpt?.length != 0 ? article.excerpt : null
+                  }
+                  authors={article.authors}
+                  category={article.parentCategory.name}
+                  categoryLink={article.parentCategory.link}
+                  categoryColor={article.parentCategory.colour}
+                  imageUrl={article.thumbnailURL}
+                  articleUrl={article.articleURL}
+                  isVertical={true}
+                  isPortrait={article.isThumbnailPortrait}
+                  hideCategoryAccent={false}
+                  textColour={"#fff"}
+                />
+              </div>
+            );
+          })}
+        </div>
+        {/* Mobile */}
+        {
+          <div class="block max-w-full justify-center md:hidden">
+            {featuredArticles.map(async (article, index) => (
+              <div
+                class={`w-full p-2.5 ${
+                  index != featuredArticles.length - 1
+                    ? "border-b border-gray-300"
+                    : ""
+                }`}
+              >
+                <Article
+                  headline={
+                    article.headline?.length != 0
+                      ? String(article.headline)
+                      : "Unknown"
+                  }
+                  excerpt={
+                    article.excerpt?.length != 0 ? article.excerpt : "Unknown"
+                  }
+                  authors={article.authors}
+                  category={article.parentCategory.displayName}
+                  categoryLink={getCategoryLink(
+                    String(article.parentCategory.name),
+                    article.parentCategory.nestUnder,
+                  )}
+                  categoryColor={article.parentCategory.colour}
+                  imageUrl={article.thumbnailURL}
+                  articleUrl={article.articleURL}
+                  isVertical={false}
+                  isPortrait={article.isThumbnailPortrait}
+                  hideCategoryAccent={false}
+                  textColour={"#fff"}
+                />
+              </div>
+            ))}
+          </div>
+        }
+      </div>
+    </>
+  )
+}

@@ -114,18 +114,27 @@ const imagePlaceHolder =
                 } else if (index === authors.length - 1) {
                   return (
                     <>
-                      <span> and </span>
+                      <span
+                        class={`${overrideCategoryColor ? "text-white" : "category-color"}`}
+                      >
+                        {" "}
+                        and{" "}
+                      </span>
                       <a href={`/author/${author.users_userid}`}>
-                        {`${author.users_name1} ${author.users_name2}`}
+                        {author.users_name1} {author.users_name2}
                       </a>
                     </>
                   );
                 } else {
                   return (
                     <>
-                      <span>, </span>
+                      <span
+                        class={`${overrideCategoryColor ? "text-white" : "category-color"}`}
+                      >
+                        ,{" "}
+                      </span>
                       <a href={`/author/${author.users_userid}`}>
-                        {`${author.users_name1} ${author.users_name2}`}
+                        {author.users_name1} {author.users_name2}
                       </a>
                     </>
                   );
