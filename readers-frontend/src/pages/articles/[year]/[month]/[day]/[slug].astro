@@ -168,15 +168,30 @@ if (
                   );
                 } else if (index === article.authors.length - 1) {
                   return (
-                    <a href={`/author/${author.users_userid}`}>
-                      {` and ${author.users_name1} ${author.users_name2}`}
-                    </a>
+                    <>
+                      <span
+                        class={`category-color-${article.parentCategory?.name}`}
+                      >
+                        {" "}
+                        and{" "}
+                      </span>
+                      <a href={`/author/${author.users_userid}`}>
+                        {author.users_name1} {author.users_name2}
+                      </a>
+                    </>
                   );
                 } else {
                   return (
-                    <a href={`/author/${author.users_userid}`}>
-                      {`, ${author.users_name1} ${author.users_name2}`}
-                    </a>
+                    <>
+                      <span
+                        class={`category-color-${article.parentCategory?.name}`}
+                      >
+                        ,{" "}
+                      </span>
+                      <a href={`/author/${author.users_userid}`}>
+                        {author.users_name1} {author.users_name2}
+                      </a>
+                    </>
                   );
                 }
               })
