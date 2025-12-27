@@ -75,6 +75,8 @@ CREATE TABLE `articles` (
     INDEX `articles_articles_slug_index`(`articles_slug`),
     INDEX `idx_articles_editions_admin`(`editions_id`, `articles_showInAdmin`),
     INDEX `idx_articles_admin_published`(`articles_showInAdmin`, `articles_published` DESC),
+    INDEX `idx_articles_search_published`(`articles_showInSearch`, `articles_published` DESC),
+    INDEX `idx_articles_editions_id`(`editions_id`),
     FULLTEXT INDEX `articles_articles_slug_idx`(`articles_slug`),
     PRIMARY KEY (`articles_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -84,7 +86,8 @@ CREATE TABLE `articlesAuthors` (
     `articles_id` INTEGER NOT NULL,
     `users_userid` INTEGER NOT NULL,
 
-    UNIQUE INDEX `articlesAuthors_articles_id_users_userid_unique`(`articles_id`, `users_userid`)
+    UNIQUE INDEX `articlesAuthors_articles_id_users_userid_unique`(`articles_id`, `users_userid`),
+    INDEX `idx_articlesAuthors_user_articles`(`users_userid`, `articles_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -112,7 +115,7 @@ CREATE TABLE `articlesDrafts` (
     INDEX `articlesDrafts_articles_articles_id_fk`(`articles_id`),
     INDEX `articlesDrafts_users_users_userid_fk`(`articlesDrafts_userid`),
     INDEX `idx_articlesDrafts_article_timestamp`(`articles_id`, `articlesDrafts_timestamp` DESC),
-    FULLTEXT INDEX `articlesDrafts_articlesDrafts_headline_articlesDrafts_excerp_idx`(`articlesDrafts_headline`, `articlesDrafts_excerpt`),
+    FULLTEXT INDEX `fts_articleDrafts_headline_excerpt`(`articlesDrafts_headline`, `articlesDrafts_excerpt`),
     PRIMARY KEY (`articlesDrafts_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -426,6 +429,7 @@ CREATE TABLE `users` (
     INDEX `users_users_googleAppsUsernameYork_index`(`users_googleAppsUsernameYork`),
     INDEX `users_users_suspended_index`(`users_suspended`),
     INDEX `idx_users_userid_deleted`(`users_userid`, `users_deleted`),
+    FULLTEXT INDEX `idx_users_name_fulltext`(`users_name1`, `users_name2`),
     PRIMARY KEY (`users_userid`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -450,6 +454,9 @@ ALTER TABLE `adverts` ADD CONSTRAINT `adverts_s3files_s3files_id_fk` FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE `adverts` ADD CONSTRAINT `adverts_s3files_s3files_id_fk_2` FOREIGN KEY (`adverts_bannerImageMob`) REFERENCES `s3files`(`s3files_id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `articles` ADD CONSTRAINT `idx_articles_editions_id` FOREIGN KEY (`editions_id`) REFERENCES `editions`(`editions_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `articlesAuthors` ADD CONSTRAINT `articlesAuthors_articles_id_fkey` FOREIGN KEY (`articles_id`) REFERENCES `articles`(`articles_id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -480,6 +487,9 @@ ALTER TABLE `authTokens` ADD CONSTRAINT `authTokens_users_users_userid_fk` FOREI
 
 -- AddForeignKey
 ALTER TABLE `authTokens` ADD CONSTRAINT `authTokens_users_users_userid_fk_2` FOREIGN KEY (`authTokens_adminId`) REFERENCES `users`(`users_userid`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+-- AddForeignKey
+ALTER TABLE `categories` ADD CONSTRAINT `categories_categories_nestUnder_fkey` FOREIGN KEY (`categories_nestUnder`) REFERENCES `categories`(`categories_id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `emailSent` ADD CONSTRAINT `emailSent_users_users_userid_fk` FOREIGN KEY (`users_userid`) REFERENCES `users`(`users_userid`) ON DELETE RESTRICT ON UPDATE RESTRICT;
