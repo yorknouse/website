@@ -71,14 +71,14 @@ export default async function Articles({
         <table className={"table-auto bg-white"}>
           <thead className={"border-b-4 border-gray-600"}>
             <tr>
-              <th>ID</th>
-              <th>Headline</th>
-              <th>Categories</th>
-              <th>Edition</th>
-              <th>Published</th>
-              <th>Updated</th>
-              <th>Published author(s)</th>
-              <th>Actions</th>
+              <th className={"px-4 py-2"}>ID</th>
+              <th className={"px-4 py-2"}>Headline</th>
+              <th className={"px-4 py-2"}>Categories</th>
+              <th className={"px-4 py-2"}>Edition</th>
+              <th className={"px-4 py-2"}>Published</th>
+              <th className={"px-4 py-2"}>Updated</th>
+              <th className={"px-4 py-2"}>Published author(s)</th>
+              <th className={"px-4 py-2"}>Actions</th>
             </tr>
           </thead>
           <tbody>
