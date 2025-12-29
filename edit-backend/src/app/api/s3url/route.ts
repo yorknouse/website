@@ -24,17 +24,7 @@ export async function GET(request: Request) {
 
     const url = await s3URL(fileIdNumber, sizeExt);
 
-    return NextResponse.json(
-      { url },
-      {
-        status: 200,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET",
-          "Access-Control-Allow-Headers": "Content-Type",
-        },
-      },
-    );
+    return NextResponse.json({ url });
   } catch (err) {
     console.error("Error in s3URL:", err);
 
