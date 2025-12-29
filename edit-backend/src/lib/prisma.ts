@@ -12,6 +12,9 @@ const adapter = new PrismaMariaDb({
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE,
   connectionLimit: 10,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 const prisma =
