@@ -1,4 +1,4 @@
-import { s3URL } from "@/lib/s3URL";
+import { S3FileNotFoundError, s3URL } from "@/lib/s3URL";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -26,6 +26,10 @@ export async function GET(request: Request) {
 
     return NextResponse.json({ url });
   } catch (err) {
+    if (err instanceof S3FileNotFoundError) {
+      return NextResponse.json({ message: "File not found" }, { status: 404 });
+    }
+
     console.error("Error in s3URL:", err);
 
     return NextResponse.json(
