@@ -48,7 +48,6 @@ services:
     restart: always
     environment:
       - MYSQL_DATABASE=nouse
-      - MYSQL_ROOT_HOST=127.0.0.1
       - MYSQL_USER=userDocker
       - MYSQL_PASSWORD=passDocker
       - MYSQL_ROOT_PASSWORD=rootPass
@@ -99,6 +98,7 @@ services:
       - MYSQL_DATABASE=nouse
       - MYSQL_USERNAME=userDocker
       - MYSQL_PASSWORD=passDocker
+      - NEXTAUTH_URL=http://localhost:3000
   astro-container:
     build:
       context: .
@@ -112,8 +112,8 @@ services:
       - react-container
     env_file:
       - nouseprod-local.env
-    expose:
-      - 4321
+    ports:
+      - "4321:4321"
     environment:
       - PUBLIC_API_BASE_URL=http://react-container:3000
       - PUBLIC_BASE_URL=http://localhost:3000
