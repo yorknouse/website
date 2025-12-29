@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import { validatePreviewToken } from "@/lib/preview";
 import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
 import type { IEdition } from "@/lib/types";
@@ -6,32 +6,28 @@ import prisma from "@/lib/prisma";
 import { cache } from "@/lib/cache";
 import crypto from "crypto";
 
-const cors = (res: NextApiResponse) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+export const runtime = "nodejs";
+
+type RouteParams = {
+  params: Promise<{
+    slug: string;
+  }>;
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  cors(res);
-
-  const { slug } = req.query;
-
-  const authHeader = req.headers.authorization;
-  const hashHeader = req.headers["x-preview-hash"];
-  const validToken = validatePreviewToken(authHeader);
-
-  const isPreview =
-    hashHeader !== undefined && typeof hashHeader === "string" && validToken;
-
-  const slugSanitised = sanitiseSearchTerm(slug);
-
-  const cleanSlug = decodeURIComponent(slugSanitised || "");
-
+export async function GET(request: Request, { params }: RouteParams) {
   try {
+    const { slug } = await params;
+
+    const authHeader = request.headers.get("authorization");
+    const hashHeader = request.headers.get("x-preview-hash");
+
+    const validToken = validatePreviewToken(authHeader ?? undefined);
+
+    const isPreview = typeof hashHeader === "string" && Boolean(validToken);
+
+    const slugSanitised = sanitiseSearchTerm(slug);
+    const cleanSlug = decodeURIComponent(slugSanitised || "");
+
     const edition = await cache<IEdition | null>(
       `edition:slug:${cleanSlug}`,
       2592000,
@@ -52,8 +48,10 @@ export default async function handler(
     );
 
     if (!edition) {
-      res.status(404).json({ message: "Edition not found" });
-      return;
+      return NextResponse.json(
+        { message: "Edition not found" },
+        { status: 404 },
+      );
     }
 
     if (isPreview) {
@@ -61,15 +59,22 @@ export default async function handler(
         .createHash("md5")
         .update(edition.editions_id.toString())
         .digest("hex");
+
       if (expectedHash !== hashHeader) {
-        res.status(404).json({ message: "Edition not found" });
-        return;
+        return NextResponse.json(
+          { message: "Edition not found" },
+          { status: 404 },
+        );
       }
     }
 
-    res.status(200).json(edition);
+    return NextResponse.json(edition);
   } catch (err) {
     console.error("Error in getEditions:", err);
-    res.status(500).json({ message: "Internal server error" });
+
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 },
+    );
   }
 }
