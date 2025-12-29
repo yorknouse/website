@@ -67,7 +67,7 @@ export default function AvatarUploader({
       getUploadParameters: async (file) => {
         const s3Key = generateS3Key(1, file.name, true);
 
-        const res = await fetch(`/api/uploads/sign`, {
+        const res = await fetch(`/api/backend/uploads/sign`, {
           method: "POST",
           headers: {
             "content-type": "application/json",
@@ -96,7 +96,7 @@ export default function AvatarUploader({
       const s3Key = file.meta.s3Key!;
 
       // Register upload in backend
-      const registerRes = await fetch(`/api/uploads/complete`, {
+      const registerRes = await fetch(`/api/backend/uploads/complete`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -118,7 +118,7 @@ export default function AvatarUploader({
       }
 
       // Set user thumbnail
-      const thumbRes = await fetch(`/api/users/thumbnail`, {
+      const thumbRes = await fetch(`/api/backend/users/thumbnail`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
