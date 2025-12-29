@@ -1,0 +1,46 @@
+import { s3URL } from "@/lib/s3URL";
+import { NextResponse } from "next/server";
+
+export async function GET(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+
+    const fileId = searchParams.get("fileId");
+    const size = searchParams.get("size");
+
+    const fileIdNumber = Number(fileId);
+    if (Number.isNaN(fileIdNumber)) {
+      return NextResponse.json({ message: "Invalid fileId" }, { status: 400 });
+    }
+
+    let sizeExt: false | "tiny" | "small" | "medium" | "large" | "comp" =
+      "comp";
+
+    if (size === "tiny") sizeExt = "tiny";
+    else if (size === "small") sizeExt = "small";
+    else if (size === "medium") sizeExt = "medium";
+    else if (size === "large") sizeExt = "large";
+    else if (!size || size === "false") sizeExt = false;
+
+    const url = await s3URL(fileIdNumber, sizeExt);
+
+    return NextResponse.json(
+      { url },
+      {
+        status: 200,
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET",
+          "Access-Control-Allow-Headers": "Content-Type",
+        },
+      },
+    );
+  } catch (err) {
+    console.error("Error in s3URL:", err);
+
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 },
+    );
+  }
+}
