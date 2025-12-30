@@ -28,10 +28,10 @@ export type articlesWithArticleDrafts = Prisma.articlesGetPayload<
  * @param {number} currentArticleId The current article id as to not fetch it.
  * @returns {Promise<articlesWithArticleDrafts[]>} Promise object represents the articles.
  */
-export const getSimilarArticles = async (
+export async function getSimilarArticles(
   parentCategoryId: number,
   currentArticleId: number,
-): Promise<articlesWithArticleDrafts[]> => {
+): Promise<articlesWithArticleDrafts[]> {
   return cache<articlesWithArticleDrafts[]>(
     `similarArticles:${parentCategoryId}:${currentArticleId}`,
     7200,
@@ -73,7 +73,7 @@ export const getSimilarArticles = async (
         },
       }),
   );
-};
+}
 
 /**
  * Retrieves an article image.
@@ -82,17 +82,17 @@ export const getSimilarArticles = async (
  * @returns {Promise<string>} Promise object represents the article image url.
  * TODO: Update the image for articles with articles_displayImages as false. We're currently using the archive one.
  */
-export const getArticleImage = async (
+export async function getArticleImage(
   article: articles | TopArticleResult,
   size: "tiny" | "small" | "medium" | "large" | false = "large",
-): Promise<string> => {
+): Promise<string> {
   if (!article.articles_displayImages) {
     return process.env.FILESTOREURL + "/nouseSiteAssets/imageArchive-comp.jpg";
   } else if (Number(article.articles_thumbnail)) {
     return await s3URL(Number(article.articles_thumbnail), size);
   } else
     return String(process.env.ARCHIVEFILESTOREURL) + article.articles_thumbnail;
-};
+}
 
 export async function getArticles({
   search,
