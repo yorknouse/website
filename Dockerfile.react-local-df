@@ -10,6 +10,9 @@ RUN npm install
 
 COPY ./edit-backend/prisma /app/prisma
 
+ARG DATABASE_URL
+ENV DATABASE_URL=$DATABASE_URL
+
 RUN npm install @prisma/client
 RUN npx prisma generate
 
