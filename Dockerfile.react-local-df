@@ -10,6 +10,9 @@ RUN npm install
 
 COPY ./edit-backend/prisma /app/prisma
 
+ARG DATABASE_URL
+ENV DATABASE_URL=$DATABASE_URL
+
 RUN npm install @prisma/client
 RUN npx prisma generate
 
@@ -52,5 +55,7 @@ RUN chmod 0644 /etc/cron.d/nextjs-cron
 # Apply cron job
 RUN crontab /etc/cron.d/nextjs-cron
 
+COPY docker/start-react.sh /app/start.sh
+
 # Start cron in background and then start Next.js server
-CMD cron && npm run start
+CMD ["bash", "/app/start.sh"]

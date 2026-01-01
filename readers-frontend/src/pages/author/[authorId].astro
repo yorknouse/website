@@ -98,7 +98,7 @@ const articlesPerPage = 10;
                 (position) =>
                   position.userPositions_show &&
                   position.positions &&
-                  position.userPositions_end! >= new Date(),
+                  new Date(position.userPositions_end!) >= new Date(),
               )
               .map(
                 (position, index) =>
@@ -108,20 +108,21 @@ const articlesPerPage = 10;
               )
           }
         </p>
-        <p class="text-center text-lg font-bold md:text-left">
+        <br />
+        <p class="text-center md:text-left">
           {
             author.userPositions
               .filter(
                 (position) =>
                   position.userPositions_show &&
                   position.positions &&
-                  position.userPositions_end! < new Date(),
+                  new Date(position.userPositions_end!) < new Date(),
               )
               .map(
                 (position, index) =>
                   `${index === 0 ? "Previously Held Positions: " : ", "}${
                     position.positions!.positions_displayName
-                  } (${position.userPositions_start.getFullYear()}-${position.userPositions_end!.getFullYear()})`,
+                  } (${new Date(position.userPositions_start).getFullYear()}-${new Date(position.userPositions_end!).getFullYear()})`,
               )
           }
         </p>
