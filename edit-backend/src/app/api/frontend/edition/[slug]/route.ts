@@ -26,7 +26,12 @@ export async function GET(request: Request, { params }: RouteParams) {
     const isPreview = typeof hashHeader === "string" && Boolean(validToken);
 
     const slugSanitised = sanitiseSearchTerm(slug);
-    const cleanSlug = decodeURIComponent(slugSanitised || "");
+
+    if (!slugSanitised || "") {
+      return NextResponse.json({ message: "Invalid slug" }, { status: 400 });
+    }
+
+    const cleanSlug = decodeURIComponent(slugSanitised);
 
     const edition = await cache<IEdition | null>(
       `edition:slug:${cleanSlug}`,
