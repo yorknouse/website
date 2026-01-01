@@ -1,28 +1,12 @@
 import prisma from "@/lib/prisma";
 import { cache } from "@/lib/cache";
 import type { ArticleAuthor, TopArticleResult } from "@/lib/types";
-import type { NextApiRequest, NextApiResponse } from "next";
 import { getArticleImage } from "@/lib/articles";
 import { Prisma } from "@prisma/client";
 import he from "he";
+import { NextResponse } from "next/server";
 
-const cors = (res: NextApiResponse) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-};
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  cors(res);
-
-  if (req.method !== "GET") {
-    res.status(405).json({ message: "Method not allowed" });
-    return;
-  }
-
+export async function GET(_: Request) {
   try {
     const summary = await cache("articlesReadSummary:latest", 7200, () =>
       prisma.articlesReadsSummary.findMany({
@@ -170,12 +154,20 @@ export default async function handler(
       }),
     );
 
-    res.status(200).json({ result: true, response: output });
+    return NextResponse.json(
+      { result: true, response: output },
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      },
+    );
   } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      result: false,
-      error: { code: "SERVER_ERROR", message: "Unexpected error" },
-    });
+    console.error("Error in topArticles", err);
+
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 },
+    );
   }
 }
