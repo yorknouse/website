@@ -13,6 +13,12 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
+const corsRes = {
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+  },
+};
+
 type RouteParams = {
   params: Promise<{
     slug: string;
@@ -259,7 +265,7 @@ export async function GET(req: Request, { params }: RouteParams) {
       displayImages: articleRaw.articles_displayImages!,
     };
 
-    return NextResponse.json(article);
+    return NextResponse.json(article, corsRes);
   } catch (err) {
     console.error("Error in article:", err);
 

@@ -1,6 +1,12 @@
 import { S3FileNotFoundError, s3URL } from "@/lib/s3URL";
 import { NextResponse } from "next/server";
 
+const corsRes = {
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+  },
+};
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -24,7 +30,7 @@ export async function GET(request: Request) {
 
     const url = await s3URL(fileIdNumber, sizeExt);
 
-    return NextResponse.json({ url });
+    return NextResponse.json({ url: url }, corsRes);
   } catch (err) {
     if (err instanceof S3FileNotFoundError) {
       return NextResponse.json({ message: "File not found" }, { status: 404 });

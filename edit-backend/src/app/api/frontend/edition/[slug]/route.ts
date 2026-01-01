@@ -73,7 +73,11 @@ export async function GET(request: Request, { params }: RouteParams) {
       }
     }
 
-    return NextResponse.json(edition);
+    return NextResponse.json(edition, {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
   } catch (err) {
     console.error("Error in getEditions:", err);
 

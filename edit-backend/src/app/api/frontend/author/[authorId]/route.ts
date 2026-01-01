@@ -2,6 +2,12 @@ import he from "he";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
+const corsRes = {
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+  },
+};
+
 type RouteParams = {
   params: Promise<{
     authorId: string;
@@ -59,7 +65,7 @@ export async function GET(_: Request, { params }: RouteParams) {
       users_name2: he.decode(author.users_name2 || ""),
     };
 
-    return NextResponse.json(decodedAuthor);
+    return NextResponse.json(decodedAuthor, corsRes);
   } catch (err) {
     console.error("Error in author:", err);
 

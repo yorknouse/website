@@ -6,6 +6,12 @@ import { Prisma } from "@prisma/client";
 import he from "he";
 import { NextResponse } from "next/server";
 
+const corsRes = {
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+  },
+};
+
 export async function GET(_: Request) {
   try {
     const summary = await cache("articlesReadSummary:latest", 7200, () =>
@@ -154,14 +160,7 @@ export async function GET(_: Request) {
       }),
     );
 
-    return NextResponse.json(
-      { result: true, response: output },
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      },
-    );
+    return NextResponse.json({ result: true, response: output }, corsRes);
   } catch (err) {
     console.error("Error in topArticles", err);
 
