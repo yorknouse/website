@@ -21,7 +21,7 @@ export async function GET(request: Request, { params }: RouteParams) {
     const authHeader = request.headers.get("authorization");
     const hashHeader = request.headers.get("x-preview-hash");
 
-    const validToken = validatePreviewToken(authHeader ?? undefined);
+    const validToken = validatePreviewToken(authHeader);
 
     const isPreview = typeof hashHeader === "string" && Boolean(validToken);
 
