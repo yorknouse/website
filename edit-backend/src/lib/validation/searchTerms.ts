@@ -13,6 +13,11 @@ export const searchTermSchema = z.preprocess(
 
 export function sanitiseSearchTerm(input: unknown) {
   const parsed = searchTermSchema.safeParse(input);
-  if (!parsed.success) return null;
+  if (!parsed.success) {
+    parsed.error.issues.forEach((error) => {
+      console.log(error.message);
+    })
+    return null;
+  }
   return parsed.data.normalize("NFKC");
 }
