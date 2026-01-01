@@ -34,7 +34,7 @@ export async function GET(_: Request, { params }: RouteParams) {
       );
     }
 
-    return NextResponse.json({ user });
+    return NextResponse.json(user);
   } catch (err) {
     console.error("Error in user:", err);
 
