@@ -16,7 +16,7 @@ export function sanitiseSearchTerm(input: unknown) {
   if (!parsed.success) {
     parsed.error.issues.forEach((error) => {
       console.log(error.message);
-    })
+    });
     return null;
   }
   return parsed.data.normalize("NFKC");
