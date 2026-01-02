@@ -88,7 +88,8 @@ CREATE TABLE `articlesAuthors` (
     `users_userid` INTEGER NOT NULL,
 
     UNIQUE INDEX `articlesAuthors_articles_id_users_userid_unique`(`articles_id`, `users_userid`),
-    INDEX `idx_articlesAuthors_user_articles`(`users_userid`, `articles_id`)
+    INDEX `idx_articlesAuthors_user_articles`(`users_userid`, `articles_id`),
+    INDEX `idx_articlesAuthors_article_user`(`articles_id`, `users_userid`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -96,7 +97,8 @@ CREATE TABLE `articlesCategories` (
     `articles_id` INTEGER NOT NULL,
     `categories_id` INTEGER NOT NULL,
 
-    UNIQUE INDEX `articlesCategories_articles_id_categories_id_unique`(`articles_id`, `categories_id`)
+    UNIQUE INDEX `articlesCategories_articles_id_categories_id_unique`(`articles_id`, `categories_id`),
+    INDEX `idx_articlesCategories_category_article`(`categories_id`, `articles_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -116,6 +118,7 @@ CREATE TABLE `articlesDrafts` (
     INDEX `articlesDrafts_articles_articles_id_fk`(`articles_id`),
     INDEX `articlesDrafts_users_users_userid_fk`(`articlesDrafts_userid`),
     INDEX `idx_articlesDrafts_article_timestamp`(`articles_id`, `articlesDrafts_timestamp` DESC),
+    INDEX `idx_drafts_article_headline`(`articles_id`, `articlesDrafts_headline`),
     FULLTEXT INDEX `fts_articleDrafts_headline_excerpt`(`articlesDrafts_headline`, `articlesDrafts_excerpt`),
     PRIMARY KEY (`articlesDrafts_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -128,6 +131,7 @@ CREATE TABLE `articlesReads` (
 
     INDEX `articlesReads_articles_articles_id_fk`(`articles_id`),
     INDEX `idx_reads_timestamp_id`(`articlesReads_timestamp`, `articles_id`),
+    INDEX `idx_reads_article_timestamp`(`articles_id`, `articlesReads_timestamp` DESC),
     PRIMARY KEY (`articlesReads_id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
