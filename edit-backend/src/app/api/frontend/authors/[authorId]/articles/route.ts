@@ -148,8 +148,7 @@ export async function GET(request: Request, { params }: RouteParams) {
             article1.articlesDrafts[0]?.articlesDrafts_thumbnailCredit ?? null,
           headline:
             article1.articlesDrafts[0]?.articlesDrafts_headline ?? "Unknown",
-          excerpt:
-            article1.articlesDrafts[0]?.articlesDrafts_excerpt ?? null,
+          excerpt: article1.articlesDrafts[0]?.articlesDrafts_excerpt ?? null,
           published: dateFormatter
             .format(article1.articles_published || new Date(0))
             .split("/")
