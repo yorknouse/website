@@ -1,32 +1,31 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 import { cache } from "@/lib/cache";
 import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
+import { NextResponse } from "next/server";
 
-const cors = (res: NextApiResponse) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+const corsRes = {
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+  },
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  cors(res);
+type RouteParams = {
+  params: Promise<{
+    name: string;
+  }>;
+};
 
-  if (req.method !== "GET") {
-    res.status(405).json({ message: "Method not allowed" });
-    return;
-  }
-
-  const { name } = req.query;
+export async function GET(_: Request, { params }: RouteParams) {
+  const { name } = await params;
 
   try {
+    if (!name) {
+      return NextResponse.json({ message: "Missing name" }, { status: 400 });
+    }
+
     const nameSanitised = sanitiseSearchTerm(name);
     if (!nameSanitised || nameSanitised.length == 0) {
-      res.status(400).json({ message: "Missing or invalid slug" });
-      return;
+      return NextResponse.json({ message: "Missing or invalid name" }, { status: 400 });
     }
 
     const categoryFeaturedAndCount = await cache<{
@@ -62,13 +61,16 @@ export default async function handler(
       !categoryFeaturedAndCount ||
       categoryFeaturedAndCount._count.articles === 0
     ) {
-      res.status(404).json({ message: "Categories featured not found" });
-      return;
+      return NextResponse.json({ message: "Categories featured not found" }, { status: 404 });
     }
 
-    res.status(200).json(categoryFeaturedAndCount);
+    return NextResponse.json(categoryFeaturedAndCount, corsRes);
   } catch (err) {
-    console.error("Error in menuCategories:", err);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("Error in categories featured and count:", err);
+
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 },
+    );
   }
 }
