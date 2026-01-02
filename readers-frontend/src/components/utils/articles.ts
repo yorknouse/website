@@ -16,7 +16,7 @@ export const getArticles = async (
   formData.append("articleIds", articlesString);
   formData.append("style", style);
 
-  const res = await fetch(`${apiBase}/api/frontend/getArticles`, {
+  const res = await fetch(`${apiBase}/api/frontend/articles`, {
     method: "POST",
     body: formData,
   });

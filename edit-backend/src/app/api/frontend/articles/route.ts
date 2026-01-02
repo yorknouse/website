@@ -1,6 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { ParseForm } from "@/lib/parseForm";
 import { getArticleImage } from "@/lib/articles";
 import {
   ArticleAuthor,
@@ -14,40 +13,26 @@ import he from "he";
 import { z } from "zod";
 import { cache } from "@/lib/cache";
 
-const cors = (res: NextApiResponse) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-};
-
-// Disable Next.js body parser for this route
-export const config = {
-  api: {
-    bodyParser: false,
-  },
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST",
+  "Access-Control-Allow-Headers": "Content-Type",
 };
 
 function getArticlesFromList(articleIds: number[]) {
   return async () => {
     return prisma.articles.findMany({
       where: {
-        articles_id: {
-          in: articleIds,
-        },
+        articles_id: { in: articleIds },
         articles_showInLists: true,
       },
       include: {
         articlesDrafts: {
-          // Get the latest draft for every featured article
-          orderBy: {
-            articlesDrafts_timestamp: "desc",
-          },
+          orderBy: { articlesDrafts_timestamp: "desc" },
           take: 1,
         },
         categories: {
-          include: {
-            category: true,
-          },
+          include: { category: true },
         },
         users: {
           include: { users: true },
@@ -57,58 +42,62 @@ function getArticlesFromList(articleIds: number[]) {
   };
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  cors(res);
-
-  if (req.method !== "POST") {
-    res.status(405).json({ message: "Method not allowed" });
-    return;
-  }
-
+export async function POST(request: Request) {
   try {
-    const { fields } = await ParseForm(req);
-    const articleIdsRaw = fields.articleIds;
-    const styleRaw = fields.style;
+    const formData = await request.formData();
+    const articleIdsRaw = formData.get("articleIds");
+    const styleRaw = formData.get("style");
 
     if (
       !styleRaw ||
       (String(styleRaw) !== "nouse" && String(styleRaw) !== "muse")
     ) {
-      res.status(400).json({ message: `Invalid style` });
-      return;
+      return NextResponse.json(
+        { message: "Invalid style" },
+        { status: 400, headers: corsHeaders },
+      );
     }
 
     const style = String(styleRaw);
 
-    // Safely parse articleIds
+    if (!articleIdsRaw || typeof articleIdsRaw !== "string") {
+      return NextResponse.json(
+        { message: "Missing articleIds" },
+        { status: 400, headers: corsHeaders },
+      );
+    }
+
     let articleIds: number[];
     try {
-      const parsed = JSON.parse(String(articleIdsRaw));
+      const parsed = JSON.parse(articleIdsRaw);
 
       const schema = z.array(z.number().int().nonnegative()).nonempty();
       const validation = schema.safeParse(parsed);
 
       if (!validation.success) {
-        res.status(400).json({ message: "Invalid articleIds format" });
-        return;
+        return NextResponse.json(
+          { message: "Invalid articleIds format" },
+          { status: 400, headers: corsHeaders },
+        );
       }
 
       articleIds = validation.data;
     } catch {
-      res.status(400).json({ message: "Malformed articleIds JSON" });
-      return;
+      return NextResponse.json(
+        { message: "Malformed articleIds JSON" },
+        { status: 400, headers: corsHeaders },
+      );
     }
 
-    // Generate a cache key based on the article IDs + style
     const cacheKey = `articlesList:${style}:${articleIds.join(",")}`;
 
     const data = await cache(cacheKey, 7200, getArticlesFromList(articleIds));
 
     if (!data) {
-      res.status(404).json({ message: "Failed to find articles" });
+      return NextResponse.json(
+        { message: "Failed to find articles" },
+        { status: 404, headers: corsHeaders },
+      );
     }
 
     type Category = {
@@ -133,19 +122,15 @@ export default async function handler(
       }),
     );
 
-    const articles = await Promise.all(
+    const articles: IArticleFull[] = await Promise.all(
       data.map(async (article1) => {
         const s3url = await getArticleImage(article1);
 
-        const authors: ArticleAuthor[] = article1.users.map(({ users }) => {
-          const author: ArticleAuthor = {
-            users_userid: users.users_userid,
-            users_name1: he.decode(users.users_name1 || ""),
-            users_name2: he.decode(users.users_name2 || ""),
-          };
-
-          return author;
-        });
+        const authors: ArticleAuthor[] = article1.users.map(({ users }) => ({
+          users_userid: users.users_userid,
+          users_name1: he.decode(users.users_name1 || ""),
+          users_name2: he.decode(users.users_name2 || ""),
+        }));
 
         const category: ArticleCategory = {
           id: Number(categories.get(article1.articles_id)?.id),
@@ -175,25 +160,20 @@ export default async function handler(
           ? new Date(article1.articles_published)
           : new Date(0);
 
-        const article: IArticleFull = {
+        return {
           id: article1.articles_id,
           articleURL: `${process.env.FRONTEND_URL}articles/${dateFormatter
-            .format(publishedDate) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+            .format(publishedDate)
             .split("/")
             .reverse()
             .join("/")}/${String(article1.articles_slug)}`,
           thumbnailURL: s3url,
           isThumbnailPortrait: article1.articles_isThumbnailPortrait,
           thumbnailCredit:
-            article1.articlesDrafts[0].articlesDrafts_thumbnailCredit,
+            article1.articlesDrafts[0]?.articlesDrafts_thumbnailCredit ?? null,
           headline:
-            article1.articlesDrafts.length != 0
-              ? article1.articlesDrafts[0].articlesDrafts_headline
-              : "Unknown",
-          excerpt:
-            article1.articlesDrafts.length != 0
-              ? article1.articlesDrafts[0].articlesDrafts_excerpt
-              : null,
+            article1.articlesDrafts[0]?.articlesDrafts_headline ?? "Unknown",
+          excerpt: article1.articlesDrafts[0]?.articlesDrafts_excerpt ?? null,
           published: dateFormatter
             .format(publishedDate)
             .split("/")
@@ -202,19 +182,23 @@ export default async function handler(
           displayImages: Boolean(article1.articles_displayImages),
           text: null,
           articleType: null,
-          authors: authors,
+          authors,
           parentCategory: category,
           categories: articleCategories,
           similarArticles: null,
         };
-
-        return article;
       }),
     );
 
-    res.status(200).json(articles);
+    return NextResponse.json(articles, {
+      headers: corsHeaders,
+    });
   } catch (err) {
-    console.error("Error in registerRead:", err);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("Error in articles:", err);
+
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500, headers: corsHeaders },
+    );
   }
 }
