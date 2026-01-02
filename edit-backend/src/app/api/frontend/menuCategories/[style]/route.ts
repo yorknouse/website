@@ -136,7 +136,10 @@ export async function GET(_: Request, { params }: RouteParams) {
     }
 
     if (!menuCategories || menuCategories.length === 0) {
-      return NextResponse.json({ message: "Menu categories not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Menu categories not found" },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json(menuCategories, corsRes);

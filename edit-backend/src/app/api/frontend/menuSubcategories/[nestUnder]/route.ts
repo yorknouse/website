@@ -51,7 +51,10 @@ export async function GET(_: Request, { params }: RouteParams) {
     );
 
     if (!data || data.length === 0) {
-      return NextResponse.json({ message: "Subcategories not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Subcategories not found" },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json(data, corsRes);

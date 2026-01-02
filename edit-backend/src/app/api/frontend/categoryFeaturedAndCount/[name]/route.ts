@@ -25,7 +25,10 @@ export async function GET(_: Request, { params }: RouteParams) {
 
     const nameSanitised = sanitiseSearchTerm(name);
     if (!nameSanitised || nameSanitised.length == 0) {
-      return NextResponse.json({ message: "Missing or invalid name" }, { status: 400 });
+      return NextResponse.json(
+        { message: "Missing or invalid name" },
+        { status: 400 },
+      );
     }
 
     const categoryFeaturedAndCount = await cache<{
@@ -61,7 +64,10 @@ export async function GET(_: Request, { params }: RouteParams) {
       !categoryFeaturedAndCount ||
       categoryFeaturedAndCount._count.articles === 0
     ) {
-      return NextResponse.json({ message: "Categories featured not found" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Categories featured not found" },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json(categoryFeaturedAndCount, corsRes);
