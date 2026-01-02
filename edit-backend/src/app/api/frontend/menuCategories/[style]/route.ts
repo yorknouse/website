@@ -1,31 +1,26 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
-import { ICategory } from "@/lib/types";
 import { cache } from "@/lib/cache";
+import { NextResponse } from "next/server";
+import { ICategory } from "@/lib/types";
 
-const cors = (res: NextApiResponse) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+const corsRes = {
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+  },
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  cors(res);
+type RouteParams = {
+  params: Promise<{
+    style: string;
+  }>;
+};
 
-  if (req.method !== "GET") {
-    res.status(405).json({ message: "Method not allowed" });
-    return;
-  }
-
-  const { style } = req.query;
+export async function GET(_: Request, { params }: RouteParams) {
+  const { style } = await params;
 
   try {
     if (!style || typeof style === "undefined") {
-      res.status(400).json({ message: "Missing or invalid style" });
-      return;
+      return NextResponse.json({ message: "Missing style" }, { status: 400 });
     }
 
     let menuCategories: ICategory[];
@@ -141,13 +136,16 @@ export default async function handler(
     }
 
     if (!menuCategories || menuCategories.length === 0) {
-      res.status(400).json({ message: "Menu categories not found" });
-      return;
+      return NextResponse.json({ message: "Menu categories not found" }, { status: 404 });
     }
 
-    res.status(200).json(menuCategories);
+    return NextResponse.json(menuCategories, corsRes);
   } catch (err) {
-    console.error("Error in menuCategories:", err);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("Error in menu categories:", err);
+
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 },
+    );
   }
 }
