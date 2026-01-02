@@ -41,7 +41,7 @@ export default async function User({
 
   let thumbnailURL: string | null = null;
 
-  if (user.users_thumbnail) {
+  if (user.users_thumbnail && !isNaN(Number(user.users_thumbnail))) {
     thumbnailURL = await s3URL(Number(user.users_thumbnail));
   }
 
