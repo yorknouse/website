@@ -1,56 +1,34 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
-import { ParseForm } from "@/lib/parseForm";
 import { ICategory } from "@/lib/types";
-import { validateMobileNavBar } from "@/lib/validation/navbar";
 import { cache } from "@/lib/cache";
+import { validateMobileNavBar } from "@/lib/validation/navbar";
 
-const cors = (res: NextApiResponse) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST",
+  "Access-Control-Allow-Headers": "Content-Type",
 };
 
-// Disable Next.js body parser for this route
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
-
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  cors(res);
-
-  if (req.method !== "POST") {
-    res.status(405).json({ message: "Method not allowed" });
-    return;
-  }
-
-  const { fields } = await ParseForm(req);
-  const { active, style, menuCategories, subMenuCategories } =
-    validateMobileNavBar(fields);
-
-  const menuCategoriesHere: ICategory[] = menuCategories;
-
-  const subMenuCategoriesHere = new Map<string, ICategory[]>(subMenuCategories);
-
+export async function POST(request: Request) {
   try {
-    if (!active || typeof active === "undefined") {
-      res.status(400).json({ message: "Missing or invalid actives" });
-      return;
-    }
+    const formData = await request.formData();
+
+    const { active, style, menuCategories, subMenuCategories } =
+      validateMobileNavBar(formData);
+
+    const menuCategoriesHere: ICategory[] = menuCategories;
+
+    const subMenuCategoriesHere = new Map<string, ICategory[]>(subMenuCategories);
 
     const activeCategory = active
       ? await cache(`category:name:${active}`, 7200, () =>
-          prisma.categories.findFirst({
-            where: {
-              categories_name: active,
-            },
-          }),
-        )
+        prisma.categories.findFirst({
+          where: {
+            categories_name: active,
+          },
+        }),
+      )
       : undefined;
 
     let parentColour = undefined;
@@ -103,20 +81,28 @@ export default async function handler(
     }
 
     if (!menuCategoriesHere || menuCategoriesHere.length === 0) {
-      res.status(400).json({ message: "Menu categories not found" });
-      return;
+      return NextResponse.json(
+        { message: "Menu categories not found" },
+        { status: 404, headers: corsHeaders },
+      );
     }
 
-    res.status(200).json({
+    return NextResponse.json({
       subMenuCategories: Array.from(subMenuCategoriesHere.entries()),
       activeCategory: activeCategory,
       parentCategory: parentCategory,
       computedBaseColour: computedBaseColour,
       invert: invert,
       textColour: textColour,
+    }, {
+      headers: corsHeaders,
     });
   } catch (err) {
-    console.error("Error in desktopNavBar:", err);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("Error in mobile navbar:", err);
+
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500, headers: corsHeaders },
+    );
   }
 }
