@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import {
   ArticleAuthor,
   ArticleCategory,
@@ -11,74 +11,73 @@ import dateFormatter from "@/lib/dateFormatter";
 import { getCategoryLink, getParentCategory } from "@/lib/categories";
 import he from "he";
 
-const cors = (res: NextApiResponse) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+export const runtime = "nodejs";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  cors(res);
+type RouteParams = {
+  params: Promise<{
+    authorId: string;
+  }>;
+};
 
-  const { authorId, page = "1", limit = "10" } = req.query;
+export async function GET(request: Request, { params }: RouteParams) {
+  const { authorId } = await params;
+  const { searchParams } = new URL(request.url);
+
+  const pageParam = searchParams.get("page") ?? "1";
+  const limitParam = searchParams.get("limit") ?? "10";
 
   const authorIdNumber = Number(authorId);
-  if (Number.isNaN(authorIdNumber)) {
-    return res.status(400).json({ message: "Invalid authorId" });
+  if (!Number.isInteger(authorIdNumber) || authorIdNumber <= 0) {
+    return NextResponse.json(
+      { message: "Invalid authorId" },
+      { status: 400, headers: corsHeaders },
+    );
   }
 
-  let pageNumber = Number(page);
-  let articlesPerPage = Number(limit);
+  let pageNumber = Number(pageParam);
+  let articlesPerPage = Number(limitParam);
 
-  if (Number.isNaN(pageNumber) || pageNumber < 1) pageNumber = 1;
+  if (!Number.isInteger(pageNumber) || pageNumber < 1) pageNumber = 1;
   if (
-    Number.isNaN(articlesPerPage) ||
+    !Number.isInteger(articlesPerPage) ||
     articlesPerPage < 1 ||
     articlesPerPage > 100
   ) {
     articlesPerPage = 10;
   }
 
-  const authorArticles = await prisma.articlesAuthors.findMany({
-    where: {
-      users_userid: authorIdNumber,
-    },
-  });
+  try {
+    const authorArticles = await prisma.articlesAuthors.findMany({
+      where: {
+        users_userid: authorIdNumber,
+      },
+    });
 
-  let articles: IArticle[];
-  let pages: number;
+    if (authorArticles.length === 0) {
+      const empty: IAuthorArticles = { pages: 0, articles: [] };
+      return NextResponse.json(empty, { headers: corsHeaders });
+    }
 
-  if (!authorArticles) {
-    articles = [];
-    pages = 0;
-  } else {
-    pages = Math.ceil(authorArticles.length / articlesPerPage);
-    const articlesIds = authorArticles.reduce((accumulator, authorArticle) => {
-      accumulator.push(authorArticle.articles_id);
-
-      return accumulator;
-    }, [] as number[]);
+    const pages = Math.ceil(authorArticles.length / articlesPerPage);
+    const articleIds = authorArticles.map((a) => a.articles_id);
 
     const articlesRaw = await prisma.articles.findMany({
       where: {
-        articles_id: {
-          in: articlesIds,
-        },
+        articles_id: { in: articleIds },
         articles_showInLists: true,
       },
       orderBy: {
         articles_published: "desc",
       },
       take: articlesPerPage,
-      skip: pageNumber ? (pageNumber - 1) * articlesPerPage : 0,
+      skip: (pageNumber - 1) * articlesPerPage,
       include: {
         articlesDrafts: {
-          orderBy: {
-            articlesDrafts_timestamp: "desc",
-          },
+          orderBy: { articlesDrafts_timestamp: "desc" },
           take: 1,
         },
         categories: {
@@ -112,19 +111,15 @@ export default async function handler(
       }),
     );
 
-    articles = await Promise.all(
+    const articles: IArticle[] = await Promise.all(
       articlesRaw.map(async (article1) => {
         const s3url = await getArticleImage(article1);
 
-        const authors: ArticleAuthor[] = article1.users.map(({ users }) => {
-          const author: ArticleAuthor = {
-            users_userid: users.users_userid,
-            users_name1: he.decode(users.users_name1 || ""),
-            users_name2: he.decode(users.users_name2 || ""),
-          };
-
-          return author;
-        });
+        const authors: ArticleAuthor[] = article1.users.map(({ users }) => ({
+          users_userid: users.users_userid,
+          users_name1: he.decode(users.users_name1 || ""),
+          users_name2: he.decode(users.users_name2 || ""),
+        }));
 
         const category: ArticleCategory = {
           id: Number(categories.get(article1.articles_id)?.id),
@@ -140,25 +135,21 @@ export default async function handler(
           nestUnder: categories.get(article1.articles_id)!.nestUnder,
         };
 
-        const article: IArticle = {
+        return {
           id: article1.articles_id,
           articleURL: `${process.env.FRONTEND_URL}articles/${dateFormatter
-            .format(article1.articles_published || new Date(0)) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
+            .format(article1.articles_published || new Date(0))
             .split("/")
             .reverse()
             .join("/")}/${String(article1.articles_slug)}`,
           thumbnailURL: s3url,
           isThumbnailPortrait: article1.articles_isThumbnailPortrait,
           thumbnailCredit:
-            article1.articlesDrafts[0].articlesDrafts_thumbnailCredit,
+            article1.articlesDrafts[0]?.articlesDrafts_thumbnailCredit ?? null,
           headline:
-            article1.articlesDrafts.length != 0
-              ? article1.articlesDrafts[0].articlesDrafts_headline
-              : "Unknown",
+            article1.articlesDrafts[0]?.articlesDrafts_headline ?? "Unknown",
           excerpt:
-            article1.articlesDrafts.length != 0
-              ? article1.articlesDrafts[0].articlesDrafts_excerpt
-              : null,
+            article1.articlesDrafts[0]?.articlesDrafts_excerpt ?? null,
           published: dateFormatter
             .format(article1.articles_published || new Date(0))
             .split("/")
@@ -167,21 +158,22 @@ export default async function handler(
           displayImages: Boolean(article1.articles_displayImages),
           text: null,
           articleType: null,
-          authors: authors,
+          authors,
           parentCategory: category,
           categories: null,
           similarArticles: null,
         };
-
-        return article;
       }),
     );
+
+    const response: IAuthorArticles = { pages, articles };
+
+    return NextResponse.json(response, { headers: corsHeaders });
+  } catch (err) {
+    console.error("Error in author articles:", err);
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500, headers: corsHeaders },
+    );
   }
-
-  const authorArticlesReturn: IAuthorArticles = {
-    pages: pages,
-    articles: articles,
-  };
-
-  res.status(200).json(authorArticlesReturn);
 }

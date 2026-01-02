@@ -14,7 +14,7 @@ const { articlesPerPage, pageNumber, authorId } = Astro.props;
 const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
 const res = await fetch(
-  `${apiBase}/api/frontend/authorArticles?authorId=${authorId}&page=${pageNumber}&limit=${articlesPerPage}`,
+  `${apiBase}/api/frontend/authors/${authorId}/articles?page=${pageNumber}&limit=${articlesPerPage}`,
 );
 const authorArticles: AuthorArticles = await res.json();
 ---
