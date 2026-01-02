@@ -87,6 +87,7 @@ model articles {
   @@index([editions_id], map: "idx_articles_editions_id")
   @@index([articles_showInAdmin, articles_published(sort: Desc)], map: "idx_articles_admin_published")
   @@index([articles_showInSearch, articles_published(sort: Desc)], map: "idx_articles_search_published")
+  @@index([articles_showInSearch, articles_published(sort: Desc), articles_id], map: "idx_articles_search_publish_id")
   @@fulltext([articles_slug])
 }
 
@@ -434,6 +435,8 @@ model users {
   @@index([users_googleAppsUsernameYork], map: "users_users_googleAppsUsernameYork_index")
   @@index([users_suspended], map: "users_users_suspended_index")
   @@index([users_userid, users_deleted], map: "idx_users_userid_deleted")
+  @@fulltext([users_name1], map: "idx_users_name1_fulltext")
+  @@fulltext([users_name2], map: "idx_users_name2_fulltext")
   @@fulltext([users_name1, users_name2], map: "idx_users_name_fulltext")
 }
 

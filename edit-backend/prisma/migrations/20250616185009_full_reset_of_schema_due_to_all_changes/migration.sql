@@ -76,6 +76,7 @@ CREATE TABLE `articles` (
     INDEX `idx_articles_editions_admin`(`editions_id`, `articles_showInAdmin`),
     INDEX `idx_articles_admin_published`(`articles_showInAdmin`, `articles_published` DESC),
     INDEX `idx_articles_search_published`(`articles_showInSearch`, `articles_published` DESC),
+    INDEX `idx_articles_search_publish_id`(`articles_showInSearch`, `articles_published` DESC, articles_id),
     INDEX `idx_articles_editions_id`(`editions_id`),
     FULLTEXT INDEX `articles_articles_slug_idx`(`articles_slug`),
     PRIMARY KEY (`articles_id`)
@@ -429,6 +430,8 @@ CREATE TABLE `users` (
     INDEX `users_users_googleAppsUsernameYork_index`(`users_googleAppsUsernameYork`),
     INDEX `users_users_suspended_index`(`users_suspended`),
     INDEX `idx_users_userid_deleted`(`users_userid`, `users_deleted`),
+    FULLTEXT INDEX `idx_users_name1_fulltext`(`users_name1`),
+    FULLTEXT INDEX `idx_users_name2_fulltext`(`users_name2`),
     FULLTEXT INDEX `idx_users_name_fulltext`(`users_name1`, `users_name2`),
     PRIMARY KEY (`users_userid`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
