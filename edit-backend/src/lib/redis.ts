@@ -22,10 +22,6 @@ redis.on("error", (err) => {
   console.warn("Redis connection error (will fallback to DB):", err);
 });
 
-redis.on("connect", () => {
-  console.log("Connected to Redis successfully");
-});
-
 redis.on("close", () => {
   console.warn("Redis connection closed");
 });
