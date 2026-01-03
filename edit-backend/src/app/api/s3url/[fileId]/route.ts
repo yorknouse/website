@@ -7,11 +7,17 @@ const corsRes = {
   },
 };
 
-export async function GET(request: Request) {
-  try {
-    const { searchParams } = new URL(request.url);
+type RouteParams = {
+  params: Promise<{
+    fileId: string;
+  }>;
+};
 
-    const fileId = searchParams.get("fileId");
+export async function GET(request: Request, { params }: RouteParams) {
+  try {
+    const { fileId } = await params;
+
+    const { searchParams } = new URL(request.url);
     const size = searchParams.get("size");
 
     const fileIdNumber = Number(fileId);
