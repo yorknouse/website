@@ -31,12 +31,11 @@ export async function GET(_: Request, { params }: RouteParams) {
       );
     }
 
-    const categoryFeaturedAndCount = await cache<{
+    const categoryCount = await cache<{
       _count: {
         articles: number;
       };
-      categories_featured: string | null;
-    } | null>(`categoryFeaturedAndCount:name:${nameSanitised}`, 7200, () =>
+    } | null>(`categoryCount:name:${nameSanitised}`, 7200, () =>
       prisma.categories.findFirst({
         where: {
           categories_name: nameSanitised,
@@ -44,7 +43,6 @@ export async function GET(_: Request, { params }: RouteParams) {
           categories_showMenu: true,
         },
         select: {
-          categories_featured: true,
           _count: {
             select: {
               articles: {
@@ -60,19 +58,16 @@ export async function GET(_: Request, { params }: RouteParams) {
       }),
     );
 
-    if (
-      !categoryFeaturedAndCount ||
-      categoryFeaturedAndCount._count.articles === 0
-    ) {
+    if (!categoryCount || categoryCount._count.articles === 0) {
       return NextResponse.json(
-        { message: "Categories featured not found" },
+        { message: "Categories count not found" },
         { status: 404 },
       );
     }
 
-    return NextResponse.json(categoryFeaturedAndCount, corsRes);
+    return NextResponse.json(categoryCount, corsRes);
   } catch (err) {
-    console.error("Error in categories featured and count:", err);
+    console.error("Error in categories count:", err);
 
     return NextResponse.json(
       { message: "Internal server error" },
