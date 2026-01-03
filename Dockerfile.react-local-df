@@ -8,6 +8,8 @@ COPY ./edit-backend/package*.json ./
 
 RUN npm install
 
+RUN npx next telemetry disable
+
 COPY ./edit-backend/prisma /app/prisma
 
 ARG DATABASE_URL

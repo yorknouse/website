@@ -82,6 +82,7 @@ services:
       dockerfile: Dockerfile.react-local-df
       args:
         - DATABASE_URL=mysql://userDocker:passDocker@db:3306/nouse
+        - NEXT_TELEMETRY_DISABLED=1
     container_name: react-container
     restart: always
     depends_on:
