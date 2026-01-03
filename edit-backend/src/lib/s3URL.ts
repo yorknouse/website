@@ -27,7 +27,7 @@ export async function s3URL(
   fileId: number,
   size: "tiny" | "small" | "medium" | "large" | "comp" | false = false,
 ): Promise<string> {
-  const key = `s3file:${fileId}:${size || "original"}`;
+  const key = `s3file:${fileId}:${size === false ? "original" : size}`;
 
   try {
     return await cache<string>(key, 2592000, async () => {
