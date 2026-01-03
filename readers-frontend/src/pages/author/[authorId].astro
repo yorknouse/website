@@ -44,7 +44,7 @@ let s3URL: S3URL = {
 
 if (author.users_thumbnail) {
   const res = await fetch(
-    `${apiBase}/api/s3url?fileId=${Number(author.users_thumbnail)}&size=large`,
+    `${apiBase}/api/s3url/${Number(author.users_thumbnail)}?size=large`,
   );
   s3URL = await res.json();
 }

@@ -66,7 +66,7 @@ else tempFileId = edition.editions_pdfOriginal;
 
 if (tempFileId) {
   const res = await fetch(
-    `${apiBase}/api/s3url?fileId=${tempFileId}&size=false`,
+    `${apiBase}/api/s3url/${tempFileId}?size=false`,
   );
   const s3url: S3URL = await res.json();
   pdfURL = s3url.url;
@@ -115,7 +115,7 @@ if (tempFileId) {
     isWebEdition && featuredHighlights ? (
       async () => {
         const res = await fetch(
-          `${apiBase}/api/s3url?fileId=${edition.editions_thumbnail!}&size=medium`,
+          `${apiBase}/api/s3url/${edition.editions_thumbnail!}?size=medium`,
         );
         const s3url: S3URL = await res.json();
         return (
@@ -128,7 +128,7 @@ if (tempFileId) {
             />
             {featuredHighlights!.sections.map(async (section) => {
               const res = await fetch(
-                `${apiBase}/api/s3url?fileId=${section.headerImage}&size=medium`,
+                `${apiBase}/api/s3url/${section.headerImage}?size=medium`,
               );
               const s3url: S3URL = await res.json();
               return (
