@@ -195,8 +195,7 @@ export async function POST(request: Request, { params }: RouteParams) {
             article.articlesDrafts[0]?.articlesDrafts_thumbnailCredit || null,
           headline:
             article.articlesDrafts[0]?.articlesDrafts_headline || "Unknown",
-          excerpt:
-            article.articlesDrafts[0]?.articlesDrafts_excerpt || null,
+          excerpt: article.articlesDrafts[0]?.articlesDrafts_excerpt || null,
           published: dateFormatter
             .format(publishedDate)
             .split("/")
