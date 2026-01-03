@@ -19,16 +19,18 @@ export async function POST(request: Request) {
 
     const menuCategoriesHere: ICategory[] = menuCategories;
 
-    const subMenuCategoriesHere = new Map<string, ICategory[]>(subMenuCategories);
+    const subMenuCategoriesHere = new Map<string, ICategory[]>(
+      subMenuCategories,
+    );
 
     const activeCategory = active
       ? await cache(`category:name:${active}`, 7200, () =>
-        prisma.categories.findFirst({
-          where: {
-            categories_name: active,
-          },
-        }),
-      )
+          prisma.categories.findFirst({
+            where: {
+              categories_name: active,
+            },
+          }),
+        )
       : undefined;
 
     let parentColour = undefined;
@@ -87,16 +89,19 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json({
-      subMenuCategories: Array.from(subMenuCategoriesHere.entries()),
-      activeCategory: activeCategory,
-      parentCategory: parentCategory,
-      computedBaseColour: computedBaseColour,
-      invert: invert,
-      textColour: textColour,
-    }, {
-      headers: corsHeaders,
-    });
+    return NextResponse.json(
+      {
+        subMenuCategories: Array.from(subMenuCategoriesHere.entries()),
+        activeCategory: activeCategory,
+        parentCategory: parentCategory,
+        computedBaseColour: computedBaseColour,
+        invert: invert,
+        textColour: textColour,
+      },
+      {
+        headers: corsHeaders,
+      },
+    );
   } catch (err) {
     console.error("Error in mobile navbar:", err);
 

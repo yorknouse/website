@@ -32,7 +32,10 @@ export async function GET(_: Request) {
     >("categoryColours:latest", 7200, getCategoryColours);
 
     if (!data) {
-      return NextResponse.json({ message: "Unable to find categories colours" }, { status: 404 });
+      return NextResponse.json(
+        { message: "Unable to find categories colours" },
+        { status: 404 },
+      );
     }
 
     return NextResponse.json(data, corsRes);
