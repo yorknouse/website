@@ -153,6 +153,7 @@ services:
   compressor:
     image: ghcr.io/yorknouse/image-compressor:latest
     restart: unless-stopped
+    container_name: compressor
     depends_on:
       - db
     environment:
