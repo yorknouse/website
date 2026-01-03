@@ -50,7 +50,7 @@ export const getCategoriesWithArticles = async (
   articlesLimit: number = 10,
 ): Promise<ICategoryArticles[]> => {
   const res = await fetch(
-    `${apiBase}/api/frontend/categoriesWithArticles?parentCategory=${parentCategory}&articlesLimit=${articlesLimit}`,
+    `${apiBase}/api/frontend/categories/tree?parent=${parentCategory}&limit=${articlesLimit}`,
   );
   return await res.json();
 };
