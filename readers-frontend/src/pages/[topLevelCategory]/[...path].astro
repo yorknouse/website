@@ -63,29 +63,35 @@ const articlesSkipped = isMuseLandingPage // Number of articles to skip
 
 const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
-let res = await fetch(
-  `${apiBase}/api/frontend/categoryFeaturedAndCount/${categoryName}`,
+let resFeatured = await fetch(
+  `${apiBase}/api/frontend/categories/${categoryName}/featured`,
 );
-const categoryFeaturedAndCount: {
+const categoryFeatured: {
+  categories_featured: string | null;
+} | null = await resFeatured.json();
+
+let resCount = await fetch(
+  `${apiBase}/api/frontend/categories/${categoryName}/count`,
+);
+const categoryCount: {
   _count: {
     articles: number;
   };
-  categories_featured: string | null;
-} | null = await res.json();
+} | null = await resCount.json();
 
 // Getting the featured article ids
 const featuredArticlesIds =
-  categoryFeaturedAndCount?.categories_featured &&
-  categoryFeaturedAndCount.categories_featured !== ""
-    ? categoryFeaturedAndCount.categories_featured.split(",").map(Number)
+  categoryFeatured?.categories_featured &&
+  categoryFeatured.categories_featured !== ""
+    ? categoryFeatured.categories_featured.split(",").map(Number)
     : [];
 
 // Redirecting to 404 if the category doesn't exist
 // Or if there are no articles to display and the page number isn't 0
 // Note: the second condition allows us to show landing pages for categories with no articles
 if (
-  !categoryFeaturedAndCount ||
-  (categoryFeaturedAndCount._count.articles -
+  !categoryCount ||
+  (categoryCount._count.articles -
     (articlesSkipped + featuredArticlesIds.length) <=
     0 &&
     pageNumber !== 0)
@@ -93,15 +99,17 @@ if (
   return Astro.redirect("/404");
 
 const formData = new FormData();
-formData.append("categoryName", categoryName);
 formData.append("take", String(isMuseLandingPage ? 0 : articlesPerPage));
 formData.append("skip", String(articlesSkipped));
 formData.append("notInFeatured", String(featuredArticlesIds));
 
-res = await fetch(`${apiBase}/api/frontend/categoryArticlesPath`, {
-  method: "POST",
-  body: formData,
-});
+let res = await fetch(
+  `${apiBase}/api/frontend/categories/${categoryName}/page`,
+  {
+    method: "POST",
+    body: formData,
+  },
+);
 
 const category: ICategoryArticles = await res.json();
 
@@ -194,15 +202,12 @@ const cat: ArticleCategory = {
       page={pageNumber}
       pages={category.categories_name === "muse"
         ? Math.ceil(
-            (categoryFeaturedAndCount._count.articles -
-              featuredArticlesIds.length) /
+            (categoryCount._count.articles - featuredArticlesIds.length) /
               articlesPerPage,
           ) + 1
         : Math.max(
             1,
-            Math.ceil(
-              categoryFeaturedAndCount._count.articles / articlesPerPage,
-            ),
+            Math.ceil(categoryCount._count.articles / articlesPerPage),
           )}
       pagesToDisplay={5}
       prefix={paginatorPrefix}

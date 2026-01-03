@@ -12,8 +12,9 @@ export interface Props {
 
 const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
-const res = await fetch(`${apiBase}/api/frontend/getCategoriesColours`);
+const res = await fetch(`${apiBase}/api/frontend/categories/colours`);
 const categoriesColours: {
+  // This is used just indirectly
   categories_name: string;
   categories_backgroundColor: string | null;
 }[] = await res.json();

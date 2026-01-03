@@ -35,7 +35,12 @@ export const desktopNavBarSchema = z.object({
   ),
 });
 
-export function validateMobileNavBar(fields: unknown) {
+function formDataToObject(formData: FormData) {
+  return Object.fromEntries(formData.entries());
+}
+
+export function validateMobileNavBar(formData: FormData) {
+  const fields = formDataToObject(formData);
   const result = mobileNavBarSchema.safeParse(fields);
   if (!result.success) {
     console.error(
@@ -50,7 +55,8 @@ export function validateMobileNavBar(fields: unknown) {
   return result.data;
 }
 
-export function validateDesktopNavBar(fields: unknown) {
+export function validateDesktopNavBar(formData: FormData) {
+  const fields = formDataToObject(formData);
   const result = desktopNavBarSchema.safeParse(fields);
   if (!result.success) {
     console.error(

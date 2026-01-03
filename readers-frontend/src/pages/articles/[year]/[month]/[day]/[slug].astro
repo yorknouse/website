@@ -34,7 +34,7 @@ if (preview && preview.length > 0 && hash && hash.length > 0) {
   headers["X-Preview-Hash"] = hash; // optional header; backend can read it
 }
 
-const res = await fetch(`${apiBase}/api/frontend/article/` + cleanSlug, {
+const res = await fetch(`${apiBase}/api/frontend/articles/` + cleanSlug, {
   headers: headers,
 });
 const article: IArticle = await res.json();

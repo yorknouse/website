@@ -87,6 +87,7 @@ model articles {
   @@index([editions_id], map: "idx_articles_editions_id")
   @@index([articles_showInAdmin, articles_published(sort: Desc)], map: "idx_articles_admin_published")
   @@index([articles_showInSearch, articles_published(sort: Desc)], map: "idx_articles_search_published")
+  @@index([articles_showInSearch, articles_published(sort: Desc), articles_id], map: "idx_articles_search_publish_id")
   @@fulltext([articles_slug])
 }
 
@@ -98,6 +99,7 @@ model articlesAuthors {
 
   @@unique([articles_id, users_userid], map: "articlesAuthors_articles_id_users_userid_unique")
   @@index([users_userid, articles_id], map: "idx_articlesAuthors_user_articles")
+  @@index([articles_id, users_userid], map: "idx_articlesAuthors_article_user")
 }
 
 model articlesCategories {
@@ -107,6 +109,7 @@ model articlesCategories {
   category      categories @relation(fields: [categories_id], references: [categories_id])
 
   @@unique([articles_id, categories_id], map: "articlesCategories_articles_id_categories_id_unique")
+  @@index([categories_id, articles_id], map: "idx_articlesCategories_category_article")
 }
 
 model articlesDrafts {
@@ -127,6 +130,7 @@ model articlesDrafts {
   @@index([articles_id], map: "articlesDrafts_articles_articles_id_fk")
   @@index([articlesDrafts_userid], map: "articlesDrafts_users_users_userid_fk")
   @@index([articles_id, articlesDrafts_timestamp(sort: Desc)], map: "idx_articlesDrafts_article_timestamp")
+  @@index([articles_id, articlesDrafts_headline], map: "idx_drafts_article_headline")
   @@fulltext([articlesDrafts_headline, articlesDrafts_excerpt], map: "fts_articleDrafts_headline_excerpt")
 }
 
@@ -137,6 +141,7 @@ model articlesReads {
 
   @@index([articles_id], map: "articlesReads_articles_articles_id_fk")
   @@index([articlesReads_timestamp, articles_id], name: "idx_reads_timestamp_id")
+  @@index([articles_id, articlesReads_timestamp(sort: Desc)], map: "idx_reads_article_timestamp")
 }
 
 model articlesReadsSummary {
@@ -434,6 +439,8 @@ model users {
   @@index([users_googleAppsUsernameYork], map: "users_users_googleAppsUsernameYork_index")
   @@index([users_suspended], map: "users_users_suspended_index")
   @@index([users_userid, users_deleted], map: "idx_users_userid_deleted")
+  @@fulltext([users_name1], map: "idx_users_name1_fulltext")
+  @@fulltext([users_name2], map: "idx_users_name2_fulltext")
   @@fulltext([users_name1, users_name2], map: "idx_users_name_fulltext")
 }
 

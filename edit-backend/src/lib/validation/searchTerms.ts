@@ -7,12 +7,17 @@ export const searchTermSchema = z.preprocess(
     .string()
     .trim()
     .min(1, "Search term cannot be empty")
-    .max(120, "Search term too long")
+    .max(250, "Search term too long")
     .regex(/^[\p{L}\p{N}\s.,_\-]+$/u, "Invalid characters in search term"),
 );
 
 export function sanitiseSearchTerm(input: unknown) {
   const parsed = searchTermSchema.safeParse(input);
-  if (!parsed.success) return null;
+  if (!parsed.success) {
+    parsed.error.issues.forEach((error) => {
+      console.log(error.message);
+    });
+    return null;
+  }
   return parsed.data.normalize("NFKC");
 }

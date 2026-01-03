@@ -204,18 +204,18 @@ export const getCategoriesWithArticles = async (
  * Gets the link for a category
  * @param {string} category_name The name of the category.
  * @param {number | null} parentCategory The parent category to get the children of.
- * @returns {string} The link for the category.
+ * @returns {Promise<string>} The link for the category.
  */
-export const getCategoryLink = (
+export function getCategoryLink(
   category_name: string,
   parentCategory: number | null,
-): string => {
+) {
   if (parentCategory === 4) {
     return `${process.env.FRONTEND_URL}muse/${category_name}`;
   } else {
     return `${process.env.FRONTEND_URL}${category_name}`;
   }
-};
+}
 
 type ArticleCategories = IArticleCategory & {
   category: ICategory;
@@ -226,7 +226,7 @@ type ArticleCategories = IArticleCategory & {
  * @param categories
  * @returns
  */
-export const getParentCategory = (categories: ArticleCategories[]) => {
+export function getParentCategory(categories: ArticleCategories[]) {
   // I think categories commonly come from the backend as:
   // Top - Middle - Bottom for examples. Where Bottom is nested
   // under Middle and Top is an "extra category". Hence, the reverse,
@@ -257,9 +257,9 @@ export const getParentCategory = (categories: ArticleCategories[]) => {
   }
 
   return categories[0].category;
-};
+}
 
-export const getParentCategory1 = (categories: ArticleCategories[]) => {
+export async function getParentCategory1(categories: ArticleCategories[]) {
   // I think categories commonly come from the backend as:
   // Top - Middle - Bottom for examples. Where Bottom is nested
   // under Middle and Top is an "extra category". Hence, the reverse,
@@ -290,4 +290,4 @@ export const getParentCategory1 = (categories: ArticleCategories[]) => {
   }
 
   return categories[0].category;
-};
+}

@@ -11,7 +11,7 @@ const TopArticles: Component<TopArticleProps> = (props) => {
   const [loading, setLoading] = createSignal<boolean>(true);
   const [articles, setArticles] = createSignal<TopArticleResult[]>([]);
 
-  fetch(`${props.base}/api/frontend/topArticles`, { method: "GET" })
+  fetch(`${props.base}/api/frontend/articles/topArticles`, { method: "GET" })
     .then(async (res) => {
       if (res.status !== 200) throw new Error(res.statusText);
 
