@@ -33,7 +33,9 @@ export const getMenuSubcategories: (
 export const getFeaturedSectionsCategories: () => Promise<
   ICategory[]
 > = async (): Promise<ICategory[]> => {
-  const res = await fetch(`${apiBase}/api/frontend/featuredSectionCategories`);
+  const res = await fetch(
+    `${apiBase}/api/frontend/categories/featured/sections`,
+  );
   return await res.json();
 };
 
