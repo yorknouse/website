@@ -73,7 +73,7 @@ if (
 
   galleryImages = await Promise.all(
     imageIds.map(async (id) => {
-      const res = await fetch(`${apiBase}/api/s3url?fileId=${id}&size=large`);
+      const res = await fetch(`${apiBase}/api/s3url/${id}?size=large`);
       const s3url: S3URL = await res.json();
       return s3url.url;
     }),

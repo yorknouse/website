@@ -61,7 +61,7 @@ allEditions.forEach((edition) => {
               >
                 {editions.printEditions.map(async (edition) => {
                   const res = await fetch(
-                    `${apiBase}/api/s3url?fileId=${Number(edition.editions_thumbnail)}&size=medium`,
+                    `${apiBase}/api/s3url/${Number(edition.editions_thumbnail)}?size=medium`,
                   );
                   const s3url: S3URL = await res.json();
                   return (
@@ -98,7 +98,7 @@ allEditions.forEach((edition) => {
               >
                 {editions.webEditions.map(async (edition) => {
                   const res = await fetch(
-                    `${apiBase}/api/s3url?fileId=${Number(edition.editions_thumbnail)}&size=medium`,
+                    `${apiBase}/api/s3url/${Number(edition.editions_thumbnail)}?size=medium`,
                   );
                   const s3url: S3URL = await res.json();
                   return (

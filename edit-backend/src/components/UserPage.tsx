@@ -14,7 +14,7 @@ function updateThumbnailFunc(
     const updatedUser = await res.json();
     if (updatedUser?.users_thumbnail) {
       const newURLRes = await fetch(
-        `/api/s3url?size=false&fileId=${updatedUser.users_thumbnail}`,
+        `/api/s3url/${updatedUser.users_thumbnail}?size=false`,
       );
       const newURL = await newURLRes.json();
       if (!newURL) {
