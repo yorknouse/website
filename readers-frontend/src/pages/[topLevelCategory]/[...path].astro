@@ -99,15 +99,17 @@ if (
   return Astro.redirect("/404");
 
 const formData = new FormData();
-formData.append("categoryName", categoryName);
 formData.append("take", String(isMuseLandingPage ? 0 : articlesPerPage));
 formData.append("skip", String(articlesSkipped));
 formData.append("notInFeatured", String(featuredArticlesIds));
 
-res = await fetch(`${apiBase}/api/frontend/categoryArticlesPath`, {
-  method: "POST",
-  body: formData,
-});
+let res = await fetch(
+  `${apiBase}/api/frontend/categories/${categoryName}/page`,
+  {
+    method: "POST",
+    body: formData,
+  },
+);
 
 const category: ICategoryArticles = await res.json();
 

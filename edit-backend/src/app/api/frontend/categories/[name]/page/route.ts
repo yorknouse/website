@@ -1,25 +1,26 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
 import { cache } from "@/lib/cache";
-import { ParseForm } from "@/lib/parseForm";
+import { NextResponse } from "next/server";
+import { z } from "zod";
 import { ArticleAuthor, IArticleFull, ICategoryArticles } from "@/lib/types";
 import { getArticleImage } from "@/lib/articles";
+import he from "he";
 import dateFormatter from "@/lib/dateFormatter";
 import { getCategoryLink } from "@/lib/categories";
-import he from "he";
-import { z } from "zod";
+import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
 
-const cors = (res: NextApiResponse) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+const corsRes = {
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+  },
 };
 
-// Disable Next.js body parser for this route
-export const config = {
-  api: {
-    bodyParser: false,
-  },
+type RouteParams = {
+  params: Promise<{
+    name: string;
+  }>;
 };
 
 function getCategory(
@@ -80,15 +81,6 @@ function getCategory(
 }
 
 const formSchema = z.object({
-  categoryName: z.preprocess(
-    (val: unknown) => (Array.isArray(val) ? val[0] : val),
-    z
-      .string()
-      .trim()
-      .min(1, "Category name is required")
-      .max(100)
-      .regex(/^[a-zA-Z0-9\-_ ]+$/, "Invalid category name"),
-  ),
   take: z.preprocess(
     (val: unknown) => {
       const strVal = Array.isArray(val) ? val[0] : val;
@@ -123,45 +115,53 @@ const formSchema = z.object({
     .optional(),
 });
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  cors(res);
-
-  if (req.method !== "POST") {
-    res.status(405).json({ message: "Method not allowed" });
-    return;
-  }
+export async function POST(request: Request, { params }: RouteParams) {
+  const { name } = await params;
 
   try {
-    const { fields } = await ParseForm(req);
+    if (!name) {
+      return NextResponse.json({ message: "Missing name" }, { status: 400 });
+    }
+
+    const nameSanitised = sanitiseSearchTerm(name);
+    if (!nameSanitised || nameSanitised.length == 0) {
+      return NextResponse.json(
+        { message: "Missing or invalid name" },
+        { status: 400 },
+      );
+    }
+
+    const formData = await request.formData();
+
     const parsed = formSchema.safeParse({
-      categoryName: fields.categoryName,
-      take: fields.take,
-      skip: fields.skip,
-      notInFeatured: fields.notInFeatured,
+      take: formData.get("take"),
+      skip: formData.get("skip"),
+      notInFeatured: formData.get("notInFeatured"),
     });
 
     if (!parsed.success) {
-      res
-        .status(400)
-        .json({ message: "Invalid request", errors: parsed.error.message });
-      return;
+      return NextResponse.json(
+        { message: "Invalid request", errors: parsed.error.message },
+        { status: 400 },
+      );
     }
-    const { categoryName, take, skip, notInFeatured } = parsed.data;
+    const { take, skip, notInFeatured } = parsed.data;
 
-    const cacheKey = `categoryArticlesPath:name:${categoryName}:take:${take}:skip:${skip}:notIn:${notInFeatured?.join(",")}`;
+    const notInKey = notInFeatured?.length ? notInFeatured.join(",") : "none";
+
+    const cacheKey = `categoryPage:name:${nameSanitised}:take:${take}:skip:${skip}:notIn:${notInKey}`;
 
     const category = await cache(
       cacheKey,
       7200,
-      getCategory(categoryName, take, skip, notInFeatured),
+      getCategory(nameSanitised, take, skip, notInFeatured),
     );
 
     if (!category) {
-      res.status(400).json({ message: "Category articles not found" });
-      return;
+      return NextResponse.json(
+        { message: "Category articles not found" },
+        { status: 404 },
+      );
     }
 
     const articles: IArticleFull[] = await Promise.all(
@@ -192,15 +192,11 @@ export default async function handler(
           thumbnailURL: s3url,
           isThumbnailPortrait: article.articles_isThumbnailPortrait,
           thumbnailCredit:
-            article.articlesDrafts[0].articlesDrafts_thumbnailCredit,
+            article.articlesDrafts[0]?.articlesDrafts_thumbnailCredit || null,
           headline:
-            article.articlesDrafts.length != 0
-              ? article.articlesDrafts[0].articlesDrafts_headline
-              : "Unknown",
+            article.articlesDrafts[0]?.articlesDrafts_headline || "Unknown",
           excerpt:
-            article.articlesDrafts.length != 0
-              ? article.articlesDrafts[0].articlesDrafts_excerpt
-              : null,
+            article.articlesDrafts[0]?.articlesDrafts_excerpt || null,
           published: dateFormatter
             .format(publishedDate)
             .split("/")
@@ -234,9 +230,13 @@ export default async function handler(
       articles: articles,
     };
 
-    res.status(200).json(categoryWithArticles);
+    return NextResponse.json(categoryWithArticles, corsRes);
   } catch (err) {
-    console.error("Error in categoryArticlesPath:", err);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("Error in categories featured and count:", err);
+
+    return NextResponse.json(
+      { message: "Internal server error" },
+      { status: 500 },
+    );
   }
 }
