@@ -288,7 +288,7 @@ export function normalizeUploadCompletePayload(input: Record<string, any>) {
     throw new Error("Invalid filename format");
   }
 
-  const extension = extMatch[1].toLowerCase();
+  const extension = extMatch[1];
   const filename = filenameWithExt.replace(/\.[^.]+$/, "");
 
   const contentType = input.contentType ?? inferContentType(filenameWithExt);
@@ -303,7 +303,7 @@ export function normalizeUploadCompletePayload(input: Record<string, any>) {
     path: path,
     filenameWithExt: filenameWithExt,
     filename: filename,
-    extension: extension.toUpperCase(),
+    extension: extension,
     contentType: contentType,
     size: Number(input.size),
     public: isPublic,
