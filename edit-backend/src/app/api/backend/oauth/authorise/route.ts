@@ -45,14 +45,11 @@ export async function GET(req: NextRequest) {
       usersOauthCodes_valid: 1,
       usersOauthCodes_type: "authorise_token",
       users_userid: userData.id,
-      usersOauthCodes_expiry: new Date(Date.now() + 3600),
+      usersOauthCodes_expiry: new Date(Date.now() + 3600000),
     },
   });
 
   return NextResponse.redirect(
-    new URL(
-      `/oauth/authorise?code=${code}&redirectUri=${redirect_uri}&state=${state}&client=${client.name}`,
-      req.url,
-    ),
+    `${process.env.NEXTAUTH_URL}/oauth/authorise?code=${code}&redirectUri=${redirect_uri}&state=${state}&client=${client.name}`,
   );
 }
