@@ -41,7 +41,7 @@ if ($_POST['action'] == "DELETE") {
     }
 } elseif ($_POST['action'] == "ENDAll") {
     $DBLIB->where("users_userid", $bCMS->sanitiseString($_POST["users_userid"]));
-    $DBLIB->where("userPositions_end > '" . date("Y-m-d H:i:s") . "'");
+    $DBLIB->where("userPositions_end > '" . date("Y-m-d H:i:s") . "' OR userPositions_end IS NULL");
     foreach ($DBLIB->get("userPositions", null, ["userPositions_start", "userPositions_id"]) as $position) {
         $DBLIB->where("userPositions_id", $position["userPositions_id"]);
         $DBLIB->update("userPositions", ["userPositions_start" => $position['userPositions_start'], "userPositions_end" => date("Y-m-d") . " 00:00:00"]);

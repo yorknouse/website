@@ -4,7 +4,7 @@ import type { IEdition, S3URL } from "@components/types";
 
 const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
-const res = await fetch(`${apiBase}/api/frontend/getEditions`);
+const res = await fetch(`${apiBase}/api/frontend/editions`);
 const allEditions: IEdition[] = await res.json();
 
 // Sorting editions into academic years
@@ -61,7 +61,7 @@ allEditions.forEach((edition) => {
               >
                 {editions.printEditions.map(async (edition) => {
                   const res = await fetch(
-                    `${apiBase}/api/s3url?fileId=${Number(edition.editions_thumbnail)}&size=medium`,
+                    `${apiBase}/api/s3url/${Number(edition.editions_thumbnail)}?size=medium`,
                   );
                   const s3url: S3URL = await res.json();
                   return (
@@ -98,7 +98,7 @@ allEditions.forEach((edition) => {
               >
                 {editions.webEditions.map(async (edition) => {
                   const res = await fetch(
-                    `${apiBase}/api/s3url?fileId=${Number(edition.editions_thumbnail)}&size=medium`,
+                    `${apiBase}/api/s3url/${Number(edition.editions_thumbnail)}?size=medium`,
                   );
                   const s3url: S3URL = await res.json();
                   return (

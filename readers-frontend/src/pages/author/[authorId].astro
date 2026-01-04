@@ -1,6 +1,6 @@
 ---
 import AuthorArticles from "@components/AuthorArticles.astro";
-import FeaturedArticles from "@components/FeaturedArticles.astro";
+import FeaturedArticles1 from "@components/FeaturedArticles1.astro";
 import Layout from "@layouts/Layout.astro";
 import type { S3URL } from "@components/types";
 
@@ -14,7 +14,7 @@ const pageNumber = parseInt(page || "") || 0;
 
 const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
-const res = await fetch(`${apiBase}/api/frontend/author/${authorIdNumber}`);
+const res = await fetch(`${apiBase}/api/frontend/authors/${authorIdNumber}`);
 const author: {
   users_name1: string | null;
   users_name2: string | null;
@@ -44,7 +44,7 @@ let s3URL: S3URL = {
 
 if (author.users_thumbnail) {
   const res = await fetch(
-    `${apiBase}/api/s3url?fileId=${Number(author.users_thumbnail)}&size=large`,
+    `${apiBase}/api/s3url/${Number(author.users_thumbnail)}?size=large`,
   );
   s3URL = await res.json();
 }
@@ -98,7 +98,8 @@ const articlesPerPage = 10;
                 (position) =>
                   position.userPositions_show &&
                   position.positions &&
-                  position.userPositions_end! >= new Date(),
+                  (new Date(position.userPositions_end!) >= new Date() ||
+                    position.userPositions_end === null),
               )
               .map(
                 (position, index) =>
@@ -108,20 +109,22 @@ const articlesPerPage = 10;
               )
           }
         </p>
-        <p class="text-center text-lg font-bold md:text-left">
+        <br />
+        <p class="text-center md:text-left">
           {
             author.userPositions
               .filter(
                 (position) =>
                   position.userPositions_show &&
                   position.positions &&
-                  position.userPositions_end! < new Date(),
+                  position.userPositions_end !== null &&
+                  new Date(position.userPositions_end!) < new Date(),
               )
               .map(
                 (position, index) =>
                   `${index === 0 ? "Previously Held Positions: " : ", "}${
                     position.positions!.positions_displayName
-                  } (${position.userPositions_start.getFullYear()}-${position.userPositions_end!.getFullYear()})`,
+                  } (${new Date(position.userPositions_start).getFullYear()}-${new Date(position.userPositions_end!).getFullYear()})`,
               )
           }
         </p>
@@ -131,7 +134,7 @@ const articlesPerPage = 10;
     {
       featuredArticleIds !== undefined && (
         <div class="border-t border-gray-300 py-8">
-          <FeaturedArticles
+          <FeaturedArticles1
             featuredArticlesIds={featuredArticleIds}
             style={"nouse"}
             textColor={"#FFF"}

@@ -25,7 +25,7 @@ if (isset($_GET['new']) and $AUTH->permissionCheck(4)) {
     $PAGEDATA['USER']['POSITIONS'] = $DBLIB->get("userPositions");
 
     $DBLIB->where("users_userid", $userid);
-    $DBLIB->where("userPositions_end >= '" . date('Y-m-d H:i:s') . "'");
+    $DBLIB->where("userPositions_end >= '" . date('Y-m-d H:i:s') . "' OR userPositions_end IS NULL");
     $DBLIB->where("userPositions_start <= '" . date('Y-m-d H:i:s') . "'");
     $PAGEDATA['USER']['currentPositions'] = $DBLIB->getvalue("userPositions","COUNT(*)"); //To see if they can login
 

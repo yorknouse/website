@@ -94,7 +94,7 @@ export default function DualEditor<T = void>({
         // convert to markdown into a local const first
         const converted = turndown.turndown(html || "");
         // normalize blank lines between block elements:
-        const normalized = converted
+        const normalised = converted
           // replace 3+ newlines with exactly 2
           .replace(/\n{3,}/g, "\n\n")
           // trim trailing/leading whitespace
@@ -102,10 +102,10 @@ export default function DualEditor<T = void>({
 
         // log the exact converted output (useful for debugging)
         console.log("HTML ->", html);
-        console.log("Converted Markdown ->", normalized);
+        console.log("Converted Markdown ->", normalised);
 
         // then set state once
-        setMarkdown(normalized);
+        setMarkdown(normalised);
       } catch (err) {
         console.warn("Conversion failed:", err);
       }

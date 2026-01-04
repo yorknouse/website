@@ -1,10 +1,10 @@
 generator client {
-  provider = "prisma-client-js"
+  provider   = "prisma-client-js"
+  engineType = "client"
 }
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
 }
 
 model actions {
@@ -65,15 +65,15 @@ model articles {
   articles_lifetimeViews       Int?                 @default(0)
   articles_archiveFallback     String?              @db.VarChar(255)
   articles_socialConfig        String               @default("1,0,1,0") @db.VarChar(50)
-  articles_mediaCharterDone    Int                  @default(0) @db.TinyInt()
+  articles_mediaCharterDone    Int                  @default(0) @db.TinyInt
   articles_socialExcerpt       String?              @db.VarChar(2000)
   articles_dropCapital         Boolean              @default(false)
   articles_displayImages       Boolean?             @default(true)
   articles_isThumbnailPortrait Boolean              @default(false)
-  articlesDrafts               articlesDrafts[]
-  categories                   articlesCategories[]
   edition                      editions?            @relation("editions_id_to_editions", fields: [editions_id], references: [editions_id], map: "idx_articles_editions_id")
   users                        articlesAuthors[]
+  categories                   articlesCategories[]
+  articlesDrafts               articlesDrafts[]
 
   @@index([articles_id], map: "articles_articles_id_index")
   @@index([articles_lifetimeViews], map: "articles_articles_lifetimeViews_index")
@@ -86,25 +86,30 @@ model articles {
   @@index([editions_id, articles_showInAdmin], map: "idx_articles_editions_admin")
   @@index([editions_id], map: "idx_articles_editions_id")
   @@index([articles_showInAdmin, articles_published(sort: Desc)], map: "idx_articles_admin_published")
+  @@index([articles_showInSearch, articles_published(sort: Desc)], map: "idx_articles_search_published")
+  @@index([articles_showInSearch, articles_published(sort: Desc), articles_id], map: "idx_articles_search_publish_id")
   @@fulltext([articles_slug])
 }
 
 model articlesAuthors {
-  article      articles @relation(fields: [articles_id], references: [articles_id])
   articles_id  Int
   users_userid Int
+  article      articles @relation(fields: [articles_id], references: [articles_id])
   users        users    @relation(fields: [users_userid], references: [users_userid])
 
   @@unique([articles_id, users_userid], map: "articlesAuthors_articles_id_users_userid_unique")
+  @@index([users_userid, articles_id], map: "idx_articlesAuthors_user_articles")
+  @@index([articles_id, users_userid], map: "idx_articlesAuthors_article_user")
 }
 
 model articlesCategories {
-  article       articles   @relation(fields: [articles_id], references: [articles_id])
   articles_id   Int
   categories_id Int
+  article       articles   @relation(fields: [articles_id], references: [articles_id])
   category      categories @relation(fields: [categories_id], references: [categories_id])
 
   @@unique([articles_id, categories_id], map: "articlesCategories_articles_id_categories_id_unique")
+  @@index([categories_id, articles_id], map: "idx_articlesCategories_category_article")
 }
 
 model articlesDrafts {
@@ -119,13 +124,14 @@ model articlesDrafts {
   articlesDrafts_infoBox         String?   @db.LongText
   articlesDrafts_thumbnailCredit String?   @db.VarChar(500)
   articlesDrafts_changelog       String?   @db.Text
-  users                          users?    @relation(fields: [articlesDrafts_userid], references: [users_userid], onDelete: Restrict, onUpdate: Restrict, map: "articlesDrafts_users_users_userid_fk")
   articles                       articles? @relation(fields: [articles_id], references: [articles_id])
+  users                          users?    @relation(fields: [articlesDrafts_userid], references: [users_userid], onDelete: Restrict, onUpdate: Restrict, map: "articlesDrafts_users_users_userid_fk")
 
   @@index([articles_id], map: "articlesDrafts_articles_articles_id_fk")
   @@index([articlesDrafts_userid], map: "articlesDrafts_users_users_userid_fk")
   @@index([articles_id, articlesDrafts_timestamp(sort: Desc)], map: "idx_articlesDrafts_article_timestamp")
-  @@fulltext([articlesDrafts_headline, articlesDrafts_excerpt])
+  @@index([articles_id, articlesDrafts_headline], map: "idx_drafts_article_headline")
+  @@fulltext([articlesDrafts_headline, articlesDrafts_excerpt], map: "fts_articleDrafts_headline_excerpt")
 }
 
 model articlesReads {
@@ -134,7 +140,8 @@ model articlesReads {
   articlesReads_timestamp DateTime @default(now()) @db.Timestamp(0)
 
   @@index([articles_id], map: "articlesReads_articles_articles_id_fk")
-  @@index([articlesReads_timestamp, articles_id], name: "idx_reads_timestamp_id")
+  @@index([articlesReads_timestamp, articles_id], map: "idx_reads_timestamp_id")
+  @@index([articles_id, articlesReads_timestamp(sort: Desc)], map: "idx_reads_article_timestamp")
 }
 
 model articlesReadsSummary {
@@ -185,7 +192,7 @@ model categories {
   categories_showPublic              Boolean              @default(false)
   categories_showAdmin               Boolean              @default(true)
   categories_featured                String?              @db.VarChar(500)
-  categories_order                   Boolean?
+  categories_order                   Int?
   categories_nestUnder               Int?
   categories_showSub                 Boolean              @default(true)
   categories_facebook                String?              @db.VarChar(200)
@@ -196,9 +203,8 @@ model categories {
   categories_customTheme             String?              @db.VarChar(200)
   categories_socialMediaOverlay      String?              @db.VarChar(200)
   articles                           articlesCategories[]
-
-  parent   categories?  @relation("CategoryParent", fields: [categories_nestUnder], references: [categories_id])
-  children categories[] @relation("CategoryParent")
+  parent                             categories?          @relation("CategoryParent", fields: [categories_nestUnder], references: [categories_id])
+  children                           categories[]         @relation("CategoryParent")
 
   @@index([categories_name], map: "categories_categories_name_index")
   @@index([categories_nestUnder], map: "categories_categories_nestUnder_index")
@@ -255,7 +261,7 @@ model editions {
   editions_type               String?    @db.VarChar(100)
   articles                    articles[] @relation("editions_id_to_editions")
 
-  @@index([editions_deleted, editions_published(desc)], map: "idx_editions_deleted_published")
+  @@index([editions_deleted, editions_published], map: "idx_editions_deleted_published")
 }
 
 model emailSent {
@@ -358,7 +364,7 @@ model s3files {
   s3files_compressed                              Boolean   @default(false)
   s3files_meta_size                               BigInt
   s3files_meta_public                             Boolean   @default(false)
-  s3files_meta_type                               Int       @default(0) @db.TinyInt()
+  s3files_meta_type                               Int       @default(0) @db.TinyInt
   s3files_meta_subType                            Int?
   s3files_meta_uploaded                           DateTime  @default(now()) @db.Timestamp(0)
   users_userid                                    Int?
@@ -414,6 +420,7 @@ model users {
   users_archive_email                             String?                  @db.VarChar(257)
   articles_featured                               String?                  @db.VarChar(1000)
   users_pronouns                                  String?                  @db.Text
+  articles                                        articlesAuthors[]
   articlesDrafts                                  articlesDrafts[]
   auditLog_auditLog_users_useridTousers           auditLog[]               @relation("auditLog_users_useridTousers")
   auditLog_auditLog_auditLog_actionUseridTousers  auditLog[]               @relation("auditLog_auditLog_actionUseridTousers")
@@ -424,7 +431,6 @@ model users {
   featuredHome                                    featuredHome[]
   passwordResetCodes                              passwordResetCodes[]
   userPositions                                   userPositions[]
-  articles                                        articlesAuthors[]
 
   @@index([users_userid], map: "username_2")
   @@index([users_created], map: "users_users_created_index")
@@ -432,6 +438,9 @@ model users {
   @@index([users_googleAppsUsernameYork], map: "users_users_googleAppsUsernameYork_index")
   @@index([users_suspended], map: "users_users_suspended_index")
   @@index([users_userid, users_deleted], map: "idx_users_userid_deleted")
+  @@fulltext([users_name1], map: "idx_users_name1_fulltext")
+  @@fulltext([users_name2], map: "idx_users_name2_fulltext")
+  @@fulltext([users_name1, users_name2], map: "idx_users_name_fulltext")
 }
 
 model usersOauthCodes {

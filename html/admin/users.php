@@ -14,7 +14,7 @@ else $PAGEDATA['search'] = null;
 if (isset($_GET['page'])) $page = $bCMS->sanitiseString($_GET['page']);
 else $page = 1;
 $DBLIB->pageLimit = 20; //Users per page
-$DBLIB->orderBy("(SELECT COUNT(DISTINCT users_userid) FROM userPositions WHERE users_userid=users.users_userid AND userPositions_end >= '" . date('Y-m-d H:i:s') . "' AND userPositions_start <= '" . date('Y-m-d H:i:s') . "')", "DESC");
+$DBLIB->orderBy("(SELECT COUNT(DISTINCT users_userid) FROM userPositions WHERE users_userid=users.users_userid AND (userPositions_end >= '" . date('Y-m-d H:i:s') . "' OR userPositions_end IS NULL) AND userPositions_start <= '" . date('Y-m-d H:i:s') . "')", "DESC");
 $DBLIB->orderBy("users.users_name1", "ASC");
 $DBLIB->orderBy("users.users_name2", "ASC");
 $DBLIB->orderBy("users.users_created", "ASC");

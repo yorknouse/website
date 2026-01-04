@@ -1,4 +1,4 @@
-export function validatePreviewToken(authHeader: string | undefined): boolean {
+export function validatePreviewToken(authHeader: string | null): boolean {
   if (!authHeader || authHeader.split(" ").length < 2) {
     return false;
   }

@@ -34,7 +34,7 @@ if (preview && preview.length > 0 && hash && hash.length > 0) {
   headers["X-Preview-Hash"] = hash; // optional header; backend can read it
 }
 
-const res = await fetch(`${apiBase}/api/frontend/article/` + cleanSlug, {
+const res = await fetch(`${apiBase}/api/frontend/articles/` + cleanSlug, {
   headers: headers,
 });
 const article: IArticle = await res.json();
@@ -73,7 +73,7 @@ if (
 
   galleryImages = await Promise.all(
     imageIds.map(async (id) => {
-      const res = await fetch(`${apiBase}/api/s3url?fileId=${id}&size=large`);
+      const res = await fetch(`${apiBase}/api/s3url/${id}?size=large`);
       const s3url: S3URL = await res.json();
       return s3url.url;
     }),
@@ -168,15 +168,30 @@ if (
                   );
                 } else if (index === article.authors.length - 1) {
                   return (
-                    <a href={`/author/${author.users_userid}`}>
-                      {` and ${author.users_name1} ${author.users_name2}`}
-                    </a>
+                    <>
+                      <span
+                        class={`category-color-${article.parentCategory?.name}`}
+                      >
+                        {" "}
+                        and{" "}
+                      </span>
+                      <a href={`/author/${author.users_userid}`}>
+                        {author.users_name1} {author.users_name2}
+                      </a>
+                    </>
                   );
                 } else {
                   return (
-                    <a href={`/author/${author.users_userid}`}>
-                      {`, ${author.users_name1} ${author.users_name2}`}
-                    </a>
+                    <>
+                      <span
+                        class={`category-color-${article.parentCategory?.name}`}
+                      >
+                        ,{" "}
+                      </span>
+                      <a href={`/author/${author.users_userid}`}>
+                        {author.users_name1} {author.users_name2}
+                      </a>
+                    </>
                   );
                 }
               })

@@ -86,6 +86,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.react-df
+      args:
+        - DATABASE_URL=mysql://userDocker:passDocker@db:3306/nouse
+        - NEXT_TELEMETRY_DISABLED=1
     container_name: react-container
     restart: always
     depends_on:
@@ -100,6 +103,11 @@ services:
       - REDIS_HOST=valkey
       - REDIS_PORT=6379
       - DATABASE_URL=mysql://userDocker:passDocker@db:3306/nouse
+      - MYSQL_HOSTNAME=db
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=nouse
+      - MYSQL_USERNAME=userDocker
+      - MYSQL_PASSWORD=passDocker
   astro-container:
     build:
       context: .
@@ -136,6 +144,7 @@ services:
   compressor:
     image: ghcr.io/yorknouse/image-compressor:latest
     restart: unless-stopped
+    container_name: compressor
     depends_on:
       - db
     environment:
@@ -175,6 +184,8 @@ services:
       - ./docker/grafana/dashboards:/var/lib/grafana/dashboards
     depends_on:
       - db
+    env_file:
+      - nouseprod.env
     environment:
       - GF_PLUGINS_PREINSTALL_SYNC=grafana-clock-panel
       - GF_INSTANCE_NAME=Nouse
@@ -197,7 +208,7 @@ services:
       - mysql-backup
       - compressor
     volumes:
-      - ./docker/netdata/config:/etc/netdata:ro
+      - ./docker/netdata/config:/etc/netdata
       - netdatalib:/var/lib/netdata
       - netdatacache:/var/cache/netdata
       - /etc/passwd:/host/etc/passwd:ro

@@ -11,7 +11,7 @@ export const getMenuCategories: (
 ) => Promise<ICategory[]> = async (
   style: "nouse" | "muse",
 ): Promise<ICategory[]> => {
-  const res = await fetch(`${apiBase}/api/frontend/menuCategories/${style}`);
+  const res = await fetch(`${apiBase}/api/frontend/categories/menu/${style}`);
   return await res.json();
 };
 
@@ -25,7 +25,7 @@ export const getMenuSubcategories: (
   parentCategory: number,
 ) => Promise<ICategory[]> = async (parentCategory: number) => {
   const res = await fetch(
-    `${apiBase}/api/frontend/menuSubcategories/${parentCategory}`,
+    `${apiBase}/api/frontend/categories/menu/subcategories/${parentCategory}`,
   );
   return await res.json();
 };
@@ -33,7 +33,9 @@ export const getMenuSubcategories: (
 export const getFeaturedSectionsCategories: () => Promise<
   ICategory[]
 > = async (): Promise<ICategory[]> => {
-  const res = await fetch(`${apiBase}/api/frontend/featuredSectionCategories`);
+  const res = await fetch(
+    `${apiBase}/api/frontend/categories/featured/sections`,
+  );
   return await res.json();
 };
 
@@ -48,7 +50,7 @@ export const getCategoriesWithArticles = async (
   articlesLimit: number = 10,
 ): Promise<ICategoryArticles[]> => {
   const res = await fetch(
-    `${apiBase}/api/frontend/categoriesWithArticles?parentCategory=${parentCategory}&articlesLimit=${articlesLimit}`,
+    `${apiBase}/api/frontend/categories/tree?parent=${parentCategory}&limit=${articlesLimit}`,
   );
   return await res.json();
 };
