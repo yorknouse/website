@@ -4,7 +4,9 @@ import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 
 const adapter = new PrismaMariaDb({
   host: process.env.MYSQL_HOSTNAME,
-  port: isNaN(Number(process.env.MYSQL_PORT)) ? 3306 : Number(process.env.MYSQL_PORT),
+  port: isNaN(Number(process.env.MYSQL_PORT))
+    ? 3306
+    : Number(process.env.MYSQL_PORT),
   user: process.env.MYSQL_USERNAME,
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE,
