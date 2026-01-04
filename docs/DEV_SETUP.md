@@ -54,7 +54,12 @@ Todo, write docs.
 
 ## Valkey
 
-This does not need any setup or configuration, simply start it and point Next.js to it and the code does the rest
+This does not need any setup or configuration, start Valkey and point Next.js to it and the code does the rest.
+
+If you need just valkey then run the following command:
+```shell
+docker compose -f local-docker-compose.yml up -d valkey
+```
 
 ## Grafana
 
