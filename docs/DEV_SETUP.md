@@ -28,8 +28,22 @@ It uses the edit-backend api endpoints to fetch articles to display on the websi
 
 ## MYSQL Database
 
-Todo docs and how to seed data
+After having the environment variables created, start the database by docker compose:
+```shell
+docker volume create website_db_data
+docker compose -f local-docker-compose.yml up -d db
+```
+_Please note: the volume create is there as the volume is registered as external to prevent accidental deletion_
 
+Run the following commands:
+```shell
+cd edit-backend
+export $(grep -v '^#' .env | xargs) # load environment variables into the shell session
+npx prisma db seed
+npx tsx scripts/create-user.ts
+```
+
+The export loads envs into the shell, the second runs the seed script to get the default data
 
 ## PHPMYADMIN
 
