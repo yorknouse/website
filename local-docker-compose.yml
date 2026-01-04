@@ -145,6 +145,8 @@ services:
       - ./docker/grafana/dashboards:/var/lib/grafana/dashboards
     depends_on:
       - db
+    env_file:
+      - nouseprod-local.env
     ports:
       - "3001:3001"
     environment:
