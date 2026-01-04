@@ -15,6 +15,7 @@ jobs:
         working-directory: edit-backend
         run: npm ci
 
-      - name: Run Prettier check on edit-backend
+      - name: Run Validate check on edit-backend
         working-directory: edit-backend
-        run: npx prisma validate
+        # I am aware this won't connect to a db but this is to appease the validator
+        run: DATABASE_URL=mysql://userDocker:passDocker@localhost:3306/nouse npx prisma validate
