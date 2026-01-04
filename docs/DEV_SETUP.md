@@ -44,7 +44,9 @@ This does not need any setup or configuration, simply start it and point Next.js
 
 ## Grafana
 
-Todo
+Grafana is configured to use Next.js as its own auth server so no users need to be setup.
+
+In addition, the database datasource is preconfigured so there is no need to work out authentication
 
 
 
