@@ -110,7 +110,7 @@ export async function getUsers({
              LEFT JOIN userPositions up
                        ON up.users_userid = u.users_userid
                          AND up.userPositions_start <= NOW()
-                         AND up.userPositions_end >= NOW()
+                         AND (up.userPositions_end >= NOW() OR up.userPositions_end IS NULL)
              LEFT JOIN positions p
                        ON p.positions_id = up.positions_id
         ${whereClause ?? Prisma.sql`WHERE u.users_deleted IS FALSE`}
@@ -127,7 +127,7 @@ export async function getUsers({
         FROM userPositions up3
         WHERE up3.users_userid = u.users_userid
         AND up3.userPositions_start <= NOW()
-        AND up3.userPositions_end > NOW()
+        AND (up3.userPositions_end > NOW() OR up3.userPositions_end IS NULL)
         )
       DESC,
         u.users_name1,
@@ -142,7 +142,7 @@ export async function getUsers({
     LEFT JOIN userPositions up
       ON up.users_userid = u.users_userid
      AND up.userPositions_start <= NOW()
-     AND up.userPositions_end >= NOW()
+     AND (up.userPositions_end >= NOW() OR up.userPositions_end IS NULL)
     LEFT JOIN positions p
       ON p.positions_id = up.positions_id
 
