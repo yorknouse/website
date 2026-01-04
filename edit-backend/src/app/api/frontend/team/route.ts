@@ -15,9 +15,10 @@ export async function GET(_: Request) {
       where: {
         userPositions: {
           some: {
-            userPositions_end: {
-              gt: new Date(),
-            },
+            OR: [
+              { userPositions_end: { gt: new Date() } },
+              { userPositions_end: null },
+            ],
             userPositions_show: true,
           },
         },
@@ -28,9 +29,10 @@ export async function GET(_: Request) {
       include: {
         userPositions: {
           where: {
-            userPositions_end: {
-              gte: new Date(),
-            },
+            OR: [
+              { userPositions_end: { gt: new Date() } },
+              { userPositions_end: null },
+            ],
             userPositions_show: true,
           },
           include: {
