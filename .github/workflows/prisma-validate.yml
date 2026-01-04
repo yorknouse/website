@@ -1,0 +1,20 @@
+name: Prisma Validate
+on: 
+    pull_request:
+    workflow_dispatch:
+    push:
+jobs:
+  validate:
+    name: Prisma Validate Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Install edit-backend deps
+        working-directory: edit-backend
+        run: npm ci
+
+      - name: Run Prettier check on edit-backend
+        working-directory: edit-backend
+        run: npx prisma validate
