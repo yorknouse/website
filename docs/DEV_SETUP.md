@@ -40,7 +40,7 @@ Todo, write docs.
 
 ## Valkey
 
-Todo
+This does not need any setup or configuration, simply start it and point Next.js to it and the code does the rest
 
 ## Grafana
 
