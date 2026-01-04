@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import "../css/globals.css";
+import "../../css/globals.css";
 import React from "react";
-import Providers from "./providers";
+import Providers from "../providers";
 import Sidebar from "@/components/Navbar";
-import { GetUserName, IsLoggedIn } from "@/lib/auth";
+import { GetUserName } from "@/lib/auth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,19 +28,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const isLoggedIn = await IsLoggedIn();
-  if (!isLoggedIn) {
-    return (
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          <Providers>{children}</Providers>
-        </body>
-      </html>
-    );
-  }
-
   let name = "Unknown";
   const userName = await GetUserName();
   if (userName !== null) {

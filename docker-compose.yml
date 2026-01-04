@@ -184,6 +184,8 @@ services:
       - ./docker/grafana/dashboards:/var/lib/grafana/dashboards
     depends_on:
       - db
+    env_file:
+      - nouseprod.env
     environment:
       - GF_PLUGINS_PREINSTALL_SYNC=grafana-clock-panel
       - GF_INSTANCE_NAME=Nouse

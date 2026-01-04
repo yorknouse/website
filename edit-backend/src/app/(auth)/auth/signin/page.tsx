@@ -27,7 +27,7 @@ export default function SignInPage() {
         </div>
         <button
           onClick={() => signIn("google", { callbackUrl: "/" })}
-          className="flex items-center justify-center gap-3 w-full py-2.5 border border-gray-300 rounded-lg bg-white text-gray-700 hover:bg-gray-100 transition-all duration-200"
+          className="flex items-center justify-center gap-3 w-full py-2.5 border border-gray-300 rounded-lg bg-white text-black hover:bg-gray-100 transition-all duration-200"
         >
           <FcGoogle size={22} />
           <span className="font-medium">Sign in with Google</span>
