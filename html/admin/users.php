@@ -47,7 +47,7 @@ foreach ($users as $user) {
 	$user['users_emails'] = implode(",", $user['emails']);
 
 	$DBLIB->where("users_userid", $user['users_userid']);
-	$DBLIB->where("userPositions_end >= '" . date('Y-m-d H:i:s') . "'");
+	$DBLIB->where("(userPositions_end >= '" . date('Y-m-d H:i:s') . "' OR userPositions_end IS NULL)");
 	$DBLIB->where("userPositions_start <= '" . date('Y-m-d H:i:s') . "'");
 	$DBLIB->orderBy("positions_rank", "ASC");
 	$DBLIB->orderBy("positions_displayName", "ASC");
