@@ -1,6 +1,5 @@
 FROM php:8.5.1-fpm-alpine AS app
 
-# 1️⃣ Install dependencies & PHP extensions
 RUN apk add --no-cache \
     bash \
     curl \
@@ -30,15 +29,12 @@ RUN apk add --no-cache \
  && apk del --purge libpng-dev libzip-dev oniguruma-dev zlib-dev \
  && rm -rf /var/cache/apk/*
 
-# 2️⃣ Copy PHP configuration
 COPY docker/php.ini /usr/local/etc/php/php.ini
 
 COPY docker/start.sh /var/www/start.sh
 
-# 3️⃣ Copy Composer (after gd is installed!)
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-# 4️⃣ Cron setup
 COPY docker/job-cron /etc/cron.d/job-cron
 COPY docker/cron-minute.sh /var/www/cron-minute.sh
 RUN chmod 0644 /etc/cron.d/job-cron /var/www/cron-minute.sh \
@@ -46,19 +42,17 @@ RUN chmod 0644 /etc/cron.d/job-cron /var/www/cron-minute.sh \
  && crontab /etc/cron.d/job-cron \
  && touch /var/log/cron.log && chmod 0777 /var/log/cron.log
 
-# 5️⃣ Working directory and composer deps
 WORKDIR /var/www
 COPY composer.json composer.lock ./
 
 RUN sed -i "s|^listen = .*|listen = 0.0.0.0:9000|" /usr/local/etc/php-fpm.d/www.conf
 
-# 🧩 Composer install AFTER gd is available
 RUN composer install --no-interaction --no-scripts --no-autoloader
 
-# 6️⃣ Copy app code
 COPY ./html ./html
 
-# 7️⃣ Optimize and permissions
+COPY ./.git ./
+
 RUN composer dump-autoload --optimize \
  && dos2unix /var/www/start.sh \
  && chown -R www-data:www-data /var/www /tmp \
