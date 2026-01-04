@@ -1,5 +1,5 @@
 
-# Set up a local development enviroment 
+# Set up a local development environment 
 
 
 New docs for the 2025/26 rewrite.
