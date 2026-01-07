@@ -4,7 +4,9 @@ import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 
 const adapter = new PrismaMariaDb({
   host: process.env.MYSQL_HOSTNAME,
-  port: Number(process.env.MYSQL_PORT),
+  port: isNaN(Number(process.env.MYSQL_PORT))
+    ? 3306
+    : Number(process.env.MYSQL_PORT),
   user: process.env.MYSQL_USERNAME,
   password: process.env.MYSQL_PASSWORD,
   database: process.env.MYSQL_DATABASE,
@@ -28,6 +30,22 @@ function ask(q: string): Promise<string> {
 async function main() {
   if (process.env.NODE_ENV !== "development") {
     throw new Error("Dev-only script");
+  }
+
+  if (!process.env.MYSQL_HOSTNAME) {
+    throw new Error("MYSQL_HOSTNAME is required");
+  }
+
+  if (!process.env.MYSQL_USERNAME) {
+    throw new Error("MYSQL_USERNAME is required");
+  }
+
+  if (!process.env.MYSQL_PASSWORD) {
+    throw new Error("MYSQL_PASSWORD is required");
+  }
+
+  if (!process.env.MYSQL_DATABASE) {
+    throw new Error("MYSQL_DATABASE is required");
   }
 
   let firstName = await ask("First name: ");
