@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
       usersOauthCodes_valid: 1,
       usersOauthCodes_type: "access_token",
       users_userid: authCode.users_userid,
-      usersOauthCodes_expiry: new Date(Date.now() + 3600),
+      usersOauthCodes_expiry: new Date(Date.now() + 3600000),
     },
   });
 
