@@ -205,8 +205,13 @@ export async function GET(req: Request, { params }: RouteParams) {
               : "Unknown",
           excerpt:
             similarArticle.articlesDrafts.length !== 0
-              ? similarArticle.articlesDrafts[0]?.articlesDrafts_excerpt?.length !== 0 && similarArticle.articlesDrafts[0]?.articlesDrafts_excerpt !== null
-                ? String(similarArticle.articlesDrafts[0]?.articlesDrafts_excerpt)
+              ? similarArticle.articlesDrafts[0]?.articlesDrafts_excerpt
+                  ?.length !== 0 &&
+                similarArticle.articlesDrafts[0]?.articlesDrafts_excerpt !==
+                  null
+                ? String(
+                    similarArticle.articlesDrafts[0]?.articlesDrafts_excerpt,
+                  )
                 : null
               : null,
           articleURL: `${process.env.FRONTEND_URL}articles/${dateFormatter
@@ -251,7 +256,8 @@ export async function GET(req: Request, { params }: RouteParams) {
           : "Unknown",
       excerpt:
         articleRaw.articlesDrafts.length !== 0
-          ? articleRaw.articlesDrafts[0]?.articlesDrafts_excerpt?.length !== 0 && articleRaw.articlesDrafts[0]?.articlesDrafts_excerpt !== null
+          ? articleRaw.articlesDrafts[0]?.articlesDrafts_excerpt?.length !==
+              0 && articleRaw.articlesDrafts[0]?.articlesDrafts_excerpt !== null
             ? String(articleRaw.articlesDrafts[0]?.articlesDrafts_excerpt)
             : null
           : null,
