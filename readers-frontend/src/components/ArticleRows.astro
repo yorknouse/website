@@ -58,11 +58,7 @@ const {
                               ? String(article.headline)
                               : "Unknown"
                           }
-                          excerpt={
-                            article.excerpt?.length != 0
-                              ? String(article.excerpt)
-                              : null
-                          }
+                          excerpt={article.excerpt}
                           authors={article.authors}
                           category={article.parentCategory.displayName}
                           categoryLink={article.parentCategory.link}
@@ -103,9 +99,7 @@ const {
                 ? String(article.headline)
                 : "Unknown"
             }
-            excerpt={
-              article.excerpt?.length != 0 ? String(article.excerpt) : null
-            }
+            excerpt={article.excerpt}
             authors={article.authors}
             category={article.parentCategory.name}
             categoryLink={article.parentCategory.link}

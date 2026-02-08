@@ -65,9 +65,7 @@ const mainCategories: ICategory[] = featuredArticles.flatMap(({ categories }) =>
                       ? String(article.headline)
                       : "Unknown"
                   }
-                  excerpt={
-                    article.excerpt?.length != 0 ? article.excerpt : null
-                  }
+                  excerpt={article.excerpt}
                   authors={article.authors}
                   category={article.parentCategory.name}
                   categoryLink={article.parentCategory.link}
@@ -100,9 +98,7 @@ const mainCategories: ICategory[] = featuredArticles.flatMap(({ categories }) =>
                       ? String(article.headline)
                       : "Unknown"
                   }
-                  excerpt={
-                    article.excerpt?.length != 0 ? article.excerpt : "Unknown"
-                  }
+                  excerpt={article.excerpt}
                   authors={article.authors}
                   category={article.parentCategory.displayName}
                   categoryLink={getCategoryLink(

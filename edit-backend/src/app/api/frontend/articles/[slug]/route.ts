@@ -204,8 +204,10 @@ export async function GET(req: Request, { params }: RouteParams) {
               ? similarArticle.articlesDrafts[0].articlesDrafts_headline
               : "Unknown",
           excerpt:
-            similarArticle.articlesDrafts.length != 0
-              ? similarArticle.articlesDrafts[0].articlesDrafts_excerpt
+            similarArticle.articlesDrafts.length !== 0
+              ? similarArticle.articlesDrafts[0]?.articlesDrafts_excerpt?.length !== 0 && similarArticle.articlesDrafts[0]?.articlesDrafts_excerpt !== null
+                ? String(similarArticle.articlesDrafts[0]?.articlesDrafts_excerpt)
+                : null
               : null,
           articleURL: `${process.env.FRONTEND_URL}articles/${dateFormatter
             .format(publishedDate) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
@@ -248,8 +250,10 @@ export async function GET(req: Request, { params }: RouteParams) {
           ? articleRaw.articlesDrafts![0].articlesDrafts_headline
           : "Unknown",
       excerpt:
-        articleRaw.articlesDrafts.length != 0
-          ? articleRaw.articlesDrafts![0].articlesDrafts_excerpt
+        articleRaw.articlesDrafts.length !== 0
+          ? articleRaw.articlesDrafts[0]?.articlesDrafts_excerpt?.length !== 0 && articleRaw.articlesDrafts[0]?.articlesDrafts_excerpt !== null
+            ? String(articleRaw.articlesDrafts[0]?.articlesDrafts_excerpt)
+            : null
           : null,
       published: dateFormatter
         .format(publishedDate)
