@@ -200,7 +200,7 @@ export async function GET(req: Request, { params }: RouteParams) {
         const similar: IArticle = {
           id: similarArticle.articles_id,
           headline:
-            similarArticle.articlesDrafts.length != 0
+            similarArticle.articlesDrafts.length !== 0
               ? similarArticle.articlesDrafts[0].articlesDrafts_headline
               : "Unknown",
           excerpt:
@@ -244,7 +244,7 @@ export async function GET(req: Request, { params }: RouteParams) {
       thumbnailCredit:
         articleRaw.articlesDrafts![0].articlesDrafts_thumbnailCredit,
       headline:
-        articleRaw.articlesDrafts.length != 0
+        articleRaw.articlesDrafts.length !== 0
           ? articleRaw.articlesDrafts![0].articlesDrafts_headline
           : "Unknown",
       excerpt:
