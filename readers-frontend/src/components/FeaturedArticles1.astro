@@ -45,7 +45,7 @@ const mainCategories: ICategory[] = featuredArticles.flatMap(({ categories }) =>
 ---
 
 {
-  featuredArticles.length != 0 && (
+  featuredArticles.length !== 0 && (
     <>
       <div class="border-color mt-4 h-full">
         {/* Desktop */}
@@ -61,13 +61,11 @@ const mainCategories: ICategory[] = featuredArticles.flatMap(({ categories }) =>
               <div class={`w-full pr-2.5`}>
                 <Article
                   headline={
-                    article.headline?.length != 0
+                    article.headline?.length !== 0
                       ? String(article.headline)
                       : "Unknown"
                   }
-                  excerpt={
-                    article.excerpt?.length != 0 ? article.excerpt : null
-                  }
+                  excerpt={article.excerpt}
                   authors={article.authors}
                   category={article.parentCategory.name}
                   categoryLink={article.parentCategory.link}
@@ -96,13 +94,11 @@ const mainCategories: ICategory[] = featuredArticles.flatMap(({ categories }) =>
               >
                 <Article
                   headline={
-                    article.headline?.length != 0
+                    article.headline?.length !== 0
                       ? String(article.headline)
                       : "Unknown"
                   }
-                  excerpt={
-                    article.excerpt?.length != 0 ? article.excerpt : "Unknown"
-                  }
+                  excerpt={article.excerpt}
                   authors={article.authors}
                   category={article.parentCategory.displayName}
                   categoryLink={getCategoryLink(

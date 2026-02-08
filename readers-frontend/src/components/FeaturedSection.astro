@@ -36,7 +36,7 @@ const categoryColor = category.categories_backgroundColor;
   }
 </style>
 {
-  articles.length != 0 && (
+  articles.length !== 0 && (
     <>
       <div class="border-color mt-4 h-full border-t-2">
         <a
@@ -65,13 +65,11 @@ const categoryColor = category.categories_backgroundColor;
               >
                 <Article
                   headline={
-                    article.headline?.length != 0
+                    article.headline?.length !== 0
                       ? String(article.headline)
                       : "Unknown"
                   }
-                  excerpt={
-                    article.excerpt?.length != 0 ? article.excerpt : null
-                  }
+                  excerpt={article.excerpt}
                   authors={article.authors}
                   category={category.categories_displayName}
                   categoryLink={getCategoryLink(
@@ -100,13 +98,11 @@ const categoryColor = category.categories_backgroundColor;
               >
                 <Article
                   headline={
-                    article.headline?.length != 0
+                    article.headline?.length !== 0
                       ? String(article.headline)
                       : "Unknown"
                   }
-                  excerpt={
-                    article.excerpt?.length != 0 ? article.excerpt : null
-                  }
+                  excerpt={article.excerpt}
                   authors={article.authors}
                   category={category.categories_displayName}
                   categoryLink={getCategoryLink(

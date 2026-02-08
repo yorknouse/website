@@ -192,10 +192,20 @@ export async function POST(request: Request, { params }: RouteParams) {
           thumbnailURL: s3url,
           isThumbnailPortrait: article.articles_isThumbnailPortrait,
           thumbnailCredit:
-            article.articlesDrafts[0]?.articlesDrafts_thumbnailCredit || null,
+            article.articlesDrafts[0]?.articlesDrafts_thumbnailCredit
+              ?.length !== 0 &&
+            article.articlesDrafts[0]?.articlesDrafts_thumbnailCredit !== null
+              ? String(
+                  article.articlesDrafts[0]?.articlesDrafts_thumbnailCredit,
+                )
+              : null,
           headline:
             article.articlesDrafts[0]?.articlesDrafts_headline || "Unknown",
-          excerpt: article.articlesDrafts[0]?.articlesDrafts_excerpt || null,
+          excerpt:
+            article.articlesDrafts[0]?.articlesDrafts_excerpt?.length !== 0 &&
+            article.articlesDrafts[0]?.articlesDrafts_excerpt !== null
+              ? String(article.articlesDrafts[0]?.articlesDrafts_excerpt)
+              : null,
           published: dateFormatter
             .format(publishedDate)
             .split("/")

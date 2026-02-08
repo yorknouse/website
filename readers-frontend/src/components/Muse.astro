@@ -79,13 +79,11 @@ for (const category of museMenuCategories) {
                 <div class="pr-3">
                   <Article
                     headline={
-                      article.headline?.length != 0
+                      article.headline?.length !== 0
                         ? String(article.headline)
                         : "Unknown"
                     }
-                    excerpt={
-                      article.excerpt?.length != 0 ? article.excerpt : null
-                    }
+                    excerpt={article.excerpt}
                     authors={article.authors}
                     category={undefined}
                     categoryColor={"#FFF"}
@@ -116,13 +114,11 @@ for (const category of museMenuCategories) {
                 )}
                 <Article
                   headline={
-                    article.headline?.length != 0
+                    article.headline?.length !== 0
                       ? String(article.headline)
                       : "Unknown"
                   }
-                  excerpt={
-                    article.excerpt?.length != 0 ? article.excerpt : null
-                  }
+                  excerpt={article.excerpt}
                   authors={article.authors}
                   category={undefined}
                   categoryColor={"#FFF"}
