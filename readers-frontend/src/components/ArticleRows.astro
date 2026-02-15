@@ -54,15 +54,11 @@ const {
                       >
                         <Article
                           headline={
-                            article.headline?.length != 0
+                            article.headline?.length !== 0
                               ? String(article.headline)
                               : "Unknown"
                           }
-                          excerpt={
-                            article.excerpt?.length != 0
-                              ? String(article.excerpt)
-                              : null
-                          }
+                          excerpt={article.excerpt}
                           authors={article.authors}
                           category={article.parentCategory.displayName}
                           categoryLink={article.parentCategory.link}
@@ -99,13 +95,11 @@ const {
         >
           <Article
             headline={
-              article.headline?.length != 0
+              article.headline?.length !== 0
                 ? String(article.headline)
                 : "Unknown"
             }
-            excerpt={
-              article.excerpt?.length != 0 ? String(article.excerpt) : null
-            }
+            excerpt={article.excerpt}
             authors={article.authors}
             category={article.parentCategory.name}
             categoryLink={article.parentCategory.link}
