@@ -153,9 +153,13 @@
                 </div>
             </div>
             <div class="box-body">
-                <a href="{{ edition.editions_pdf|s3URL }}" id="pdfLinkCompressed" style="{{ edition.editions_pdf|length < 1 ? 'display:none;' : '' }}" target="_blank" class="btn btn-default btn-lg"><i style="margin-right: 10px;" class="fa fa-file-pdf-o"></i>
-                    {% set editionPdfData = edition.editions_pdf|s3DATA %}
+                {% if edition.editions_pdf != null %}
+                <a href="{{ edition.editions_pdf|s3URL("") }}" id="pdfLinkCompressed" style="{{ edition.editions_pdf|length < 1 ? 'display:none;' : '' }}" target="_blank" class="btn btn-default btn-lg"><i style="margin-right: 10px;" class="fa fa-file-pdf-o"></i>
+                    {% set editionPdfData = edition.editions_pdf|s3DATA("") %}
                     {{ editionPdfData['data']['s3files_original_name'] }}</a>
+                {% else %}
+                    <i>No edition pdf set</i>
+                {% endif %}
             </div>
             <div class="box-footer">
                 {% embed 'common/plugins/uppy.twig' with {'publicBool': true, 'type': 'EDITION-PDF', 'paste': false, 'typeId': 6, 'subTypeId': edition.editions_id, 'imagesOnly': false, 'fileLimit': 1 } %}
@@ -180,9 +184,13 @@
                 </div>
             </div>
             <div class="box-body">
-                <a href="{{ edition.editions_pdfOriginal|s3URL }}" id="pdfLink" style="{{ edition.editions_pdfOriginal|length < 1 ? 'display:none;' : '' }}" target="_blank" class="btn btn-default btn-lg"><i style="margin-right: 10px;" class="fa fa-file-pdf-o"></i>
-                    {% set editionPdfOrigData = edition.editions_pdfOriginal|s3DATA %}
+                {% if edition.editions_pdfOriginal != null %}
+                <a href="{{ edition.editions_pdfOriginal|s3URL("") }}" id="pdfLink" style="{{ edition.editions_pdfOriginal|length < 1 ? 'display:none;' : '' }}" target="_blank" class="btn btn-default btn-lg"><i style="margin-right: 10px;" class="fa fa-file-pdf-o"></i>
+                    {% set editionPdfOrigData = edition.editions_pdfOriginal|s3DATA("") %}
                     {{ editionPdfOrigData['data']['s3files_original_name'] }}</a>
+                {% else %}
+                    <i>No edition original pdf set</i>
+                {% endif %}
             </div>
             <div class="box-footer">
                 {% embed 'common/plugins/uppy.twig' with {'publicBool': true, 'type': 'EDITION-PDF', 'paste': false, 'typeId': 5, 'subTypeId': edition.editions_id, 'imagesOnly': false, 'fileLimit': 1 } %}
