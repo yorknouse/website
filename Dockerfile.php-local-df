@@ -26,8 +26,7 @@ RUN apk add --no-cache \
     cronie \
  && docker-php-ext-configure gd --with-freetype --with-jpeg --enable-gd \
  && docker-php-ext-install -j$(nproc) gd zip mbstring mysqli intl \
- && apk del --purge libpng-dev libzip-dev oniguruma-dev zlib-dev \
- && rm -rf /var/cache/apk/*
+ && apk del --purge libpng-dev libzip-dev oniguruma-dev zlib-dev
 
 COPY docker/php.ini /usr/local/etc/php/php.ini
 
@@ -47,16 +46,16 @@ COPY composer.json composer.lock ./
 
 RUN sed -i "s|^listen = .*|listen = 0.0.0.0:9000|" /usr/local/etc/php-fpm.d/www.conf
 
-RUN composer install --no-interaction --no-scripts --no-autoloader
+RUN composer install --no-interaction --no-scripts --no-autoloader --prefer-dist --no-dev
 
 COPY ./html ./html
-
-COPY ./.git ./
 
 RUN composer dump-autoload --optimize
 RUN dos2unix /var/www/start.sh
 
+COPY ./.git ./
+
 RUN git config --global --add safe.directory /var/www
 RUN chown -R www-data:www-data /var/www /tmp
 
-CMD ["bash", "/var/www/start.sh"]
+ENTRYPOINT ["/var/www/start.sh"]
