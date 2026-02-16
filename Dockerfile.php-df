@@ -53,9 +53,10 @@ COPY ./html ./html
 
 COPY ./.git ./
 
-RUN composer dump-autoload --optimize \
- && dos2unix /var/www/start.sh \
- && chown -R www-data:www-data /var/www /tmp \
+RUN composer dump-autoload --optimize
+RUN dos2unix /var/www/start.sh
+
+RUN chown -R www-data:www-data /var/www /tmp \
  && git config --global --add safe.directory /var/www
 
 CMD ["bash", "/var/www/start.sh"]
