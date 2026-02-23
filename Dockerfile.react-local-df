@@ -58,5 +58,7 @@ RUN crontab /etc/cron.d/nextjs-cron
 
 COPY docker/start-react.sh /app/start.sh
 
+RUN chmod +x /app/start.sh
+
 # Start cron in background and then start Next.js server
 CMD ["bash", "/app/start.sh"]
