@@ -32,7 +32,6 @@ export default defineConfig({
       "import.meta.env.PUBLIC_BASE_URL": JSON.stringify(
         process.env.PUBLIC_BASE_URL || "https://nouse.co.uk",
       ),
-      // Not loading from env file?
       "import.meta.env.PUBLIC_SITE_ASSETS_URL": JSON.stringify(
         process.env.PUBLIC_SITE_ASSETS_URL ||
           "https://bbcdn.nouse.co.uk/file/nouseSiteAssets",
