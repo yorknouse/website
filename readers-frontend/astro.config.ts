@@ -30,6 +30,10 @@ export default defineConfig({
       "import.meta.env.PUBLIC_BASE_URL": JSON.stringify(
         process.env.PUBLIC_BASE_URL || "http://localhost:3000",
       ),
+      // Not loading from env file?
+      "import.meta.env.PUBLIC_SITE_ASSETS_URL": JSON.stringify(
+        process.env.PUBLIC_SITE_ASSETS_URL || "https://bbcdn.nouse.co.uk/file/nouseSiteAssets",
+      ),
     },
   },
   adapter: node({
