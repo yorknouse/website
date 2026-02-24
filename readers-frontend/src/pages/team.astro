@@ -4,14 +4,13 @@ import { type Position } from "@components/types";
 
 const apiBase = import.meta.env.PUBLIC_API_BASE_URL;
 
-async function getTeam() : Promise<Position[]> {
-  try{
+async function getTeam(): Promise<Position[]> {
+  try {
     const res = await fetch(`${apiBase}/api/frontend/team`);
     const positions: Position[] = await res.json();
     return positions;
-  }
-  catch(error){
-    return []
+  } catch (error) {
+    return [];
   }
 }
 //const res = await fetch(`${apiBase}/api/frontend/team`);
@@ -19,20 +18,19 @@ const positions: Position[] = await getTeam();
 ---
 
 <Layout title="Nouse" active="home" style={"nouse"}>
-  
-  <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%] ">
+  <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
     <h1 class="mb-2 text-center text-2xl sm:text-4xl">Meet The Team</h1>
-    
+
     <figure class="mt-8 flex flex-col items-center">
-  <img
-    src={`${import.meta.env.PUBLIC_SITE_ASSETS_URL}/teamPhotos/202526Team.jpg`}
-    alt="Nouse team photo"
-    class="max-w-md h-auto rounded-lg"
-  />
-  <figcaption class="mt-2 text-sm text-gray-700">
-    Nouse Winter Formal, December 2025.
-  </figcaption>
-</figure>
+      <img
+        src={`${import.meta.env.PUBLIC_SITE_ASSETS_URL}/teamPhotos/202526Team.jpg`}
+        alt="Nouse team photo"
+        class="max-w-md h-auto rounded-lg"
+      />
+      <figcaption class="mt-2 text-sm text-gray-700">
+        Nouse Winter Formal, December 2025.
+      </figcaption>
+    </figure>
 
     <div id="senior-team" class="mb-4">
       <p class="mb-4 text-xl font-bold sm:text-2xl">Senior Team</p>
