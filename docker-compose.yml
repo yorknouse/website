@@ -218,6 +218,10 @@ services:
       - /sys:/host/sys:ro
       - /etc/os-release:/host/etc/os-release:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    deploy:
+      resources:
+        limits:
+          memory: 500M
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
@@ -228,6 +232,10 @@ services:
       - WATCHTOWER_POLL_INTERVAL=30
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      resources:
+        limits:
+          memory: 500M
 volumes:
   netdatalib:
     external: true
