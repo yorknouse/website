@@ -4,7 +4,6 @@ import CustomBoxes from "@solidComponents/CustomBoxes";
 import type { FeaturedHighlights } from "@components/types";
 import { getArticles } from "@componentsUtils/articles";
 import Layout from "@layouts/Layout.astro";
-import { v4 as uuidv4 } from "uuid";
 import type { S3URL } from "@components/types";
 import type { IEdition } from "@components/types";
 
@@ -140,7 +139,7 @@ if (tempFileId) {
                   )}
                   {section.customBoxes.length !== 0 &&
                     (() => {
-                      const id = uuidv4();
+                      const id = crypto.randomUUID();
                       return (
                         <div class="custom-boxes-container relative mb-5 flex w-full flex-col bg-black px-[3%] pt-4 text-white sm:px-[0.5%] 2xl:px-[13%]">
                           <p class="border-b border-white text-center text-xl md:text-2xl lg:text-4xl">
