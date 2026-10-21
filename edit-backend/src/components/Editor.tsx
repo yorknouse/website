@@ -24,7 +24,7 @@ const underlineCommand: ICommand = {
 const MDEditor = dynamic(() => import("@uiw/react-md-editor"), { ssr: false });
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
-interface EditorProps<T = void> {
+interface EditorProps {
   /** Any element (button, icon, etc.) that triggers the modal */
   // children: ReactNode;
 
@@ -37,10 +37,12 @@ interface EditorProps<T = void> {
   initialMarkdown?: string;
 
   /** Optional callback to run on confirm */
-  onSubmit?: (data?: T) => void | Promise<void>;
+  onSubmit?: (data?: string) => void | Promise<void>;
+
+  onChange?: (data: string) => void;
 
   /** Optional data to pass into onConfirm */
-  confirmData?: T;
+  confirmData?: string;
 
   // /** Optional route to redirect to on confirm */
   // redirectTo?: string;
@@ -50,11 +52,12 @@ interface EditorProps<T = void> {
   // cancelButtonClassName?: string;
 }
 
-export default function DualEditor<T = void>({
+export default function DualEditor({
   initialMarkdown = "",
   onSubmit,
+  onChange,
   confirmData,
-}: EditorProps<T>) {
+}: EditorProps) {
   const [mode, setMode] = useState<"markdown" | "wysiwyg">("wysiwyg");
   const [markdown, setMarkdown] = useState(initialMarkdown);
   const [html, setHtml] = useState(markdownToHtml(markdown).toString());
@@ -101,8 +104,8 @@ export default function DualEditor<T = void>({
           .trim();
 
         // log the exact converted output (useful for debugging)
-        console.log("HTML ->", html);
-        console.log("Converted Markdown ->", normalised);
+        // console.log("HTML ->", html);
+        // console.log("Converted Markdown ->", normalised);
 
         // then set state once
         setMarkdown(normalised);
@@ -112,6 +115,12 @@ export default function DualEditor<T = void>({
     }
     // We only depend on mode and html here: when html changes & mode === markdown, conversion occurs
   }, [mode, html, turndown]);
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(html); // Pass content to parent component via the onChange prop
+    }
+  }, [markdown, html, mode, onChange]);
 
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-4">
@@ -165,22 +174,22 @@ export default function DualEditor<T = void>({
         </div>
       )}
       <div className="flex gap-2">
-        <button
+        <a
           onClick={() => setMode("markdown")}
           className={`px-3 py-1 rounded ${
             mode === "markdown" ? "bg-blue-600 text-white" : "bg-gray-200"
           }`}
         >
           Markdown
-        </button>
-        <button
+        </a>
+        <a
           onClick={() => setMode("wysiwyg")}
           className={`px-3 py-1 rounded ${
             mode === "wysiwyg" ? "bg-blue-600 text-white" : "bg-gray-200"
           }`}
         >
           WYSIWYG
-        </button>
+        </a>
       </div>
     </div>
   );

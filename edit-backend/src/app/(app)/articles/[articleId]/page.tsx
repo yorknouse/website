@@ -6,6 +6,7 @@ import { s3URL } from "@/lib/s3URL";
 import Image from "next/image";
 import DualEditor from "@/components/Editor";
 import ArticlePreviewButton from "@/components/ArticlePreviewButton";
+import ArticleForm from "@/components/ArticleForm";
 
 export const metadata: Metadata = {
   title: "Article",
@@ -120,13 +121,14 @@ export default async function Article({
           </p>
         </div>
       ))}
-      <DualEditor
-        initialMarkdown={
-          article.articlesDrafts[0].articlesDrafts_markdown !== null
-            ? article.articlesDrafts[0].articlesDrafts_markdown
-            : undefined
-        }
-      />
+      {/*<DualEditor*/}
+      {/*  initialMarkdown={*/}
+      {/*    article.articlesDrafts[0].articlesDrafts_markdown !== null*/}
+      {/*      ? article.articlesDrafts[0].articlesDrafts_markdown*/}
+      {/*      : undefined*/}
+      {/*  }*/}
+      {/*/>*/}
+      <ArticleForm article={article} />
     </div>
   );
 }
