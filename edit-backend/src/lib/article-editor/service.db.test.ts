@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import prisma from "@/lib/prisma";
 import { articleSaveSchema, type ArticleSaveInput } from "./schema";
 import { decodeText } from "./content";
@@ -16,6 +16,13 @@ import {
   makeS3File,
   makeUser,
 } from "@/test/fixtures";
+
+// The side effects post, email and purge over the network; they have their
+// own tests in effects/process.db.test.ts.
+vi.mock("./effects/process", () => ({ processArticle: vi.fn(async () => []) }));
+vi.mock("./effects/cachePurge", () => ({
+  purgeCaches: vi.fn(async () => true),
+}));
 
 function input(over: Record<string, unknown> = {}): ArticleSaveInput {
   return articleSaveSchema.parse({
