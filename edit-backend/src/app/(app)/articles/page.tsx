@@ -229,8 +229,6 @@ export default async function Articles({
                           articleID: article.articles_id,
                           headline:
                             article.articlesDrafts[0].articlesDrafts_headline,
-                          userID: Number(userData.id),
-                          userActions: userData.actions,
                         }}
                       >
                         <span className={"px-2 py-2"}>

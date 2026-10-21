@@ -1,24 +1,28 @@
 "use client";
 
 import ConfirmAction from "@/components/ConfirmAction";
-import { deleteArticle } from "@/lib/articles";
 import { ReactNode } from "react";
 
 export default function ArticleDeleteButton({
   children,
-  props: { articleID, headline, userID, userActions },
+  props: { articleID, headline },
 }: {
   children: ReactNode;
   props: {
     articleID: number;
     headline: string;
-    userID: number;
-    userActions?: Map<number, boolean>;
   };
 }) {
   const handleDelete = async (id?: number) => {
     if (!id) return;
-    await deleteArticle(id, userID, userActions);
+    const res = await fetch(`/api/backend/articles/${id}`, {
+      method: "DELETE",
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => null);
+      alert(body?.message ?? "Something went wrong while deleting");
+      return;
+    }
     window.location.reload();
   };
 
