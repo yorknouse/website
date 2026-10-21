@@ -352,6 +352,13 @@ export async function updateArticle(
   let previousCategoryIds: number[] = [];
 
   const result = await prisma.$transaction(async (tx): Promise<SaveResult> => {
+    // Lock the row so a social claim (effects/process.ts) can't commit
+    // between reading socialConfig and writing it back, which would wipe the
+    // posted flag and post again. The locking read sees the latest committed
+    // value, and it is the value that gets written back.
+    const locked = await tx.$queryRaw<{ articles_socialConfig: string }[]>`
+      SELECT articles_socialConfig FROM articles
+      WHERE articles_id = ${articleId} FOR UPDATE`;
     const existing = await tx.articles.findFirst({
       where: { articles_id: articleId, articles_showInAdmin: true },
       select: {
@@ -401,7 +408,7 @@ export async function updateArticle(
           ? { articles_thumbnail: String(input.thumbnailId) }
           : {}),
         articles_socialConfig: socialConfigForEdit(
-          existing.articles_socialConfig,
+          locked[0]?.articles_socialConfig ?? existing.articles_socialConfig,
           input,
         ),
       },

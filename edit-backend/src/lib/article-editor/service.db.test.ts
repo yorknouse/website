@@ -10,6 +10,7 @@ import {
   softDeleteArticle,
   updateArticle,
 } from "./service";
+import { processArticle } from "./effects/process";
 import {
   makeCategory,
   makeEdition,
@@ -300,6 +301,29 @@ describe("updateArticle", () => {
     expect(cats.map((r) => r.categories_id)).toEqual([y.categories_id]);
   });
 
+  it("runs the side effects with the edition and categories from before the edit", async () => {
+    const [x, y] = [await makeCategory(), await makeCategory()];
+    const [before, after] = [await makeEdition(), await makeEdition()];
+    const first = await created({
+      categoryIds: [x.categories_id],
+      editionId: before.editions_id,
+    });
+    vi.mocked(processArticle).mockClear();
+    const res = await updateArticle(
+      first.articleId,
+      input({ categoryIds: [y.categories_id], editionId: after.editions_id }),
+      first.userId,
+    );
+    expect(res.ok).toBe(true);
+    expect(vi.mocked(processArticle)).toHaveBeenCalledTimes(1);
+    expect(vi.mocked(processArticle)).toHaveBeenCalledWith(first.articleId, {
+      purge: {
+        previousEditionId: before.editions_id,
+        previousCategoryIds: [x.categories_id],
+      },
+    });
+  });
+
   it("round-trips an escaped headline without double escaping", async () => {
     const first = await created({ headline: "Tom & Jerry" });
     const loaded = await getArticleForEditor(first.articleId);
@@ -386,6 +410,42 @@ describe("updateArticle", () => {
       where: { articles_id: first.articleId },
     });
     expect(a.articles_socialConfig).toBe("1,1,0,0");
+  });
+
+  it("keeps a posted flag claimed while the save is in progress", async () => {
+    const first = await created();
+    let release!: () => void;
+    const gate = new Promise<void>((r) => (release = r));
+    let claimed!: () => void;
+    const claimDone = new Promise<void>((r) => (claimed = r));
+
+    // A social claim that commits after the save has started reading.
+    const claim = prisma.$transaction(
+      async (tx) => {
+        await tx.articles.updateMany({
+          where: {
+            articles_id: first.articleId,
+            articles_socialConfig: "1,0,1,0",
+          },
+          data: { articles_socialConfig: "1,1,1,0" },
+        });
+        claimed();
+        await gate;
+      },
+      { timeout: 10_000 },
+    );
+    await claimDone;
+    const save = updateArticle(first.articleId, input(), first.userId);
+    // Give the save time to reach its read (and block on the row lock).
+    await new Promise((r) => setTimeout(r, 300));
+    release();
+    await claim;
+    expect((await save).ok).toBe(true);
+
+    const a = await prisma.articles.findUniqueOrThrow({
+      where: { articles_id: first.articleId },
+    });
+    expect(a.articles_socialConfig).toBe("1,1,1,0");
   });
 });
 
