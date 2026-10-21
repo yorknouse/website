@@ -4,9 +4,11 @@ import sanitizeHtml from "sanitize-html";
 
 /** Plain-text field -> stored form (matches HTMLPurifier output from PHP). */
 export function escapeText(s: string): string {
-  const decoded = decodeHTML(s.trim());
-  return decoded
-    .replace(/<[^>]*>/g, "")
+  const stripped = s
+    .trim()
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/<\/?[a-zA-Z][^>]*>/g, "");
+  return decodeHTML(stripped)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");

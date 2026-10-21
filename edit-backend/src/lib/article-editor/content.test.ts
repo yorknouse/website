@@ -13,8 +13,19 @@ describe("escapeText", () => {
   });
   it("does not double escape", () => {
     expect(escapeText("Tom &amp; Jerry")).toBe("Tom &amp; Jerry");
+  });
+  it("keeps text around bare angle brackets and is idempotent", () => {
     const once = escapeText("a < b && c > d");
+    expect(once).toBe("a &lt; b &amp;&amp; c &gt; d");
     expect(escapeText(once)).toBe(once);
+    expect(escapeText("a < b > c")).toBe("a &lt; b &gt; c");
+    expect(escapeText("a &lt; b &gt; c")).toBe("a &lt; b &gt; c");
+  });
+  it("keeps entity-encoded tags as text", () => {
+    expect(escapeText("&lt;script&gt;x")).toBe("&lt;script&gt;x");
+  });
+  it("strips comments", () => {
+    expect(escapeText("a<!-- x -->b")).toBe("ab");
   });
   it("strips tags", () => {
     expect(escapeText("<b>Hi</b>")).toBe("Hi");
