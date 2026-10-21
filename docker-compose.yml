@@ -157,25 +157,25 @@ services:
     env_file:
       - nouseprod.env
   mysql-backup:
-     image: databack/mysql-backup:latest
-     restart: unless-stopped
-     container_name: mysql-backup
-     environment:
-       - DB_SERVER=db
-       - DB_PORT=3306
-       - DB_USER=root
-       - DB_PASS=rootPass
-       - DB_NAMES=nouse
+    image: databack/mysql-backup:latest
+    restart: unless-stopped
+    container_name: mysql-backup
+    environment:
+      - DB_SERVER=db
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASS=rootPass
+      - DB_NAMES=nouse
       - DB_DUMP_FREQ=120 # 2 hours
-       - DB_DUMP_BEGIN=+10
-       - COMPRESSION=gzip
-       - NICE=true
-     env_file:
-       - nouseprod.env
-     depends_on:
-       - db
-     volumes:
-       - /etc/localtime:/etc/localtime:ro
+      - DB_DUMP_BEGIN=+10
+      - COMPRESSION=gzip
+      - NICE=true
+    env_file:
+      - nouseprod.env
+    depends_on:
+      - db
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
   grafana:
     image: grafana/grafana:12.3-ubuntu
     container_name: grafana
