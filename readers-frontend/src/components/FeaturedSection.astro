@@ -35,92 +35,88 @@ const categoryColor = category.categories_backgroundColor;
     color: var(--categoryColor);
   }
 </style>
-{
-  articles.length !== 0 && (
-    <>
-      <div class="border-color mt-4 h-full border-t-2">
-        <a
-          id="category-text"
-          class="playfair-display category-color text-2xl uppercase xl:text-3xl 2xl:text-4xl"
-          href={`${
-            category.categories_nestUnder == 4 ? `/muse/` : "/"
-          }${category.categories_name}`}
-        >
-          {category.categories_displayName}
-        </a>
-        {/* Desktop */}
-        <div
-          class="
-    hidden md:grid gap-4 w-full
+{articles.length !== 0 && (
+  <>
+    <div class="border-color mt-4 h-full border-t-2">
+      <a
+        id="category-text"
+        class="playfair-display category-color text-2xl uppercase xl:text-3xl 2xl:text-4xl"
+        href={`${
+          category.categories_nestUnder == 4 ? `/muse/` : "/"
+        }${category.categories_name}`}
+      >
+        {category.categories_displayName}
+      </a>
+      {/* Desktop */}
+      <div
+        class="hidden md:grid gap-4 w-full
     md:[grid-template-columns:repeat(auto-fit,minmax(25%,1fr))]
-    xl:[grid-template-columns:repeat(auto-fit,minmax(16.666%,1fr))]
-  "
-        >
-          {articles.map(async (article, index) => {
-            return (
-              <div
-                class={`w-full pr-2.5 ${
-                  index != articles.length - 1 ? "border-r border-gray-300" : ""
-                }`}
-              >
-                <Article
-                  headline={
-                    article.headline?.length !== 0
-                      ? String(article.headline)
-                      : "Unknown"
-                  }
-                  excerpt={article.excerpt}
-                  authors={article.authors}
-                  category={category.categories_displayName}
-                  categoryLink={getCategoryLink(
-                    category.categories_name,
-                    category.categories_nestUnder,
-                  )}
-                  categoryColor={categoryColor}
-                  imageUrl={article.thumbnailURL}
-                  articleUrl={article.articleURL}
-                  isVertical={true}
-                  isPortrait={article.isThumbnailPortrait}
-                  hideCategoryAccent={true}
-                />
-              </div>
-            );
-          })}
-        </div>
-        {/* Mobile */}
-        {
-          <div class="block max-w-full justify-center md:hidden">
-            {articles.map(async (article, index) => (
-              <div
-                class={`w-full p-2.5 ${
-                  index != articles.length - 1 ? "border-b border-gray-300" : ""
-                }`}
-              >
-                <Article
-                  headline={
-                    article.headline?.length !== 0
-                      ? String(article.headline)
-                      : "Unknown"
-                  }
-                  excerpt={article.excerpt}
-                  authors={article.authors}
-                  category={category.categories_displayName}
-                  categoryLink={getCategoryLink(
-                    category.categories_name,
-                    category.categories_nestUnder,
-                  )}
-                  categoryColor={categoryColor}
-                  imageUrl={article.thumbnailURL}
-                  articleUrl={article.articleURL}
-                  isVertical={false}
-                  isPortrait={article.isThumbnailPortrait}
-                  hideCategoryAccent={true}
-                />
-              </div>
-            ))}
-          </div>
-        }
+    xl:[grid-template-columns:repeat(auto-fit,minmax(16.666%,1fr))]"
+      >
+        {articles.map(async (article, index) => {
+          return (
+            <div
+              class={`w-full pr-2.5 ${
+                index != articles.length - 1 ? "border-r border-gray-300" : ""
+              }`}
+            >
+              <Article
+                headline={
+                  article.headline?.length !== 0
+                    ? String(article.headline)
+                    : "Unknown"
+                }
+                excerpt={article.excerpt}
+                authors={article.authors}
+                category={category.categories_displayName}
+                categoryLink={getCategoryLink(
+                  category.categories_name,
+                  category.categories_nestUnder,
+                )}
+                categoryColor={categoryColor}
+                imageUrl={article.thumbnailURL}
+                articleUrl={article.articleURL}
+                isVertical={true}
+                isPortrait={article.isThumbnailPortrait}
+                hideCategoryAccent={true}
+              />
+            </div>
+          );
+        })}
       </div>
-    </>
-  )
-}
+      {/* Mobile */}
+      {
+        <div class="block max-w-full justify-center md:hidden">
+          {articles.map(async (article, index) => (
+            <div
+              class={`w-full p-2.5 ${
+                index != articles.length - 1 ? "border-b border-gray-300" : ""
+              }`}
+            >
+              <Article
+                headline={
+                  article.headline?.length !== 0
+                    ? String(article.headline)
+                    : "Unknown"
+                }
+                excerpt={article.excerpt}
+                authors={article.authors}
+                category={category.categories_displayName}
+                categoryLink={getCategoryLink(
+                  category.categories_name,
+                  category.categories_nestUnder,
+                )}
+                categoryColor={categoryColor}
+                imageUrl={article.thumbnailURL}
+                articleUrl={article.articleURL}
+                isVertical={false}
+                isPortrait={article.isThumbnailPortrait}
+                hideCategoryAccent={true}
+              />
+            </div>
+          ))}
+        </div>
+      }
+    </div>
+  </>
+)}

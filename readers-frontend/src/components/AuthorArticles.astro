@@ -20,13 +20,11 @@ const authorArticles: AuthorArticles = await res.json();
 ---
 
 <div class="pt-8 sm:px-[0.5%] 2xl:px-[13%]">
-  {
-    authorArticles.articles.length !== 0 && (
-      <div id="article-list">
-        <ArticleRows articles={authorArticles.articles} style={"nouse"} />
-      </div>
-    )
-  }
+  {authorArticles.articles.length !== 0 && (
+    <div id="article-list">
+      <ArticleRows articles={authorArticles.articles} style={"nouse"} />
+    </div>
+  )}
   <div class="mt-4 w-full" id="paginator-container">
     <Paginator
       client:only

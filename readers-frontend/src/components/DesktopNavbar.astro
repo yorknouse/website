@@ -40,9 +40,11 @@ const { subMenuItems, parentCategory, computedBaseColour } = await res.json();
   <a href={baseUrl} class="mx-auto self-center">
     <img
       class=`my-4 h-14 ${style === "nouse" ? "invert" : ""}`
-      src={style === "nouse"
-        ? "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
-        : "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"}
+      src={
+        style === "nouse"
+          ? "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/nouse-logo-print.svg"
+          : "https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
+      }
       alt="Header logo"
     />
   </a>
@@ -58,61 +60,59 @@ const { subMenuItems, parentCategory, computedBaseColour } = await res.json();
       subMenuItems ? "h-1/2" : "h-full"
     } w-full flex-row justify-between border-transparent 2xl:px-[13%] text-white transition-colors ease-in-out duration-500`}
   >
-    {
-      menuCategories.map((menuItem, index) => (
-        <>
-          <li
-            class={`group relative flex h-full w-full border-b-4 ${
-              active === menuItem.categories_name ||
-              parentCategory?.categories_name === menuItem.categories_name
-                ? "border-white bg-navbar-item"
-                : "border-transparent"
-            } ${parentCategory?.categories_name}`}
-            onMouseOver={(event) => {
-              event.currentTarget.style.backgroundColor =
-                menuItem.categories_backgroundColor ?? "#000";
-            }}
-            onMouseOut={(event) => {
-              event.currentTarget.style.backgroundColor = "transparent";
-            }}
+    {menuCategories.map((menuItem, index) => (
+      <>
+        <li
+          class={`group relative flex h-full w-full border-b-4 ${
+            active === menuItem.categories_name ||
+            parentCategory?.categories_name === menuItem.categories_name
+              ? "border-white bg-navbar-item"
+              : "border-transparent"
+          } ${parentCategory?.categories_name}`}
+          onMouseOver={(event) => {
+            event.currentTarget.style.backgroundColor =
+              menuItem.categories_backgroundColor ?? "#000";
+          }}
+          onMouseOut={(event) => {
+            event.currentTarget.style.backgroundColor = "transparent";
+          }}
+        >
+          <a
+            class="mx-auto my-auto text-center"
+            href={
+              menuItem.categories_displayName === "Home"
+                ? baseUrl
+                : menuItem.categories_displayName === "Nouse"
+                  ? import.meta.env.BASE_URL
+                  : `${baseUrl + menuItem.categories_name}`
+            }
           >
-            <a
-              class="mx-auto my-auto text-center"
-              href={
-                menuItem.categories_displayName === "Home"
-                  ? baseUrl
-                  : menuItem.categories_displayName === "Nouse"
-                    ? import.meta.env.BASE_URL
-                    : `${baseUrl + menuItem.categories_name}`
+            {() => {
+              switch (menuItem.categories_displayName) {
+                case "Muse":
+                  return (
+                    <img
+                      src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
+                      class="w-16"
+                      alt="MUSE site logo"
+                    />
+                  );
+                case "Nouse":
+                  return (
+                    <img
+                      src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/kingfisher.svg"
+                      class="w-10 invert"
+                      alt="Nouse Kingfisher logo"
+                    />
+                  );
+                default:
+                  return menuItem.categories_displayName;
               }
-            >
-              {() => {
-                switch (menuItem.categories_displayName) {
-                  case "Muse":
-                    return (
-                      <img
-                        src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/MUSE%20Logo%20White%20small.png"
-                        class="w-16"
-                        alt="MUSE site logo"
-                      />
-                    );
-                  case "Nouse":
-                    return (
-                      <img
-                        src="https://bbcdn.nouse.co.uk/file/nouseSiteAssets/logo/kingfisher.svg"
-                        class="w-10 invert"
-                        alt="Nouse Kingfisher logo"
-                      />
-                    );
-                  default:
-                    return menuItem.categories_displayName;
-                }
-              }}
-            </a>
-          </li>
-        </>
-      ))
-    }
+            }}
+          </a>
+        </li>
+      </>
+    ))}
     <!--<span class="h-3/5 self-center border-r border-white"></span>-->
     {/* Search button */}
     <li class="flex h-full w-full border-b-4 border-b-transparent">
@@ -121,35 +121,33 @@ const { subMenuItems, parentCategory, computedBaseColour } = await res.json();
       </button>
     </li>
   </ul>
-  {
-    subMenuItems && (
-      <ul class="bg-navbar flex h-1/2 w-full flex-row text-white brightness-90 2xl:px-[13%]">
-        {subMenuItems?.map((menuItem: ICategory, index: number) => (
-          <>
-            <li
-              class={`group relative flex h-full border-b-4 px-[3%] ${
-                active === menuItem.categories_name
-                  ? "border-white"
-                  : "border-transparent"
-              }`}
-              onmouseover="this.classList.add('brightness-80')"
-              onmouseout="this.classList.remove('brightness-80')"
+  {subMenuItems && (
+    <ul class="bg-navbar flex h-1/2 w-full flex-row text-white brightness-90 2xl:px-[13%]">
+      {subMenuItems?.map((menuItem: ICategory, index: number) => (
+        <>
+          <li
+            class={`group relative flex h-full border-b-4 px-[3%] ${
+              active === menuItem.categories_name
+                ? "border-white"
+                : "border-transparent"
+            }`}
+            onmouseover="this.classList.add('brightness-80')"
+            onmouseout="this.classList.remove('brightness-80')"
+          >
+            <a
+              class="mx-auto my-auto"
+              href={`${
+                baseUrl +
+                (parentCategory ? parentCategory.categories_name : active)
+              }/${menuItem.categories_name}`}
             >
-              <a
-                class="mx-auto my-auto"
-                href={`${
-                  baseUrl +
-                  (parentCategory ? parentCategory.categories_name : active)
-                }/${menuItem.categories_name}`}
-              >
-                {menuItem.categories_displayName}
-              </a>
-            </li>
-          </>
-        ))}
-      </ul>
-    )
-  }
+              {menuItem.categories_displayName}
+            </a>
+          </li>
+        </>
+      ))}
+    </ul>
+  )}
 </nav>
 <style define:vars={{ computedBaseColour }}>
   .bg-navbar {
