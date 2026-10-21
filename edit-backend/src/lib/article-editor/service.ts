@@ -46,13 +46,30 @@ function galleryImages(input: ArticleSaveInput) {
   return input.type === 2 ? input.body.images : [];
 }
 
+/** References already on the article; on update these stay valid even if deleted since. */
+type LinkedRefs = {
+  categoryIds: number[];
+  authorIds: number[];
+  editionId: number | null;
+};
+
+const NO_LINKS: LinkedRefs = {
+  categoryIds: [],
+  authorIds: [],
+  editionId: null,
+};
+
 async function checkReferences(
   tx: Tx,
   input: ArticleSaveInput,
+  linked: LinkedRefs = NO_LINKS,
 ): Promise<FieldErrors> {
   const errors: FieldErrors = {};
+  const isNew = (have: number[]) => (id: number) => !have.includes(id);
 
-  const categoryIds = unique(input.categoryIds);
+  const categoryIds = unique(input.categoryIds).filter(
+    isNew(linked.categoryIds),
+  );
   if (categoryIds.length > 0) {
     const found = await tx.categories.count({
       where: { categories_id: { in: categoryIds } },
@@ -63,7 +80,7 @@ async function checkReferences(
     }
   }
 
-  const authorIds = unique(input.authorIds);
+  const authorIds = unique(input.authorIds).filter(isNew(linked.authorIds));
   if (authorIds.length > 0) {
     const found = await tx.users.count({
       where: { users_userid: { in: authorIds }, users_deleted: { not: true } },
@@ -73,7 +90,7 @@ async function checkReferences(
     }
   }
 
-  if (input.editionId !== null) {
+  if (input.editionId !== null && input.editionId !== linked.editionId) {
     const edition = await tx.editions.findFirst({
       where: { editions_id: input.editionId, editions_deleted: false },
       select: { editions_id: true },
@@ -82,8 +99,14 @@ async function checkReferences(
   }
 
   const images = galleryImages(input);
+  // The default thumbnail is always valid, whether or not an s3files row backs it.
+  const thumbnailId =
+    input.thumbnailId !== null &&
+    String(input.thumbnailId) !== DEFAULT_THUMBNAIL
+      ? input.thumbnailId
+      : null;
   const fileIds = unique([
-    ...(input.thumbnailId !== null ? [input.thumbnailId] : []),
+    ...(thumbnailId !== null ? [thumbnailId] : []),
     ...images.map((i) => i.id),
   ]);
   if (fileIds.length > 0) {
@@ -92,7 +115,7 @@ async function checkReferences(
       select: { s3files_id: true },
     });
     const existing = new Set(rows.map((r) => r.s3files_id));
-    if (input.thumbnailId !== null && !existing.has(input.thumbnailId)) {
+    if (thumbnailId !== null && !existing.has(thumbnailId)) {
       errors.thumbnailId = IMAGE_NOT_FOUND;
     }
     images.forEach((img, i) => {
@@ -336,6 +359,7 @@ export async function updateArticle(
         articles_socialConfig: true,
         editions_id: true,
         categories: { select: { categories_id: true } },
+        users: { select: { users_userid: true } },
       },
     });
     if (!existing) {
@@ -345,7 +369,11 @@ export async function updateArticle(
       return validationError({ type: "Article type cannot be changed" });
     }
 
-    const errors = await checkReferences(tx, input);
+    const errors = await checkReferences(tx, input, {
+      categoryIds: existing.categories.map((c) => c.categories_id),
+      authorIds: existing.users.map((u) => u.users_userid),
+      editionId: existing.editions_id,
+    });
     if (Object.keys(errors).length > 0) return validationError(errors);
 
     previousEditionId = existing.editions_id;

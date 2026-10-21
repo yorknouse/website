@@ -382,6 +382,101 @@ describe("updateArticle", () => {
   });
 });
 
+describe("updateArticle with references deleted since they were linked", () => {
+  it("keeps an already linked author who has since been deleted", async () => {
+    const author = await makeUser();
+    const first = await created({ authorIds: [author.users_userid] });
+    await prisma.users.update({
+      where: { users_userid: author.users_userid },
+      data: { users_deleted: true },
+    });
+    const res = await updateArticle(
+      first.articleId,
+      input({ authorIds: [author.users_userid] }),
+      first.userId,
+    );
+    expect(res.ok).toBe(true);
+    const rows = await prisma.articlesAuthors.findMany({
+      where: { articles_id: first.articleId },
+    });
+    expect(rows.map((r) => r.users_userid)).toEqual([author.users_userid]);
+  });
+
+  it("rejects adding a different deleted author", async () => {
+    const author = await makeUser();
+    const other = await makeUser({ deleted: true });
+    const first = await created({ authorIds: [author.users_userid] });
+    await prisma.users.update({
+      where: { users_userid: author.users_userid },
+      data: { users_deleted: true },
+    });
+    const res = await updateArticle(
+      first.articleId,
+      input({ authorIds: [author.users_userid, other.users_userid] }),
+      first.userId,
+    );
+    expect(res).toMatchObject({
+      ok: false,
+      code: "VALIDATION_ERROR",
+      fieldErrors: { authorIds: "One of the chosen authors no longer exists" },
+    });
+  });
+
+  it("keeps an already linked edition that has since been deleted", async () => {
+    const edition = await makeEdition();
+    const first = await created({ editionId: edition.editions_id });
+    await prisma.editions.update({
+      where: { editions_id: edition.editions_id },
+      data: { editions_deleted: true },
+    });
+    const res = await updateArticle(
+      first.articleId,
+      input({ editionId: edition.editions_id }),
+      first.userId,
+    );
+    expect(res.ok).toBe(true);
+    const a = await prisma.articles.findUniqueOrThrow({
+      where: { articles_id: first.articleId },
+    });
+    expect(a.editions_id).toBe(edition.editions_id);
+  });
+
+  it("rejects switching to a different deleted edition", async () => {
+    const edition = await makeEdition();
+    const other = await makeEdition({ deleted: true });
+    const first = await created({ editionId: edition.editions_id });
+    await prisma.editions.update({
+      where: { editions_id: edition.editions_id },
+      data: { editions_deleted: true },
+    });
+    const res = await updateArticle(
+      first.articleId,
+      input({ editionId: other.editions_id }),
+      first.userId,
+    );
+    expect(res).toMatchObject({
+      ok: false,
+      code: "VALIDATION_ERROR",
+      fieldErrors: { editionId: "That edition no longer exists" },
+    });
+  });
+
+  it("accepts the default thumbnail id 1 without an s3files row", async () => {
+    await prisma.s3files.deleteMany({ where: { s3files_id: 1 } });
+    const first = await created({ thumbnailId: 1 });
+    const res = await updateArticle(
+      first.articleId,
+      input({ thumbnailId: 1 }),
+      first.userId,
+    );
+    expect(res.ok).toBe(true);
+    const a = await prisma.articles.findUniqueOrThrow({
+      where: { articles_id: first.articleId },
+    });
+    expect(a.articles_thumbnail).toBe("1");
+  });
+});
+
 describe("softDeleteArticle", () => {
   it("clears the flags, audits DELETE and hides it from the editor", async () => {
     const first = await created();
