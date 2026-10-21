@@ -34,120 +34,104 @@ const positions: Position[] = await getTeam();
 
     <div id="senior-team" class="mb-4">
       <p class="mb-4 text-xl font-bold sm:text-2xl">Senior Team</p>
-      <div
-        class="grid flex-wrap text-sm md:grid-cols-2 xl:text-base 2xl:text-lg"
-      >
-        {
-          positions
-            .filter((position) => position.positions_teamPageGroup === 1)
-            .flatMap((position) =>
-              position.users.flatMap((user) => (
-                <p class="user">
-                  <span class="font-bold">
-                    {`${position.positions_displayName} - `}
-                  </span>
-                  <a
-                    href={`/author/${user.users_userid}`}
-                    class="text-blue-900 hover:underline"
-                  >{`${user.users_name1} ${user.users_name2}`}</a>
-                  <span> / </span>
-                  <a
-                    href={`mailto:${user.users_googleAppsUsernameNouse}@nouse.co.uk`}
-                    class="text-blue-900 hover:underline"
-                  >{`${user.users_googleAppsUsernameNouse}@nouse.co.uk`}</a>
-                </p>
-              )),
-            )
-        }
+      <div class="grid flex-wrap text-sm md:grid-cols-2 xl:text-base 2xl:text-lg">
+        {positions
+          .filter((position) => position.positions_teamPageGroup === 1)
+          .flatMap((position) =>
+            position.users.flatMap((user) => (
+              <p class="user">
+                <span class="font-bold">
+                  {`${position.positions_displayName} - `}
+                </span>
+                <a
+                  href={`/author/${user.users_userid}`}
+                  class="text-blue-900 hover:underline"
+                >{`${user.users_name1} ${user.users_name2}`}</a>
+                <span> / </span>
+                <a
+                  href={`mailto:${user.users_googleAppsUsernameNouse}@nouse.co.uk`}
+                  class="text-blue-900 hover:underline"
+                >{`${user.users_googleAppsUsernameNouse}@nouse.co.uk`}</a>
+              </p>
+            )),
+          )}
       </div>
     </div>
     <div id="nouse" class="mb-4">
       <p class="mb-4 text-xl font-bold sm:text-2xl">Nouse</p>
-      <div
-        class="grid flex-wrap text-sm md:grid-cols-2 xl:text-base 2xl:text-lg"
-      >
-        {
-          positions
-            .filter((position) => position.positions_teamPageGroup === 2)
-            .flatMap((position) =>
-              position.users.flatMap((user) => (
-                <p class="user">
-                  <span class="font-bold">
-                    {`${position.positions_displayName} - `}
-                  </span>
-                  <a
-                    href={`/author/${user.users_userid}`}
-                    class="text-blue-900 hover:underline"
-                  >{`${user.users_name1} ${user.users_name2}`}</a>
-                  <span> / </span>
-                  <a
-                    href={`mailto:${user.users_googleAppsUsernameNouse}@nouse.co.uk`}
-                    class="text-blue-900 hover:underline"
-                  >{`${user.users_googleAppsUsernameNouse}@nouse.co.uk`}</a>
-                </p>
-              )),
-            )
-        }
+      <div class="grid flex-wrap text-sm md:grid-cols-2 xl:text-base 2xl:text-lg">
+        {positions
+          .filter((position) => position.positions_teamPageGroup === 2)
+          .flatMap((position) =>
+            position.users.flatMap((user) => (
+              <p class="user">
+                <span class="font-bold">
+                  {`${position.positions_displayName} - `}
+                </span>
+                <a
+                  href={`/author/${user.users_userid}`}
+                  class="text-blue-900 hover:underline"
+                >{`${user.users_name1} ${user.users_name2}`}</a>
+                <span> / </span>
+                <a
+                  href={`mailto:${user.users_googleAppsUsernameNouse}@nouse.co.uk`}
+                  class="text-blue-900 hover:underline"
+                >{`${user.users_googleAppsUsernameNouse}@nouse.co.uk`}</a>
+              </p>
+            )),
+          )}
       </div>
     </div>
     <div id="muse" class="mb-4">
       <p class="mb-4 text-xl font-bold sm:text-2xl">MUSE</p>
-      <div
-        class="grid flex-wrap text-sm md:grid-cols-2 xl:text-base 2xl:text-lg"
-      >
-        {
-          positions
-            .filter((position) => position.positions_teamPageGroup === 3)
-            .flatMap((position) =>
-              position.users.flatMap((user) => (
-                <p class="user">
-                  <span class="font-bold">
-                    {`${position.positions_displayName} - `}
-                  </span>
-                  <a
-                    href={`/author/${user.users_userid}`}
-                    class="text-blue-900 hover:underline"
-                  >{`${user.users_name1} ${user.users_name2}`}</a>
-                  <span> / </span>
-                  <a
-                    href={`mailto:${user.users_googleAppsUsernameNouse}@nouse.co.uk`}
-                    class="text-blue-900 hover:underline"
-                  >{`${user.users_googleAppsUsernameNouse}@nouse.co.uk`}</a>
-                </p>
-              )),
-            )
-        }
+      <div class="grid flex-wrap text-sm md:grid-cols-2 xl:text-base 2xl:text-lg">
+        {positions
+          .filter((position) => position.positions_teamPageGroup === 3)
+          .flatMap((position) =>
+            position.users.flatMap((user) => (
+              <p class="user">
+                <span class="font-bold">
+                  {`${position.positions_displayName} - `}
+                </span>
+                <a
+                  href={`/author/${user.users_userid}`}
+                  class="text-blue-900 hover:underline"
+                >{`${user.users_name1} ${user.users_name2}`}</a>
+                <span> / </span>
+                <a
+                  href={`mailto:${user.users_googleAppsUsernameNouse}@nouse.co.uk`}
+                  class="text-blue-900 hover:underline"
+                >{`${user.users_googleAppsUsernameNouse}@nouse.co.uk`}</a>
+              </p>
+            )),
+          )}
       </div>
     </div>
     <div class="mb-4">
       <p id="behind-the-scenes" class="mb-2 text-xl font-bold sm:text-2xl">
         Behind The Scenes
       </p>
-      <div
-        class="grid flex-wrap text-sm md:grid-cols-2 xl:text-base 2xl:text-lg"
-      >
-        {
-          positions
-            .filter((position) => position.positions_teamPageGroup === 4)
-            .flatMap((position) =>
-              position.users.flatMap((user) => (
-                <p class="user">
-                  <span class="font-bold">
-                    {`${position.positions_displayName} - `}
-                  </span>
-                  <a
-                    href={`/author/${user.users_userid}`}
-                    class="text-blue-900 hover:underline"
-                  >{`${user.users_name1} ${user.users_name2}`}</a>
-                  <span> / </span>
-                  <a
-                    href={`mailto:${user.users_googleAppsUsernameNouse}@nouse.co.uk`}
-                    class="text-blue-900 hover:underline"
-                  >{`${user.users_googleAppsUsernameNouse}@nouse.co.uk`}</a>
-                </p>
-              )),
-            )
-        }
+      <div class="grid flex-wrap text-sm md:grid-cols-2 xl:text-base 2xl:text-lg">
+        {positions
+          .filter((position) => position.positions_teamPageGroup === 4)
+          .flatMap((position) =>
+            position.users.flatMap((user) => (
+              <p class="user">
+                <span class="font-bold">
+                  {`${position.positions_displayName} - `}
+                </span>
+                <a
+                  href={`/author/${user.users_userid}`}
+                  class="text-blue-900 hover:underline"
+                >{`${user.users_name1} ${user.users_name2}`}</a>
+                <span> / </span>
+                <a
+                  href={`mailto:${user.users_googleAppsUsernameNouse}@nouse.co.uk`}
+                  class="text-blue-900 hover:underline"
+                >{`${user.users_googleAppsUsernameNouse}@nouse.co.uk`}</a>
+              </p>
+            )),
+          )}
       </div>
     </div>
   </div>

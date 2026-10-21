@@ -59,59 +59,23 @@ for (const category of museMenuCategories) {
   </a>
 
   <MuseComponent client:idle categories={categories}>
-    {
-      museMenuCategories.map((category, i) => (
-        <>
-          {/* Desktop */}
-          <div
-            class={`${
-              i === 0 ? "my-4 h-min opacity-100" : "h-0 opacity-0"
-            } hidden w-full flex-row px-[0.5%] transition-opacity delay-100 duration-700 md:flex 2xl:px-[13%]`}
-            id={`muse_${category.categories_name}`}
-          >
-            {articles.get(category.categories_name)?.map((article, i) => (
-              <div
-                class={`mr-3 flex w-1/4 flex-row ${
-                  i !== articles.get(category.categories_name)!.length - 1 &&
-                  "border-r border-white"
-                }`}
-              >
-                <div class="pr-3">
-                  <Article
-                    headline={
-                      article.headline?.length !== 0
-                        ? String(article.headline)
-                        : "Unknown"
-                    }
-                    excerpt={article.excerpt}
-                    authors={article.authors}
-                    category={undefined}
-                    categoryColor={"#FFF"}
-                    categoryLink={undefined}
-                    imageUrl={article.thumbnailURL}
-                    articleUrl={article.articleURL}
-                    isVertical={true}
-                    isPortrait={article.isThumbnailPortrait}
-                    hideCategoryAccent={true}
-                    textColour={"#FFF"}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Mobile */}
-          <div
-            class={`${
-              i === 0 ? "my-4 h-min w-full opacity-100" : "h-0 w-0 opacity-0"
-            } flex flex-col px-4 transition-opacity delay-100 duration-500 md:hidden 2xl:px-[13%]`}
-            id={`muse_mobile_${category.categories_name}`}
-          >
-            {articles.get(category.categories_name)?.map((article, i) => (
-              <div class="flex w-full flex-col">
-                {i !== 0 && (
-                  <hr class="my-2.5 w-full self-center border-white" />
-                )}
+    {museMenuCategories.map((category, i) => (
+      <>
+        {/* Desktop */}
+        <div
+          class={`${
+            i === 0 ? "my-4 h-min opacity-100" : "h-0 opacity-0"
+          } hidden w-full flex-row px-[0.5%] transition-opacity delay-100 duration-700 md:flex 2xl:px-[13%]`}
+          id={`muse_${category.categories_name}`}
+        >
+          {articles.get(category.categories_name)?.map((article, i) => (
+            <div
+              class={`mr-3 flex w-1/4 flex-row ${
+                i !== articles.get(category.categories_name)!.length - 1 &&
+                "border-r border-white"
+              }`}
+            >
+              <div class="pr-3">
                 <Article
                   headline={
                     article.headline?.length !== 0
@@ -125,16 +89,48 @@ for (const category of museMenuCategories) {
                   categoryLink={undefined}
                   imageUrl={article.thumbnailURL}
                   articleUrl={article.articleURL}
-                  isVertical={false}
+                  isVertical={true}
                   isPortrait={article.isThumbnailPortrait}
                   hideCategoryAccent={true}
                   textColour={"#FFF"}
                 />
               </div>
-            ))}
-          </div>
-        </>
-      ))
-    }
+            </div>
+          ))}
+        </div>
+
+        {/* Mobile */}
+        <div
+          class={`${
+            i === 0 ? "my-4 h-min w-full opacity-100" : "h-0 w-0 opacity-0"
+          } flex flex-col px-4 transition-opacity delay-100 duration-500 md:hidden 2xl:px-[13%]`}
+          id={`muse_mobile_${category.categories_name}`}
+        >
+          {articles.get(category.categories_name)?.map((article, i) => (
+            <div class="flex w-full flex-col">
+              {i !== 0 && <hr class="my-2.5 w-full self-center border-white" />}
+              <Article
+                headline={
+                  article.headline?.length !== 0
+                    ? String(article.headline)
+                    : "Unknown"
+                }
+                excerpt={article.excerpt}
+                authors={article.authors}
+                category={undefined}
+                categoryColor={"#FFF"}
+                categoryLink={undefined}
+                imageUrl={article.thumbnailURL}
+                articleUrl={article.articleURL}
+                isVertical={false}
+                isPortrait={article.isThumbnailPortrait}
+                hideCategoryAccent={true}
+                textColour={"#FFF"}
+              />
+            </div>
+          ))}
+        </div>
+      </>
+    ))}
   </MuseComponent>
 </div>

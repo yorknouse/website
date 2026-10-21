@@ -150,65 +150,61 @@ const cat: ArticleCategory = {
 >
   <div class="px-[3%] pt-8 sm:px-[0.5%] 2xl:px-[13%]">
     {/* Mobile Header */}
-    {
-      category.categories_name !== "muse" && (
-        <h1 id="mobile-header" class="block text-center text-2xl sm:hidden">
-          {category.categories_displayName}
-        </h1>
-      )
-    }
-    {
-      featuredArticlesIds.length !== 0 && (
-        <>
-          <div id="featured-articles">
-            <FeaturedArticles
-              featuredArticlesIds={featuredArticlesIds}
-              hideCategoryAccent={category.categories_name !== "muse"}
-              style={style}
-            />
-          </div>
-          {!isMuseLandingPage && (
-            <hr class="my-2.5 w-full self-center border-gray-300" />
-          )}
-        </>
-      )
-    }
-    {
-      !isMuseLandingPage ? (
-        <>
-          <div id="article-list">
-            <ArticleRows
-              articles={category.articles!}
-              hideCategoryAccent={true}
-            />
-          </div>
-        </>
-      ) : (
-        <>
-          <div class="featured-sections">
-            {museCategories.map((category) => (
-              <div id={`${category.categories_name}-section`}>
-                <FeaturedSection category={category} style={"muse"} />
-              </div>
-            ))}
-          </div>
-        </>
-      )
-    }
+    {category.categories_name !== "muse" && (
+      <h1 id="mobile-header" class="block text-center text-2xl sm:hidden">
+        {category.categories_displayName}
+      </h1>
+    )}
+    {featuredArticlesIds.length !== 0 && (
+      <>
+        <div id="featured-articles">
+          <FeaturedArticles
+            featuredArticlesIds={featuredArticlesIds}
+            hideCategoryAccent={category.categories_name !== "muse"}
+            style={style}
+          />
+        </div>
+        {!isMuseLandingPage && (
+          <hr class="my-2.5 w-full self-center border-gray-300" />
+        )}
+      </>
+    )}
+    {!isMuseLandingPage ? (
+      <>
+        <div id="article-list">
+          <ArticleRows
+            articles={category.articles!}
+            hideCategoryAccent={true}
+          />
+        </div>
+      </>
+    ) : (
+      <>
+        <div class="featured-sections">
+          {museCategories.map((category) => (
+            <div id={`${category.categories_name}-section`}>
+              <FeaturedSection category={category} style={"muse"} />
+            </div>
+          ))}
+        </div>
+      </>
+    )}
   </div>
   <div class="mt-4 w-full" id="paginator-container">
     <Paginator
       client:only
       page={pageNumber}
-      pages={category.categories_name === "muse"
-        ? Math.ceil(
-            (categoryCount._count.articles - featuredArticlesIds.length) /
-              articlesPerPage,
-          ) + 1
-        : Math.max(
-            1,
-            Math.ceil(categoryCount._count.articles / articlesPerPage),
-          )}
+      pages={
+        category.categories_name === "muse"
+          ? Math.ceil(
+              (categoryCount._count.articles - featuredArticlesIds.length) /
+                articlesPerPage,
+            ) + 1
+          : Math.max(
+              1,
+              Math.ceil(categoryCount._count.articles / articlesPerPage),
+            )
+      }
       pagesToDisplay={5}
       prefix={paginatorPrefix}
     />
