@@ -1,7 +1,7 @@
 # Article create/edit in edit-backend (replacing PHP admin)
 
 Date: 2026-10-21
-Status: Draft for review
+Status: Approved 2026-10-21
 
 ## Why
 
@@ -16,7 +16,7 @@ including a missing field, shows "check your internet connection". Select2 dropd
 ## Goals
 
 - Recreate **every feature and every field** of the PHP article create/edit page in
-  edit-backend, for all five article types.
+  edit-backend, for article types 1, 2, 5 and 6 (type 4 Liveblogpro is deferred, see Non-goals).
 - Field-level error messages: every validation problem is reported against the field it
   belongs to, and the server returns structured errors, not a generic failure.
 - A modern API: JSON in and out, validated with zod, not shaped by the old PHP endpoints.
@@ -30,6 +30,9 @@ including a missing field, shows "check your internet connection". Select2 dropd
   the PHP wrote, because the readers frontend (`edit-backend/src/app/api/frontend/*`, consumed
   by `readers-frontend`) already reads that format.
 - Redesigning the articles list page (it exists already) beyond adding a "New article" entry.
+- **Type 4 (Liveblogpro)**: no articles created in years; deferred as a "maybe later" item.
+  Not offered in the "New article" type picker. Existing type 4 articles open with their metadata
+  fields editable and a read-only notice in place of the body editor (body left untouched on save).
 - New editorial features that didn't exist in PHP (e.g. scheduling UI, collaborative editing).
 
 ## Anti-goals (failure even if it "works")
@@ -176,7 +179,7 @@ This is what makes scheduled articles get posted/notified when their time arrive
 
 ### Creating
 
-- "New article" on the articles list opens a type picker (the five types), then the same page in
+- "New article" on the articles list opens a type picker (types 1, 2, 5, 6), then the same page in
   create mode at `/articles/new?type=N`. (Replaces the old `?type=` link.)
 - After the first save, navigate to `/articles/{id}`.
 
@@ -209,9 +212,8 @@ byte-identical output to PHP's HTMLPurifier (`cleanString`), which has no JS por
 sanitiser with an explicit allowlist covering what the readers site renders (headings, lists,
 links, tables, images with size/float classes, figure/figcaption, and `data-fileid` on images).
 Plain-text fields (headline, strapline, social excerpt, thumbnail credit) are stored as escaped
-text the way PHP produced them. Type 4 (Liveblogpro embed) bodies keep their embed markup and
-type 5 URLs are stored as entered; the builder should check how existing type 4/5 rows look in
-the database and match what the readers site currently renders for them. Type 6 HTML is generated
+text the way PHP produced them. Type 5 URLs are stored as entered; the builder should check how
+existing type 5 rows look in the database and match what the readers site currently renders. Type 6 HTML is generated
 server-side or by the editor from the markdown; it need not match tui-editor's output byte for byte.
 
 ### Server-side jobs move to edit-backend
