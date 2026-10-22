@@ -17,6 +17,10 @@ import EditionPanel from "./panels/EditionPanel";
 import StylePanel from "./panels/StylePanel";
 import SocialPanel from "./panels/SocialPanel";
 import VersionsPanel from "./panels/VersionsPanel";
+import RichTextBody from "./bodies/RichTextBody";
+import GalleryBody, { type GalleryImage } from "./bodies/GalleryBody";
+import PrintEditionBody from "./bodies/PrintEditionBody";
+import LegacyLiveblogNotice from "./bodies/LegacyLiveblogNotice";
 import SaveStatus from "./SaveStatus";
 import ConfirmDialog from "./ConfirmDialog";
 import {
@@ -51,6 +55,8 @@ export interface ArticleEditorProps {
   initialAuthors?: PickerItem[];
   /** Preview URL of the stored thumbnail (resolved with `s3URL` by the page). */
   thumbnailUrl?: string;
+  /** Display URLs of existing gallery images, keyed by s3files id (`s3URL(id, "small")`). */
+  galleryImageUrls?: Record<number, string>;
   can: { delete: boolean };
 }
 
@@ -78,6 +84,7 @@ export default function ArticleEditor({
   article,
   initialAuthors,
   thumbnailUrl,
+  galleryImageUrls,
 }: ArticleEditorProps) {
   const form = useArticleForm({
     mode,
@@ -99,7 +106,6 @@ export default function ArticleEditor({
         !isBodyField(k),
     )
     .map((k) => fieldErrors[k] as string);
-  const bodyErrors = errorKeys.filter(isBodyField);
 
   const errorFor = (field: string) => {
     const key = errorKeys.find((k) => fieldOf(k) === field);
@@ -111,6 +117,45 @@ export default function ArticleEditor({
     values,
     setField: form.setField,
   });
+
+  const renderBody = () => {
+    // The body shape follows `type`; `initial.body` is only read once, to seed the editor.
+    const initialBody = (initial as { body?: Record<string, unknown> }).body;
+    const currentBody = (values as { body?: Record<string, unknown> }).body;
+    switch (type) {
+      case 1:
+      case 6:
+        return (
+          <RichTextBody
+            type={type}
+            initialHtml={initialBody?.html as string | undefined}
+            initialMarkdown={initialBody?.markdown as string | undefined}
+            articleId={article?.id}
+            onChange={form.setBody}
+            error={fieldErrors[type === 1 ? "body.html" : "body.markdown"]}
+          />
+        );
+      case 2:
+        return (
+          <GalleryBody
+            images={(currentBody?.images as GalleryImage[] | undefined) ?? []}
+            imageUrls={galleryImageUrls}
+            onChange={(images) => form.setBody({ images })}
+            fieldErrors={fieldErrors}
+          />
+        );
+      case 5:
+        return (
+          <PrintEditionBody
+            embedUrl={(currentBody?.embedUrl as string | undefined) ?? ""}
+            onChange={(embedUrl) => form.setBody({ embedUrl })}
+            error={fieldErrors["body.embedUrl"]}
+          />
+        );
+      case 4:
+        return <LegacyLiveblogNotice />;
+    }
+  };
 
   const panelBody = (id: PanelId) => {
     switch (id) {
@@ -203,15 +248,7 @@ export default function ArticleEditor({
             />
             <FieldError id="excerpt-error" message={fieldErrors.excerpt} />
           </div>
-          <div>
-            {/* Body editors per type arrive in Task 12. */}
-            <div className="rounded-md border border-dashed border-gray-300 p-6 text-gray-500">
-              Article body
-            </div>
-            {bodyErrors.map((k) => (
-              <FieldError key={k} message={fieldErrors[k]} />
-            ))}
-          </div>
+          <div>{renderBody()}</div>
         </div>
 
         <aside className="w-full space-y-4 lg:w-80">
