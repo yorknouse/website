@@ -138,6 +138,44 @@ describe("editInitialValues", () => {
     expect(bodyOf(v)).toEqual({ markdown: "**x**" });
   });
 
+  it("converts the stored HTML when a markdown article has no markdown", () => {
+    const v = editInitialValues(
+      found({ type: 6, text: "<p><strong>Hi</strong></p>", markdown: null }),
+      opts,
+    );
+    expect((bodyOf(v) as { markdown: string }).markdown).toContain("**Hi**");
+  });
+
+  it("keeps article images as raw HTML when converting", () => {
+    const v = editInitialValues(
+      found({
+        type: 6,
+        text: '<p>a</p><img data-fileid="5" src="[ARCHIVECDNURL]x.jpg">',
+        markdown: "",
+      }),
+      opts,
+    );
+    expect((bodyOf(v) as { markdown: string }).markdown).toContain(
+      '<img data-fileid="5" src="https://archive/x.jpg">',
+    );
+  });
+
+  it("drops the empty line breaks the legacy newline substitution adds", () => {
+    const v = editInitialValues(
+      found({ type: 6, text: "<p>a</p>\n<p>b</p>\n<ul>\n<li>x</li>\n</ul>" }),
+      opts,
+    );
+    expect(bodyOf(v)).toEqual({ markdown: "a\n\nb\n\n-   x" });
+  });
+
+  it("gives an empty markdown body when both columns are empty", () => {
+    const v = editInitialValues(
+      found({ type: 6, text: null, markdown: null }),
+      opts,
+    );
+    expect(bodyOf(v)).toEqual({ markdown: "" });
+  });
+
   it("builds gallery images from the ids and decoded captions", () => {
     const v = editInitialValues(found({ type: 2, text: "12,13" }), {
       ...opts,

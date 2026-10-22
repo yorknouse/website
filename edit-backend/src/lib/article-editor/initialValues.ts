@@ -4,6 +4,7 @@ import type {
 } from "@/components/article-editor/useArticleForm";
 import type { getArticleForEditor } from "./service";
 import { decodeText, legacyHtmlForEditor } from "./content";
+import { htmlToMarkdown } from "@/lib/htmlToMarkdown";
 import { flagsToStatus } from "./status";
 import { parseSocialConfig } from "./socialConfig";
 import { utcToUkLocal } from "./ukTime";
@@ -80,7 +81,16 @@ function editBody(
     case 1:
       return { html: legacyHtmlForEditor(text, opts.archiveUrl) };
     case 6:
-      return { markdown: draft?.articlesDrafts_markdown ?? "" };
+      // Rows without markdown (legacy or PHP-saved) seed it from the stored HTML,
+      // so a save doesn't replace the body with nothing.
+      return {
+        markdown:
+          draft?.articlesDrafts_markdown ||
+          htmlToMarkdown(legacyHtmlForEditor(text, opts.archiveUrl))
+            // The newline -> <br/> substitution leaves empty hard breaks between blocks.
+            .replace(/^[ \t]+$/gm, "")
+            .replace(/\n{3,}/g, "\n\n"),
+      };
     case 2:
       return {
         images: galleryIds(text).map((id) => ({

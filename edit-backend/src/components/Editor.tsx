@@ -5,7 +5,7 @@ import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import rehypeSanitize from "rehype-sanitize";
 import { marked } from "marked";
-import TurndownService from "turndown";
+import { htmlToMarkdown } from "@/lib/htmlToMarkdown";
 import * as commands from "@uiw/react-md-editor";
 import type { ICommand, TextAreaTextApi } from "@uiw/react-md-editor";
 import type { UploadedImage } from "@/components/editor/QuillEditor";
@@ -34,37 +34,6 @@ export interface DualEditorProps {
   onChange: (v: { html: string; markdown: string }) => void;
   /** Uploads an inserted picture; enables the "Insert picture" buttons. */
   onImageUpload?: (file: File) => Promise<UploadedImage>;
-}
-
-function createTurndown() {
-  const t = new TurndownService({
-    headingStyle: "atx", // '# Header'
-    bulletListMarker: "-", // '-' instead of '*'
-    emDelimiter: "*", // '*italic*' instead of '_italic_'
-    strongDelimiter: "**", // '**bold**' instead of '__bold__'
-    codeBlockStyle: "fenced", // triple backticks for code
-  });
-  t.use(require("turndown-plugin-gfm").gfm);
-  // Markdown has no syntax for captions, sizes or file ids, so keep those
-  // images as raw HTML (marked passes it back through unchanged).
-  t.keep(["figure"]);
-  t.addRule("articleImage", {
-    filter: (node) =>
-      node.nodeName === "IMG" &&
-      (node.hasAttribute("data-fileid") || node.hasAttribute("style")),
-    replacement: (_content, node) => (node as HTMLElement).outerHTML,
-  });
-  return t;
-}
-
-let turndown: TurndownService | null = null;
-
-function htmlToMarkdown(html: string): string {
-  turndown ??= createTurndown();
-  return turndown
-    .turndown(html || "")
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
 }
 
 function markdownToHtml(markdown: string): string {
