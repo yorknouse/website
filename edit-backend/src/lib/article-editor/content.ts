@@ -90,7 +90,7 @@ export function legacyHtmlForEditor(
   archiveUrl: string,
 ): string {
   return (html ?? "")
-    .replaceAll('"PS"', "&pound;")
+    .replaceAll("PS", "&pound;")
     .replaceAll("\n", "<br/>")
     .replaceAll("[ARCHIVECDNURL]", archiveUrl);
 }

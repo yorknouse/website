@@ -83,7 +83,8 @@ describe("legacyHtmlForEditor", () => {
     expect(
       legacyHtmlForEditor("a\n[ARCHIVECDNURL]/x.jpg", "https://arch"),
     ).toBe("a<br/>https://arch/x.jpg");
-    expect(legacyHtmlForEditor('"PS"5', "")).toBe("&pound;5");
+    expect(legacyHtmlForEditor("Costs 5PS", "")).toBe("Costs 5&pound;");
+    expect(legacyHtmlForEditor("PS and PS", "")).toBe("&pound; and &pound;");
     expect(legacyHtmlForEditor(null, "")).toBe("");
   });
 });
