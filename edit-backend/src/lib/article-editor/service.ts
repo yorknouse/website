@@ -521,6 +521,7 @@ export async function getArticleForEditor(articleId: number) {
         articlesDrafts_timestamp: true,
         articlesDrafts_headline: true,
         articlesDrafts_changelog: true,
+        articlesDrafts_userid: true,
         users: { select: nameSelect },
       },
     }),

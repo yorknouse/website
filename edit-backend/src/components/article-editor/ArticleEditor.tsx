@@ -1,6 +1,5 @@
 "use client";
 
-import type { ReactNode } from "react";
 import type {
   EditorOptions,
   getArticleForEditor,
@@ -8,6 +7,16 @@ import type {
 import ArticlePreviewButton from "@/components/ArticlePreviewButton";
 import SidebarPanel, { FIELD_TO_PANEL, type PanelId } from "./SidebarPanel";
 import FieldError from "./FieldError";
+import type { PickerItem } from "./MultiSelect";
+import PublishingPanel, {
+  useSlugOnHeadlineBlur,
+} from "./panels/PublishingPanel";
+import TaxonomyPanel from "./panels/TaxonomyPanel";
+import ThumbnailPanel from "./panels/ThumbnailPanel";
+import EditionPanel from "./panels/EditionPanel";
+import StylePanel from "./panels/StylePanel";
+import SocialPanel from "./panels/SocialPanel";
+import VersionsPanel from "./panels/VersionsPanel";
 import SaveStatus from "./SaveStatus";
 import ConfirmDialog from "./ConfirmDialog";
 import {
@@ -38,6 +47,10 @@ export interface ArticleEditorProps {
     thumbnailId: number;
     drafts: DraftSummary[];
   };
+  /** The selected authors' names, since `initial.authorIds` holds only ids. */
+  initialAuthors?: PickerItem[];
+  /** Preview URL of the stored thumbnail (resolved with `s3URL` by the page). */
+  thumbnailUrl?: string;
   can: { delete: boolean };
 }
 
@@ -51,6 +64,9 @@ const PANELS: { id: PanelId; title: string; defaultOpen?: boolean }[] = [
   { id: "versions", title: "Saved versions" },
 ];
 
+/** `categoryIds.0` belongs to `categoryIds`. */
+const fieldOf = (key: string) => key.split(".")[0];
+
 const MAIN_FIELDS = ["headline", "excerpt"];
 const isBodyField = (key: string) => key === "body" || key.startsWith("body.");
 
@@ -58,7 +74,10 @@ export default function ArticleEditor({
   mode,
   type,
   initial,
+  options,
   article,
+  initialAuthors,
+  thumbnailUrl,
 }: ArticleEditorProps) {
   const form = useArticleForm({
     mode,
@@ -71,25 +90,74 @@ export default function ArticleEditor({
 
   const errorKeys = Object.keys(fieldErrors).filter((k) => fieldErrors[k]);
   const panelHasError = (id: PanelId) =>
-    errorKeys.some((k) => FIELD_TO_PANEL[k] === id);
+    errorKeys.some((k) => FIELD_TO_PANEL[fieldOf(k)] === id);
   const otherErrors = errorKeys
     .filter(
       (k) =>
-        !(k in FIELD_TO_PANEL) && !MAIN_FIELDS.includes(k) && !isBodyField(k),
+        !(fieldOf(k) in FIELD_TO_PANEL) &&
+        !MAIN_FIELDS.includes(k) &&
+        !isBodyField(k),
     )
     .map((k) => fieldErrors[k] as string);
   const bodyErrors = errorKeys.filter(isBodyField);
 
-  const panelErrors = (id: PanelId): ReactNode =>
-    Object.keys(FIELD_TO_PANEL)
-      .filter((field) => FIELD_TO_PANEL[field] === id)
-      .map((field) => (
-        <FieldError
-          key={field}
-          id={`${field}-error`}
-          message={fieldErrors[field]}
-        />
-      ));
+  const errorFor = (field: string) => {
+    const key = errorKeys.find((k) => fieldOf(k) === field);
+    return key === undefined ? undefined : fieldErrors[key];
+  };
+  const panelProps = { values, setField: form.setField, errorFor };
+  const onHeadlineBlur = useSlugOnHeadlineBlur({
+    mode,
+    values,
+    setField: form.setField,
+  });
+
+  const panelBody = (id: PanelId) => {
+    switch (id) {
+      case "publishing":
+        return (
+          <>
+            <PublishingPanel {...panelProps} />
+            {form.suggestedSlug && (
+              <button
+                type="button"
+                onClick={form.applySuggestedSlug}
+                className="rounded bg-blue-600 px-3 py-1 text-sm text-white"
+              >
+                Use {form.suggestedSlug}
+              </button>
+            )}
+          </>
+        );
+      case "taxonomy":
+        return (
+          <TaxonomyPanel
+            {...panelProps}
+            options={options}
+            initialAuthors={initialAuthors}
+          />
+        );
+      case "thumbnail":
+        return (
+          <ThumbnailPanel
+            {...panelProps}
+            articleId={article?.id}
+            currentThumbnailId={article?.thumbnailId}
+            thumbnailUrl={thumbnailUrl}
+          />
+        );
+      case "edition":
+        return <EditionPanel {...panelProps} editions={options.editions} />;
+      case "style":
+        return <StylePanel {...panelProps} />;
+      case "social":
+        return (
+          <SocialPanel {...panelProps} socialConfig={article?.socialConfig} />
+        );
+      case "versions":
+        return <VersionsPanel drafts={article?.drafts ?? []} />;
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -111,6 +179,7 @@ export default function ArticleEditor({
               rows={2}
               value={values.headline}
               onChange={(e) => form.setField("headline", e.target.value)}
+              onBlur={onHeadlineBlur}
               placeholder="University of York to open campus on the Moon"
               aria-invalid={!!fieldErrors.headline}
               aria-describedby="headline-error"
@@ -173,16 +242,7 @@ export default function ArticleEditor({
               defaultOpen={p.defaultOpen}
               forceOpen={panelHasError(p.id)}
             >
-              {panelErrors(p.id)}
-              {p.id === "publishing" && form.suggestedSlug && (
-                <button
-                  type="button"
-                  onClick={form.applySuggestedSlug}
-                  className="rounded bg-blue-600 px-3 py-1 text-sm text-white"
-                >
-                  Use {form.suggestedSlug}
-                </button>
-              )}
+              {panelBody(p.id)}
             </SidebarPanel>
           ))}
         </aside>

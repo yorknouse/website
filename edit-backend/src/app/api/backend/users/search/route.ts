@@ -20,10 +20,13 @@ export async function GET(req: Request) {
     const rows = await prisma.users.findMany({
       where: {
         users_deleted: false,
-        OR: [
-          { users_name1: { contains: q } },
-          { users_name2: { contains: q } },
-        ],
+        // "John Smith" matches first name John and surname Smith
+        AND: q.split(/\s+/).map((token) => ({
+          OR: [
+            { users_name1: { contains: token } },
+            { users_name2: { contains: token } },
+          ],
+        })),
       },
       select: { users_userid: true, users_name1: true, users_name2: true },
       orderBy: [{ users_name1: "asc" }, { users_name2: "asc" }],

@@ -138,6 +138,28 @@ describe("ArticleEditor save flow", () => {
     expect(screen.getByText("Some fields need fixing (1)")).toBeTruthy();
   });
 
+  it("shows an indexed error under its control, mapped by first path segment", async () => {
+    fetchMock.mockResolvedValue(
+      json(400, {
+        error: "VALIDATION_ERROR",
+        message: "Some fields need fixing",
+        fieldErrors: { "categoryIds.0": "That section no longer exists" },
+      }),
+    );
+    renderEditor();
+    save();
+    const message = await screen.findByText("That section no longer exists");
+    expect(message.id).toBe("categoryIds-error");
+    expect(
+      screen
+        .getByRole("combobox", { name: "Sections" })
+        .getAttribute("aria-describedby"),
+    ).toBe("categoryIds-error");
+    expect(screen.getAllByText("That section no longer exists")).toHaveLength(
+      1,
+    );
+  });
+
   it("shows the logged-out message on 401 and keeps the typed headline", async () => {
     fetchMock.mockResolvedValue(
       json(401, { error: "UNAUTHENTICATED", message: "You're not logged in" }),
