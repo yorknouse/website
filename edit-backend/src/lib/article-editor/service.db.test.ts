@@ -224,13 +224,26 @@ describe("createArticle", () => {
     expect(draft.articlesDrafts_text).not.toContain("<script");
   });
 
-  it("stores a type 5 URL as entered", async () => {
+  it("stores a type 5 URL HTML-escaped", async () => {
     const url = "https://issuu.com/nouse/docs/a?x=1&y=2";
     const res = await created({ type: 5, body: { embedUrl: url } });
     const draft = await prisma.articlesDrafts.findUniqueOrThrow({
       where: { articlesDrafts_id: res.draftId },
     });
-    expect(draft.articlesDrafts_text).toBe(url);
+    expect(draft.articlesDrafts_text).toBe(
+      "https://issuu.com/nouse/docs/a?x=1&amp;y=2",
+    );
+  });
+
+  it("never stores raw markup from a type 5 URL", async () => {
+    const res = await created({
+      type: 5,
+      body: { embedUrl: "https://x.com/?a=1&b=<img src=x onerror=alert(1)>" },
+    });
+    const draft = await prisma.articlesDrafts.findUniqueOrThrow({
+      where: { articlesDrafts_id: res.draftId },
+    });
+    expect(draft.articlesDrafts_text).not.toMatch(/[<>]/);
   });
 });
 

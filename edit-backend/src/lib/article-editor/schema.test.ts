@@ -64,6 +64,16 @@ describe("articleSaveSchema", () => {
     );
   });
 
+  it("rejects a non-http embed URL", () => {
+    expect(
+      errorsFor({
+        ...base,
+        type: 5,
+        body: { embedUrl: "javascript:alert(1)" },
+      }),
+    ).toEqual({ "body.embedUrl": "Enter a valid embed URL" });
+  });
+
   it("reports a bad slug", () => {
     expect(
       errorsFor({ ...base, type: 1, slug: "Bad Slug", body: { html: "" } }),

@@ -79,7 +79,12 @@ export const articleSaveSchema = z.discriminatedUnion("type", [
   z.object({
     type: z.literal(5),
     ...shared,
-    body: z.object({ embedUrl: z.url("Enter a valid embed URL") }),
+    body: z.object({
+      embedUrl: z.url({
+        protocol: /^https?$/,
+        error: "Enter a valid embed URL",
+      }),
+    }),
   }),
   z.object({
     type: z.literal(4),

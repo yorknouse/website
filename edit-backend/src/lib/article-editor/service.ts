@@ -162,7 +162,8 @@ function draftBody(
         articlesDrafts_text: input.body.images.map((i) => i.id).join(","),
       };
     case 5:
-      return { articlesDrafts_text: input.body.embedUrl };
+      // The readers site renders this as HTML, so it is stored escaped.
+      return { articlesDrafts_text: escapeText(input.body.embedUrl) };
     case 4:
       // Liveblog bodies are never edited here; carry the last one forward.
       return { articlesDrafts_text: previousText };

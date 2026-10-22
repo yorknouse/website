@@ -197,6 +197,14 @@ describe("editInitialValues", () => {
     expect(bodyOf(v)).toEqual({ embedUrl: "https://issuu.com/x" });
   });
 
+  it("decodes a stored escaped embed URL", () => {
+    const v = editInitialValues(
+      found({ type: 5, text: "https://issuu.com/x?a=1&amp;b=2" }),
+      opts,
+    );
+    expect(bodyOf(v)).toEqual({ embedUrl: "https://issuu.com/x?a=1&b=2" });
+  });
+
   it("gives a liveblog no body", () => {
     expect(bodyOf(editInitialValues(found({ type: 4 }), opts))).toBe(undefined);
   });

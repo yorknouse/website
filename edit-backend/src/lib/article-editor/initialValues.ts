@@ -99,7 +99,7 @@ function editBody(
         })),
       };
     case 5:
-      return { embedUrl: text ?? "" };
+      return { embedUrl: decodeText(text) };
     case 4:
       // Liveblog bodies are never edited here.
       return undefined;
