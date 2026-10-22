@@ -181,6 +181,27 @@ describe("ArticleEditor save flow", () => {
     expect(await screen.findByText("Add at least one image")).toBeTruthy();
   });
 
+  it("shows a body error that only another type's control renders", async () => {
+    fetchMock.mockResolvedValue(
+      json(400, {
+        error: "VALIDATION_ERROR",
+        message: "Some fields need fixing",
+        fieldErrors: { "body.embedUrl": "Enter a valid embed URL" },
+      }),
+    );
+    renderEditor({
+      type: 2,
+      initial: values({ body: { images: [] } }),
+    });
+    save();
+    fireEvent.click(
+      await screen.findByRole("button", {
+        name: "Thumbnail credited in body of article",
+      }),
+    );
+    expect(await screen.findByText("Enter a valid embed URL")).toBeTruthy();
+  });
+
   it("shows the logged-out message on 401 and keeps the typed headline", async () => {
     fetchMock.mockResolvedValue(
       json(401, { error: "UNAUTHENTICATED", message: "You're not logged in" }),

@@ -74,10 +74,21 @@ const PANELS: { id: PanelId; title: string; defaultOpen?: boolean }[] = [
 const fieldOf = (key: string) => key.split(".")[0];
 
 const MAIN_FIELDS = ["headline", "excerpt"];
-/** Body keys that a body control renders itself; any other goes to the summary. */
-const isRenderedBodyField = (key: string) =>
-  /^body\.(html|markdown|embedUrl)$/.test(key) ||
-  /^body\.images\.\d+\.caption$/.test(key);
+/** Whether the active type's body control renders this error itself. */
+const isRenderedBodyField = (type: ArticleType, key: string) => {
+  switch (type) {
+    case 1:
+      return key === "body.html";
+    case 6:
+      return key === "body.markdown";
+    case 2:
+      return /^body\.images\.\d+\.caption$/.test(key);
+    case 5:
+      return key === "body.embedUrl";
+    case 4:
+      return false;
+  }
+};
 
 export default function ArticleEditor({
   mode,
@@ -106,7 +117,7 @@ export default function ArticleEditor({
       (k) =>
         !(fieldOf(k) in FIELD_TO_PANEL) &&
         !MAIN_FIELDS.includes(k) &&
-        !isRenderedBodyField(k),
+        !isRenderedBodyField(type, k),
     )
     .map((k) => fieldErrors[k] as string);
 
