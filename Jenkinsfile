@@ -24,7 +24,10 @@ pipeline {
       stages {
         stage('Preview') {
           when {
-            changeRequest target: 'main'
+            anyOf {
+              changeRequest target: 'main'
+              changeRequest target: 'feature/*', comparator: 'GLOB'
+            }
           }
           steps {
             withCredentials([string(credentialsId: 'vault-ansible', variable: 'VAULT_TOKEN')]) {
@@ -105,8 +108,8 @@ pipeline {
         stage('Build PHP backend') {
           steps {
             script {
-              GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H' | head -c 7", returnStdout: true)
-              docker.withRegistry('https://' + env.REGISTRY_ENDPOINT, 'docker-registry') {
+              def GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H' | head -c 7", returnStdout: true)
+              docker.withRegistry('https://' + env.REGISTRY_ENDPOINT) {
                 phpImage = docker.build(phpImageName, "--build-arg STREAMER_VERSION_ARG=${env.BRANCH_NAME}-${env.BUILD_ID} --build-arg STREAMER_COMMIT_ARG=${GIT_COMMIT_HASH} --no-cache -f Dockerfile.php-df .")
               }
             }
@@ -115,7 +118,7 @@ pipeline {
         stage('Build Astro frontend') {
           steps {
             script {
-              docker.withRegistry('https://' + env.REGISTRY_ENDPOINT, 'docker-registry') {
+              docker.withRegistry('https://' + env.REGISTRY_ENDPOINT) {
                 astroImage = docker.build(astroImageName, "--build-arg STREAMER_VERSION_ARG=${env.BRANCH_NAME}-${env.BUILD_ID} \
                   --build-arg PUBLIC_API_BASE_URL=${publicApiBaseUrl} \
                   --build-arg PUBLIC_BASE_URL=${publicBaseUrl} \
@@ -128,7 +131,7 @@ pipeline {
         stage('Build React backend') {
           steps {
             script {
-              docker.withRegistry('https://' + env.REGISTRY_ENDPOINT, 'docker-registry') {
+              docker.withRegistry('https://' + env.REGISTRY_ENDPOINT) {
                 reactImage = docker.build(reactImageName, "--build-arg STREAMER_VERSION_ARG=${env.BRANCH_NAME}-${env.BUILD_ID} \
                   --build-arg DATABASE_URL \
                   --no-cache -f Dockerfile.react-df ."
@@ -145,7 +148,7 @@ pipeline {
         stage('Push PHP image to registry') {
           steps {
             script {
-              docker.withRegistry('https://' + env.REGISTRY_ENDPOINT, 'docker-registry') {
+              docker.withRegistry('https://' + env.REGISTRY_ENDPOINT) {
                 phpImage.push()
                 if (env.BRANCH_IS_PRIMARY) {
                   phpImage.push('latest')
@@ -160,7 +163,7 @@ pipeline {
         stage('Push Astro image to registry') {
           steps {
             script {
-              docker.withRegistry('https://' + env.REGISTRY_ENDPOINT, 'docker-registry') {
+              docker.withRegistry('https://' + env.REGISTRY_ENDPOINT) {
                 astroImage.push()
                 if (env.BRANCH_IS_PRIMARY) {
                   astroImage.push('latest')
@@ -175,7 +178,7 @@ pipeline {
         stage('Push React image to registry') {
           steps {
             script {
-              docker.withRegistry('https://' + env.REGISTRY_ENDPOINT, 'docker-registry') {
+              docker.withRegistry('https://' + env.REGISTRY_ENDPOINT) {
                 reactImage.push()
                 if (env.BRANCH_IS_PRIMARY) {
                   reactImage.push('latest')
@@ -234,7 +237,10 @@ pipeline {
       stages {
         stage('Preview') {
           when {
-            changeRequest target: 'main'
+            anyOf {
+              changeRequest target: 'main'
+              changeRequest target: 'feature/*', comparator: 'GLOB'
+            }
           }
           stages {
             stage('Cleanup previews') {
