@@ -197,6 +197,7 @@ export async function processArticle(
       opts.purge.previousEditionId,
     ].filter((id): id is number => id !== null);
     const purged = await purgeCaches({
+      articleId,
       articleUrl:
         published && slug ? articlePermalink(published, slug) : undefined,
       slug: slug ?? undefined,

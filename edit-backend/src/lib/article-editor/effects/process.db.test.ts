@@ -10,7 +10,11 @@ vi.mock("./email", () => ({ sendEmail: vi.fn() }));
 vi.mock("@/lib/redis", () => ({
   default: {
     del: vi.fn(async () => 1),
-    scan: vi.fn(async () => ["0", ["similarArticles:42"]]),
+    // One cached key per pattern, named after it ("similarArticles:*" -> "similarArticles:42").
+    scan: vi.fn(async (_cursor: string, _match: string, pattern: string) => [
+      "0",
+      [pattern.replace("*", "42")],
+    ]),
   },
 }));
 
@@ -327,6 +331,12 @@ describe("processArticle cache purge", () => {
         `edition:slug:${previous.editions_slug}`,
         "featuredHome:latest",
         "similarArticles:42",
+        "categoryPage:name:42",
+        "categoryCount:name:42",
+        "categoryFeatured:name:42",
+        "articlesList:42",
+        "topArticles:42",
+        `authors:articleId:${id}`,
       ]),
     );
   });

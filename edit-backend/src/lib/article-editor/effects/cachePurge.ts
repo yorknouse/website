@@ -48,20 +48,33 @@ async function purgeCloudflare(urls: string[]): Promise<boolean> {
   return ok;
 }
 
+// Readers API caches whose keys are built from lists, pages or category names
+// an article change can affect; cleared wholesale (see src/app/api/frontend).
+const REDIS_PATTERNS = [
+  "similarArticles:*",
+  "categoryPage:name:*",
+  "categoryCount:name:*",
+  "categoryFeatured:name:*",
+  "articlesList:*",
+  "topArticles:*",
+];
+
 async function purgeRedis(keys: string[]): Promise<void> {
   await redis.del(...keys);
-  let cursor = "0";
-  do {
-    const [next, found] = await redis.scan(
-      cursor,
-      "MATCH",
-      "similarArticles:*",
-      "COUNT",
-      100,
-    );
-    if (found.length > 0) await redis.del(...found);
-    cursor = next;
-  } while (cursor !== "0");
+  for (const pattern of REDIS_PATTERNS) {
+    let cursor = "0";
+    do {
+      const [next, found] = await redis.scan(
+        cursor,
+        "MATCH",
+        pattern,
+        "COUNT",
+        100,
+      );
+      if (found.length > 0) await redis.del(...found);
+      cursor = next;
+    } while (cursor !== "0");
+  }
 }
 
 /**
@@ -69,6 +82,7 @@ async function purgeRedis(keys: string[]): Promise<void> {
  * editions and categories. Returns false if any part failed; never throws.
  */
 export async function purgeCaches(t: {
+  articleId?: number;
   articleUrl?: string;
   slug?: string;
   editionIds: number[];
@@ -96,6 +110,9 @@ export async function purgeCaches(t: {
     ];
     const keys = [
       ...(t.slug ? [`article:slug:${t.slug}`] : []),
+      ...(t.articleId !== undefined
+        ? [`authors:articleId:${t.articleId}`]
+        : []),
       ...editionSlugs.map((s) => `edition:slug:${s}`),
       "featuredHome:latest",
     ];

@@ -11,6 +11,7 @@ import {
   updateArticle,
 } from "./service";
 import { processArticle } from "./effects/process";
+import { purgeCaches } from "./effects/cachePurge";
 import {
   makeCategory,
   makeEdition,
@@ -576,6 +577,9 @@ describe("softDeleteArticle", () => {
     });
     expect(audit?.auditLog_actionData).toBe(String(first.articleId));
     expect(await getArticleForEditor(first.articleId)).toBeNull();
+    expect(vi.mocked(purgeCaches)).toHaveBeenLastCalledWith(
+      expect.objectContaining({ articleId: first.articleId }),
+    );
   });
 });
 

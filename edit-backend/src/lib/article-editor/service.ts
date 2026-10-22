@@ -473,6 +473,7 @@ export async function softDeleteArticle(
   if (!article) return { ok: false };
 
   await purgeCaches({
+    articleId,
     articleUrl: articleUrl(article.articles_published, article.articles_slug),
     slug: article.articles_slug ?? undefined,
     editionIds: article.editions_id !== null ? [article.editions_id] : [],
