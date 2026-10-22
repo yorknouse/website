@@ -10,6 +10,7 @@ import "@uppy/core/css/style.min.css";
 import "@uppy/dashboard/css/style.min.css";
 import "@uppy/image-editor/css/style.min.css";
 import { generateS3Key } from "@/lib/validation/uploads";
+import { UploadError, completeUpload, signUpload } from "@/lib/uploadClient";
 
 interface UploadMeta {
   typeid: number;
@@ -66,23 +67,11 @@ export default function AvatarUploader({
       shouldUseMultipart: false,
       getUploadParameters: async (file) => {
         const s3Key = generateS3Key(1, file.name, true);
-
-        const res = await fetch(`/api/backend/uploads/sign`, {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify({
-            filename: s3Key,
-            contentType: file.type,
-          }),
-        });
-
-        const json = await res.json();
+        const signed = await signUpload(s3Key, file.type ?? "");
 
         file.meta.s3Key = s3Key;
 
-        return json;
+        return signed;
       },
     });
 
@@ -96,24 +85,18 @@ export default function AvatarUploader({
       const s3Key = file.meta.s3Key!;
 
       // Register upload in backend
-      const registerRes = await fetch(`/api/backend/uploads/complete`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      let uploaded: { id: number; url: string };
+      try {
+        uploaded = await completeUpload({
           s3Key: s3Key,
           originalName: originalName,
-          size: file.size,
-          contentType: file.type,
-          public: true,
+          size: file.size ?? 0,
+          contentType: file.type ?? "",
           typeid: 1,
           subtype: 1,
-        }),
-      });
-
-      const registerJson = await registerRes.json();
-
-      if (!registerJson.result) {
-        alert("Upload failed");
+        });
+      } catch (err) {
+        alert(err instanceof UploadError ? err.message : "Upload failed");
         return;
       }
 
@@ -125,7 +108,7 @@ export default function AvatarUploader({
         },
         body: JSON.stringify({
           users_userid: String(userId),
-          thumbnail: registerJson.response.id,
+          thumbnail: uploaded.id,
         }),
       });
 

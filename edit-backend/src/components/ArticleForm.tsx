@@ -134,7 +134,8 @@ export default function ArticleForm({article}: {article: any}) {
                 ? article.articlesDrafts[0].articlesDrafts_markdown
                 : undefined
             }
-            onChange={handleEditorChange}
+            storeAs="markdown"
+            onChange={(v) => handleEditorChange(v.html)}
           />
       </div>
       </div>
