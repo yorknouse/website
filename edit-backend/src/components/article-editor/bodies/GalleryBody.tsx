@@ -68,7 +68,7 @@ export default function GalleryBody({
           const error = fieldErrors[`body.images.${i}.caption`];
           return (
             <li
-              key={image.id}
+              key={`${image.id}-${i}`}
               className="rounded-md border border-gray-300 p-2"
             >
               <div className="flex items-center justify-between text-sm">

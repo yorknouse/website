@@ -74,7 +74,10 @@ const PANELS: { id: PanelId; title: string; defaultOpen?: boolean }[] = [
 const fieldOf = (key: string) => key.split(".")[0];
 
 const MAIN_FIELDS = ["headline", "excerpt"];
-const isBodyField = (key: string) => key === "body" || key.startsWith("body.");
+/** Body keys that a body control renders itself; any other goes to the summary. */
+const isRenderedBodyField = (key: string) =>
+  /^body\.(html|markdown|embedUrl)$/.test(key) ||
+  /^body\.images\.\d+\.caption$/.test(key);
 
 export default function ArticleEditor({
   mode,
@@ -103,7 +106,7 @@ export default function ArticleEditor({
       (k) =>
         !(fieldOf(k) in FIELD_TO_PANEL) &&
         !MAIN_FIELDS.includes(k) &&
-        !isBodyField(k),
+        !isRenderedBodyField(k),
     )
     .map((k) => fieldErrors[k] as string);
 
