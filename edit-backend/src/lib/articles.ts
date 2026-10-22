@@ -4,7 +4,6 @@ import { articles, Prisma } from "@prisma/client";
 import prisma from "@/lib/prisma";
 import { s3URL } from "@/lib/s3URL";
 import { TopArticleResult } from "@/lib/types";
-import { checkUserPermissions } from "@/lib/auth";
 import { cache } from "@/lib/cache";
 
 const articlesWithArticleDrafts = Prisma.validator()({
@@ -247,49 +246,4 @@ export async function getArticles({
       totalPages: Math.ceil(totalCount / pageSize),
     },
   };
-}
-
-export async function deleteArticle(
-  articleID: number,
-  userID: number,
-  userActions?: Map<number, boolean>,
-) {
-  // TODO: move audit log to separate function
-
-  if (!checkUserPermissions(30, userActions)) {
-    return {};
-  }
-
-  await prisma.auditLog.create({
-    data: {
-      auditLog_actionType: "DELETE",
-      auditLog_actionTable: "articles",
-      auditLog_actionData: String(articleID),
-      users_userid: userID ?? null,
-    },
-  });
-
-  // Fetch article info
-  const article = await prisma.articles.findUnique({
-    where: { articles_id: articleID },
-    select: {
-      articles_id: true,
-      articles_slug: true,
-      articles_published: true,
-    },
-  });
-
-  if (!article) throw new Error("Article not found");
-
-  // Soft delete (hide from admin, search, and lists)
-  await prisma.articles.update({
-    where: { articles_id: articleID },
-    data: {
-      articles_showInAdmin: false,
-      articles_showInSearch: false,
-      articles_showInLists: false,
-    },
-  });
-
-  return { success: true };
 }

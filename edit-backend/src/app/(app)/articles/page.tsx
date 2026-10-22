@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getArticles } from "@/lib/articles";
 import { Check, EyeIcon, ChartLine, PenLine, Trash } from "lucide-react";
-import dateFormatter from "@/lib/dateFormatter";
+import { articleSiteUrl, articleStatsUrl } from "@/lib/article-editor/links";
 import ArticleDeleteButton from "@/components/ArticleDeleteButton";
 import { checkUserPermissions, GetUserData } from "@/lib/auth";
 import Pagination from "@/components/Pagination";
@@ -44,6 +44,7 @@ export default async function Articles({
     return <p>Unauthorised</p>;
   }
 
+  const canCreate = checkUserPermissions(31, userData.actions);
   const canEdit = checkUserPermissions(32, userData.actions);
   const canDelete = checkUserPermissions(33, userData.actions);
 
@@ -64,6 +65,16 @@ export default async function Articles({
           {search !== undefined ? ': Search "' + search + '"' : ""}
         </h1>
         <br />
+        {canCreate && (
+          <a
+            href={"/articles/new"}
+            className={
+              "self-start rounded bg-green-600 px-4 py-2 font-semibold text-white hover:bg-green-700 transition"
+            }
+          >
+            New article
+          </a>
+        )}
         {(author !== null || search !== undefined) && (
           <a href={"/articles"}>Clear filters</a>
         )}
@@ -180,13 +191,10 @@ export default async function Articles({
                         <>
                           <span className={"px-2 py-2"}>
                             <a
-                              href={`${process.env.FRONTEND_URL}articles/${dateFormatter
-                                .format(
-                                  article.articles_published || new Date(0),
-                                ) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
-                                .split("/")
-                                .reverse()
-                                .join("/")}/${String(article.articles_slug)}`}
+                              href={articleSiteUrl(
+                                article.articles_published,
+                                article.articles_slug,
+                              )}
                               target={"_blank"}
                               className={
                                 "inline-block rounded-sm px-2 py-2 shadow-sm bg-gray-200 hover:bg-gray-300 transition"
@@ -198,7 +206,10 @@ export default async function Articles({
                           </span>
                           <span className={"px-2 py-2"}>
                             <a
-                              href={`${process.env.GRAFANA_URL}d/article/article-stats?var-articleid=${article.articles_id}&from=${(article.articles_published.valueOf() - 7200) * 1000}&to=now`}
+                              href={articleStatsUrl(
+                                article.articles_id,
+                                article.articles_published,
+                              )}
                               target={"_blank"}
                               className={
                                 "inline-block rounded-sm px-2 py-2 shadow-sm bg-gray-200 hover:bg-gray-300 transition"
@@ -229,8 +240,6 @@ export default async function Articles({
                           articleID: article.articles_id,
                           headline:
                             article.articlesDrafts[0].articlesDrafts_headline,
-                          userID: Number(userData.id),
-                          userActions: userData.actions,
                         }}
                       >
                         <span className={"px-2 py-2"}>
