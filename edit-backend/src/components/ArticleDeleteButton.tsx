@@ -6,12 +6,15 @@ import { ReactNode } from "react";
 export default function ArticleDeleteButton({
   children,
   props: { articleID, headline },
+  onDeleted,
 }: {
   children: ReactNode;
   props: {
     articleID: number;
     headline: string;
   };
+  /** Runs after a successful delete; the page reloads when it's omitted. */
+  onDeleted?: () => void;
 }) {
   const handleDelete = async (id?: number) => {
     if (!id) return;
@@ -23,7 +26,8 @@ export default function ArticleDeleteButton({
       alert(body?.message ?? "Something went wrong while deleting");
       return;
     }
-    window.location.reload();
+    if (onDeleted) onDeleted();
+    else window.location.reload();
   };
 
   return (

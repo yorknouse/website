@@ -3,13 +3,32 @@ import type { Metadata } from "next";
 import prisma from "@/lib/prisma";
 import { checkUserPermissions, GetUserData } from "@/lib/auth";
 import { s3URL } from "@/lib/s3URL";
-import Image from "next/image";
-import DualEditor from "@/components/Editor";
-import ArticlePreviewButton from "@/components/ArticlePreviewButton";
+import ArticleEditor from "@/components/article-editor/ArticleEditor";
+import {
+  getArticleForEditor,
+  getEditorOptions,
+} from "@/lib/article-editor/service";
+import {
+  editInitialValues,
+  galleryIds,
+  isArticleType,
+} from "@/lib/article-editor/initialValues";
+import { articleSiteUrl, articleStatsUrl } from "@/lib/article-editor/links";
 
 export const metadata: Metadata = {
   title: "Article",
 };
+
+const DEFAULT_THUMBNAIL = 1;
+
+/** A missing or broken image shouldn't stop the article loading. */
+async function safeS3URL(id: number): Promise<string | undefined> {
+  try {
+    return await s3URL(id, "small");
+  } catch {
+    return undefined;
+  }
+}
 
 export default async function Article({
   params,
@@ -32,101 +51,87 @@ export default async function Article({
     return <>Invalid Article ID</>;
   }
 
-  const article = await prisma.articles.findFirst({
-    where: {
-      articles_id: articleIDParse.data,
-    },
-    include: {
-      edition: true,
-      users: {
-        include: {
-          users: {
-            select: {
-              users_userid: true,
-              users_name1: true,
-              users_name2: true,
-            },
-          },
-        },
-      },
-      categories: { select: { categories_id: true } },
-      articlesDrafts: {
-        orderBy: { articlesDrafts_timestamp: "desc" },
-        take: 1,
-      },
-    },
-  });
+  const [found, options] = await Promise.all([
+    getArticleForEditor(articleIDParse.data),
+    getEditorOptions(),
+  ]);
 
-  if (!article) {
-    return <>Invalid Article ID</>;
+  if (!found) {
+    return <>Article not found</>;
   }
 
-  let galleryImages: string[] = [];
-  // 2️⃣ If it's a gallery-type article, process image list
-  if (article.articles_type === 2) {
-    const text = article.articlesDrafts?.[0]?.articlesDrafts_text ?? "";
-    galleryImages = await Promise.all(
-      text
-        ? text
-            .split(",")
-            .map(async (image) => await s3URL(Number(image), "small"))
-        : [],
-    );
+  const { article, draft } = found;
+  const type = article.articles_type;
+  if (!isArticleType(type)) {
+    return <>Unsupported article type</>;
   }
 
-  // 3️⃣ Include full draft history (with users)
-  const drafts = await prisma.articlesDrafts.findMany({
-    where: { articles_id: article.articles_id },
-    include: {
-      users: {
-        select: { users_userid: true, users_name1: true, users_name2: true },
-      },
-    },
-    orderBy: { articlesDrafts_timestamp: "desc" },
+  const imageIds =
+    type === 2 ? galleryIds(draft?.articlesDrafts_text ?? null) : [];
+  const storedThumbnail = Number(article.articles_thumbnail);
+  // Anything that isn't an s3files id is treated as the default thumbnail.
+  const thumbnailId =
+    Number.isInteger(storedThumbnail) && storedThumbnail > 0
+      ? storedThumbnail
+      : DEFAULT_THUMBNAIL;
+
+  const [captionRows, thumbnailUrl, galleryUrls] = await Promise.all([
+    imageIds.length > 0
+      ? prisma.s3files.findMany({
+          where: { s3files_id: { in: imageIds } },
+          select: { s3files_id: true, s3files_meta_caption: true },
+        })
+      : [],
+    safeS3URL(thumbnailId),
+    Promise.all(imageIds.map(safeS3URL)),
+  ]);
+
+  const captions = new Map(
+    captionRows.map((r) => [r.s3files_id, r.s3files_meta_caption ?? ""]),
+  );
+  const galleryImageUrls: Record<number, string> = {};
+  imageIds.forEach((id, i) => {
+    const url = galleryUrls[i];
+    if (url) galleryImageUrls[id] = url;
   });
+
+  const initial = editInitialValues(found, {
+    archiveUrl: process.env.ARCHIVEFILESTOREURL ?? "",
+    captions,
+  });
+
+  const published = article.articles_published;
 
   return (
-    <div>
-      <p>{article.articles_id}</p>
-      {article.articles_type === 2 &&
-        galleryImages.map((image) => (
-          <Image
-            key={image}
-            src={image}
-            alt={"gallery image"}
-            width={64}
-            height={64}
-          />
-        ))}
-      <ArticlePreviewButton props={{ articleID: article.articles_id }} />
-      {article.articles_type !== 2 && (
-        <p>{article.articlesDrafts[0].articlesDrafts_headline}</p>
-      )}
-      <br />
-      <h3 className={"text-xl"}>History</h3>
-      {drafts.map((draft) => (
-        <div key={draft.articlesDrafts_id}>
-          <p>{draft.articlesDrafts_id}</p>
-          <p>
-            {new Intl.DateTimeFormat("en-GB", {
-              weekday: "short",
-              day: "2-digit",
-              month: "short",
-              year: "numeric",
-              hour: "2-digit",
-              minute: "2-digit",
-              second: "2-digit",
-            }).format(draft.articlesDrafts_timestamp)}
-          </p>
-        </div>
-      ))}
-      {/*<DualEditor*/}
-      {/*  initialMarkdown={*/}
-      {/*    article.articlesDrafts[0].articlesDrafts_markdown !== null*/}
-      {/*      ? article.articlesDrafts[0].articlesDrafts_markdown*/}
-      {/*      : undefined*/}
-      {/*  }*/}
-      {/*/>*/}
-    </div>
+    <ArticleEditor
+      // A fresh form per article, so client-side navigation doesn't carry state over.
+      key={article.articles_id}
+      mode="edit"
+      type={type}
+      initial={initial}
+      options={options}
+      article={{
+        id: article.articles_id,
+        slug: article.articles_slug ?? "",
+        publishedUtc: published?.toISOString() ?? "",
+        showInSearch: article.articles_showInSearch,
+        showInAdmin: article.articles_showInAdmin,
+        socialConfig: article.articles_socialConfig,
+        thumbnailId,
+        drafts: found.drafts,
+      }}
+      initialAuthors={found.authors}
+      thumbnailUrl={thumbnailUrl}
+      galleryImageUrls={galleryImageUrls}
+      links={
+        published
+          ? {
+              site: articleSiteUrl(published, article.articles_slug),
+              stats: articleStatsUrl(article.articles_id, published),
+            }
+          : undefined
+      }
+      can={{ delete: checkUserPermissions(33, userData.actions) }}
+    />
   );
 }

@@ -4,7 +4,6 @@ import type {
   EditorOptions,
   getArticleForEditor,
 } from "@/lib/article-editor/service";
-import ArticlePreviewButton from "@/components/ArticlePreviewButton";
 import SidebarPanel, { FIELD_TO_PANEL, type PanelId } from "./SidebarPanel";
 import FieldError from "./FieldError";
 import type { PickerItem } from "./MultiSelect";
@@ -23,6 +22,7 @@ import PrintEditionBody from "./bodies/PrintEditionBody";
 import LegacyLiveblogNotice from "./bodies/LegacyLiveblogNotice";
 import SaveStatus from "./SaveStatus";
 import ConfirmDialog from "./ConfirmDialog";
+import HeaderActions from "./HeaderActions";
 import {
   useArticleForm,
   type ArticleFormValues,
@@ -57,6 +57,8 @@ export interface ArticleEditorProps {
   thumbnailUrl?: string;
   /** Display URLs of existing gallery images, keyed by s3files id (`s3URL(id, "small")`). */
   galleryImageUrls?: Record<number, string>;
+  /** "View on site" and "Stats" URLs, built server-side from env vars. */
+  links?: { site: string; stats: string };
   can: { delete: boolean };
 }
 
@@ -99,6 +101,8 @@ export default function ArticleEditor({
   initialAuthors,
   thumbnailUrl,
   galleryImageUrls,
+  links,
+  can,
 }: ArticleEditorProps) {
   const form = useArticleForm({
     mode,
@@ -266,7 +270,7 @@ export default function ArticleEditor({
         </div>
 
         <aside className="w-full space-y-4 lg:w-80">
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3">
             <button
               type="button"
               onClick={() => void form.save()}
@@ -276,7 +280,16 @@ export default function ArticleEditor({
               {form.saving ? "Saving…" : "Save"}
             </button>
             {article && (
-              <ArticlePreviewButton props={{ articleID: article.id }} />
+              <HeaderActions
+                articleId={article.id}
+                headline={initial.headline}
+                showInSearch={article.showInSearch}
+                showInAdmin={article.showInAdmin}
+                publishedUtc={article.publishedUtc}
+                links={links}
+                canDelete={can.delete}
+                onDeleted={form.markClean}
+              />
             )}
           </div>
           {form.savedAt && (

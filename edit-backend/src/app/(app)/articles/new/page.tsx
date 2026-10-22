@@ -1,60 +1,68 @@
-// "use client";
-
 import type { Metadata } from "next";
+import Link from "next/link";
 import { checkUserPermissions, GetUserData } from "@/lib/auth";
-import Image from "next/image";
-import DualEditor from "@/components/Editor";
-import ArticlePreviewButton from "@/components/ArticlePreviewButton";
+import ArticleEditor from "@/components/article-editor/ArticleEditor";
+import { getEditorOptions } from "@/lib/article-editor/service";
+import {
+  createDefaults,
+  isCreatableType,
+  type CreatableType,
+} from "@/lib/article-editor/initialValues";
 
 export const metadata: Metadata = {
-  title: "Article",
+  title: "New article",
 };
 
-export default async function NewArticle() {
+const TYPES: { type: CreatableType; label: string }[] = [
+  { type: 1, label: "Standard article" },
+  { type: 6, label: "Markdown article" },
+  { type: 2, label: "Photo gallery" },
+  { type: 5, label: "Print edition" },
+];
+
+export default async function NewArticle({
+  searchParams,
+}: {
+  searchParams: Promise<{ type?: string }>;
+}) {
   const userData = await GetUserData();
-  if (!userData || !checkUserPermissions(32, userData.actions)) {
+  if (!userData || !checkUserPermissions(31, userData.actions)) {
     return <p>Unauthorised</p>;
   }
 
+  const { type: typeRaw } = await searchParams;
+  const type = Number(typeRaw);
+
+  if (!isCreatableType(type)) {
+    return (
+      <div className="space-y-4">
+        <h1 className="text-2xl font-semibold">New article</h1>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {TYPES.map((t) => (
+            <Link
+              key={t.type}
+              href={`/articles/new?type=${t.type}`}
+              className="rounded-lg bg-white p-6 text-lg font-semibold shadow-sm hover:bg-gray-100 transition"
+            >
+              {t.label}
+            </Link>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  const options = await getEditorOptions();
+
   return (
-    <div>
-      <p>Under construction</p>
-      {/*<form>*/}
-      {/*<p>{article.articles_id}</p>*/}
-      {/*{article.articles_type === 2 &&*/}
-      {/*  galleryImages.map((image) => (*/}
-      {/*    <Image*/}
-      {/*      key={image}*/}
-      {/*      src={image}*/}
-      {/*      alt={"gallery image"}*/}
-      {/*      width={64}*/}
-      {/*      height={64}*/}
-      {/*    />*/}
-      {/*  ))}*/}
-      {/*<ArticlePreviewButton props={{ articleID: article.articles_id }} />*/}
-      {/*{article.articles_type !== 2 && (*/}
-      {/*  <p>{article.articlesDrafts[0].articlesDrafts_headline}</p>*/}
-      {/*)}*/}
-      {/*<br />*/}
-      {/*<h3 className={"text-xl"}>History</h3>*/}
-      {/*{drafts.map((draft) => (*/}
-      {/*  <div key={draft.articlesDrafts_id}>*/}
-      {/*    <p>{draft.articlesDrafts_id}</p>*/}
-      {/*    <p>*/}
-      {/*      {new Intl.DateTimeFormat("en-GB", {*/}
-      {/*        weekday: "short",*/}
-      {/*        day: "2-digit",*/}
-      {/*        month: "short",*/}
-      {/*        year: "numeric",*/}
-      {/*        hour: "2-digit",*/}
-      {/*        minute: "2-digit",*/}
-      {/*        second: "2-digit",*/}
-      {/*      }).format(draft.articlesDrafts_timestamp)}*/}
-      {/*    </p>*/}
-      {/*  </div>*/}
-      {/*))}*/}
-      {/*<DualEditor/>*/}
-      {/*</form>*/}
-    </div>
+    <ArticleEditor
+      // A fresh form per type when switching between ?type values.
+      key={type}
+      mode="create"
+      type={type}
+      initial={createDefaults(type)}
+      options={options}
+      can={{ delete: false }}
+    />
   );
 }
