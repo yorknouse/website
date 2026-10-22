@@ -108,7 +108,7 @@ describe("DualEditor (WYSIWYG)", () => {
     fireEvent.click(await screen.findByRole("button", { name: "Add caption" }));
 
     expect(lastChange(onChange).html).toBe(
-      `<p>Before</p><figure>${IMG}<figcaption>Photo Credit: </figcaption></figure><p>After</p>`,
+      `<p>Before</p><figure style="text-align: right;">${IMG}<figcaption>Photo Credit: </figcaption></figure><p>After</p>`,
     );
 
     fireEvent.change(screen.getByLabelText("Caption"), {
@@ -121,7 +121,7 @@ describe("DualEditor (WYSIWYG)", () => {
     // Size tools still apply to the image inside the figure.
     fireEvent.click(screen.getByRole("button", { name: "100%" }));
     expect(lastChange(onChange).html).toContain(
-      '<figure><img src="https://cdn.example/a.png" data-fileid="5" style="width: 100%; float: left;"><figcaption>Photo Credit: Jane Doe</figcaption></figure>',
+      '<figure style="text-align: right;"><img src="https://cdn.example/a.png" data-fileid="5" style="width: 100%; float: left;"><figcaption>Photo Credit: Jane Doe</figcaption></figure>',
     );
 
     fireEvent.click(screen.getByRole("button", { name: "Remove caption" }));
@@ -223,6 +223,89 @@ describe("DualEditor (WYSIWYG)", () => {
       );
     });
     expect(lastChange(onChange).html).toBe("<p>Hi there</p>");
+  });
+  it("keeps a PHP figure's own style through edits and markdown", async () => {
+    const { container, onChange, quill } = await renderEditor({
+      initialHtml:
+        '<p>Intro</p><figure style="text-align: right;" class=""><img src="https://x/y.jpg" data-fileid="5"><figcaption class="">Photo Credit: X</figcaption></figure>',
+    });
+    const expected =
+      '<figure style="text-align: right;"><img src="https://x/y.jpg" data-fileid="5"><figcaption>Photo Credit: X</figcaption></figure>';
+
+    act(() => {
+      quill.insertText(0, "A", "user");
+    });
+    expect(lastChange(onChange).html).toContain(expected);
+    expect(lastChange(onChange).markdown).toContain(expected);
+
+    fireEvent.click(screen.getByRole("button", { name: "Markdown" }));
+    fireEvent.click(screen.getByRole("button", { name: "WYSIWYG" }));
+    const back = await waitFor(() => {
+      const el = container.querySelector(".ql-container");
+      expect(el).not.toBeNull();
+      return el as HTMLElement;
+    });
+    act(() => {
+      (Quill.find(back) as Quill).insertText(0, "B", "user");
+    });
+    expect(lastChange(onChange).html).toContain(expected);
+  });
+
+  it("keeps paragraph alignment as an inline style", async () => {
+    const { onChange, quill } = await renderEditor({
+      initialHtml: '<p style="text-align: center">x</p>',
+    });
+    act(() => {
+      quill.insertText(0, "A", "user");
+    });
+    const { html } = lastChange(onChange);
+    expect(html).toBe('<p style="text-align: center;">Ax</p>');
+    expect(html).not.toContain("ql-align");
+  });
+
+  function pasteFile(quill: Quill, file: File) {
+    const event = new Event("paste", { bubbles: true, cancelable: true });
+    Object.defineProperty(event, "clipboardData", {
+      value: { getData: () => "", files: [file] },
+    });
+    act(() => {
+      quill.setSelection(0, 0, "silent");
+      quill.root.dispatchEvent(event);
+    });
+  }
+
+  it("uploads a pasted picture file instead of inlining a data: URL", async () => {
+    const onImageUpload = vi
+      .fn()
+      .mockResolvedValue({ id: 3, url: "https://cdn.example/p.png" });
+    const { onChange, quill } = await renderEditor({
+      initialHtml: "<p>Text</p>",
+      onImageUpload,
+    });
+    const file = new File(["x"], "p.png", { type: "image/png" });
+
+    pasteFile(quill, file);
+
+    await waitFor(() =>
+      expect(lastChange(onChange).html).toContain(
+        '<img src="https://cdn.example/p.png" data-fileid="3">',
+      ),
+    );
+    expect(onImageUpload).toHaveBeenCalledWith(file);
+    expect(lastChange(onChange).html).not.toContain("data:");
+  });
+
+  it("ignores a pasted picture file when uploads are unavailable", async () => {
+    const { container, onChange, quill } = await renderEditor({
+      initialHtml: "<p>Text</p>",
+    });
+
+    pasteFile(quill, new File(["x"], "p.png", { type: "image/png" }));
+    // Give a FileReader-based insert the chance to happen.
+    await new Promise((resolve) => setTimeout(resolve, 20));
+
+    expect(container.querySelector(".ql-editor img")).toBeNull();
+    expect(onChange).not.toHaveBeenCalled();
   });
 });
 

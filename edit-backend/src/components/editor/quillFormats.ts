@@ -3,15 +3,18 @@ import Image from "quill/formats/image";
 import { BlockEmbed } from "quill/blots/block";
 import Clipboard from "quill/modules/clipboard";
 import type { Range } from "quill";
+import type { Attributor } from "parchment";
 
 /**
  * Quill formats for article images. These keep the markup the old Summernote
  * editor produced (and the content sanitiser allows):
  *   <img src="…" data-fileid="N" style="width: 50%; float: left;">
- *   <figure><img …><figcaption>Photo Credit: …</figcaption></figure>
+ *   <figure style="text-align: right;"><img …><figcaption>Photo Credit: …</figcaption></figure>
  */
 
 export const DEFAULT_CAPTION = "Photo Credit: ";
+/** PHP's captionIt plugin right-aligned every new figure. */
+export const DEFAULT_FIGURE_STYLE = "text-align: right;";
 
 const IMAGE_ATTRIBUTES = ["alt", "height", "width", "data-fileid", "style"];
 
@@ -48,6 +51,9 @@ export interface FigureValue {
   fileid?: string;
   style?: string;
   caption: string;
+  /** The `<figure>`'s own style and class (the img's are `style` above). */
+  figureStyle?: string;
+  figureClass?: string;
 }
 
 function escapeAttribute(value: string): string {
@@ -76,6 +82,8 @@ export class ArticleFigure extends BlockEmbed {
     const node = super.create(value) as HTMLElement;
     // The caption is edited through the image tools, not typed in place.
     node.setAttribute("contenteditable", "false");
+    if (value.figureStyle) node.setAttribute("style", value.figureStyle);
+    if (value.figureClass) node.setAttribute("class", value.figureClass);
     const img = document.createElement("img");
     img.setAttribute("src", Image.sanitize(value.src));
     if (value.alt) img.setAttribute("alt", value.alt);
@@ -100,6 +108,10 @@ export class ArticleFigure extends BlockEmbed {
     if (alt) value.alt = alt;
     if (fileid) value.fileid = fileid;
     if (style) value.style = style;
+    const figureStyle = domNode.getAttribute("style");
+    const figureClass = domNode.getAttribute("class");
+    if (figureStyle) value.figureStyle = figureStyle;
+    if (figureClass) value.figureClass = figureClass;
     return value;
   }
 
@@ -111,7 +123,15 @@ export class ArticleFigure extends BlockEmbed {
     if (value.fileid) img += ` data-fileid="${escapeAttribute(value.fileid)}"`;
     if (value.style) img += ` style="${escapeAttribute(value.style)}"`;
     img += ">";
-    return `<figure>${img}<figcaption>${escapeText(value.caption)}</figcaption></figure>`;
+    let figure = "<figure";
+    if (value.figureStyle) {
+      figure += ` style="${escapeAttribute(value.figureStyle)}"`;
+    }
+    if (value.figureClass) {
+      figure += ` class="${escapeAttribute(value.figureClass)}"`;
+    }
+    figure += ">";
+    return `${figure}${img}<figcaption>${escapeText(value.caption)}</figcaption></figure>`;
   }
 }
 
@@ -143,6 +163,9 @@ export function registerArticleFormats() {
       "formats/image": ArticleImage,
       "formats/figure": ArticleFigure,
       "modules/clipboard": ArticleClipboard,
+      // Quill 2 aligns with `ql-align-*` classes, which the readers site has
+      // no CSS for; keep legacy `style="text-align: …"` as an inline style.
+      "formats/align": Quill.import("attributors/style/align") as Attributor,
     },
     true,
   );

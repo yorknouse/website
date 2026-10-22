@@ -6,6 +6,7 @@ import { Delta } from "quill/core";
 import "react-quill-new/dist/quill.snow.css";
 import {
   DEFAULT_CAPTION,
+  DEFAULT_FIGURE_STYLE,
   type FigureValue,
   getStyleProperty,
   registerArticleFormats,
@@ -25,6 +26,30 @@ interface QuillEditorProps {
   onChange: (html: string, fromUser: boolean) => void;
   /** Asks the parent to pick and upload a picture, then calls `insert`. */
   onInsertPicture?: (insert: (image: UploadedImage) => void) => void;
+  /** Uploads a dropped or pasted picture, then calls `insert`. */
+  onUploadPicture?: (
+    file: File,
+    insert: (image: UploadedImage) => void,
+  ) => void;
+}
+
+/** Image types the upload API accepts (see EXTENSION_TO_MIME). */
+const PICTURE_MIMETYPES = [
+  "image/jpeg",
+  "image/png",
+  "image/gif",
+  "image/webp",
+];
+
+/** Insert an uploaded picture as `<img src data-fileid>` at `index`. */
+function insertImageAt(quill: Quill, index: number, image: UploadedImage) {
+  quill.updateContents(
+    new Delta()
+      .retain(index)
+      .insert({ image: image.url }, { "data-fileid": String(image.id) }),
+    "user",
+  );
+  quill.setSelection(index + 1, 0, "silent");
 }
 
 type ImageAttributes = Record<string, string>;
@@ -73,6 +98,7 @@ export default function QuillEditor({
   value,
   onChange,
   onInsertPicture,
+  onUploadPicture,
 }: QuillEditorProps) {
   const quillRef = useRef<ReactQuill>(null);
   const [selected, setSelected] = useState<SelectedImage | null>(null);
@@ -80,6 +106,8 @@ export default function QuillEditor({
   const editingImageRef = useRef(false);
   const insertPictureRef = useRef(onInsertPicture);
   insertPictureRef.current = onInsertPicture;
+  const uploadPictureRef = useRef(onUploadPicture);
+  uploadPictureRef.current = onUploadPicture;
   const hasPicture = Boolean(onInsertPicture);
 
   const getQuill = () => quillRef.current?.getEditor() ?? null;
@@ -90,14 +118,30 @@ export default function QuillEditor({
     insertPictureRef.current?.((image) => {
       const range = quill.getSelection(true);
       const index = range ? range.index : quill.getLength() - 1;
-      quill.updateContents(
-        new Delta()
-          .retain(index)
-          .insert({ image: image.url }, { "data-fileid": String(image.id) }),
-        "user",
-      );
-      quill.setSelection(index + 1, 0, "silent");
+      insertImageAt(quill, index, image);
     });
+  }, []);
+
+  /**
+   * Quill's own uploader inlines dropped/pasted files as data: URLs, which
+   * the sanitiser strips on save. Upload them instead (or ignore them when
+   * there is nowhere to upload to).
+   */
+  const uploadDropped = useCallback(function (
+    this: { quill: Quill },
+    range: { index: number },
+    files: File[],
+  ) {
+    const quill = this.quill;
+    const upload = uploadPictureRef.current;
+    if (!upload) return;
+    let index = range.index;
+    files.forEach((file) =>
+      upload(file, (image) => {
+        insertImageAt(quill, Math.min(index, quill.getLength() - 1), image);
+        index += 1;
+      }),
+    );
   }, []);
 
   const modules = useMemo(
@@ -113,8 +157,9 @@ export default function QuillEditor({
         ],
         handlers: { image: insertPicture },
       },
+      uploader: { mimetypes: PICTURE_MIMETYPES, handler: uploadDropped },
     }),
-    [hasPicture, insertPicture],
+    [hasPicture, insertPicture, uploadDropped],
   );
 
   // Label the picture button and select images when they are clicked.
@@ -211,6 +256,7 @@ export default function QuillEditor({
       const figure: FigureValue = {
         src: current.src,
         caption: DEFAULT_CAPTION,
+        figureStyle: DEFAULT_FIGURE_STYLE,
       };
       if (alt) figure.alt = alt;
       if (fileid) figure.fileid = fileid;

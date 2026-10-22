@@ -129,12 +129,13 @@ export default function DualEditor({
     fileInputRef.current?.click();
   };
 
-  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const input = e.target;
-    const file = input.files?.[0];
-    const insert = pendingInsertRef.current;
-    input.value = "";
-    if (!file || !insert || !onImageUpload) return;
+  /** Upload `file` and hand the result to `insert`, showing any error. */
+  const uploadPicture = async (
+    file: File,
+    insert: (image: UploadedImage) => void,
+  ) => {
+    if (!onImageUpload) return;
+    setUploadError(null);
     setUploading(true);
     try {
       insert(await onImageUpload(file));
@@ -144,8 +145,17 @@ export default function DualEditor({
       );
     } finally {
       setUploading(false);
-      pendingInsertRef.current = null;
     }
+  };
+
+  const handleFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target;
+    const file = input.files?.[0];
+    const insert = pendingInsertRef.current;
+    input.value = "";
+    pendingInsertRef.current = null;
+    if (!file || !insert) return;
+    await uploadPicture(file, insert);
   };
 
   const insertPictureCommand: ICommand = {
@@ -215,6 +225,7 @@ export default function DualEditor({
             value={html}
             onChange={handleHtmlChange}
             onInsertPicture={onImageUpload ? pickPicture : undefined}
+            onUploadPicture={onImageUpload ? uploadPicture : undefined}
           />
         </div>
       )}
