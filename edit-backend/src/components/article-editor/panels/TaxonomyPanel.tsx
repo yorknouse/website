@@ -10,7 +10,7 @@ async function searchUsers(q: string): Promise<PickerItem[]> {
   const res = await fetch(
     `/api/backend/users/search?q=${encodeURIComponent(q)}`,
   );
-  if (!res.ok) return [];
+  if (!res.ok) throw new Error(`User search failed (${res.status})`);
   return (await res.json()) as PickerItem[];
 }
 
@@ -82,6 +82,7 @@ export default function TaxonomyPanel({
           placeholder="Search for a user"
           selected={authors}
           search={searchUsers}
+          searchErrorMessage="Couldn't search authors — try again"
           onChange={(ids, items) => {
             setKnown((k) => [...k, ...items]);
             setField("authorIds", ids);

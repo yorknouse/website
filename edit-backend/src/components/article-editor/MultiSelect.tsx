@@ -24,6 +24,8 @@ export interface MultiSelectProps {
   /** Id of an element describing this control, e.g. its error message. */
   describedBy?: string;
   invalid?: boolean;
+  /** Shown instead of "No matches" when `search` rejects. */
+  searchErrorMessage?: string;
 }
 
 const SEARCH_DEBOUNCE_MS = 300;
@@ -37,6 +39,7 @@ export default function MultiSelect({
   placeholder,
   describedBy,
   invalid,
+  searchErrorMessage = "Couldn't search — try again",
 }: MultiSelectProps) {
   const baseId = useId();
   const listId = `${baseId}-list`;
@@ -44,6 +47,7 @@ export default function MultiSelect({
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
   const [found, setFound] = useState<PickerItem[]>([]);
+  const [searchFailed, setSearchFailed] = useState(false);
   const searchRef = useRef(search);
   searchRef.current = search;
   const searching = search !== undefined;
@@ -59,16 +63,21 @@ export default function MultiSelect({
     if (!run) return;
     if (!q) {
       setFound([]);
+      setSearchFailed(false);
       return;
     }
     let stale = false;
     const timer = setTimeout(() => {
       run(q)
         .then((items) => {
-          if (!stale) setFound(items);
+          if (stale) return;
+          setFound(items);
+          setSearchFailed(false);
         })
         .catch(() => {
-          if (!stale) setFound([]);
+          if (stale) return;
+          setFound([]);
+          setSearchFailed(true);
         });
     }, SEARCH_DEBOUNCE_MS);
     return () => {
@@ -95,7 +104,7 @@ export default function MultiSelect({
 
   const flat = groups.flatMap((g) => g.items);
   const showList = open && (!searching || query.trim() !== "");
-  const activeIndex = Math.min(active, Math.max(flat.length - 1, 0));
+  const activeIndex = Math.max(Math.min(active, flat.length - 1), 0);
 
   const commit = (next: PickerItem[]) =>
     onChange(
@@ -115,7 +124,8 @@ export default function MultiSelect({
     if (e.key === "ArrowDown") {
       e.preventDefault();
       setOpen(true);
-      setActive(Math.min(activeIndex + 1, flat.length - 1));
+      if (flat.length > 0)
+        setActive(Math.min(activeIndex + 1, flat.length - 1));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setActive(Math.max(activeIndex - 1, 0));
@@ -191,9 +201,14 @@ export default function MultiSelect({
           aria-label={label}
           className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md border border-gray-300 bg-white shadow"
         >
-          {flat.length === 0 && (
-            <li className="p-2 text-sm text-gray-500">No matches</li>
-          )}
+          {flat.length === 0 &&
+            (searchFailed ? (
+              <li role="alert" className="p-2 text-sm text-red-600">
+                {searchErrorMessage}
+              </li>
+            ) : (
+              <li className="p-2 text-sm text-gray-500">No matches</li>
+            ))}
           {groups.map((g, gi) => (
             <li key={g.groupName ?? gi} role="presentation">
               {g.groupName && (

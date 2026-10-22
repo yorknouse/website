@@ -74,6 +74,44 @@ describe("MultiSelect", () => {
     expect(onChange).toHaveBeenLastCalledWith([]);
   });
 
+  it("survives ArrowDown before search results arrive", async () => {
+    vi.useFakeTimers();
+    const search = vi.fn().mockResolvedValue([{ id: 9, name: "John Smith" }]);
+    render(<Harness onChange={vi.fn()} search={search} />);
+    const input = screen.getByRole("combobox", { name: "Sections" });
+    fireEvent.change(input, { target: { value: "john" } });
+    fireEvent.keyDown(input, { key: "ArrowDown" });
+    fireEvent.keyDown(input, { key: "ArrowUp" });
+    await act(async () => {
+      vi.advanceTimersByTime(300);
+    });
+    expect(screen.getByRole("option", { name: "John Smith" })).toBeTruthy();
+  });
+
+  it("shows a search failure instead of No matches", async () => {
+    vi.useFakeTimers();
+    const search = vi.fn().mockRejectedValue(new Error("boom"));
+    render(
+      <MultiSelect
+        label="Authors"
+        selected={[]}
+        onChange={vi.fn()}
+        search={search}
+        searchErrorMessage="Couldn't search authors — try again"
+      />,
+    );
+    fireEvent.change(screen.getByRole("combobox", { name: "Authors" }), {
+      target: { value: "jo" },
+    });
+    await act(async () => {
+      vi.advanceTimersByTime(300);
+    });
+    expect(
+      screen.getByText("Couldn't search authors — try again"),
+    ).toBeTruthy();
+    expect(screen.queryByText("No matches")).toBeNull();
+  });
+
   it("calls search once, 300ms after typing stops", async () => {
     vi.useFakeTimers();
     const search = vi.fn().mockResolvedValue([{ id: 9, name: "John Smith" }]);
