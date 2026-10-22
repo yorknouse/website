@@ -6,7 +6,6 @@ import { s3URL } from "@/lib/s3URL";
 import Image from "next/image";
 import DualEditor from "@/components/Editor";
 import ArticlePreviewButton from "@/components/ArticlePreviewButton";
-import ArticleForm from "@/components/ArticleForm";
 
 export const metadata: Metadata = {
   title: "Article",
@@ -128,7 +127,6 @@ export default async function Article({
       {/*      : undefined*/}
       {/*  }*/}
       {/*/>*/}
-      <ArticleForm article={article} />
     </div>
   );
 }
