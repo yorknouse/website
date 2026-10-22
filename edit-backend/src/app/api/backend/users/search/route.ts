@@ -9,7 +9,11 @@ export const runtime = "nodejs";
 export async function GET(req: Request) {
   const user = await GetUserData();
   if (!user) return apiError("UNAUTHENTICATED", "You're not logged in");
-  if (!checkUserPermissions(32, user.actions)) {
+  // Create-only users pick authors too.
+  if (
+    !checkUserPermissions(31, user.actions) &&
+    !checkUserPermissions(32, user.actions)
+  ) {
     return apiError("FORBIDDEN", "You don't have permission to edit articles");
   }
 

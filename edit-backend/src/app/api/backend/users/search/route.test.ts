@@ -28,7 +28,27 @@ const get = (q: string) =>
     new Request(`http://x/api/backend/users/search?q=${encodeURIComponent(q)}`),
   );
 
+const withActions = (ids: number[]) =>
+  vi.mocked(GetUserData).mockResolvedValue({
+    id: 7,
+    actions: new Map(ids.map((id) => [id, true])),
+  } as unknown as Awaited<ReturnType<typeof GetUserData>>);
+
 describe("GET /api/backend/users/search", () => {
+  it("lets create-only users search for authors", async () => {
+    withActions([31]);
+    const res = await get("John");
+    expect(res.status).toBe(200);
+    expect(findMany).toHaveBeenCalledTimes(1);
+  });
+
+  it("forbids users who can neither create nor edit articles", async () => {
+    withActions([33]);
+    const res = await get("John");
+    expect(res.status).toBe(403);
+    expect(findMany).not.toHaveBeenCalled();
+  });
+
   it("requires every whitespace-separated token to match either name", async () => {
     await get("  John   Smith ");
     expect(findMany).toHaveBeenCalledTimes(1);
