@@ -1,6 +1,7 @@
 import { z } from "zod";
 import type { ArticleStatus } from "./status";
 import { ukLocalToUtc } from "./ukTime";
+import { escapeText } from "./text";
 
 const statusValues: [ArticleStatus, ...ArticleStatus[]] = [
   "draft",
@@ -10,12 +11,15 @@ const statusValues: [ArticleStatus, ...ArticleStatus[]] = [
 
 const positiveInt = z.number().int().positive();
 
+/** Limits the stored (escaped) length, so `&`-heavy text can't overflow the column. */
+const storedMax = (max: number) => (v: string) => escapeText(v).length <= max;
+
 const shared = {
   headline: z
     .string()
     .trim()
     .min(1, "Headline is required")
-    .max(500, "Headline must be 500 characters or fewer"),
+    .refine(storedMax(500), "Headline must be 500 characters or fewer"),
   excerpt: z.string().max(2000).default(""),
   published: z
     .string()
@@ -39,7 +43,10 @@ const shared = {
     .default(""),
   // null means unchanged on edit; on create the service defaults it to 1
   thumbnailId: positiveInt.nullable(),
-  thumbnailCredit: z.string().max(500).default(""),
+  thumbnailCredit: z
+    .string()
+    .refine(storedMax(500), "Thumbnail credit must be 500 characters or fewer")
+    .default(""),
   // Create only; the service enforces that it is present on create
   slug: z
     .string()
@@ -71,7 +78,7 @@ export const articleSaveSchema = z.discriminatedUnion("type", [
           id: positiveInt,
           caption: z
             .string()
-            .max(500, "Caption must be 500 characters or fewer"),
+            .refine(storedMax(500), "Caption must be 500 characters or fewer"),
         }),
       ),
     }),

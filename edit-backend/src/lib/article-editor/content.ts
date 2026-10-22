@@ -1,23 +1,7 @@
-import { decodeHTML } from "entities";
 import { marked } from "marked";
 import sanitizeHtml from "sanitize-html";
 
-/** Plain-text field -> stored form (matches HTMLPurifier output from PHP). */
-export function escapeText(s: string): string {
-  const stripped = s
-    .trim()
-    .replace(/<!--[\s\S]*?-->/g, "")
-    .replace(/<\/?[a-zA-Z][^>]*>/g, "");
-  return decodeHTML(stripped)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
-
-/** Stored plain field -> value for an input. */
-export function decodeText(s: string | null): string {
-  return s ? decodeHTML(s) : "";
-}
+export { decodeText, escapeText } from "./text";
 
 const anyValue = [/^.*$/];
 

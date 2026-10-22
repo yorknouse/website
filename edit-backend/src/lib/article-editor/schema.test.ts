@@ -74,6 +74,23 @@ describe("articleSaveSchema", () => {
     ).toEqual({ "body.embedUrl": "Enter a valid embed URL" });
   });
 
+  it("measures text lengths as stored, after escaping", () => {
+    const nearLimit = "a".repeat(498) + "&&";
+    expect(
+      errorsFor({
+        ...base,
+        type: 2,
+        headline: nearLimit,
+        thumbnailCredit: nearLimit,
+        body: { images: [{ id: 3, caption: nearLimit }] },
+      }),
+    ).toEqual({
+      headline: "Headline must be 500 characters or fewer",
+      thumbnailCredit: "Thumbnail credit must be 500 characters or fewer",
+      "body.images.0.caption": "Caption must be 500 characters or fewer",
+    });
+  });
+
   it("reports a bad slug", () => {
     expect(
       errorsFor({ ...base, type: 1, slug: "Bad Slug", body: { html: "" } }),
