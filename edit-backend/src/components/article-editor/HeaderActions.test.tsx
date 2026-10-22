@@ -84,7 +84,7 @@ describe("HeaderActions", () => {
   });
 
   it("deletes after confirmation, marks the form clean and goes to the list", async () => {
-    fetchMock.mockResolvedValue(new Response("{}", { status: 200 }));
+    fetchMock.mockResolvedValue(Response.json({ ok: true }));
     const props = renderActions({ canDelete: true });
     fireEvent.click(screen.getByRole("button", { name: "Delete" }));
     fireEvent.click(screen.getByRole("button", { name: "Confirm" }));
@@ -99,9 +99,7 @@ describe("HeaderActions", () => {
     const alert = vi.fn();
     vi.stubGlobal("alert", alert);
     fetchMock.mockResolvedValue(
-      new Response(JSON.stringify({ message: "Article not found" }), {
-        status: 404,
-      }),
+      Response.json({ message: "Article not found" }, { status: 404 }),
     );
     const props = renderActions({ canDelete: true });
     fireEvent.click(screen.getByRole("button", { name: "Delete" }));
@@ -111,5 +109,37 @@ describe("HeaderActions", () => {
     );
     expect(router.push).not.toHaveBeenCalled();
     expect(props.onDeleted).not.toHaveBeenCalled();
+  });
+
+  describe("when the session has expired", () => {
+    const LOGGED_OUT =
+      "You've been logged out. Log in again in a new tab, then try again.";
+
+    async function deleteWith(res: Response) {
+      const alert = vi.fn();
+      vi.stubGlobal("alert", alert);
+      fetchMock.mockResolvedValue(res);
+      const props = renderActions({ canDelete: true });
+      fireEvent.click(screen.getByRole("button", { name: "Delete" }));
+      fireEvent.click(screen.getByRole("button", { name: "Confirm" }));
+      await waitFor(() => expect(alert).toHaveBeenCalledWith(LOGGED_OUT));
+      expect(router.push).not.toHaveBeenCalled();
+      expect(props.onDeleted).not.toHaveBeenCalled();
+    }
+
+    it("treats a followed redirect to the sign-in page as logged out", async () => {
+      const res = Response.json({ ok: true });
+      Object.defineProperty(res, "redirected", { value: true });
+      await deleteWith(res);
+    });
+
+    it("treats a non-JSON page as logged out", async () => {
+      await deleteWith(
+        new Response("<html>Sign in</html>", {
+          status: 200,
+          headers: { "content-type": "text/html" },
+        }),
+      );
+    });
   });
 });
