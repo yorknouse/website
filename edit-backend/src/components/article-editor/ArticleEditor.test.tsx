@@ -438,4 +438,66 @@ describe("ArticleEditor save flow", () => {
     expect(await screen.findByText(/^Saved at/)).toBeTruthy();
     expect(unload()).toBe(false);
   });
+
+  describe("leaving through an in-app link", () => {
+    const LEAVE = "You have unsaved changes. Leave this page and lose them?";
+
+    function renderWithLink() {
+      renderEditor({ mode: "edit", article: EDIT_ARTICLE });
+      const link = document.createElement("a");
+      link.href = "/articles?page=2";
+      link.textContent = "All articles";
+      // Stands in for next/link's own handler, and stops jsdom navigating.
+      const reached = vi.fn((e: Event) => e.preventDefault());
+      link.addEventListener("click", reached);
+      document.body.appendChild(link);
+      return { link, reached };
+    }
+
+    afterEach(() => {
+      document.querySelectorAll("body > a").forEach((a) => a.remove());
+    });
+
+    it("lets a clean form navigate without asking", () => {
+      const { link, reached } = renderWithLink();
+      fireEvent.click(link);
+      expect(reached).toHaveBeenCalled();
+      expect(screen.queryByText(LEAVE)).toBeNull();
+    });
+
+    it("asks first and stays on cancel while there are unsaved changes", async () => {
+      const { link, reached } = renderWithLink();
+      fireEvent.change(headline(), { target: { value: "Changed" } });
+      expect(fireEvent.click(link)).toBe(false);
+      expect(reached).not.toHaveBeenCalled();
+      expect(await screen.findByText(LEAVE)).toBeTruthy();
+      fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
+      await waitFor(() => expect(screen.queryByText(LEAVE)).toBeNull());
+      expect(router.push).not.toHaveBeenCalled();
+      expect(headline().value).toBe("Changed");
+    });
+
+    it("navigates once the user confirms leaving", async () => {
+      const { link } = renderWithLink();
+      fireEvent.change(headline(), { target: { value: "Changed" } });
+      fireEvent.click(link);
+      fireEvent.click(await screen.findByRole("button", { name: "Leave" }));
+      await waitFor(() =>
+        expect(router.push).toHaveBeenCalledWith("/articles?page=2"),
+      );
+    });
+
+    it("ignores modified clicks, new tabs and hash links", () => {
+      const { link, reached } = renderWithLink();
+      fireEvent.change(headline(), { target: { value: "Changed" } });
+      fireEvent.click(link, { metaKey: true });
+      link.target = "_blank";
+      fireEvent.click(link);
+      link.removeAttribute("target");
+      link.setAttribute("href", "#body");
+      fireEvent.click(link);
+      expect(reached).toHaveBeenCalledTimes(3);
+      expect(screen.queryByText(LEAVE)).toBeNull();
+    });
+  });
 });

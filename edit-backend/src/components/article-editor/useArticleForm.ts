@@ -58,7 +58,34 @@ const CONFIRM_CREDIT_IN_BODY: ConfirmRequest = {
   tone: "success",
 };
 
+const CONFIRM_LEAVE: ConfirmRequest = {
+  title: "Unsaved changes",
+  paragraphs: ["You have unsaved changes. Leave this page and lose them?"],
+  confirmLabel: "Leave",
+  tone: "danger",
+};
+
+/** The in-app path a plain click on this link would navigate to, if any. */
+function guardedHref(e: MouseEvent): string | null {
+  if (e.defaultPrevented || e.button !== 0) return null;
+  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return null;
+  const link = (e.target as Element | null)?.closest?.("a[href]");
+  if (!(link instanceof HTMLAnchorElement)) return null;
+  if (link.hasAttribute("download")) return null;
+  if (link.target && link.target !== "_self") return null;
+  const href = link.getAttribute("href") ?? "";
+  if (href.startsWith("#")) return null;
+  const url = new URL(link.href, window.location.href);
+  if (url.origin !== window.location.origin) return null;
+  const here = window.location;
+  if (url.pathname === here.pathname && url.search === here.search && url.hash)
+    return null;
+  return url.pathname + url.search + url.hash;
+}
+
 export type ConfirmRequest = {
+  /** Defaults to "Before you save". */
+  title?: string;
   paragraphs: string[];
   confirmLabel: string;
   tone: "danger" | "success";
@@ -147,9 +174,27 @@ export function useArticleForm({
       e.preventDefault();
       e.returnValue = "";
     };
+    // next/link navigates client-side, which beforeunload never sees.
+    const onClick = (e: MouseEvent) => {
+      const href = guardedHref(e);
+      if (href === null) return;
+      e.preventDefault();
+      e.stopPropagation();
+      setConfirm({
+        ...CONFIRM_LEAVE,
+        answer: (ok) => {
+          setConfirm(null);
+          if (ok) router.push(href);
+        },
+      });
+    };
     window.addEventListener("beforeunload", onBeforeUnload);
-    return () => window.removeEventListener("beforeunload", onBeforeUnload);
-  }, [dirty]);
+    document.addEventListener("click", onClick, true);
+    return () => {
+      window.removeEventListener("beforeunload", onBeforeUnload);
+      document.removeEventListener("click", onClick, true);
+    };
+  }, [dirty, router]);
 
   useEffect(() => {
     if (articleId === undefined) return;

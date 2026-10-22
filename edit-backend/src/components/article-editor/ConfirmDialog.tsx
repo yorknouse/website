@@ -33,7 +33,7 @@ export default function ConfirmDialog({
           id="article-confirm-title"
           className="mb-2 text-lg font-semibold text-gray-800"
         >
-          Before you save
+          {confirm.title ?? "Before you save"}
         </h2>
         {confirm.paragraphs.map((p) => (
           <p key={p} className="mb-4 text-gray-600">
