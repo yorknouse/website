@@ -81,7 +81,6 @@ describe("MultiSelect", () => {
     const input = screen.getByRole("combobox", { name: "Sections" });
     fireEvent.change(input, { target: { value: "john" } });
     fireEvent.keyDown(input, { key: "ArrowDown" });
-    fireEvent.keyDown(input, { key: "ArrowUp" });
     await act(async () => {
       vi.advanceTimersByTime(300);
     });

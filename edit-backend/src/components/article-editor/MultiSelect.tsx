@@ -61,6 +61,7 @@ export default function MultiSelect({
     const run = searchRef.current;
     const q = query.trim();
     if (!run) return;
+    setSearchFailed(false);
     if (!q) {
       setFound([]);
       setSearchFailed(false);
