@@ -30,6 +30,10 @@ describe("escapeText", () => {
   it("strips tags", () => {
     expect(escapeText("<b>Hi</b>")).toBe("Hi");
   });
+  it("strips tags and comments formed by removing an inner one", () => {
+    expect(escapeText("<<b>i>x")).toBe("x");
+    expect(escapeText("a<!<!-- x -->-- y -->b")).toBe("ab");
+  });
 });
 
 describe("decodeText", () => {

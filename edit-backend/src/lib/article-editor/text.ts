@@ -5,10 +5,16 @@ import { decodeHTML } from "entities";
 
 /** Plain-text field -> stored form (matches HTMLPurifier output from PHP). */
 export function escapeText(s: string): string {
-  const stripped = s
-    .trim()
-    .replace(/<!--[\s\S]*?-->/g, "")
-    .replace(/<\/?[a-zA-Z][^>]*>/g, "");
+  // Strip until nothing changes, so removing one tag can't join the text
+  // around it into another (e.g. "<scr<b>ipt>").
+  let stripped = s.trim();
+  let previous: string;
+  do {
+    previous = stripped;
+    stripped = stripped
+      .replace(/<!--[\s\S]*?-->/g, "")
+      .replace(/<\/?[a-zA-Z][^>]*>/g, "");
+  } while (stripped !== previous);
   return decodeHTML(stripped)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")

@@ -13,7 +13,7 @@ vi.mock("@/lib/redis", () => ({
     // One cached key per pattern, named after it ("similarArticles:*" -> "similarArticles:42").
     scan: vi.fn(async (_cursor: string, _match: string, pattern: string) => [
       "0",
-      [pattern.replace("*", "42")],
+      [pattern.replaceAll("*", "42")],
     ]),
   },
 }));
