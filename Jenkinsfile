@@ -248,7 +248,7 @@ pipeline {
             }
             stage('Preview') {
               steps {
-                deployPreview action: 'deploy', job: 'nouse-website/preview', jobName: 'nouse-website-preview', urlSuffix: 'nouse.ywrtaw51cmxz.bswdi.co.uk'
+                deployPreview action: 'deploy', job: 'nouse-website/preview', jobName: 'nouse-website-preview', urlSuffix: "nouse.${env.PREVIEW_URL_SUFFIX}"
               }
             }
           }
