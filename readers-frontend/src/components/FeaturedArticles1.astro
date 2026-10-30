@@ -44,80 +44,76 @@ const mainCategories: ICategory[] = featuredArticles.flatMap(({ categories }) =>
 );
 ---
 
-{
-  featuredArticles.length !== 0 && (
-    <>
-      <div class="border-color mt-4 h-full">
-        {/* Desktop */}
-        <div
-          class="
-    hidden md:grid gap-4 w-full
+{featuredArticles.length !== 0 && (
+  <>
+    <div class="border-color mt-4 h-full">
+      {/* Desktop */}
+      <div
+        class="hidden md:grid gap-4 w-full
     md:grid-cols-[repeat(auto-fit,minmax(25%,1fr))]
-    xl:grid-cols-[repeat(auto-fit,minmax(16.666%,1fr))]
-  "
-        >
-          {featuredArticles.map(async (article, index) => {
-            return (
-              <div class={`w-full pr-2.5`}>
-                <Article
-                  headline={
-                    article.headline?.length !== 0
-                      ? String(article.headline)
-                      : "Unknown"
-                  }
-                  excerpt={article.excerpt}
-                  authors={article.authors}
-                  category={article.parentCategory.name}
-                  categoryLink={article.parentCategory.link}
-                  categoryColor={article.parentCategory.colour}
-                  imageUrl={article.thumbnailURL}
-                  articleUrl={article.articleURL}
-                  isVertical={true}
-                  isPortrait={article.isThumbnailPortrait}
-                  hideCategoryAccent={false}
-                  textColour={"#fff"}
-                />
-              </div>
-            );
-          })}
-        </div>
-        {/* Mobile */}
-        {
-          <div class="block max-w-full justify-center md:hidden">
-            {featuredArticles.map(async (article, index) => (
-              <div
-                class={`w-full p-2.5 ${
-                  index != featuredArticles.length - 1
-                    ? "border-b border-gray-300"
-                    : ""
-                }`}
-              >
-                <Article
-                  headline={
-                    article.headline?.length !== 0
-                      ? String(article.headline)
-                      : "Unknown"
-                  }
-                  excerpt={article.excerpt}
-                  authors={article.authors}
-                  category={article.parentCategory.displayName}
-                  categoryLink={getCategoryLink(
-                    String(article.parentCategory.name),
-                    article.parentCategory.nestUnder,
-                  )}
-                  categoryColor={article.parentCategory.colour}
-                  imageUrl={article.thumbnailURL}
-                  articleUrl={article.articleURL}
-                  isVertical={false}
-                  isPortrait={article.isThumbnailPortrait}
-                  hideCategoryAccent={false}
-                  textColour={"#fff"}
-                />
-              </div>
-            ))}
-          </div>
-        }
+    xl:grid-cols-[repeat(auto-fit,minmax(16.666%,1fr))]"
+      >
+        {featuredArticles.map(async (article, index) => {
+          return (
+            <div class={`w-full pr-2.5`}>
+              <Article
+                headline={
+                  article.headline?.length !== 0
+                    ? String(article.headline)
+                    : "Unknown"
+                }
+                excerpt={article.excerpt}
+                authors={article.authors}
+                category={article.parentCategory.name}
+                categoryLink={article.parentCategory.link}
+                categoryColor={article.parentCategory.colour}
+                imageUrl={article.thumbnailURL}
+                articleUrl={article.articleURL}
+                isVertical={true}
+                isPortrait={article.isThumbnailPortrait}
+                hideCategoryAccent={false}
+                textColour={"#fff"}
+              />
+            </div>
+          );
+        })}
       </div>
-    </>
-  )
-}
+      {/* Mobile */}
+      {
+        <div class="block max-w-full justify-center md:hidden">
+          {featuredArticles.map(async (article, index) => (
+            <div
+              class={`w-full p-2.5 ${
+                index != featuredArticles.length - 1
+                  ? "border-b border-gray-300"
+                  : ""
+              }`}
+            >
+              <Article
+                headline={
+                  article.headline?.length !== 0
+                    ? String(article.headline)
+                    : "Unknown"
+                }
+                excerpt={article.excerpt}
+                authors={article.authors}
+                category={article.parentCategory.displayName}
+                categoryLink={getCategoryLink(
+                  String(article.parentCategory.name),
+                  article.parentCategory.nestUnder,
+                )}
+                categoryColor={article.parentCategory.colour}
+                imageUrl={article.thumbnailURL}
+                articleUrl={article.articleURL}
+                isVertical={false}
+                isPortrait={article.isThumbnailPortrait}
+                hideCategoryAccent={false}
+                textColour={"#fff"}
+              />
+            </div>
+          ))}
+        </div>
+      }
+    </div>
+  </>
+)}
