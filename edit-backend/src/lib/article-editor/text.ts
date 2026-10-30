@@ -13,6 +13,7 @@ export function escapeText(s: string): string {
     previous = stripped;
     stripped = stripped
       .replace(/<!--[\s\S]*?-->/g, "")
+      .replace(/<!--|-->/g, "")
       .replace(/<\/?[a-zA-Z][^>]*>/g, "");
   } while (stripped !== previous);
   return decodeHTML(stripped)
