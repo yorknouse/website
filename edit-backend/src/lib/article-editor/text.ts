@@ -3,26 +3,10 @@ import { decodeHTML } from "entities";
 // Kept apart from content.ts so the client-side schema can use it without
 // bundling the HTML sanitiser and markdown renderer.
 
-function stripHtmlLikeFragmentsOnce(input: string): string {
-  let stripped = input;
-  let previous: string;
-  do {
-    previous = stripped;
-    stripped = stripped
-      .replace(/<!--[\s\S]*?-->/g, "")
-      .replace(/<!--|--!?>/g, "")
-      .replace(/<\/?[a-zA-Z][^>]*>/g, "")
-      .replace(/[<>]/g, "");
-  } while (stripped !== previous);
-  return stripped;
-}
-
 /** Plain-text field -> stored form (matches HTMLPurifier output from PHP). */
 export function escapeText(s: string): string {
-  // Strip until nothing changes, so removing one tag can't join the text
-  // around it into another (e.g. "<scr<b>ipt>").
-  const stripped = stripHtmlLikeFragmentsOnce(s.trim());
-  return decodeHTML(stripped)
+  const normalized = decodeHTML(s.trim());
+  return normalized
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
