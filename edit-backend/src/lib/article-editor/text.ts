@@ -4,23 +4,24 @@ import { decodeHTML } from "entities";
 // bundling the HTML sanitiser and markdown renderer.
 
 function stripHtmlLikeFragmentsOnce(input: string): string {
-  return input
-    .replace(/<!--[\s\S]*?-->/g, "")
-    .replace(/<!--|--!?>/g, "")
-    .replace(/<\/?[a-zA-Z][^>]*>/g, "")
-    .replace(/[<>]/g, "");
+  let stripped = input;
+  let previous: string;
+  do {
+    previous = stripped;
+    stripped = stripped
+      .replace(/<!--[\s\S]*?-->/g, "")
+      .replace(/<!--|--!?>/g, "")
+      .replace(/<\/?[a-zA-Z][^>]*>/g, "")
+      .replace(/[<>]/g, "");
+  } while (stripped !== previous);
+  return stripped;
 }
 
 /** Plain-text field -> stored form (matches HTMLPurifier output from PHP). */
 export function escapeText(s: string): string {
   // Strip until nothing changes, so removing one tag can't join the text
   // around it into another (e.g. "<scr<b>ipt>").
-  let stripped = s.trim();
-  let previous: string;
-  do {
-    previous = stripped;
-    stripped = stripHtmlLikeFragmentsOnce(stripped);
-  } while (stripped !== previous);
+  const stripped = stripHtmlLikeFragmentsOnce(s.trim());
   return decodeHTML(stripped)
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
