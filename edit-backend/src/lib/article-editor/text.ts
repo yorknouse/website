@@ -14,7 +14,8 @@ export function escapeText(s: string): string {
     stripped = stripped
       .replace(/<!--[\s\S]*?-->/g, "")
       .replace(/<!--|-->/g, "")
-      .replace(/<\/?[a-zA-Z][^>]*>/g, "");
+      .replace(/<\/?[a-zA-Z][^>]*>/g, "")
+      .replace(/[<>]/g, "");
   } while (stripped !== previous);
   return decodeHTML(stripped)
     .replace(/&/g, "&amp;")
