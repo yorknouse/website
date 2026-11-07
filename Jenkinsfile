@@ -4,7 +4,6 @@ def branch = env.BRANCH_NAME.replaceAll("/", "_")
 def image
 def publicApiBaseUrl
 def publicBaseUrl
-String proceed = "yes"
 String phpImageName = "nouse/website/php:${branch}-${env.BUILD_ID}"
 String astroImageName = "nouse/website/astro:${branch}-${env.BUILD_ID}"
 String reactImageName = "nouse/website/react:${branch}-${env.BUILD_ID}"
@@ -43,8 +42,9 @@ pipeline {
 
                 def json = readJSON text: response.content
                 env.DATABASE_URL = json.data.data['database-url']
-                publicApiBaseUrl = json.data.data['public-api-base-url']
-                publicBaseUrl = json.data.data['public-base-url']
+                // Astro inlines these at build time, so each preview points at its own React
+                publicApiBaseUrl = "https://pr-${env.CHANGE_ID}-api-nouse.${env.PREVIEW_URL_SUFFIX}"
+                publicBaseUrl = "https://pr-${env.CHANGE_ID}-nouse.${env.PREVIEW_URL_SUFFIX}"
               }
             }
           }
@@ -193,47 +193,7 @@ pipeline {
       }
     }
 
-    stage('Checking existing streams') {
-      steps {
-        script {
-          String url = "https://streamer."
-          if (!productionBuild) {
-            url += "dev."
-          }
-          url += "ystv.co.uk/activeStreams"
-          final def (String response, String tempCode) =
-              sh(script: "curl -s -w '~~~%{response_code}' $url", returnStdout: true)
-                  .trim()
-                  .tokenize("~~~")
-          int code = Integer.parseInt(tempCode)
-
-          echo "HTTP response status code: $code"
-          echo "HTTP response: $response"
-
-          if (code == 200) {
-            if (response.contains("streams")) {
-              tempStreams = sh(script: "echo '$response' | jq -M '.streams'", returnStdout: true).trim()
-              int streams = Integer.parseInt(tempStreams)
-              if (streams > 0) {
-                echo "Pre-existing active streams: $streams, not proceeding to deploy stage"
-                proceed = "no"
-              } else {
-                echo "No pre-existing active streams, proceeding to deploy stage"
-              }
-            } else {
-              echo "Streamer not currently running, proceeding to deploy stage"
-            }
-          } else {
-            echo "Invalid HTTP response code: $code, proceeding to deploy stage"
-          }
-        }
-      }
-    }
-
     stage('Deploy') {
-      when {
-        expression { proceed == "yes" }
-      }
       stages {
         stage('Preview') {
           when {
@@ -268,7 +228,7 @@ pipeline {
             stage('Deploy to development') {
               steps {
                 build job: 'Deploy Nomad Job', parameters: [
-                  string(name: 'JOB_FILE', value: 'streamer-dev.nomad'),
+                  string(name: 'JOB_FILE', value: 'nouse-website/dev'),
                   text(name: 'TAG_REPLACEMENTS', value: "${env.REGISTRY_ENDPOINT}/${phpImageName} ${env.REGISTRY_ENDPOINT}/${astroImageName} ${env.REGISTRY_ENDPOINT}/${reactImageName}")
                 ], wait: true
               }
@@ -294,7 +254,7 @@ pipeline {
           }
           steps {
             build(job: 'Deploy Nomad Job', parameters: [
-              string(name: 'JOB_FILE', value: 'streamer-prod.nomad'),
+              string(name: 'JOB_FILE', value: 'nouse-website/prod'),
               text(name: 'TAG_REPLACEMENTS', value: "${env.REGISTRY_ENDPOINT}/${phpImageName} ${env.REGISTRY_ENDPOINT}/${astroImageName} ${env.REGISTRY_ENDPOINT}/${reactImageName}")
             ])
           }
