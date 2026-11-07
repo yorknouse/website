@@ -24,16 +24,6 @@ describe("escapeText", () => {
   it("keeps entity-encoded tags as text", () => {
     expect(escapeText("&lt;script&gt;x")).toBe("&lt;script&gt;x");
   });
-  it("strips comments", () => {
-    expect(escapeText("a<!-- x -->b")).toBe("ab");
-  });
-  it("strips tags", () => {
-    expect(escapeText("<b>Hi</b>")).toBe("Hi");
-  });
-  it("strips tags and comments formed by removing an inner one", () => {
-    expect(escapeText("<<b>i>x")).toBe("x");
-    expect(escapeText("a<!<!-- x -->-- y -->b")).toBe("ab");
-  });
 });
 
 describe("decodeText", () => {

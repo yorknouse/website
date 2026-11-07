@@ -4,6 +4,7 @@ import type {
 } from "@/components/article-editor/useArticleForm";
 import type { getArticleForEditor } from "./service";
 import { decodeText, legacyHtmlForEditor } from "./content";
+import { displayText } from "./plainText";
 import { htmlToMarkdown } from "@/lib/htmlToMarkdown";
 import { flagsToStatus } from "./status";
 import { parseSocialConfig } from "./socialConfig";
@@ -95,7 +96,7 @@ function editBody(
       return {
         images: galleryIds(text).map((id) => ({
           id,
-          caption: decodeText(opts.captions.get(id) ?? null),
+          caption: displayText(opts.captions.get(id)),
         })),
       };
     case 5:
@@ -121,8 +122,8 @@ export function editInitialValues(
   const social = parseSocialConfig(article.articles_socialConfig);
   const body = editBody(type, draft, opts);
   return {
-    headline: decodeText(draft?.articlesDrafts_headline ?? null),
-    excerpt: decodeText(draft?.articlesDrafts_excerpt ?? null),
+    headline: displayText(draft?.articlesDrafts_headline),
+    excerpt: displayText(draft?.articlesDrafts_excerpt),
     published: article.articles_published
       ? utcToUkLocal(article.articles_published)
       : "",
@@ -136,10 +137,10 @@ export function editInitialValues(
     thumbnailPortrait: article.articles_isThumbnailPortrait,
     postToFacebook: social?.fbWanted ?? false,
     postToTwitter: social?.twWanted ?? false,
-    socialExcerpt: decodeText(article.articles_socialExcerpt),
+    socialExcerpt: displayText(article.articles_socialExcerpt),
     // null = keep the stored thumbnail
     thumbnailId: null,
-    thumbnailCredit: decodeText(draft?.articlesDrafts_thumbnailCredit ?? null),
+    thumbnailCredit: displayText(draft?.articlesDrafts_thumbnailCredit),
     slug: article.articles_slug ?? undefined,
     ...(body ? { body } : {}),
   } as ArticleFormValues;

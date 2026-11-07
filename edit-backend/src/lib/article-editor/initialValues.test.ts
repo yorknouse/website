@@ -120,6 +120,19 @@ describe("editInitialValues", () => {
     });
   });
 
+  it("strips tags the PHP site saved in plain fields", () => {
+    const article = found({});
+    article.draft!.articlesDrafts_headline = "<b>Bold</b> &amp; more";
+    article.draft!.articlesDrafts_thumbnailCredit = "<i>Jo</i>";
+    article.article.articles_socialExcerpt = "<b>Fish</b>";
+
+    expect(editInitialValues(article, opts)).toMatchObject({
+      headline: "Bold & more",
+      thumbnailCredit: "Jo",
+      socialExcerpt: "Fish",
+    });
+  });
+
   it("runs a standard body through the legacy HTML substitutions", () => {
     const v = editInitialValues(
       found({ text: "5PS [ARCHIVECDNURL]x.jpg\n" }),

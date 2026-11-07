@@ -11,6 +11,7 @@ import {
   renderMarkdown,
   sanitiseBodyHtml,
 } from "./content";
+import { cleanText } from "./plainText";
 import { processArticle } from "./effects/process";
 import { purgeCaches } from "./effects/cachePurge";
 
@@ -65,6 +66,9 @@ async function checkReferences(
   linked: LinkedRefs = NO_LINKS,
 ): Promise<FieldErrors> {
   const errors: FieldErrors = {};
+  // The schema also runs in the browser, where tags can't be stripped.
+  if (!cleanText(input.headline)) errors.headline = "Headline is required";
+
   const isNew = (have: number[]) => (id: number) => !have.includes(id);
 
   const categoryIds = unique(input.categoryIds).filter(
@@ -133,7 +137,7 @@ function articleFields(input: ArticleSaveInput, published: Date) {
   return {
     articles_published: published,
     articles_updated: new Date(),
-    articles_socialExcerpt: escapeText(input.socialExcerpt),
+    articles_socialExcerpt: cleanText(input.socialExcerpt),
     articles_displayImages: input.displayImages,
     articles_isThumbnailPortrait: input.thumbnailPortrait,
     articles_dropCapital: input.dropCap,
@@ -182,9 +186,9 @@ async function insertDraft(
       articles_id: articleId,
       articlesDrafts_timestamp: new Date(),
       articlesDrafts_userid: userId,
-      articlesDrafts_headline: escapeText(input.headline),
-      articlesDrafts_excerpt: escapeText(input.excerpt),
-      articlesDrafts_thumbnailCredit: escapeText(input.thumbnailCredit),
+      articlesDrafts_headline: cleanText(input.headline),
+      articlesDrafts_excerpt: cleanText(input.excerpt),
+      articlesDrafts_thumbnailCredit: cleanText(input.thumbnailCredit),
       ...draftBody(input, previousText),
     },
     select: { articlesDrafts_id: true },
@@ -196,7 +200,7 @@ async function saveGalleryCaptions(tx: Tx, input: ArticleSaveInput) {
   for (const img of galleryImages(input)) {
     await tx.s3files.update({
       where: { s3files_id: img.id },
-      data: { s3files_meta_caption: escapeText(img.caption) },
+      data: { s3files_meta_caption: cleanText(img.caption) },
     });
   }
 }

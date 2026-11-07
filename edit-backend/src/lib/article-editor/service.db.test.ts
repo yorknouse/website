@@ -175,6 +175,39 @@ describe("createArticle", () => {
     expect(await prisma.articles.count()).toBe(0);
   });
 
+  it("strips tags from plain fields but leaves real text alone", async () => {
+    const { articleId } = await created({
+      headline: "<b>Big</b> news & more",
+      excerpt: "Profits<Costs say experts",
+      socialExcerpt: "<i>Share</i> this",
+      thumbnailCredit: "<b>Jo</b>",
+    });
+
+    const article = await prisma.articles.findUniqueOrThrow({
+      where: { articles_id: articleId },
+      include: { articlesDrafts: true },
+    });
+    expect(article.articles_socialExcerpt).toBe("Share this");
+    expect(article.articlesDrafts[0]).toMatchObject({
+      articlesDrafts_headline: "Big news &amp; more",
+      articlesDrafts_excerpt: "Profits&lt;Costs say experts",
+      articlesDrafts_thumbnailCredit: "Jo",
+    });
+  });
+
+  it("rejects a headline that is only tags", async () => {
+    const user = await makeUser();
+    const res = await createArticle(
+      input({ headline: "<b></b>" }),
+      user.users_userid,
+    );
+
+    expect(res.ok).toBe(false);
+    if (res.ok) return;
+    expect(res.fieldErrors?.headline).toBe("Headline is required");
+    expect(await prisma.articles.count()).toBe(0);
+  });
+
   it("refuses to create a liveblog (type 4)", async () => {
     const user = await makeUser();
     const res = await createArticle(input({ type: 4 }), user.users_userid);
