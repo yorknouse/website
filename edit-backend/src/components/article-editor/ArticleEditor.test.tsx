@@ -106,6 +106,18 @@ function sentBody(call = 0) {
 }
 
 describe("ArticleEditor save flow", () => {
+  it("offers help with < and > beside the headline and strapline", () => {
+    renderEditor();
+    expect(
+      screen.getByRole("button", { name: "Help with < and > in the headline" }),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole("button", {
+        name: "Help with < and > in the strapline",
+      }),
+    ).toBeTruthy();
+  });
+
   it("shows a client-side field error and does not call fetch", async () => {
     renderEditor();
     fireEvent.change(headline(), { target: { value: "  " } });

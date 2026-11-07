@@ -29,6 +29,15 @@ function Harness({ onChange }: { onChange: (i: GalleryImage[]) => void }) {
 }
 
 describe("GalleryBody", () => {
+  it("offers one help with < and > for all the captions", () => {
+    render(<Harness onChange={vi.fn()} />);
+    expect(
+      screen.getAllByRole("button", {
+        name: "Help with < and > in the captions",
+      }),
+    ).toHaveLength(1);
+  });
+
   it("removes an image and edits a caption", () => {
     const onChange = vi.fn();
     render(<Harness onChange={onChange} />);

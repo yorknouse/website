@@ -26,6 +26,15 @@ function renderPanel(socialConfig: string | undefined, errors = {}) {
 }
 
 describe("SocialPanel", () => {
+  it("offers help with < and > beside the excerpt", () => {
+    renderPanel(undefined);
+    expect(
+      screen.getByRole("button", {
+        name: "Help with < and > in the social media excerpt",
+      }),
+    ).toBeTruthy();
+  });
+
   it("disables a platform that has been posted and labels it", () => {
     renderPanel("1,1,1,0");
     const fb = screen.getByLabelText("Posted to Facebook") as HTMLInputElement;
