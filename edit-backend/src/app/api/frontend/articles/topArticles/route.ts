@@ -5,6 +5,7 @@ import { getArticleImage } from "@/lib/articles";
 import { Prisma } from "@prisma/client";
 import he from "he";
 import { NextResponse } from "next/server";
+import { displayText } from "@/lib/article-editor/plainText";
 
 const corsRes = {
   headers: {
@@ -74,7 +75,7 @@ export async function GET(_: Request) {
 
     const output = await Promise.all(
       articles.map(async (article) => {
-        const headline = article.articlesDrafts_headline;
+        const headline = displayText(article.articlesDrafts_headline);
         const categoriesLinks = await cache<
           {
             articles_id: number;

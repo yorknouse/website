@@ -58,4 +58,38 @@ async function updateArticlesReadsSummary() {
   }
 }
 
-updateArticlesReadsSummary().then();
+async function runArticleJobs() {
+  const secret = process.env.CRON_SECRET;
+  if (!secret) {
+    const msg = "Article cron failed: CRON_SECRET is not set";
+    console.error(msg);
+    logToFile(msg);
+    process.exitCode = 1;
+    return;
+  }
+  const baseUrl = process.env.INTERNAL_APP_URL ?? "http://localhost:3000";
+  try {
+    const res = await fetch(`${baseUrl}/api/internal/cron/articles`, {
+      method: "POST",
+      headers: { "x-cron-secret": secret },
+    });
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
+    const { processed } = (await res.json()) as { processed: number };
+    logToFile(`Article cron processed ${processed} job(s).`);
+  } catch (err) {
+    const msg = `Article cron failed: ${err}`;
+    console.error(msg);
+    logToFile(msg);
+    process.exitCode = 1;
+  }
+}
+
+const mode = process.argv[2];
+if (mode === "articles") {
+  runArticleJobs().then();
+} else {
+  // "reads" or no argument
+  updateArticlesReadsSummary().then();
+}

@@ -12,6 +12,7 @@ import dateFormatter from "@/lib/dateFormatter";
 import he from "he";
 import { z } from "zod";
 import { cache } from "@/lib/cache";
+import { displayText } from "@/lib/article-editor/plainText";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -170,10 +171,15 @@ export async function POST(request: Request) {
           thumbnailURL: s3url,
           isThumbnailPortrait: article1.articles_isThumbnailPortrait,
           thumbnailCredit:
-            article1.articlesDrafts[0]?.articlesDrafts_thumbnailCredit ?? null,
+            displayText(
+              article1.articlesDrafts[0]?.articlesDrafts_thumbnailCredit,
+            ) || null,
           headline:
-            article1.articlesDrafts[0]?.articlesDrafts_headline ?? "Unknown",
-          excerpt: article1.articlesDrafts[0]?.articlesDrafts_excerpt ?? null,
+            displayText(article1.articlesDrafts[0]?.articlesDrafts_headline) ||
+            "Unknown",
+          excerpt:
+            displayText(article1.articlesDrafts[0]?.articlesDrafts_excerpt) ||
+            null,
           published: dateFormatter
             .format(publishedDate)
             .split("/")
