@@ -10,6 +10,7 @@ import { getArticleImage } from "@/lib/articles";
 import dateFormatter from "@/lib/dateFormatter";
 import { getCategoryLink, getParentCategory } from "@/lib/categories";
 import he from "he";
+import { displayText } from "@/lib/article-editor/plainText";
 
 export const runtime = "nodejs";
 
@@ -145,20 +146,15 @@ export async function GET(request: Request, { params }: RouteParams) {
           thumbnailURL: s3url,
           isThumbnailPortrait: article1.articles_isThumbnailPortrait,
           thumbnailCredit:
-            article1.articlesDrafts[0]?.articlesDrafts_thumbnailCredit
-              ?.length !== 0 &&
-            article1.articlesDrafts[0]?.articlesDrafts_thumbnailCredit !== null
-              ? String(
-                  article1.articlesDrafts[0]?.articlesDrafts_thumbnailCredit,
-                )
-              : null,
+            displayText(
+              article1.articlesDrafts[0]?.articlesDrafts_thumbnailCredit,
+            ) || null,
           headline:
-            article1.articlesDrafts[0]?.articlesDrafts_headline ?? "Unknown",
+            displayText(article1.articlesDrafts[0]?.articlesDrafts_headline) ||
+            "Unknown",
           excerpt:
-            article1.articlesDrafts[0]?.articlesDrafts_excerpt?.length !== 0 &&
-            article1.articlesDrafts[0]?.articlesDrafts_excerpt !== null
-              ? String(article1.articlesDrafts[0]?.articlesDrafts_excerpt)
-              : null,
+            displayText(article1.articlesDrafts[0]?.articlesDrafts_excerpt) ||
+            null,
           published: dateFormatter
             .format(article1.articles_published || new Date(0))
             .split("/")

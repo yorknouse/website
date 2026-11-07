@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { displayText } from "@/lib/article-editor/plainText";
 import { checkUserPermissions, GetUserData } from "@/lib/auth";
 
 export default async function FeaturedArticles() {
@@ -66,7 +67,9 @@ export default async function FeaturedArticles() {
           .filter((a) => !!a)
           .map((a) => ({
             id: a!.articles_id,
-            headline: a!.articlesDrafts[0]?.articlesDrafts_headline ?? null,
+            headline:
+              displayText(a!.articlesDrafts[0]?.articlesDrafts_headline) ||
+              null,
           })),
       };
     }),
@@ -106,7 +109,8 @@ export default async function FeaturedArticles() {
       .filter((a) => !!a)
       .map((a) => ({
         id: a!.articles_id,
-        headline: a!.articlesDrafts[0]?.articlesDrafts_headline ?? null,
+        headline:
+          displayText(a!.articlesDrafts[0]?.articlesDrafts_headline) || null,
       }));
   }
   return (

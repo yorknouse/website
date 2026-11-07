@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getArticles } from "@/lib/articles";
+import { displayText } from "@/lib/article-editor/plainText";
 import { Check, EyeIcon, ChartLine, PenLine, Trash } from "lucide-react";
 import { articleSiteUrl, articleStatsUrl } from "@/lib/article-editor/links";
 import ArticleDeleteButton from "@/components/ArticleDeleteButton";
@@ -112,7 +113,9 @@ export default async function Articles({
                 >
                   <th className={"px-4 py-2"}>{article.articles_id}</th>
                   <td className={"px-4 py-2"}>
-                    {article.articlesDrafts[0].articlesDrafts_headline}
+                    {displayText(
+                      article.articlesDrafts[0].articlesDrafts_headline,
+                    )}
                     {!article.articles_showInLists &&
                     !article.articles_showInSearch ? (
                       <span className="inline-block text-xs font-medium rounded-full px-2 py-0.5 mb-1 mr-1 shadow-sm bg-red-500 text-white ml-2">
@@ -238,8 +241,9 @@ export default async function Articles({
                       <ArticleDeleteButton
                         props={{
                           articleID: article.articles_id,
-                          headline:
+                          headline: displayText(
                             article.articlesDrafts[0].articlesDrafts_headline,
+                          ),
                         }}
                       >
                         <span className={"px-2 py-2"}>
