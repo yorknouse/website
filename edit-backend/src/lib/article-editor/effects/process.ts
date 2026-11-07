@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { decodeText } from "../content";
+import { displayText } from "../plainText";
 import {
   parseSocialConfig,
   serialiseSocialConfig,
@@ -220,11 +220,11 @@ export async function processArticle(
   }
 
   const draft = article.articlesDrafts[0];
-  const headline = decodeText(draft?.articlesDrafts_headline ?? null);
-  const excerpt = decodeText(draft?.articlesDrafts_excerpt ?? null);
+  const headline = displayText(draft?.articlesDrafts_headline);
+  const excerpt = displayText(draft?.articlesDrafts_excerpt);
   const permalink = articlePermalink(published, slug);
   const socialExcerpt =
-    decodeText(article.articles_socialExcerpt) || excerpt || headline;
+    displayText(article.articles_socialExcerpt) || excerpt || headline;
 
   warnings.push(...(await postSocial(articleId, socialExcerpt, permalink)));
 

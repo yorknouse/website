@@ -9,11 +9,15 @@ vi.mock("./ifttt", () => ({ postToIfttt: vi.fn() }));
 vi.mock("./email", () => ({ sendEmail: vi.fn() }));
 vi.mock("@/lib/redis", () => ({
   default: {
+    // ioredis prefixes del() itself, but scan() neither prefixes MATCH nor
+    // strips the prefix from the keys it returns.
+    options: { keyPrefix: "nouse:test:" },
     del: vi.fn(async () => 1),
-    // One cached key per pattern, named after it ("similarArticles:*" -> "similarArticles:42").
+    // One cached key per pattern, named after it. Stored keys all carry the
+    // prefix, so a pattern without it matches nothing.
     scan: vi.fn(async (_cursor: string, _match: string, pattern: string) => [
       "0",
-      [pattern.replaceAll("*", "42")],
+      pattern.startsWith("nouse:test:") ? [pattern.replaceAll("*", "42")] : [],
     ]),
   },
 }));
@@ -210,6 +214,19 @@ describe("processArticle social posting", () => {
     const id = await makeArticle({ showInSearch: false });
     await processArticle(id);
     expect(ifttt).not.toHaveBeenCalled();
+  });
+
+  it("posts tags the PHP site saved as plain text", async () => {
+    const a = await makeArticle({
+      socialConfig: "1,0,0,0",
+      socialExcerpt: "<b>Social</b> &amp; excerpt",
+    });
+    await processArticle(a);
+    expect(ifttt).toHaveBeenLastCalledWith(
+      "socialMediaAutomationFB",
+      "Social & excerpt",
+      permalink,
+    );
   });
 
   it("prefers the social excerpt, then the strapline, then the headline", async () => {
