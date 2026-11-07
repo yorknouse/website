@@ -61,17 +61,22 @@ const REDIS_PATTERNS = [
 
 async function purgeRedis(keys: string[]): Promise<void> {
   await redis.del(...keys);
+  // ioredis adds keyPrefix to del() but not to a scan() pattern, and scan()
+  // returns full keys, so add it here and take it off again before deleting.
+  const prefix = redis.options.keyPrefix ?? "";
   for (const pattern of REDIS_PATTERNS) {
     let cursor = "0";
     do {
       const [next, found] = await redis.scan(
         cursor,
         "MATCH",
-        pattern,
+        `${prefix}${pattern}`,
         "COUNT",
         100,
       );
-      if (found.length > 0) await redis.del(...found);
+      if (found.length > 0) {
+        await redis.del(...found.map((key) => key.slice(prefix.length)));
+      }
       cursor = next;
     } while (cursor !== "0");
   }
