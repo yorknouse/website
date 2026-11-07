@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { uploadFile, UploadError, UPLOAD_FAILED } from "@/lib/uploadClient";
 import FieldError from "../FieldError";
+import SymbolsHelp from "../SymbolsHelp";
 import { errorId, type PanelProps } from "./types";
 
 const DEFAULT_THUMBNAIL = 1;
@@ -57,9 +58,12 @@ export default function ThumbnailPanel({
       )}
       {thumbnail !== DEFAULT_THUMBNAIL && (
         <div>
-          <label htmlFor="thumbnailCredit" className="sr-only">
-            Thumbnail credit
-          </label>
+          <div className="mb-1 flex justify-end">
+            <label htmlFor="thumbnailCredit" className="sr-only">
+              Thumbnail credit
+            </label>
+            <SymbolsHelp id="thumbnailCredit-help" field="image credit" />
+          </div>
           <input
             id="thumbnailCredit"
             value={values.thumbnailCredit}

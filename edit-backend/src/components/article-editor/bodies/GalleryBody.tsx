@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { UploadError, uploadFile } from "@/lib/uploadClient";
 import FieldError from "../FieldError";
+import SymbolsHelp from "../SymbolsHelp";
 
 export interface GalleryImage {
   id: number;
@@ -60,7 +61,10 @@ export default function GalleryBody({
 
   return (
     <div className="space-y-3">
-      <h2 className="font-semibold">Gallery</h2>
+      <div className="flex items-center justify-between">
+        <h2 className="font-semibold">Gallery</h2>
+        <SymbolsHelp id="gallery-captions-help" field="captions" />
+      </div>
       <ul className="grid grid-cols-2 gap-4 md:grid-cols-3">
         {images.map((image, i) => {
           const url = uploaded[image.id] ?? imageUrls[image.id];

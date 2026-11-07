@@ -2,6 +2,7 @@
 
 import { parseSocialConfig } from "@/lib/article-editor/socialConfig";
 import FieldError from "../FieldError";
+import SymbolsHelp from "../SymbolsHelp";
 import { errorId, type PanelProps } from "./types";
 
 export default function SocialPanel({
@@ -51,9 +52,12 @@ export default function SocialPanel({
         />
       </div>
       <div>
-        <label htmlFor="socialExcerpt" className="sr-only">
-          Social media excerpt
-        </label>
+        <div className="mb-1 flex justify-end">
+          <label htmlFor="socialExcerpt" className="sr-only">
+            Social media excerpt
+          </label>
+          <SymbolsHelp id="socialExcerpt-help" field="social media excerpt" />
+        </div>
         <textarea
           id="socialExcerpt"
           maxLength={280}

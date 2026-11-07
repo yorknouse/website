@@ -21,6 +21,7 @@ import GalleryBody, { type GalleryImage } from "./bodies/GalleryBody";
 import PrintEditionBody from "./bodies/PrintEditionBody";
 import LegacyLiveblogNotice from "./bodies/LegacyLiveblogNotice";
 import SaveStatus from "./SaveStatus";
+import SymbolsHelp from "./SymbolsHelp";
 import ConfirmDialog from "./ConfirmDialog";
 import HeaderActions from "./HeaderActions";
 import {
@@ -234,9 +235,12 @@ export default function ArticleEditor({
       <div className="flex flex-col gap-6 lg:flex-row">
         <div className="min-w-0 flex-1 space-y-4">
           <div>
-            <label htmlFor="headline" className="sr-only">
-              Headline
-            </label>
+            <div className="mb-1 flex justify-end">
+              <label htmlFor="headline" className="sr-only">
+                Headline
+              </label>
+              <SymbolsHelp id="headline-help" field="headline" />
+            </div>
             <textarea
               id="headline"
               rows={2}
@@ -251,9 +255,12 @@ export default function ArticleEditor({
             <FieldError id="headline-error" message={fieldErrors.headline} />
           </div>
           <div>
-            <label htmlFor="excerpt" className="sr-only">
-              Strapline
-            </label>
+            <div className="mb-1 flex justify-end">
+              <label htmlFor="excerpt" className="sr-only">
+                Strapline
+              </label>
+              <SymbolsHelp id="excerpt-help" field="strapline" />
+            </div>
             <textarea
               id="excerpt"
               rows={3}
