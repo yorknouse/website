@@ -243,14 +243,14 @@ export default function ArticleEditor({
             </div>
             <textarea
               id="headline"
-              rows={2}
+              rows={1}
               value={values.headline}
               onChange={(e) => form.setField("headline", e.target.value)}
               onBlur={onHeadlineBlur}
               placeholder="University of York to open campus on the Moon"
               aria-invalid={!!fieldErrors.headline}
               aria-describedby="headline-error"
-              className="w-full resize-none rounded-md border border-gray-300 p-3 text-3xl font-bold"
+              className="w-full field-sizing-content resize-none rounded-md border border-gray-300 p-3 text-3xl font-bold"
             />
             <FieldError id="headline-error" message={fieldErrors.headline} />
           </div>
@@ -263,13 +263,13 @@ export default function ArticleEditor({
             </div>
             <textarea
               id="excerpt"
-              rows={3}
+              rows={1}
               value={values.excerpt}
               onChange={(e) => form.setField("excerpt", e.target.value)}
               placeholder="Use of straplines is advisable for display purposes"
               aria-invalid={!!fieldErrors.excerpt}
               aria-describedby="excerpt-error"
-              className="w-full resize-none rounded-md border border-gray-300 p-3 text-lg"
+              className="w-full field-sizing-content resize-none rounded-md border border-gray-300 p-3 text-lg"
             />
             <FieldError id="excerpt-error" message={fieldErrors.excerpt} />
           </div>

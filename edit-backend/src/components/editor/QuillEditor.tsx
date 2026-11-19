@@ -371,6 +371,7 @@ export default function QuillEditor({
       )}
       <ReactQuill
         ref={quillRef}
+        className="article-quill"
         theme="snow"
         value={value}
         modules={modules}
