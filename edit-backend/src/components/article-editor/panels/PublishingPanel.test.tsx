@@ -61,7 +61,7 @@ function Harness({
 }
 
 describe("PublishingPanel", () => {
-  it("generates the slug on headline blur, once", async () => {
+  it("generates the slug on headline blur and follows headline changes", async () => {
     render(<Harness />);
     const headline = screen.getByLabelText("Headline");
     fireEvent.blur(headline);
@@ -74,9 +74,47 @@ describe("PublishingPanel", () => {
     expect(fetchMock.mock.calls[0][0]).toBe(
       "/api/backend/articles/slug?headline=Campus%20news",
     );
-    fireEvent.change(headline, { target: { value: "Something else" } });
+    // Same headline: no new request
     fireEvent.blur(headline);
     expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    fetchMock.mockImplementation(async () =>
+      Response.json({ slug: "council-approves-budget" }),
+    );
+    fireEvent.change(headline, {
+      target: { value: "Council approves budget" },
+    });
+    fireEvent.blur(headline);
+    await waitFor(() =>
+      expect((screen.getByLabelText("Slug") as HTMLInputElement).value).toBe(
+        "council-approves-budget",
+      ),
+    );
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it("ignores a slug reply for a superseded headline", async () => {
+    let resolveFirst: (r: Response) => void = () => {};
+    fetchMock
+      .mockImplementationOnce(
+        () => new Promise<Response>((r) => (resolveFirst = r)),
+      )
+      .mockImplementationOnce(async () => Response.json({ slug: "final" }));
+    render(<Harness />);
+    const headline = screen.getByLabelText("Headline");
+    fireEvent.blur(headline);
+    fireEvent.change(headline, { target: { value: "Final" } });
+    fireEvent.blur(headline);
+    await waitFor(() =>
+      expect((screen.getByLabelText("Slug") as HTMLInputElement).value).toBe(
+        "final",
+      ),
+    );
+    resolveFirst(Response.json({ slug: "campus-news" }));
+    await new Promise((r) => setTimeout(r, 0));
+    expect((screen.getByLabelText("Slug") as HTMLInputElement).value).toBe(
+      "final",
+    );
   });
 
   it("does not generate a slug when editing", () => {

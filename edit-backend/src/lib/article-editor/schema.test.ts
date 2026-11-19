@@ -47,6 +47,22 @@ describe("articleSaveSchema", () => {
     });
   });
 
+  it("limits the excerpt by its stored (escaped) length", () => {
+    // 1990 raw characters, but each "&" is stored as "&amp;"
+    const excerpt = "a".repeat(1985) + "&&&&&";
+    expect(
+      errorsFor({ ...base, type: 1, excerpt, body: { html: "" } }),
+    ).toEqual({ excerpt: "Excerpt must be 2000 characters or fewer" });
+    expect(
+      articleSaveSchema.safeParse({
+        ...base,
+        type: 1,
+        excerpt: "a".repeat(2000),
+        body: { html: "" },
+      }).success,
+    ).toBe(true);
+  });
+
   it("reports an invalid publication date", () => {
     expect(
       errorsFor({

@@ -77,8 +77,12 @@ describe("legacyHtmlForEditor", () => {
     expect(
       legacyHtmlForEditor("a\n[ARCHIVECDNURL]/x.jpg", "https://arch"),
     ).toBe("a<br/>https://arch/x.jpg");
-    expect(legacyHtmlForEditor("Costs 5PS", "")).toBe("Costs 5&pound;");
-    expect(legacyHtmlForEditor("PS and PS", "")).toBe("&pound; and &pound;");
+  });
+
+  it("leaves PS as written", () => {
+    expect(legacyHtmlForEditor("GPS, PS5 and PS3.50", "")).toBe(
+      "GPS, PS5 and PS3.50",
+    );
     expect(legacyHtmlForEditor(null, "")).toBe("");
   });
 });

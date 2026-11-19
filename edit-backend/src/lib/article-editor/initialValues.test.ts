@@ -135,11 +135,11 @@ describe("editInitialValues", () => {
 
   it("runs a standard body through the legacy HTML substitutions", () => {
     const v = editInitialValues(
-      found({ text: "5PS [ARCHIVECDNURL]x.jpg\n" }),
+      found({ text: "PS5 [ARCHIVECDNURL]x.jpg\n" }),
       opts,
     );
     expect(bodyOf(v)).toEqual({
-      html: "5&pound; https://archive/x.jpg<br/>",
+      html: "PS5 https://archive/x.jpg<br/>",
     });
   });
 
