@@ -4,6 +4,9 @@ def branch = env.BRANCH_NAME.replaceAll("/", "_")
 def image
 def publicApiBaseUrl
 def publicBaseUrl
+def phpImage
+def astroImage
+def reactImage
 String phpImageName = "nouse/website/php:${branch}-${env.BUILD_ID}"
 String astroImageName = "nouse/website/astro:${branch}-${env.BUILD_ID}"
 String reactImageName = "nouse/website/react:${branch}-${env.BUILD_ID}"
