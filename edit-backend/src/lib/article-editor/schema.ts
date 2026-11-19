@@ -2,6 +2,7 @@ import { z } from "zod";
 import type { ArticleStatus } from "./status";
 import { ukLocalToUtc } from "./ukTime";
 import { escapeText } from "./text";
+import { MAX_SLUG_LENGTH } from "./slug";
 
 const statusValues: [ArticleStatus, ...ArticleStatus[]] = [
   "draft",
@@ -20,7 +21,10 @@ const shared = {
     .trim()
     .min(1, "Headline is required")
     .refine(storedMax(500), "Headline must be 500 characters or fewer"),
-  excerpt: z.string().max(2000).default(""),
+  excerpt: z
+    .string()
+    .refine(storedMax(2000), "Excerpt must be 2000 characters or fewer")
+    .default(""),
   published: z
     .string()
     .refine(
@@ -54,7 +58,7 @@ const shared = {
       /^[a-z0-9_-]+$/,
       "Slug can only contain lowercase letters, numbers, - and _",
     )
-    .max(255)
+    .max(MAX_SLUG_LENGTH)
     .optional(),
 };
 
