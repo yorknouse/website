@@ -64,7 +64,7 @@ export default function ContactForm() {
       if (!res.ok) {
         const data = await res.json();
         setErrorHeader("Send message failed");
-        setError(data.message || "Something went wrong");
+        setError(data.general || data.message || "Something went wrong");
         return;
       }
 

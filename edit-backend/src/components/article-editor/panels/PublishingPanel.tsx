@@ -13,8 +13,9 @@ const STATUSES: { value: ArticleStatus; label: string }[] = [
 ];
 
 /**
- * Returns the headline's onBlur handler: on create, while no slug exists yet,
- * it asks the server for one.
+ * Returns the headline's onBlur handler: on create, it asks the server for a
+ * slug whenever the headline has changed since the last request, so the slug
+ * follows the final headline (as the PHP editor did).
  */
 export function useSlugOnHeadlineBlur({
   mode,
@@ -25,27 +26,27 @@ export function useSlugOnHeadlineBlur({
   values: ArticleFormValues;
   setField: PanelProps["setField"];
 }) {
-  const latest = useRef(values);
-  latest.current = values;
-  const inFlight = useRef(false);
+  const requestedFor = useRef<string | null>(null);
+  const requestId = useRef(0);
 
   return () => {
     const headline = values.headline.trim();
-    if (mode !== "create" || values.slug || !headline || inFlight.current) {
+    if (mode !== "create" || !headline || headline === requestedFor.current) {
       return;
     }
-    inFlight.current = true;
+    requestedFor.current = headline;
+    const id = ++requestId.current;
     fetch(`/api/backend/articles/slug?headline=${encodeURIComponent(headline)}`)
       .then((res) => (res.ok ? res.json() : null))
       .then((body: { slug?: string } | null) => {
-        // Don't overwrite a slug that arrived (e.g. applied suggestion) meanwhile.
-        if (body?.slug && !latest.current.slug) setField("slug", body.slug);
+        // A newer headline's request supersedes this one.
+        if (id !== requestId.current) return;
+        if (body?.slug) setField("slug", body.slug);
+        else requestedFor.current = null;
       })
       .catch(() => {
         // Saving reports a missing slug; the next blur retries.
-      })
-      .finally(() => {
-        inFlight.current = false;
+        if (id === requestId.current) requestedFor.current = null;
       });
   };
 }
