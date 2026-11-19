@@ -68,13 +68,16 @@ export function renderMarkdown(md: string): string {
   return sanitiseBodyHtml(marked.parse(md, { async: false }));
 }
 
-/** Mirrors the substitutions at article.twig:343, in order. */
+/**
+ * The article.twig:343 substitutions, except "PS" -> "&pound;": that rewrote
+ * words like "GPS" and saved them back. Legacy "PS" pound signs are left as
+ * written and need converting separately.
+ */
 export function legacyHtmlForEditor(
   html: string | null,
   archiveUrl: string,
 ): string {
   return (html ?? "")
-    .replaceAll("PS", "&pound;")
     .replaceAll("\n", "<br/>")
     .replaceAll("[ARCHIVECDNURL]", archiveUrl);
 }
