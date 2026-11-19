@@ -276,7 +276,7 @@ export default function ArticleEditor({
           <div>{renderBody()}</div>
         </div>
 
-        <aside className="w-full space-y-4 lg:w-80">
+        <aside className="w-full space-y-4 lg:w-80 lg:shrink-0">
           <div className="flex flex-wrap items-center gap-3">
             <button
               type="button"
