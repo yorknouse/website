@@ -7,6 +7,7 @@ import { getArticleImage } from "@/lib/articles";
 import { ArticleAuthor, IArticleFull, ICategoryArticles } from "@/lib/types";
 import dateFormatter from "@/lib/dateFormatter";
 import he from "he";
+import { displayText } from "@/lib/article-editor/plainText";
 
 const corsRes = {
   headers: {
@@ -122,12 +123,17 @@ export async function GET(request: Request) {
               thumbnailURL: s3url,
               isThumbnailPortrait: article.articles_isThumbnailPortrait,
               thumbnailCredit:
-                article.articlesDrafts[0]?.articlesDrafts_thumbnailCredit ??
-                null,
+                displayText(
+                  article.articlesDrafts[0]?.articlesDrafts_thumbnailCredit,
+                ) || null,
               headline:
-                article.articlesDrafts[0]?.articlesDrafts_headline ?? "Unknown",
+                displayText(
+                  article.articlesDrafts[0]?.articlesDrafts_headline,
+                ) || "Unknown",
               excerpt:
-                article.articlesDrafts[0]?.articlesDrafts_excerpt ?? null,
+                displayText(
+                  article.articlesDrafts[0]?.articlesDrafts_excerpt,
+                ) || null,
               published: dateFormatter
                 .format(publishedDate)
                 .split("/")

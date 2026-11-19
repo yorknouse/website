@@ -42,7 +42,7 @@ export default async function RootLayout({
         <Providers>
           <div className="lg:flex min-h-screen bg-gray-200 text-gray-900">
             <Sidebar props={{ name: name }} />
-            <main className="flg:lex-1 p-6 transition-all duration-300">
+            <main className="min-w-0 p-6 transition-all duration-300 lg:flex-1">
               {children}
             </main>
           </div>

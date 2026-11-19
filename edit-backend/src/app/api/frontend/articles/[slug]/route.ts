@@ -10,6 +10,7 @@ import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
 import { Prisma } from "@prisma/client";
 import { validatePreviewToken } from "@/lib/preview";
 import { NextResponse } from "next/server";
+import { displayText } from "@/lib/article-editor/plainText";
 
 export const runtime = "nodejs";
 
@@ -200,20 +201,13 @@ export async function GET(req: Request, { params }: RouteParams) {
         const similar: IArticle = {
           id: similarArticle.articles_id,
           headline:
-            similarArticle.articlesDrafts.length !== 0
-              ? similarArticle.articlesDrafts[0].articlesDrafts_headline
-              : "Unknown",
+            displayText(
+              similarArticle.articlesDrafts[0]?.articlesDrafts_headline,
+            ) || "Unknown",
           excerpt:
-            similarArticle.articlesDrafts.length !== 0
-              ? similarArticle.articlesDrafts[0]?.articlesDrafts_excerpt
-                  ?.length !== 0 &&
-                similarArticle.articlesDrafts[0]?.articlesDrafts_excerpt !==
-                  null
-                ? String(
-                    similarArticle.articlesDrafts[0]?.articlesDrafts_excerpt,
-                  )
-                : null
-              : null,
+            displayText(
+              similarArticle.articlesDrafts[0]?.articlesDrafts_excerpt,
+            ) || null,
           articleURL: `${process.env.FRONTEND_URL}articles/${dateFormatter
             .format(publishedDate) // split -> reverse -> join = DD/MM/YYYY -> YYYY/MM/DD
             .split("/")
@@ -249,18 +243,15 @@ export async function GET(req: Request, { params }: RouteParams) {
       thumbnailURL: imageURL,
       isThumbnailPortrait: articleRaw.articles_isThumbnailPortrait,
       thumbnailCredit:
-        articleRaw.articlesDrafts![0].articlesDrafts_thumbnailCredit,
+        displayText(
+          articleRaw.articlesDrafts[0].articlesDrafts_thumbnailCredit,
+        ) || null,
       headline:
-        articleRaw.articlesDrafts.length !== 0
-          ? articleRaw.articlesDrafts![0].articlesDrafts_headline
-          : "Unknown",
+        displayText(articleRaw.articlesDrafts[0].articlesDrafts_headline) ||
+        "Unknown",
       excerpt:
-        articleRaw.articlesDrafts.length !== 0
-          ? articleRaw.articlesDrafts[0]?.articlesDrafts_excerpt?.length !==
-              0 && articleRaw.articlesDrafts[0]?.articlesDrafts_excerpt !== null
-            ? String(articleRaw.articlesDrafts[0]?.articlesDrafts_excerpt)
-            : null
-          : null,
+        displayText(articleRaw.articlesDrafts[0].articlesDrafts_excerpt) ||
+        null,
       published: dateFormatter
         .format(publishedDate)
         .split("/")

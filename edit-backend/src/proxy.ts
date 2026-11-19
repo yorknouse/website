@@ -99,6 +99,6 @@ export default withAuth(
 export const config = {
   matcher: [
     // Protect all routes except the sign-in and auth routes
-    "/((?!api/auth|api/s3url|api/frontend|auth/signin|_next|favicon.ico|images|public|oldAssets).*)",
+    "/((?!api/auth|api/s3url|api/frontend|api/internal|auth/signin|_next|favicon.ico|images|public|oldAssets).*)",
   ],
 };

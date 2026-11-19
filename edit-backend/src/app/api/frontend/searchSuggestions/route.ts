@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { getArticleImage } from "@/lib/articles";
 import he from "he";
 import { sanitiseSearchTerm } from "@/lib/validation/searchTerms";
+import { displayText } from "@/lib/article-editor/plainText";
 
 export const runtime = "nodejs";
 
@@ -154,8 +155,8 @@ export async function POST(request: Request) {
           articles_published: article.articles_published,
           articles_slug: article.articles_slug,
           articles_isThumbnailPortrait: article.articles_isThumbnailPortrait,
-          articlesDrafts_headline: draft?.articlesDrafts_headline,
-          articlesDrafts_excerpt: draft?.articlesDrafts_excerpt,
+          articlesDrafts_headline: displayText(draft?.articlesDrafts_headline),
+          articlesDrafts_excerpt: displayText(draft?.articlesDrafts_excerpt),
           url: `/${article.articles_published
             ?.toISOString()
             .split("T")[0]
